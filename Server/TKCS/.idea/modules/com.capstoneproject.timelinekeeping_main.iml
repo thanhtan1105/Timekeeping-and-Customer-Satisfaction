@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module external.linked.project.id="com.capstoneproject.timelinekeeping:main" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="com.capstoneproject.timelinekeeping" external.system.module.type="sourceSet" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration />
+    </facet>
+  </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/../../build/classes/main" />
     <exclude-output />
@@ -12,6 +17,8 @@
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-web:1.4.0.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-jetty:1.4.0.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-actuator:1.4.0.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-data-jpa:1.4.0.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: com.h2database:h2:1.4.192" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter:1.4.0.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.hibernate:hibernate-validator:5.2.4.Final" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.8.1" level="project" />
@@ -22,6 +29,13 @@
     <orderEntry type="library" name="Gradle: org.eclipse.jetty.websocket:websocket-server:9.3.11.v20160721" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty.websocket:javax-websocket-server-impl:9.3.11.v20160721" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-actuator:1.4.0.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-aop:1.4.0.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-jdbc:1.4.0.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.hibernate:hibernate-core:5.0.9.Final" level="project" />
+    <orderEntry type="library" name="Gradle: org.hibernate:hibernate-entitymanager:5.0.9.Final" level="project" />
+    <orderEntry type="library" name="Gradle: javax.transaction:javax.transaction-api:1.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-jpa:1.10.2.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-aspects:4.3.2.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot:1.4.0.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-autoconfigure:1.4.0.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-logging:1.4.0.RELEASE" level="project" />
@@ -48,8 +62,21 @@
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-annotations:9.3.11.v20160721" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty.websocket:javax-websocket-client-impl:9.3.11.v20160721" level="project" />
     <orderEntry type="library" name="Gradle: javax.websocket:javax.websocket-api:1.0" level="project" />
-    <orderEntry type="library" name="Gradle: ch.qos.logback:logback-classic:1.1.7" level="project" />
+    <orderEntry type="library" name="Gradle: org.aspectj:aspectjweaver:1.8.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.tomcat:tomcat-jdbc:8.5.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-jdbc:4.3.2.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final" level="project" />
+    <orderEntry type="library" name="Gradle: org.javassist:javassist:3.20.0-GA" level="project" />
+    <orderEntry type="library" name="Gradle: antlr:antlr:2.7.7" level="project" />
+    <orderEntry type="library" name="Gradle: org.jboss:jandex:2.0.0.Final" level="project" />
+    <orderEntry type="library" name="Gradle: dom4j:dom4j:1.6.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.hibernate.common:hibernate-commons-annotations:5.0.1.Final" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-commons:1.12.2.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-orm:4.3.2.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-tx:4.3.2.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.21" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:jcl-over-slf4j:1.7.21" level="project" />
+    <orderEntry type="library" name="Gradle: ch.qos.logback:logback-classic:1.1.7" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:jul-to-slf4j:1.7.21" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:log4j-over-slf4j:1.7.21" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-security:9.3.11.v20160721" level="project" />
@@ -59,8 +86,9 @@
     <orderEntry type="library" name="Gradle: javax.annotation:javax.annotation-api:1.2" level="project" />
     <orderEntry type="library" name="Gradle: org.ow2.asm:asm:5.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.ow2.asm:asm-commons:5.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.tomcat:tomcat-juli:8.5.4" level="project" />
+    <orderEntry type="library" name="Gradle: xml-apis:xml-apis:1.4.01" level="project" />
     <orderEntry type="library" name="Gradle: ch.qos.logback:logback-core:1.1.7" level="project" />
-    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.21" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-server:9.3.11.v20160721" level="project" />
     <orderEntry type="library" name="Gradle: org.ow2.asm:asm-tree:5.0.1" level="project" />
   </component>
