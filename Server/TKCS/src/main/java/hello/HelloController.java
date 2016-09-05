@@ -15,4 +15,9 @@ public class HelloController {
         return "Hello Tan handsome!";
     }
 
+
+    @RequestMapping("/sayHello")
+    public String sayHello() {
+        return "Hello Anh Trung";
+    }
 }
