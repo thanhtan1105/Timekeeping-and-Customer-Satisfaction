@@ -33,4 +33,8 @@ public class CustomerControllerWeb {
         return "Hello World";
     }
 
+    @RequestMapping("/home")
+    public String loadAdminHome() {
+        return "views/admin/home";
+    }
 }

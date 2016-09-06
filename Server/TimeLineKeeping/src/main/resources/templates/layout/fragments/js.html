@@ -1,0 +1,17 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+
+<!-- jQuery 2.1.4 -->
+<script th:src="@{/libs/plugins/jQuery/jQuery-2.1.4.min.js}"></script>
+<!-- Bootstrap 3.3.5 -->
+<script th:src="@{/libs/bootstrap/js/bootstrap.min.js}"></script>
+<!-- DataTables -->
+<script th:src="@{/libs/plugins/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/libs/plugins/datatables/dataTables.bootstrap.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/libs/dist/js/app.min.js}"></script>
+
+<script>
+    $(function() {
+        $("#dataTable").DataTable();
+    });
+</script>

@@ -1,0 +1,85 @@
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+}
+
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/*Student Code Area*/
+#compiler_area {
+    background: #e6e6e6;
+    width: 1000px;
+    height: 100%;
+    margin: auto;
+}
+
+#code_area {
+    width: 830px;
+    margin: auto;
+}
+
+.code_box {
+    width: 800px;
+    height: 600px;
+}
+
+.result_box{
+    width: 830px;
+    height: 150px;
+    border: 1px solid grey;
+    background: white;
+}
+
+
+/*Practical List Page*/
+#index_background {
+    display: block;
+    background: #e6e6e6;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+}
+
+.searchbox {
+    display: flex;
+    justify-content: center;
+}
+
+#list_exam {
+    display: block;
+    height: 500px;
+    background: #e6e6e6;
+}

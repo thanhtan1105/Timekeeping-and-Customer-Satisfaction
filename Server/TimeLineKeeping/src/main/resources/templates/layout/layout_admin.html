@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">PracExamEval</title>
+    <link th:replace="layout/fragments/style"/>
+</head>
+
+<body class="hold-transition skin-green sidebar-mini">
+<div class="wrapper">
+    <!-- header -->
+    <div th:replace="layout/fragments/header"></div>
+    <!-- sidebar -->
+    <div th:replace="views/admin/admin_sidebar"></div>
+    <!-- content -->
+    <div class="content-wrapper">
+        <div layout:fragment="content"></div>
+    </div>
+    <!-- footer -->
+    <div th:replace="layout/fragments/footer"></div>
+</div>
+<div th:replace="layout/fragments/js"></div>
+</body>
+
+</html>
