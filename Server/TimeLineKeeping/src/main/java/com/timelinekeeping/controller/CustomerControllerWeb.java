@@ -37,4 +37,22 @@ public class CustomerControllerWeb {
     public String loadAdminHome() {
         return "views/admin/home";
     }
+
+    @RequestMapping(value = {"/testManagerSecurity"}, method = RequestMethod.GET)
+    @ResponseBody
+    public String testManagerSecurity() {
+        return "Hello Manager";
+    }
+
+    @RequestMapping(value = {"/testEmployeeSecurity"}, method = RequestMethod.GET)
+    @ResponseBody
+    public String testEmployeeSecurity() {
+        return "Hello Employee";
+    }
+
+    @RequestMapping(value = {"/testSASecurity"}, method = RequestMethod.GET)
+    @ResponseBody
+    public String testSASecurity() {
+        return "Hello SA";
+    }
 }

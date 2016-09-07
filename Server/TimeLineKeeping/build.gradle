@@ -31,6 +31,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-jdbc')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile("org.springframework.boot:spring-boot-starter-security")
 	runtime('mysql:mysql-connector-java')
 	testCompile("junit:junit")
 	compile group: 'org.hibernate', name: 'hibernate-validator', version: '4.2.0.Final'
