@@ -22,6 +22,10 @@ import java.net.URI;
 @Controller
 public class CustomerControllerWeb {
 
+    @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
+    public String login() {
+        return "index";
+    }
 
     @RequestMapping(value = {"/test"}, method = RequestMethod.GET)
     @ResponseBody

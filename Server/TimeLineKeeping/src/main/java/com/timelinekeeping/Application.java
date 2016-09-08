@@ -13,8 +13,5 @@ public class Application {
 		System.out.println("START COMPLETE");
 	}
 
-	@RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
-	public String login() {
-		return "index";
-	}
+
 }
