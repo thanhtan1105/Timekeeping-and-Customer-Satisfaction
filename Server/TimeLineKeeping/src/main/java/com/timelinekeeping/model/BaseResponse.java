@@ -12,10 +12,10 @@ public class BaseResponse {
 
     public BaseResponse() {
     }
+
     public BaseResponse(Exception e) {
         this.message = e.getMessage();
     }
-
 
     public boolean isSuccess() {
         return success;

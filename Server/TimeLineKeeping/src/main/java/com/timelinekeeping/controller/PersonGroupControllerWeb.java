@@ -20,6 +20,7 @@ import java.net.URISyntaxException;
  */
 
 @Controller
+@RequestMapping("/persongroups")
 public class PersonGroupControllerWeb {
 
     private Logger logger = Logger.getLogger(PersonGroupControllerWeb.class);
@@ -27,7 +28,7 @@ public class PersonGroupControllerWeb {
     @Autowired
     private PersonGroupServiceImpl groupService;
 
-    @RequestMapping(value = {"/persongroups/create"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/create"}, method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse create(@RequestParam("groupName") String groupName,
                                @RequestParam("descriptions") String descriptions) {
@@ -42,22 +43,19 @@ public class PersonGroupControllerWeb {
         }
     }
 
-    @RequestMapping(value = {"/persongroups/listAll"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/listAll"}, method = RequestMethod.GET)
     @ResponseBody
     public BaseResponse listAll(@RequestParam("start") int start,
                                 @RequestParam("top") int top) {
         try {
-//            List<PersonGroup> personGroupList = groupService.listAll(start, top);
-//            return new ResponseEntity<>(personGroupList, HttpStatus.OK);
             return groupService.listAll(start, top);
-
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
         }
     }
 
-    @RequestMapping(value = {"/persongroups/train"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/training"}, method = RequestMethod.GET)
     @ResponseBody
     public BaseResponse trainPersonGroup(@RequestParam("person_groups_id") String persongroupid) {
         try {
@@ -68,7 +66,7 @@ public class PersonGroupControllerWeb {
         }
     }
 
-    @RequestMapping(value = {"/persongroups/training_status"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/training_status"}, method = RequestMethod.GET)
     @ResponseBody
     public BaseResponse trainPersonGroupStatus(@RequestParam("person_groups_id") String persongroupid) {
         try {

@@ -122,11 +122,12 @@ public class PersonGroupServiceImpl {
     }
 
     public BaseResponse trainGroup(String personGroupId) throws URISyntaxException, IOException {
-        String urlString = AppConfigKeys.getInstance().getPropertyValue("api.person.group.findall");
+        String urlString = AppConfigKeys.getInstance().getPropertyValue("api.person.group.train.person");
+        String urlAddition = AppConfigKeys.getInstance().getPropertyValue("api.person.group.train.person.addition");
 
         // Request
         HttpClient httpclient = HttpClients.createDefault();
-        String url = String.format("%s/%s/%s", urlString, personGroupId, "train");
+        String url = String.format("%s/%s/%s", urlString, personGroupId, urlAddition);
         URIBuilder builder = new URIBuilder(url);
         URI uri = builder.build();
         HttpPost request = new HttpPost(uri);
@@ -155,11 +156,12 @@ public class PersonGroupServiceImpl {
     }
 
     public BaseResponse trainPersonGroupStatus(String personGroupId) throws URISyntaxException, IOException {
-        String urlString = AppConfigKeys.getInstance().getPropertyValue("api.person.group.findall");
+        String urlString = AppConfigKeys.getInstance().getPropertyValue("api.person.group.train.status");
+        String urlAddition = AppConfigKeys.getInstance().getPropertyValue("api.person.group.train.status.addition");
 
         // Request
         HttpClient httpclient = HttpClients.createDefault();
-        String url = String.format("%s/%s/%s", urlString, personGroupId, "training");
+        String url = String.format("%s/%s/%s", urlString, personGroupId, urlAddition);
         URIBuilder builder = new URIBuilder(url);
         URI uri = builder.build();
         HttpPost request = new HttpPost(uri);
