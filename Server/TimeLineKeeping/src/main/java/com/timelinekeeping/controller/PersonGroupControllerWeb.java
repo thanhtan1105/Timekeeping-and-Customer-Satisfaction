@@ -25,57 +25,7 @@ public class PersonGroupControllerWeb {
 
     private Logger logger = Logger.getLogger(PersonGroupControllerWeb.class);
 
-    @Autowired
-    private PersonGroupServiceImpl groupService;
-
-    @RequestMapping(value = {"/create"}, method = RequestMethod.POST)
-    @ResponseBody
-    public BaseResponse create(@RequestParam("groupName") String groupName,
-                               @RequestParam("descriptions") String descriptions) {
-        try {
-            BaseResponse response = groupService.create(groupName, descriptions);
-            logger.info("RESPONSE: " + JsonUtil.toJson(response));
-            return response;
-
-        } catch (Exception e) {
-            logger.error(e);
-            return new BaseResponse(e);
-        }
-    }
-
-    @RequestMapping(value = {"/listAll"}, method = RequestMethod.GET)
-    @ResponseBody
-    public BaseResponse listAll(@RequestParam("start") int start,
-                                @RequestParam("top") int top) {
-        try {
-            return groupService.listAll(start, top);
-        } catch (Exception e) {
-            logger.error(e);
-            return new BaseResponse(e);
-        }
-    }
-
-    @RequestMapping(value = {"/training"}, method = RequestMethod.GET)
-    @ResponseBody
-    public BaseResponse trainPersonGroup(@RequestParam("person_groups_id") String persongroupid) {
-        try {
-            return groupService.trainGroup(persongroupid);
-        } catch (Exception e) {
-            logger.error(e);
-            return new BaseResponse(e);
-        }
-    }
-
-    @RequestMapping(value = {"/training_status"}, method = RequestMethod.GET)
-    @ResponseBody
-    public BaseResponse trainPersonGroupStatus(@RequestParam("person_groups_id") String persongroupid) {
-        try {
-            return groupService.trainPersonGroupStatus(persongroupid);
-        } catch (Exception e) {
-            logger.error(e);
-            return new BaseResponse(e);
-        }
-    }
+    // list all
 
 
 }
