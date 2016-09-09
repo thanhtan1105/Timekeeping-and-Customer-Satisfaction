@@ -11,8 +11,12 @@ import java.util.Properties;
  */
 public class AppConfigKeys {
 
-    private Properties properties = null;
+    private Properties propertiesApi = null;
+    private Properties propertiesMessage = null;
     private static AppConfigKeys instance = null;
+
+    private static final String NAME_FILE_API_PROPERTIES = "apiConfig.properties";
+    private static final String NAME_FILE_MESSAGE_PROPERTIES = "message.properties";
 
     public static AppConfigKeys getInstance() {
         if (instance == null) {
@@ -21,9 +25,16 @@ public class AppConfigKeys {
         return instance;
     }
 
+    //TODO log in file
+
     public AppConfigKeys() {
-        properties = new Properties();
-        File f = new File("/apiConfig.properties");
+        initApi();
+        initMessage();
+    }
+
+    private void initApi(){
+        propertiesApi = new Properties();
+        File f = new File("/" + NAME_FILE_API_PROPERTIES);
         InputStream inputStream;
         try {
             if (f.exists()) {
@@ -31,19 +42,48 @@ public class AppConfigKeys {
                 inputStream = new FileInputStream(f);
             } else {
                 //if the configuration file is not exists. Use the default file
-                System.out.println("Can not find configuration file on server");
-                inputStream = this.getClass().getClassLoader().getResourceAsStream("apiConfig.properties");
+                inputStream = this.getClass().getClassLoader().getResourceAsStream(NAME_FILE_API_PROPERTIES);
             }
-            properties.load(inputStream);
+            propertiesApi.load(inputStream);
             inputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    public String getPropertyValue(String key) {
-        return properties.getProperty(key);
+    private void initMessage(){
+        propertiesMessage = new Properties();
+        File f = new File("/" + NAME_FILE_MESSAGE_PROPERTIES);
+        InputStream inputStream;
+        try {
+            if (f.exists()) {
+                //if file exists use as default configuration
+                inputStream = new FileInputStream(f);
+            } else {
+                //if the configuration file is not exists. Use the default file
+                inputStream = this.getClass().getClassLoader().getResourceAsStream(NAME_FILE_MESSAGE_PROPERTIES);
+            }
+            propertiesMessage.load(inputStream);
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    public String getApiPropertyValue(String key) {
+        return propertiesApi.getProperty(key);
+    }
+
+    public String getMessagePropertyValue(String key) {
+        return propertiesMessage.getProperty(key);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(AppConfigKeys.getInstance().getMessagePropertyValue("message.test"));
+    }
+
+
+
+
 
 }
