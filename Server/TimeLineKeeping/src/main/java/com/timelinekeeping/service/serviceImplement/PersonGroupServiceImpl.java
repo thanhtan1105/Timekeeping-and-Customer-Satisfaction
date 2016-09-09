@@ -40,11 +40,13 @@ public class PersonGroupServiceImpl implements PersonGroupsService{
     private Logger logger = LogManager.getLogger(PersonGroupServiceImpl.class);
 
     private String key = AppConfigKeys.getInstance().getApiPropertyValue("ocp.apim.subscription.key");
+    private String rootPath = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.cognitive.service.root.url")
+            + AppConfigKeys.getInstance().getApiPropertyValue("api.person.group");
 
 
     public BaseResponse create(String groupName, String groupData) throws URISyntaxException, IOException {
-        String urlString = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.create");
-        String newURLString = urlString + groupName;
+        String urlString = rootPath + AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.create");
+        String newURLString = String.format("%s/%s", urlString, groupName);
 
         // Request
         HttpClient httpclient = HttpClients.createDefault();
@@ -85,7 +87,7 @@ public class PersonGroupServiceImpl implements PersonGroupsService{
     }
 
     public BaseResponse listAll(int start, int top) throws URISyntaxException, IOException {
-        String urlString = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.findall");
+        String urlString = rootPath;
 
         // Request
         HttpClient httpclient = HttpClients.createDefault();
@@ -123,7 +125,7 @@ public class PersonGroupServiceImpl implements PersonGroupsService{
     }
 
     public BaseResponse trainGroup(String personGroupId) throws URISyntaxException, IOException {
-        String urlString = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.person");
+        String urlString = rootPath;
         String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.person.addition");
 
         // Request
@@ -157,7 +159,7 @@ public class PersonGroupServiceImpl implements PersonGroupsService{
     }
 
     public BaseResponse trainPersonGroupStatus(String personGroupId) throws URISyntaxException, IOException {
-        String urlString = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.status");
+        String urlString = rootPath;
         String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.status.addition");
         String url = String.format("%s/%s/%s", urlString, personGroupId, urlAddition);
 
