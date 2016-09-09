@@ -28,32 +28,16 @@ public class AppConfigKeys {
     //TODO log in file
 
     public AppConfigKeys() {
-        initApi();
-        initMessage();
-    }
-
-    private void initApi(){
         propertiesApi = new Properties();
-        File f = new File("/" + NAME_FILE_API_PROPERTIES);
-        InputStream inputStream;
-        try {
-            if (f.exists()) {
-                //if file exists use as default configuration
-                inputStream = new FileInputStream(f);
-            } else {
-                //if the configuration file is not exists. Use the default file
-                inputStream = this.getClass().getClassLoader().getResourceAsStream(NAME_FILE_API_PROPERTIES);
-            }
-            propertiesApi.load(inputStream);
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        propertiesMessage = new Properties();
+        initProperties(propertiesApi, NAME_FILE_API_PROPERTIES);
+        initProperties(propertiesMessage, NAME_FILE_MESSAGE_PROPERTIES);
     }
 
-    private void initMessage(){
-        propertiesMessage = new Properties();
-        File f = new File("/" + NAME_FILE_MESSAGE_PROPERTIES);
+
+    private void initProperties(Properties properties, String fileName){
+
+        File f = new File("/" + fileName);
         InputStream inputStream;
         try {
             if (f.exists()) {
@@ -61,9 +45,9 @@ public class AppConfigKeys {
                 inputStream = new FileInputStream(f);
             } else {
                 //if the configuration file is not exists. Use the default file
-                inputStream = this.getClass().getClassLoader().getResourceAsStream(NAME_FILE_MESSAGE_PROPERTIES);
+                inputStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
             }
-            propertiesMessage.load(inputStream);
+            properties.load(inputStream);
             inputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,15 +55,24 @@ public class AppConfigKeys {
     }
 
     public String getApiPropertyValue(String key) {
-        return propertiesApi.getProperty(key);
+        try {
+            return propertiesApi.getProperty(key);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public String getMessagePropertyValue(String key) {
-        return propertiesMessage.getProperty(key);
+        try {
+            return propertiesMessage.getProperty(key);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static void main(String[] args) {
         System.out.println(AppConfigKeys.getInstance().getMessagePropertyValue("message.test"));
+        System.out.println(AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.person"));
     }
 
 
