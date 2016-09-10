@@ -1,41 +1,28 @@
 package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping._config.AppConfigKeys;
-import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.model.PersonGroup;
 import com.timelinekeeping.model.PersonGroupTrainingStatus;
-import com.timelinekeeping.model.ResponseErrorWrap;
 import com.timelinekeeping.service.PersonGroupsService;
 import com.timelinekeeping.util.HTTPClientUtil;
 import com.timelinekeeping.util.JsonUtil;
-import com.timelinekeeping.util.ServiceUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.client.HttpClient;
-import org.apache.http.util.EntityUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by lethanhtan on 9/7/16.
  */
 @Service
-public class PersonGroupServiceImpl implements PersonGroupsService{
+public class PersonGroupServiceImpl implements PersonGroupsService {
 
     private Logger logger = LogManager.getLogger(PersonGroupServiceImpl.class);
 
@@ -59,7 +46,7 @@ public class PersonGroupServiceImpl implements PersonGroupsService{
         URIBuilder builder = new URIBuilder(urlString)
                 .addParameter("start", String.valueOf(start))
                 .addParameter("top", String.valueOf(top));
-        return  new HTTPClientUtil().toGet(builder.build(), JsonUtil.LIST_PARSER, PersonGroup.class);
+        return new HTTPClientUtil().toGet(builder.build(), JsonUtil.LIST_PARSER, PersonGroup.class);
     }
 
     public BaseResponse trainGroup(String personGroupId) throws URISyntaxException, IOException {
