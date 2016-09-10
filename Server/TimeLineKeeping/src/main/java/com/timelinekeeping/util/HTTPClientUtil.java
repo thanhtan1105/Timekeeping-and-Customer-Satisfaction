@@ -1,0 +1,160 @@
+package com.timelinekeeping.util;
+
+import com.timelinekeeping._config.AppConfigKeys;
+import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.model.ResponseErrorWrap;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+/**
+ * Created by HienTQSE60896 on 9/10/2016.
+ */
+public class HTTPClientUtil {
+
+    private Logger logger = LogManager.getLogger(HTTPClientUtil.class);
+    /** key */
+    private String key = AppConfigKeys.getInstance().getApiPropertyValue("ocp.apim.subscription.key");
+
+    /** HTTP Standstand */
+    private HttpRequestBase request;
+
+    /** type parser**/
+    private int typeJson = JsonUtil.NORMAl_PARSER;
+
+    /*** class return*/
+    private Class<?> classReturn;
+
+
+    public BaseResponse toGet(URI uri, Class<?> classReturn) throws IOException {
+        return toGet(uri, JsonUtil.NORMAl_PARSER, classReturn);
+    }
+
+    public BaseResponse toGet(URI uri, int typeJson, Class<?> classReturn) throws IOException {
+        this.typeJson = typeJson;
+        this.classReturn = classReturn;
+        request = new HttpGet(uri);
+        setHeaderJson();
+        return toProcess();
+    }
+
+    public BaseResponse toPost(String url) throws URISyntaxException, IOException {
+        return toPost(new URIBuilder(url).build(), null, JsonUtil.NORMAl_PARSER,null);
+    }
+
+    public BaseResponse toPost(String url, int typeParser, Class<?> classReturn) throws URISyntaxException, IOException{
+        this.typeJson = typeParser;
+        return toPost(new URIBuilder(url).build(), null, typeParser, classReturn);
+    }
+
+    public BaseResponse toPost(URI uri, HttpEntity entity, int typeJson, Class<?> classReturn) throws IOException {
+        this.typeJson = typeJson;
+        this.classReturn = classReturn;
+        request = new HttpPost(uri);
+        setHeaderJson();
+        if (entity != null) {
+            ((HttpPost) request).setEntity(entity);
+        }
+        return toProcess();
+    }
+
+    public BaseResponse toPostOct(URI uri, HttpEntity entity, int typeJson, Class<?> classReturn) throws IOException {
+        this.typeJson = typeJson;
+        this.classReturn = classReturn;
+        request = new HttpPost(uri);
+        setHeaderOct();
+        if (entity != null) {
+            ((HttpPost) request).setEntity(entity);
+        }
+        return toProcess();
+    }
+
+
+
+    public BaseResponse toPut(String url, HttpEntity entity) throws IOException, URISyntaxException {
+
+        return toPut(new URIBuilder(url).build(), entity, JsonUtil.NORMAl_PARSER, null);
+    }
+
+    public BaseResponse toPut(URI uri, HttpEntity entity, int typeJson, Class<?> classReturn) throws IOException {
+        this.typeJson = typeJson;
+        this.classReturn = classReturn;
+        request = new HttpPut(uri);
+        setHeaderJson();
+        if (entity!= null) {
+            ((HttpPut) request).setEntity(entity);
+        }
+        return toProcess();
+    }
+
+
+    private void  setHeaderJson(){
+        request.setHeader("Content-Type", "application/json");
+        request.setHeader("Ocp-Apim-Subscription-Key", key);
+    }
+
+    private void  setHeaderOct(){
+        request.setHeader("Content-Type", "application/octet-stream");
+        request.setHeader("Ocp-Apim-Subscription-Key", key);
+    }
+
+    /***/
+    private BaseResponse toProcess() throws IOException {
+        // Request
+        HttpClient httpclient = HttpClients.createDefault();
+
+
+        // Response
+        HttpResponse response = httpclient.execute(request);
+        HttpEntity entity = response.getEntity();
+        String dataResponse = ServiceUtils.getDataResponse(entity);
+
+        // JSON
+        BaseResponse responseResult = new BaseResponse();
+        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK ||
+                response.getStatusLine().getStatusCode() == HttpStatus.SC_ACCEPTED) {
+            responseResult.setSuccess(true);
+            if (classReturn != null) {
+                responseResult.setData(convertObject(dataResponse, classReturn));
+            }
+        }else {
+            ResponseErrorWrap responseErrorWrap = JsonUtil.convertObject(dataResponse, ResponseErrorWrap.class);
+            responseResult.setSuccess(false);
+            if (responseErrorWrap!= null && responseErrorWrap.getError() != null) {
+                responseResult.setErrorCode(responseErrorWrap.getError().getCode());
+                responseResult.setMessage(responseErrorWrap.getError().getMessage());
+            }
+        }
+
+        return responseResult;
+    }
+
+    private<T> Object convertObject(String dataResponse, Class<T> classReturn){
+        switch (typeJson) {
+            case JsonUtil.NORMAl_PARSER:
+                return JsonUtil.convertObject(dataResponse, classReturn);
+            case JsonUtil.TIME_PARSER:
+                return JsonUtil.convertObject(dataResponse, classReturn, IContanst.API_COGN_MICROSOFT_PER_GROUP_FORMAT_TIME);
+            case JsonUtil.LIST_PARSER:
+                return JsonUtil.convertListObject(dataResponse, classReturn);
+        }
+        return null;
+    }
+
+
+
+}

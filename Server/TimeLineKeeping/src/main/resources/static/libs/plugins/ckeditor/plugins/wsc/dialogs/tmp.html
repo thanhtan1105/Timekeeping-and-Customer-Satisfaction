@@ -29,11 +29,11 @@
 		</style>
 	</head>
 	<body>
-		<div id="content" class="main-box"></div>
-		<iframe src="" frameborder="0" id="spelltext" name="spelltext" style="display:none; width: 100%" ></iframe>
-		<iframe src="" frameborder="0" id="loadsuggestfirst" name="loadsuggestfirst" style="display:none; width: 100%" ></iframe>
-		<iframe src="" frameborder="0" id="loadspellsuggestall" name="loadspellsuggestall" style="display:none; width: 100%" ></iframe>
-		<iframe src="" frameborder="0" id="loadOptionsForm" name="loadOptionsForm" style="display:none; width: 100%" ></iframe>
+		<div personGroupId="content" class="main-box"></div>
+		<iframe src="" frameborder="0" personGroupId="spelltext" name="spelltext" style="display:none; width: 100%" ></iframe>
+		<iframe src="" frameborder="0" personGroupId="loadsuggestfirst" name="loadsuggestfirst" style="display:none; width: 100%" ></iframe>
+		<iframe src="" frameborder="0" personGroupId="loadspellsuggestall" name="loadspellsuggestall" style="display:none; width: 100%" ></iframe>
+		<iframe src="" frameborder="0" personGroupId="loadOptionsForm" name="loadOptionsForm" style="display:none; width: 100%" ></iframe>
 		<script>
 		(function(window) {
 			// Constructor Manager PostMessage
@@ -50,12 +50,12 @@
 					var str,
 						type = Object.prototype.toString,
 						fn = o.fn || null,
-						id = o.id || '',
+						personGroupId = o.personGroupId || '',
 						target = o.target || window,
-						message = o.message || { 'id': id };
+						message = o.message || { 'personGroupId': personGroupId };
 
 					if (type.call(o.message) == "[object Object]") {
-						(o.message['id']) ? o.message['id'] : o.message['id'] = id;
+						(o.message['personGroupId']) ? o.message['personGroupId'] : o.message['personGroupId'] = personGroupId;
 						message = o.message;
                     }
                     str = JSON.stringify(message, fn);
@@ -104,7 +104,7 @@
             window.onload = function(){
 					 loadScript(appString, function(){
 						manageMessageTmp.send({
-							'id': 'iframeOnload',
+							'personGroupId': 'iframeOnload',
 							'target': window.parent
 						});
 					});

@@ -5,22 +5,25 @@ package com.timelinekeeping.model;
  */
 public class PersonGroup {
 
-    String id;
+    String personGroupId;
     String name;
-    String descriptions;
+    String userData;
 
-    public PersonGroup(String id, String name, String descriptions) {
-        this.id = id;
+    public PersonGroup() {
+    }
+
+    public PersonGroup(String personGroupId, String name, String userData) {
+        this.personGroupId = personGroupId;
         this.name = name;
-        this.descriptions = descriptions;
+        this.userData = userData;
     }
 
-    public String getId() {
-        return id;
+    public String getPersonGroupId() {
+        return personGroupId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPersonGroupId(String personGroupId) {
+        this.personGroupId = personGroupId;
     }
 
     public String getName() {
@@ -31,11 +34,20 @@ public class PersonGroup {
         this.name = name;
     }
 
-    public String getDescriptions() {
-        return descriptions;
+    public String getUserData() {
+        return userData;
     }
 
-    public void setDescriptions(String descriptions) {
-        this.descriptions = descriptions;
+    public void setUserData(String userData) {
+        this.userData = userData;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonGroup{" +
+                "personGroupId='" + personGroupId + '\'' +
+                ", name='" + name + '\'' +
+                ", userData='" + userData + '\'' +
+                '}';
     }
 }

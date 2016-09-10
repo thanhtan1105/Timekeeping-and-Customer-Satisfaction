@@ -1,6 +1,5 @@
 package com.timelinekeeping.model;
 
-import java.text.DateFormat;
 
 /**
  * Created by HienTQSE60896 on 9/9/2016.

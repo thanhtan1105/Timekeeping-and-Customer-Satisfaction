@@ -5,15 +5,15 @@ import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.model.PersonGroup;
 import com.timelinekeeping.model.PersonGroupTrainingStatus;
-import com.timelinekeeping.model.ReponseErrorWaper;
+import com.timelinekeeping.model.ResponseErrorWrap;
 import com.timelinekeeping.service.PersonGroupsService;
+import com.timelinekeeping.util.HTTPClientUtil;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ServiceUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ByteArrayEntity;
@@ -45,117 +45,28 @@ public class PersonGroupServiceImpl implements PersonGroupsService{
 
 
     public BaseResponse create(String groupName, String groupData) throws URISyntaxException, IOException {
-        String urlString = rootPath + AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.create");
-        String newURLString = String.format("%s/%s", urlString, groupName);
-
-        // Request
-        HttpClient httpclient = HttpClients.createDefault();
-        URIBuilder builder = new URIBuilder(newURLString);
-        URI uri = builder.build();
-        HttpPut request = new HttpPut(uri);
-        request.setHeader("Content-Type", "application/json");
-        request.setHeader("Ocp-Apim-Subscription-Key", key);
+        String urlString = String.format("%s/%s", rootPath, groupName);
 
         JSONObject object = new JSONObject();
         object.put("name", groupName);
         object.put("userData", groupData);
         byte[] postData = object.toString().getBytes(StandardCharsets.UTF_8);
-
-        // Request body
-        request.setEntity(new ByteArrayEntity(postData));
-
-        // Response
-        HttpResponse response = httpclient.execute(request);
-        HttpEntity entity = response.getEntity();
-        String dataResponse = ServiceUtils.getDataResponse(entity);
-
-        // Return value
-        BaseResponse responseResult = new BaseResponse();
-        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            System.out.println(EntityUtils.toString(entity));
-            responseResult.setSuccess(true);
-        } else {
-            ReponseErrorWaper reponseErrorWaper = JsonUtil.convertObject(dataResponse, ReponseErrorWaper.class);
-            responseResult.setSuccess(false);
-            if (reponseErrorWaper.getError() != null) {
-                responseResult.setErrorCode(reponseErrorWaper.getError().getCode());
-                responseResult.setMessage(reponseErrorWaper.getError().getMessage());
-            }
-        }
-
-        return responseResult;
+        return new HTTPClientUtil().toPut(urlString, new ByteArrayEntity(postData));
     }
 
     public BaseResponse listAll(int start, int top) throws URISyntaxException, IOException {
         String urlString = rootPath;
-
-        // Request
-        HttpClient httpclient = HttpClients.createDefault();
         URIBuilder builder = new URIBuilder(urlString)
                 .addParameter("start", String.valueOf(start))
                 .addParameter("top", String.valueOf(top));
-        URI uri = builder.build();
-        HttpGet request = new HttpGet(uri);
-        request.setHeader("Content-Type", "application/json");
-        request.setHeader("Ocp-Apim-Subscription-Key", key);
-
-        // Response
-        HttpResponse response = httpclient.execute(request);
-        HttpEntity entity = response.getEntity();
-        String dataResponse = ServiceUtils.getDataResponse(entity);
-
-        // JSON
-        BaseResponse reponseResult = new BaseResponse();
-        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            List<PersonGroup> personGroupList = new ArrayList<PersonGroup>();
-            personGroupList = JsonUtil.convertObject(dataResponse, personGroupList.getClass());
-            reponseResult.setSuccess(true);
-            reponseResult.setData(personGroupList);
-        }else {
-            ReponseErrorWaper reponseErrorWaper = JsonUtil.convertObject(dataResponse, ReponseErrorWaper.class);
-            reponseResult.setSuccess(false);
-            if (reponseErrorWaper.getError() != null) {
-                reponseResult.setErrorCode(reponseErrorWaper.getError().getCode());
-                reponseResult.setMessage(reponseErrorWaper.getError().getMessage());
-            }
-        }
-
-        return reponseResult;
-
+        return  new HTTPClientUtil().toGet(builder.build(), JsonUtil.LIST_PARSER, PersonGroup.class);
     }
 
     public BaseResponse trainGroup(String personGroupId) throws URISyntaxException, IOException {
         String urlString = rootPath;
         String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.person.addition");
-
-        // Request
-        HttpClient httpclient = HttpClients.createDefault();
         String url = String.format("%s/%s/%s", urlString, personGroupId, urlAddition);
-        URIBuilder builder = new URIBuilder(url);
-        URI uri = builder.build();
-        HttpPost request = new HttpPost(uri);
-        request.setHeader("Content-Type", "application/json");
-        request.setHeader("Ocp-Apim-Subscription-Key", key);
-
-        // Response
-        HttpResponse response = httpclient.execute(request);
-        HttpEntity entity = response.getEntity();
-        String dataResponse = ServiceUtils.getDataResponse(entity);
-
-        // JSON
-        BaseResponse reponseResult = new BaseResponse();
-        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_ACCEPTED) {
-            reponseResult.setSuccess(true);
-        }else {
-            ReponseErrorWaper reponseErrorWaper = JsonUtil.convertObject(dataResponse, ReponseErrorWaper.class);
-            reponseResult.setSuccess(false);
-            if (reponseErrorWaper.getError() != null) {
-                reponseResult.setErrorCode(reponseErrorWaper.getError().getCode());
-                reponseResult.setMessage(reponseErrorWaper.getError().getMessage());
-            }
-        }
-
-        return reponseResult;
+        return new HTTPClientUtil().toPost(url);
     }
 
     public BaseResponse trainPersonGroupStatus(String personGroupId) throws URISyntaxException, IOException {
@@ -163,36 +74,6 @@ public class PersonGroupServiceImpl implements PersonGroupsService{
         String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.status.addition");
         String url = String.format("%s/%s/%s", urlString, personGroupId, urlAddition);
 
-        // Request
-        HttpClient httpclient = HttpClients.createDefault();
-        URIBuilder builder = new URIBuilder(url);
-        URI uri = builder.build();
-        HttpPost request = new HttpPost(uri);
-        request.setHeader("Content-Type", "application/json");
-        request.setHeader("Ocp-Apim-Subscription-Key", key);
-
-        // Response
-        HttpResponse response = httpclient.execute(request);
-        HttpEntity entity = response.getEntity();
-        String dataResponse = ServiceUtils.getDataResponse(entity);
-
-        // JSON
-        BaseResponse reponseResult = new BaseResponse();
-        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-
-            PersonGroupTrainingStatus groupStatus = JsonUtil.convertObject(dataResponse,
-                    PersonGroupTrainingStatus.class, IContanst.API_COGN_MICROSOFT_PER_GROUP_FORMAT_TIME);
-
-            reponseResult.setSuccess(true);
-            reponseResult.setData(groupStatus);
-        }else {
-            ReponseErrorWaper reponseErrorWaper = JsonUtil.convertObject(dataResponse, ReponseErrorWaper.class);
-            reponseResult.setSuccess(false);
-            if (reponseErrorWaper.getError() != null) {
-                reponseResult.setErrorCode(reponseErrorWaper.getError().getCode());
-                reponseResult.setMessage(reponseErrorWaper.getError().getMessage());
-            }
-        }
-        return reponseResult;
+        return new HTTPClientUtil().toPost(url, JsonUtil.TIME_PARSER, PersonGroupTrainingStatus.class);
     }
 }
