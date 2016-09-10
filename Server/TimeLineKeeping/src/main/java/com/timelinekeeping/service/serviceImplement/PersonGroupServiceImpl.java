@@ -6,6 +6,7 @@ import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.model.PersonGroup;
 import com.timelinekeeping.model.PersonGroupTrainingStatus;
 import com.timelinekeeping.model.ReponseErrorWaper;
+import com.timelinekeeping.service.PersonGroupsService;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ServiceUtils;
 import org.apache.http.HttpEntity;
@@ -34,16 +35,18 @@ import java.util.List;
  * Created by lethanhtan on 9/7/16.
  */
 @Service
-public class PersonGroupServiceImpl {
+public class PersonGroupServiceImpl implements PersonGroupsService{
 
     private Logger logger = LogManager.getLogger(PersonGroupServiceImpl.class);
 
-    private String key = AppConfigKeys.getInstance().getPropertyValue("ocp.apim.subscription.key");
+    private String key = AppConfigKeys.getInstance().getApiPropertyValue("ocp.apim.subscription.key");
+    private String rootPath = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.cognitive.service.root.url")
+            + AppConfigKeys.getInstance().getApiPropertyValue("api.person.group");
 
 
     public BaseResponse create(String groupName, String groupData) throws URISyntaxException, IOException {
-        String urlString = AppConfigKeys.getInstance().getPropertyValue("api.person.group.create");
-        String newURLString = urlString + groupName;
+        String urlString = rootPath + AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.create");
+        String newURLString = String.format("%s/%s", urlString, groupName);
 
         // Request
         HttpClient httpclient = HttpClients.createDefault();
@@ -84,7 +87,7 @@ public class PersonGroupServiceImpl {
     }
 
     public BaseResponse listAll(int start, int top) throws URISyntaxException, IOException {
-        String urlString = AppConfigKeys.getInstance().getPropertyValue("api.person.group.findall");
+        String urlString = rootPath;
 
         // Request
         HttpClient httpclient = HttpClients.createDefault();
@@ -122,8 +125,8 @@ public class PersonGroupServiceImpl {
     }
 
     public BaseResponse trainGroup(String personGroupId) throws URISyntaxException, IOException {
-        String urlString = AppConfigKeys.getInstance().getPropertyValue("api.person.group.train.person");
-        String urlAddition = AppConfigKeys.getInstance().getPropertyValue("api.person.group.train.person.addition");
+        String urlString = rootPath;
+        String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.person.addition");
 
         // Request
         HttpClient httpclient = HttpClients.createDefault();
@@ -156,12 +159,12 @@ public class PersonGroupServiceImpl {
     }
 
     public BaseResponse trainPersonGroupStatus(String personGroupId) throws URISyntaxException, IOException {
-        String urlString = AppConfigKeys.getInstance().getPropertyValue("api.person.group.train.status");
-        String urlAddition = AppConfigKeys.getInstance().getPropertyValue("api.person.group.train.status.addition");
+        String urlString = rootPath;
+        String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.status.addition");
+        String url = String.format("%s/%s/%s", urlString, personGroupId, urlAddition);
 
         // Request
         HttpClient httpclient = HttpClients.createDefault();
-        String url = String.format("%s/%s/%s", urlString, personGroupId, urlAddition);
         URIBuilder builder = new URIBuilder(url);
         URI uri = builder.build();
         HttpPost request = new HttpPost(uri);
