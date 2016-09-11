@@ -34,7 +34,7 @@ import java.util.List;
 @Service
 public class FaceServiceMCSImpl implements FaceServiceMCS {
 
-    private Logger logger = LogManager.getLogger(PersonGroupServiceImpl.class);
+    private Logger logger = LogManager.getLogger(FaceServiceMCSImpl.class);
 
     private String key = AppConfigKeys.getInstance().getApiPropertyValue("ocp.apim.subscription.key");
     private String rootPath = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.cognitive.service.root.url");

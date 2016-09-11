@@ -39,10 +39,14 @@ public class HTTPClientUtil {
     /*** class return*/
     private Class<?> classReturn;
 
+    public BaseResponse toGet(String url,int typeJson, Class<?> classReturn) throws IOException, URISyntaxException {
+        return toGet(new URIBuilder(url).build(), typeJson, classReturn);
+    }
 
     public BaseResponse toGet(URI uri, Class<?> classReturn) throws IOException {
         return toGet(uri, JsonUtil.NORMAl_PARSER, classReturn);
     }
+
 
     public BaseResponse toGet(URI uri, int typeJson, Class<?> classReturn) throws IOException {
         this.typeJson = typeJson;
@@ -61,6 +65,10 @@ public class HTTPClientUtil {
         return toPost(new URIBuilder(url).build(), null, typeParser, classReturn);
     }
 
+    public BaseResponse toPost(String url, HttpEntity entity, int typeParser, Class<?> classReturn) throws URISyntaxException, IOException{
+        return toPost(new URIBuilder(url).build(), entity, typeParser, classReturn);
+    }
+
     public BaseResponse toPost(URI uri, HttpEntity entity, int typeJson, Class<?> classReturn) throws IOException {
         this.typeJson = typeJson;
         this.classReturn = classReturn;
@@ -70,6 +78,9 @@ public class HTTPClientUtil {
             ((HttpPost) request).setEntity(entity);
         }
         return toProcess();
+    }
+    public BaseResponse toPostOct(String url, HttpEntity entity, int typeJson, Class<?> classReturn) throws IOException, URISyntaxException {
+        return toPostOct(new URIBuilder(url).build(), entity, typeJson, classReturn);
     }
 
     public BaseResponse toPostOct(URI uri, HttpEntity entity, int typeJson, Class<?> classReturn) throws IOException {
