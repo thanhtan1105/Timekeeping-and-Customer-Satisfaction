@@ -1,57 +1,48 @@
 package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping._config.AppConfigKeys;
-import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.model.PersonGroup;
 import com.timelinekeeping.model.PersonGroupTrainingStatus;
-import com.timelinekeeping.model.ResponseErrorWrap;
-import com.timelinekeeping.service.PersonGroupsService;
+import com.timelinekeeping.service.PersonGroupsServiceMCS;
 import com.timelinekeeping.util.HTTPClientUtil;
 import com.timelinekeeping.util.JsonUtil;
-import com.timelinekeeping.util.ServiceUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.client.HttpClient;
-import org.apache.http.util.EntityUtils;
+import org.apache.http.entity.StringEntity;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by lethanhtan on 9/7/16.
  */
 @Service
-public class PersonGroupServiceImpl implements PersonGroupsService{
+public class PersonGroupServiceMCSImpl implements PersonGroupsServiceMCS {
 
-    private Logger logger = LogManager.getLogger(PersonGroupServiceImpl.class);
+    private Logger logger = LogManager.getLogger(PersonGroupServiceMCSImpl.class);
 
-    private String key = AppConfigKeys.getInstance().getApiPropertyValue("ocp.apim.subscription.key");
     private String rootPath = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.cognitive.service.root.url")
             + AppConfigKeys.getInstance().getApiPropertyValue("api.person.group");
 
 
     public BaseResponse create(String groupName, String groupData) throws URISyntaxException, IOException {
+
         String urlString = String.format("%s/%s", rootPath, groupName);
 
-        JSONObject object = new JSONObject();
-        object.put("name", groupName);
-        object.put("userData", groupData);
-        byte[] postData = object.toString().getBytes(StandardCharsets.UTF_8);
-        return new HTTPClientUtil().toPut(urlString, new ByteArrayEntity(postData));
+        /** entity*/
+        Map<String, String> entity = new HashMap<String, String>();
+        entity.put("name", groupName);
+        entity.put("userData", groupData);
+        String jsonEntity = JsonUtil.toJson(entity);
+
+
+        return new HTTPClientUtil().toPut(urlString, new StringEntity(jsonEntity, StandardCharsets.UTF_8));
     }
 
     public BaseResponse listAll(int start, int top) throws URISyntaxException, IOException {
@@ -59,7 +50,7 @@ public class PersonGroupServiceImpl implements PersonGroupsService{
         URIBuilder builder = new URIBuilder(urlString)
                 .addParameter("start", String.valueOf(start))
                 .addParameter("top", String.valueOf(top));
-        return  new HTTPClientUtil().toGet(builder.build(), JsonUtil.LIST_PARSER, PersonGroup.class);
+        return new HTTPClientUtil().toGet(builder.build(), JsonUtil.LIST_PARSER, PersonGroup.class);
     }
 
     public BaseResponse trainGroup(String personGroupId) throws URISyntaxException, IOException {
@@ -74,6 +65,6 @@ public class PersonGroupServiceImpl implements PersonGroupsService{
         String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.status.addition");
         String url = String.format("%s/%s/%s", urlString, personGroupId, urlAddition);
 
-        return new HTTPClientUtil().toPost(url, JsonUtil.TIME_PARSER, PersonGroupTrainingStatus.class);
+        return new HTTPClientUtil().toGet(url, JsonUtil.TIME_PARSER, PersonGroupTrainingStatus.class);
     }
 }
