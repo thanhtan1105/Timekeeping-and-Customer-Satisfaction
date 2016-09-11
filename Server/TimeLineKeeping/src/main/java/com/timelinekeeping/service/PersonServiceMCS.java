@@ -13,9 +13,9 @@ import java.util.Map;
  */
 public interface PersonServiceMCS {
 
-    public BaseResponse createPerson(String groupId, String name, String description) throws URISyntaxException, IOException;
-
-    public BaseResponse addFaceUrl(String persongroupId, String personId, String urlImg)throws URISyntaxException, IOException;
-
-    public BaseResponse addFaceImg(String persongroupId, String personId, InputStream imgStream) throws URISyntaxException, IOException;
+//    public BaseResponse createPerson(String groupId, String name, String description) throws URISyntaxException, IOException;
+//
+//    public BaseResponse addFaceUrl(String persongroupId, String personId, String urlImg)throws URISyntaxException, IOException;
+//
+//    public BaseResponse addFaceImg(String persongroupId, String personId, InputStream imgStream) throws URISyntaxException, IOException;
 }

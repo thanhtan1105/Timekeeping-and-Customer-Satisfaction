@@ -15,6 +15,8 @@ public class PersonGroupControllerWeb {
     private Logger logger = Logger.getLogger(PersonGroupControllerWeb.class);
 
     // list all
-
-
+    @RequestMapping("/select-group")
+    public String loadSelectGroupPage() {
+        return "views/staff/select_group";
+    }
 }

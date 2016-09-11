@@ -34,7 +34,8 @@ public class PersonController {
         try {
 
 
-            BaseResponse response = personService.createPerson(groupId, name, description);
+//            BaseResponse response = personService.createPerson(groupId, name, description);
+            BaseResponse response = new BaseResponse();
 
             logger.info("RESPONSE: " +this.getClass().toString() +": " + JsonUtil.toJson(response));
             return response;
@@ -52,7 +53,8 @@ public class PersonController {
                                @RequestParam("personId") String personId,
                                @RequestParam("url") String urlImg) {
         try {
-            BaseResponse response = personService.addFaceUrl(groupId, personId, urlImg);
+//            BaseResponse response = personService.addFaceUrl(groupId, personId, urlImg);
+            BaseResponse response = new BaseResponse();
             logger.info("RESPONSE: " + JsonUtil.toJson(response));
             return response;
 
@@ -70,7 +72,7 @@ public class PersonController {
         try {
             BaseResponse response = null;
             if (UtilApps.isImageFile(img.getInputStream())) {
-                response = personService.addFaceImg(groupId, personId, img.getInputStream());
+//                response = personService.addFaceImg(groupId, personId, img.getInputStream());
                 logger.info("RESPONSE: " + JsonUtil.toJson(response));
             }else {
                 response = new BaseResponse();
