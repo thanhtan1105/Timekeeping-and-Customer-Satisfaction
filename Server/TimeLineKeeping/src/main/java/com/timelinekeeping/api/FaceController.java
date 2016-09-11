@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.util.List;
 
 /**
  * Created by lethanhtan on 9/9/16.
@@ -27,18 +26,10 @@ public class FaceController {
 
     @RequestMapping(value = {"/detect"}, method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponse detect(@RequestParam("url") String url) {
+    public BaseResponse detect(@RequestParam("url") String urlImg) {
         try {
-            File img = new File(url);
-            BaseResponse response = null;
-            if (img.exists()) {
-                response = faceService.detech(new FileInputStream(img));
-                logger.info("RESPONSE: " + JsonUtil.toJson(response));
-            }else {
-                response = new BaseResponse();
-                response.setSuccess(false);
-                response.setMessage("URL not exist.");
-            }
+            BaseResponse response = faceService.detech(urlImg);
+            logger.info("RESPONSE: " + JsonUtil.toJson(response));
             return response;
 
         } catch (Exception e) {
@@ -47,7 +38,7 @@ public class FaceController {
         }
     }
 
-    @RequestMapping(value = {"/detectimg"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/detect_img"}, method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse detectimg(@RequestParam("img") MultipartFile img) {
         try {
@@ -60,10 +51,21 @@ public class FaceController {
                 response.setSuccess(false);
                 response.setMessage("File not image format.");
             }
+            return response;
 
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(e);
+        }
+    }
 
-
-
+    @RequestMapping(value = {"/identify"}, method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse identify(@RequestParam("groupId") String groupId,
+                                 @RequestParam("faceId")List<String> faceIds) {
+        try {
+            BaseResponse response = faceService.identify(groupId,faceIds);
+                logger.info("RESPONSE: " + JsonUtil.toJson(response));
             return response;
 
         } catch (Exception e) {

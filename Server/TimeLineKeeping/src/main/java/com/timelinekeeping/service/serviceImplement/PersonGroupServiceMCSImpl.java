@@ -31,9 +31,9 @@ public class PersonGroupServiceMCSImpl implements PersonGroupsServiceMCS {
             + AppConfigKeys.getInstance().getApiPropertyValue("api.person.group");
 
 
-    public BaseResponse create(String groupName, String groupData) throws URISyntaxException, IOException {
+    public BaseResponse create(String groupId, String groupName, String groupData) throws URISyntaxException, IOException {
 
-        String urlString = String.format("%s/%s", rootPath, groupName);
+        String urlString = String.format("%s/%s", rootPath, groupId);
 
         /** entity*/
         Map<String, String> entity = new HashMap<String, String>();

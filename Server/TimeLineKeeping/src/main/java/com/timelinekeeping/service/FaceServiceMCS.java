@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.util.List;
 
 /**
  * Created by HienTQSE60896 on 9/10/2016.
@@ -13,4 +14,8 @@ import java.net.URISyntaxException;
 public interface FaceServiceMCS {
 
     public BaseResponse detech(InputStream imgStream) throws URISyntaxException, IOException;
+
+    public BaseResponse detech(String url) throws URISyntaxException, IOException;
+
+    public BaseResponse identify(String groupId, List<String> faceIds) throws URISyntaxException, IOException;
 }
