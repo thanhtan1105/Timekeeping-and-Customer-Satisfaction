@@ -16,6 +16,8 @@
 		A61A80661D77E2900082E80F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A61A80641D77E2900082E80F /* LaunchScreen.storyboard */; };
 		A61A80711D77E2900082E80F /* TimelineKeepingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61A80701D77E2900082E80F /* TimelineKeepingTests.swift */; };
 		A61A807C1D77E2900082E80F /* TimelineKeepingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61A807B1D77E2900082E80F /* TimelineKeepingUITests.swift */; };
+		A6A765B71D85728900A79643 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A765B61D85728900A79643 /* Camera.swift */; };
+		A6A765B91D85728D00A79643 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A765B81D85728D00A79643 /* CameraViewController.swift */; };
 		DD7D4056BFEBD683FD399A3F /* Pods_TimelineKeepingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7656841AAF0CCE1CD3524A66 /* Pods_TimelineKeepingTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +54,8 @@
 		A61A80771D77E2900082E80F /* TimelineKeepingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TimelineKeepingUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A61A807B1D77E2900082E80F /* TimelineKeepingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineKeepingUITests.swift; sourceTree = "<group>"; };
 		A61A807D1D77E2900082E80F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A6A765B61D85728900A79643 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		A6A765B81D85728D00A79643 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		A7698FC94D4EB56B275C7A23 /* Pods-TimelineKeeping.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TimelineKeeping.release.xcconfig"; path = "Pods/Target Support Files/Pods-TimelineKeeping/Pods-TimelineKeeping.release.xcconfig"; sourceTree = "<group>"; };
 		B306A19F1029B41CDBAD0F9C /* Pods-TimelineKeepingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TimelineKeepingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TimelineKeepingTests/Pods-TimelineKeepingTests.release.xcconfig"; sourceTree = "<group>"; };
 		B9DC619DEEFDE423655AD2C4 /* Pods_TimelineKeeping.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TimelineKeeping.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -181,6 +185,7 @@
 		A61A808C1D77E2BE0082E80F /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				A6A765B81D85728D00A79643 /* CameraViewController.swift */,
 				A61A805D1D77E2900082E80F /* ViewController.swift */,
 			);
 			name = Controller;
@@ -196,6 +201,7 @@
 		A61A808E1D77E2CC0082E80F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A6A765B61D85728900A79643 /* Camera.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -491,6 +497,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6A765B91D85728D00A79643 /* CameraViewController.swift in Sources */,
+				A6A765B71D85728900A79643 /* Camera.swift in Sources */,
 				A61A805E1D77E2900082E80F /* ViewController.swift in Sources */,
 				A61A805C1D77E2900082E80F /* AppDelegate.swift in Sources */,
 			);
