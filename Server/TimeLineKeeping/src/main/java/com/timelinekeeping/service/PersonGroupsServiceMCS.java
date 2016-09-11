@@ -10,7 +10,7 @@ import java.net.URISyntaxException;
  */
 public interface PersonGroupsServiceMCS {
 
-    public BaseResponse create(String groupName, String groupData) throws URISyntaxException, IOException;
+    public BaseResponse create(String groupId, String groupName, String groupData) throws URISyntaxException, IOException;
 
     public BaseResponse listAll(int start, int top) throws URISyntaxException, IOException;
 

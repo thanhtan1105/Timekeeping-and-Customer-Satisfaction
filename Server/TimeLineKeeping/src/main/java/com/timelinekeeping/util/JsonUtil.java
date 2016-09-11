@@ -1,13 +1,16 @@
 package com.timelinekeeping.util;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.model.FaceDetectRespone;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +22,7 @@ public class JsonUtil {
     public static final int NORMAl_PARSER = 0;
     public static final int TIME_PARSER = 1;
     public static final int LIST_PARSER = 2;
-    public static final int MAP_PARSER = 2;
+    public static final int MAP_PARSER = 3;
 
 
     private static ObjectMapper mapper = new ObjectMapper();
@@ -29,6 +32,7 @@ public class JsonUtil {
         try {
             return mapper.writeValueAsString(data);
         } catch (Exception e) {
+            logger.error(e);
             return null;
         }
     }
@@ -37,6 +41,7 @@ public class JsonUtil {
         try {
             return (T) mapper.readValue(data, classObj);
         } catch (Exception e) {
+            logger.error(e);
             return null;
         }
     }
@@ -47,6 +52,7 @@ public class JsonUtil {
             mapper.setDateFormat(format);
             return mapper.readValue(data, classObj);
         } catch (Exception e) {
+            logger.error(e);
             return null;
         }
     }
@@ -72,7 +78,10 @@ public class JsonUtil {
     }
 
     public static void main(String[] args) {
-        BaseResponse reponse = JsonUtil.convertObject("{\"success\":true,\"message\":\"\",\"data\":null}", BaseResponse.class);
-        System.out.println(reponse.isSuccess());
+        String mapString ="{\"group\": \"trưởng ban đào tạo\", \"description\": \"Chức vị chuyên môn quản lý đào tạo cho trường\"}";
+
+        Map<String, String> map = convertMapObject(mapString, String.class);
+
+        System.out.println(toJson(map));
     }
 }

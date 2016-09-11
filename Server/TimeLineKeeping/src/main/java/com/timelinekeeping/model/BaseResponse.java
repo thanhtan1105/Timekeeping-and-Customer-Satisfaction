@@ -14,6 +14,7 @@ public class BaseResponse {
     }
 
     public BaseResponse(Exception e) {
+        this.success = false;
         this.message = e.getMessage();
     }
 

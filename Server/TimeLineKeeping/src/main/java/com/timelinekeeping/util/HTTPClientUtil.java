@@ -39,15 +39,14 @@ public class HTTPClientUtil {
     /*** class return*/
     private Class<?> classReturn;
 
-    public BaseResponse toGet(String url,int typeJson, Class<?> classReturn) throws IOException, URISyntaxException {
-        return toGet(new URIBuilder(url).build(), typeJson, classReturn);
-    }
 
     public BaseResponse toGet(URI uri, Class<?> classReturn) throws IOException {
         return toGet(uri, JsonUtil.NORMAl_PARSER, classReturn);
     }
 
-
+    public BaseResponse toGet(String uri, int typeJson, Class<?> classReturn) throws IOException, URISyntaxException {
+        return toGet(new URIBuilder(uri).build(), typeJson, classReturn);
+    }
     public BaseResponse toGet(URI uri, int typeJson, Class<?> classReturn) throws IOException {
         this.typeJson = typeJson;
         this.classReturn = classReturn;
@@ -61,10 +60,8 @@ public class HTTPClientUtil {
     }
 
     public BaseResponse toPost(String url, int typeParser, Class<?> classReturn) throws URISyntaxException, IOException{
-        this.typeJson = typeParser;
         return toPost(new URIBuilder(url).build(), null, typeParser, classReturn);
     }
-
     public BaseResponse toPost(String url, HttpEntity entity, int typeParser, Class<?> classReturn) throws URISyntaxException, IOException{
         return toPost(new URIBuilder(url).build(), entity, typeParser, classReturn);
     }
@@ -79,6 +76,7 @@ public class HTTPClientUtil {
         }
         return toProcess();
     }
+
     public BaseResponse toPostOct(String url, HttpEntity entity, int typeJson, Class<?> classReturn) throws IOException, URISyntaxException {
         return toPostOct(new URIBuilder(url).build(), entity, typeJson, classReturn);
     }
@@ -133,7 +131,7 @@ public class HTTPClientUtil {
         HttpResponse response = httpclient.execute(request);
         HttpEntity entity = response.getEntity();
         String dataResponse = ServiceUtils.getDataResponse(entity);
-
+        logger.info("--Response Server:" + dataResponse);
         // JSON
         BaseResponse responseResult = new BaseResponse();
         if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK ||
@@ -148,6 +146,8 @@ public class HTTPClientUtil {
             if (responseErrorWrap!= null && responseErrorWrap.getError() != null) {
                 responseResult.setErrorCode(responseErrorWrap.getError().getCode());
                 responseResult.setMessage(responseErrorWrap.getError().getMessage());
+            }else{
+                responseResult.setMessage(dataResponse);
             }
         }
 
@@ -162,6 +162,8 @@ public class HTTPClientUtil {
                 return JsonUtil.convertObject(dataResponse, classReturn, IContanst.API_COGN_MICROSOFT_PER_GROUP_FORMAT_TIME);
             case JsonUtil.LIST_PARSER:
                 return JsonUtil.convertListObject(dataResponse, classReturn);
+            case JsonUtil.MAP_PARSER:
+                return JsonUtil.convertMapObject(dataResponse, classReturn);
         }
         return null;
     }
