@@ -15,53 +15,47 @@
             <i class="glyphicon glyphicon-send"></i> Train Employee Images
         </h1>
         <ol class="breadcrumb">
-            <li><i class="fa fa-laptop active"></i> Train Employee Images</li>
+            <li><i class="fa fa-laptop"></i> Train Employee Images</li>
+            <li class="active">Create Person Group</li>
         </ol>
         <hr style="border-color: green; margin-top: 4px; margin-bottom: 5px;">
     </section>
     <!-- Main content -->
     <section class="content">
         <!-- Your Page Content Here -->
-        <font class="text-success" style="font-size: medium; font-style: oblique;">Step 1 of 7</font>
-        <hr style="border-color: green; margin-top: 1px; margin-bottom: 15px; margin-right: 94%; border-width: 2px;"/>
         <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title text-success">
-                    <i class="fa fa-group"></i> Select Person Group</h3>
+                    <i class="fa fa-group"></i> Create Person Group</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
             <form class="form-horizontal">
                 <div class="box-body">
                     <div class="form-group">
-                        <div class="col-sm-1"></div>
+                        <label class="col-sm-2 control-label">
+                            Group Name: <font style="color: #f00000;">*</font></label>
+
                         <div class="col-sm-6">
-                            <table class="table table-bordered">
-                                <tr>
-                                    <th>Group Name</th>
-                                    <th style="width: 40px">Select</th>
-                                </tr>
-                                <tr>
-                                    <td>Đào Tạo</td>
-                                    <td><input type="radio" name="r3" class="flat-red"></td>
-                                </tr>
-                                <tr>
-                                    <td>Nhân Sự</td>
-                                    <td><input type="radio" name="r3" class="flat-red"></td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="col-sm-2">
-                            <button class="btn btn-info btn-flat">
-                                <i class="fa fa-plus"></i> New Group
-                            </button>
+                            <input type="text" class="form-control" placeholder="Group Name"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-1"></div>
-                        <div class="col-sm-6" style="text-align: right">
-                            <button class="btn btn-success btn-flat" style="width: 20%">
-                                <i class="fa fa-chevron-right"></i> Next
+                        <label class="col-sm-2 control-label">Descriptions:</label>
+
+                        <div class="col-sm-6">
+                            <textarea class="form-control" placeholder="Descriptions"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2"></label>
+
+                        <div class="col-sm-6">
+                            <button class="btn btn-success btn-flat" style="width: 25%">
+                                <i class="fa fa-download"></i> Create Group
+                            </button>
+                            <button class="btn btn-warning btn-flat" style="width: 25%">
+                                <i class="fa fa-refresh"></i> Reset
                             </button>
                         </div>
                     </div>
@@ -71,6 +65,13 @@
             <!-- /.form-horizontal -->
         </div>
         <!-- /.box -->
+        <div class="row">
+            <div class="col-sm-2">
+                <button class="btn btn-primary btn-flat">
+                    <i class="fa fa-chevron-left"></i> Back
+                </button>
+            </div>
+        </div>
     </section>
     <!-- /.content -->
 </div>
