@@ -81,10 +81,10 @@ class Camera: NSObject {
           // chạy trên 1 session queue khác
           dispatch_async(self.sessionQueue, { () -> Void in
             var videoConnection: AVCaptureConnection?
-            videoConnection?.videoOrientation = AVCaptureVideoOrientation.LandscapeRight
+            videoConnection?.videoOrientation = AVCaptureVideoOrientation.Portrait
             for connection in imageOutput.connections {
                 let c = connection as! AVCaptureConnection
-                c.videoOrientation = AVCaptureVideoOrientation.LandscapeRight
+                c.videoOrientation = AVCaptureVideoOrientation.Portrait
               
                 for port in c.inputPorts {
                     let p = port as! AVCaptureInputPort

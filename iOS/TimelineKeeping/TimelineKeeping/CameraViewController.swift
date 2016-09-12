@@ -17,7 +17,6 @@ class CameraViewController: UIViewController {
 
   @IBOutlet weak var cameraStill: UIImageView!
   @IBOutlet weak var cameraPreview: UIView!
-  @IBOutlet weak var cameraStatus: UILabel!
   @IBOutlet weak var cameraCapture: UIButton!
   
   var preview: AVCaptureVideoPreviewLayer?
@@ -26,64 +25,102 @@ class CameraViewController: UIViewController {
   var camera: Camera?
   var status: Status = .Preview
   var faceView: UIView?
+  var isCameraTaken = false
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.initializeCamera()
     cameraCapture.layer.cornerRadius = cameraCapture.frame.size.width / 2
     
     faceView = UIView()
     faceView?.layer.borderColor = UIColor.greenColor().CGColor
     faceView?.layer.borderWidth = 2
+    faceView?.tag = 280394
     view.addSubview(faceView!)
     view.bringSubviewToFront(faceView!)
   }
   
+  override func viewWillAppear(animated: Bool) {
+    super.viewWillAppear(animated)
+    self.initializeCamera()
+    
+    self.cameraStill.image = nil
+    self.cameraPreview.alpha = 1.0
+    isRunning = false
+    
+    let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(5 * Double(NSEC_PER_SEC)))
+    dispatch_after(delayTime, dispatch_get_main_queue()) {
+      self.isCameraTaken = false
+      
+    }
+    
+  }
+  
   override func viewDidAppear(animated: Bool) {
-      super.viewDidAppear(animated)
-      if !isRunning {
-        self.establishVideoPreviewArea()
-        isRunning = true
-      }
+    super.viewDidAppear(animated)
+    if !isRunning {
+      self.establishVideoPreviewArea()
+      isRunning = true
+    }
   }
   
   func establishVideoPreviewArea() {
     self.preview = AVCaptureVideoPreviewLayer(session: self.camera?.session)
-    self.preview?.videoGravity = AVLayerVideoGravityResizeAspectFill
+    self.preview?.videoGravity = AVLayerVideoGravityResizeAspectFill  
     self.preview?.frame = self.cameraPreview.bounds
     self.preview?.cornerRadius = 0
-    self.cameraPreview.layer.addSublayer(self.preview!)    
+    self.cameraPreview.layer.addSublayer(self.preview!)
 
+
+    
   }
+  
+  override func viewWillTransitionToSize(size: CGSize,
+                                         withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    
+    coordinator.animateAlongsideTransition({ (UIViewControllerTransitionCoordinatorContext) -> Void in
+      
+      let orient = UIApplication.sharedApplication().statusBarOrientation
+      
+      switch orient {
+      case .Portrait:
+        print("Portrait")
+      // Do something
+      default:
+        print("Anything But Portrait")
+        // Do something else
+      }
+      
+      }, completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in
+        print("rotation completed")
+    })
+    
+    super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+		}
+  
 
   // MARK: Button Actions
   @IBAction func captureFrame(sender: AnyObject) {
     if self.status == .Preview {
-        self.cameraStatus.text = "Capturing Photo"
-        UIView.animateWithDuration(0.225, animations: { () -> Void in
-          self.cameraPreview.alpha = 0.0
-          self.cameraStatus.alpha = 1.0
-        })
-        
-        self.camera?.captureStillImage({ (image) -> Void in
-            if image != nil {
-              self.cameraStill.image = image
-              self.status = .Preview
-            } else {
-                self.cameraStatus.text = "Uh oh! Something went wrong. Try it again."
-                self.status = .Error
-            }
-        })
+      self.isCameraTaken = true
+      UIView.animateWithDuration(0.225, animations: { () -> Void in
+        self.cameraPreview.alpha = 0.0
+      })
       
-    } else if self.status == .Still || self.status == .Error {
-        UIView.animateWithDuration(0.225, animations: { () -> Void in
-          self.cameraStill.alpha = 0.0
-          self.cameraStatus.alpha = 0.0
-          self.cameraPreview.alpha = 1.0
-        }, completion: { (done) -> Void in
-            self.cameraStill.image = nil;
-            self.status = .Preview
-        })
+      self.camera?.captureStillImage({ (image) -> Void in
+        if image != nil {
+          self.cameraStill.image = image
+          self.status = .Preview
+          
+          let showInforVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ShowInfoViewController") as! ShowInfoViewController
+          showInforVC.checkImage = image
+          self.presentViewController(showInforVC, animated: true, completion: {
+            self.camera?.stopCamera()
+          })
+          
+        } else {
+          self.status = .Error
+        }
+      })
     }
   }
 }
@@ -110,20 +147,31 @@ extension CameraViewController: CameraDelegate {
   
   func camera(camera: Camera, didShowFaceDetect face: AVMetadataFaceObject) {
     let adjusted = self.preview?.transformedMetadataObjectForMetadataObject(face)
-    dispatch_async(dispatch_get_main_queue()) { 
-      self.faceView?.frame = (adjusted?.bounds)!
+    dispatch_async(dispatch_get_main_queue()) {
+      // filter
+      dispatch_async(dispatch_get_main_queue(), {
+        if let adjusted = adjusted {
+          self.faceView?.frame = adjusted.bounds
+        }
+        
+      })
       
-      // remove faceView
-      let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-      dispatch_after(delayTime, dispatch_get_main_queue()) {
+      let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
+      dispatch_after(delayTime3, dispatch_get_main_queue()) {
         self.faceView?.frame = CGRect.zero
       }
-    }
-    
-    
-  }
-  
 
+      if self.isCameraTaken == false {
+        self.isCameraTaken = true
+        let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(0.75 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime3, dispatch_get_main_queue()) {
+          self.captureFrame(UIButton())
+        }
+        
+      }
+      
+    }
+  }  
 }
 
 
@@ -131,6 +179,22 @@ extension CameraViewController: CameraDelegate {
 extension CameraViewController {
   private func initializeCamera() {
     self.camera = Camera(sender: self)
+  }
+  
+  func videoOrientationFromCurrentDeviceOrientation() -> AVCaptureVideoOrientation {
+    switch UIApplication.sharedApplication().statusBarOrientation {
+    case .Portrait:
+      return AVCaptureVideoOrientation.Portrait
+    case .LandscapeLeft:
+      return AVCaptureVideoOrientation.LandscapeLeft
+    case .LandscapeRight:
+      return AVCaptureVideoOrientation.LandscapeRight
+    case .PortraitUpsideDown:
+      return AVCaptureVideoOrientation.PortraitUpsideDown
+    default:
+      // Can it happens?
+      return AVCaptureVideoOrientation.Portrait
+    }
   }
 }
 

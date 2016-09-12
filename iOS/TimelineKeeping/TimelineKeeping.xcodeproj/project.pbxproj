@@ -10,7 +10,6 @@
 		03B7F876A83BA3B95EA40B36 /* Pods_TimelineKeeping.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9DC619DEEFDE423655AD2C4 /* Pods_TimelineKeeping.framework */; };
 		0EA94BBEAA631DB13A0E5554 /* Pods_TimelineKeepingUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D6D7EE6F15EBBB77D99E71 /* Pods_TimelineKeepingUITests.framework */; };
 		A61A805C1D77E2900082E80F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61A805B1D77E2900082E80F /* AppDelegate.swift */; };
-		A61A805E1D77E2900082E80F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61A805D1D77E2900082E80F /* ViewController.swift */; };
 		A61A80611D77E2900082E80F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A61A805F1D77E2900082E80F /* Main.storyboard */; };
 		A61A80631D77E2900082E80F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A61A80621D77E2900082E80F /* Assets.xcassets */; };
 		A61A80661D77E2900082E80F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A61A80641D77E2900082E80F /* LaunchScreen.storyboard */; };
@@ -18,6 +17,8 @@
 		A61A807C1D77E2900082E80F /* TimelineKeepingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61A807B1D77E2900082E80F /* TimelineKeepingUITests.swift */; };
 		A6A765B71D85728900A79643 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A765B61D85728900A79643 /* Camera.swift */; };
 		A6A765B91D85728D00A79643 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A765B81D85728D00A79643 /* CameraViewController.swift */; };
+		A6A765BB1D85D65000A79643 /* ShowInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A765BA1D85D65000A79643 /* ShowInfoViewController.swift */; };
+		A6A765BD1D85D7C900A79643 /* ReminderTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A765BC1D85D7C900A79643 /* ReminderTableCell.swift */; };
 		DD7D4056BFEBD683FD399A3F /* Pods_TimelineKeepingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7656841AAF0CCE1CD3524A66 /* Pods_TimelineKeepingTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -43,7 +44,6 @@
 		7656841AAF0CCE1CD3524A66 /* Pods_TimelineKeepingTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TimelineKeepingTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A61A80581D77E2900082E80F /* TimelineKeeping.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimelineKeeping.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A61A805B1D77E2900082E80F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A61A805D1D77E2900082E80F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A61A80601D77E2900082E80F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A61A80621D77E2900082E80F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A61A80651D77E2900082E80F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -56,6 +56,8 @@
 		A61A807D1D77E2900082E80F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A6A765B61D85728900A79643 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		A6A765B81D85728D00A79643 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		A6A765BA1D85D65000A79643 /* ShowInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowInfoViewController.swift; sourceTree = "<group>"; };
+		A6A765BC1D85D7C900A79643 /* ReminderTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderTableCell.swift; sourceTree = "<group>"; };
 		A7698FC94D4EB56B275C7A23 /* Pods-TimelineKeeping.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TimelineKeeping.release.xcconfig"; path = "Pods/Target Support Files/Pods-TimelineKeeping/Pods-TimelineKeeping.release.xcconfig"; sourceTree = "<group>"; };
 		B306A19F1029B41CDBAD0F9C /* Pods-TimelineKeepingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TimelineKeepingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TimelineKeepingTests/Pods-TimelineKeepingTests.release.xcconfig"; sourceTree = "<group>"; };
 		B9DC619DEEFDE423655AD2C4 /* Pods_TimelineKeeping.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TimelineKeeping.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -186,7 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				A6A765B81D85728D00A79643 /* CameraViewController.swift */,
-				A61A805D1D77E2900082E80F /* ViewController.swift */,
+				A6A765BA1D85D65000A79643 /* ShowInfoViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -194,6 +196,7 @@
 		A61A808D1D77E2C30082E80F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A6A765BC1D85D7C900A79643 /* ReminderTableCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -499,8 +502,9 @@
 			files = (
 				A6A765B91D85728D00A79643 /* CameraViewController.swift in Sources */,
 				A6A765B71D85728900A79643 /* Camera.swift in Sources */,
-				A61A805E1D77E2900082E80F /* ViewController.swift in Sources */,
+				A6A765BD1D85D7C900A79643 /* ReminderTableCell.swift in Sources */,
 				A61A805C1D77E2900082E80F /* AppDelegate.swift in Sources */,
+				A6A765BB1D85D65000A79643 /* ShowInfoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
