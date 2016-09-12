@@ -39,7 +39,7 @@ public class FaceServiceMCSImpl implements FaceServiceMCS {
      */
 
     @Override
-    public BaseResponse detech(InputStream imgStream) throws URISyntaxException, IOException {
+    public BaseResponse detect(InputStream imgStream) throws URISyntaxException, IOException {
         String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detech");
         String url = rootPath + urlAddition;
 
@@ -62,7 +62,7 @@ public class FaceServiceMCSImpl implements FaceServiceMCS {
 
 
     @Override
-    public BaseResponse detech(String urlImg) throws URISyntaxException, IOException {
+    public BaseResponse detect(String urlImg) throws URISyntaxException, IOException {
         String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detech");
         String url = rootPath + urlAddition;
 

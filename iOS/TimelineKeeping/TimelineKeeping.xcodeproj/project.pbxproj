@@ -15,6 +15,9 @@
 		A61A80661D77E2900082E80F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A61A80641D77E2900082E80F /* LaunchScreen.storyboard */; };
 		A61A80711D77E2900082E80F /* TimelineKeepingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61A80701D77E2900082E80F /* TimelineKeepingTests.swift */; };
 		A61A807C1D77E2900082E80F /* TimelineKeepingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61A807B1D77E2900082E80F /* TimelineKeepingUITests.swift */; };
+		A652E2231D8716F2003C6C86 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A652E2221D8716F2003C6C86 /* APIRequest.swift */; };
+		A652E2251D871700003C6C86 /* APIRequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A652E2241D871700003C6C86 /* APIRequestProtocol.swift */; };
+		A652E2271D871707003C6C86 /* APIDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A652E2261D871707003C6C86 /* APIDefine.swift */; };
 		A6A765B71D85728900A79643 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A765B61D85728900A79643 /* Camera.swift */; };
 		A6A765B91D85728D00A79643 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A765B81D85728D00A79643 /* CameraViewController.swift */; };
 		A6A765BB1D85D65000A79643 /* ShowInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A765BA1D85D65000A79643 /* ShowInfoViewController.swift */; };
@@ -54,6 +57,9 @@
 		A61A80771D77E2900082E80F /* TimelineKeepingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TimelineKeepingUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A61A807B1D77E2900082E80F /* TimelineKeepingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineKeepingUITests.swift; sourceTree = "<group>"; };
 		A61A807D1D77E2900082E80F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A652E2221D8716F2003C6C86 /* APIRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
+		A652E2241D871700003C6C86 /* APIRequestProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIRequestProtocol.swift; sourceTree = "<group>"; };
+		A652E2261D871707003C6C86 /* APIDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIDefine.swift; sourceTree = "<group>"; };
 		A6A765B61D85728900A79643 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		A6A765B81D85728D00A79643 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		A6A765BA1D85D65000A79643 /* ShowInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowInfoViewController.swift; sourceTree = "<group>"; };
@@ -133,6 +139,7 @@
 				A61A808E1D77E2CC0082E80F /* Model */,
 				A61A808D1D77E2C30082E80F /* View */,
 				A61A808C1D77E2BE0082E80F /* Controller */,
+				A652E2201D8716D3003C6C86 /* Service */,
 				A61A808A1D77E2A50082E80F /* Storyboard */,
 				A61A80891D77E2990082E80F /* AppDelegate */,
 				A61A80621D77E2900082E80F /* Assets.xcassets */,
@@ -207,6 +214,24 @@
 				A6A765B61D85728900A79643 /* Camera.swift */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		A652E2201D8716D3003C6C86 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				A652E2211D8716E1003C6C86 /* Network */,
+			);
+			name = Service;
+			sourceTree = "<group>";
+		};
+		A652E2211D8716E1003C6C86 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				A652E2261D871707003C6C86 /* APIDefine.swift */,
+				A652E2241D871700003C6C86 /* APIRequestProtocol.swift */,
+				A652E2221D8716F2003C6C86 /* APIRequest.swift */,
+			);
+			name = Network;
 			sourceTree = "<group>";
 		};
 		E8EC83DB7136E33B230E819B /* Pods */ = {
@@ -504,7 +529,10 @@
 				A6A765B71D85728900A79643 /* Camera.swift in Sources */,
 				A6A765BD1D85D7C900A79643 /* ReminderTableCell.swift in Sources */,
 				A61A805C1D77E2900082E80F /* AppDelegate.swift in Sources */,
+				A652E2251D871700003C6C86 /* APIRequestProtocol.swift in Sources */,
+				A652E2231D8716F2003C6C86 /* APIRequest.swift in Sources */,
 				A6A765BB1D85D65000A79643 /* ShowInfoViewController.swift in Sources */,
+				A652E2271D871707003C6C86 /* APIDefine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

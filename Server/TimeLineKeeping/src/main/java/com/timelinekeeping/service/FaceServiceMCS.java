@@ -13,9 +13,9 @@ import java.util.List;
  */
 public interface FaceServiceMCS {
 
-    public BaseResponse detech(InputStream imgStream) throws URISyntaxException, IOException;
+    public BaseResponse detect(InputStream imgStream) throws URISyntaxException, IOException;
 
-    public BaseResponse detech(String url) throws URISyntaxException, IOException;
+    public BaseResponse detect(String url) throws URISyntaxException, IOException;
 
     public BaseResponse identify(String groupId, List<String> faceIds) throws URISyntaxException, IOException;
 }
