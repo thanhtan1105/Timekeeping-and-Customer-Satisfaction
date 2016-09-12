@@ -42,7 +42,7 @@ public class PersonGroupServiceMCSImpl implements PersonGroupsServiceMCS {
         String jsonEntity = JsonUtil.toJson(entity);
 
 
-        return new HTTPClientUtil().toPut(urlString, new StringEntity(jsonEntity, StandardCharsets.UTF_8));
+        return HTTPClientUtil.getInstanceFace().toPut(urlString, new StringEntity(jsonEntity, StandardCharsets.UTF_8));
     }
 
     public BaseResponse listAll(int start, int top) throws URISyntaxException, IOException {
@@ -50,14 +50,14 @@ public class PersonGroupServiceMCSImpl implements PersonGroupsServiceMCS {
         URIBuilder builder = new URIBuilder(urlString)
                 .addParameter("start", String.valueOf(start))
                 .addParameter("top", String.valueOf(top));
-        return new HTTPClientUtil().toGet(builder.build(), JsonUtil.LIST_PARSER, PersonGroup.class);
+        return HTTPClientUtil.getInstanceFace().toGet(builder.build(), JsonUtil.LIST_PARSER, PersonGroup.class);
     }
 
     public BaseResponse trainGroup(String personGroupId) throws URISyntaxException, IOException {
         String urlString = rootPath;
         String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.person.addition");
         String url = String.format("%s/%s/%s", urlString, personGroupId, urlAddition);
-        return new HTTPClientUtil().toPost(url);
+        return HTTPClientUtil.getInstanceFace().toPost(url);
     }
 
     public BaseResponse trainPersonGroupStatus(String personGroupId) throws URISyntaxException, IOException {
@@ -65,6 +65,6 @@ public class PersonGroupServiceMCSImpl implements PersonGroupsServiceMCS {
         String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.status.addition");
         String url = String.format("%s/%s/%s", urlString, personGroupId, urlAddition);
 
-        return new HTTPClientUtil().toGet(url, JsonUtil.TIME_PARSER, PersonGroupTrainingStatus.class);
+        return HTTPClientUtil.getInstanceFace().toGet(url, JsonUtil.TIME_PARSER, PersonGroupTrainingStatus.class);
     }
 }

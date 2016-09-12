@@ -1,5 +1,6 @@
 package com.timelinekeeping.api;
 
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.service.FaceServiceMCS;
 import com.timelinekeeping.util.JsonUtil;
@@ -28,6 +29,7 @@ public class FaceController {
     @ResponseBody
     public BaseResponse detect(@RequestParam("url") String urlImg) {
         try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response = faceService.detech(urlImg);
             logger.info("RESPONSE: " + JsonUtil.toJson(response));
             return response;
@@ -35,6 +37,8 @@ public class FaceController {
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
+        }finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 
@@ -42,6 +46,7 @@ public class FaceController {
     @ResponseBody
     public BaseResponse detectimg(@RequestParam("img") MultipartFile img) {
         try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + this.getClass().getEnclosingMethod().getName());
             BaseResponse response = null;
             if (UtilApps.isImageFile(img.getInputStream())) {
                     response = faceService.detech(img.getInputStream());
@@ -56,6 +61,8 @@ public class FaceController {
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
+        }finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 

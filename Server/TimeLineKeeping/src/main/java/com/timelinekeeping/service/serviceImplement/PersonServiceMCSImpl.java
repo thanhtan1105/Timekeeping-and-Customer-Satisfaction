@@ -2,6 +2,7 @@ package com.timelinekeeping.service.serviceImplement;
 
 import com.sun.xml.internal.bind.api.impl.NameConverter;
 import com.timelinekeeping._config.AppConfigKeys;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.service.BaseService;
 import com.timelinekeeping.service.PersonServiceMCS;
@@ -62,7 +63,7 @@ public class PersonServiceMCSImpl extends BaseService implements PersonServiceMC
         entity.put("userData", description);
         String jsonEntity = JsonUtil.toJson(entity);
 
-        return new HTTPClientUtil().toPost(url, new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.MAP_PARSER, String.class);
+        return HTTPClientUtil.getInstanceFace().toPost(url, new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.MAP_PARSER, String.class);
     }
 
     /**
@@ -100,7 +101,7 @@ public class PersonServiceMCSImpl extends BaseService implements PersonServiceMC
         /** Class return  Map<String,String>**/
 
 
-        return new HTTPClientUtil().toPost(url, new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.MAP_PARSER, String.class);
+        return HTTPClientUtil.getInstanceFace().toPost(url, new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.MAP_PARSER, String.class);
     }
 
     @Override
@@ -119,7 +120,7 @@ public class PersonServiceMCSImpl extends BaseService implements PersonServiceMC
         /** Class return **/
 
 
-        return new HTTPClientUtil().toPostOct(url, new ByteArrayEntity(byteImg), JsonUtil.MAP_PARSER, String.class);
+        return HTTPClientUtil.getInstanceFace().toPostOct(url, new ByteArrayEntity(byteImg), JsonUtil.MAP_PARSER, String.class);
     }
 
 

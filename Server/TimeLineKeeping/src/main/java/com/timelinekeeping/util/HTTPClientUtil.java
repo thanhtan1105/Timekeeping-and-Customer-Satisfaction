@@ -1,6 +1,7 @@
 package com.timelinekeeping.util;
 
 import com.timelinekeeping._config.AppConfigKeys;
+import com.timelinekeeping.constant.EHTTPClient;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.model.ResponseErrorWrap;
@@ -28,7 +29,12 @@ public class HTTPClientUtil {
 
     private Logger logger = LogManager.getLogger(HTTPClientUtil.class);
     /** key */
-    private String key = AppConfigKeys.getInstance().getApiPropertyValue("ocp.apim.subscription.key");
+    private String key;
+    private String keyFace = AppConfigKeys.getInstance().getApiPropertyValue("ocp.apim.subscription.key");
+    private String keyEmotion = AppConfigKeys.getInstance().getApiPropertyValue("ocp.apim.subscription.key.emotion");
+
+    private static HTTPClientUtil clientUtil;
+
 
     /** HTTP Standstand */
     private HttpRequestBase request;
@@ -39,6 +45,47 @@ public class HTTPClientUtil {
     /*** class return*/
     private Class<?> classReturn;
 
+    private HTTPClientUtil(){
+
+    }
+
+    public static HTTPClientUtil getInstance(int keyType) {
+        if (clientUtil == null) {
+            clientUtil = new HTTPClientUtil();
+        }
+        switch (keyType) {
+            case IContanst.HTTP_CLIENT_KEY_FACE:
+                clientUtil.setKeyFace();
+                break;
+            case IContanst.HTTP_CLIENT_KEY_EMOTION:
+                clientUtil.setKeyEmotion();
+                break;
+        }
+        return clientUtil;
+    }
+
+    public static HTTPClientUtil getInstanceFace() {
+        if (clientUtil == null) {
+            clientUtil = new HTTPClientUtil();
+        }
+        clientUtil.setKeyFace();
+        return clientUtil;
+    }
+    public static HTTPClientUtil getInstanceEmotion() {
+        if (clientUtil == null) {
+            clientUtil = new HTTPClientUtil();
+        }
+        clientUtil.setKeyEmotion();
+        return clientUtil;
+    }
+
+    public void setKeyFace(){
+        key = keyFace;
+    }
+
+    public void setKeyEmotion(){
+        key = keyEmotion;
+    }
 
     public BaseResponse toGet(URI uri, Class<?> classReturn) throws IOException {
         return toGet(uri, JsonUtil.NORMAl_PARSER, classReturn);
@@ -150,6 +197,8 @@ public class HTTPClientUtil {
                 responseResult.setMessage(dataResponse);
             }
         }
+
+        logger.info("RESPONSE: " + JsonUtil.toJson(responseResult));
 
         return responseResult;
     }

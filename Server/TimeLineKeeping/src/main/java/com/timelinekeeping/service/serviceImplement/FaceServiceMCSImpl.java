@@ -57,7 +57,7 @@ public class FaceServiceMCSImpl implements FaceServiceMCS {
         /** Class return **/
 
 
-        return new HTTPClientUtil().toPostOct(builder.build(), new ByteArrayEntity(bytes), JsonUtil.LIST_PARSER, FaceDetectRespone.class);
+        return HTTPClientUtil.getInstanceFace().toPostOct(builder.build(), new ByteArrayEntity(bytes), JsonUtil.LIST_PARSER, FaceDetectRespone.class);
     }
 
 
@@ -77,7 +77,7 @@ public class FaceServiceMCSImpl implements FaceServiceMCS {
         mapEntity.put("url", urlImg);
         String jsonEntity = JsonUtil.toJson(mapEntity);
 
-        return new HTTPClientUtil().toPost(builder.build(), new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.LIST_PARSER, FaceDetectRespone.class);
+        return HTTPClientUtil.getInstanceFace().toPost(builder.build(), new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.LIST_PARSER, FaceDetectRespone.class);
     }
 
 
@@ -113,7 +113,7 @@ public class FaceServiceMCSImpl implements FaceServiceMCS {
         /** Class return @{{@link FaceIdentifyConfidenceRespone}}**/
 
 
-        return new HTTPClientUtil().toPost(url, new StringEntity(jsonEntity, StandardCharsets.UTF_8),
+        return HTTPClientUtil.getInstanceFace().toPost(url, new StringEntity(jsonEntity, StandardCharsets.UTF_8),
                 JsonUtil.LIST_PARSER, FaceIdentifyConfidenceRespone.class);
     }
 }
