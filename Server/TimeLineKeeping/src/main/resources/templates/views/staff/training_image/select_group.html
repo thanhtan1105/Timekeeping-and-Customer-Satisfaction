@@ -49,14 +49,7 @@
                                     <th>Group Name</th>
                                     <th style="width: 10%">Select</th>
                                 </tr>
-                                <tr>
-                                    <td style="text-align: left">Đào Tạo</td>
-                                    <td><input type="radio" name="r3" class="flat-red"/></td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: left">Nhân Sự</td>
-                                    <td><input type="radio" name="r3" class="flat-red"/></td>
-                                </tr>
+                                <tbody id="table-body-group"></tbody>
                             </table>
                         </div>
                     </div>
@@ -73,6 +66,9 @@
         </div>
     </section>
     <!-- /.content -->
+</div>
+<div layout:fragment="js">
+    <script th:src="@{/js/staff/training_image/select_group.js}"></script>
 </div>
 </body>
 </html>
