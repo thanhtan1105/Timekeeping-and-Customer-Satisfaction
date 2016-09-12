@@ -1,6 +1,7 @@
 package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping._config.AppConfigKeys;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.model.FaceDetectRespone;
 import com.timelinekeeping.model.FaceIdentifyConfidenceRespone;
@@ -40,44 +41,54 @@ public class FaceServiceMCSImpl implements FaceServiceMCS {
 
     @Override
     public BaseResponse detech(InputStream imgStream) throws URISyntaxException, IOException {
-        String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detech");
-        String url = rootPath + urlAddition;
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detech");
+            String url = rootPath + urlAddition;
 
-        /*** url*/
-        URIBuilder builder = new URIBuilder(url)
-                .addParameter("returnFaceId", "true")
-                .addParameter("returnFaceLandmarks", "false")
-                .addParameter("returnFaceAttributes", "age,gender");
+            /*** url*/
+            URIBuilder builder = new URIBuilder(url)
+                    .addParameter("returnFaceId", "true")
+                    .addParameter("returnFaceLandmarks", "false")
+                    .addParameter("returnFaceAttributes", "age,gender");
 
-        /** entity*/
-        byte[] bytes = IOUtils.toByteArray(imgStream);
+            /** entity*/
+            byte[] bytes = IOUtils.toByteArray(imgStream);
 
-        /** type Response JSON List*/
+            /** type Response JSON List*/
 
-        /** Class return **/
+            /** Class return **/
 
 
-        return HTTPClientUtil.getInstanceFace().toPostOct(builder.build(), new ByteArrayEntity(bytes), JsonUtil.LIST_PARSER, FaceDetectRespone.class);
+            return HTTPClientUtil.getInstanceFace().toPostOct(builder.build(), new ByteArrayEntity(bytes), JsonUtil.LIST_PARSER, FaceDetectRespone.class);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
     }
 
 
     @Override
     public BaseResponse detech(String urlImg) throws URISyntaxException, IOException {
-        String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detech");
-        String url = rootPath + urlAddition;
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detech");
+            String url = rootPath + urlAddition;
 
-        /*** url*/
-        URIBuilder builder = new URIBuilder(url)
-                .addParameter("returnFaceId", "true")
-                .addParameter("returnFaceLandmarks", "false")
-                .addParameter("returnFaceAttributes", "age,gender");
+            /*** url*/
+            URIBuilder builder = new URIBuilder(url)
+                    .addParameter("returnFaceId", "true")
+                    .addParameter("returnFaceLandmarks", "false")
+                    .addParameter("returnFaceAttributes", "age,gender");
 
-        /** entity*/
-        Map<String, String> mapEntity = new HashMap<>();
-        mapEntity.put("url", urlImg);
-        String jsonEntity = JsonUtil.toJson(mapEntity);
+            /** entity*/
+            Map<String, String> mapEntity = new HashMap<>();
+            mapEntity.put("url", urlImg);
+            String jsonEntity = JsonUtil.toJson(mapEntity);
 
-        return HTTPClientUtil.getInstanceFace().toPost(builder.build(), new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.LIST_PARSER, FaceDetectRespone.class);
+            return HTTPClientUtil.getInstanceFace().toPost(builder.build(), new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.LIST_PARSER, FaceDetectRespone.class);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
     }
 
 
@@ -85,7 +96,7 @@ public class FaceServiceMCSImpl implements FaceServiceMCS {
      * identify face in group person has training
      *
      * @param groupId group of  person
-     * @param faceIds  list face need to identify
+     * @param faceIds list face need to identify
      * @return @{@link BaseResponse}
      * @apiNote https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395239
      * <p>
@@ -99,21 +110,26 @@ public class FaceServiceMCSImpl implements FaceServiceMCS {
      */
     @Override
     public BaseResponse identify(String groupId, List<String> faceIds) throws URISyntaxException, IOException {
-        String urlIdentity = AppConfigKeys.getInstance().getApiPropertyValue("api.face.identity");
-        String url = rootPath + urlIdentity;
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            String urlIdentity = AppConfigKeys.getInstance().getApiPropertyValue("api.face.identity");
+            String url = rootPath + urlIdentity;
 
-        /*** url -> @{url}*/
+            /*** url -> @{url}*/
 
-        /** entity*/
-        FaceIdentifyRequest identityRequest = new FaceIdentifyRequest(groupId, faceIds);
-        String jsonEntity = JsonUtil.toJson(identityRequest);
+            /** entity*/
+            FaceIdentifyRequest identityRequest = new FaceIdentifyRequest(groupId, faceIds);
+            String jsonEntity = JsonUtil.toJson(identityRequest);
 
-        /** type Response @{{@link JsonUtil.LIST_PARSER}}*/
+            /** type Response @{{@link JsonUtil.LIST_PARSER}}*/
 
-        /** Class return @{{@link FaceIdentifyConfidenceRespone}}**/
+            /** Class return @{{@link FaceIdentifyConfidenceRespone}}**/
 
 
-        return HTTPClientUtil.getInstanceFace().toPost(url, new StringEntity(jsonEntity, StandardCharsets.UTF_8),
-                JsonUtil.LIST_PARSER, FaceIdentifyConfidenceRespone.class);
+            return HTTPClientUtil.getInstanceFace().toPost(url, new StringEntity(jsonEntity, StandardCharsets.UTF_8),
+                    JsonUtil.LIST_PARSER, FaceIdentifyConfidenceRespone.class);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
     }
 }

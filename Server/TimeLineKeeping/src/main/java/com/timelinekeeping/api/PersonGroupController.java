@@ -1,5 +1,6 @@
 package com.timelinekeeping.api;
 
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.controller.PersonGroupControllerWeb;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.service.PersonGroupsServiceMCS;
@@ -28,16 +29,19 @@ public class PersonGroupController {
                                @RequestParam("groupName") String groupName,
                                @RequestParam("descriptions") String descriptions) {
         try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + this.getClass().getEnclosingMethod().getName());
             if (StringUtils.isEmpty(groupName)) {
                 groupName = groupId;
             }
-            BaseResponse response = groupService.create(groupId,groupName, descriptions);
+            BaseResponse response = groupService.create(groupId, groupName, descriptions);
             logger.info("RESPONSE: " + JsonUtil.toJson(response));
             return response;
 
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 
@@ -46,10 +50,13 @@ public class PersonGroupController {
     public BaseResponse listAll(@RequestParam("start") int start,
                                 @RequestParam("top") int top) {
         try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + this.getClass().getEnclosingMethod().getName());
             return groupService.listAll(start, top);
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 
@@ -57,10 +64,13 @@ public class PersonGroupController {
     @ResponseBody
     public BaseResponse trainPersonGroup(@RequestParam("person_groups_id") String persongroupid) {
         try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + this.getClass().getEnclosingMethod().getName());
             return groupService.trainGroup(persongroupid);
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 
@@ -68,10 +78,13 @@ public class PersonGroupController {
     @ResponseBody
     public BaseResponse trainPersonGroupStatus(@RequestParam("person_groups_id") String persongroupid) {
         try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + this.getClass().getEnclosingMethod().getName());
             return groupService.trainPersonGroupStatus(persongroupid);
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 }

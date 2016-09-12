@@ -3,6 +3,7 @@ package com.timelinekeeping.api;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.service.EmotionServiceMCS;
+import com.timelinekeeping.util.UtilApps;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,14 @@ public class EmotionController {
     public BaseResponse recognize(@RequestParam("img") MultipartFile imgFile) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            BaseResponse response = emotionServiceMCS.recognize(imgFile.getInputStream());
+            BaseResponse response;
+            if (UtilApps.isImageFile(imgFile.getInputStream())) {
+                response = emotionServiceMCS.recognize(imgFile.getInputStream());
+            }else {
+                response = new BaseResponse();
+                response.setSuccess(false);
+                response.setMessage("File not image format.");
+            }
             return response;
         } catch (Exception e) {
             logger.error(e);

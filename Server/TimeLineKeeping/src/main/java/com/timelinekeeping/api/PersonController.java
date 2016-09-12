@@ -1,5 +1,6 @@
 package com.timelinekeeping.api;
 
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.service.FaceServiceMCS;
 import com.timelinekeeping.service.PersonServiceMCS;
@@ -32,16 +33,14 @@ public class PersonController {
                                @RequestParam("name") String name,
                                @RequestParam("description") String description) {
         try {
-
-
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + this.getClass().getEnclosingMethod().getName());
             BaseResponse response = personService.createPerson(groupId, name, description);
-
-            logger.info("RESPONSE: " +this.getClass().toString() +": " + JsonUtil.toJson(response));
             return response;
-
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 
@@ -52,6 +51,7 @@ public class PersonController {
                                @RequestParam("personId") String personId,
                                @RequestParam("url") String urlImg) {
         try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + this.getClass().getEnclosingMethod().getName());
             BaseResponse response = personService.addFaceUrl(groupId, personId, urlImg);
             logger.info("RESPONSE: " + JsonUtil.toJson(response));
             return response;
@@ -59,6 +59,8 @@ public class PersonController {
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 
@@ -68,6 +70,7 @@ public class PersonController {
                                   @RequestParam("personId") String personId,
                                   @RequestParam("img") MultipartFile img) {
         try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + this.getClass().getEnclosingMethod().getName());
             BaseResponse response = null;
             if (UtilApps.isImageFile(img.getInputStream())) {
                 response = personService.addFaceImg(groupId, personId, img.getInputStream());
@@ -82,6 +85,8 @@ public class PersonController {
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 

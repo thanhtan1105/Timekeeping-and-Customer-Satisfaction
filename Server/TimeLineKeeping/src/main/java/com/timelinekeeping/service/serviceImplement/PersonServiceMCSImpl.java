@@ -11,6 +11,8 @@ import com.timelinekeeping.util.JsonUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,9 @@ import java.util.Map;
 @Service
 @Component
 public class PersonServiceMCSImpl extends BaseService implements PersonServiceMCS {
+
+    private Logger logger = LogManager.getLogger(PersonServiceMCSImpl.class);
+
 
     /**
      * root path
@@ -53,17 +58,22 @@ public class PersonServiceMCSImpl extends BaseService implements PersonServiceMC
      */
     @Override
     public BaseResponse createPerson(String groupId, String name, String description) throws URISyntaxException, IOException {
-        String urlChild = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
-        String url = rootPath + String.format("/%s", groupId) + urlChild;
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            String urlChild = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
+            String url = rootPath + String.format("/%s", groupId) + urlChild;
 
-        /*** url*/
-        /** entity*/
-        Map<String, String> entity = new HashMap<String, String>();
-        entity.put("name", name);
-        entity.put("userData", description);
-        String jsonEntity = JsonUtil.toJson(entity);
+            /*** url*/
+            /** entity*/
+            Map<String, String> entity = new HashMap<String, String>();
+            entity.put("name", name);
+            entity.put("userData", description);
+            String jsonEntity = JsonUtil.toJson(entity);
 
-        return HTTPClientUtil.getInstanceFace().toPost(url, new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.MAP_PARSER, String.class);
+            return HTTPClientUtil.getInstanceFace().toPost(url, new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.MAP_PARSER, String.class);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
     }
 
     /**
@@ -85,42 +95,52 @@ public class PersonServiceMCSImpl extends BaseService implements PersonServiceMC
      */
     @Override
     public BaseResponse addFaceUrl(String persongroupId, String personId, String urlImg) throws URISyntaxException, IOException {
-        String urlPerson = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
-        String urlPersistence = AppConfigKeys.getInstance().getApiPropertyValue("api.person.add.face.addition");
-        String url = rootPath + String.format("/%s", persongroupId) + urlPerson + String.format("/%s", personId) + urlPersistence;
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            String urlPerson = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
+            String urlPersistence = AppConfigKeys.getInstance().getApiPropertyValue("api.person.add.face.addition");
+            String url = rootPath + String.format("/%s", persongroupId) + urlPerson + String.format("/%s", personId) + urlPersistence;
 
-        /*** url -> {url}*/
+            /*** url -> {url}*/
 
-        /** entity*/
-        Map<String, String> mapEntity = new HashMap<>();
-        mapEntity.put("url", urlImg);
-        String jsonEntity = JsonUtil.toJson(mapEntity);
+            /** entity*/
+            Map<String, String> mapEntity = new HashMap<>();
+            mapEntity.put("url", urlImg);
+            String jsonEntity = JsonUtil.toJson(mapEntity);
 
-        /** type Response JSON Map <String, String>*/
+            /** type Response JSON Map <String, String>*/
 
-        /** Class return  Map<String,String>**/
+            /** Class return  Map<String,String>**/
 
 
-        return HTTPClientUtil.getInstanceFace().toPost(url, new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.MAP_PARSER, String.class);
+            return HTTPClientUtil.getInstanceFace().toPost(url, new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.MAP_PARSER, String.class);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
     }
 
     @Override
     public BaseResponse addFaceImg(String persongroupId, String personId, InputStream imgStream) throws URISyntaxException, IOException {
-        String urlPerson = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
-        String urlPersistence = AppConfigKeys.getInstance().getApiPropertyValue("api.person.add.face.addition");
-        String url = rootPath + String.format("/%s", persongroupId) + urlPerson + String.format("/%s", personId) + urlPersistence;
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            String urlPerson = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
+            String urlPersistence = AppConfigKeys.getInstance().getApiPropertyValue("api.person.add.face.addition");
+            String url = rootPath + String.format("/%s", persongroupId) + urlPerson + String.format("/%s", personId) + urlPersistence;
 
-        /*** url -> {url}*/
+            /*** url -> {url}*/
 
-        /** entity*/
-        byte[] byteImg = IOUtils.toByteArray(imgStream);
+            /** entity*/
+            byte[] byteImg = IOUtils.toByteArray(imgStream);
 
-        /** type Response JSON List*/
+            /** type Response JSON List*/
 
-        /** Class return **/
+            /** Class return **/
 
 
-        return HTTPClientUtil.getInstanceFace().toPostOct(url, new ByteArrayEntity(byteImg), JsonUtil.MAP_PARSER, String.class);
+            return HTTPClientUtil.getInstanceFace().toPostOct(url, new ByteArrayEntity(byteImg), JsonUtil.MAP_PARSER, String.class);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
     }
 
 
