@@ -24,44 +24,48 @@
         <!-- Your Page Content Here -->
         <font class="text-success" style="font-size: medium; font-style: oblique;">Step 2 of 4</font>
         <hr style="border-color: green; margin-top: 1px; margin-bottom: 15px; margin-right: 94%; border-width: 2px;"/>
-        <div class="box box-success">
-            <div class="box-header with-border">
-                <h3 class="box-title text-success">
-                    <i class="fa fa-group"></i> Select Person</h3>
-            </div>
-            <!-- /.box-header -->
-            <!-- form start -->
-            <form class="form-horizontal">
-                <div class="box-body">
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            <table class="table table-bordered">
-                                <tr>
-                                    <th>Person Name</th>
-                                    <th style="width: 10%">Select</th>
-                                </tr>
-                                <tbody id="table-body-group"></tbody>
-                            </table>
+        <!-- Form for select person -->
+        <form th:action="@{/persons/addfacetoperson}" method="post">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title text-success">
+                        <i class="fa fa-group"></i> Select Person</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form class="form-horizontal">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>Person Name</th>
+                                        <th style="width: 10%">Select</th>
+                                    </tr>
+                                    <tbody id="table-body-group"></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- /.box-body -->
-            </form>
-            <!-- /.form-horizontal -->
-        </div>
-        <!-- /.box -->
-        <div class="row">
-            <div class="col-sm-6"></div>
-            <div class="col-sm-6" style="text-align: right">
-                <button class="btn btn-success btn-flat" style="width: 15%">
-                    <i class="fa fa-chevron-left"></i> BACK
-                </button>
-                <button class="btn btn-success btn-flat" style="width: 15%">
-                    NEXT <i class="fa fa-chevron-right"></i>
-                </button>
+                    <!-- /.box-body -->
+                </form>
+                <!-- /.form-horizontal -->
             </div>
-        </div>
-        <input id="personGroupId" type="hidden" th:value="${personGroupId}">
+            <!-- /.box -->
+            <div class="row">
+                <div class="col-sm-6"></div>
+                <div class="col-sm-6" style="text-align: right">
+                    <button type="submit" class="btn btn-success btn-flat" style="width: 15%">
+                        <i class="fa fa-chevron-left"></i> BACK
+                    </button>
+                    <button class="btn btn-success btn-flat" style="width: 15%">
+                        NEXT <i class="fa fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <input id="personGroupId" type="hidden" name="personGroupId" th:value="${personGroupId}">
+        </form>
+        <!-- ./form select person -->
     </section>
     <!-- /.content -->
 </div>

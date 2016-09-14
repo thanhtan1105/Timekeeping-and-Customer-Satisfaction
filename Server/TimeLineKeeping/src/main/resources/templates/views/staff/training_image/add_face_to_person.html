@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout_staff">
+
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Training Image</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1 class="text-success">
+            <i class="glyphicon glyphicon-send"></i> Train Employee Images
+        </h1>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-laptop active"></i> Train Employee Images</li>
+        </ol>
+        <hr style="border-color: green; margin-top: 4px; margin-bottom: 5px;"/>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <font class="text-success" style="font-size: medium; font-style: oblique;">Step 3 of 4</font>
+        <hr style="border-color: green; margin-top: 1px; margin-bottom: 15px; margin-right: 94%; border-width: 2px;"/>
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title text-success">
+                    <i class="fa fa-group"></i> Add Face to Person</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form class="form-horizontal" method="post">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label class="col-sm-2" style="text-align: right">Total Added Faces:</label>
+
+                        <div class="col-sm-6">
+                            <font>1/7</font>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2" style="text-align: right">Face 1:</label>
+
+                        <div class="col-sm-4">
+                            <input id="file-face-image" type="file" name="file"/>
+                        </div>
+                        <div class="col-sm-6">
+                            <button type="button" class="btn btn-success btn-flat btn-add-face-to-person"
+                                    style="width: 15%">
+                                <i class="fa fa-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </form>
+            <!-- /.form-horizontal -->
+        </div>
+        <!-- /.box -->
+        <!-- Form for select group -->
+        <form th:action="@{/persons/trainimages}" method="post">
+            <div class="row">
+                <div class="col-sm-6"></div>
+                <div class="col-sm-6" style="text-align: right">
+                    <button class="btn btn-success btn-flat" style="width: 15%">
+                        <i class="fa fa-chevron-left"></i> BACK
+                    </button>
+                    <button type="submit" class="btn btn-success btn-flat" style="width: 15%">
+                        NEXT <i class="fa fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <input id="personGroupId" type="hidden" name="personGroupId" th:value="${personGroupId}">
+            <input id="personId" type="hidden" name="personId" th:value="${personId}">
+            <input type="hidden" name="personName" th:value="${personName}">
+        </form>
+    </section>
+    <!-- /.content -->
+</div>
+<div layout:fragment="js">
+    <script th:src="@{/js/staff/training_image/add_face_to_person.js}"></script>
+</div>
+</body>
+</html>
