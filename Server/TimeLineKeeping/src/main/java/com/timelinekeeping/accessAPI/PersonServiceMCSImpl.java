@@ -3,6 +3,7 @@ package com.timelinekeeping.accessAPI;
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.modelAPI.PersonInformation;
 import com.timelinekeeping.service.BaseService;
 import com.timelinekeeping.util.HTTPClientUtil;
 import com.timelinekeeping.util.JsonUtil;
@@ -73,6 +74,8 @@ public class PersonServiceMCSImpl extends BaseService {
         }
     }
 
+
+
     /**
      * add face into person by pe in MCS
      *
@@ -135,6 +138,48 @@ public class PersonServiceMCSImpl extends BaseService {
             return HTTPClientUtil.getInstanceFace().toPostOct(url, new ByteArrayEntity(byteImg), JsonUtil.MAP_PARSER, String.class);
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    /**
+     * list Person in Person Groups
+     *
+     * @param groupId     group to add person
+     * @return @{@link BaseResponse}
+     * @apiNote https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395241
+     * <p>
+     * url: https://api.projectoxford.ai/face/v1.0/persongroups/{personGroupId}/persons
+     * entity: (name, description)
+     * typeJsonReturn @{@link com.timelinekeeping.util.JsonUtil}
+     * return Class: @{@link com.fasterxml.jackson.core.type.TypeReference}
+     * <p>
+     * 9-11-2016
+     * @author hientq
+     */
+    public BaseResponse listPersonInGroup(String groupId) throws URISyntaxException, IOException {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            String urlChild = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
+            String url = rootPath + String.format("/%s", groupId) + urlChild;
+
+            /*** url*/
+            logger.info("-- url: " + url);
+            /** entity*/
+
+            return HTTPClientUtil.getInstanceFace().toGet(url, JsonUtil.LIST_PARSER, PersonInformation.class);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            PersonServiceMCSImpl personServiceMCS = new PersonServiceMCSImpl();
+            System.out.println(JsonUtil.toJson(personServiceMCS.listPersonInGroup("humanresource")));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

@@ -29,7 +29,7 @@ public class PersonController {
                                @RequestParam("name") String name,
                                @RequestParam("description") String description) {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + this.getClass().getEnclosingMethod().getName());
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response = personService.createPerson(groupId, name, description);
             return response;
         } catch (Exception e) {
@@ -47,7 +47,7 @@ public class PersonController {
                                @RequestParam("personId") String personId,
                                @RequestParam("url") String urlImg) {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + this.getClass().getEnclosingMethod().getName());
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response = personService.addFaceUrl(groupId, personId, urlImg);
             logger.info("RESPONSE: " + JsonUtil.toJson(response));
             return response;
@@ -66,10 +66,10 @@ public class PersonController {
                                   @RequestParam("personId") String personId,
                                   @RequestParam("img") MultipartFile img) {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + this.getClass().getEnclosingMethod().getName());
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response = null;
             if (UtilApps.isImageFile(img.getInputStream())) {
-//                response = personService.addFaceImg(groupId, personId, img.getInputStream());
+                response = personService.addFaceImg(groupId, personId, img.getInputStream());
                 logger.info("RESPONSE: " + JsonUtil.toJson(response));
             }else {
                 response = new BaseResponse();
@@ -78,6 +78,21 @@ public class PersonController {
             }
             return response;
 
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    @RequestMapping(value = {"/list_all_person"}, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse listAllPerson(@RequestParam("groupId") String groupId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            BaseResponse response = personService.listPersonInGroup(groupId);
+            return response;
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
