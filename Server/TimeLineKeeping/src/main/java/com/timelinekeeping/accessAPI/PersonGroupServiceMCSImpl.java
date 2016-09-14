@@ -1,6 +1,7 @@
 package com.timelinekeeping.accessAPI;
 
 import com.timelinekeeping._config.AppConfigKeys;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.modelAPI.PersonGroup;
 import com.timelinekeeping.modelAPI.PersonGroupTrainingStatus;
@@ -32,38 +33,57 @@ public class PersonGroupServiceMCSImpl {
 
     public BaseResponse create(String groupId, String groupName, String groupData) throws URISyntaxException, IOException {
 
-        String urlString = String.format("%s/%s", rootPath, groupId);
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            String urlString = String.format("%s/%s", rootPath, groupId);
 
-        /** entity*/
-        Map<String, String> entity = new HashMap<String, String>();
-        entity.put("name", groupName);
-        entity.put("userData", groupData);
-        String jsonEntity = JsonUtil.toJson(entity);
+            /** entity*/
+            Map<String, String> entity = new HashMap<String, String>();
+            entity.put("name", groupName);
+            entity.put("userData", groupData);
+            String jsonEntity = JsonUtil.toJson(entity);
 
 
-        return new HTTPClientUtil().toPut(urlString, new StringEntity(jsonEntity, StandardCharsets.UTF_8));
+            return HTTPClientUtil.getInstanceFace().toPut(urlString, new StringEntity(jsonEntity, StandardCharsets.UTF_8));
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
     }
 
     public BaseResponse listAll(int start, int top) throws URISyntaxException, IOException {
-        String urlString = rootPath;
-        URIBuilder builder = new URIBuilder(urlString)
-                .addParameter("start", String.valueOf(start))
-                .addParameter("top", String.valueOf(top));
-        return new HTTPClientUtil().toGet(builder.build(), JsonUtil.LIST_PARSER, PersonGroup.class);
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            String urlString = rootPath;
+            URIBuilder builder = new URIBuilder(urlString)
+                    .addParameter("start", String.valueOf(start))
+                    .addParameter("top", String.valueOf(top));
+            return HTTPClientUtil.getInstanceFace().toGet(builder.build(), JsonUtil.LIST_PARSER, PersonGroup.class);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
     }
 
     public BaseResponse trainGroup(String personGroupId) throws URISyntaxException, IOException {
-        String urlString = rootPath;
-        String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.person.addition");
-        String url = String.format("%s/%s/%s", urlString, personGroupId, urlAddition);
-        return new HTTPClientUtil().toPost(url);
+        try {
+            String urlString = rootPath;
+            String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.person.addition");
+            String url = String.format("%s/%s/%s", urlString, personGroupId, urlAddition);
+            return HTTPClientUtil.getInstanceFace().toPost(url);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
     }
 
     public BaseResponse trainPersonGroupStatus(String personGroupId) throws URISyntaxException, IOException {
-        String urlString = rootPath;
-        String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.status.addition");
-        String url = String.format("%s/%s/%s", urlString, personGroupId, urlAddition);
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            String urlString = rootPath;
+            String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.status.addition");
+            String url = String.format("%s/%s/%s", urlString, personGroupId, urlAddition);
 
-        return new HTTPClientUtil().toGet(url, JsonUtil.TIME_PARSER, PersonGroupTrainingStatus.class);
+            return HTTPClientUtil.getInstanceFace().toGet(url, JsonUtil.TIME_PARSER, PersonGroupTrainingStatus.class);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
     }
 }

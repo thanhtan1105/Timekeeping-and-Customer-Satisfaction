@@ -5,7 +5,7 @@ package com.timelinekeeping.modelAPI;
  */
 public class FaceDetectRespone {
     private String faceId;
-    private FaceDetectRectangle faceRectangle;
+    private RectangleImage faceRectangle;
     private FaceDetectAttribute faceAttributes;
 
     public FaceDetectRespone() {
@@ -19,11 +19,11 @@ public class FaceDetectRespone {
         this.faceId = faceId;
     }
 
-    public FaceDetectRectangle getFaceRectangle() {
+    public RectangleImage getFaceRectangle() {
         return faceRectangle;
     }
 
-    public void setFaceRectangle(FaceDetectRectangle faceRectangle) {
+    public void setFaceRectangle(RectangleImage faceRectangle) {
         this.faceRectangle = faceRectangle;
     }
 

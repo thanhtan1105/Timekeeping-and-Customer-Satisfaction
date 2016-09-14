@@ -2,6 +2,7 @@ package com.timelinekeeping.api;
 
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.modelAPI.FaceDetectRespone;
 import com.timelinekeeping.modelAPI.PersonGroup;
@@ -35,6 +36,7 @@ public class FaceController {
     @ResponseBody
     public BaseResponse detect(@RequestParam("url") String urlImg) {
         try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response = faceService.detect(urlImg);
             logger.info("RESPONSE: " + JsonUtil.toJson(response));
             return response;
@@ -42,6 +44,8 @@ public class FaceController {
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 
@@ -49,11 +53,11 @@ public class FaceController {
     @ResponseBody
     public BaseResponse detectimg(@RequestParam("img") MultipartFile img) {
         try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + this.getClass().getEnclosingMethod().getName());
             BaseResponse response = null;
             if (UtilApps.isImageFile(img.getInputStream())) {
-                    response = faceService.detect(img.getInputStream());
-                    logger.info("RESPONSE: " + JsonUtil.toJson(response));
-            }else {
+                response = faceService.detect(img.getInputStream());
+            } else {
                 response = new BaseResponse();
                 response.setSuccess(false);
                 response.setMessage("File not image format.");
@@ -63,21 +67,24 @@ public class FaceController {
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 
     @RequestMapping(value = {"/identify"}, method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse identify(@RequestParam("groupId") String groupId,
-                                 @RequestParam("faceId")List<String> faceIds) {
+                                 @RequestParam("faceId") List<String> faceIds) {
         try {
-            BaseResponse response = faceService.identify(groupId,faceIds);
-                logger.info("RESPONSE: " + JsonUtil.toJson(response));
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + this.getClass().getEnclosingMethod().getName());
+            BaseResponse response = faceService.identify(groupId, faceIds);
             return response;
-
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 
