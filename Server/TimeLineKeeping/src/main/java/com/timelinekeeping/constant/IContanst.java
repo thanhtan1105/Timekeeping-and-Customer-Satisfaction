@@ -7,5 +7,14 @@ public interface IContanst {
     String BEGIN_METHOD = "---begin---";
     String END_METHOD = "----end----";
 
+    String BEGIN_METHOD_SERVICE = "--- Begin Service : ";
+    String END_METHOD_SERVICE = "---- End Service ----";
+
+    String BEGIN_METHOD_CONTROLLER = "--- Begin Controller : ";
+    String END_METHOD_CONTROLLER = "---- End Controller ----";
+
     String API_COGN_MICROSOFT_PER_GROUP_FORMAT_TIME = "MM/DD/YYYY h:mm:ss a";
+
+    int HTTP_CLIENT_KEY_FACE = 0;
+    int HTTP_CLIENT_KEY_EMOTION = 1;
 }
