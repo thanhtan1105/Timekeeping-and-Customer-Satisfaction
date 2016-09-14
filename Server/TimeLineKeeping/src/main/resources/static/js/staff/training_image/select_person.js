@@ -3,30 +3,32 @@
  */
 
 $(document).ready(function () {
-    alert('Its Ok');
+    loadPersons();
 });
 
 
 function loadPersons() {
+    var personGroupId = $('#personGroupId').val();
     var formDataJson = {
-        'start': 1,
-        'top': 1000
+        'groupId': personGroupId
     };
     $.ajax({
         type: "GET",
-        url: "/api/persongroups/listAll",
+        url: "/api/person/list_all_person",
         data: formDataJson,
         success: function (response) {
             var $table_body_group = $('#table-body-group');
             var body_content = '',
-                personGroupId;
+                personId,
+                name;
             for (var i = 0; i < response.data.length; i++) {
-                personGroupId = response.data[i].personGroupId;
+                personId = response.data[i].personId;
+                name = response.data[i].name;
                 body_content += '<tr><td style="text-align: left">' +
-                    personGroupId +
+                    name +
                     '</td>' +
-                    '<td><input type="radio" name="personGroupId" class="flat-red" value="' +
-                    personGroupId +
+                    '<td><input type="radio" name="personId" class="flat-red" value="' +
+                    personId +
                     '"/></td></tr>';
             }
             $table_body_group.html(body_content);
