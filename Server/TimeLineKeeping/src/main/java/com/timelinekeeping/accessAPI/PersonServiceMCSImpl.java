@@ -1,10 +1,8 @@
-package com.timelinekeeping.service.serviceImplement;
+package com.timelinekeeping.accessAPI;
 
-import com.sun.xml.internal.bind.api.impl.NameConverter;
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.service.BaseService;
-import com.timelinekeeping.service.PersonServiceMCS;
 import com.timelinekeeping.util.HTTPClientUtil;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.commons.io.IOUtils;
@@ -25,7 +23,7 @@ import java.util.Map;
  */
 @Service
 @Component
-public class PersonServiceMCSImpl extends BaseService implements PersonServiceMCS {
+public class PersonServiceMCSImpl extends BaseService {
 
     /**
      * root path
@@ -50,7 +48,6 @@ public class PersonServiceMCSImpl extends BaseService implements PersonServiceMC
      * 9-11-2016
      * @author hientq
      */
-    @Override
     public BaseResponse createPerson(String groupId, String name, String description) throws URISyntaxException, IOException {
         String urlChild = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
         String url = rootPath + String.format("/%s", groupId) + urlChild;
@@ -82,7 +79,6 @@ public class PersonServiceMCSImpl extends BaseService implements PersonServiceMC
      * 9-11-2016
      * @author hientq
      */
-    @Override
     public BaseResponse addFaceUrl(String persongroupId, String personId, String urlImg) throws URISyntaxException, IOException {
         String urlPerson = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
         String urlPersistence = AppConfigKeys.getInstance().getApiPropertyValue("api.person.add.face.addition");
@@ -103,7 +99,6 @@ public class PersonServiceMCSImpl extends BaseService implements PersonServiceMC
         return new HTTPClientUtil().toPost(url, new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.MAP_PARSER, String.class);
     }
 
-    @Override
     public BaseResponse addFaceImg(String persongroupId, String personId, InputStream imgStream) throws URISyntaxException, IOException {
         String urlPerson = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
         String urlPersistence = AppConfigKeys.getInstance().getApiPropertyValue("api.person.add.face.addition");

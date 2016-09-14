@@ -1,8 +1,8 @@
 package com.timelinekeeping.api;
 
+import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
 import com.timelinekeeping.controller.PersonGroupControllerWeb;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.service.PersonGroupsServiceMCS;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class PersonGroupController {
     private Logger logger = Logger.getLogger(PersonGroupControllerWeb.class);
 
     @Autowired
-    private PersonGroupsServiceMCS groupService;
+    private PersonGroupServiceMCSImpl groupService;
 
     @RequestMapping(value = {"/create"}, method = RequestMethod.POST)
     @ResponseBody

@@ -1,17 +1,13 @@
 package com.timelinekeeping.api;
 
+import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.service.FaceServiceMCS;
-import com.timelinekeeping.service.PersonServiceMCS;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.UtilApps;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by lethanhtan on 9/9/16.
@@ -24,7 +20,7 @@ public class PersonController {
     private Logger logger = Logger.getLogger(PersonController.class);
 
     @Autowired
-    private PersonServiceMCS personService;
+    private PersonServiceMCSImpl personService;
 
     @RequestMapping(value = {"/create"}, method = RequestMethod.POST)
     @ResponseBody

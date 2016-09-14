@@ -1,10 +1,9 @@
-package com.timelinekeeping.service.serviceImplement;
+package com.timelinekeeping.accessAPI;
 
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.model.PersonGroup;
-import com.timelinekeeping.model.PersonGroupTrainingStatus;
-import com.timelinekeeping.service.PersonGroupsServiceMCS;
+import com.timelinekeeping.modelAPI.PersonGroup;
+import com.timelinekeeping.modelAPI.PersonGroupTrainingStatus;
 import com.timelinekeeping.util.HTTPClientUtil;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.http.client.utils.URIBuilder;
@@ -23,7 +22,7 @@ import java.util.Map;
  * Created by lethanhtan on 9/7/16.
  */
 @Service
-public class PersonGroupServiceMCSImpl implements PersonGroupsServiceMCS {
+public class PersonGroupServiceMCSImpl {
 
     private Logger logger = LogManager.getLogger(PersonGroupServiceMCSImpl.class);
 

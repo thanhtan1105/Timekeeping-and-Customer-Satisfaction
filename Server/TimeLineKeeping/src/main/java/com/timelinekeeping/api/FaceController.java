@@ -1,11 +1,10 @@
 package com.timelinekeeping.api;
 
+import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
+import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.model.FaceDetectRespone;
-import com.timelinekeeping.model.PersonGroup;
-import com.timelinekeeping.service.FaceServiceMCS;
-import com.timelinekeeping.service.PersonGroupsServiceMCS;
-import com.timelinekeeping.service.serviceImplement.PersonGroupServiceMCSImpl;
+import com.timelinekeeping.modelAPI.FaceDetectRespone;
+import com.timelinekeeping.modelAPI.PersonGroup;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.UtilApps;
 import org.apache.log4j.Logger;
@@ -27,10 +26,10 @@ public class FaceController {
     private Logger logger = Logger.getLogger(FaceController.class);
 
     @Autowired
-    private FaceServiceMCS faceService;
+    private FaceServiceMCSImpl faceService;
 
     @Autowired
-    private PersonGroupsServiceMCS personGroupsServiceMCS;
+    private PersonGroupServiceMCSImpl personGroupsServiceMCS;
 
     @RequestMapping(value = {"/detect"}, method = RequestMethod.POST)
     @ResponseBody

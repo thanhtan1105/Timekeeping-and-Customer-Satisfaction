@@ -1,11 +1,10 @@
-package com.timelinekeeping.service.serviceImplement;
+package com.timelinekeeping.accessAPI;
 
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.model.FaceDetectRespone;
-import com.timelinekeeping.model.FaceIdentifyConfidenceRespone;
-import com.timelinekeeping.model.FaceIdentifyRequest;
-import com.timelinekeeping.service.FaceServiceMCS;
+import com.timelinekeeping.modelAPI.FaceDetectRespone;
+import com.timelinekeeping.modelAPI.FaceIdentifyConfidenceRespone;
+import com.timelinekeeping.modelAPI.FaceIdentifyRequest;
 import com.timelinekeeping.util.HTTPClientUtil;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.commons.io.IOUtils;
@@ -28,7 +27,7 @@ import java.util.Map;
  * Created by HienTQSE60896 on 9/10/2016.
  */
 @Service
-public class FaceServiceMCSImpl implements FaceServiceMCS {
+public class FaceServiceMCSImpl {
 
     private Logger logger = LogManager.getLogger(PersonGroupServiceMCSImpl.class);
 
@@ -38,7 +37,6 @@ public class FaceServiceMCSImpl implements FaceServiceMCS {
      * detect commit
      */
 
-    @Override
     public BaseResponse detect(InputStream imgStream) throws URISyntaxException, IOException {
         String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detech");
         String url = rootPath + urlAddition;
@@ -61,7 +59,6 @@ public class FaceServiceMCSImpl implements FaceServiceMCS {
     }
 
 
-    @Override
     public BaseResponse detect(String urlImg) throws URISyntaxException, IOException {
         String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detech");
         String url = rootPath + urlAddition;
@@ -97,7 +94,6 @@ public class FaceServiceMCSImpl implements FaceServiceMCS {
      * 9-11-2016
      * @author hientq
      */
-    @Override
     public BaseResponse identify(String groupId, List<String> faceIds) throws URISyntaxException, IOException {
         String urlIdentity = AppConfigKeys.getInstance().getApiPropertyValue("api.face.identity");
         String url = rootPath + urlIdentity;
