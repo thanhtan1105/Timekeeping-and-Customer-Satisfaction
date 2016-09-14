@@ -1,12 +1,11 @@
-package com.timelinekeeping.service.serviceImplement;
+package com.timelinekeeping.accessAPI;
 
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.model.FaceDetectRespone;
-import com.timelinekeeping.model.FaceIdentifyConfidenceRespone;
-import com.timelinekeeping.model.FaceIdentifyRequest;
-import com.timelinekeeping.service.FaceServiceMCS;
+import com.timelinekeeping.modelAPI.FaceDetectRespone;
+import com.timelinekeeping.modelAPI.FaceIdentifyConfidenceRespone;
+import com.timelinekeeping.modelAPI.FaceIdentifyRequest;
 import com.timelinekeeping.util.HTTPClientUtil;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.commons.io.IOUtils;
@@ -29,7 +28,7 @@ import java.util.Map;
  * Created by HienTQSE60896 on 9/10/2016.
  */
 @Service
-public class FaceServiceMCSImpl implements FaceServiceMCS {
+public class FaceServiceMCSImpl {
 
     private Logger logger = LogManager.getLogger(PersonGroupServiceMCSImpl.class);
 
@@ -39,12 +38,11 @@ public class FaceServiceMCSImpl implements FaceServiceMCS {
      * detect commit
      */
 
-    @Override
-    public BaseResponse detech(InputStream imgStream) throws URISyntaxException, IOException {
+    public BaseResponse detect(InputStream imgStream) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
-            String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detech");
-            String url = rootPath + urlAddition;
+        String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detech");
+        String url = rootPath + urlAddition;
 
             /*** url*/
             URIBuilder builder = new URIBuilder(url)
@@ -67,25 +65,24 @@ public class FaceServiceMCSImpl implements FaceServiceMCS {
     }
 
 
-    @Override
-    public BaseResponse detech(String urlImg) throws URISyntaxException, IOException {
+    public BaseResponse detect(String urlImg) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
-            String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detech");
-            String url = rootPath + urlAddition;
+        String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detech");
+        String url = rootPath + urlAddition;
 
-            /*** url*/
-            URIBuilder builder = new URIBuilder(url)
-                    .addParameter("returnFaceId", "true")
-                    .addParameter("returnFaceLandmarks", "false")
-                    .addParameter("returnFaceAttributes", "age,gender");
+        /*** url*/
+        URIBuilder builder = new URIBuilder(url)
+                .addParameter("returnFaceId", "true")
+                .addParameter("returnFaceLandmarks", "false")
+                .addParameter("returnFaceAttributes", "age,gender");
 
-            /** entity*/
-            Map<String, String> mapEntity = new HashMap<>();
-            mapEntity.put("url", urlImg);
-            String jsonEntity = JsonUtil.toJson(mapEntity);
+        /** entity*/
+        Map<String, String> mapEntity = new HashMap<>();
+        mapEntity.put("url", urlImg);
+        String jsonEntity = JsonUtil.toJson(mapEntity);
 
-            return HTTPClientUtil.getInstanceFace().toPost(builder.build(), new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.LIST_PARSER, FaceDetectRespone.class);
+        return HTTPClientUtil.getInstanceFace().toPost(builder.build(), new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.LIST_PARSER, FaceDetectRespone.class);
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
@@ -108,7 +105,6 @@ public class FaceServiceMCSImpl implements FaceServiceMCS {
      * 9-11-2016
      * @author hientq
      */
-    @Override
     public BaseResponse identify(String groupId, List<String> faceIds) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());

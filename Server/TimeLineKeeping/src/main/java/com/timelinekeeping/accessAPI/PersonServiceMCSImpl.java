@@ -1,11 +1,9 @@
-package com.timelinekeeping.service.serviceImplement;
+package com.timelinekeeping.accessAPI;
 
-import com.sun.xml.internal.bind.api.impl.NameConverter;
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.service.BaseService;
-import com.timelinekeeping.service.PersonServiceMCS;
 import com.timelinekeeping.util.HTTPClientUtil;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.commons.io.IOUtils;
@@ -28,7 +26,7 @@ import java.util.Map;
  */
 @Service
 @Component
-public class PersonServiceMCSImpl extends BaseService implements PersonServiceMCS {
+public class PersonServiceMCSImpl extends BaseService {
 
     private Logger logger = LogManager.getLogger(PersonServiceMCSImpl.class);
 
@@ -56,7 +54,6 @@ public class PersonServiceMCSImpl extends BaseService implements PersonServiceMC
      * 9-11-2016
      * @author hientq
      */
-    @Override
     public BaseResponse createPerson(String groupId, String name, String description) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
@@ -93,7 +90,6 @@ public class PersonServiceMCSImpl extends BaseService implements PersonServiceMC
      * 9-11-2016
      * @author hientq
      */
-    @Override
     public BaseResponse addFaceUrl(String persongroupId, String personId, String urlImg) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
@@ -119,7 +115,6 @@ public class PersonServiceMCSImpl extends BaseService implements PersonServiceMC
         }
     }
 
-    @Override
     public BaseResponse addFaceImg(String persongroupId, String personId, InputStream imgStream) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());

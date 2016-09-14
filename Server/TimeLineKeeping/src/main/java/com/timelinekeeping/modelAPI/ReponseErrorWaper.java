@@ -1,12 +1,12 @@
-package com.timelinekeeping.model;
+package com.timelinekeeping.modelAPI;
 
 /**
  * Created by HienTQSE60896 on 9/9/2016.
  */
-public class ResponseErrorWrap {
+public class ReponseErrorWaper {
     private ReponseError error;
 
-    public ResponseErrorWrap() {
+    public ReponseErrorWaper() {
     }
 
     public ReponseError getError() {

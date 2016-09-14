@@ -18,6 +18,10 @@ class ShowInfoViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    APIRequest.shareInstance.identifyImage(checkImage) { (response: ResponsePackage?, error: ErrorWebservice?) in
+      print(response?.response)
+    }
   }
   
   @IBAction func onCloseButtonTapped(sender: UIButton) {

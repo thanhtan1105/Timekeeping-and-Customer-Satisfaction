@@ -1,8 +1,8 @@
 package com.timelinekeeping.api;
 
+import com.timelinekeeping.accessAPI.EmotionServiceImpl;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.service.EmotionServiceMCS;
 import com.timelinekeeping.util.UtilApps;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -20,7 +20,7 @@ public class EmotionController {
     private Logger logger = LogManager.getLogger(EmotionController.class);
 
     @Autowired
-    private EmotionServiceMCS emotionServiceMCS;
+    private EmotionServiceImpl emotionServiceMCS;
 
     @RequestMapping(value = {"/recognize"}, method = RequestMethod.POST)
     @ResponseBody

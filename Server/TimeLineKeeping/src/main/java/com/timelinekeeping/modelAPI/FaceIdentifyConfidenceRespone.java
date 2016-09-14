@@ -1,4 +1,4 @@
-package com.timelinekeeping.model;
+package com.timelinekeeping.modelAPI;
 
 import java.util.List;
 

@@ -1,11 +1,9 @@
-package com.timelinekeeping.service.serviceImplement;
+package com.timelinekeeping.accessAPI;
 
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.model.EmotionRecognizeResponse;
-import com.timelinekeeping.model.FaceDetectRespone;
-import com.timelinekeeping.service.EmotionServiceMCS;
+import com.timelinekeeping.modelAPI.EmotionRecognizeResponse;
 import com.timelinekeeping.util.HTTPClientUtil;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.commons.io.IOUtils;
@@ -26,13 +24,12 @@ import java.util.Map;
  * Created by HienTQSE60896 on 9/13/2016.
  */
 @Service
-public class EmotionServiceImpl implements EmotionServiceMCS {
+public class EmotionServiceImpl {
 
     private Logger logger = LogManager.getLogger(EmotionServiceImpl.class);
 
     String rootPath = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.cognitive.service.emotion.root.url");
 
-    @Override
     public BaseResponse recognize(String urlImg) throws URISyntaxException, IOException {
 
         try {
@@ -56,7 +53,6 @@ public class EmotionServiceImpl implements EmotionServiceMCS {
         }
     }
 
-    @Override
     public BaseResponse recognize(InputStream inputStreamImg) throws URISyntaxException, IOException {
 
         try {

@@ -1,8 +1,11 @@
 package com.timelinekeeping.api;
 
+import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
+import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.service.FaceServiceMCS;
+import com.timelinekeeping.modelAPI.FaceDetectRespone;
+import com.timelinekeeping.modelAPI.PersonGroup;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.UtilApps;
 import org.apache.log4j.Logger;
@@ -10,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,14 +27,17 @@ public class FaceController {
     private Logger logger = Logger.getLogger(FaceController.class);
 
     @Autowired
-    private FaceServiceMCS faceService;
+    private FaceServiceMCSImpl faceService;
+
+    @Autowired
+    private PersonGroupServiceMCSImpl personGroupsServiceMCS;
 
     @RequestMapping(value = {"/detect"}, method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse detect(@RequestParam("url") String urlImg) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            BaseResponse response = faceService.detech(urlImg);
+            BaseResponse response = faceService.detect(urlImg);
             logger.info("RESPONSE: " + JsonUtil.toJson(response));
             return response;
 
@@ -49,7 +56,7 @@ public class FaceController {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + this.getClass().getEnclosingMethod().getName());
             BaseResponse response = null;
             if (UtilApps.isImageFile(img.getInputStream())) {
-                response = faceService.detech(img.getInputStream());
+                response = faceService.detect(img.getInputStream());
             } else {
                 response = new BaseResponse();
                 response.setSuccess(false);
@@ -79,6 +86,35 @@ public class FaceController {
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
+    }
+
+    @RequestMapping(value = {"/identifyImage"}, method = RequestMethod.POST)
+    public BaseResponse identifyImage(@RequestParam("image") MultipartFile image) {
+        try {
+            // call function detect image
+            BaseResponse detectFaceResponse = detectimg(image);
+            List<FaceDetectRespone> faceDetectRespone = (ArrayList<FaceDetectRespone>) detectFaceResponse.getData();
+
+            String faceId = faceDetectRespone.get(0).getFaceId();
+            logger.info("FaceId: " + faceId);
+
+            // call personGroup list
+            BaseResponse personGroupListResponse = personGroupsServiceMCS.listAll(0, 1000);
+            List<PersonGroup> personGroupList = (ArrayList<PersonGroup>) personGroupListResponse.getData();
+
+            for (PersonGroup personGroup: personGroupList) {
+                List<String> face = new ArrayList();
+                face.add(faceId);
+                BaseResponse identifyResponse = identify(personGroup.getPersonGroupId(), face);
+                logger.info("identifyResponse " + identifyResponse);
+            }
+
+
+        } catch (Exception e) {
+            logger.error(e);
+        }
+
+        return null;
     }
 
 }

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout_staff">
+
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Training Image</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1 class="text-success">
+            <i class="glyphicon glyphicon-send"></i> Train Employee Images
+        </h1>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-laptop active"></i> Train Employee Images</li>
+        </ol>
+        <hr style="border-color: green; margin-top: 4px; margin-bottom: 5px;"/>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <font class="text-success" style="font-size: medium; font-style: oblique;">Step 1 of 7</font>
+        <hr style="border-color: green; margin-top: 1px; margin-bottom: 15px; margin-right: 94%; border-width: 2px;"/>
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 class="box-title text-success">
+                            <i class="fa fa-group"></i> Select Person Group</h3>
+                    </div>
+                    <div class="col-sm-6" style="text-align: right;">
+                        <button class="btn btn-info btn-flat btn-sm">
+                            <i class="fa fa-plus"></i> New Group
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form class="form-horizontal">
+                <div class="box-body">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>Group Name</th>
+                                    <th style="width: 10%">Select</th>
+                                </tr>
+                                <tbody id="table-body-group"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </form>
+            <!-- /.form-horizontal -->
+        </div>
+        <!-- /.box -->
+        <div style="text-align: right">
+            <button class="btn btn-success btn-flat" style="width: 10%">
+                <i class="fa fa-chevron-right"></i> Next
+            </button>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<div layout:fragment="js">
+    <script th:src="@{/js/staff/training_image/select_group.js}"></script>
+</div>
+</body>
+</html>

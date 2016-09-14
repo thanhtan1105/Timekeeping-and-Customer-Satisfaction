@@ -1,16 +1,11 @@
 package com.timelinekeeping.util;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.model.FaceDetectRespone;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
