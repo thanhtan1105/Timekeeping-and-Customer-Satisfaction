@@ -1,15 +1,13 @@
 /**
- * Created by TrungNN on 9/12/2016.
+ * Created by TrungNN on 9/14/2016.
  */
 
 $(document).ready(function () {
-    /**
-     * Load list groups by ajax
-     */
-    loadPersonGroup();
+    alert('Its Ok');
 });
 
-function loadPersonGroup() {
+
+function loadPersons() {
     var formDataJson = {
         'start': 1,
         'top': 1000
