@@ -16,6 +16,15 @@ public enum Gender {
         this.name = name;
     }
 
+    public static Gender fromIndex(int index){
+        for (Gender ex : values()){
+            if (ex.getIndex() == index){
+                return ex;
+            }
+        }
+        return null;
+    }
+
     public int getIndex() {
         return index;
     }
