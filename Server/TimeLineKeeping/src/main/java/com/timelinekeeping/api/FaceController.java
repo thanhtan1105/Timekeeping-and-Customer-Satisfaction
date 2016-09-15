@@ -53,7 +53,7 @@ public class FaceController {
     @ResponseBody
     public BaseResponse detectimg(@RequestParam("img") MultipartFile img) {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + this.getClass().getEnclosingMethod().getName());
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response = null;
             if (UtilApps.isImageFile(img.getInputStream())) {
                 response = faceService.detect(img.getInputStream());
@@ -77,7 +77,7 @@ public class FaceController {
     public BaseResponse identify(@RequestParam("groupId") String groupId,
                                  @RequestParam("faceId") List<String> faceIds) {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + this.getClass().getEnclosingMethod().getName());
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response = faceService.identify(groupId, faceIds);
             return response;
         } catch (Exception e) {

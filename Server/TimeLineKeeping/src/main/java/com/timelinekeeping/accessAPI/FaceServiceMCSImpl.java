@@ -41,7 +41,7 @@ public class FaceServiceMCSImpl {
     public BaseResponse detect(InputStream imgStream) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
-        String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detech");
+        String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detect");
         String url = rootPath + urlAddition;
 
             /*** url*/
@@ -68,7 +68,7 @@ public class FaceServiceMCSImpl {
     public BaseResponse detect(String urlImg) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
-        String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detech");
+        String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detect");
         String url = rootPath + urlAddition;
 
         /*** url*/

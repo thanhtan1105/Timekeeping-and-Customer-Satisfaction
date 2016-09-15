@@ -38,26 +38,28 @@ public class EmotionController {
 //        }
 //    }
 
-//    @RequestMapping(value = {"/recognize_img"}, method = RequestMethod.POST)
-//    @ResponseBody
-//    public BaseResponse recognize(@RequestParam("img") MultipartFile imgFile) {
-//        try {
-//            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-//            BaseResponse response;
-//            if (UtilApps.isImageFile(imgFile.getInputStream())) {
-//                response = emotionServiceMCS.recognize(imgFile.getInputStream());
-//            }else {
-//                response = new BaseResponse();
-//                response.setSuccess(false);
-//                response.setMessage("File not image format.");
-//            }
-//            return response;
-//        } catch (Exception e) {
-//            logger.error(e);
-//            return new BaseResponse(e);
-//        } finally {
-//            logger.info(IContanst.END_METHOD_CONTROLLER);
-//        }
-//    }
+    @RequestMapping(value = {"/recognize_img"}, method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse recognize(@RequestParam("img") MultipartFile imgFile,
+                                  @RequestParam("employeeId") long employeeId,
+                                  @RequestParam("isFirstTime") boolean isFirstTime) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            BaseResponse response;
+            if (UtilApps.isImageFile(imgFile.getInputStream())) {
+                response = emotionServiceMCS.save(imgFile.getInputStream(), employeeId, isFirstTime);
+            }else {
+                response = new BaseResponse();
+                response.setSuccess(false);
+                response.setMessage("File not image format.");
+            }
+            return response;
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
 
 }

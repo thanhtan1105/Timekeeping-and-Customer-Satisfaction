@@ -31,7 +31,7 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AccountEntity accountEntity = accountRepo.findByUsername(username);
-        String roleName = roleRepo.getOne(accountEntity.getRole()).getName();
+        String roleName = roleRepo.getOne(accountEntity.getRole().getId()).getName();
         List<GrantedAuthority> authorities = buildUserAuthority(roleName);
         return buildUserForAuthentication(accountEntity, authorities);
     }

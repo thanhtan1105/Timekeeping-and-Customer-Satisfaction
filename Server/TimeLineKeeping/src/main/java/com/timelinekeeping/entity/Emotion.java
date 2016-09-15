@@ -24,51 +24,41 @@ public class Emotion {
     private Long createBy;
 
     @Column(name = "anger")
-    private double anger;
+    private Double anger;
 
     @Column(name = "contempt")
-    private double contempt;
+    private Double contempt;
 
     @Column(name = "disgust")
-    private double disgust;
+    private Double disgust;
 
     @Column(name = "fear")
-    private double fear;
+    private Double fear;
 
     @Column(name = "happiness")
-    private double happiness;
+    private Double happiness;
 
     @Column(name = "neutral")
-    private double neutral;
+    private Double neutral;
 
     @Column(name = "sadness")
-    private double sadness;
+    private Double sadness;
 
     @Column(name = "surprise")
-    private double surprise;
+    private Double surprise;
 
     @Column(name = "age")
-    private int age;
+    private Double age;
 
     @Column(name = "gender")
     private Gender gender;
 
     @Column(name = "smile")
-    private double smile;
+    private Double smile;
 
-    public Emotion(Timestamp createTime,
-                   Long createBy,
-                   double anger,
-                   double contempt,
-                   double disgust,
-                   double fear,
-                   double happiness,
-                   double neutral,
-                   double sadness,
-                   double surprise,
-                   int age,
-                   Gender gender,
-                   double smile) {
+    public Emotion() { }
+
+    public Emotion(Timestamp createTime, Long createBy, Double anger, Double contempt, Double disgust, Double fear, Double happiness, Double neutral, Double sadness, Double surprise, Double age, Gender gender, Double smile) {
         this.createTime = createTime;
         this.createBy = createBy;
         this.anger = anger;
@@ -108,75 +98,75 @@ public class Emotion {
         this.createBy = createBy;
     }
 
-    public double getAnger() {
+    public Double getAnger() {
         return anger;
     }
 
-    public void setAnger(double anger) {
+    public void setAnger(Double anger) {
         this.anger = anger;
     }
 
-    public double getContempt() {
+    public Double getContempt() {
         return contempt;
     }
 
-    public void setContempt(double contempt) {
+    public void setContempt(Double contempt) {
         this.contempt = contempt;
     }
 
-    public double getDisgust() {
+    public Double getDisgust() {
         return disgust;
     }
 
-    public void setDisgust(double disgust) {
+    public void setDisgust(Double disgust) {
         this.disgust = disgust;
     }
 
-    public double getFear() {
+    public Double getFear() {
         return fear;
     }
 
-    public void setFear(double fear) {
+    public void setFear(Double fear) {
         this.fear = fear;
     }
 
-    public double getHappiness() {
+    public Double getHappiness() {
         return happiness;
     }
 
-    public void setHappiness(double happiness) {
+    public void setHappiness(Double happiness) {
         this.happiness = happiness;
     }
 
-    public double getNeutral() {
+    public Double getNeutral() {
         return neutral;
     }
 
-    public void setNeutral(double neutral) {
+    public void setNeutral(Double neutral) {
         this.neutral = neutral;
     }
 
-    public double getSadness() {
+    public Double getSadness() {
         return sadness;
     }
 
-    public void setSadness(double sadness) {
+    public void setSadness(Double sadness) {
         this.sadness = sadness;
     }
 
-    public double getSurprise() {
+    public Double getSurprise() {
         return surprise;
     }
 
-    public void setSurprise(double surprise) {
+    public void setSurprise(Double surprise) {
         this.surprise = surprise;
     }
 
-    public int getAge() {
+    public Double getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Double age) {
         this.age = age;
     }
 
@@ -188,11 +178,11 @@ public class Emotion {
         this.gender = gender;
     }
 
-    public double getSmile() {
+    public Double getSmile() {
         return smile;
     }
 
-    public void setSmile(double smile) {
+    public void setSmile(Double smile) {
         this.smile = smile;
     }
 }
