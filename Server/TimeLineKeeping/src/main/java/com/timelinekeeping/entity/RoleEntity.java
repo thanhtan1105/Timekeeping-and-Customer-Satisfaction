@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "role")
-public class Role {
+public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -34,7 +34,7 @@ public class Role {
 
     @Override
     public String toString() {
-        return "Role{" +
+        return "RoleEntity{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

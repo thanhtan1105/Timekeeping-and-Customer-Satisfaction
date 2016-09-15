@@ -1,6 +1,6 @@
 package com.timelinekeeping.service;
 
-import com.timelinekeeping.entity.Customer;
+import com.timelinekeeping.entity.CustomerEntity;
 
 import java.util.List;
 
@@ -9,11 +9,11 @@ import java.util.List;
  */
 public interface CustomerService {
 
-    public Customer save(String firstname, String lastname);
+    public CustomerEntity save(String firstname, String lastname);
 
-    public List<Customer> findByLastName(String lastname);
+    public List<CustomerEntity> findByLastName(String lastname);
 
     public boolean deleteById(Long id);
 
-    public List<Customer> findAll();
+    public List<CustomerEntity> findAll();
 }

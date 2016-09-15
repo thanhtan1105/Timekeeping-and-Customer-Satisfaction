@@ -1,8 +1,8 @@
 package com.timelinekeeping._config;
 
-import com.timelinekeeping.entity.User;
+import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.repository.RoleRepo;
-import com.timelinekeeping.repository.UserRepo;
+import com.timelinekeeping.repository.AccountRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,22 +23,22 @@ import java.util.Set;
 @Service("userDetailsService")
 public class MyUserDetailsService implements UserDetailsService {
     @Autowired
-    private UserRepo userRepo;
+    private AccountRepo accountRepo;
     @Autowired
     private RoleRepo roleRepo;
 
     @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findByUsername(username);
-        String roleName = roleRepo.getOne(user.getRole()).getName();
+        AccountEntity accountEntity = accountRepo.findByUsername(username);
+        String roleName = roleRepo.getOne(accountEntity.getRole()).getName();
         List<GrantedAuthority> authorities = buildUserAuthority(roleName);
-        return buildUserForAuthentication(user, authorities);
+        return buildUserForAuthentication(accountEntity, authorities);
     }
 
-    private org.springframework.security.core.userdetails.User buildUserForAuthentication(User user, List<GrantedAuthority> authorities) {
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                user.getActive() == 1, true, true, true, authorities);
+    private org.springframework.security.core.userdetails.User buildUserForAuthentication(AccountEntity accountEntity, List<GrantedAuthority> authorities) {
+        return new org.springframework.security.core.userdetails.User(accountEntity.getUsername(), accountEntity.getPassword(),
+                accountEntity.getActive() == 1, true, true, true, authorities);
     }
 
     private List<GrantedAuthority> buildUserAuthority(String roleName) {

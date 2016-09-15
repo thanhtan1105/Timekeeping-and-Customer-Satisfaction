@@ -1,5 +1,7 @@
 package com.timelinekeeping.entity;
 
+import com.timelinekeeping.model.Account;
+
 import javax.persistence.*;
 
 /**
@@ -7,8 +9,8 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "account", schema = "mydb")
+public class AccountEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,17 +20,33 @@ public class User {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "user_code")
+    private String userCode;
+
     @Column(name = "password")
     private String password;
-
-    @Column(name = "role")
-    private Long role;
 
     @Column(name = "active")
     private Integer active;
 
     @Column(name = "full_name")
     private String fullname;
+
+    @Column(name = "token")
+    private String token;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private RoleEntity role;
+
+    public AccountEntity() {
+    }
+
+    public AccountEntity(Account account) {
+        this.username = account.getUsername();
+        this.fullname = account.getFullname();
+    }
 
     public Long getId() {
         return id;
@@ -54,13 +72,6 @@ public class User {
         this.password = password;
     }
 
-    public Long getRole() {
-        return role;
-    }
-
-    public void setRole(Long role) {
-        this.role = role;
-    }
 
     public Integer getActive() {
         return active;
@@ -78,14 +89,41 @@ public class User {
         this.fullname = fullname;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public RoleEntity getRole() {
+        return role;
+    }
+
+    public void setRole(RoleEntity role) {
+        this.role = role;
+    }
+
+    public String getUserCode() {
+        return userCode;
+    }
+
+    public void setUserCode(String userCode) {
+        this.userCode = userCode;
+    }
+
     @Override
     public String toString() {
-        return "User{" +
+        return "AccountEntity{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 ", active=" + active +
+                ", fullname='" + fullname + '\'' +
+                ", token='" + token + '\'' +
+                ", role=" + role +
                 '}';
     }
 }

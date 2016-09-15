@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "customer")
-public class Customer implements Serializable {
+public class CustomerEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -24,9 +24,9 @@ public class Customer implements Serializable {
     @Column(name = "active")
     private boolean active;
 
-    protected Customer() {}
+    protected CustomerEntity() {}
 
-    public Customer(String firstName, String lastName, boolean active) {
+    public CustomerEntity(String firstName, String lastName, boolean active) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.active = active;
@@ -35,7 +35,7 @@ public class Customer implements Serializable {
     @Override
     public String toString() {
         return String.format(
-                "Customer[id=%d, firstName='%s', lastName='%s']",
+                "CustomerEntity[id=%d, firstName='%s', lastName='%s']",
                 id, firstName, lastName);
     }
 
