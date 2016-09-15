@@ -11,14 +11,26 @@ buildscript {
 }
 
 apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
 apply plugin: 'spring-boot'
+apply plugin: 'war'
 
+
+war {
+	baseName = 'timelinekeeping'
+	version = '0.0.1-SNAPSHOT'
+}
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
 	mavenCentral()
 }
+
+configurations {
+	providedRuntime
+}
+
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
