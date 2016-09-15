@@ -1,6 +1,8 @@
 package com.timelinekeeping.util;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -17,4 +19,6 @@ public class UtilApps {
             return false;
         }
     }
+
+
 }

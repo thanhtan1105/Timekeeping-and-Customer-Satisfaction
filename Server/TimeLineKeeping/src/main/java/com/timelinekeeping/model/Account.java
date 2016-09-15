@@ -1,6 +1,5 @@
 package com.timelinekeeping.model;
 
-import com.sun.org.apache.xpath.internal.operations.String;
 import com.timelinekeeping.entity.AccountEntity;
 
 /**

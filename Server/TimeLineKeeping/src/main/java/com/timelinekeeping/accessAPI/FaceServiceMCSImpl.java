@@ -40,7 +40,7 @@ public class FaceServiceMCSImpl {
 
     public BaseResponse detect(InputStream imgStream) throws URISyntaxException, IOException {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
         String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detech");
         String url = rootPath + urlAddition;
 
@@ -67,7 +67,7 @@ public class FaceServiceMCSImpl {
 
     public BaseResponse detect(String urlImg) throws URISyntaxException, IOException {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
         String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detech");
         String url = rootPath + urlAddition;
 
@@ -107,7 +107,7 @@ public class FaceServiceMCSImpl {
      */
     public BaseResponse identify(String groupId, List<String> faceIds) throws URISyntaxException, IOException {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             String urlIdentity = AppConfigKeys.getInstance().getApiPropertyValue("api.face.identity");
             String url = rootPath + urlIdentity;
 

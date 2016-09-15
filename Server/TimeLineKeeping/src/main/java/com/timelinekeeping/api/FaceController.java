@@ -7,6 +7,7 @@ import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.modelAPI.FaceDetectRespone;
 import com.timelinekeeping.modelAPI.PersonGroup;
 import com.timelinekeeping.util.JsonUtil;
+import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.UtilApps;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,22 +54,15 @@ public class FaceController {
     @ResponseBody
     public BaseResponse detectimg(@RequestParam("img") MultipartFile img) {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + this.getClass().getEnclosingMethod().getName());
-            BaseResponse response = null;
-            if (UtilApps.isImageFile(img.getInputStream())) {
-                response = faceService.detect(img.getInputStream());
-            } else {
-                response = new BaseResponse();
-                response.setSuccess(false);
-                response.setMessage("File not image format.");
-            }
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            StoreFileUtils.storeFile("hhjfjf2dd", img.getInputStream());
+            BaseResponse response = faceService.detect(img.getInputStream());
             return response;
-
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_SERVICE);
+            logger.info(IContanst.END_METHOD_CONTROLLER);
         }
     }
 
@@ -77,7 +71,7 @@ public class FaceController {
     public BaseResponse identify(@RequestParam("groupId") String groupId,
                                  @RequestParam("faceId") List<String> faceIds) {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + this.getClass().getEnclosingMethod().getName());
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response = faceService.identify(groupId, faceIds);
             return response;
         } catch (Exception e) {
