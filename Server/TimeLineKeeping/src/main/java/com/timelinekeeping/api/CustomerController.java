@@ -1,6 +1,6 @@
 package com.timelinekeeping.api;
 
-import com.timelinekeeping.entity.Customer;
+import com.timelinekeeping.entity.CustomerEntity;
 import com.timelinekeeping.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,10 +25,10 @@ public class CustomerController {
     @ResponseBody
     public String getLastName(String lastname) {
 
-        List<Customer> customers = customerService.findByLastName(lastname);
+        List<CustomerEntity> customerEntities = customerService.findByLastName(lastname);
         String result = "";
-        for (Customer customer : customers) {
-            result += " " + customer.toString();
+        for (CustomerEntity customerEntity : customerEntities) {
+            result += " " + customerEntity.toString();
         }
         return result;
     }
@@ -36,8 +36,8 @@ public class CustomerController {
     @RequestMapping("/create")
     @ResponseBody
     public String create(String firstname, String lastname) {
-        Customer newCustomer = customerService.save(firstname, lastname);
-        return newCustomer.toString();
+        CustomerEntity newCustomerEntity = customerService.save(firstname, lastname);
+        return newCustomerEntity.toString();
     }
 
     @RequestMapping("/delete")
@@ -48,7 +48,7 @@ public class CustomerController {
     }
 
     @RequestMapping("/all")
-    public List<Customer> findAll(){
+    public List<CustomerEntity> findAll(){
         return customerService.findAll();
     }
 

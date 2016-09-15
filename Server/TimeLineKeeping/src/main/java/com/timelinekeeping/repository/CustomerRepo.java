@@ -1,9 +1,7 @@
 package com.timelinekeeping.repository;
 
-import com.timelinekeeping.entity.Customer;
+import com.timelinekeeping.entity.CustomerEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -15,13 +13,10 @@ import java.util.List;
 
 @Repository
 @Component
-public interface CustomerRepo extends JpaRepository<Customer, Long> {
+public interface CustomerRepo extends JpaRepository<CustomerEntity, Long> {
 
-    List<Customer> findByLastName(String lastname);
+    List<CustomerEntity> findByLastName(String lastname);
 
-    @Override
-    @Modifying
-    @Query(value = "UPDATE customer c SET c.active = false WHERE c.id= ?1", nativeQuery = true)
-    void delete(Long aLong);
+
 
 }

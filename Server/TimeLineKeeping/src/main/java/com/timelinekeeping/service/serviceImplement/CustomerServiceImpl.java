@@ -1,7 +1,7 @@
 package com.timelinekeeping.service.serviceImplement;
 
 
-import com.timelinekeeping.entity.Customer;
+import com.timelinekeeping.entity.CustomerEntity;
 import com.timelinekeeping.repository.CustomerRepo;
 import com.timelinekeeping.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +23,12 @@ public class CustomerServiceImpl implements CustomerService {
         this.repository = repository;
     }
 
-    public Customer save(String firstname, String lastname) {
-        Customer customer = new Customer(firstname, lastname, true);
-        return repository.save(customer);
+    public CustomerEntity save(String firstname, String lastname) {
+        CustomerEntity customerEntity = new CustomerEntity(firstname, lastname, true);
+        return repository.save(customerEntity);
     }
 
-    public List<Customer> findByLastName(String lastname) {
+    public List<CustomerEntity> findByLastName(String lastname) {
         return repository.findByLastName(lastname);
     }
 
@@ -44,7 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> findAll() {
+    public List<CustomerEntity> findAll() {
         return repository.findAll();
     }
 

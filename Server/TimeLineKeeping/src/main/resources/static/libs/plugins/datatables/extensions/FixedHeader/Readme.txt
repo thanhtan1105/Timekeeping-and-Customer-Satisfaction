@@ -1,6 +1,6 @@
 # FixedHeader
 
-At times it can be useful to ensure that column titles will remain always visible on a table, even when a user scrolls down a table. The FixedHeader plug-in for DataTables will float the 'thead' element above the table at all times to help address this issue. The column titles also remain click-able to perform sorting. Key features include:
+At times it can be useful to ensure that column titles will remain always visible on a table, even when a accountEntity scrolls down a table. The FixedHeader plug-in for DataTables will float the 'thead' element above the table at all times to help address this issue. The column titles also remain click-able to perform sorting. Key features include:
 
 * Fix the header to the top of the window
 * Ability to fix the footer and left / right columns as well

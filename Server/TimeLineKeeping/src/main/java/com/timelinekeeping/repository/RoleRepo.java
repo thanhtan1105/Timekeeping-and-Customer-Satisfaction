@@ -1,12 +1,15 @@
 package com.timelinekeeping.repository;
 
-import com.timelinekeeping.entity.Role;
-import com.timelinekeeping.entity.User;
+import com.timelinekeeping.entity.RoleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * Created by Lep on 9/7/2016.
  */
-public interface RoleRepo extends JpaRepository<Role, Long> {
-    Role findById(Long id);
+@Repository
+public interface RoleRepo extends JpaRepository<RoleEntity, Long> {
+
+
+
 }
