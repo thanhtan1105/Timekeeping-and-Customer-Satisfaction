@@ -24,9 +24,9 @@ import java.util.Map;
  * Created by HienTQSE60896 on 9/13/2016.
  */
 @Service
-public class EmotionServiceImpl {
+public class EmotionServiceMCSImpl {
 
-    private Logger logger = LogManager.getLogger(EmotionServiceImpl.class);
+    private Logger logger = LogManager.getLogger(EmotionServiceMCSImpl.class);
 
     String rootPath = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.cognitive.service.emotion.root.url");
 

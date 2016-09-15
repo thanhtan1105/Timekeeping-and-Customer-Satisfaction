@@ -1,8 +1,9 @@
 package com.timelinekeeping.api;
 
-import com.timelinekeeping.accessAPI.EmotionServiceImpl;
+import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
 import com.timelinekeeping.util.UtilApps;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -22,20 +23,20 @@ public class EmotionController {
     @Autowired
     private EmotionServiceImpl emotionServiceMCS;
 
-    @RequestMapping(value = {"/recognize"}, method = RequestMethod.POST)
-    @ResponseBody
-    public BaseResponse recognize(@RequestParam("url") String urlImg) {
-        try {
-            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            BaseResponse response = emotionServiceMCS.recognize(urlImg);
-            return response;
-        } catch (Exception e) {
-            logger.error(e);
-            return new BaseResponse(e);
-        } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
-        }
-    }
+//    @RequestMapping(value = {"/recognize"}, method = RequestMethod.POST)
+//    @ResponseBody
+//    public BaseResponse recognize(@RequestParam("url") String urlImg) {
+//        try {
+//            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+//            BaseResponse response = emotionServiceMCS.recognize(urlImg);
+//            return response;
+//        } catch (Exception e) {
+//            logger.error(e);
+//            return new BaseResponse(e);
+//        } finally {
+//            logger.info(IContanst.END_METHOD_CONTROLLER);
+//        }
+//    }
 
     @RequestMapping(value = {"/recognize_img"}, method = RequestMethod.POST)
     @ResponseBody
