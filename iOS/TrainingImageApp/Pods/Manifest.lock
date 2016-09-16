@@ -1,0 +1,15 @@
+PODS:
+  - Alamofire (3.5.0)
+  - TanLT1Extensions (0.1.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 3.4)
+  - TanLT1Extensions
+
+SPEC CHECKSUMS:
+  Alamofire: b70a7352335f8ea5babd0a923eb7e8eacc67b877
+  TanLT1Extensions: 8a53ac053164e7c4b35efe204dc0b711d6b1c60c
+
+PODFILE CHECKSUM: 0c45b7509158589cdf0a3ac2ccc1c31c96c25bb0
+
+COCOAPODS: 1.1.0.beta.1
