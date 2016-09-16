@@ -65,6 +65,15 @@ class APIRequest: NSObject {
     
     webservice_GET(url, params: params, headersParams: nil, completion: onCompletion)
   }
+  
+  func getAccountList(departmentId departmentId: String, start: Int, top: Int, onCompletion: ServiceResponse) {
+    let url = urlGetAccountList
+    let params: [String : AnyObject] = [
+      "start" : start,
+      "top" : top
+    ]
+    webservice_GET(url, params: params, headersParams: nil, completion: onCompletion)
+  }
 }
 
 // MARK: - Private method

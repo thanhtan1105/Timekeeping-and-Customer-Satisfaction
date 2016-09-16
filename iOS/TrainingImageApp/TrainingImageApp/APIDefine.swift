@@ -42,3 +42,4 @@ let serverUrl: String = {
 
 let urlGetUserDetail: String = serverUrl.stringByAppendingString("/face/identifyImage")
 let urlGetDepartment: String = serverUrl.stringByAppendingString("/department/findAll")
+let urlGetAccountList: String = serverUrl.stringByAppendingString("/account/listAll")

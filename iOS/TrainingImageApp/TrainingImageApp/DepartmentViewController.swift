@@ -23,6 +23,10 @@ class DepartmentViewController: BaseViewController {
   @IBAction func onNextAction(sender: UIButton) {
     let data = departmentData[checkedIndex!]
     Department.saveToUserDefault(department: data)
+    
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let vc = storyboard.instantiateViewControllerWithIdentifier("EmployeeListViewController") as! EmployeeListViewController
+    self.navigationController?.pushViewController(vc, animated: true)        
   }
   
 
