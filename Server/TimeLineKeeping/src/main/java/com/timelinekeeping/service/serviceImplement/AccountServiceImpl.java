@@ -54,12 +54,19 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<AccountView> listAll(int page, int size) {
-        List<AccountEntity> accountEntities = (List<AccountEntity>) accountRepo.findAll(new PageRequest(page, size));
-        List<AccountView> accountViews = new ArrayList<>();
-        for (AccountEntity accountEntity : accountEntities) {
-            accountViews.add(new AccountView(accountEntity));
+    public BaseResponse listAll(Integer page, Integer size) {
+        BaseResponse response = new BaseResponse();
+        if (page != null && size != null){
+            response.setSuccess(true);
+            response.setData(accountRepo.findAll());
+        }else {
+            response.setSuccess(true);
+            response.setData(accountRepo.findAll(new PageRequest(page, size)));
         }
-        return accountViews;
+//        List<AccountView> accountViews = new ArrayList<>();
+//        for (AccountEntity accountEntity : accountEntities) {
+//            accountViews.add(new AccountView(accountEntity));
+//        }
+        return response;
     }
 }

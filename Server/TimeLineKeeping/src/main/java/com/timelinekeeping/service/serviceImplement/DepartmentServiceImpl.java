@@ -52,7 +52,7 @@ public class DepartmentServiceImpl {
         BaseResponse baseResponse = new BaseResponse();
         Page<Department> departments = repo.findAll(new PageRequest(page, size));
         baseResponse.setSuccess(true);
-        baseResponse.setData(JsonUtil.toJson(departments));
+        baseResponse.setData(departments);
         return baseResponse;
     }
 }

@@ -2,6 +2,7 @@ package com.timelinekeeping.service;
 
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.model.AccountView;
+import com.timelinekeeping.model.BaseResponse;
 
 import java.util.List;
 
@@ -10,6 +11,6 @@ import java.util.List;
  */
 public interface AccountService {
     public AccountView create(AccountEntity accountView, String groupID);
-    public List<AccountView> listAll(int page, int size);
+    public BaseResponse listAll(Integer page, Integer size);
 
 }
