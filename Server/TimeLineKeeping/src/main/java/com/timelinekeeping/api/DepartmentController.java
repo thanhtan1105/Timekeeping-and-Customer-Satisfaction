@@ -34,7 +34,7 @@ public class DepartmentController {
                                @RequestParam("name") String name,
                                @RequestParam("description") String description) {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             java.util.Date date= new java.util.Date();
             Department department = new Department(code, name, description, new Timestamp(date.getTime()), true);
             BaseResponse response = departmentService.create(department);
@@ -45,17 +45,17 @@ public class DepartmentController {
             logger.error(e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_SERVICE);
+            logger.info(IContanst.END_METHOD_CONTROLLER);
         }
     }
 
     @RequestMapping(value = {"/findAll"}, method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse findAll(@RequestParam("start") int start,
-                                @RequestParam("top") int top) {
-        logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-        BaseResponse response = departmentService.findAll(start, top);
-        logger.info(IContanst.END_METHOD_SERVICE);
+    public BaseResponse findAll(@RequestParam("page") int page,
+                                @RequestParam("size") int size) {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        BaseResponse response = departmentService.findAll(page, size);
+        logger.info(IContanst.END_METHOD_CONTROLLER);
         return response;
     }
 }

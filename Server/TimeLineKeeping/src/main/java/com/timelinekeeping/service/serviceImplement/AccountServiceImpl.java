@@ -2,18 +2,17 @@ package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.entity.AccountEntity;
-import com.timelinekeeping.model.Account;
+import com.timelinekeeping.model.AccountView;
+import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.repository.AccountRepo;
-import com.timelinekeeping.service.AccountService;
 import com.timelinekeeping.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,7 +20,7 @@ import java.util.Map;
  */
 @Component
 @Service
-public class AccountServiceImpl implements AccountService{
+public class AccountServiceImpl {
 
     @Autowired
     private PersonServiceMCSImpl personServiceMCS;
@@ -29,16 +28,17 @@ public class AccountServiceImpl implements AccountService{
     @Autowired
     private AccountRepo accountRepo;
 
-
-    @Override
-    public Account create(Account account, String groupID) {
+    public AccountView create(AccountEntity account, String groupID) {
         try {
-            AccountEntity entity = new AccountEntity(account);
-            Map<String, String> map = (Map<String, String>) personServiceMCS.createPerson(groupID, account.getUsername(), JsonUtil.toJson(account));
+            BaseResponse response = personServiceMCS.createPerson(groupID, account.getUsername(), JsonUtil.toJson(account));
+            Map<String, String> map = (Map<String, String>) response.getData();
             String personCode = map.get("personId");
             account.setUserCode(personCode);
-            accountRepo.saveAndFlush(entity);
-
+            account.setActive(1);
+            AccountEntity result = accountRepo.saveAndFlush(account);
+            if (result != null) {
+                return new AccountView(result);
+            }
         } catch (URISyntaxException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -47,13 +47,15 @@ public class AccountServiceImpl implements AccountService{
         return null;
     }
 
-    @Override
-    public List<Account> listAll() {
-        List<AccountEntity> accountEntities = accountRepo.findAll();
-        List<Account> accounts = new ArrayList<>();
-        for (AccountEntity accountEntity : accountEntities){
-            accounts.add(new Account(accountEntity));
+    public BaseResponse listAll(Integer page, Integer size) {
+        BaseResponse response = new BaseResponse();
+        if (page != null && size != null){
+            response.setSuccess(true);
+            response.setData(accountRepo.findAll());
+        } else {
+            response.setSuccess(true);
+            response.setData(accountRepo.findAll(new PageRequest(page, size)));
         }
-        return accounts;
+        return response;
     }
 }

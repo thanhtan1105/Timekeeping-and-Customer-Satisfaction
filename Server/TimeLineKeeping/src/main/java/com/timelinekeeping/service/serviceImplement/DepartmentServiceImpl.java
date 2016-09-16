@@ -48,11 +48,11 @@ public class DepartmentServiceImpl {
         return repo.isExist(name).size() > 0 ? true : false;
     }
 
-    public BaseResponse findAll(int start, int top) {
+    public BaseResponse findAll(int page, int size) {
         BaseResponse baseResponse = new BaseResponse();
-        Page<Department> departments = repo.findAll(new PageRequest(start, top));
+        Page<Department> departments = repo.findAll(new PageRequest(page, size));
         baseResponse.setSuccess(true);
-        baseResponse.setData(JsonUtil.toJson(departments));
+        baseResponse.setData(departments);
         return baseResponse;
     }
 }
