@@ -9,8 +9,8 @@ import java.sql.Timestamp;
  */
 
 @Entity
-@Table(name = "department")
-public class Department implements Serializable {
+@Table(name = "department", schema = "mydb")
+public class DepartmentEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,31 +25,26 @@ public class Department implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "createTime")
-    private Timestamp createTime;
-
     @Column(name = "active")
     private boolean active;
 
-    public Department() { }
+    public DepartmentEntity() { }
 
-    public Department(String code, String name, String description, Timestamp createTime, boolean active) {
+    public DepartmentEntity(String code, String name, String description, boolean active) {
         this.code = code;
         this.name = name;
         this.description = description;
-        this.createTime = createTime;
         this.active = active;
     }
 
 
     @Override
     public String toString() {
-        return "Department{" +
+        return "DepartmentEntity{" +
                 "id=" + id +
                 ", code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", createTime=" + createTime +
                 '}';
     }
 
@@ -83,14 +78,6 @@ public class Department implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Timestamp getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
     }
 
     public boolean isActive() {

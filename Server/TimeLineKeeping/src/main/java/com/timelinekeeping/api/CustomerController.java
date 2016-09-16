@@ -24,7 +24,6 @@ public class CustomerController {
     @RequestMapping(value = "/getLastName", method = RequestMethod.GET)
     @ResponseBody
     public String getLastName(String lastname) {
-
         List<CustomerEntity> customerEntities = customerService.findByLastName(lastname);
         String result = "";
         for (CustomerEntity customerEntity : customerEntities) {

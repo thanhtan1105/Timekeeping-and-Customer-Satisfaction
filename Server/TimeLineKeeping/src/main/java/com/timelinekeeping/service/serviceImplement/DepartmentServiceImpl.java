@@ -1,10 +1,9 @@
 package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
-import com.timelinekeeping.entity.Department;
+import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.repository.DepartmentRepo;
-import com.timelinekeeping.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,14 +20,18 @@ import java.util.List;
 @Service
 public class DepartmentServiceImpl {
 
-    @Autowired
+    @Autowired(required = true)
     private DepartmentRepo repo;
 
-    public List<Department> findByName(String name) {
+    public List<DepartmentEntity> findByName(String name) {
         return repo.findByName(name);
     }
 
-    public BaseResponse create(Department model) throws IOException, URISyntaxException {
+    public DepartmentEntity findBy(long id) {
+        return repo.findOne(id);
+    }
+
+    public BaseResponse create(DepartmentEntity model) throws IOException, URISyntaxException {
         BaseResponse baseResponse = new BaseResponse();
         if (isExist(model.getName())) {
             baseResponse.setSuccess(false);
@@ -50,9 +52,11 @@ public class DepartmentServiceImpl {
 
     public BaseResponse findAll(int page, int size) {
         BaseResponse baseResponse = new BaseResponse();
-        Page<Department> departments = repo.findAll(new PageRequest(page, size));
+        Page<DepartmentEntity> departments = repo.findAll(new PageRequest(page, size));
         baseResponse.setSuccess(true);
         baseResponse.setData(departments);
         return baseResponse;
     }
+
+
 }

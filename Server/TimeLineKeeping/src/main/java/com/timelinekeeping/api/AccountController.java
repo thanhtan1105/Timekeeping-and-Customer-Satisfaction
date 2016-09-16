@@ -22,13 +22,10 @@ public class AccountController {
     @Autowired
     private AccountServiceImpl accountService;
 
-
-
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public AccountView create(@ModelAttribute("account") AccountEntity account,
-                              @RequestParam("groupId") String groupId){
-        AccountView accountViewRespone = accountService.create(account, groupId);
+    public BaseResponse create(@ModelAttribute("account") AccountEntity account){
+        BaseResponse accountViewRespone = accountService.create(account);
         logger.info("AccountView: " + JsonUtil.toJson(accountViewRespone));
         return accountViewRespone;
     }

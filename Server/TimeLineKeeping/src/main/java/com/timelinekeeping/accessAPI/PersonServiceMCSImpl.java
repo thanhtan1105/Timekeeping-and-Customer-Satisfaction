@@ -41,8 +41,8 @@ public class PersonServiceMCSImpl extends BaseService {
     /**
      * create person in MCS
      *
-     * @param groupId     group to add person
-     * @param name        person
+     * @param departmentId     group to add person
+     * @param name             person
      * @param description
      * @return @{@link BaseResponse}
      * @apiNote https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523c
@@ -55,11 +55,11 @@ public class PersonServiceMCSImpl extends BaseService {
      * 9-11-2016
      * @author hientq
      */
-    public BaseResponse createPerson(String groupId, String name, String description) throws URISyntaxException, IOException {
+    public BaseResponse createPerson(String departmentCode, String name, String description) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
             String urlChild = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
-            String url = rootPath + String.format("/%s", groupId) + urlChild;
+            String url = rootPath + String.format("/%s", departmentCode) + urlChild;
 
             /*** url*/
             /** entity*/

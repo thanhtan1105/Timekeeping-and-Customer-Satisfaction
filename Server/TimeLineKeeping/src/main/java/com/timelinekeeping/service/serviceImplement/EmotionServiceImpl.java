@@ -3,7 +3,6 @@ package com.timelinekeeping.service.serviceImplement;
 import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.constant.Gender;
-import com.timelinekeeping.entity.Department;
 import com.timelinekeeping.entity.Emotion;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.modelAPI.EmotionRecognizeResponse;

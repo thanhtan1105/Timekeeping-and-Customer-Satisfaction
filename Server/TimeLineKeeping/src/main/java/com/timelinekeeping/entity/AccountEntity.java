@@ -17,7 +17,7 @@ public class AccountEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     private String username;
 
     @Column(name = "user_code")
@@ -35,10 +35,11 @@ public class AccountEntity {
     @Column(name = "token")
     private String token;
 
+    @Column(name = "roleId")
+    private Long roleId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id")
-    private RoleEntity role;
+    @Column(name = "departmentId")
+    private Long departmentId;
 
     public AccountEntity() {
     }
@@ -97,12 +98,20 @@ public class AccountEntity {
         this.token = token;
     }
 
-    public RoleEntity getRole() {
-        return role;
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setRole(RoleEntity role) {
-        this.role = role;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
+
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
     }
 
     public String getUserCode() {
@@ -119,11 +128,11 @@ public class AccountEntity {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", role=" + role +
+                ", role=" + roleId +
                 ", active=" + active +
                 ", fullname='" + fullname + '\'' +
                 ", token='" + token + '\'' +
-                ", role=" + role +
+                ", role=" + roleId +
                 '}';
     }
 }

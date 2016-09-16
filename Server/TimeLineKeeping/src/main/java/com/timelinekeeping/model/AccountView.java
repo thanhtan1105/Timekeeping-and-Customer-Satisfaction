@@ -19,7 +19,7 @@ public class AccountView {
     public AccountView(AccountEntity entity) {
         this.id = entity.getId();
         this.username = entity.getUsername();
-        this.role = entity.getRole() != null ? entity.getRole().getName(): "";
+        this.role = "";
         this.active = entity.getActive();
         this.fullname = entity.getFullname();
         this.token = entity.getToken();

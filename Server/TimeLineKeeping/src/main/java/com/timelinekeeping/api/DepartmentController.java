@@ -2,17 +2,13 @@ package com.timelinekeeping.api;
 
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.controller.PersonGroupControllerWeb;
-import com.timelinekeeping.entity.Department;
+import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * Created by lethanhtan on 9/14/16.
@@ -35,9 +31,8 @@ public class DepartmentController {
                                @RequestParam("description") String description) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            java.util.Date date= new java.util.Date();
-            Department department = new Department(code, name, description, new Timestamp(date.getTime()), true);
-            BaseResponse response = departmentService.create(department);
+            DepartmentEntity departmentEntity = new DepartmentEntity(code, name, description, true);
+            BaseResponse response = departmentService.create(departmentEntity);
             logger.info("RESPONSE: " + JsonUtil.toJson(response));
             return response;
 
