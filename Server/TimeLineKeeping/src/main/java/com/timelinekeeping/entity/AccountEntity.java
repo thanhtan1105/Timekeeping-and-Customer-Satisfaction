@@ -1,6 +1,6 @@
 package com.timelinekeeping.entity;
 
-import com.timelinekeeping.model.Account;
+import com.timelinekeeping.model.AccountView;
 
 import javax.persistence.*;
 
@@ -43,9 +43,9 @@ public class AccountEntity {
     public AccountEntity() {
     }
 
-    public AccountEntity(Account account) {
-        this.username = account.getUsername();
-        this.fullname = account.getFullname();
+    public AccountEntity(AccountView accountView) {
+        this.username = accountView.getUsername();
+        this.fullname = accountView.getFullname();
     }
 
     public Long getId() {

@@ -1,6 +1,7 @@
 package com.timelinekeeping.service;
 
-import com.timelinekeeping.model.Account;
+import com.timelinekeeping.entity.AccountEntity;
+import com.timelinekeeping.model.AccountView;
 
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * Created by HienTQSE60896 on 9/15/2016.
  */
 public interface AccountService {
-    public Account create(Account account, String groupID);
-    public List<Account> listAll();
+    public AccountView create(AccountEntity accountView, String groupID);
+    public List<AccountView> listAll(int page, int size);
 
 }

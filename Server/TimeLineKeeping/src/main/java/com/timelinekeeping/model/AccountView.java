@@ -1,12 +1,11 @@
 package com.timelinekeeping.model;
 
-import com.sun.org.apache.xpath.internal.operations.String;
 import com.timelinekeeping.entity.AccountEntity;
 
 /**
  * Created by HienTQSE60896 on 9/15/2016.
  */
-public class Account {
+public class AccountView {
     private Long id;
     private String username;
     private String role;
@@ -15,16 +14,17 @@ public class Account {
     private String fullname;
     private String token;
 
-    public Account() {
+    public AccountView() {
     }
 
-    public Account(AccountEntity entity) {
+    public AccountView(AccountEntity entity) {
         this.id = entity.getId();
         this.username = entity.getUsername();
-        this.role = entity.getRole().getName();
+        this.role = entity.getRole() != null ? entity.getRole().getName(): "";
         this.active = entity.getActive();
         this.fullname = entity.getFullname();
         this.token = entity.getToken();
+        this.userCode = entity.getUserCode();
     }
 
     public Long getId() {

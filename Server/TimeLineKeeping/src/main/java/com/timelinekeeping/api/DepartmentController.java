@@ -51,10 +51,10 @@ public class DepartmentController {
 
     @RequestMapping(value = {"/findAll"}, method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse findAll(@RequestParam("start") int start,
-                                @RequestParam("top") int top) {
+    public BaseResponse findAll(@RequestParam("page") int page,
+                                @RequestParam("size") int size) {
         logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-        BaseResponse response = departmentService.findAll(start, top);
+        BaseResponse response = departmentService.findAll(page, size);
         logger.info(IContanst.END_METHOD_SERVICE);
         return response;
     }
