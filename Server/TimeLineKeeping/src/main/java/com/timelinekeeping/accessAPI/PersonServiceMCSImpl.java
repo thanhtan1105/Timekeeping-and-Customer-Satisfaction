@@ -57,7 +57,7 @@ public class PersonServiceMCSImpl extends BaseService {
      */
     public BaseResponse createPerson(String departmentCode, String name, String description) throws URISyntaxException, IOException {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             String urlChild = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
             String url = rootPath + String.format("/%s", departmentCode) + urlChild;
 
@@ -73,7 +73,6 @@ public class PersonServiceMCSImpl extends BaseService {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
-
 
 
     /**
@@ -95,7 +94,7 @@ public class PersonServiceMCSImpl extends BaseService {
      */
     public BaseResponse addFaceUrl(String persongroupId, String personId, String urlImg) throws URISyntaxException, IOException {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             String urlPerson = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
             String urlPersistence = AppConfigKeys.getInstance().getApiPropertyValue("api.person.add.face.addition");
             String url = rootPath + String.format("/%s", persongroupId) + urlPerson + String.format("/%s", personId) + urlPersistence;
@@ -120,7 +119,8 @@ public class PersonServiceMCSImpl extends BaseService {
 
     public BaseResponse addFaceImg(String persongroupId, String personId, InputStream imgStream) throws URISyntaxException, IOException {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            //STORE FILE
             String urlPerson = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
             String urlPersistence = AppConfigKeys.getInstance().getApiPropertyValue("api.person.add.face.addition");
             String url = rootPath + String.format("/%s", persongroupId) + urlPerson + String.format("/%s", personId) + urlPersistence;
@@ -144,7 +144,7 @@ public class PersonServiceMCSImpl extends BaseService {
     /**
      * list Person in Person Groups
      *
-     * @param groupId     group to add person
+     * @param groupId group to add person
      * @return @{@link BaseResponse}
      * @apiNote https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395241
      * <p>
@@ -158,7 +158,7 @@ public class PersonServiceMCSImpl extends BaseService {
      */
     public BaseResponse listPersonInGroup(String groupId) throws URISyntaxException, IOException {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             String urlChild = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
             String url = rootPath + String.format("/%s", groupId) + urlChild;
 

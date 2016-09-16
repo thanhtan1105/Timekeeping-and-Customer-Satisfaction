@@ -7,6 +7,7 @@ import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.modelAPI.FaceDetectRespone;
 import com.timelinekeeping.modelAPI.PersonGroup;
 import com.timelinekeeping.util.JsonUtil;
+import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.UtilApps;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,12 +64,11 @@ public class FaceController {
                 response.setMessage("File not image format.");
             }
             return response;
-
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_SERVICE);
+            logger.info(IContanst.END_METHOD_CONTROLLER);
         }
     }
 

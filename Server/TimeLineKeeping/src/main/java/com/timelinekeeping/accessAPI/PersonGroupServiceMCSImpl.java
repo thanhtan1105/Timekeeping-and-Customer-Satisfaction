@@ -34,7 +34,7 @@ public class PersonGroupServiceMCSImpl {
     public BaseResponse create(String groupId, String groupName, String groupData) throws URISyntaxException, IOException {
 
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             String urlString = String.format("%s/%s", rootPath, groupId);
 
             /** entity*/
@@ -52,7 +52,7 @@ public class PersonGroupServiceMCSImpl {
 
     public BaseResponse listAll(int start, int top) throws URISyntaxException, IOException {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             String urlString = rootPath;
             URIBuilder builder = new URIBuilder(urlString)
                     .addParameter("start", String.valueOf(start))
@@ -76,7 +76,7 @@ public class PersonGroupServiceMCSImpl {
 
     public BaseResponse trainPersonGroupStatus(String personGroupId) throws URISyntaxException, IOException {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             String urlString = rootPath;
             String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.status.addition");
             String url = String.format("%s/%s/%s", urlString, personGroupId, urlAddition);
