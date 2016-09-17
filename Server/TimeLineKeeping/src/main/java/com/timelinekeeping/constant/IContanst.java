@@ -1,5 +1,7 @@
 package com.timelinekeeping.constant;
 
+import com.timelinekeeping._config.AppConfigKeys;
+
 /**
  * Created by HienTQSE60896 on 9/8/2016.
  */
@@ -19,4 +21,5 @@ public interface IContanst {
     int HTTP_CLIENT_KEY_EMOTION = 1;
 
     String EXTENSION_FILE_IMAGE = "jpg";
+    double MCS_PERSON_DETECT_CONFIDINCE_CORRECT = AppConfigKeys.getInstance().getApiPropertyDouble("detect.person.indetify.confidence");
 }

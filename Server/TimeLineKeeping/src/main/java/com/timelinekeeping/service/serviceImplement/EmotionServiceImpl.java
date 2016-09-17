@@ -6,7 +6,7 @@ import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.entity.Emotion;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.modelAPI.EmotionRecognizeResponse;
-import com.timelinekeeping.modelAPI.FaceDetectRespone;
+import com.timelinekeeping.modelAPI.FaceDetectResponse;
 import com.timelinekeeping.repository.EmotionRepo;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +49,8 @@ public class EmotionServiceImpl {
         EmotionRecognizeResponse emotionRecognize = emotionRecognizeList.get(0);
 
         // parser face response
-        List<FaceDetectRespone> faceRecognizeList = (List<FaceDetectRespone>) faceResponse.getData();
-        FaceDetectRespone faceDetectResponse = faceRecognizeList.get(0);
+        List<FaceDetectResponse> faceRecognizeList = (List<FaceDetectResponse>) faceResponse.getData();
+        FaceDetectResponse faceDetectResponse = faceRecognizeList.get(0);
 
         // create time
         java.util.Date date= new java.util.Date();

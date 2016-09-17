@@ -4,10 +4,9 @@ import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.modelAPI.FaceDetectRespone;
+import com.timelinekeeping.modelAPI.FaceDetectResponse;
 import com.timelinekeeping.modelAPI.PersonGroup;
 import com.timelinekeeping.util.JsonUtil;
-import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.UtilApps;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,9 +92,9 @@ public class FaceController {
         try {
             // call function detect image
             BaseResponse detectFaceResponse = detectimg(image);
-            List<FaceDetectRespone> faceDetectRespone = (ArrayList<FaceDetectRespone>) detectFaceResponse.getData();
+            List<FaceDetectResponse> faceDetectResponse = (ArrayList<FaceDetectResponse>) detectFaceResponse.getData();
 
-            String faceId = faceDetectRespone.get(0).getFaceId();
+            String faceId = faceDetectResponse.get(0).getFaceId();
             logger.info("FaceId: " + faceId);
 
             // call personGroup list

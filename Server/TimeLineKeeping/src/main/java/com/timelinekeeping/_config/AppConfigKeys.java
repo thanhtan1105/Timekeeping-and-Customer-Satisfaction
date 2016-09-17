@@ -1,5 +1,7 @@
 package com.timelinekeeping._config;
 
+import com.timelinekeeping.util.UtilApps;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -56,15 +58,23 @@ public class AppConfigKeys {
 
     public String getApiPropertyValue(String key) {
         try {
-            return propertiesApi.getProperty(key);
+            return UtilApps.trim(propertiesApi.getProperty(key));
         } catch (Exception e) {
             return null;
+        }
+    }
+    public double getApiPropertyDouble(String key) {
+        try {
+            String value = getApiPropertyValue(key);
+            return Double.parseDouble(value);
+        } catch (NumberFormatException e) {
+            return 0d;
         }
     }
 
     public String getMessagePropertyValue(String key) {
         try {
-            return propertiesMessage.getProperty(key);
+            return UtilApps.trim(propertiesMessage.getProperty(key));
         } catch (Exception e) {
             return null;
         }

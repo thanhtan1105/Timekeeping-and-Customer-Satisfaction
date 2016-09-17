@@ -1,8 +1,11 @@
 package com.timelinekeeping.entity;
 
+import com.timelinekeeping.constant.EStatus;
+import com.timelinekeeping.model.AbstractModel;
 import com.timelinekeeping.model.AccountView;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by HienTQSE60896 on 9/4/2016.
@@ -10,35 +13,46 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "account", schema = "mydb")
-public class AccountEntity {
+public class AccountEntity extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
+    @Basic
+    @NotNull
     @Column(name = "username", unique = true)
     private String username;
 
+    @Basic
+    @NotNull
     @Column(name = "user_code")
     private String userCode;
 
+    @Basic
+    @NotNull
     @Column(name = "password")
     private String password;
 
+    @Basic
     @Column(name = "active")
-    private Integer active;
+    private EStatus active = EStatus.ACTIVE;
 
+    @Basic
     @Column(name = "full_name")
     private String fullname;
 
+    @Basic
     @Column(name = "token")
     private String token;
 
-    @Column(name = "roleId")
-    private Long roleId;
 
-    @Column(name = "departmentId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private RoleEntity roles;
+
+    @Column(name = "department_id")
     private Long departmentId;
 
     public AccountEntity() {
@@ -74,11 +88,11 @@ public class AccountEntity {
     }
 
 
-    public Integer getActive() {
+    public EStatus getActive() {
         return active;
     }
 
-    public void setActive(Integer active) {
+    public void setActive(EStatus active) {
         this.active = active;
     }
 
@@ -98,12 +112,12 @@ public class AccountEntity {
         this.token = token;
     }
 
-    public Long getRoleId() {
-        return roleId;
+    public RoleEntity getRoles() {
+        return roles;
     }
 
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public void setRoles(RoleEntity roleId) {
+        this.roles = roleId;
     }
 
     public Long getDepartmentId() {
@@ -122,17 +136,12 @@ public class AccountEntity {
         this.userCode = userCode;
     }
 
+
+
     @Override
-    public String toString() {
-        return "AccountEntity{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + roleId +
-                ", active=" + active +
-                ", fullname='" + fullname + '\'' +
-                ", token='" + token + '\'' +
-                ", role=" + roleId +
-                '}';
+    public <T extends AbstractModel> void fromModel(T modelGeneric) {
+        AccountView model = (AccountView) modelGeneric;
+        this.username = model.getUsername();
+        this.fullname = model.getFullname();
     }
 }

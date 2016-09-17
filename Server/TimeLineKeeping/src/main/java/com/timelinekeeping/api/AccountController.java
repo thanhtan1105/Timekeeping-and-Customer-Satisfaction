@@ -9,6 +9,10 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 /**
  * Created by HienTQSE60896 on 9/14/2016.
@@ -34,6 +38,23 @@ public class AccountController {
     @ResponseBody
     public BaseResponse search (@RequestParam(value = "start", required = false) Integer page,
                                 @RequestParam(value = "top", required = false) Integer size){
-        return accountService.listAll(page, size);
+        return new BaseResponse(true, accountService.listAll(page, size));
     }
+
+    @RequestMapping(value = "/checkin_img", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse checkin (@RequestParam(value = "img") MultipartFile fileImg){
+        try {
+            return accountService.checkin(fileImg.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
+
 }
