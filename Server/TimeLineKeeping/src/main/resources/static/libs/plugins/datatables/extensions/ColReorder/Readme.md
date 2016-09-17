@@ -1,6 +1,6 @@
 # ColReorder
 
-ColReorder adds the ability for the end accountEntity to click and drag column headers to reorder a table as they see fit, to DataTables. Key features include:
+ColReorder adds the ability for the end user to click and drag column headers to reorder a table as they see fit, to DataTables. Key features include:
 
 * Very easy integration with DataTables
 * Tight integration with all other DataTables plug-ins

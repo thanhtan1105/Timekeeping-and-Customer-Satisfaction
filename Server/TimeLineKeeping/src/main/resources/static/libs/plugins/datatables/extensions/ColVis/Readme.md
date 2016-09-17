@@ -1,6 +1,6 @@
 # ColVis
 
-ColVis adds a button to the toolbars around DataTables which gives the end accountEntity of the table the ability to dynamically change the visibility of the columns in the table:
+ColVis adds a button to the toolbars around DataTables which gives the end user of the table the ability to dynamically change the visibility of the columns in the table:
 
 * Dynamically show and hide columns in a table
 * Very easy integration with DataTables
