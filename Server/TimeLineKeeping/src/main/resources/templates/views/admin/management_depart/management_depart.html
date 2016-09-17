@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout_admin">
+
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Training Image</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1 class="text-success">
+            <i class="glyphicon glyphicon-send"></i> Management Departments
+        </h1>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-laptop active"></i> Management Departments</li>
+        </ol>
+        <hr style="border-color: green; margin-top: 4px; margin-bottom: 5px;"/>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <!-- Form for search departments -->
+        <div class="input-group" style="margin-right:  25%; margin-left: 25%; margin-bottom: 5px;">
+            <input type="text" class="form-control" placeholder="Enter Department"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-success btn-flat" type="button"/>
+                        <i class="glyphicon glyphicon-search"></i> Search
+                </span>
+        </div>
+        <!-- ./form for search departments -->
+        <!-- Add new department -->
+        <div style="margin-bottom: 8px;">
+            <button type="submit" id="add-new-class-button" class="btn btn-success btn-flat btn-sm">
+                <i class="glyphicon glyphicon-plus"></i> New Department
+            </button>
+        </div>
+        <!-- /.end add new department -->
+        <div class="box box-success">
+            <div class="box-header">
+                <h3 class="box-title text-success"><i class="glyphicon glyphicon-list-alt"></i> Departments List</h3>
+                <hr style="border-color: green; margin-top: 4px; margin-bottom: 5px; margin-right: 86%; border-width: 2px;">
+            </div>
+            <!-- /.box-header -->
+            <!-- Data-table for list of departments -->
+            <div class="box-body">
+                <table id="dataTable" class="table table-bordered table-hover" style="border-collapse: collapse;">
+                    <colgroup>
+                        <col span="1" style="width: 5%;">
+                        <col span="1" style="width: 25%;">
+                        <col span="1" style="width: 25%;">
+                        <col span="1" style="width: 5%;">
+                        <col span="1" style="width: 20%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Department Name</th>
+                        <th>Description</th>
+                        <th>Active</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="department,counter: ${ListDepartments}">
+                        <td th:text="${counter.count} + '.'"></td>
+                        <td th:text="${department.name}"></td>
+                        <td th:text="${department.description}"></td>
+                        <td>
+                            <input type="checkbox" class="minimal-red"
+                                   th:checked="${department.active}"/>
+                        </td>
+                        <td>
+                            <div class="btn-group" style="width: 70%;">
+                                <button class="btn btn-success btn-flat btn-sm" type="button" style="width: 50%;"
+                                        title="Edit Class">
+                                    <i class="glyphicon glyphicon-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-danger btn-flat btn-sm" type="button" style="width: 50%;">
+                                    <i class="glyphicon glyphicon-remove"></i> Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+            <!-- /.end data-table for list of departments -->
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<div layout:fragment="js">
+    <script th:src="@{/js/admin/management_depart/management_depart.js}"></script>
+</div>
+</body>
+</html>
