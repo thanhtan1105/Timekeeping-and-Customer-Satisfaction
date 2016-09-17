@@ -1,5 +1,6 @@
 package com.timelinekeeping.api;
 
+import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.controller.PersonGroupControllerWeb;
 import com.timelinekeeping.entity.DepartmentEntity;
@@ -9,6 +10,9 @@ import com.timelinekeeping.util.JsonUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by lethanhtan on 9/14/16.
@@ -31,7 +35,7 @@ public class DepartmentController {
                                @RequestParam("description") String description) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            DepartmentEntity departmentEntity = new DepartmentEntity(code, name, description, true);
+            DepartmentEntity departmentEntity = new DepartmentEntity(code, name, description, EStatus.ACTIVE);
             BaseResponse response = departmentService.create(departmentEntity);
             logger.info("RESPONSE: " + JsonUtil.toJson(response));
             return response;
@@ -52,5 +56,24 @@ public class DepartmentController {
         BaseResponse response = departmentService.findAll(page, size);
         logger.info(IContanst.END_METHOD_CONTROLLER);
         return response;
+    }
+
+    @RequestMapping(value = {"/exist_code"}, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse checkExistCode(@RequestParam("code") String code) {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+        try {
+            Boolean isExist = departmentService.isExist(code);
+            Map<String, Boolean> map = new HashMap<>();
+            map.put("exist", isExist);
+            return new BaseResponse(true, map);
+        } catch (Exception e){
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        }finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+
+        }
     }
 }

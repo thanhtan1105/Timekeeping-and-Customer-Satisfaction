@@ -47,7 +47,7 @@ public class DepartmentServiceImpl {
     }
 
     public boolean isExist(String name) {
-        return repo.isExist(name).size() > 0 ? true : false;
+        return repo.isExist(name).size() > 0;
     }
 
     public BaseResponse findAll(int page, int size) {
