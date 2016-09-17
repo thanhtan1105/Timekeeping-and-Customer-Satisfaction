@@ -67,13 +67,8 @@ public class FaceServiceMCSImpl {
 
     public BaseResponse detect(String urlImg) throws URISyntaxException, IOException {
         try {
-<<<<<<< HEAD
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
         String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detect");
-=======
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-        String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detech");
->>>>>>> w2-hien-store_file
         String url = rootPath + urlAddition;
 
         /*** url*/

@@ -20,8 +20,8 @@ public class EmotionController {
 
     private Logger logger = LogManager.getLogger(EmotionController.class);
 
-    @Autowired
-    private EmotionServiceImpl emotionServiceMCS;
+//    @Autowired
+//    private EmotionServiceImpl emotionServiceMCS;
 /*
     @RequestMapping(value = {"/recognize"}, method = RequestMethod.POST)
     @ResponseBody
@@ -86,5 +86,5 @@ public class EmotionController {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }
     }
-
+*/
 }
