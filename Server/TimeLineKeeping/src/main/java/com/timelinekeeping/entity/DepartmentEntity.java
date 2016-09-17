@@ -1,8 +1,9 @@
 package com.timelinekeeping.entity;
 
+import com.timelinekeeping.constant.EStatus;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 /**
  * Created by lethanhtan on 9/14/16.
@@ -16,21 +17,26 @@ public class DepartmentEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Basic
     @Column(name = "code")
     private String code;
 
+    @Basic
     @Column(name = "name")
     private String name;
 
+    @Basic
     @Column(name = "description")
     private String description;
 
+    @Basic
     @Column(name = "active")
-    private boolean active;
+    private EStatus active = EStatus.ACTIVE;
 
-    public DepartmentEntity() { }
+    public DepartmentEntity() {
+    }
 
-    public DepartmentEntity(String code, String name, String description, boolean active) {
+    public DepartmentEntity(String code, String name, String description, EStatus active) {
         this.code = code;
         this.name = name;
         this.description = description;
@@ -80,11 +86,11 @@ public class DepartmentEntity implements Serializable {
         this.description = description;
     }
 
-    public boolean isActive() {
+    public EStatus isActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(EStatus active) {
         this.active = active;
     }
 }

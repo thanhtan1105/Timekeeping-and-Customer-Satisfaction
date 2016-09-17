@@ -13,6 +13,11 @@ public class BaseResponse {
     public BaseResponse() {
     }
 
+    public BaseResponse(boolean success, Object data) {
+        this.success = success;
+        this.data = data;
+    }
+
     public BaseResponse(Exception e) {
         this.success = false;
         this.message = e.getMessage();

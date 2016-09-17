@@ -12,6 +12,7 @@ public interface IContanst {
 
     String BEGIN_METHOD_CONTROLLER = "--- Begin Controller : ";
     String END_METHOD_CONTROLLER = "---- End Controller ----";
+    String LOGGER_ERROR = "--- ERROR";
 
     String API_COGN_MICROSOFT_PER_GROUP_FORMAT_TIME = "MM/DD/YYYY h:mm:ss a";
 
