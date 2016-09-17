@@ -21,7 +21,7 @@ class Department: NSObject {
   init?(_ info: [String: AnyObject]) {
     let active = info["active"] as? Bool
     let code = info["code"] as? String
-    let createTime = info["createTime"] as? NSTimeInterval
+//    let createTime = info["createTime"] as? NSTimeInterval
     let descriptions = info["description"] as? String
     let id = info["id"] as? Int
     let name = info["name"] as? String
@@ -29,7 +29,7 @@ class Department: NSObject {
     self.id = id
     self.active = active
     self.code = code
-    self.createTime = NSDate(timeIntervalSince1970: createTime!)
+//    self.createTime = NSDate(timeIntervalSince1970: createTime!)
     self.name = name
     self.descriptions = descriptions
   }

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		23C1A0FBA5C877021F44C076 /* Pods_TrainingImageAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 873891F56F6AFCD1994AC0EE /* Pods_TrainingImageAppTests.framework */; };
 		4F4FC0A2C4BD17E56C08394C /* Pods_TrainingImageApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C97D15C9FE2DD1B90EEAF3E /* Pods_TrainingImageApp.framework */; };
+		A63B20B31D8D2AD3008A8AEE /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = A63B20B21D8D2AD3008A8AEE /* Employee.swift */; };
+		A63B20B71D8D31CD008A8AEE /* EmployeeTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A63B20B61D8D31CD008A8AEE /* EmployeeTableCell.swift */; };
 		A67279031D8AB01D00922754 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A67279021D8AB01D00922754 /* AppDelegate.swift */; };
 		A67279081D8AB01D00922754 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A67279061D8AB01D00922754 /* Main.storyboard */; };
 		A672790A1D8AB01D00922754 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A67279091D8AB01D00922754 /* Assets.xcassets */; };
@@ -56,6 +58,8 @@
 		7E79D76E4C9B3A4E7983FCE3 /* Pods-TrainingImageAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrainingImageAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrainingImageAppTests/Pods-TrainingImageAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		873891F56F6AFCD1994AC0EE /* Pods_TrainingImageAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrainingImageAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BA11F29A199593829E044E9 /* Pods-TrainingImageApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrainingImageApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrainingImageApp/Pods-TrainingImageApp.release.xcconfig"; sourceTree = "<group>"; };
+		A63B20B21D8D2AD3008A8AEE /* Employee.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
+		A63B20B61D8D31CD008A8AEE /* EmployeeTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmployeeTableCell.swift; sourceTree = "<group>"; };
 		A67278FF1D8AB01D00922754 /* TrainingImageApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrainingImageApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A67279021D8AB01D00922754 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A67279071D8AB01D00922754 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -174,6 +178,7 @@
 			children = (
 				A67279371D8AB43300922754 /* Camera.swift */,
 				A67279491D8B7FEC00922754 /* Department.swift */,
+				A63B20B21D8D2AD3008A8AEE /* Employee.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -238,6 +243,7 @@
 			isa = PBXGroup;
 			children = (
 				A672794C1D8B830900922754 /* DepartmentTableCell.swift */,
+				A63B20B61D8D31CD008A8AEE /* EmployeeTableCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -561,9 +567,11 @@
 				A672794A1D8B7FEC00922754 /* Department.swift in Sources */,
 				A67279521D8B8F2500922754 /* TrainingImageViewController.swift in Sources */,
 				A672793A1D8AB65B00922754 /* CameraViewController.swift in Sources */,
+				A63B20B71D8D31CD008A8AEE /* EmployeeTableCell.swift in Sources */,
 				A67279421D8ABE8800922754 /* FaceListViewController.swift in Sources */,
 				A67279481D8B745000922754 /* APIRequest.swift in Sources */,
 				A67279501D8B8B2A00922754 /* UserDefaultUtilities.swift in Sources */,
+				A63B20B31D8D2AD3008A8AEE /* Employee.swift in Sources */,
 				A67279461D8B745000922754 /* APIDefine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

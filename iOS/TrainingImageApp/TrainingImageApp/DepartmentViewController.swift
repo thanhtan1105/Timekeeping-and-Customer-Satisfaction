@@ -20,15 +20,24 @@ class DepartmentViewController: BaseViewController {
     callApiDepartment(start: 0, top: 100)
   }
   
-  @IBAction func onNextAction(sender: UIButton) {
+  @IBAction func onNextAction(sender: UIBarButtonItem) {
+
+    if checkedIndex == nil {
+      let alert = UIAlertController(title: "Error", message: "Choice least one department", preferredStyle: .Alert)
+      alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction) in
+        
+      }))
+      navigationController?.presentViewController(alert, animated: true, completion: nil)
+      return
+    }
+
     let data = departmentData[checkedIndex!]
     Department.saveToUserDefault(department: data)
     
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
     let vc = storyboard.instantiateViewControllerWithIdentifier("EmployeeListViewController") as! EmployeeListViewController
-    self.navigationController?.pushViewController(vc, animated: true)        
+    self.navigationController?.pushViewController(vc, animated: true)
   }
-  
 
 }
 
@@ -57,8 +66,16 @@ extension DepartmentViewController: UITableViewDelegate, UITableViewDataSource {
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     tableView.deselectRowAtIndexPath(indexPath, animated: true)
     let cell = tableView.cellForRowAtIndexPath(indexPath)
-    cell?.accessoryType = .Checkmark
-    checkedIndex = indexPath.row    
+    if cell?.accessoryType == .Checkmark {
+      cell?.accessoryType = .None
+      checkedIndex = nil
+    } else {
+      cell?.accessoryType = .Checkmark
+      checkedIndex = indexPath.row
+    }
+    
+    tableView.reloadData()
+    
   }
   
 }
@@ -75,24 +92,17 @@ extension DepartmentViewController {
       }
       
       let dict = response?.response as! [String: AnyObject]
-      let success = dict["success"] as! Int
+      let success = dict["success"] as? Int
       if success == 1 {
         print("Call api success")
-        let str = dict["data"] as! String
-        let dataSource : NSData = str.dataUsingEncoding(NSUTF8StringEncoding)!
-        do {
-          let dataBody = try NSJSONSerialization.JSONObjectWithData(dataSource, options: NSJSONReadingOptions(rawValue: 0)) as! [String : AnyObject]
-          let content = dataBody["content"] as? [[String: AnyObject]] ?? []
-          self.departmentData = Department.departments(array: content)
-          print(self.departmentData)
-          
-          dispatch_async(dispatch_get_main_queue(), { 
-            self.tableView.reloadData()
-          })
-          
-        } catch let error as NSError {
-          print(error)
-        }
+        let data = dict["data"] as! [String : AnyObject]
+        let content = data["content"] as! [[String : AnyObject]]
+        self.departmentData = Department.departments(array: content)
+        print(self.departmentData)
+
+        dispatch_async(dispatch_get_main_queue(), {
+          self.tableView.reloadData()
+        })
       } else {
         print("Fail")
       }

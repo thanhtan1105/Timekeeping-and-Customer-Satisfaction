@@ -13,21 +13,26 @@ enum Enviroment {
 	case dev
 	case test
 	case production
+  case home
 }
 
-let enviroment = Enviroment.dev
+let enviroment = Enviroment.home
+//let enviroment = Enviroment.dev
 //let enviroment = Enviroment.test
 //let enviroment = Enviroment.production
 
 let serverUrl: String = {
 	switch enviroment {
 	case .dev:
-		return "http://192.168.43.93:8080/api"
+		return "http://192.168.150.81:8080/api"
 	case .test:
 		return "Enviroment.TEST HERE"
 	case .production:
 		return "Enviroment.PRODUCTION HERE"
+  case .home:
+    return "http://192.168.1.102:8080/api"
 	}
+
 }()
 
 

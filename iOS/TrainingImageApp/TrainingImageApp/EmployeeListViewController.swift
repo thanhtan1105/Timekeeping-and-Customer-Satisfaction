@@ -12,9 +12,30 @@ class EmployeeListViewController: BaseViewController {
 
   @IBOutlet weak var tableView: UITableView!
   
+  var employees: [Employee] = []
+  var checkedIndex : Int?
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     callEmployeeListApi(start: 0, top: 100)
+  }
+  
+  @IBAction func onNextTapped(sender: UIBarButtonItem) {
+    if checkedIndex == nil {
+      let alert = UIAlertController(title: "Error", message: "Choice least one Employee", preferredStyle: .Alert)
+      alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction) in
+        
+      }))
+      navigationController?.presentViewController(alert, animated: true, completion: nil)
+      return
+    }
+    
+    let data = employees[checkedIndex!]
+    Employee.saveToUserDefault(employee: data)
+    
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let vc = storyboard.instantiateViewControllerWithIdentifier("FaceListViewController") as! FaceListViewController
+    self.navigationController?.pushViewController(vc, animated: true)
   }
 }
 
@@ -25,11 +46,29 @@ extension EmployeeListViewController: UITableViewDataSource, UITableViewDelegate
   }
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 1
+    return employees.count
   }
   
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    return UITableViewCell()
+    let cell = tableView.dequeueReusableCellWithIdentifier(EmployeeTableCell.ClassName) as! EmployeeTableCell
+    let data = employees[indexPath.row]
+    cell.employeeNameLabel.text = data.username
+    return cell
+  }
+  
+  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    let cell = tableView.cellForRowAtIndexPath(indexPath)
+    if cell?.accessoryType == .Checkmark {
+      cell?.accessoryType = .None
+      checkedIndex = nil
+    } else {
+      cell?.accessoryType = .Checkmark
+      checkedIndex = indexPath.row
+    }
+    
+    tableView.reloadData()
+
   }
 }
 
@@ -43,24 +82,19 @@ extension EmployeeListViewController {
         print("Fail to get api")
         return
       }
-      
       let dict = response?.response as! [String: AnyObject]
-      let success = dict["success"] as! Int
+      let success = dict["success"] as? Int
       if success == 1 {
         print("Call api success")
-        let str = dict["data"] as! String
-        let dataSource : NSData = str.dataUsingEncoding(NSUTF8StringEncoding)!
-        do {
-          let dataBody = try NSJSONSerialization.JSONObjectWithData(dataSource, options: NSJSONReadingOptions(rawValue: 0)) as! [String : AnyObject]
-          let content = dataBody["content"] as? [[String: AnyObject]] ?? []
-          print(content)
-          
-        } catch let error as NSError {
-          print(error)
-        }
+        let data = dict["data"] as! [[String : AnyObject]]
+        self.employees = Employee.employees(array: data)
+        dispatch_async(dispatch_get_main_queue(), {
+          self.tableView.reloadData()
+        })
       } else {
         print("Fail")
       }
+
     }
   }
 }
