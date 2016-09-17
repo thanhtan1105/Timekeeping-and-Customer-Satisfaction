@@ -86,7 +86,7 @@ public class DepartmentEntity implements Serializable {
         this.description = description;
     }
 
-    public EStatus isActive() {
+    public EStatus getActive() {
         return active;
     }
 

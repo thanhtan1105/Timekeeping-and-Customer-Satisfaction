@@ -1,6 +1,7 @@
 package com.timelinekeeping.controller;
 
 import com.timelinekeeping.api.DepartmentController;
+import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
@@ -56,9 +57,8 @@ public class DepartmentControllerWeb {
         logger.info("[Add Department] department code: " + departmentCode);
         logger.info("[Add Department] department name: " + departmentName);
         logger.info("[Add Department] description: " + description);
-        boolean active = true;
         DepartmentEntity departmentEntity
-                = new DepartmentEntity(departmentCode, departmentName, description, active);
+                = new DepartmentEntity(departmentCode, departmentName, description, EStatus.ACTIVE);
 
         boolean success = false;
         String url = "/views/admin/management_depart/add_depart";
