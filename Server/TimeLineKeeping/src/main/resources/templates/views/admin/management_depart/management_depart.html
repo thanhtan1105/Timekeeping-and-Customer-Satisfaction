@@ -5,7 +5,7 @@
 
 <head lang="en">
     <meta charset="UTF-8"/>
-    <title>Training Image</title>
+    <title>Management Departments</title>
 </head>
 <body>
 <div layout:fragment="content">
@@ -32,10 +32,14 @@
         </div>
         <!-- ./form for search departments -->
         <!-- Add new department -->
-        <div style="margin-bottom: 8px;">
-            <button type="submit" id="add-new-class-button" class="btn btn-success btn-flat btn-sm">
-                <i class="glyphicon glyphicon-plus"></i> New Department
-            </button>
+        <div class="row" style="margin-bottom: 8px;">
+            <div class="col-sm-2">
+                <a th:href="@{/admin/departments/addDepartment}">
+                    <button type="submit" id="add-new-class-button" class="btn btn-success btn-flat btn-sm">
+                        <i class="glyphicon glyphicon-plus"></i> New Department
+                    </button>
+                </a>
+            </div>
         </div>
         <!-- /.end add new department -->
         <div class="box box-success">
