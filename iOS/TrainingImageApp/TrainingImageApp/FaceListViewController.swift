@@ -28,3 +28,18 @@ class FaceListViewController: BaseViewController {
   }
   
 }
+
+extension FaceListViewController: UITableViewDelegate, UITableViewDataSource {
+  
+  func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    return 1
+  }
+  
+  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return 1
+  }
+  
+  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    return UITableViewCell()
+  }
+}

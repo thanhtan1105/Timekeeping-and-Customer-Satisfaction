@@ -13,11 +13,18 @@ enum Status: Int {
   case Preview, Still, Error
 }
 
+protocol CameraViewControllerDelegate: class {
+  func cameraViewController(cameraViewController: CameraViewController, didUsePhoto image: UIImage)
+}
+
 class CameraViewController: BaseViewController {
 
   @IBOutlet weak var cameraStill: UIImageView!
   @IBOutlet weak var cameraPreview: UIView!
   @IBOutlet weak var cameraCapture: UIButton!
+  @IBOutlet weak var retakeButton: UIButton!
+  @IBOutlet weak var captureButton: UIButton!
+  @IBOutlet weak var usePhotoButton: UIButton!
 
   var isRunning = false
   var preview: AVCaptureVideoPreviewLayer?
@@ -25,6 +32,7 @@ class CameraViewController: BaseViewController {
   var status: Status = .Preview
   var faceView: UIView?
   var isCameraTaken = false
+  weak var delegate: CameraViewControllerDelegate?
   
   
   override func viewDidLoad() {
@@ -70,7 +78,9 @@ class CameraViewController: BaseViewController {
       self.cameraPreview.alpha = 1.0
       self.cameraStill.image = nil
       self.cameraStill.alpha = 0.0
-      
+      dispatch_async(dispatch_get_main_queue(), {
+        self.layoutBeforeCapture()
+      })
     })
   }
   
@@ -84,6 +94,9 @@ class CameraViewController: BaseViewController {
       UIView.animateWithDuration(0.225, animations: { () -> Void in
         self.cameraPreview.alpha = 0.0
         self.cameraStill.alpha = 1.0
+        dispatch_async(dispatch_get_main_queue(), { 
+          self.layoutAfterCapture()
+        })
       })
       
       self.camera?.captureStillImage({ (image) -> Void in
@@ -95,11 +108,12 @@ class CameraViewController: BaseViewController {
         }
       })
     }
-
   }
   
   @IBAction func onUsePhotoTapped(sender: UIButton) {
-    
+    self.dismissViewControllerAnimated(true) { 
+      self.delegate?.cameraViewController(self, didUsePhoto: self.cameraStill.image!)
+    }
   }
   
 }
@@ -127,18 +141,19 @@ extension CameraViewController: CameraDelegate {
   func camera(camera: Camera, didShowFaceDetect face: AVMetadataFaceObject) {
     let adjusted = self.preview?.transformedMetadataObjectForMetadataObject(face)
     dispatch_async(dispatch_get_main_queue()) {
-      // filter
-      
-      dispatch_async(dispatch_get_main_queue(), {
-        if let adjusted = adjusted {
-          self.faceView?.frame = adjusted.bounds
-        }
+      if self.cameraStill.image == nil {
+        // filter
+        dispatch_async(dispatch_get_main_queue(), {
+          if let adjusted = adjusted {
+            self.faceView?.frame = adjusted.bounds
+          }
+          
+        })
         
-      })
-      
-      let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-      dispatch_after(delayTime3, dispatch_get_main_queue()) {
-        self.faceView?.frame = CGRect.zero
+        let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime3, dispatch_get_main_queue()) {
+          self.faceView?.frame = CGRect.zero
+        }
       }
       
       if self.isCameraTaken == false {
@@ -184,6 +199,18 @@ extension CameraViewController {
       // Can it happens?
       return AVCaptureVideoOrientation.Portrait
     }
+  }
+  
+  private func layoutBeforeCapture() {
+    retakeButton.hidden = true
+    usePhotoButton.hidden = true
+    captureButton.hidden = false
+  }
+  
+  private func layoutAfterCapture() {
+    retakeButton.hidden = false
+    usePhotoButton.hidden = false
+    captureButton.hidden = true
   }
 }
 

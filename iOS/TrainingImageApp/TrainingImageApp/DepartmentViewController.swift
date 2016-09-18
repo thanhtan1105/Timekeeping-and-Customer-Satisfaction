@@ -21,7 +21,6 @@ class DepartmentViewController: BaseViewController {
   }
   
   @IBAction func onNextAction(sender: UIBarButtonItem) {
-
     if checkedIndex == nil {
       let alert = UIAlertController(title: "Error", message: "Choice least one department", preferredStyle: .Alert)
       alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction) in
@@ -83,6 +82,7 @@ extension DepartmentViewController: UITableViewDelegate, UITableViewDataSource {
 
 // MARK: - Private Method
 extension DepartmentViewController {
+  
   func callApiDepartment(start start: Int, top: Int) {
     APIRequest.shareInstance.getDepartmentList(start, top: top) { (response: ResponsePackage?, error: ErrorWebservice?) in
       print(response?.response)
@@ -107,5 +107,10 @@ extension DepartmentViewController {
         print("Fail")
       }
     }
+  }
+  
+  
+  func callAPI2(start start:Int, top: Int, completion:((Int)-> Void?)) {
+    
   }
 }

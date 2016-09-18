@@ -59,7 +59,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="77"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ASk-VE-KTT" id="2as-F4-4ki">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="77"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="76.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1DF-6J-zug">
@@ -122,32 +122,39 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jPW-PP-9Hh" userLabel="CameraPreview">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SIl-OJ-tKB">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cR7-bF-Wxd" userLabel="BottomView">
-                                <rect key="frame" x="0.0" y="511" width="320" height="57"/>
+                                <rect key="frame" x="0.0" y="522.5" width="320" height="45.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f2s-Nh-DXm">
-                                        <rect key="frame" x="133" y="13" width="55" height="30"/>
+                                        <rect key="frame" x="133" y="8" width="55" height="30"/>
                                         <state key="normal" title="Capture"/>
                                         <connections>
                                             <action selector="onCaptureTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LMn-ax-OxM"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lB0-GI-FKd">
-                                        <rect key="frame" x="240" y="13" width="72" height="30"/>
+                                        <rect key="frame" x="240" y="8" width="72" height="30"/>
                                         <state key="normal" title="Use Photo"/>
                                         <connections>
                                             <action selector="onUsePhotoTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1jl-c3-yUU"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mme-di-fV6">
-                                        <rect key="frame" x="8" y="14" width="47" height="30"/>
+                                        <rect key="frame" x="8" y="7.5" width="47" height="30"/>
                                         <state key="normal" title="Retake"/>
                                         <connections>
                                             <action selector="onRetakeTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="I9W-3M-BgE"/>
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="1" alpha="0.31010237068965518" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="mme-di-fV6" firstAttribute="leading" secondItem="cR7-bF-Wxd" secondAttribute="leading" constant="8" id="2if-wO-6EB"/>
                                     <constraint firstAttribute="trailing" secondItem="lB0-GI-FKd" secondAttribute="trailing" constant="8" id="6Nj-Vw-BQH"/>
@@ -157,13 +164,6 @@
                                     <constraint firstItem="mme-di-fV6" firstAttribute="centerY" secondItem="cR7-bF-Wxd" secondAttribute="centerY" id="nB2-Jl-6kV"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jPW-PP-9Hh" userLabel="CameraPreview">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="511"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SIl-OJ-tKB">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="511"/>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0m4-Jp-hN2">
                                 <rect key="frame" x="15" y="25" width="48" height="30"/>
                                 <state key="normal" title="Cancel"/>
@@ -184,15 +184,17 @@
                             <constraint firstItem="cR7-bF-Wxd" firstAttribute="top" secondItem="SIl-OJ-tKB" secondAttribute="bottom" id="FIu-YB-tMe"/>
                             <constraint firstItem="cR7-bF-Wxd" firstAttribute="top" secondItem="jPW-PP-9Hh" secondAttribute="bottom" id="HrE-0J-zwW"/>
                             <constraint firstItem="SIl-OJ-tKB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="JwK-Bu-iAn"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="SIl-OJ-tKB" secondAttribute="bottom" id="NeQ-Mj-FLn"/>
                             <constraint firstItem="jPW-PP-9Hh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="QCE-rC-ALc"/>
                             <constraint firstAttribute="trailing" secondItem="cR7-bF-Wxd" secondAttribute="trailing" id="U6E-VM-2nB"/>
                             <constraint firstAttribute="trailing" secondItem="jPW-PP-9Hh" secondAttribute="trailing" id="VZp-vT-GX0"/>
                             <constraint firstItem="0m4-Jp-hN2" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="5" id="hYz-bw-VMj"/>
                             <constraint firstItem="cR7-bF-Wxd" firstAttribute="top" secondItem="jPW-PP-9Hh" secondAttribute="bottom" id="iCu-5Y-tqQ"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="jPW-PP-9Hh" secondAttribute="bottom" id="rl0-YY-KdA"/>
                             <constraint firstItem="SIl-OJ-tKB" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="rxj-Su-Dwm"/>
                             <constraint firstAttribute="trailing" secondItem="jPW-PP-9Hh" secondAttribute="trailing" id="uyZ-oE-Fty"/>
                             <constraint firstItem="jPW-PP-9Hh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="vj3-yT-IHd"/>
-                            <constraint firstItem="cR7-bF-Wxd" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.1" id="wGq-OV-654"/>
+                            <constraint firstItem="cR7-bF-Wxd" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.08" id="wGq-OV-654"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -200,6 +202,8 @@
                                 <exclude reference="8x7-gU-YHx"/>
                                 <exclude reference="VZp-vT-GX0"/>
                                 <exclude reference="vj3-yT-IHd"/>
+                                <exclude reference="FIu-YB-tMe"/>
+                                <exclude reference="HrE-0J-zwW"/>
                                 <exclude reference="iCu-5Y-tqQ"/>
                             </mask>
                         </variation>
@@ -209,6 +213,9 @@
                         <outlet property="cameraCapture" destination="f2s-Nh-DXm" id="uob-qL-cKF"/>
                         <outlet property="cameraPreview" destination="jPW-PP-9Hh" id="NNZ-I2-Ei7"/>
                         <outlet property="cameraStill" destination="SIl-OJ-tKB" id="yPH-02-eSt"/>
+                        <outlet property="captureButton" destination="f2s-Nh-DXm" id="Ug9-h1-fcm"/>
+                        <outlet property="retakeButton" destination="mme-di-fV6" id="j7u-o6-5eb"/>
+                        <outlet property="usePhotoButton" destination="lB0-GI-FKd" id="zDu-i0-wN9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -235,7 +242,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="haZ-c7-khU" id="qzV-7B-6Bq">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="74.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7rY-rx-Msm">
@@ -306,7 +313,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="209"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aRH-pW-cp2" id="LU8-gR-bcZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="209"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="208.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MhJ-nK-Z4s" userLabel="Image View Face">
