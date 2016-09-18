@@ -9,6 +9,7 @@ import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -76,4 +77,28 @@ public class DepartmentController {
 
         }
     }
+
+    @RequestMapping(value = {"/search"}, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse search(@RequestParam(name = "code", required = false) String code,
+                               @RequestParam(name = "name", required = false) String name,
+                               @RequestParam(name = "start", defaultValue = IContanst.PAGE_PAGE, required = false) Integer page,
+                               @RequestParam(name = "top", defaultValue = IContanst.PAGE_SIZE, required = false) Integer size) {
+
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            Page<DepartmentEntity> departmentEntities = departmentService.searchDepartment(code, name, page, size);
+            logger.info(JsonUtil.toJson(departmentEntities));
+            return new BaseResponse(true, departmentEntities);
+        } catch (Exception e){
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        }finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+
+        }
+    }
+
+
+
 }
