@@ -4,7 +4,6 @@ import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.model.DepartmentModel;
 import com.timelinekeeping.repository.DepartmentRepo;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.log4j.LogManager;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by lethanhtan on 9/14/16.
@@ -24,6 +24,8 @@ import java.util.List;
 
 @Service
 public class DepartmentServiceImpl {
+
+    private Logger logger = Logger.getLogger(DepartmentServiceImpl.class);
 
     @Autowired(required = true)
     private DepartmentRepo repo;
@@ -62,6 +64,7 @@ public class DepartmentServiceImpl {
         Page<DepartmentEntity> departments = repo.findAll(new PageRequest(page, size));
         baseResponse.setSuccess(true);
         baseResponse.setData(departments);
+        logger.info("[Find All] " + JsonUtil.toJson(departments));
         return baseResponse;
     }
 
@@ -75,6 +78,4 @@ public class DepartmentServiceImpl {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
-
-
 }
