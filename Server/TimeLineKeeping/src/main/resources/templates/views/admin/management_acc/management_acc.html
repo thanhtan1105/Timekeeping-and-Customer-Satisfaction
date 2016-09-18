@@ -34,9 +34,11 @@
         <!-- Add new account -->
         <div class="row" style="margin-bottom: 8px;">
             <div class="col-sm-2">
-                <button type="submit" id="add-new-class-button" class="btn btn-success btn-flat btn-sm">
-                    <i class="glyphicon glyphicon-plus"></i> New Account
-                </button>
+                <a th:href="@{/admin/accounts/addAccount}">
+                    <button type="submit" id="add-new-class-button" class="btn btn-success btn-flat btn-sm">
+                        <i class="glyphicon glyphicon-plus"></i> New Account
+                    </button>
+                </a>
             </div>
         </div>
         <!-- /.end add new account -->
