@@ -1,5 +1,6 @@
 package com.timelinekeeping.api;
 
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.model.AccountView;
 import com.timelinekeeping.model.BaseResponse;
@@ -29,29 +30,45 @@ public class AccountController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse create(@ModelAttribute("account") AccountEntity account){
-        BaseResponse accountViewRespone = accountService.create(account);
-        logger.info("AccountView: " + JsonUtil.toJson(accountViewRespone));
-        return accountViewRespone;
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            return accountService.create(account);
+        } catch (Exception e) {
+            logger.error(IContanst.ERROR_LOGGER, e);
+            return new BaseResponse(e);
+        }finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+
     }
 
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)
     @ResponseBody
     public BaseResponse search (@RequestParam(value = "start", required = false) Integer page,
                                 @RequestParam(value = "top", required = false) Integer size){
-        return new BaseResponse(true, accountService.listAll(page, size));
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            return new BaseResponse(true, accountService.listAll(page, size));
+        } catch (Exception e) {
+            logger.error(IContanst.ERROR_LOGGER, e);
+            return new BaseResponse(e);
+        }finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
     }
 
     @RequestMapping(value = "/checkin_img", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse checkin (@RequestParam(value = "img") MultipartFile fileImg){
         try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             return accountService.checkin(fileImg.getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            logger.error(IContanst.ERROR_LOGGER, e);
+           return new BaseResponse(e);
+        }finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
         }
-        return null;
     }
 
 

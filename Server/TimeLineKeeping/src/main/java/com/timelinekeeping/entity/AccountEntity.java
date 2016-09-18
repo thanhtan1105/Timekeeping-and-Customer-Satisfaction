@@ -52,8 +52,9 @@ public class AccountEntity extends AbstractEntity {
     @JoinColumn(name = "role_id")
     private RoleEntity roles;
 
-    @Column(name = "department_id")
-    private Long departmentId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
+    private DepartmentEntity departments;
 
     public AccountEntity() {
     }
@@ -79,6 +80,14 @@ public class AccountEntity extends AbstractEntity {
         this.username = username;
     }
 
+    public String getUserCode() {
+        return userCode;
+    }
+
+    public void setUserCode(String userCode) {
+        this.userCode = userCode;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -86,7 +95,6 @@ public class AccountEntity extends AbstractEntity {
     public void setPassword(String password) {
         this.password = password;
     }
-
 
     public EStatus getActive() {
         return active;
@@ -116,27 +124,17 @@ public class AccountEntity extends AbstractEntity {
         return roles;
     }
 
-    public void setRoles(RoleEntity roleId) {
-        this.roles = roleId;
+    public void setRoles(RoleEntity roles) {
+        this.roles = roles;
     }
 
-    public Long getDepartmentId() {
-        return departmentId;
+    public DepartmentEntity getDepartments() {
+        return departments;
     }
 
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
+    public void setDepartments(DepartmentEntity departments) {
+        this.departments = departments;
     }
-
-    public String getUserCode() {
-        return userCode;
-    }
-
-    public void setUserCode(String userCode) {
-        this.userCode = userCode;
-    }
-
-
 
     @Override
     public <T extends AbstractModel> void fromModel(T modelGeneric) {

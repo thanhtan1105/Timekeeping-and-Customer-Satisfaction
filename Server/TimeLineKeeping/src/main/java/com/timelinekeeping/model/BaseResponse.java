@@ -23,6 +23,12 @@ public class BaseResponse {
         this.data = data;
     }
 
+    public BaseResponse(boolean success, String message, Object data) {
+        this.success = success;
+        this.message = message;
+        this.data = data;
+    }
+
     public BaseResponse(boolean success, String message, Object data, String errorCode) {
         this.success = success;
         this.message = message;
