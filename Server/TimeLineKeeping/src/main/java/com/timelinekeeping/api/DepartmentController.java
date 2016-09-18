@@ -5,6 +5,7 @@ import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.controller.PersonGroupControllerWeb;
 import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.model.DepartmentModel;
 import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.log4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -99,6 +101,20 @@ public class DepartmentController {
         }
     }
 
+    @RequestMapping(value = "/completeCode", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse search (@RequestParam(name = "code", required = false) String code){
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            List<DepartmentModel> departmentModels = departmentService.completeCode(code);
+            return new BaseResponse(true, departmentModels);
+        } catch (Exception e){
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        }finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
 
+        }
+    }
 
 }

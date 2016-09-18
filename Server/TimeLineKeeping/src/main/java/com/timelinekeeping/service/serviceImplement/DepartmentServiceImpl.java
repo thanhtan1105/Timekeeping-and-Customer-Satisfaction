@@ -4,6 +4,7 @@ import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.model.DepartmentModel;
 import com.timelinekeeping.model.DepartmentSelectModel;
 import com.timelinekeeping.repository.DepartmentRepo;
 import com.timelinekeeping.util.JsonUtil;
@@ -86,5 +87,17 @@ public class DepartmentServiceImpl {
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
+    }
+    public List<DepartmentModel> completeCode(String code){
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            List<DepartmentEntity> departmentEntities = repo.compleCode(code);
+            List<DepartmentModel> departmentModels = departmentEntities.stream().map(DepartmentModel::new).collect(Collectors.toList());
+            logger.info("Result: " + JsonUtil.toJson(departmentModels));
+            return departmentModels;
+        }finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+
     }
 }
