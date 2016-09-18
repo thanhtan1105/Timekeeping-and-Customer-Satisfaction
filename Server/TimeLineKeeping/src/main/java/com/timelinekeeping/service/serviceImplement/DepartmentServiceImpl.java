@@ -4,6 +4,7 @@ import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.model.DepartmentSelectModel;
 import com.timelinekeeping.repository.DepartmentRepo;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.log4j.LogManager;
@@ -24,8 +25,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class DepartmentServiceImpl {
-
-    private Logger logger = Logger.getLogger(DepartmentServiceImpl.class);
 
     @Autowired(required = true)
     private DepartmentRepo repo;
@@ -66,6 +65,16 @@ public class DepartmentServiceImpl {
         baseResponse.setData(departments);
         logger.info("[Find All] " + JsonUtil.toJson(departments));
         return baseResponse;
+    }
+
+    public List<DepartmentSelectModel> findAll() {
+        List<DepartmentEntity> departmentEntities = repo.findAll();
+        if (departmentEntities != null && departmentEntities.size() > 0) {
+            List<DepartmentSelectModel> departmentSelectModels
+                    = departmentEntities.stream().map(DepartmentSelectModel::new).collect(Collectors.toList());
+            return departmentSelectModels;
+        }
+        return null;
     }
 
     public Page<DepartmentEntity> searchDepartment(String code, String name, Integer page, Integer size){
