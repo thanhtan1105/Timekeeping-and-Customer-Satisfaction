@@ -3,7 +3,7 @@ package com.timelinekeeping.service.serviceImplement;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.DepartmentEntity;
-import com.timelinekeeping.model.AccountView;
+import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.util.JsonUtil;
@@ -54,7 +54,7 @@ public class AccountServiceImpl {
                 AccountEntity result = accountRepo.saveAndFlush(account);
                 if (result != null) {
                     baseResponse.setSuccess(true);
-                    baseResponse.setData(new AccountView(result));
+                    baseResponse.setData(new AccountModel(result));
                 }
             }
         } catch (URISyntaxException e) {

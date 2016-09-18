@@ -4,7 +4,7 @@ import com.timelinekeeping.entity.AccountEntity;
 /**
  * Created by HienTQSE60896 on 9/15/2016.
  */
-public class AccountView {
+public class AccountModel {
     private Long id;
     private String username;
     private String role;
@@ -13,10 +13,10 @@ public class AccountView {
     private String fullname;
     private String token;
 
-    public AccountView() {
+    public AccountModel() {
     }
 
-    public AccountView(AccountEntity entity) {
+    public AccountModel(AccountEntity entity) {
         this.id = entity.getId();
         this.username = entity.getUsername();
         this.role = "";

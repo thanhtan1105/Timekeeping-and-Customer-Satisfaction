@@ -1,7 +1,6 @@
 package com.timelinekeeping.api;
 
 import com.timelinekeeping.entity.AccountEntity;
-import com.timelinekeeping.model.AccountView;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.service.serviceImplement.AccountServiceImpl;
 import com.timelinekeeping.util.JsonUtil;
@@ -26,7 +25,7 @@ public class AccountController {
     @ResponseBody
     public BaseResponse create(@ModelAttribute("account") AccountEntity account){
         BaseResponse accountViewRespone = accountService.create(account);
-        logger.info("AccountView: " + JsonUtil.toJson(accountViewRespone));
+        logger.info("AccountModel: " + JsonUtil.toJson(accountViewRespone));
         return accountViewRespone;
     }
 
