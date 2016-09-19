@@ -129,8 +129,8 @@ public class AccountServiceImpl {
                 FaceEntity faceReturn = faceService.create(faceCreateModel);
                 if (faceReturn != null){
                     responseResult.setSuccess(true);
-                    Map<String, String> map = new HashMap<>();
-                    map.put("faceId", faceReturn.getId() + "");
+                    Map<String, Long> map = new HashMap<>();
+                    map.put("faceId", faceReturn.getId());
                     responseResult.setData(JsonUtil.toJson(map));
                 }else{
                     responseResult.setSuccess(false);
