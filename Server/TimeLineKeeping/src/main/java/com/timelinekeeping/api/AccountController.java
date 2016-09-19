@@ -43,7 +43,7 @@ public class AccountController {
         return accountService.listAll(page, size);
     }
 
-    @RequestMapping(value = "/add_face_img", method = RequestMethod.POST)
+    @RequestMapping(value = "/add_face_img_person", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse search(@RequestParam(value = "image") MultipartFile imageFile,
                                @RequestParam(value = "personID") String personID,
@@ -52,6 +52,24 @@ public class AccountController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             return accountService.addFaceImg(departmentID,personID, imageFile.getInputStream());
+        } catch (Exception e){
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        }finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+
+        }
+    }
+
+    @RequestMapping(value = "/add_face_img", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse search(@RequestParam(value = "image") MultipartFile imageFile,
+                               @RequestParam(value = "accountId") Long accountId,
+                               @RequestParam(value = "departmentID") String departmentID) {
+
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            return accountService.addFaceImg(departmentID,accountId, imageFile.getInputStream());
         } catch (Exception e){
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);

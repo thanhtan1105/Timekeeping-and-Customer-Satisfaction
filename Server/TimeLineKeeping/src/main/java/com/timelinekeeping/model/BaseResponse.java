@@ -13,8 +13,15 @@ public class BaseResponse {
     public BaseResponse() {
     }
 
+
     public BaseResponse(boolean success, Object data) {
         this.success = success;
+        this.data = data;
+    }
+
+    public BaseResponse(boolean success, String message, Object data) {
+        this.success = success;
+        this.message = message;
         this.data = data;
     }
 

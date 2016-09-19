@@ -8,9 +8,9 @@ import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.entity.FaceEntity;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.model.Face;
 import com.timelinekeeping.model.FaceCreateModel;
 import com.timelinekeeping.repository.AccountRepo;
+import com.timelinekeeping.repository.FaceRepo;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,6 +37,9 @@ public class AccountServiceImpl {
 
     @Autowired
     private AccountRepo accountRepo;
+
+    @Autowired
+    private FaceRepo faceRepo;
 
     @Autowired
     private DepartmentServiceImpl departmentService;
@@ -134,7 +136,7 @@ public class AccountServiceImpl {
                     responseResult.setData(JsonUtil.toJson(map));
                 }else{
                     responseResult.setSuccess(false);
-                    responseResult.setMessage(ERROR.FACE_CANNOT_SAVE_DB);
+                    responseResult.setMessage(ERROR.ACCOUNT_ADD_FACE_CANNOT_SAVE_DB);
                 }
             }
 
@@ -143,4 +145,49 @@ public class AccountServiceImpl {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
+
+    public BaseResponse addFaceImg(String departmentId, Long accountId, InputStream imgStream) throws URISyntaxException, IOException {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            //STORE FILE
+
+//            String nameFile = persongroupId + "_" + personId + "_" + (new Date().getTime());
+//            StoreFileUtils.storeFile(nameFile, imgStream);
+
+            AccountEntity accountEntity = accountRepo.findOne(accountId);
+            if (accountEntity == null){
+                return new BaseResponse(false, ERROR.ACCOUNT_ADD_FACE_CANNOT_FOUND_ACCOUNTID, null);
+            }
+            BaseResponse baseResponse = personServiceMCS.addFaceImg(departmentId, accountEntity.getUserCode(), imgStream);
+            logger.info("RESPONSE" + baseResponse);
+            if (!baseResponse.isSuccess()){
+                return baseResponse;
+            }
+            //Result
+            BaseResponse responseResult = new BaseResponse();
+            // encoding data
+            Map<String, String> mapResult = (Map<String, String>) baseResponse.getData(); // get face
+            if (mapResult != null && mapResult.size()> 0) {
+                String persistedFaceID = mapResult.get("persistedFaceId");
+                // save db
+                FaceEntity faceCreate = new FaceEntity(persistedFaceID, accountEntity);
+                FaceEntity faceReturn = faceRepo.saveAndFlush(faceCreate);
+                if (faceReturn != null){
+                    responseResult.setSuccess(true);
+                    Map<String, Long> map = new HashMap<>();
+                    map.put("faceId", faceReturn.getId());
+                    responseResult.setData(JsonUtil.toJson(map));
+                }else{
+                    responseResult.setSuccess(false);
+                    responseResult.setMessage(ERROR.ACCOUNT_ADD_FACE_CANNOT_SAVE_DB);
+                }
+            }
+
+            return responseResult;
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+
 }
