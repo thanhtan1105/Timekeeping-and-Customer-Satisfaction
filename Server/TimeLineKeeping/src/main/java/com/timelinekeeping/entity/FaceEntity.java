@@ -14,12 +14,18 @@ public class FaceEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "persistedFaceId")
+    @Basic
+    @Column(name = "persisted_face_id")
     private String persistedFaceId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "accountId")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
     private AccountEntity accountEntity;
+
+    public FaceEntity() {
+    }
+
+
 
     public FaceEntity(String persistedFaceId, AccountEntity accountEntity) {
         this.persistedFaceId = persistedFaceId;

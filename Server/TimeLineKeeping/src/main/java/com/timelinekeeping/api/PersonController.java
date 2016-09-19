@@ -92,21 +92,21 @@ public class PersonController {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
-//
-//    @RequestMapping(value = {"/list_all_person"}, method = RequestMethod.GET)
-//    @ResponseBody
-//    public BaseResponse listAllPerson(@RequestParam("groupId") String groupId) {
-//        try {
-//            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-//            BaseResponse response = personService.listPersonInGroup(groupId);
-//            return response;
-//        } catch (Exception e) {
-//            logger.error(e);
-//            return new BaseResponse(e);
-//        } finally {
-//            logger.info(IContanst.END_METHOD_SERVICE);
-//        }
-//    }
+
+    @RequestMapping(value = {"/list_all_person"}, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse listAllPerson(@RequestParam("groupId") String groupId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            BaseResponse response = personService.listPersonInGroup(groupId);
+            return response;
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
 
 
 

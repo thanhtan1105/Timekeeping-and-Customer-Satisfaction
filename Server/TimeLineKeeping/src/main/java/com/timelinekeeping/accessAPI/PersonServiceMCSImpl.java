@@ -2,22 +2,16 @@ package com.timelinekeeping.accessAPI;
 
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.constant.IContanst;
-import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.modelAPI.Face;
 import com.timelinekeeping.modelAPI.PersonInformation;
 import com.timelinekeeping.service.BaseService;
-import com.timelinekeeping.service.serviceImplement.AccountServiceImpl;
-import com.timelinekeeping.service.serviceImplement.FaceServiceImpl;
 import com.timelinekeeping.util.HTTPClientUtil;
 import com.timelinekeeping.util.JsonUtil;
-import com.timelinekeeping.util.StoreFileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +19,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,11 +31,6 @@ public class PersonServiceMCSImpl extends BaseService {
 
     private Logger logger = LogManager.getLogger(PersonServiceMCSImpl.class);
 
-    @Autowired
-    private AccountServiceImpl accountService;
-
-    @Autowired
-    private FaceServiceImpl faceService;
 
     /**
      * root path
@@ -129,32 +117,23 @@ public class PersonServiceMCSImpl extends BaseService {
         }
     }
 
-    public BaseResponse addFaceImg(String departmentId, String personCode, InputStream imgStream) throws URISyntaxException, IOException {
+    public BaseResponse addFaceImg(String persongroupId, String personId, InputStream imgStream) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             //STORE FILE
             String urlPerson = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
             String urlPersistence = AppConfigKeys.getInstance().getApiPropertyValue("api.person.add.face.addition");
-            String url = rootPath + String.format("/%s", departmentId) + urlPerson + String.format("/%s", personCode) + urlPersistence;
+            String url = rootPath + String.format("/%s", persongroupId) + urlPerson + String.format("/%s", personId) + urlPersistence;
 
-//            String nameFile = persongroupId + "_" + personId + "_" + (new Date().getTime());
-//            StoreFileUtils.storeFile(nameFile, imgStream);
             /*** url -> {url}*/
 
             /** entity*/
             byte[] byteImg = IOUtils.toByteArray(imgStream);
-            /** type Response JSON List*/
-            /** Class return **/
-            BaseResponse baseResponse = HTTPClientUtil.getInstanceFace().toPostOct(url, new ByteArrayEntity(byteImg), JsonUtil.MAP_PARSER, String.class);
-            logger.info("RESPONSE" + baseResponse);
 
-            // encoding data
-            Face face = (Face) baseResponse.getData(); // get face
-            if (face != null) {
-                // save db
-                AccountEntity accountEntity = accountService.findByCode(personCode); // get account entity
-                faceService.create(face.getPersistedFaceId(), accountEntity); // save to db
-            }
+            /** type Response JSON List*/
+
+            /** Class return **/
+
 
             return HTTPClientUtil.getInstanceFace().toPostOct(url, new ByteArrayEntity(byteImg), JsonUtil.MAP_PARSER, String.class);
         } finally {
