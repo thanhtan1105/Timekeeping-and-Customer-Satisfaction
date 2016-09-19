@@ -74,6 +74,49 @@ class APIRequest: NSObject {
     ]
     webservice_GET(url, params: params, headersParams: nil, completion: onCompletion)
   }
+  
+  func addFaceToPerson(personGroupId: String, personId: String, imageFace: UIImage, onCompletion: ServiceResponse) {
+    let url = urlAddFaceToPerson
+    let request = NSMutableURLRequest(URL: NSURL(string: url)!)
+    request.HTTPMethod = "POST"
+    
+    Alamofire.upload(request, multipartFormData: { (multipartFormData: MultipartFormData) in
+      let imageData = UIImageJPEGRepresentation(imageFace, 0.25)
+      let data = NSData()
+      multipartFormData.appendBodyPart(data: imageData!, name: "img", fileName: "\(data)", mimeType: "image/png")
+      multipartFormData.appendBodyPart(data: personGroupId.dataUsingEncoding(NSUTF8StringEncoding)!, name: "departmentId")
+      multipartFormData.appendBodyPart(data: personId.dataUsingEncoding(NSUTF8StringEncoding)!, name: "personId")
+
+    }) { (encodingResult: Manager.MultipartFormDataEncodingResult) in
+      switch encodingResult {
+      case .Success(let upload, _, _):
+        upload.responseJSON(completionHandler: { (response: Response<AnyObject, NSError>) in
+          // upload successfully
+          debugPrint(response)
+          do {
+            let json = try NSJSONSerialization.JSONObjectWithData(response.data!, options: []) as! [String: AnyObject]
+            print(json)
+            onCompletion(nil, nil)
+          } catch {
+            // create error
+            // TO-DO
+            let errorWebservice = ErrorWebservice.init()
+            errorWebservice.code = 0
+            errorWebservice.error_description = "Upload fail"
+            onCompletion(nil, errorWebservice)
+          }
+        })
+      case .Failure(let encodingError):
+        // coudn't upload file
+        print(encodingError)
+        let errorWebservice = ErrorWebservice.init()
+        errorWebservice.code = 0
+        errorWebservice.error_description = "Upload fail"
+        onCompletion(nil, errorWebservice)
+      }
+    }
+
+  }
 }
 
 // MARK: - Private method

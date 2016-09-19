@@ -27,6 +27,14 @@ class FaceListViewController: BaseViewController {
       
   }
   
+  
+  @IBAction func onAddFaceTapped(sender: UIBarButtonItem) {
+    let cameraVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("CameraViewController") as! CameraViewController    
+    navigationController?.presentViewController(cameraVC, animated: true, completion: {
+      cameraVC.delegate = self
+    })
+  }
+  
 }
 
 extension FaceListViewController: UITableViewDelegate, UITableViewDataSource {
@@ -41,5 +49,24 @@ extension FaceListViewController: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     return UITableViewCell()
+  }
+}
+
+extension FaceListViewController: CameraViewControllerDelegate {
+  func cameraViewController(cameraViewController: CameraViewController, didUsePhoto image: UIImage) {
+    // get data
+    let personGroupId = String(Department.getDepartmentFromUserDefault().id!)
+    let personId = Employee.getEmployeeFromUserDefault().employeeCode!
+    
+    APIRequest.shareInstance.addFaceToPerson(personGroupId, personId: personId, imageFace: image) { (response: ResponsePackage?, error: ErrorWebservice?) in
+      // error of network
+      guard error == nil else {
+        print("Fail")
+        return
+      }
+      
+      print(response?.response)
+
+    }
   }
 }

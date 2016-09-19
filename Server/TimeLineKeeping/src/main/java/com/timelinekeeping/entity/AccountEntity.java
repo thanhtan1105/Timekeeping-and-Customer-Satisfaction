@@ -3,6 +3,7 @@ package com.timelinekeeping.entity;
 import com.timelinekeeping.model.AccountModel;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by HienTQSE60896 on 9/4/2016.
@@ -40,6 +41,10 @@ public class AccountEntity {
 
     @Column(name = "departmentId")
     private Long departmentId;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountEntity", fetch = FetchType.EAGER)
+    private List<FaceEntity> faces;
+
 
     public AccountEntity() {
     }

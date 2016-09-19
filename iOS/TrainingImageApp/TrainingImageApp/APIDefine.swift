@@ -14,9 +14,13 @@ enum Enviroment {
 	case test
 	case production
   case home
+  case Hien
+  case Tan
 }
 
-let enviroment = Enviroment.home
+//let enviroment = Enviroment.home
+//let enviroment = Enviroment.Hien
+let enviroment = Enviroment.Tan
 //let enviroment = Enviroment.dev
 //let enviroment = Enviroment.test
 //let enviroment = Enviroment.production
@@ -31,6 +35,10 @@ let serverUrl: String = {
 		return "Enviroment.PRODUCTION HERE"
   case .home:
     return "http://192.168.1.102:8080/api"
+  case .Hien:
+    return "http://192.168.43.79:8080/api"
+  case .Tan:
+    return "http://192.168.1.103:8080/api"
 	}
 
 }()
@@ -48,3 +56,5 @@ let serverUrl: String = {
 let urlGetUserDetail: String = serverUrl.stringByAppendingString("/face/identifyImage")
 let urlGetDepartment: String = serverUrl.stringByAppendingString("/department/findAll")
 let urlGetAccountList: String = serverUrl.stringByAppendingString("/account/listAll")
+let urlAddFaceToPerson: String = serverUrl.stringByAppendingString("/person/add_face_img")
+

@@ -33,8 +33,7 @@ class CameraViewController: BaseViewController {
   var faceView: UIView?
   var isCameraTaken = false
   weak var delegate: CameraViewControllerDelegate?
-  
-  
+    
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -74,7 +73,7 @@ class CameraViewController: BaseViewController {
   
   @IBAction func onRetakeTapped(sender: UIButton) {
     self.isCameraTaken = false
-    UIView.animateWithDuration(0.225, animations: { () -> Void in
+    UIView.animateWithDuration(0.05, animations: { () -> Void in
       self.cameraPreview.alpha = 1.0
       self.cameraStill.image = nil
       self.cameraStill.alpha = 0.0
@@ -91,7 +90,7 @@ class CameraViewController: BaseViewController {
   @IBAction func onCaptureTapped(sender: UIButton) {
     if self.status == .Preview {
       self.isCameraTaken = true
-      UIView.animateWithDuration(0.225, animations: { () -> Void in
+      UIView.animateWithDuration(0.05, animations: { () -> Void in
         self.cameraPreview.alpha = 0.0
         self.cameraStill.alpha = 1.0
         dispatch_async(dispatch_get_main_queue(), { 
@@ -111,8 +110,25 @@ class CameraViewController: BaseViewController {
   }
   
   @IBAction func onUsePhotoTapped(sender: UIButton) {
-    self.dismissViewControllerAnimated(true) { 
-      self.delegate?.cameraViewController(self, didUsePhoto: self.cameraStill.image!)
+    callApiAddFaceToPerson { (isSuccess, error) in
+      // error of network
+      guard error == nil else {
+        let alertVC = UIAlertController(title: "Please try again", message: "Cannot detect face", preferredStyle: .Alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction) in
+          
+        }))
+        self.presentViewController(alertVC, animated: true, completion: nil)
+        return
+      }
+      
+      let alertVC = UIAlertController(title: "Success", message: "Face has added to person", preferredStyle: .Alert)
+      alertVC.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction) in
+        self.dismissViewControllerAnimated(true, completion: nil)
+      }))
+      self.presentViewController(alertVC, animated: true, completion: nil)
+      
+      
+      
     }
   }
   
@@ -211,6 +227,31 @@ extension CameraViewController {
     retakeButton.hidden = false
     usePhotoButton.hidden = false
     captureButton.hidden = true
+  }
+  
+  private func callApiAddFaceToPerson(completion onCompletionHandler: ((isSuccess: Bool, error: NSError?) -> Void)?) {
+    // get data
+    let personGroupId = String(Department.getDepartmentFromUserDefault().id!)
+    let personId = Employee.getEmployeeFromUserDefault().employeeCode!
+    
+    APIRequest.shareInstance.addFaceToPerson(personGroupId, personId: personId, imageFace: cameraStill.image!) { (response: ResponsePackage?, error: ErrorWebservice?) in
+      // error of network
+      guard error == nil else {
+        print("Fail")
+        return
+      }
+      
+      let data = response?.response as! [String : AnyObject]
+      let success = data["success"] as! Bool
+      if success == true {
+        onCompletionHandler!(isSuccess: true, error: nil)
+      } else {
+        let failMessage = data["message"] as! String
+        onCompletionHandler!(isSuccess: false, error: NSError(domain: "com.trainingImage", code: 100, userInfo: ["info" : failMessage]))
+      }
+      
+      print(response?.response)
+    }
   }
 }
 

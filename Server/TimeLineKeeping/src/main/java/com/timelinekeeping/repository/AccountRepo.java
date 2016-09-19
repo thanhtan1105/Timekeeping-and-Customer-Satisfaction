@@ -16,5 +16,7 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
 
     AccountEntity findByUsername(String username);
 
+    @Query(value = "SELECT * FROM account a WHERE a.user_code = ?1", nativeQuery = true)
+    AccountEntity findByCode(String code);
 
 }

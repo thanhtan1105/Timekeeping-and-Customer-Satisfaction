@@ -190,8 +190,8 @@
 				A67279511D8B8F2500922754 /* TrainingImageViewController.swift */,
 				A672793D1D8ABE2100922754 /* DepartmentViewController.swift */,
 				A672793F1D8ABE7300922754 /* EmployeeListViewController.swift */,
-				A67279391D8AB65B00922754 /* CameraViewController.swift */,
 				A67279411D8ABE8800922754 /* FaceListViewController.swift */,
+				A67279391D8AB65B00922754 /* CameraViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";

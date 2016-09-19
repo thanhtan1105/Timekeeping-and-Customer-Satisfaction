@@ -83,4 +83,8 @@ public class AccountServiceImpl {
         AccountEntity accountView = accountRepo.findByUsername(username);
         return accountView == null ? false : true;
     }
+
+    public AccountEntity findByCode(String code) {
+        return accountRepo.findByCode(code);
+    }
 }
