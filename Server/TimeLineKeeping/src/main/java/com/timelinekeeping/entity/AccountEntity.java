@@ -1,12 +1,12 @@
 package com.timelinekeeping.entity;
 
-import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.model.AccountModel;
-
+import javax.persistence.*;
+import java.util.List;
+import com.timelinekeeping.constant.EStatus;
+import com.timelinekeeping.model.AbstractModel;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.Set;
 
 /**
  * Created by HienTQSE60896 on 9/4/2016.
@@ -14,8 +14,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "account", schema = "mydb")
-public class AccountEntity implements Serializable {
-
+public class AccountEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,17 +23,17 @@ public class AccountEntity implements Serializable {
 
     @Basic
     @NotNull
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(name = "username", unique = true)
     private String username;
 
     @Basic
     @NotNull
-    @Column(name = "user_code", nullable = false, unique = true)
+    @Column(name = "user_code")
     private String userCode;
 
     @Basic
     @NotNull
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
     @Basic
@@ -42,7 +41,7 @@ public class AccountEntity implements Serializable {
     private EStatus active = EStatus.ACTIVE;
 
     @Basic
-    @Column(name = "full_name", length = Integer.MAX_VALUE)
+    @Column(name = "full_name")
     private String fullname;
 
     @Basic
@@ -51,15 +50,15 @@ public class AccountEntity implements Serializable {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FW_Account_Role"), nullable = false)
-    private RoleEntity role;
+    @JoinColumn(name = "role_id")
+    private RoleEntity roles;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FW_account_department"), nullable = false)
-    private DepartmentEntity department;
+    @JoinColumn(name = "department_id")
+    private DepartmentEntity departments;
 
-    @OneToMany(mappedBy = "accountEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<FaceEntity> faces;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountEntity", fetch = FetchType.EAGER)
+    private List<FaceEntity> faces;
 
 
     public AccountEntity() {
@@ -127,27 +126,30 @@ public class AccountEntity implements Serializable {
     }
 
 
-    public RoleEntity getRole() {
-        return role;
+
+
+
+    public RoleEntity getRoles() {
+        return roles;
     }
 
-    public void setRole(RoleEntity roles) {
-        this.role = roles;
+    public void setRoles(RoleEntity roles) {
+        this.roles = roles;
     }
 
-    public DepartmentEntity getDepartment() {
-        return department;
+    public DepartmentEntity getDepartments() {
+        return departments;
     }
 
-    public void setDepartment(DepartmentEntity departments) {
-        this.department = departments;
+    public void setDepartments(DepartmentEntity departments) {
+        this.departments = departments;
     }
 
-    public Set<FaceEntity> getFaces() {
+    public List<FaceEntity> getFaces() {
         return faces;
     }
 
-    public void setFaces(Set<FaceEntity> faces) {
+    public void setFaces(List<FaceEntity> faces) {
         this.faces = faces;
     }
 
@@ -157,11 +159,11 @@ public class AccountEntity implements Serializable {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", role=" + role +
+                ", role=" + roles +
                 ", active=" + active +
                 ", fullname='" + fullname + '\'' +
                 ", token='" + token + '\'' +
-                ", role=" + role +
+                ", role=" + roles +
                 '}';
     }
 }
