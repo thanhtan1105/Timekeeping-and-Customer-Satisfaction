@@ -125,6 +125,10 @@ public class AccountEntity {
         this.token = token;
     }
 
+
+
+
+
     public RoleEntity getRoles() {
         return roles;
     }
@@ -141,4 +145,25 @@ public class AccountEntity {
         this.departments = departments;
     }
 
+    public List<FaceEntity> getFaces() {
+        return faces;
+    }
+
+    public void setFaces(List<FaceEntity> faces) {
+        this.faces = faces;
+    }
+
+    @Override
+    public String toString() {
+        return "AccountEntity{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + roles +
+                ", active=" + active +
+                ", fullname='" + fullname + '\'' +
+                ", token='" + token + '\'' +
+                ", role=" + roles +
+                '}';
+    }
 }
