@@ -35,11 +35,12 @@ public class AccountEntity {
     @Column(name = "token")
     private String token;
 
-    @Column(name = "roleId")
-    private Long roleId;
+    @Column(name = "role_id")
+    private RoleEntity roles;
 
-    @Column(name = "departmentId")
-    private Long departmentId;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "department_id")
+    private DepartmentEntity departments;
 
     public AccountEntity() {
     }
@@ -98,21 +99,7 @@ public class AccountEntity {
         this.token = token;
     }
 
-    public Long getRoleId() {
-        return roleId;
-    }
 
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
-
-    public Long getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
-    }
 
     public String getUserCode() {
         return userCode;
@@ -122,17 +109,33 @@ public class AccountEntity {
         this.userCode = userCode;
     }
 
+    public RoleEntity getRoles() {
+        return roles;
+    }
+
+    public void setRoles(RoleEntity roles) {
+        this.roles = roles;
+    }
+
+    public DepartmentEntity getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(DepartmentEntity departments) {
+        this.departments = departments;
+    }
+
     @Override
     public String toString() {
         return "AccountEntity{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", role=" + roleId +
+                ", role=" + roles +
                 ", active=" + active +
                 ", fullname='" + fullname + '\'' +
                 ", token='" + token + '\'' +
-                ", role=" + roleId +
+                ", role=" + roles +
                 '}';
     }
 }
