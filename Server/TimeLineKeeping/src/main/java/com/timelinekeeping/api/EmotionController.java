@@ -20,9 +20,13 @@ public class EmotionController {
 
     private Logger logger = LogManager.getLogger(EmotionController.class);
 
-//    @Autowired
-//    private EmotionServiceImpl emotionServiceMCS;
-/*
+
+    @Autowired
+    private EmotionServiceImpl emotionService;
+
+    @Autowired
+    private EmotionServiceMCSImpl emotionServiceMCS;
+
     @RequestMapping(value = {"/recognize"}, method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse recognize(@RequestParam("url") String urlImg) {
@@ -38,7 +42,7 @@ public class EmotionController {
         }
     }
 
-<<<<<<< HEAD
+
 //    @RequestMapping(value = {"/recognize"}, method = RequestMethod.POST)
 //    @ResponseBody
 //    public BaseResponse recognize(@RequestParam("url") String urlImg) {
@@ -59,21 +63,13 @@ public class EmotionController {
     public BaseResponse recognize(@RequestParam("img") MultipartFile imgFile,
                                   @RequestParam("employeeId") long employeeId,
                                   @RequestParam("isFirstTime") boolean isFirstTime) {
-=======
-    @RequestMapping(value = {"/recognize_img"}, method = RequestMethod.POST)
-    @ResponseBody
-    public BaseResponse recognize(@RequestParam("img") MultipartFile imgFile) {
->>>>>>> w2-hien-store_file
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response;
             if (UtilApps.isImageFile(imgFile.getInputStream())) {
-<<<<<<< HEAD
-                response = emotionServiceMCS.save(imgFile.getInputStream(), employeeId, isFirstTime);
-=======
-                response = emotionServiceMCS.recognize(imgFile.getInputStream());
->>>>>>> w2-hien-store_file
-            }else {
+                response = emotionService.save(imgFile.getInputStream(), employeeId, isFirstTime);
+//                response = emotionServiceMCS.recognize(imgFile.getInputStream());
+            } else {
                 response = new BaseResponse();
                 response.setSuccess(false);
                 response.setMessage("File not image format.");
@@ -86,5 +82,13 @@ public class EmotionController {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }
     }
-*/
+
+    @RequestMapping(value = {"/analyse_emotion"}, method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse analyseEmotion(@RequestParam("id") Long id) {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        BaseResponse baseResponse = emotionService.analyseEmotion(id);
+        logger.info(IContanst.END_METHOD_CONTROLLER);
+        return baseResponse;
+    }
 }
