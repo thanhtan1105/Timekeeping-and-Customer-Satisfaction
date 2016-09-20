@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="57F-eo-0rl">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -263,8 +262,8 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="Ede-7e-hZQ" id="vFI-QP-oLd"/>
-                                    <outlet property="delegate" destination="Ede-7e-hZQ" id="hRK-JS-yse"/>
+                                    <outlet property="dataSource" destination="Ede-7e-hZQ" id="DkI-9f-zbl"/>
+                                    <outlet property="delegate" destination="Ede-7e-hZQ" id="iJZ-Cl-cNy"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -305,47 +304,78 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="209" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VlM-WX-JvI">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="vMP-mR-7rB">
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="209" id="aRH-pW-cp2">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="209"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aRH-pW-cp2" id="LU8-gR-bcZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="208.5"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="NQi-1Z-ftY">
+                                    <size key="itemSize" width="128" height="126"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="5" minY="5" maxX="5" maxY="5"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="AddNewFaceCollectionCell" reuseIdentifier="AddNewFaceCollectionCell" id="Xhu-AV-4aZ" userLabel="Collection View Cell First" customClass="AddNewFaceCollectionCell" customModule="TrainingImageApp" customModuleProvider="target">
+                                        <rect key="frame" x="5" y="5" width="128" height="126"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="126"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MhJ-nK-Z4s" userLabel="Image View Face">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="209"/>
-                                                </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KF0-cx-HG0" userLabel="Image View Verify">
-                                                    <rect key="frame" x="271" y="8" width="41" height="42"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" secondItem="KF0-cx-HG0" secondAttribute="height" multiplier="1:1" id="681-7O-ogE"/>
-                                                    </constraints>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bKM-pc-9Wg">
+                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="126"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="57"/>
+                                                    <state key="normal" title="+"/>
+                                                    <connections>
+                                                        <action selector="onAddTapped:" destination="Xhu-AV-4aZ" eventType="touchUpInside" id="RjL-84-BDU"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="bKM-pc-9Wg" firstAttribute="leading" secondItem="Xhu-AV-4aZ" secondAttribute="leading" id="9TQ-nW-9nt"/>
+                                            <constraint firstItem="bKM-pc-9Wg" firstAttribute="top" secondItem="Xhu-AV-4aZ" secondAttribute="top" id="9TR-fl-XnC"/>
+                                            <constraint firstAttribute="trailing" secondItem="bKM-pc-9Wg" secondAttribute="trailing" id="Tbb-H9-dzy"/>
+                                            <constraint firstAttribute="bottom" secondItem="bKM-pc-9Wg" secondAttribute="bottom" id="hcg-N3-wCy"/>
+                                        </constraints>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="FaceCollectionCell" reuseIdentifier="FaceCollectionCell" id="HSr-r0-bDR" userLabel="Collection View Cell Second" customClass="FaceCollectionCell" customModule="TrainingImageApp" customModuleProvider="target">
+                                        <rect key="frame" x="187" y="5" width="128" height="126"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="126"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RDP-M6-12t">
+                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="126"/>
                                                 </imageView>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="MhJ-nK-Z4s" secondAttribute="bottom" id="68m-iI-T8X"/>
-                                                <constraint firstItem="KF0-cx-HG0" firstAttribute="height" secondItem="MhJ-nK-Z4s" secondAttribute="height" multiplier="0.2" id="JBw-yl-oCL"/>
-                                                <constraint firstItem="MhJ-nK-Z4s" firstAttribute="leading" secondItem="LU8-gR-bcZ" secondAttribute="leading" id="SJT-8k-Uz1"/>
-                                                <constraint firstItem="KF0-cx-HG0" firstAttribute="top" secondItem="LU8-gR-bcZ" secondAttribute="top" constant="8" id="dm7-4K-dxu"/>
-                                                <constraint firstItem="MhJ-nK-Z4s" firstAttribute="top" secondItem="LU8-gR-bcZ" secondAttribute="top" id="mtM-JP-M5j"/>
-                                                <constraint firstAttribute="trailing" secondItem="MhJ-nK-Z4s" secondAttribute="trailing" id="oRJ-4a-ewP"/>
-                                                <constraint firstAttribute="trailing" secondItem="KF0-cx-HG0" secondAttribute="trailing" constant="8" id="twO-sB-sdQ"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="RDP-M6-12t" firstAttribute="top" secondItem="HSr-r0-bDR" secondAttribute="top" id="CCO-gn-FXN"/>
+                                            <constraint firstAttribute="bottom" secondItem="RDP-M6-12t" secondAttribute="bottom" id="OTQ-AH-k5A"/>
+                                            <constraint firstAttribute="trailing" secondItem="RDP-M6-12t" secondAttribute="trailing" id="kJ6-4y-BSJ"/>
+                                            <constraint firstItem="RDP-M6-12t" firstAttribute="leading" secondItem="HSr-r0-bDR" secondAttribute="leading" id="oXF-a0-SHo"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="faceImage" destination="RDP-M6-12t" id="ATA-RW-zWf"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="KM3-fr-A6Q" id="etP-f1-RAa"/>
+                                    <outlet property="delegate" destination="KM3-fr-A6Q" id="DAg-7E-jrt"/>
+                                </connections>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="VlM-WX-JvI" firstAttribute="leading" secondItem="qku-qH-hpv" secondAttribute="leading" id="Hp8-tJ-h5D"/>
-                            <constraint firstAttribute="trailing" secondItem="VlM-WX-JvI" secondAttribute="trailing" id="Lxe-2c-XYD"/>
-                            <constraint firstItem="VlM-WX-JvI" firstAttribute="top" secondItem="uwX-rM-QJJ" secondAttribute="bottom" id="i1K-el-7Yl"/>
-                            <constraint firstItem="H8H-ed-US7" firstAttribute="top" secondItem="VlM-WX-JvI" secondAttribute="bottom" id="lCk-6P-55j"/>
+                            <constraint firstAttribute="trailing" secondItem="vMP-mR-7rB" secondAttribute="trailing" id="L3N-Ed-fHu"/>
+                            <constraint firstItem="vMP-mR-7rB" firstAttribute="top" secondItem="uwX-rM-QJJ" secondAttribute="bottom" id="X3H-9m-ygB"/>
+                            <constraint firstItem="vMP-mR-7rB" firstAttribute="leading" secondItem="qku-qH-hpv" secondAttribute="leading" id="nMl-gN-EVP"/>
+                            <constraint firstItem="H8H-ed-US7" firstAttribute="top" secondItem="vMP-mR-7rB" secondAttribute="bottom" id="pei-HD-5Fl"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Face List" id="dha-eE-fqZ">
@@ -354,14 +384,12 @@
                                 <action selector="onFinishTapped:" destination="KM3-fr-A6Q" id="hXT-74-u42"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ZzV-rv-fqg">
-                            <connections>
-                                <action selector="onAddFaceTapped:" destination="KM3-fr-A6Q" id="2RZ-yk-L4Q"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="collectionView" destination="vMP-mR-7rB" id="bph-lm-x6S"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HUU-Tg-blE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -14,7 +14,7 @@ enum Status: Int {
 }
 
 protocol CameraViewControllerDelegate: class {
-  func cameraViewController(cameraViewController: CameraViewController, didUsePhoto image: UIImage)
+  func cameraViewController(cameraViewController: CameraViewController, didFinishUploadFace image: UIImage)
 }
 
 class CameraViewController: BaseViewController {
@@ -36,6 +36,7 @@ class CameraViewController: BaseViewController {
     
   override func viewDidLoad() {
     super.viewDidLoad()
+    layoutBeforeCapture()
     
     faceView = UIView()
     faceView?.layer.borderColor = UIColor.greenColor().CGColor
@@ -123,6 +124,7 @@ class CameraViewController: BaseViewController {
       
       let alertVC = UIAlertController(title: "Success", message: "Face has added to person", preferredStyle: .Alert)
       alertVC.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction) in
+        self.delegate?.cameraViewController(self, didFinishUploadFace: self.cameraStill.image!)
         self.dismissViewControllerAnimated(true, completion: nil)
       }))
       self.presentViewController(alertVC, animated: true, completion: nil)
@@ -231,8 +233,8 @@ extension CameraViewController {
   
   private func callApiAddFaceToPerson(completion onCompletionHandler: ((isSuccess: Bool, error: NSError?) -> Void)?) {
     // get data
-    let personGroupId = String(Department.getDepartmentFromUserDefault().id!)
-    let personId = Employee.getEmployeeFromUserDefault().employeeCode!
+    let personGroupId = String(Department.getDepartmentFromUserDefault().code!)
+    let personId = Employee.getEmployeeFromUserDefault().id!
     
     APIRequest.shareInstance.addFaceToPerson(personGroupId, personId: personId, imageFace: cameraStill.image!) { (response: ResponsePackage?, error: ErrorWebservice?) in
       // error of network
@@ -240,7 +242,10 @@ extension CameraViewController {
         print("Fail")
         return
       }
-      
+//      ["data": {
+//        persistedFaceId = "1062b2b5-7120-4091-9c2f-550de17cdabe";
+//        }, "message": <null>, "errorCode": <null>, "success": 1]
+// 
       let data = response?.response as! [String : AnyObject]
       let success = data["success"] as! Bool
       if success == true {

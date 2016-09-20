@@ -10,6 +10,7 @@ import Foundation
 
 class Employee: NSObject {
   
+  var id: Int?
   var username: String?
   var departmentId: Int?
   var fullName: String?
@@ -18,12 +19,14 @@ class Employee: NSObject {
   var active: Bool?
   
   init?(_ info: [String: AnyObject]) {
+    let id = info["id"] as? Int
     let active = info["active"] as? Bool
     let roleId = info["roleId"] as? Int
     let userCode = info["userCode"] as? String
     let username = info["username"] as? String
     let fullname = info["fullname"] as? String
     
+    self.id = id
     self.username = username
     self.roleId = roleId
     self.employeeCode = userCode
@@ -42,20 +45,21 @@ class Employee: NSObject {
   
   // MARK: NSCoding
   required init(coder aDecoder: NSCoder) {
+    id = aDecoder.decodeObjectForKey("id") as? Int
     username = aDecoder.decodeObjectForKey("username") as? String
     active = aDecoder.decodeObjectForKey("active") as? Bool
     roleId = aDecoder.decodeObjectForKey("roleId") as? Int
     employeeCode = aDecoder.decodeObjectForKey("userCode") as? String
     fullName = aDecoder.decodeObjectForKey("fullname") as? String
-
   }
   
   func encodeWithCoder(aCoder: NSCoder) {
+    aCoder.encodeObject(id, forKey: "id")
     aCoder.encodeObject(username, forKey: "username")
     aCoder.encodeObject(active, forKey: "active")
     aCoder.encodeObject(roleId, forKey: "roleId")
     aCoder.encodeObject(employeeCode, forKey: "userCode")
-    aCoder.encodeObject(fullName, forKey: "fullname")            
+    aCoder.encodeObject(fullName, forKey: "fullname")
   }
 
   static func getEmployeeFromUserDefault() -> Employee {

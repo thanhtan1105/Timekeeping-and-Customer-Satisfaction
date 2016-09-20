@@ -66,16 +66,17 @@ class APIRequest: NSObject {
     webservice_GET(url, params: params, headersParams: nil, completion: onCompletion)
   }
   
-  func getAccountList(departmentId departmentId: String, start: Int, top: Int, onCompletion: ServiceResponse) {
+  func getAccountList(departmentId departmentId: Int, start: Int, top: Int, onCompletion: ServiceResponse) {
     let url = urlGetAccountList
     let params: [String : AnyObject] = [
+      "departmentID" : departmentId,
       "start" : start,
       "top" : top
     ]
     webservice_GET(url, params: params, headersParams: nil, completion: onCompletion)
   }
   
-  func addFaceToPerson(personGroupId: String, personId: String, imageFace: UIImage, onCompletion: ServiceResponse) {
+  func addFaceToPerson(personGroupId: String, personId: Int, imageFace: UIImage, onCompletion: ServiceResponse) {
     let url = urlAddFaceToPerson
     let request = NSMutableURLRequest(URL: NSURL(string: url)!)
     request.HTTPMethod = "POST"
@@ -83,9 +84,10 @@ class APIRequest: NSObject {
     Alamofire.upload(request, multipartFormData: { (multipartFormData: MultipartFormData) in
       let imageData = UIImageJPEGRepresentation(imageFace, 0.25)
       let data = NSData()
-      multipartFormData.appendBodyPart(data: imageData!, name: "img", fileName: "\(data)", mimeType: "image/png")
-      multipartFormData.appendBodyPart(data: personGroupId.dataUsingEncoding(NSUTF8StringEncoding)!, name: "departmentId")
-      multipartFormData.appendBodyPart(data: personId.dataUsingEncoding(NSUTF8StringEncoding)!, name: "personId")
+      multipartFormData.appendBodyPart(data: imageData!, name: "image", fileName: "\(data)", mimeType: "image/png")
+      multipartFormData.appendBodyPart(data: personGroupId.dataUsingEncoding(NSUTF8StringEncoding)!, name: "departmentID")
+      multipartFormData.appendBodyPart(data: "\(personId)".dataUsingEncoding(NSUTF8StringEncoding)!, name: "accountId")
+      
 
     }) { (encodingResult: Manager.MultipartFormDataEncodingResult) in
       switch encodingResult {
@@ -93,18 +95,12 @@ class APIRequest: NSObject {
         upload.responseJSON(completionHandler: { (response: Response<AnyObject, NSError>) in
           // upload successfully
           debugPrint(response)
-          do {
-            let json = try NSJSONSerialization.JSONObjectWithData(response.data!, options: []) as! [String: AnyObject]
-            print(json)
-            onCompletion(nil, nil)
-          } catch {
-            // create error
-            // TO-DO
-            let errorWebservice = ErrorWebservice.init()
-            errorWebservice.code = 0
-            errorWebservice.error_description = "Upload fail"
-            onCompletion(nil, errorWebservice)
-          }
+          let responsePackage = ResponsePackage()
+          let JSON = response.result.value
+          responsePackage.success = true
+          responsePackage.response = JSON
+          responsePackage.error = response.result.error
+          onCompletion(responsePackage, nil)
         })
       case .Failure(let encodingError):
         // coudn't upload file

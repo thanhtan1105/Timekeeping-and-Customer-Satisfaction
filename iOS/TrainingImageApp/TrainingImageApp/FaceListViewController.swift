@@ -10,10 +10,21 @@ import UIKit
 
 class FaceListViewController: BaseViewController {
 
+  @IBOutlet weak var collectionView: UICollectionView!
+  
+  var faceImage: [UIImage] = []
+  
   override func viewDidLoad() {
     super.viewDidLoad()
+    collectionView.delegate = self
+    collectionView.dataSource = self
   }
-
+  
+  override func viewDidAppear(animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    collectionView.reloadData()
+  }
   
   @IBAction func onFinishTapped(sender: UIBarButtonItem) {
     let alertVC = UIAlertController(title: "Finish", message: "Do you want to finish training image", preferredStyle: .Alert)
@@ -26,47 +37,46 @@ class FaceListViewController: BaseViewController {
     presentViewController(alertVC, animated: true, completion: nil)
       
   }
+
+}
+
+extension FaceListViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+  func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    return 1
+  }
   
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return faceImage.count + 1
+  }
   
-  @IBAction func onAddFaceTapped(sender: UIBarButtonItem) {
-    let cameraVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("CameraViewController") as! CameraViewController    
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    if indexPath.item == 0 {
+      // new
+      let item = collectionView.dequeueReusableCellWithReuseIdentifier(AddNewFaceCollectionCell.ClassName, forIndexPath: indexPath) as! AddNewFaceCollectionCell
+      item.delegate = self
+      return item
+    }
+    
+    let item = collectionView.dequeueReusableCellWithReuseIdentifier(FaceCollectionCell.ClassName, forIndexPath: indexPath) as! FaceCollectionCell
+    item.faceImage.image = faceImage[indexPath.item - 1]
+    return item
+  }
+  
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    return CGSize(width: screenSize.width / 2 - 10, height: screenSize.height / 3.5 )
+  }
+}
+
+extension FaceListViewController: CameraViewControllerDelegate, AddNewFaceCollectionCellDelegate {
+  
+  func cameraViewController(cameraViewController: CameraViewController, didFinishUploadFace image: UIImage) {
+    faceImage.insert(image, atIndex: 0)
+  }
+  
+  func didAddNewFaceTapped() {
+    let cameraVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("CameraViewController") as! CameraViewController
     navigationController?.presentViewController(cameraVC, animated: true, completion: {
       cameraVC.delegate = self
     })
-  }
-  
-}
-
-extension FaceListViewController: UITableViewDelegate, UITableViewDataSource {
-  
-  func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    return 1
-  }
-  
-  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 1
-  }
-  
-  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    return UITableViewCell()
-  }
-}
-
-extension FaceListViewController: CameraViewControllerDelegate {
-  func cameraViewController(cameraViewController: CameraViewController, didUsePhoto image: UIImage) {
-    // get data
-    let personGroupId = String(Department.getDepartmentFromUserDefault().id!)
-    let personId = Employee.getEmployeeFromUserDefault().employeeCode!
-    
-    APIRequest.shareInstance.addFaceToPerson(personGroupId, personId: personId, imageFace: image) { (response: ResponsePackage?, error: ErrorWebservice?) in
-      // error of network
-      guard error == nil else {
-        print("Fail")
-        return
-      }
-      
-      print(response?.response)
-
-    }
   }
 }

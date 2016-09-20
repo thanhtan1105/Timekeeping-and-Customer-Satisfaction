@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		23C1A0FBA5C877021F44C076 /* Pods_TrainingImageAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 873891F56F6AFCD1994AC0EE /* Pods_TrainingImageAppTests.framework */; };
 		4F4FC0A2C4BD17E56C08394C /* Pods_TrainingImageApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C97D15C9FE2DD1B90EEAF3E /* Pods_TrainingImageApp.framework */; };
+		A622A5491D905318004749B8 /* Define.swift in Sources */ = {isa = PBXBuildFile; fileRef = A622A5481D905318004749B8 /* Define.swift */; };
+		A622A54B1D9054C4004749B8 /* AddNewFaceCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A622A54A1D9054C4004749B8 /* AddNewFaceCollectionCell.swift */; };
+		A622A54D1D905508004749B8 /* FaceCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A622A54C1D905508004749B8 /* FaceCollectionCell.swift */; };
 		A63B20B31D8D2AD3008A8AEE /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = A63B20B21D8D2AD3008A8AEE /* Employee.swift */; };
 		A63B20B71D8D31CD008A8AEE /* EmployeeTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A63B20B61D8D31CD008A8AEE /* EmployeeTableCell.swift */; };
 		A67279031D8AB01D00922754 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A67279021D8AB01D00922754 /* AppDelegate.swift */; };
@@ -58,6 +61,9 @@
 		7E79D76E4C9B3A4E7983FCE3 /* Pods-TrainingImageAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrainingImageAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrainingImageAppTests/Pods-TrainingImageAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		873891F56F6AFCD1994AC0EE /* Pods_TrainingImageAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrainingImageAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BA11F29A199593829E044E9 /* Pods-TrainingImageApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrainingImageApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrainingImageApp/Pods-TrainingImageApp.release.xcconfig"; sourceTree = "<group>"; };
+		A622A5481D905318004749B8 /* Define.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Define.swift; sourceTree = "<group>"; };
+		A622A54A1D9054C4004749B8 /* AddNewFaceCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewFaceCollectionCell.swift; sourceTree = "<group>"; };
+		A622A54C1D905508004749B8 /* FaceCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceCollectionCell.swift; sourceTree = "<group>"; };
 		A63B20B21D8D2AD3008A8AEE /* Employee.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
 		A63B20B61D8D31CD008A8AEE /* EmployeeTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmployeeTableCell.swift; sourceTree = "<group>"; };
 		A67278FF1D8AB01D00922754 /* TrainingImageApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrainingImageApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,6 +123,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A622A5471D905303004749B8 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				A622A5481D905318004749B8 /* Define.swift */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
 		A67278F61D8AB01D00922754 = {
 			isa = PBXGroup;
 			children = (
@@ -150,6 +164,7 @@
 				A67279341D8AB06500922754 /* Storyboard */,
 				A67279351D8AB07600922754 /* Appdelegate */,
 				A67279091D8AB01D00922754 /* Assets.xcassets */,
+				A622A5471D905303004749B8 /* Common */,
 				A67279361D8AB09100922754 /* Support */,
 			);
 			path = TrainingImageApp;
@@ -244,6 +259,8 @@
 			children = (
 				A672794C1D8B830900922754 /* DepartmentTableCell.swift */,
 				A63B20B61D8D31CD008A8AEE /* EmployeeTableCell.swift */,
+				A622A54A1D9054C4004749B8 /* AddNewFaceCollectionCell.swift */,
+				A622A54C1D905508004749B8 /* FaceCollectionCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -563,6 +580,7 @@
 				A67279401D8ABE7300922754 /* EmployeeListViewController.swift in Sources */,
 				A672793C1D8AB69300922754 /* BaseViewController.swift in Sources */,
 				A67279471D8B745000922754 /* APIRequestProtocol.swift in Sources */,
+				A622A54D1D905508004749B8 /* FaceCollectionCell.swift in Sources */,
 				A67279031D8AB01D00922754 /* AppDelegate.swift in Sources */,
 				A672794A1D8B7FEC00922754 /* Department.swift in Sources */,
 				A67279521D8B8F2500922754 /* TrainingImageViewController.swift in Sources */,
@@ -570,7 +588,9 @@
 				A63B20B71D8D31CD008A8AEE /* EmployeeTableCell.swift in Sources */,
 				A67279421D8ABE8800922754 /* FaceListViewController.swift in Sources */,
 				A67279481D8B745000922754 /* APIRequest.swift in Sources */,
+				A622A54B1D9054C4004749B8 /* AddNewFaceCollectionCell.swift in Sources */,
 				A67279501D8B8B2A00922754 /* UserDefaultUtilities.swift in Sources */,
+				A622A5491D905318004749B8 /* Define.swift in Sources */,
 				A63B20B31D8D2AD3008A8AEE /* Employee.swift in Sources */,
 				A67279461D8B745000922754 /* APIDefine.swift in Sources */,
 			);

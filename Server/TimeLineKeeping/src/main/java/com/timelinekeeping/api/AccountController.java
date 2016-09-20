@@ -43,39 +43,35 @@ public class AccountController {
         return accountService.listAll(page, size);
     }
 
-    @RequestMapping(value = "/add_face_img_person", method = RequestMethod.POST)
+    @RequestMapping(value = "/searchByDepartment", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse search(@RequestParam(value = "image") MultipartFile imageFile,
-                               @RequestParam(value = "personID") String personID,
-                               @RequestParam(value = "departmentID") String departmentID) {
-
+    public BaseResponse searchByDepartment(@RequestParam(value = "departmentID") Integer departmentID,
+                                            @RequestParam(value = "start") Integer start,
+                                           @RequestParam(value = "top") Integer top) {
+        BaseResponse baseResponse = new BaseResponse();
         try {
-            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            return accountService.addFaceImg(departmentID,personID, imageFile.getInputStream());
-        } catch (Exception e){
-            logger.error(IContanst.LOGGER_ERROR, e);
-            return new BaseResponse(e);
-        }finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
-
+            baseResponse.setData(accountService.searchByDepartment(departmentID, start, top));
+            baseResponse.setSuccess(true);
+        } catch (Exception e) {
+            baseResponse.setSuccess(false);
         }
+
+        return baseResponse;
     }
 
     @RequestMapping(value = "/add_face_img", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse search(@RequestParam(value = "image") MultipartFile imageFile,
-                               @RequestParam(value = "accountId") Long accountId,
+                               @RequestParam(value = "accountId") String accountId,
                                @RequestParam(value = "departmentID") String departmentID) {
-
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            return accountService.addFaceImg(departmentID,accountId, imageFile.getInputStream());
+            return accountService.addFaceImg(departmentID, Long.valueOf(accountId), imageFile.getInputStream());
         } catch (Exception e){
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
         }finally {
             logger.info(IContanst.END_METHOD_CONTROLLER);
-
         }
     }
 

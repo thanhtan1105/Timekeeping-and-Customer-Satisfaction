@@ -22,7 +22,9 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -89,7 +91,7 @@ public class AccountServiceImpl {
 
     public BaseResponse listAll(Integer page, Integer size) {
         BaseResponse response = new BaseResponse();
-        if (page != null && size != null){
+        if (page != null && size != null) {
             response.setSuccess(true);
             response.setData(accountRepo.findAll());
         } else {
@@ -99,6 +101,16 @@ public class AccountServiceImpl {
         return response;
     }
 
+    public List<AccountEntity> searchByDepartment(Integer departmentId, Integer start, Integer top) {
+        List<AccountEntity> accountEntities = new ArrayList<>();
+        if (start != null && top != null) {
+            return accountRepo.findByDepartment(departmentId, start, top);
+        } else {
+            // dump
+            return accountRepo.findByDepartment(departmentId, start, top);
+        }
+    }
+
     public boolean isExist(String username) {
         AccountEntity accountView = accountRepo.findByUsername(username);
         return accountView == null ? false : true;
@@ -106,44 +118,6 @@ public class AccountServiceImpl {
 
     public AccountEntity findByCode(String code) {
         return accountRepo.findByCode(code);
-    }
-
-    public BaseResponse addFaceImg(String departmentId, String personCode, InputStream imgStream) throws URISyntaxException, IOException {
-        try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            //STORE FILE
-
-//            String nameFile = persongroupId + "_" + personId + "_" + (new Date().getTime());
-//            StoreFileUtils.storeFile(nameFile, imgStream);
-            BaseResponse baseResponse = personServiceMCS.addFaceImg(departmentId, personCode, imgStream);
-            logger.info("RESPONSE" + baseResponse);
-            if (!baseResponse.isSuccess()){
-                return baseResponse;
-            }
-            //Result
-            BaseResponse responseResult = new BaseResponse();
-            // encoding data
-           Map<String, String> mapResult = (Map<String, String>) baseResponse.getData(); // get face
-            if (mapResult != null && mapResult.size()> 0) {
-                String persistedFaceID = mapResult.get("persistedFaceId");
-                // save db
-                FaceCreateModel faceCreateModel = new FaceCreateModel(persistedFaceID, personCode);
-                FaceEntity faceReturn = faceService.create(faceCreateModel);
-                if (faceReturn != null){
-                    responseResult.setSuccess(true);
-                    Map<String, Long> map = new HashMap<>();
-                    map.put("faceId", faceReturn.getId());
-                    responseResult.setData(JsonUtil.toJson(map));
-                }else{
-                    responseResult.setSuccess(false);
-                    responseResult.setMessage(ERROR.ACCOUNT_ADD_FACE_CANNOT_SAVE_DB);
-                }
-            }
-
-            return responseResult;
-        } finally {
-            logger.info(IContanst.END_METHOD_SERVICE);
-        }
     }
 
     public BaseResponse addFaceImg(String departmentId, Long accountId, InputStream imgStream) throws URISyntaxException, IOException {
@@ -172,7 +146,7 @@ public class AccountServiceImpl {
                 // save db
                 FaceEntity faceCreate = new FaceEntity(persistedFaceID, accountEntity);
                 FaceEntity faceReturn = faceRepo.saveAndFlush(faceCreate);
-                if (faceReturn != null){
+                if (faceReturn != null) {
                     responseResult.setSuccess(true);
                     Map<String, Long> map = new HashMap<>();
                     map.put("faceId", faceReturn.getId());

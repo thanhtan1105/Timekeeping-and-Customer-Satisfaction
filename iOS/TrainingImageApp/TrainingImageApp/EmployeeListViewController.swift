@@ -77,7 +77,7 @@ extension EmployeeListViewController {
   
   func callEmployeeListApi(start start: Int, top: Int) {
     let department = Department.getDepartmentFromUserDefault();
-    APIRequest.shareInstance.getAccountList(departmentId: department.code!, start: start, top: top) { (response: ResponsePackage?, error: ErrorWebservice?) in
+    APIRequest.shareInstance.getAccountList(departmentId: department.id!, start: start, top: top) { (response: ResponsePackage?, error: ErrorWebservice?) in
       guard error == nil else {
         print("Fail to get api")
         return

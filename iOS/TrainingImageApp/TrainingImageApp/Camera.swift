@@ -121,7 +121,7 @@ class Camera: NSObject {
     
   // MARK: Configuration
   func addVideoInput() {
-    let device: AVCaptureDevice = self.deviceWithMediaTypeWithPosition(AVMediaTypeVideo, position: AVCaptureDevicePosition.Back)
+    let device: AVCaptureDevice = self.deviceWithMediaTypeWithPosition(AVMediaTypeVideo, position: AVCaptureDevicePosition.Front)
     do {
         let input = try AVCaptureDeviceInput(device: device)
         if self.session.canAddInput(input) {
