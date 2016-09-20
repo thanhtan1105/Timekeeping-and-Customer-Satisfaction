@@ -117,7 +117,7 @@ public class EmotionServiceImpl {
         return baseResponse;
     }
 
-    private Emotion parseEmotionFaceResponse(BaseResponse emotionResponse, BaseResponse faceResponse) {
+    private EmotionCustomerEntity parseEmotionFaceResponse(BaseResponse emotionResponse, BaseResponse faceResponse) {
         // parser emotion response
         List<EmotionRecognizeResponse> emotionRecognizeList = (List<EmotionRecognizeResponse>) emotionResponse.getData();
         EmotionRecognizeResponse emotionRecognize = emotionRecognizeList.get(0);

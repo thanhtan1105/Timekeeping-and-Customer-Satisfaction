@@ -74,7 +74,7 @@ public class EmotionCustomerEntity {
         this.smile = smile;
     }
 
-    public Emotion(Double anger, Double contempt, Double disgust, Double fear, Double happiness, Double neutral,
+    public EmotionCustomerEntity(Double anger, Double contempt, Double disgust, Double fear, Double happiness, Double neutral,
                    Double sadness, Double surprise, Double age, Gender gender, Double smile) {
         this.anger = anger;
         this.contempt = contempt;

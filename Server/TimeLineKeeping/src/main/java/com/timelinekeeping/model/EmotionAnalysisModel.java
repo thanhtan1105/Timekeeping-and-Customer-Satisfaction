@@ -2,7 +2,7 @@ package com.timelinekeeping.model;
 
 import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.Gender;
-import com.timelinekeeping.entity.Emotion;
+import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.modelAPI.EmotionRecognizeScores;
 
 import java.io.Serializable;
@@ -20,7 +20,7 @@ public class EmotionAnalysisModel implements Serializable {
     public EmotionAnalysisModel() {
     }
 
-    public EmotionAnalysisModel(EEmotion emotionMost, Emotion emotionEntity) {
+    public EmotionAnalysisModel(EEmotion emotionMost, EmotionCustomerEntity emotionEntity) {
         this.emotionMost = emotionMost;
         if (emotionEntity != null) {
             this.age = emotionEntity.getAge();
