@@ -27,6 +27,15 @@ public class UtilApps {
         return collection != null && collection.size() >0;
     }
 
+
+    public static boolean isEmpty(String text){
+        return text != null && text.length() >0;
+    }
+    public static String trim(String text){
+        return isEmpty(text)? null : text.trim();
+    }
+
+
     public static boolean isEmpty(String text){
         return text == null || text.length() <=0;
     }

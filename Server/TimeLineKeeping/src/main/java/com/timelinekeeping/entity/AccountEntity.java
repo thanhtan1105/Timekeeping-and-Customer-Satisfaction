@@ -56,12 +56,16 @@ public class AccountEntity extends AbstractEntity {
     @JoinColumn(name = "department_id")
     private DepartmentEntity departments;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountEntity", fetch = FetchType.EAGER)
+    private List<FaceEntity> faces;
+
+
     public AccountEntity() {
     }
 
-    public AccountEntity(AccountView accountView) {
-        this.username = accountView.getUsername();
-        this.fullname = accountView.getFullname();
+    public AccountEntity(AccountModel accountModel) {
+        this.username = accountModel.getUsername();
+        this.fullname = accountModel.getFullname();
     }
 
     public Long getId() {

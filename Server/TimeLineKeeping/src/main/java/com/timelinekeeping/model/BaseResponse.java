@@ -36,6 +36,18 @@ public class BaseResponse {
         this.errorCode = errorCode;
     }
 
+
+    public BaseResponse(boolean success, Object data) {
+        this.success = success;
+        this.data = data;
+    }
+
+    public BaseResponse(boolean success, String message, Object data) {
+        this.success = success;
+        this.message = message;
+        this.data = data;
+    }
+
     public BaseResponse(Exception e) {
         this.success = false;
         this.message = e.getMessage();

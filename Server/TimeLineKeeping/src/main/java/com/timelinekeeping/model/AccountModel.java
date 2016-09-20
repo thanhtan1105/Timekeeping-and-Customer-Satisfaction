@@ -15,10 +15,10 @@ public class AccountView extends AbstractModel{
     private String fullname;
     private String token;
 
-    public AccountView() {
+    public AccountModel() {
     }
 
-    public AccountView(AccountEntity entity) {
+    public AccountModel(AccountEntity entity) {
         this.id = entity.getId();
         this.username = entity.getUsername();
         this.role = new RoleView(entity.getRoles());

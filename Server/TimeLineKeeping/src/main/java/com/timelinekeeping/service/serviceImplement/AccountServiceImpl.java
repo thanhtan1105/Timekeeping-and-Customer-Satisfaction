@@ -3,19 +3,17 @@ package com.timelinekeeping.service.serviceImplement;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.constant.ERROR;
-import com.timelinekeeping.constant.ETimeKeeping;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.DepartmentEntity;
-import com.timelinekeeping.entity.TimeKeepingEntity;
-import com.timelinekeeping.model.AccountView;
+import com.timelinekeeping.entity.FaceEntity;
+import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.modelAPI.FaceDetectResponse;
-import com.timelinekeeping.modelAPI.FaceIdentifyConfidenceRespone;
+import com.timelinekeeping.model.FaceCreateModel;
 import com.timelinekeeping.modelAPI.FaceIdentityCandidate;
 import com.timelinekeeping.repository.AccountRepo;
-import com.timelinekeeping.repository.DepartmentRepo;
-import com.timelinekeeping.repository.TimekeepingRepo;
+import com.timelinekeeping.repository.FaceRepo;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.UtilApps;
 import org.apache.log4j.LogManager;
@@ -30,7 +28,7 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,13 +49,27 @@ public class AccountServiceImpl {
     private AccountRepo accountRepo;
 
     @Autowired
+    private FaceRepo faceRepo;
+
+    @Autowired
+    private DepartmentServiceImpl departmentService;
+
+    @Autowired
     private DepartmentRepo departmentRepo;
 
     @Autowired
     private TimekeepingRepo timekeepingRepo;
 
 
+
+
+    @Autowired
+    private FaceServiceImpl faceService;
+
+
+
     private Logger logger = LogManager.getLogger(AccountServiceImpl.class);
+
 
     public BaseResponse create(AccountEntity account) {
         BaseResponse baseResponse = new BaseResponse();
@@ -81,7 +93,7 @@ public class AccountServiceImpl {
                 AccountEntity result = accountRepo.saveAndFlush(account);
                 if (result != null) {
                     baseResponse.setSuccess(true);
-                    baseResponse.setData(new AccountView(result));
+                    baseResponse.setData(new AccountModel(result));
                 }
             }
         } catch (URISyntaxException e) {
@@ -93,9 +105,17 @@ public class AccountServiceImpl {
         }
     }
 
+
+    public BaseResponse listAll(Integer page, Integer size) {
+        BaseResponse response = new BaseResponse();
+        if (page != null && size != null) {
+            response.setSuccess(true);
+            response.setData(accountRepo.findAll());
+
     public List<AccountView> listAll(Integer page, Integer size) {
         if (page != null && size != null) {
             accountRepo.findAll(new PageRequest(page, size));
+
         } else {
             return tolistAccount(accountRepo.findAll());
 
@@ -111,10 +131,64 @@ public class AccountServiceImpl {
         return accountViewList;
     }
 
+    public List<AccountEntity> searchByDepartment(Integer departmentId, Integer start, Integer top) {
+        List<AccountEntity> accountEntities = new ArrayList<>();
+        if (start != null && top != null) {
+            return accountRepo.findByDepartment(departmentId, start, top);
+        } else {
+            // dump
+            return accountRepo.findByDepartment(departmentId, start, top);
+        }
+    }
+
     public boolean isExist(String username) {
         AccountEntity accountView = accountRepo.findByUsername(username);
         return accountView == null ? false : true;
     }
+
+
+    public AccountEntity findByCode(String code) {
+        return accountRepo.findByCode(code);
+    }
+
+    public BaseResponse addFaceImg(String departmentId, Long accountId, InputStream imgStream) throws URISyntaxException, IOException {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            //STORE FILE
+
+//            String nameFile = persongroupId + "_" + personId + "_" + (new Date().getTime());
+//            StoreFileUtils.storeFile(nameFile, imgStream);
+
+            AccountEntity accountEntity = accountRepo.findOne(accountId);
+            if (accountEntity == null){
+                return new BaseResponse(false, ERROR.ACCOUNT_ADD_FACE_CANNOT_FOUND_ACCOUNTID, null);
+            }
+            BaseResponse baseResponse = personServiceMCS.addFaceImg(departmentId, accountEntity.getUserCode(), imgStream);
+            logger.info("RESPONSE" + baseResponse);
+            if (!baseResponse.isSuccess()){
+                return baseResponse;
+            }
+            //Result
+            BaseResponse responseResult = new BaseResponse();
+            // encoding data
+            Map<String, String> mapResult = (Map<String, String>) baseResponse.getData(); // get face
+            if (mapResult != null && mapResult.size()> 0) {
+                String persistedFaceID = mapResult.get("persistedFaceId");
+                // save db
+                FaceEntity faceCreate = new FaceEntity(persistedFaceID, accountEntity);
+                FaceEntity faceReturn = faceRepo.saveAndFlush(faceCreate);
+                if (faceReturn != null) {
+                    responseResult.setSuccess(true);
+                    Map<String, Long> map = new HashMap<>();
+                    map.put("faceId", faceReturn.getId());
+                    responseResult.setData(JsonUtil.toJson(map));
+                }else{
+                    responseResult.setSuccess(false);
+                    responseResult.setMessage(ERROR.ACCOUNT_ADD_FACE_CANNOT_SAVE_DB);
+                }
+            }
+
+            return responseResult;
 
 
     /**
@@ -161,7 +235,7 @@ public class AccountServiceImpl {
             if (UtilApps.isEmpty(personID)) {
                 //TODO: ERROR cannot indetify image
                 logger.error(IContanst.ERROR_LOGGER + ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_CANNOT_IDENTIFY_IMAGE);
-                return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_CANNOT_IDENTIFY_IMAGE, null);
+                return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_CANNOT_IDENTIFY_IMAGE);
             }
             logger.info("-- PersonID: " + personID);
 
@@ -188,10 +262,12 @@ public class AccountServiceImpl {
             //Response to Server
 
             return response;
+
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
+
 
 
     /**
@@ -268,4 +344,5 @@ public class AccountServiceImpl {
             return null;
         }
     }
+>>>>>>> 196d37700a45250c4f6d70061f78e74dcc4e5080
 }
