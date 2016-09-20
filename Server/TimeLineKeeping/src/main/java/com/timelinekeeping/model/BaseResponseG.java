@@ -58,4 +58,8 @@ public class BaseResponseG<T> {
                 ", errorCode='" + errorCode + '\'' +
                 '}';
     }
+
+    public BaseResponse toBaseResponse(){
+        return new BaseResponse(success, message, data, errorCode);
+    }
 }

@@ -3,12 +3,12 @@ package com.timelinekeeping.modelAPI;
 /**
  * Created by HienTQSE60896 on 9/10/2016.
  */
-public class FaceDetectRespone {
+public class FaceDetectResponse {
     private String faceId;
     private RectangleImage faceRectangle;
     private FaceDetectAttribute faceAttributes;
 
-    public FaceDetectRespone() {
+    public FaceDetectResponse() {
     }
 
     public String getFaceId() {
@@ -37,7 +37,7 @@ public class FaceDetectRespone {
 
     @Override
     public String toString() {
-        return "FaceDetectRespone{" +
+        return "FaceDetectResponse{" +
                 "faceId='" + faceId + '\'' +
                 ", faceRectangle=" + faceRectangle +
                 ", faceAttributes=" + faceAttributes +

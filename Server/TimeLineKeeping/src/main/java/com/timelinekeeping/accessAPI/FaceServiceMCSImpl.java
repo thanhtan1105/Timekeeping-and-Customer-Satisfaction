@@ -3,7 +3,7 @@ package com.timelinekeeping.accessAPI;
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.modelAPI.FaceDetectRespone;
+import com.timelinekeeping.modelAPI.FaceDetectResponse;
 import com.timelinekeeping.modelAPI.FaceIdentifyConfidenceRespone;
 import com.timelinekeeping.modelAPI.FaceIdentifyRequest;
 import com.timelinekeeping.util.HTTPClientUtil;
@@ -20,9 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by HienTQSE60896 on 9/10/2016.
@@ -58,7 +56,8 @@ public class FaceServiceMCSImpl {
             /** Class return **/
 
 
-            return HTTPClientUtil.getInstanceFace().toPostOct(builder.build(), new ByteArrayEntity(bytes), JsonUtil.LIST_PARSER, FaceDetectRespone.class);
+            return HTTPClientUtil.getInstanceFace().toPostOct(builder.build(),
+                    new ByteArrayEntity(bytes), JsonUtil.LIST_PARSER, FaceDetectResponse.class);
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
@@ -82,12 +81,16 @@ public class FaceServiceMCSImpl {
         mapEntity.put("url", urlImg);
         String jsonEntity = JsonUtil.toJson(mapEntity);
 
-        return HTTPClientUtil.getInstanceFace().toPost(builder.build(), new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.LIST_PARSER, FaceDetectRespone.class);
+        return HTTPClientUtil.getInstanceFace().toPost(builder.build(), new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.LIST_PARSER, FaceDetectResponse.class);
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 
+    /** sub function from identify*/
+    public BaseResponse identify(String groupId, String faceId) throws URISyntaxException, IOException {
+        return identify(groupId, new ArrayList(Arrays.asList(faceId)));
+    }
 
     /**
      * identify face in group person has training

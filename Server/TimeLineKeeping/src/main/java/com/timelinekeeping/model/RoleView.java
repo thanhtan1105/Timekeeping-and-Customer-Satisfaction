@@ -1,21 +1,21 @@
-package com.timelinekeeping.entity;
+package com.timelinekeeping.model;
 
-import javax.persistence.*;
+import com.timelinekeeping.entity.RoleEntity;
 
 /**
- * Created by Lep on 9/7/2016.
+ * Created by HienTQSE60896 on 9/17/2016.
  */
-@Entity
-@Table(name = "role", schema = "mydb")
-public class RoleEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+public class RoleView {
     private Long id;
-
-    @Basic
-    @Column(name = "name")
     private String name;
+
+    public RoleView() {
+    }
+
+    public RoleView(RoleEntity entity) {
+        this.id = entity.getId();
+        this.name = entity.getName();
+    }
 
     public Long getId() {
         return id;
@@ -35,7 +35,7 @@ public class RoleEntity {
 
     @Override
     public String toString() {
-        return "RoleEntity{" +
+        return "RoleView{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

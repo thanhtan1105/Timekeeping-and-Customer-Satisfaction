@@ -5,14 +5,18 @@ package com.timelinekeeping.model;
  */
 public class BaseResponse {
 
-    private boolean success;
+    private boolean success = false;
     private String message;
     private Object data;
     private String errorCode;
 
     public BaseResponse() {
+        this.success = false;
     }
 
+    public BaseResponse(boolean success) {
+        this.success = success;
+    }
 
     public BaseResponse(boolean success, Object data) {
         this.success = success;
@@ -23,6 +27,13 @@ public class BaseResponse {
         this.success = success;
         this.message = message;
         this.data = data;
+    }
+
+    public BaseResponse(boolean success, String message, Object data, String errorCode) {
+        this.success = success;
+        this.message = message;
+        this.data = data;
+        this.errorCode = errorCode;
     }
 
     public BaseResponse(Exception e) {
@@ -61,6 +72,8 @@ public class BaseResponse {
     public void setErrorCode(String errorCode) {
         this.errorCode = errorCode;
     }
+
+
 
     @Override
     public String toString() {

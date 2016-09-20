@@ -107,8 +107,5 @@ public class PersonController {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
-
-
-
 }
 

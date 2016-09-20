@@ -1,9 +1,12 @@
 package com.timelinekeeping.entity;
 
 import com.timelinekeeping.model.AccountModel;
-
 import javax.persistence.*;
 import java.util.List;
+import com.timelinekeeping.constant.EStatus;
+import com.timelinekeeping.model.AbstractModel;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by HienTQSE60896 on 9/4/2016.
@@ -11,36 +14,48 @@ import java.util.List;
 
 @Entity
 @Table(name = "account", schema = "mydb")
-public class AccountEntity {
+public class AccountEntity extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
+    @Basic
+    @NotNull
     @Column(name = "username", unique = true)
     private String username;
 
+    @Basic
+    @NotNull
     @Column(name = "user_code")
     private String userCode;
 
+    @Basic
+    @NotNull
     @Column(name = "password")
     private String password;
 
+    @Basic
     @Column(name = "active")
-    private Integer active;
+    private EStatus active = EStatus.ACTIVE;
 
+    @Basic
     @Column(name = "full_name")
     private String fullname;
 
+    @Basic
     @Column(name = "token")
     private String token;
 
-    @Column(name = "roleId")
-    private Long roleId;
 
-    @Column(name = "departmentId")
-    private Long departmentId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private RoleEntity roles;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
+    private DepartmentEntity departments;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountEntity", fetch = FetchType.EAGER)
     private List<FaceEntity> faces;
@@ -70,6 +85,14 @@ public class AccountEntity {
         this.username = username;
     }
 
+    public String getUserCode() {
+        return userCode;
+    }
+
+    public void setUserCode(String userCode) {
+        this.userCode = userCode;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -78,12 +101,11 @@ public class AccountEntity {
         this.password = password;
     }
 
-
-    public Integer getActive() {
+    public EStatus getActive() {
         return active;
     }
 
-    public void setActive(Integer active) {
+    public void setActive(EStatus active) {
         this.active = active;
     }
 
@@ -103,41 +125,26 @@ public class AccountEntity {
         this.token = token;
     }
 
-    public Long getRoleId() {
-        return roleId;
+    public RoleEntity getRoles() {
+        return roles;
     }
 
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public void setRoles(RoleEntity roles) {
+        this.roles = roles;
     }
 
-    public Long getDepartmentId() {
-        return departmentId;
+    public DepartmentEntity getDepartments() {
+        return departments;
     }
 
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
-    }
-
-    public String getUserCode() {
-        return userCode;
-    }
-
-    public void setUserCode(String userCode) {
-        this.userCode = userCode;
+    public void setDepartments(DepartmentEntity departments) {
+        this.departments = departments;
     }
 
     @Override
-    public String toString() {
-        return "AccountEntity{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + roleId +
-                ", active=" + active +
-                ", fullname='" + fullname + '\'' +
-                ", token='" + token + '\'' +
-                ", role=" + roleId +
-                '}';
+    public <T extends AbstractModel> void fromModel(T modelGeneric) {
+        AccountModel model = (AccountModel) modelGeneric;
+        this.username = model.getUsername();
+        this.fullname = model.getFullname();
     }
 }

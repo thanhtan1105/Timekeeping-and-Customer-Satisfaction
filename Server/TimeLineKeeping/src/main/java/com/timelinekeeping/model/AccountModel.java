@@ -1,13 +1,17 @@
 package com.timelinekeeping.model;
+
+import com.timelinekeeping.entity.AbstractEntity;
 import com.timelinekeeping.entity.AccountEntity;
 
 /**
  * Created by HienTQSE60896 on 9/15/2016.
  */
+
 public class AccountModel {
+
     private Long id;
     private String username;
-    private String role;
+    private RoleView role;
     private String userCode;
     private Integer active;
     private String fullname;
@@ -19,8 +23,8 @@ public class AccountModel {
     public AccountModel(AccountEntity entity) {
         this.id = entity.getId();
         this.username = entity.getUsername();
-        this.role = "";
-        this.active = entity.getActive();
+        this.role = new RoleView(entity.getRoles());
+        this.active = entity.getActive().getIndex();
         this.fullname = entity.getFullname();
         this.token = entity.getToken();
         this.userCode = entity.getUserCode();
@@ -42,7 +46,7 @@ public class AccountModel {
         this.username = username;
     }
 
-    public void setRole(String role) {
+    public void setRole(RoleView role) {
         this.role = role;
     }
 
@@ -70,7 +74,7 @@ public class AccountModel {
         this.token = token;
     }
 
-    public String getRole() {
+    public RoleView getRole() {
         return role;
     }
 
@@ -82,5 +86,15 @@ public class AccountModel {
         this.userCode = userCode;
     }
 
-
+    @Override
+    public <T extends AbstractEntity> void fromEntity(T entityGeneric) {
+        AccountEntity entity = (AccountEntity) entityGeneric;
+        this.id = entity.getId();
+        this.username = entity.getUsername();
+        this.role = new RoleView(entity.getRoles());
+        this.active = entity.getActive().getIndex();
+        this.fullname = entity.getFullname();
+        this.token = entity.getToken();
+        this.userCode = entity.getUserCode();
+    }
 }

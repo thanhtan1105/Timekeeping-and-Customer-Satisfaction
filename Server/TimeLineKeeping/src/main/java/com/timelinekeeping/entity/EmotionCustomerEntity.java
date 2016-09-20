@@ -11,16 +11,16 @@ import java.sql.Timestamp;
 
 
 @Entity
-@Table(name = "emotion")
-public class Emotion {
+@Table(name = "emotion", schema = "mydb")
+public class EmotionCustomerEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "createTime")
+    @Column(name = "create_time")
     private Timestamp createTime;
-    @Column(name = "createBy")
+    @Column(name = "create_by")
     private Long createBy;
 
     @Column(name = "anger")
@@ -56,9 +56,9 @@ public class Emotion {
     @Column(name = "smile")
     private Double smile;
 
-    public Emotion() { }
+    public EmotionCustomerEntity() { }
 
-    public Emotion(Timestamp createTime, Long createBy, Double anger, Double contempt, Double disgust, Double fear, Double happiness, Double neutral, Double sadness, Double surprise, Double age, Gender gender, Double smile) {
+    public EmotionCustomerEntity(Timestamp createTime, Long createBy, Double anger, Double contempt, Double disgust, Double fear, Double happiness, Double neutral, Double sadness, Double surprise, Double age, Gender gender, Double smile) {
         this.createTime = createTime;
         this.createBy = createBy;
         this.anger = anger;

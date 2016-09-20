@@ -3,10 +3,10 @@ package com.timelinekeeping.service.serviceImplement;
 import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.constant.Gender;
-import com.timelinekeeping.entity.Emotion;
+import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.modelAPI.EmotionRecognizeResponse;
-import com.timelinekeeping.modelAPI.FaceDetectRespone;
+import com.timelinekeeping.modelAPI.FaceDetectResponse;
 import com.timelinekeeping.repository.EmotionRepo;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +49,8 @@ public class EmotionServiceImpl {
         EmotionRecognizeResponse emotionRecognize = emotionRecognizeList.get(0);
 
         // parser face response
-        List<FaceDetectRespone> faceRecognizeList = (List<FaceDetectRespone>) faceResponse.getData();
-        FaceDetectRespone faceDetectResponse = faceRecognizeList.get(0);
+        List<FaceDetectResponse> faceRecognizeList = (List<FaceDetectResponse>) faceResponse.getData();
+        FaceDetectResponse faceDetectResponse = faceRecognizeList.get(0);
 
         // create time
         java.util.Date date= new java.util.Date();
@@ -69,8 +69,8 @@ public class EmotionServiceImpl {
         Double smile = faceDetectResponse.getFaceAttributes().getSmile();
 
         // save to database
-        Emotion emotion = new Emotion(timestamp, employeeId, anger, contempt, disgust, fear, happiness, neutral, sadness, surprise, age, gender, smile);
-        baseResponse.setData(repo.saveAndFlush(emotion));
+        EmotionCustomerEntity emotionCustomerEntity = new EmotionCustomerEntity(timestamp, employeeId, anger, contempt, disgust, fear, happiness, neutral, sadness, surprise, age, gender, smile);
+        baseResponse.setData(repo.saveAndFlush(emotionCustomerEntity));
         return baseResponse;
     }
 

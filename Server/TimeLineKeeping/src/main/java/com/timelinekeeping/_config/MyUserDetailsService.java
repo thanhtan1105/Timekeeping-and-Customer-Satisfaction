@@ -1,5 +1,6 @@
 package com.timelinekeeping._config;
 
+import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.repository.RoleRepo;
 import com.timelinekeeping.repository.AccountRepo;
@@ -31,14 +32,14 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AccountEntity accountEntity = accountRepo.findByUsername(username);
-        String roleName = roleRepo.getOne(accountEntity.getRoleId()).getName();
+        String roleName = roleRepo.getOne(accountEntity.getRoles().getId()).getName();
         List<GrantedAuthority> authorities = buildUserAuthority(roleName);
         return buildUserForAuthentication(accountEntity, authorities);
     }
 
     private org.springframework.security.core.userdetails.User buildUserForAuthentication(AccountEntity accountEntity, List<GrantedAuthority> authorities) {
         return new org.springframework.security.core.userdetails.User(accountEntity.getUsername(), accountEntity.getPassword(),
-                accountEntity.getActive() == 1, true, true, true, authorities);
+                accountEntity.getActive() == EStatus.ACTIVE, true, true, true, authorities);
     }
 
     private List<GrantedAuthority> buildUserAuthority(String roleName) {

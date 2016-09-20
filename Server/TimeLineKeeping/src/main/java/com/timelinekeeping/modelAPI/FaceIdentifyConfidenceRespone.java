@@ -6,8 +6,8 @@ import java.util.List;
  * Created by HienTQSE60896 on 9/11/2016.
  */
 public class FaceIdentifyConfidenceRespone {
-    public String faceId;
-    public List<FaceIdentityCandidate> candidates;
+    private String faceId;
+    private List<FaceIdentityCandidate> candidates;
 
     public FaceIdentifyConfidenceRespone() {
     }
