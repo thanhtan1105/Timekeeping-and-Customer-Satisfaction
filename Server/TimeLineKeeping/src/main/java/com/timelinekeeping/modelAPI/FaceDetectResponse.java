@@ -3,6 +3,7 @@ package com.timelinekeeping.modelAPI;
 /**
  * Created by HienTQSE60896 on 9/10/2016.
  */
+
 public class FaceDetectResponse {
     private String faceId;
     private RectangleImage faceRectangle;
