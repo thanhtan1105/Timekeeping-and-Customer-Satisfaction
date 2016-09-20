@@ -1,6 +1,5 @@
 package com.timelinekeeping.entity;
 
-import com.sun.org.apache.xpath.internal.operations.String;
 
 import javax.persistence.*;
 
@@ -32,7 +31,6 @@ public class FaceEntity {
 
     public FaceEntity() {
     }
-
 
 
     public FaceEntity(String persistedFaceId, AccountEntity accountEntity) {
