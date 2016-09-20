@@ -8,6 +8,7 @@ import com.timelinekeeping.modelAPI.FaceDetectResponse;
 import com.timelinekeeping.modelAPI.PersonGroup;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.UtilApps;
+import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -55,7 +56,7 @@ public class FaceController {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response = null;
-            if (UtilApps.isImageFile(img.getInputStream())) {
+            if (ValidateUtil.isImageFile(img.getInputStream())) {
                 response = faceService.detect(img.getInputStream());
             } else {
                 response = new BaseResponse();

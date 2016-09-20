@@ -2,12 +2,12 @@ package com.timelinekeeping.controller;
 
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.RoleEntity;
+import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.model.DepartmentSelectModel;
 import com.timelinekeeping.service.serviceImplement.AccountServiceImpl;
 import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
 import com.timelinekeeping.service.serviceImplement.RoleServiceImpl;
-import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,9 +40,7 @@ public class AccountControllerWeb {
         int page = 0;
         int size = 1000;
 
-        BaseResponse response = accountService.listAll(page, size);
-        List<AccountEntity> listAccounts = (List<AccountEntity>) response.getData();
-
+        List<AccountModel> listAccounts = accountService.listAll(page, size);
         // List of accounts
         model.addAttribute("ListAccounts", listAccounts);
         logger.info("[Controller- Load Management Account View] END");

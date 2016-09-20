@@ -20,9 +20,12 @@ import com.timelinekeeping.modelAPI.FaceIdentityCandidate;
 import com.timelinekeeping.repository.DepartmentRepo;
 import com.timelinekeeping.repository.TimekeepingRepo;
 import com.timelinekeeping.util.UtilApps;
+import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
@@ -34,6 +37,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by HienTQSE60896 on 9/15/2016.
@@ -55,15 +59,10 @@ public class AccountServiceImpl {
     private FaceRepo faceRepo;
 
     @Autowired
-    private DepartmentServiceImpl departmentService;
-
     private DepartmentRepo departmentRepo;
 
     @Autowired
     private TimekeepingRepo timekeepingRepo;
-
-    @Autowired
-    private FaceServiceImpl faceService;
 
     private Logger logger = LogManager.getLogger(AccountServiceImpl.class);
 
@@ -101,35 +100,30 @@ public class AccountServiceImpl {
         }
     }
 
-    public BaseResponse listAll(Integer page, Integer size) {
-        BaseResponse response = new BaseResponse();
-        if (page != null && size != null) {
-            response.setSuccess(true);
-            response.setData(accountRepo.findAll());
-        } else {
-            response.setData(tolistAccount(accountRepo.findAll()));
-            return response;
-
+    public List<AccountModel> listAll(Integer page, Integer size) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            List<AccountEntity> entityList = null;
+            if (page != null && size != null) {
+                Page<AccountEntity> entityPage = accountRepo.findAll(new PageRequest(page, size));
+                entityList = entityPage.getContent();
+            } else {
+                entityList = accountRepo.findAll();
+            }
+            List<AccountModel> accountModels = entityList.stream().map(AccountModel::new).collect(Collectors.toList());
+            logger.info("Entity result:" + JsonUtil.toJson(accountModels));
+            return accountModels;
+        }finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
-        return null;
     }
 
-    private List<AccountModel> tolistAccount(List<AccountEntity> entities) {
-        List<AccountModel> accountViewList = new ArrayList<>();
-        for (AccountEntity entity : entities) {
-            accountViewList.add(new AccountModel(entity));
-        }
-        return accountViewList;
-    }
 
-    public List<AccountEntity> searchByDepartment(Integer departmentId, Integer start, Integer top) {
-        List<AccountEntity> accountEntities = new ArrayList<>();
-        if (start != null && top != null) {
-            return accountRepo.findByDepartment(departmentId, start, top);
-        } else {
-            // dump
-            return accountRepo.findByDepartment(departmentId, start, top);
-        }
+    public List<AccountModel> searchByDepartment(Long departmentId, Integer start, Integer top) {
+        List<AccountEntity> accountEntities = departmentRepo.findByDepartment(departmentId, new PageRequest(start, top));
+        List<AccountModel> accountModels = accountEntities.stream().map(AccountModel::new).collect(Collectors.toList());
+        logger.info("Entity result:" + JsonUtil.toJson(accountModels));
+        return accountModels;
     }
 
     public boolean isExist(String username) {
@@ -178,9 +172,8 @@ public class AccountServiceImpl {
                 }
             }
             return responseResult;
-
-        } catch (Exception e) {
-            return null;
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
 
     }
@@ -226,7 +219,7 @@ public class AccountServiceImpl {
 
             /** get PersonID from */
             String personID = checkExistFaceInDepartment(faceID, departmentNames);
-            if (UtilApps.isEmpty(personID)) {
+            if (ValidateUtil.isEmpty(personID)) {
                 //TODO: ERROR cannot indetify image
                 logger.error(IContanst.ERROR_LOGGER + ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_CANNOT_IDENTIFY_IMAGE);
                 return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_CANNOT_IDENTIFY_IMAGE, null);
@@ -311,7 +304,7 @@ public class AccountServiceImpl {
                 List<FaceIdentifyConfidenceRespone> faceIdentifies = (List<FaceIdentifyConfidenceRespone>) response.getData();
 
                 //check success
-                if (UtilApps.isEmpty(faceIdentifies) && faceIdentifies.size() == 1) {
+                if (ValidateUtil.isEmpty(faceIdentifies) && faceIdentifies.size() == 1) {
                     List<FaceIdentityCandidate> candidateList = faceIdentifies.get(0).getCandidates();
                     for (FaceIdentityCandidate candidate : candidateList) {
                         if (candidate.getConfidence() > confidence) {

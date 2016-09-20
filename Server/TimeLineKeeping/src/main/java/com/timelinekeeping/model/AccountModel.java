@@ -10,7 +10,7 @@ public class AccountModel {
 
     private Long id;
     private String username;
-    private RoleView role;
+    private RoleModel role;
     private String userCode;
     private Integer active;
     private String fullname;
@@ -22,7 +22,7 @@ public class AccountModel {
     public AccountModel(AccountEntity entity) {
         this.id = entity.getId();
         this.username = entity.getUsername();
-        this.role = new RoleView(entity.getRole());
+        this.role = new RoleModel(entity.getRoles());
         this.active = entity.getActive().getIndex();
         this.fullname = entity.getFullname();
         this.token = entity.getToken();
@@ -45,7 +45,7 @@ public class AccountModel {
         this.username = username;
     }
 
-    public void setRole(RoleView role) {
+    public void setRole(RoleModel role) {
         this.role = role;
     }
 
@@ -73,7 +73,7 @@ public class AccountModel {
         this.token = token;
     }
 
-    public RoleView getRole() {
+    public RoleModel getRole() {
         return role;
     }
 
