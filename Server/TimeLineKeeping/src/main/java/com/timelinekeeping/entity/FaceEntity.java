@@ -1,8 +1,8 @@
 package com.timelinekeeping.entity;
 
+import com.sun.org.apache.xpath.internal.operations.String;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 /**
  * Created by lethanhtan on 9/19/16.
@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "face", schema = "mydb")
-public class FaceEntity  implements Serializable {
+public class FaceEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,11 +27,12 @@ public class FaceEntity  implements Serializable {
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id", nullable = false)
+    @JoinColumn(name = "account_id")
     private AccountEntity accountEntity;
 
     public FaceEntity() {
     }
+
 
 
     public FaceEntity(String persistedFaceId, AccountEntity accountEntity) {
