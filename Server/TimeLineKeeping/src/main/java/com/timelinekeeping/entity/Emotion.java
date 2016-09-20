@@ -74,6 +74,21 @@ public class Emotion {
         this.smile = smile;
     }
 
+    public Emotion(Double anger, Double contempt, Double disgust, Double fear, Double happiness, Double neutral,
+                   Double sadness, Double surprise, Double age, Gender gender, Double smile) {
+        this.anger = anger;
+        this.contempt = contempt;
+        this.disgust = disgust;
+        this.fear = fear;
+        this.happiness = happiness;
+        this.neutral = neutral;
+        this.sadness = sadness;
+        this.surprise = surprise;
+        this.age = age;
+        this.gender = gender;
+        this.smile = smile;
+    }
+
     public Long getId() {
         return id;
     }
