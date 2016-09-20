@@ -3,7 +3,7 @@ package com.timelinekeeping.service.serviceImplement;
 import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.constant.Gender;
-import com.timelinekeeping.entity.EmotionCustomerEntity;
+import com.timelinekeeping.entity.Emotion;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.modelAPI.EmotionRecognizeResponse;
 import com.timelinekeeping.modelAPI.FaceDetectResponse;
@@ -69,8 +69,8 @@ public class EmotionServiceImpl {
         Double smile = faceDetectResponse.getFaceAttributes().getSmile();
 
         // save to database
-        EmotionCustomerEntity emotionCustomerEntity = new EmotionCustomerEntity(timestamp, employeeId, anger, contempt, disgust, fear, happiness, neutral, sadness, surprise, age, gender, smile);
-        baseResponse.setData(repo.saveAndFlush(emotionCustomerEntity));
+        Emotion emotion = new Emotion(timestamp, employeeId, anger, contempt, disgust, fear, happiness, neutral, sadness, surprise, age, gender, smile);
+        baseResponse.setData(repo.saveAndFlush(emotion));
         return baseResponse;
     }
 

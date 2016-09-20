@@ -6,7 +6,7 @@ import com.timelinekeeping.entity.AccountEntity;
 /**
  * Created by HienTQSE60896 on 9/15/2016.
  */
-public class AccountView extends AbstractModel{
+public class AccountModel extends AbstractModel{
     private Long id;
     private String username;
     private RoleView role;

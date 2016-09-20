@@ -16,6 +16,7 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
     @Query("SELECT a FROM AccountEntity a WHERE a.username = :username and a.active <>0")
     AccountEntity findByUsername(@Param("username") String username);
 
+
     @Query("SELECT a FROM AccountEntity a WHERE a.userCode = :code and a.active <>0")
     AccountEntity findByUsercode(@Param("code") String code);
 }

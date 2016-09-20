@@ -12,12 +12,9 @@ public interface IContanst {
     String BEGIN_METHOD_SERVICE = "--- Begin Service : ";
     String END_METHOD_SERVICE = "---- End Service ----";
 
-
     String BEGIN_METHOD_CONTROLLER = "--- Begin Controller : ";
     String END_METHOD_CONTROLLER = "---- End Controller ----";
     String LOGGER_ERROR = "--- ERROR";
-
-    String ERROR_LOGGER = "-- ERROR: ";
 
     String API_COGN_MICROSOFT_PER_GROUP_FORMAT_TIME = "MM/DD/YYYY h:mm:ss a";
 
@@ -25,7 +22,7 @@ public interface IContanst {
     int HTTP_CLIENT_KEY_EMOTION = 1;
 
     String EXTENSION_FILE_IMAGE = "jpg";
-    double MCS_PERSON_DETECT_CONFIDINCE_CORRECT = AppConfigKeys.getInstance().getApiPropertyDouble("detect.person.indetify.confidence");
+
     String PAGE_PAGE = 0 + "";
     String PAGE_SIZE = 10 + "";
 

@@ -2,7 +2,6 @@ package com.timelinekeeping.api;
 
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
-import com.timelinekeeping.model.AccountView;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.service.serviceImplement.AccountServiceImpl;
 import com.timelinekeeping.util.JsonUtil;
@@ -14,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 
 /**
  * Created by HienTQSE60896 on 9/14/2016.
@@ -29,49 +29,80 @@ public class AccountController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponse create(@ModelAttribute("account") AccountEntity account){
-        try {
-            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            return accountService.create(account);
-        } catch (Exception e) {
-            logger.error(IContanst.ERROR_LOGGER, e);
-            return new BaseResponse(e);
-        }finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
-        }
-
+    public BaseResponse create(@ModelAttribute("account") AccountEntity account) {
+        BaseResponse accountViewRespone = accountService.create(account);
+        logger.info("AccountModel: " + JsonUtil.toJson(accountViewRespone));
+        return accountViewRespone;
     }
 
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse search (@RequestParam(value = "start", required = false) Integer page,
-                                @RequestParam(value = "top", required = false) Integer size){
+
+    public BaseResponse search(@RequestParam(value = "start", required = false) Integer page,
+                               @RequestParam(value = "top", required = false) Integer size) {
+
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            return new BaseResponse(true, accountService.listAll(page, size));
+            List accountModelList = accountService.listAll(page, size);
+            return new BaseResponse(true, accountModelList);
         } catch (Exception e) {
-            logger.error(IContanst.ERROR_LOGGER, e);
+            logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
-        }finally {
+        } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER);
+
         }
     }
+
+    @RequestMapping(value = "/add_face_img_person", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse addFaceToAccount(@RequestParam(value = "image") MultipartFile imageFile,
+                               @RequestParam(value = "personID") String personID,
+                               @RequestParam(value = "departmentID") String departmentID) {
+
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            return accountService.addFaceImg(departmentID, personID, imageFile.getInputStream());
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+
+        }
+    }
+
+    @RequestMapping(value = "/add_face_img", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse addFaceToAccount(@RequestParam(value = "image") MultipartFile imageFile,
+                               @RequestParam(value = "accountId") Long accountId,
+                               @RequestParam(value = "departmentID") String departmentID) {
+
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            return accountService.addFaceImg(departmentID, accountId, imageFile.getInputStream());
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+
+        }
+    }
+
 
     @RequestMapping(value = "/checkin_img", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponse checkin (@RequestParam(value = "img") MultipartFile fileImg){
+    public BaseResponse checkin(@RequestParam(value = "img") MultipartFile fileImg) {
         try {
-            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             return accountService.checkin(fileImg.getInputStream());
-        } catch (Exception e) {
-            logger.error(IContanst.ERROR_LOGGER, e);
-           return new BaseResponse(e);
-        }finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
+        return null;
     }
-
-
 
 
 }

@@ -41,7 +41,7 @@ public class FaceServiceImpl {
             if (!ObjectUtils.isEmpty(faceCreateModel.getAccountId())){
                 accountEntity = accountRepo.findOne(faceCreateModel.getAccountId());
             }else if (!StringUtils.isEmpty(faceCreateModel.getAccountCode())){
-                accountEntity = accountRepo.findByCode(faceCreateModel.getAccountCode());
+                accountEntity = accountRepo.findByUsercode(faceCreateModel.getAccountCode());
             }else {
                 return null;
             }

@@ -2,6 +2,8 @@ package com.timelinekeeping.controller;
 
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.RoleEntity;
+import com.timelinekeeping.model.AccountCreate;
+import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.model.DepartmentSelectModel;
 import com.timelinekeeping.service.serviceImplement.AccountServiceImpl;
@@ -40,8 +42,7 @@ public class AccountControllerWeb {
         int page = 0;
         int size = 1000;
 
-        BaseResponse response = accountService.listAll(page, size);
-        List<AccountEntity> listAccounts = (List<AccountEntity>) response.getData();
+        List<AccountModel> listAccounts= accountService.listAll(page, size);
 
         // List of accounts
         model.addAttribute("ListAccounts", listAccounts);
@@ -84,13 +85,13 @@ public class AccountControllerWeb {
         logger.info("[Controller- Add Account] fullName: " + fullName);
         logger.info("[Controller- Add Account] roleId: " + roleId);
         logger.info("[Controller- Add Account] departmentId: " + departmentId);
-        AccountEntity accountEntity = new AccountEntity();
-        accountEntity.setUsername(username);
-        accountEntity.setFullname(fullName);
-        accountEntity.setRoleId(ValidateUtil.validateNumber(roleId));
-        accountEntity.setDepartmentId(ValidateUtil.validateNumber(departmentId));
+        AccountCreate account = new AccountCreate();
+        account.setUsername(username);
+        account.setFullname(fullName);
+        account.setRoleId(ValidateUtil.validateNumber(roleId));
+        account.setDepartmentId(ValidateUtil.validateNumber(departmentId));
 
-        BaseResponse response = accountService.create(accountEntity);
+        BaseResponse response = accountService.create(account);
         boolean success = response.isSuccess();
 
         logger.info("[Controller- Add Account] success: " + success);
