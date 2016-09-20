@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "account", schema = "mydb")
-public class AccountEntity extends AbstractEntity {
+public class AccountEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -141,10 +141,4 @@ public class AccountEntity extends AbstractEntity {
         this.departments = departments;
     }
 
-    @Override
-    public <T extends AbstractModel> void fromModel(T modelGeneric) {
-        AccountModel model = (AccountModel) modelGeneric;
-        this.username = model.getUsername();
-        this.fullname = model.getFullname();
-    }
 }

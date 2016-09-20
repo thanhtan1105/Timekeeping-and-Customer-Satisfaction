@@ -87,8 +87,8 @@ public class AccountControllerWeb {
         AccountEntity accountEntity = new AccountEntity();
         accountEntity.setUsername(username);
         accountEntity.setFullname(fullName);
-        accountEntity.setRoleId(ValidateUtil.validateNumber(roleId));
-        accountEntity.setDepartmentId(ValidateUtil.validateNumber(departmentId));
+//        accountEntity.setRoleId(ValidateUtil.validateNumber(roleId));
+//        accountEntity.setDepartmentId(ValidateUtil.validateNumber(departmentId));
 
         BaseResponse response = accountService.create(accountEntity);
         boolean success = response.isSuccess();
