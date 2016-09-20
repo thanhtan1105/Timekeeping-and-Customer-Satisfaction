@@ -3,22 +3,22 @@ package com.timelinekeeping.service.serviceImplement;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.constant.ERROR;
+import com.timelinekeeping.constant.ETimeKeeping;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.entity.FaceEntity;
+import com.timelinekeeping.entity.TimeKeepingEntity;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.repository.AccountRepo;
-import com.timelinekeeping.repository.FaceRepo;
-import com.timelinekeeping.util.JsonUtil;
-import com.timelinekeeping.constant.ETimeKeeping;
-import com.timelinekeeping.entity.TimeKeepingEntity;
 import com.timelinekeeping.modelAPI.FaceDetectResponse;
 import com.timelinekeeping.modelAPI.FaceIdentifyConfidenceRespone;
 import com.timelinekeeping.modelAPI.FaceIdentityCandidate;
+import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.DepartmentRepo;
+import com.timelinekeeping.repository.FaceRepo;
 import com.timelinekeeping.repository.TimekeepingRepo;
+import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.UtilApps;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
@@ -28,15 +28,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -103,17 +100,12 @@ public class AccountServiceImpl {
     public List<AccountModel> listAll(Integer page, Integer size) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            List<AccountEntity> entityList = null;
-            if (page != null && size != null) {
-                Page<AccountEntity> entityPage = accountRepo.findAll(new PageRequest(page, size));
-                entityList = entityPage.getContent();
-            } else {
-                entityList = accountRepo.findAll();
-            }
+            Page<AccountEntity> entityPage = accountRepo.findAll(new PageRequest(page, size));
+            List<AccountEntity> entityList = entityPage.getContent();
             List<AccountModel> accountModels = entityList.stream().map(AccountModel::new).collect(Collectors.toList());
             logger.info("Entity result:" + JsonUtil.toJson(accountModels));
             return accountModels;
-        }finally {
+        } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
@@ -194,17 +186,14 @@ public class AccountServiceImpl {
             String faceID;
             /** call API MCS get List FaceID*/
             List<String> listFace = detectImg(fileInputStream);
-            //TODO: ERROR cannot detect image
-
             if (listFace == null) {
                 logger.error(IContanst.ERROR_LOGGER + ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_CANNOT_DETECT_IMAGE);
                 return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_CANNOT_DETECT_IMAGE, null);
             }
 
             //just detect for only person
-            //ToDO: ERROR has more than 1 face
             if (listFace.size() > 1) {
-                logger.error(IContanst.ERROR_LOGGER + "List face size: " + listFace.size() );
+                logger.error(IContanst.ERROR_LOGGER + "List face size: " + listFace.size());
                 return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_EXIST_MANY_PEOPLE_IN_IMAGE, null);
             }
 
@@ -213,21 +202,23 @@ public class AccountServiceImpl {
             // Get List Department from data
             List<DepartmentEntity> departmentEntities = departmentRepo.findAll();
             //TODO: ERROR from database
-            if (departmentEntities == null || departmentEntities.size() == 0) return new BaseResponse(false);
+            if (departmentEntities == null || departmentEntities.size() == 0) {
+                return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_MSDS, null);
+            }
             List<String> departmentNames = getDepartmentName(departmentEntities);
             logger.info("-- List department: " + JsonUtil.toJson(departmentNames));
 
             /** get PersonID from */
             String personID = checkExistFaceInDepartment(faceID, departmentNames);
             if (ValidateUtil.isEmpty(personID)) {
-                //TODO: ERROR cannot indetify image
+
                 logger.error(IContanst.ERROR_LOGGER + ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_CANNOT_IDENTIFY_IMAGE);
                 return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_CANNOT_IDENTIFY_IMAGE, null);
             }
             logger.info("-- PersonID: " + personID);
 
             // PersonID -> AccountEntity
-            AccountEntity accountEntity = accountRepo.findByUsercode(personID);
+            AccountEntity accountEntity = accountRepo.findByUsercode(personID.trim());
             if (accountEntity == null) {
                 //TODO: ERROR not found personID in database
                 return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_NOT_FOUND_PERSONID, null);
@@ -316,8 +307,6 @@ public class AccountServiceImpl {
                     logger.error("When get face identify one image, has many value");
                 }
 
-            } else {
-                return null;
             }
         }
 

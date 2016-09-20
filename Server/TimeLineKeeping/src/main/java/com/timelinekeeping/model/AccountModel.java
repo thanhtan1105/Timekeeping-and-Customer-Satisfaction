@@ -22,7 +22,7 @@ public class AccountModel {
     public AccountModel(AccountEntity entity) {
         this.id = entity.getId();
         this.username = entity.getUsername();
-        this.role = new RoleModel(entity.getRoles());
+        this.role = new RoleModel(entity.getRole());
         this.active = entity.getActive().getIndex();
         this.fullname = entity.getFullname();
         this.token = entity.getToken();

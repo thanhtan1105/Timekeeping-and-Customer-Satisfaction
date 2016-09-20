@@ -40,8 +40,8 @@ public class AccountController {
 
     @RequestMapping(value = "/listAll", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse search(@RequestParam(value = "start", required = false) Integer page,
-                               @RequestParam(value = "top", required = false) Integer size) {
+    public BaseResponse search(@RequestParam(value = "start", required = false, defaultValue = IContanst.PAGE_PAGE) Integer page,
+                               @RequestParam(value = "top", required = false, defaultValue = IContanst.PAGE_SIZE) Integer size) {
 
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -99,7 +99,7 @@ public class AccountController {
     }
 
 
-    @RequestMapping(value = "/checkin_img", method = RequestMethod.POST)
+    @RequestMapping(value = "/check_in_img", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse checkin(@RequestParam(value = "img") MultipartFile fileImg) {
         try {
