@@ -1,5 +1,7 @@
 package com.timelinekeeping.constant;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * Created by lethanhtan on 9/15/16.
  */
@@ -25,6 +27,7 @@ public enum Gender {
         return null;
     }
 
+    @JsonValue
     public int getIndex() {
         return index;
     }

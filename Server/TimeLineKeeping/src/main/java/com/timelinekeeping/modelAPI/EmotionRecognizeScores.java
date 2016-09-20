@@ -16,6 +16,18 @@ public class EmotionRecognizeScores {
     public EmotionRecognizeScores() {
     }
 
+    public EmotionRecognizeScores(Double anger, Double contempt, Double disgust, Double fear,
+                                  Double happiness, Double neutral, Double sadness, Double surprise) {
+        this.anger = anger;
+        this.contempt = contempt;
+        this.disgust = disgust;
+        this.fear = fear;
+        this.happiness = happiness;
+        this.neutral = neutral;
+        this.sadness = sadness;
+        this.surprise = surprise;
+    }
+
     public Double getAnger() {
         return anger;
     }

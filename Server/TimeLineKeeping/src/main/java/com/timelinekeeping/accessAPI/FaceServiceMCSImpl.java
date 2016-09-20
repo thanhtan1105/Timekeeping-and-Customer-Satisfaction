@@ -46,7 +46,7 @@ public class FaceServiceMCSImpl {
             URIBuilder builder = new URIBuilder(url)
                     .addParameter("returnFaceId", "true")
                     .addParameter("returnFaceLandmarks", "false")
-                    .addParameter("returnFaceAttributes", "age,gender");
+                    .addParameter("returnFaceAttributes", "age,gender,smile");
 
             /** entity*/
             byte[] bytes = IOUtils.toByteArray(imgStream);
