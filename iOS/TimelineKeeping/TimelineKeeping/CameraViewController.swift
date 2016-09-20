@@ -44,8 +44,7 @@ class CameraViewController: UIViewController {
     self.initializeCamera()
     
     self.cameraStill.image = nil
-    self.cameraPreview.alpha = 1.0
-    self.cameraCapture.hidden = false
+    self.cameraPreview.alpha = 1.0    
     isRunning = false
     
 //    let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(4 * Double(NSEC_PER_SEC)))
@@ -104,7 +103,7 @@ class CameraViewController: UIViewController {
       UIView.animateWithDuration(0.05, animations: { () -> Void in
         self.cameraPreview.alpha = 0.0
         self.cameraStill.alpha = 1.0
-        self.cameraCapture.hidden = true
+        
       })
       
       self.camera?.captureStillImage({ (image) -> Void in
@@ -113,7 +112,13 @@ class CameraViewController: UIViewController {
           self.status = .Preview
           
           self.callApiCheckIn(self.cameraStill.image!, completion: { (isSuccess, error) in
-            
+            if isSuccess {
+              
+            } else {
+              // fail
+              self.cameraPreview.alpha = 1.0
+              self.cameraStill.image = nil
+            }
           })
           
         } else {

@@ -6,7 +6,7 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--Camera View Controller-->
+        <!--Item-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="CameraViewController" customModule="TimelineKeeping" customModuleProvider="target" sceneMemberID="viewController">
@@ -19,14 +19,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JXi-F0-8yB">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="522.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="473.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kyy-K1-12b">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="522.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="473.5"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oxe-Pe-Lti" userLabel="BottomView">
-                                <rect key="frame" x="0.0" y="522.5" width="320" height="45.5"/>
+                                <rect key="frame" x="0.0" y="473.5" width="320" height="45.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zEK-d9-5SV">
                                         <rect key="frame" x="133" y="8.5" width="55" height="30"/>
@@ -65,6 +65,7 @@
                             </mask>
                         </variation>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="2ae-zA-ttt"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="cameraCapture" destination="zEK-d9-5SV" id="bOP-RP-scd"/>
@@ -75,6 +76,44 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="182" y="496"/>
+        </scene>
+        <!--Item 2-->
+        <scene sceneID="R7g-nM-BJN">
+            <objects>
+                <viewController id="t36-YS-lWv" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zY8-M5-04f"/>
+                        <viewControllerLayoutGuide type="bottom" id="kBa-S9-bMH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jLX-Oo-bsc">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item 2" id="3lJ-4c-9RD"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Nh0-OO-dAK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="182" y="1257"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="1xt-YG-KbX">
+            <objects>
+                <tabBarController id="Fhn-KJ-YFh" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="hPZ-Ge-DER">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="t36-YS-lWv" kind="relationship" relationship="viewControllers" id="2D7-gB-cFJ"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="chY-gd-vEh"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aFm-ks-hI3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-380" y="1063"/>
         </scene>
         <!--Show Info View Controller-->
         <scene sceneID="6n9-yS-PjS">

@@ -22,7 +22,7 @@ let enviroment = Enviroment.dev
 let serverUrl: String = {
 	switch enviroment {
 	case .dev:
-		return "http://192.168.43.93:8080/api"
+		return "http://192.168.1.118:8080/api"
 	case .test:
 		return "Enviroment.TEST HERE"
 	case .production:
