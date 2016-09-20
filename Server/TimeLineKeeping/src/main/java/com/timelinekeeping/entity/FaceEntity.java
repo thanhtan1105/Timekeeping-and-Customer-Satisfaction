@@ -1,7 +1,5 @@
 package com.timelinekeeping.entity;
 
-import com.sun.org.apache.xpath.internal.operations.String;
-
 import javax.persistence.*;
 import java.io.Serializable;
 

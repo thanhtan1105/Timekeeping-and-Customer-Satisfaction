@@ -61,7 +61,9 @@ public class AccountEntity implements Serializable {
     @OneToMany(mappedBy = "accountEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<FaceEntity> faces;
 
-
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "manager")
+    private DepartmentEntity manager;
+    
     public AccountEntity() {
     }
 
