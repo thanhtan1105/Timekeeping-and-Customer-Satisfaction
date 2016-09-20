@@ -182,8 +182,8 @@ public class AccountServiceImpl {
     public BaseResponse checkin(InputStream fileInputStream) throws IOException, URISyntaxException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            /** return */
-            BaseResponse response = new BaseResponse();
+
+            BaseResponse response = new BaseResponse(); /** return */
             String faceID;
             /** call API MCS get List FaceID*/
             List<String> listFace = detectImg(fileInputStream);

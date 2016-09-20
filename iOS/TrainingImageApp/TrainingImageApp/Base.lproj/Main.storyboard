@@ -123,13 +123,11 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jPW-PP-9Hh" userLabel="CameraPreview">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SIl-OJ-tKB">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                    </imageView>
-                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SIl-OJ-tKB">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cR7-bF-Wxd" userLabel="BottomView">
                                 <rect key="frame" x="0.0" y="522.5" width="320" height="45.5"/>
                                 <subviews>
@@ -185,12 +183,16 @@
                             <constraint firstItem="jPW-PP-9Hh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="QCE-rC-ALc"/>
                             <constraint firstAttribute="trailing" secondItem="cR7-bF-Wxd" secondAttribute="trailing" id="U6E-VM-2nB"/>
                             <constraint firstAttribute="trailing" secondItem="jPW-PP-9Hh" secondAttribute="trailing" id="VZp-vT-GX0"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="SIl-OJ-tKB" secondAttribute="bottom" id="cjf-Vy-Wi8"/>
+                            <constraint firstAttribute="trailing" secondItem="SIl-OJ-tKB" secondAttribute="trailing" id="f3T-cV-V72"/>
                             <constraint firstItem="0m4-Jp-hN2" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="5" id="hYz-bw-VMj"/>
                             <constraint firstItem="cR7-bF-Wxd" firstAttribute="top" secondItem="jPW-PP-9Hh" secondAttribute="bottom" id="iCu-5Y-tqQ"/>
+                            <constraint firstItem="SIl-OJ-tKB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="jqn-AV-Ltt"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="jPW-PP-9Hh" secondAttribute="bottom" id="rl0-YY-KdA"/>
                             <constraint firstAttribute="trailing" secondItem="jPW-PP-9Hh" secondAttribute="trailing" id="uyZ-oE-Fty"/>
                             <constraint firstItem="jPW-PP-9Hh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="vj3-yT-IHd"/>
                             <constraint firstItem="cR7-bF-Wxd" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.08" id="wGq-OV-654"/>
+                            <constraint firstItem="SIl-OJ-tKB" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="yD6-JQ-ckk"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">

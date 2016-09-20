@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +30,6 @@ public class DepartmentController {
     @Autowired
     private DepartmentServiceImpl departmentService;
 
-
     @RequestMapping(value = {"/create"}, method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse create(@RequestParam("code") String code,
@@ -43,6 +44,24 @@ public class DepartmentController {
 
         } catch (Exception e) {
             logger.error(e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
+
+    @RequestMapping(value = {"/training"}, method = RequestMethod.GET)
+    public BaseResponse training(@RequestParam("departmentId") String departmentId) {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        try {
+            BaseResponse response = departmentService.training(departmentId);
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+            return response;
+        } catch (IOException e) {
+            logger.error(e);
+            return new BaseResponse(e);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
             return new BaseResponse(e);
         } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER);

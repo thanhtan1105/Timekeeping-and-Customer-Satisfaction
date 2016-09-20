@@ -14,11 +14,11 @@ class ShowInfoViewController: UIViewController {
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var closeButton: UIButton!
 
-  var checkImage: UIImage!
+  var account: Account!
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    nameLabel.text = account.fullName
   }
   
   @IBAction func onCloseButtonTapped(sender: UIButton) {

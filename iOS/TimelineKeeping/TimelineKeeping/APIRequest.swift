@@ -34,7 +34,11 @@ class APIRequest: NSObject {
           do {
             let json = try NSJSONSerialization.JSONObjectWithData(response.data!, options: []) as! [String: AnyObject]
             print(json)
-            onCompletion(nil, nil)
+            let responsePackage = ResponsePackage()
+            responsePackage.success = true
+            responsePackage.response = json
+            responsePackage.error = nil
+            onCompletion(responsePackage, nil)
           } catch {
             // create error
             // TO-DO

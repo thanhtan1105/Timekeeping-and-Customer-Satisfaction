@@ -3,7 +3,9 @@ package com.timelinekeeping.service.serviceImplement;
 import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.DepartmentEntity;
+import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.model.DepartmentModel;
 import com.timelinekeeping.model.DepartmentSelectModel;
 import com.timelinekeeping.repository.DepartmentRepo;
 import com.timelinekeeping.util.JsonUtil;
@@ -61,9 +63,11 @@ public class DepartmentServiceImpl {
     public BaseResponse findAll(int page, int size) {
         BaseResponse baseResponse = new BaseResponse();
         Page<DepartmentEntity> departments = repo.findAll(new PageRequest(page, size));
+        List<DepartmentEntity> departmentEntityList = departments.getContent();
+        List<DepartmentModel> departmentModels = departmentEntityList.stream().map(DepartmentModel::new).collect(Collectors.toList());
         baseResponse.setSuccess(true);
-        baseResponse.setData(departments);
-        logger.info("[Find All] " + JsonUtil.toJson(departments));
+        baseResponse.setData(departmentModels);
+        logger.info("[Find All] " + JsonUtil.toJson(departmentModels));
         return baseResponse;
     }
 
@@ -86,5 +90,11 @@ public class DepartmentServiceImpl {
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
+    }
+
+    public BaseResponse training(String departmentId) throws IOException, URISyntaxException {
+        DepartmentEntity departmentEntity = repo.findOne(Long.parseLong(departmentId));
+        PersonGroupServiceMCSImpl personGroupServiceMCS = new PersonGroupServiceMCSImpl();
+        return personGroupServiceMCS.trainGroup(departmentEntity.getCode());
     }
 }

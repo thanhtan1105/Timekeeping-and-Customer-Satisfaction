@@ -92,11 +92,9 @@ class CameraViewController: BaseViewController {
     if self.status == .Preview {
       self.isCameraTaken = true
       UIView.animateWithDuration(0.05, animations: { () -> Void in
-        self.cameraPreview.alpha = 0.0
-        self.cameraStill.alpha = 1.0
-        
-        
-        dispatch_async(dispatch_get_main_queue(), { 
+        dispatch_async(dispatch_get_main_queue(), {
+          self.cameraPreview.alpha = 0.0
+          self.cameraStill.alpha = 1.0
           self.layoutAfterCapture()
         })
       })

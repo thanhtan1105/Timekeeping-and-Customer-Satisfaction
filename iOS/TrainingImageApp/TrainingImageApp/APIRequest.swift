@@ -66,6 +66,15 @@ class APIRequest: NSObject {
     webservice_GET(url, params: params, headersParams: nil, completion: onCompletion)
   }
   
+  func sendTrainingStatus(departmentId: String, onCompletion: ServiceResponse) {
+    let url = urlSendTrainingStatus
+    let params: [String : AnyObject] = [
+      "departmentId" : departmentId
+    ]
+    
+    webservice_GET(url, params: params, headersParams: nil, completion: onCompletion)
+  }
+  
   func getAccountList(departmentId departmentId: Int, start: Int, top: Int, onCompletion: ServiceResponse) {
     let url = urlGetAccountList
     let params: [String : AnyObject] = [

@@ -111,13 +111,14 @@ class CameraViewController: UIViewController {
           self.cameraStill.image = image
           self.status = .Preview
           
-          self.callApiCheckIn(self.cameraStill.image!, completion: { (isSuccess, error) in
-            if isSuccess {
-              
+          self.callApiCheckIn(self.cameraStill.image!, completion: { (account, error) in
+            if let account = account {
+              self.showInfoScren(account)
             } else {
               // fail
               self.cameraPreview.alpha = 1.0
               self.cameraStill.image = nil
+              
             }
           })
           
@@ -205,32 +206,40 @@ extension CameraViewController {
     }
   }
   
-  private func showInfoScren() {
-    let showInforVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ShowInfoViewController") as! ShowInfoViewController    
+  private func showInfoScren(account: Account) {
+    let showInforVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ShowInfoViewController") as! ShowInfoViewController
+    showInforVC.account = account
     self.presentViewController(showInforVC, animated: true, completion: {
       self.camera?.stopCamera()
     })
   }
   
-  private func callApiCheckIn(faceImage: UIImage, completion onCompletionHandler: ((isSuccess: Bool, error: NSError?) -> Void)?) {
+  private func callApiCheckIn(faceImage: UIImage, completion onCompletionHandler: ((account: Account?, error: NSError?) -> Void)?) {
     APIRequest.shareInstance.identifyImage(faceImage) { (response: ResponsePackage?, error: ErrorWebservice?) in
       print(response?.response)
       
       guard error == nil else {
         print("Fail")
-        onCompletionHandler!(isSuccess: false, error: nil)
+        onCompletionHandler!(account: nil, error: NSError(domain: "", code: (error?.code)!, userInfo: ["info" : (error?.error_description)!]))
         return
       }
       
-      onCompletionHandler!(isSuccess: true, error: nil)
+      let dict = response?.response as! [String: AnyObject]
+      let success = dict["success"] as? Int
+      if success == 1 {
+        print("Call api success")
+        let content = dict["data"] as! [String : AnyObject]
+        let accountContent = content["account"] as! [String : AnyObject]
+        let account = Account(accountContent)
+        onCompletionHandler!(account: account, error: nil)
+      } else {
+        print("Fail")
+        let errorCode = dict["errorCode"] as? String
+        let message = dict["message"] as? String
+        onCompletionHandler!(account: nil, error: NSError(domain: "", code: Int(errorCode! ?? "0")!, userInfo: ["info" : message!]))
+      }
 
     }
-    
-    
-
   }
-  
-  
-  
 }
 

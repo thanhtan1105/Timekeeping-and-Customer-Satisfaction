@@ -101,7 +101,7 @@ public class AccountController {
 
     @RequestMapping(value = "/check_in_img", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponse checkin(@RequestParam(value = "img") MultipartFile fileImg) {
+    public BaseResponse checkin(@RequestParam(value = "image") MultipartFile fileImg) {
         try {
             return accountService.checkin(fileImg.getInputStream());
         } catch (IOException e) {

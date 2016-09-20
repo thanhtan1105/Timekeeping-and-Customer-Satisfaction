@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		03B7F876A83BA3B95EA40B36 /* Pods_TimelineKeeping.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9DC619DEEFDE423655AD2C4 /* Pods_TimelineKeeping.framework */; };
 		0EA94BBEAA631DB13A0E5554 /* Pods_TimelineKeepingUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D6D7EE6F15EBBB77D99E71 /* Pods_TimelineKeepingUITests.framework */; };
+		A60D4F4A1D91A50F008CBF4E /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60D4F491D91A50F008CBF4E /* AccountModel.swift */; };
 		A61A805C1D77E2900082E80F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61A805B1D77E2900082E80F /* AppDelegate.swift */; };
 		A61A80611D77E2900082E80F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A61A805F1D77E2900082E80F /* Main.storyboard */; };
 		A61A80631D77E2900082E80F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A61A80621D77E2900082E80F /* Assets.xcassets */; };
@@ -45,6 +46,7 @@
 /* Begin PBXFileReference section */
 		033A86382F62DA8336B563E0 /* Pods-TimelineKeeping.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TimelineKeeping.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TimelineKeeping/Pods-TimelineKeeping.debug.xcconfig"; sourceTree = "<group>"; };
 		7656841AAF0CCE1CD3524A66 /* Pods_TimelineKeepingTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TimelineKeepingTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A60D4F491D91A50F008CBF4E /* AccountModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
 		A61A80581D77E2900082E80F /* TimelineKeeping.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimelineKeeping.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A61A805B1D77E2900082E80F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A61A80601D77E2900082E80F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				A6A765B61D85728900A79643 /* Camera.swift */,
+				A60D4F491D91A50F008CBF4E /* AccountModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -526,6 +529,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6A765B91D85728D00A79643 /* CameraViewController.swift in Sources */,
+				A60D4F4A1D91A50F008CBF4E /* AccountModel.swift in Sources */,
 				A6A765B71D85728900A79643 /* Camera.swift in Sources */,
 				A6A765BD1D85D7C900A79643 /* ReminderTableCell.swift in Sources */,
 				A61A805C1D77E2900082E80F /* AppDelegate.swift in Sources */,

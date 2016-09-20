@@ -1,5 +1,7 @@
 package com.timelinekeeping.model;
 
+import com.timelinekeeping.entity.DepartmentEntity;
+
 /**
  * Created by HienTQSE60896 on 9/18/2016.
  */
@@ -10,6 +12,14 @@ public class DepartmentModel {
     private String description;
 
     public DepartmentModel() {
+    }
+
+    public DepartmentModel(DepartmentEntity entity) {
+        this.id = entity.getId();
+        this.code = entity.getCode();
+        this.name = entity.getName();
+        this.description = entity.getDescription();
+
     }
 
     public Long getId() {

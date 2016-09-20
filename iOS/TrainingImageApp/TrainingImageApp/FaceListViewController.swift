@@ -29,7 +29,12 @@ class FaceListViewController: BaseViewController {
   @IBAction func onFinishTapped(sender: UIBarButtonItem) {
     let alertVC = UIAlertController(title: "Finish", message: "Do you want to finish training image", preferredStyle: .Alert)
     alertVC.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction) in
-      self.navigationController?.popToRootViewControllerAnimated(true)
+
+      let personGroupId = String(Department.getDepartmentFromUserDefault().id!)
+      APIRequest.shareInstance.sendTrainingStatus(personGroupId, onCompletion: { (response: ResponsePackage?, error: ErrorWebservice?) in
+        print(response?.response)
+        self.navigationController?.popToRootViewControllerAnimated(true)
+      })
     }))
     alertVC.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action: UIAlertAction) in
       
@@ -37,7 +42,11 @@ class FaceListViewController: BaseViewController {
     presentViewController(alertVC, animated: true, completion: nil)
       
   }
+}
 
+// MARK: - Private method
+extension FaceListViewController {
+  
 }
 
 extension FaceListViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
