@@ -238,7 +238,7 @@ public class AccountServiceImpl {
             // convert Reminder
 
             //Response to Server
-
+            response.setSuccess(true);
             return response;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
