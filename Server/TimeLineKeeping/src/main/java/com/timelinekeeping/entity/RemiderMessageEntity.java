@@ -25,11 +25,10 @@ public class RemiderMessageEntity  implements Serializable {
 
     @Basic
     @Column(name = "create_date", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
     private Timestamp createDate = new Timestamp(new Date().getTime());
 
     @Basic
-    @Column("status")
+    @Column(name = "status")
     private EStatus status = EStatus.ACTIVE;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

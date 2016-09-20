@@ -21,7 +21,6 @@ public class EmotionCustomerEntity implements Serializable {
     private Long id;
 
     @Column(name = "create_time")
-    @Temporal(TemporalType.TIMESTAMP)
     private Timestamp createTime = new Timestamp(new Date().getTime());
 
 
@@ -60,7 +59,7 @@ public class EmotionCustomerEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "acount_id", nullable = true)
-    private AccountEntity account;
+    private AccountEntity createBy;
 
     public EmotionCustomerEntity() {
     }
@@ -199,11 +198,11 @@ public class EmotionCustomerEntity implements Serializable {
         this.smile = smile;
     }
 
-    public AccountEntity getAccount() {
-        return account;
+    public AccountEntity getCreateBy() {
+        return createBy;
     }
 
-    public void setAccount(AccountEntity account) {
-        this.account = account;
+    public void setCreateBy(AccountEntity account) {
+        this.createBy = account;
     }
 }

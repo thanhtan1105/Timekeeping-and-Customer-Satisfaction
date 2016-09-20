@@ -21,7 +21,6 @@ public class TimeKeepingEntity implements Serializable {
 
     @Basic
     @Column(name = "time_check")
-    @Temporal(TemporalType.TIMESTAMP)
     private Timestamp timeCheck = new Timestamp(new Date().getTime());
 
     @Basic

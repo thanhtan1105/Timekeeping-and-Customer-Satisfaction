@@ -25,12 +25,11 @@ public class NotificationEntity implements Serializable {
     private String message;
 
     @Basic
-    @Column("time_notify")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "time_notify")
     private Timestamp timeNotify;
 
     @Basic
-    @Column("status")
+    @Column(name = "status")
     private EStatus status = EStatus.NOSEND;
 
     @NotNull
