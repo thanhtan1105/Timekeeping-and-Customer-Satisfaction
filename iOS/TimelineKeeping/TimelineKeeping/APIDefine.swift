@@ -22,7 +22,7 @@ let enviroment = Enviroment.dev
 let serverUrl: String = {
 	switch enviroment {
 	case .dev:
-		return "http://192.168.1.102:8080/api"
+		return "http://192.168.43.93:8080/api"
 	case .test:
 		return "Enviroment.TEST HERE"
 	case .production:
@@ -40,4 +40,4 @@ let serverUrl: String = {
  "userId": "1"
 } */
 
-let urlGetUserDetail: String = serverUrl.stringByAppendingString("/face/identifyImage")
+let urlCheckIn: String = serverUrl.stringByAppendingString("/face/identifyImage")

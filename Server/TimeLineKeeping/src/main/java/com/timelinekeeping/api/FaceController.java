@@ -88,6 +88,7 @@ public class FaceController {
     }
 
     @RequestMapping(value = {"/identifyImage"}, method = RequestMethod.POST)
+    @ResponseBody
     public BaseResponse identifyImage(@RequestParam("image") MultipartFile image) {
         try {
             // call function detect image

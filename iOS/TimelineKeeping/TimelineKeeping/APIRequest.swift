@@ -15,7 +15,7 @@ class APIRequest: NSObject {
   static let shareInstance = APIRequest()
  
   func identifyImage(image: UIImage, onCompletion: ServiceResponse) {
-    let url = urlGetUserDetail
+    let url = urlCheckIn
     
     let request = NSMutableURLRequest(URL: NSURL(string: url)!)
     request.HTTPMethod = "POST"

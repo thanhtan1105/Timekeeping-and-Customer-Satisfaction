@@ -19,19 +19,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JXi-F0-8yB">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="511"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kyy-K1-12b">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="511"/>
-                                    </imageView>
-                                </subviews>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="522.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kyy-K1-12b">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="522.5"/>
+                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oxe-Pe-Lti" userLabel="BottomView">
-                                <rect key="frame" x="0.0" y="511" width="320" height="57"/>
+                                <rect key="frame" x="0.0" y="522.5" width="320" height="45.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zEK-d9-5SV">
-                                        <rect key="frame" x="133" y="14" width="55" height="30"/>
+                                        <rect key="frame" x="133" y="8.5" width="55" height="30"/>
                                         <state key="normal" title="Capture"/>
                                         <connections>
                                             <action selector="captureFrame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KhZ-yC-0jZ"/>
@@ -48,14 +46,18 @@
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="JXi-F0-8yB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="16I-Qj-Jsj"/>
-                            <constraint firstItem="Oxe-Pe-Lti" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.1" id="5tT-bn-Un3"/>
+                            <constraint firstItem="Oxe-Pe-Lti" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.08" id="5tT-bn-Un3"/>
+                            <constraint firstItem="Kyy-K1-12b" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="7jo-px-pb9"/>
                             <constraint firstItem="JXi-F0-8yB" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="9qX-lc-KgU"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="JXi-F0-8yB" secondAttribute="bottom" constant="150" id="Ale-ys-iHu"/>
+                            <constraint firstAttribute="trailing" secondItem="Kyy-K1-12b" secondAttribute="trailing" id="Cc5-ew-Qrd"/>
+                            <constraint firstItem="Oxe-Pe-Lti" firstAttribute="top" secondItem="Kyy-K1-12b" secondAttribute="bottom" id="D4W-Ln-aeA"/>
                             <constraint firstItem="Oxe-Pe-Lti" firstAttribute="top" secondItem="JXi-F0-8yB" secondAttribute="bottom" id="NTI-LV-hVG"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Oxe-Pe-Lti" secondAttribute="bottom" id="YQq-h0-26V"/>
                             <constraint firstAttribute="trailing" secondItem="Oxe-Pe-Lti" secondAttribute="trailing" id="afs-Xo-hvY"/>
                             <constraint firstAttribute="trailing" secondItem="JXi-F0-8yB" secondAttribute="trailing" id="gRF-NT-XM1"/>
                             <constraint firstItem="Oxe-Pe-Lti" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="o1f-wg-bsV"/>
+                            <constraint firstItem="Kyy-K1-12b" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="plg-Sm-GMl"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
