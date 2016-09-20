@@ -1,5 +1,6 @@
 package com.timelinekeeping.repository;
 
+import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.DepartmentEntity;
 
 import org.springframework.data.domain.Page;
@@ -28,6 +29,9 @@ public interface DepartmentRepo extends JpaRepository<DepartmentEntity, Long> {
     Page<DepartmentEntity> search(@Param("code") String code,
                                   @Param("name") String name,
                                   Pageable pageable);
+
+    @Query("SELECT d.accountEntitySet FROM DepartmentEntity d WHERE d.id = :department_id")
+    List<AccountEntity> findByDepartment(@Param("department_id") Long departmentId, Pageable pageable);
 
 
 

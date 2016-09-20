@@ -5,14 +5,14 @@ import com.timelinekeeping.entity.RoleEntity;
 /**
  * Created by HienTQSE60896 on 9/17/2016.
  */
-public class RoleView {
+public class RoleModel {
     private Long id;
     private String name;
 
-    public RoleView() {
+    public RoleModel() {
     }
 
-    public RoleView(RoleEntity entity) {
+    public RoleModel(RoleEntity entity) {
         this.id = entity.getId();
         this.name = entity.getName();
     }
@@ -35,7 +35,7 @@ public class RoleView {
 
     @Override
     public String toString() {
-        return "RoleView{" +
+        return "RoleModel{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

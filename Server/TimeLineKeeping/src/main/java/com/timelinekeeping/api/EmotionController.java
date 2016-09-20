@@ -6,6 +6,7 @@ import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
 import com.timelinekeeping.util.UtilApps;
+import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,7 @@ public class EmotionController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response;
-            if (UtilApps.isImageFile(imgFile.getInputStream())) {
+            if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
                 response = emotionService.save(imgFile.getInputStream(), employeeId, isFirstTime);
 //                response = emotionServiceMCS.recognize(imgFile.getInputStream());
             } else {
@@ -104,7 +105,7 @@ public class EmotionController {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         BaseResponse response;
         try {
-            if (UtilApps.isImageFile(imgFile.getInputStream())) {
+            if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
                 response = emotionService.getCustomerEmotion(imgFile.getInputStream(), employeeId, isFirstTime);
             } else {
                 response = new BaseResponse();

@@ -1,5 +1,7 @@
 package com.timelinekeeping.constant;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * Created by HienTQSE60896 on 9/18/2016.
  */
@@ -25,6 +27,7 @@ public enum  ETimeKeeping {
         return null;
     }
 
+    @JsonValue
     public int getIndex() {
         return index;
     }

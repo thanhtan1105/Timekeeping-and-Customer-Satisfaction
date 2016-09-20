@@ -3,37 +3,39 @@ package com.timelinekeeping.service.serviceImplement;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.constant.ERROR;
+import com.timelinekeeping.constant.ETimeKeeping;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.entity.FaceEntity;
+import com.timelinekeeping.entity.TimeKeepingEntity;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.repository.AccountRepo;
-import com.timelinekeeping.repository.FaceRepo;
-import com.timelinekeeping.util.JsonUtil;
-import com.timelinekeeping.constant.ETimeKeeping;
-import com.timelinekeeping.entity.TimeKeepingEntity;
+import com.timelinekeeping.model.CheckinResponse;
 import com.timelinekeeping.modelAPI.FaceDetectResponse;
 import com.timelinekeeping.modelAPI.FaceIdentifyConfidenceRespone;
 import com.timelinekeeping.modelAPI.FaceIdentityCandidate;
+import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.DepartmentRepo;
+import com.timelinekeeping.repository.FaceRepo;
 import com.timelinekeeping.repository.TimekeepingRepo;
+import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.UtilApps;
+import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by HienTQSE60896 on 9/15/2016.
@@ -55,15 +57,10 @@ public class AccountServiceImpl {
     private FaceRepo faceRepo;
 
     @Autowired
-    private DepartmentServiceImpl departmentService;
-
     private DepartmentRepo departmentRepo;
 
     @Autowired
     private TimekeepingRepo timekeepingRepo;
-
-    @Autowired
-    private FaceServiceImpl faceService;
 
     private Logger logger = LogManager.getLogger(AccountServiceImpl.class);
 
@@ -78,7 +75,7 @@ public class AccountServiceImpl {
 
             } else {
                 // get department code
-                DepartmentEntity departmentEntity = departmentRepo.findOne(account.getDepartments().getId());
+                DepartmentEntity departmentEntity = departmentRepo.findOne(account.getDepartment().getId());
                 String departmentCode = departmentEntity.getCode();
 
                 BaseResponse response = personServiceMCS.createPerson(departmentCode, account.getUsername(), JsonUtil.toJson(account));
@@ -101,35 +98,25 @@ public class AccountServiceImpl {
         }
     }
 
-    public BaseResponse listAll(Integer page, Integer size) {
-        BaseResponse response = new BaseResponse();
-        if (page != null && size != null) {
-            response.setSuccess(true);
-            response.setData(accountRepo.findAll());
-        } else {
-            response.setData(tolistAccount(accountRepo.findAll()));
-            return response;
-
+    public List<AccountModel> listAll(Integer page, Integer size) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            Page<AccountEntity> entityPage = accountRepo.findAll(new PageRequest(page, size));
+            List<AccountEntity> entityList = entityPage.getContent();
+            List<AccountModel> accountModels = entityList.stream().map(AccountModel::new).collect(Collectors.toList());
+            logger.info("Entity result:" + JsonUtil.toJson(accountModels));
+            return accountModels;
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
-        return null;
     }
 
-    private List<AccountModel> tolistAccount(List<AccountEntity> entities) {
-        List<AccountModel> accountViewList = new ArrayList<>();
-        for (AccountEntity entity : entities) {
-            accountViewList.add(new AccountModel(entity));
-        }
-        return accountViewList;
-    }
 
-    public List<AccountEntity> searchByDepartment(Integer departmentId, Integer start, Integer top) {
-        List<AccountEntity> accountEntities = new ArrayList<>();
-        if (start != null && top != null) {
-            return accountRepo.findByDepartment(departmentId, start, top);
-        } else {
-            // dump
-            return accountRepo.findByDepartment(departmentId, start, top);
-        }
+    public List<AccountModel> searchByDepartment(Long departmentId, Integer start, Integer top) {
+        List<AccountEntity> accountEntities = departmentRepo.findByDepartment(departmentId, new PageRequest(start, top));
+        List<AccountModel> accountModels = accountEntities.stream().map(AccountModel::new).collect(Collectors.toList());
+        logger.info("Entity result:" + JsonUtil.toJson(accountModels));
+        return accountModels;
     }
 
     public boolean isExist(String username) {
@@ -178,9 +165,8 @@ public class AccountServiceImpl {
                 }
             }
             return responseResult;
-
-        } catch (Exception e) {
-            return null;
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
 
     }
@@ -201,17 +187,14 @@ public class AccountServiceImpl {
             String faceID;
             /** call API MCS get List FaceID*/
             List<String> listFace = detectImg(fileInputStream);
-            //TODO: ERROR cannot detect image
-
             if (listFace == null) {
                 logger.error(IContanst.ERROR_LOGGER + ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_CANNOT_DETECT_IMAGE);
                 return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_CANNOT_DETECT_IMAGE, null);
             }
 
             //just detect for only person
-            //ToDO: ERROR has more than 1 face
             if (listFace.size() > 1) {
-                logger.error(IContanst.ERROR_LOGGER + "List face size: " + listFace.size() );
+                logger.error(IContanst.ERROR_LOGGER + "List face size: " + listFace.size());
                 return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_EXIST_MANY_PEOPLE_IN_IMAGE, null);
             }
 
@@ -220,21 +203,23 @@ public class AccountServiceImpl {
             // Get List Department from data
             List<DepartmentEntity> departmentEntities = departmentRepo.findAll();
             //TODO: ERROR from database
-            if (departmentEntities == null || departmentEntities.size() == 0) return new BaseResponse(false);
+            if (departmentEntities == null || departmentEntities.size() == 0) {
+                return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_MSDS, null);
+            }
             List<String> departmentNames = getDepartmentName(departmentEntities);
             logger.info("-- List department: " + JsonUtil.toJson(departmentNames));
 
             /** get PersonID from */
             String personID = checkExistFaceInDepartment(faceID, departmentNames);
-            if (UtilApps.isEmpty(personID)) {
-                //TODO: ERROR cannot indetify image
+            if (ValidateUtil.isEmpty(personID)) {
+
                 logger.error(IContanst.ERROR_LOGGER + ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_CANNOT_IDENTIFY_IMAGE);
                 return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_CANNOT_IDENTIFY_IMAGE, null);
             }
             logger.info("-- PersonID: " + personID);
 
             // PersonID -> AccountEntity
-            AccountEntity accountEntity = accountRepo.findByUsercode(personID);
+            AccountEntity accountEntity = accountRepo.findByUsercode(personID.trim());
             if (accountEntity == null) {
                 //TODO: ERROR not found personID in database
                 return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_NOT_FOUND_PERSONID, null);
@@ -247,14 +232,18 @@ public class AccountServiceImpl {
             timeKeepingEntity.setAccount(accountEntity);
             timeKeepingEntity.setTimeCheck(new Timestamp(new Date().getTime()));
             timekeepingRepo.saveAndFlush(timeKeepingEntity);
-            logger.info("-- Save TimeKeeping: " + JsonUtil.toJson(timeKeepingEntity));
+            logger.info("-- Save TimeKeeping: " + timeKeepingEntity.getTimeCheck());
 
             // accountID -> get Reminder
 
             // convert Reminder
 
             //Response to Server
-
+            CheckinResponse checkinResponse = new CheckinResponse();
+            checkinResponse.setTimeCheckIn(new Date());
+            checkinResponse.setAccount(new AccountModel(accountEntity));
+            response.setSuccess(true);
+            response.setData(checkinResponse);
             return response;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
@@ -311,7 +300,7 @@ public class AccountServiceImpl {
                 List<FaceIdentifyConfidenceRespone> faceIdentifies = (List<FaceIdentifyConfidenceRespone>) response.getData();
 
                 //check success
-                if (UtilApps.isEmpty(faceIdentifies) && faceIdentifies.size() == 1) {
+                if (ValidateUtil.isEmpty(faceIdentifies) && faceIdentifies.size() == 1) {
                     List<FaceIdentityCandidate> candidateList = faceIdentifies.get(0).getCandidates();
                     for (FaceIdentityCandidate candidate : candidateList) {
                         if (candidate.getConfidence() > confidence) {
@@ -323,8 +312,6 @@ public class AccountServiceImpl {
                     logger.error("When get face identify one image, has many value");
                 }
 
-            } else {
-                return null;
             }
         }
 

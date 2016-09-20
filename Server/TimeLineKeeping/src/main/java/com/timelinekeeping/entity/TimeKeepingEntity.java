@@ -5,6 +5,7 @@ import com.timelinekeeping.constant.ETimeKeeping;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by lethanhtan on 9/14/16.
@@ -20,14 +21,14 @@ public class TimeKeepingEntity implements Serializable {
 
     @Basic
     @Column(name = "time_check")
-    private Timestamp timeCheck;
+    private Timestamp timeCheck = new Timestamp(new Date().getTime());
 
     @Basic
     @Column(name = "status")
     private ETimeKeeping status = ETimeKeeping.LATE;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id")
+    @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
     private AccountEntity account;
 
 

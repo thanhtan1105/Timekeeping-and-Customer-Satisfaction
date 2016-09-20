@@ -9,6 +9,7 @@ import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.model.EmotionAnalysisModel;
 import com.timelinekeeping.modelAPI.EmotionRecognizeResponse;
 import com.timelinekeeping.modelAPI.FaceDetectResponse;
+import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.EmotionRepo;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -33,7 +34,10 @@ public class EmotionServiceImpl {
     private Logger logger = Logger.getLogger(EmotionServiceImpl.class);
 
     @Autowired
-    private EmotionRepo repo;
+    private EmotionRepo emotionRepo;
+
+    @Autowired
+    private AccountRepo accountRepo;
 
     public BaseResponse save(InputStream inputStreamImg, Long employeeId, boolean isFirstTime) throws IOException, URISyntaxException {
         BaseResponse baseResponse = new BaseResponse();
@@ -76,15 +80,16 @@ public class EmotionServiceImpl {
         Double smile = faceDetectResponse.getFaceAttributes().getSmile();
 
         // save to database
-        EmotionCustomerEntity emotionCustomerEntity = new EmotionCustomerEntity(timestamp, employeeId, anger, contempt, disgust, fear, happiness, neutral, sadness, surprise, age, gender, smile);
-        baseResponse.setData(repo.saveAndFlush(emotionCustomerEntity));
+        EmotionCustomerEntity emotionCustomerEntity = new EmotionCustomerEntity(timestamp, anger, contempt, disgust, fear, happiness, neutral, sadness, surprise, age, gender, smile);
+        emotionCustomerEntity.setCreateBy(accountRepo.findOne(employeeId));
+        baseResponse.setData(emotionRepo.saveAndFlush(emotionCustomerEntity));
         return baseResponse;
     }
 
     public BaseResponse analyseEmotion(Long id) {
         logger.info("[Analyse Emotion] BEGIN");
         BaseResponse baseResponse = new BaseResponse();
-        EmotionCustomerEntity emotion = repo.findOne(id);
+        EmotionCustomerEntity emotion = emotionRepo.findOne(id);
         if (emotion != null) {
             logger.info("[Analyse Emotion] anger: " + emotion.getAnger());
             logger.info("[Analyse Emotion] contempt: " + emotion.getContempt());
@@ -195,8 +200,8 @@ public class EmotionServiceImpl {
 
         // save to database
         emotion.setCreateTime(timestamp);
-        emotion.setCreateBy(employeeId);
-        repo.saveAndFlush(emotion);
+        emotion.setCreateBy(accountRepo.findOne(employeeId));
+        emotionRepo.saveAndFlush(emotion);
 
         // get customer emotion
         EmotionAnalysisModel emotionAnalysisModel = analyseEmotion(emotion);
