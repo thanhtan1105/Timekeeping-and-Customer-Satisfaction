@@ -11,6 +11,7 @@ import com.timelinekeeping.entity.FaceEntity;
 import com.timelinekeeping.entity.TimeKeepingEntity;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.model.CheckinResponse;
 import com.timelinekeeping.modelAPI.FaceDetectResponse;
 import com.timelinekeeping.modelAPI.FaceIdentifyConfidenceRespone;
 import com.timelinekeeping.modelAPI.FaceIdentityCandidate;
@@ -231,14 +232,18 @@ public class AccountServiceImpl {
             timeKeepingEntity.setAccount(accountEntity);
             timeKeepingEntity.setTimeCheck(new Timestamp(new Date().getTime()));
             timekeepingRepo.saveAndFlush(timeKeepingEntity);
-            logger.info("-- Save TimeKeeping: " + JsonUtil.toJson(timeKeepingEntity));
+            logger.info("-- Save TimeKeeping: " + timeKeepingEntity.getTimeCheck());
 
             // accountID -> get Reminder
 
             // convert Reminder
 
             //Response to Server
+            CheckinResponse checkinResponse = new CheckinResponse();
+            checkinResponse.setTimeCheckIn(new Date());
+            checkinResponse.setAccount(new AccountModel(accountEntity));
             response.setSuccess(true);
+            response.setData(checkinResponse);
             return response;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
