@@ -84,7 +84,7 @@ public class EmotionServiceImpl {
     public BaseResponse analyseEmotion(Long id) {
         logger.info("[Analyse Emotion] BEGIN");
         BaseResponse baseResponse = new BaseResponse();
-        Emotion emotion = repo.findOne(id);
+        EmotionCustomerEntity emotion = repo.findOne(id);
         if (emotion != null) {
             logger.info("[Analyse Emotion] anger: " + emotion.getAnger());
             logger.info("[Analyse Emotion] contempt: " + emotion.getContempt());
@@ -123,8 +123,8 @@ public class EmotionServiceImpl {
         EmotionRecognizeResponse emotionRecognize = emotionRecognizeList.get(0);
 
         // parser face response
-        List<FaceDetectRespone> faceRecognizeList = (List<FaceDetectRespone>) faceResponse.getData();
-        FaceDetectRespone faceDetectResponse = faceRecognizeList.get(0);
+        List<FaceDetectResponse> faceRecognizeList = (List<FaceDetectResponse>) faceResponse.getData();
+        FaceDetectResponse faceDetectResponse = faceRecognizeList.get(0);
 
         // get emotion_scores
         Double anger = emotionRecognize.getScores().getAnger(); // get anger
@@ -141,10 +141,10 @@ public class EmotionServiceImpl {
         Gender gender = faceDetectResponse.getFaceAttributes().getGender().toUpperCase()
                 .equals("MALE") ? Gender.MALE : Gender.FEMALE; // get gender
         Double smile = faceDetectResponse.getFaceAttributes().getSmile(); // get smile
-        return new Emotion(anger, contempt, disgust, fear, happiness, neutral, sadness, surprise, age, gender, smile);
+        return new EmotionCustomerEntity(anger, contempt, disgust, fear, happiness, neutral, sadness, surprise, age, gender, smile);
     }
 
-    private EmotionAnalysisModel analyseEmotion(Emotion emotion) {
+    private EmotionAnalysisModel analyseEmotion(EmotionCustomerEntity emotion) {
         logger.info("[Analyse Emotion Service] BEGIN SERVICE");
         Map<String, Double> listEmotions = new HashMap<String, Double>();
         listEmotions.put("anger", emotion.getAnger());
@@ -187,7 +187,7 @@ public class EmotionServiceImpl {
         }
 
         // parse emotion, face response
-        Emotion emotion = parseEmotionFaceResponse(emotionResponse, faceResponse);
+        EmotionCustomerEntity emotion = parseEmotionFaceResponse(emotionResponse, faceResponse);
 
         // create time
         java.util.Date date = new java.util.Date();
