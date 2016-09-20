@@ -5,7 +5,7 @@ import com.timelinekeeping.model.AccountModel;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -14,7 +14,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "account", schema = "mydb")
-public class AccountEntity {
+public class AccountEntity implements Serializable {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,17 +24,17 @@ public class AccountEntity {
 
     @Basic
     @NotNull
-    @Column(name = "username", unique = true)
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
     @Basic
     @NotNull
-    @Column(name = "user_code")
+    @Column(name = "user_code", nullable = false, unique = true)
     private String userCode;
 
     @Basic
     @NotNull
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Basic
@@ -41,7 +42,7 @@ public class AccountEntity {
     private EStatus active = EStatus.ACTIVE;
 
     @Basic
-    @Column(name = "full_name")
+    @Column(name = "full_name", length = Integer.MAX_VALUE)
     private String fullname;
 
     @Basic
@@ -50,12 +51,12 @@ public class AccountEntity {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FW_Account_Role"))
-    private RoleEntity roles;
+    @JoinColumn(name = "role_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FW_Account_Role"), nullable = false)
+    private RoleEntity role;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FW_account_department"))
-    private DepartmentEntity departments;
+    @JoinColumn(name = "department_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FW_account_department"), nullable = false)
+    private DepartmentEntity department;
 
     @OneToMany(mappedBy = "accountEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<FaceEntity> faces;
@@ -126,20 +127,20 @@ public class AccountEntity {
     }
 
 
-    public RoleEntity getRoles() {
-        return roles;
+    public RoleEntity getRole() {
+        return role;
     }
 
-    public void setRoles(RoleEntity roles) {
-        this.roles = roles;
+    public void setRole(RoleEntity roles) {
+        this.role = roles;
     }
 
-    public DepartmentEntity getDepartments() {
-        return departments;
+    public DepartmentEntity getDepartment() {
+        return department;
     }
 
-    public void setDepartments(DepartmentEntity departments) {
-        this.departments = departments;
+    public void setDepartment(DepartmentEntity departments) {
+        this.department = departments;
     }
 
     public Set<FaceEntity> getFaces() {
@@ -156,11 +157,11 @@ public class AccountEntity {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", role=" + roles +
+                ", role=" + role +
                 ", active=" + active +
                 ", fullname='" + fullname + '\'' +
                 ", token='" + token + '\'' +
-                ", role=" + roles +
+                ", role=" + role +
                 '}';
     }
 }

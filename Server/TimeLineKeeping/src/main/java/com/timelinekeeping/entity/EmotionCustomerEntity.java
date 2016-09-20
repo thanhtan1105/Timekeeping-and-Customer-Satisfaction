@@ -3,7 +3,9 @@ package com.timelinekeeping.entity;
 import com.timelinekeeping.constant.Gender;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by lethanhtan on 9/15/16.
@@ -12,16 +14,16 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "emotion", schema = "mydb")
-public class EmotionCustomerEntity {
+public class EmotionCustomerEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "create_time")
-    private Timestamp createTime;
-    @Column(name = "create_by")
-    private Long createBy;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp createTime = new Timestamp(new Date().getTime());
+
 
     @Column(name = "anger")
     private Double anger;
@@ -60,11 +62,11 @@ public class EmotionCustomerEntity {
     @JoinColumn(name = "acount_id", nullable = true)
     private AccountEntity account;
 
-    public EmotionCustomerEntity() { }
+    public EmotionCustomerEntity() {
+    }
 
-    public EmotionCustomerEntity(Timestamp createTime, Long createBy, Double anger, Double contempt, Double disgust, Double fear, Double happiness, Double neutral, Double sadness, Double surprise, Double age, Gender gender, Double smile) {
+    public EmotionCustomerEntity(Timestamp createTime, Double anger, Double contempt, Double disgust, Double fear, Double happiness, Double neutral, Double sadness, Double surprise, Double age, Gender gender, Double smile) {
         this.createTime = createTime;
-        this.createBy = createBy;
         this.anger = anger;
         this.contempt = contempt;
         this.disgust = disgust;
@@ -79,7 +81,7 @@ public class EmotionCustomerEntity {
     }
 
     public EmotionCustomerEntity(Double anger, Double contempt, Double disgust, Double fear, Double happiness, Double neutral,
-                   Double sadness, Double surprise, Double age, Gender gender, Double smile) {
+                                 Double sadness, Double surprise, Double age, Gender gender, Double smile) {
         this.anger = anger;
         this.contempt = contempt;
         this.disgust = disgust;
@@ -107,14 +109,6 @@ public class EmotionCustomerEntity {
 
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
-    }
-
-    public Long getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(Long createBy) {
-        this.createBy = createBy;
     }
 
     public Double getAnger() {
@@ -203,5 +197,13 @@ public class EmotionCustomerEntity {
 
     public void setSmile(Double smile) {
         this.smile = smile;
+    }
+
+    public AccountEntity getAccount() {
+        return account;
+    }
+
+    public void setAccount(AccountEntity account) {
+        this.account = account;
     }
 }
