@@ -3,7 +3,7 @@ package com.timelinekeeping.model;
 import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
-import com.timelinekeeping.modelAPI.EmotionRecognizeScores;
+import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
 
 import java.io.Serializable;
 

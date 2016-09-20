@@ -3,7 +3,7 @@ package com.timelinekeeping.accessAPI;
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.modelAPI.EmotionRecognizeResponse;
+import com.timelinekeeping.modelMCS.EmotionRecognizeResponse;
 import com.timelinekeeping.util.HTTPClientUtil;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.commons.io.IOUtils;
