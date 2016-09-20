@@ -8,7 +8,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum EStatus {
 
     DEACTIVE(0, "DEACTIVE"),
-    ACTIVE(1, "ACTIVE");
+    ACTIVE(1, "ACTIVE"),
+    NOSEND(2, "NO_SEND");
+    SENDED(3, "NO_SEND");
 
     private int index;
     private String name;

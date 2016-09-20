@@ -19,22 +19,22 @@ public class DepartmentEntity implements Serializable {
     private Long id;
 
     @Basic
-    @Column(name = "code")
-    private String code;
-
-    @Basic
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Basic
-    @Column(name = "description")
+    @Column(name = "code", nullable = false, unique = true)
+    private String code;
+
+    @Basic
+    @Column(name = "description", length = Integer.MAX_VALUE)
     private String description;
 
     @Basic
     @Column(name = "active")
     private EStatus active = EStatus.ACTIVE;
 
-    @OneToMany(mappedBy = "departments", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "department", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<AccountEntity> accountEntitySet;
 
     public DepartmentEntity() {

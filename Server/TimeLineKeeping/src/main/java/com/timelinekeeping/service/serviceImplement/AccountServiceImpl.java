@@ -78,7 +78,7 @@ public class AccountServiceImpl {
 
             } else {
                 // get department code
-                DepartmentEntity departmentEntity = departmentRepo.findOne(account.getDepartments().getId());
+                DepartmentEntity departmentEntity = departmentRepo.findOne(account.getDepartment().getId());
                 String departmentCode = departmentEntity.getCode();
 
                 BaseResponse response = personServiceMCS.createPerson(departmentCode, account.getUsername(), JsonUtil.toJson(account));
