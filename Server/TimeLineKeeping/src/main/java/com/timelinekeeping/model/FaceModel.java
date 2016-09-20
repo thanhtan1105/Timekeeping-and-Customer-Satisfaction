@@ -3,11 +3,11 @@ package com.timelinekeeping.model;
 /**
  * Created by lethanhtan on 9/19/16.
  */
-public class Face {
+public class FaceModel {
 
     private String persistedFaceId;
 
-    public Face(String persistedFaceId) {
+    public FaceModel(String persistedFaceId) {
         this.persistedFaceId = persistedFaceId;
     }
 
