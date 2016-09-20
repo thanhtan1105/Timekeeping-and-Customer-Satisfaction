@@ -85,8 +85,7 @@ public class AccountModel {
     public void setUserCode(String userCode) {
         this.userCode = userCode;
     }
-
-    @Override
+    
     public <T extends AbstractEntity> void fromEntity(T entityGeneric) {
         AccountEntity entity = (AccountEntity) entityGeneric;
         this.id = entity.getId();
