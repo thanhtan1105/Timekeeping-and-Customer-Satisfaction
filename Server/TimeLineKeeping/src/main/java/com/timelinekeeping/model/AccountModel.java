@@ -86,14 +86,5 @@ public class AccountModel {
         this.userCode = userCode;
     }
     
-    public <T extends AbstractEntity> void fromEntity(T entityGeneric) {
-        AccountEntity entity = (AccountEntity) entityGeneric;
-        this.id = entity.getId();
-        this.username = entity.getUsername();
-        this.role = new RoleView(entity.getRoles());
-        this.active = entity.getActive().getIndex();
-        this.fullname = entity.getFullname();
-        this.token = entity.getToken();
-        this.userCode = entity.getUserCode();
-    }
+
 }
