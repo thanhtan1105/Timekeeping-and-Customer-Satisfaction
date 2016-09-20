@@ -4,6 +4,7 @@ import com.timelinekeeping.constant.EStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Created by lethanhtan on 9/14/16.
@@ -32,6 +33,9 @@ public class DepartmentEntity implements Serializable {
     @Basic
     @Column(name = "active")
     private EStatus active = EStatus.ACTIVE;
+
+    @OneToMany(mappedBy = "departments", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<AccountEntity> accountEntitySet;
 
     public DepartmentEntity() {
     }
@@ -92,5 +96,13 @@ public class DepartmentEntity implements Serializable {
 
     public void setActive(EStatus active) {
         this.active = active;
+    }
+
+    public Set<AccountEntity> getAccountEntitySet() {
+        return accountEntitySet;
+    }
+
+    public void setAccountEntitySet(Set<AccountEntity> accountEntitySet) {
+        this.accountEntitySet = accountEntitySet;
     }
 }

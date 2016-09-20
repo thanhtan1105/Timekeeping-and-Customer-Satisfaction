@@ -1,12 +1,12 @@
 package com.timelinekeeping.entity;
 
-import com.timelinekeeping.model.AccountModel;
-import javax.persistence.*;
-import java.util.List;
 import com.timelinekeeping.constant.EStatus;
-import com.timelinekeeping.model.AbstractModel;
+import com.timelinekeeping.model.AccountModel;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by HienTQSE60896 on 9/4/2016.
@@ -50,15 +50,15 @@ public class AccountEntity {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "role_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FW_Account_Role"))
     private RoleEntity roles;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id")
+    @JoinColumn(name = "department_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FW_account_department"))
     private DepartmentEntity departments;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountEntity", fetch = FetchType.EAGER)
-    private List<FaceEntity> faces;
+    @OneToMany(mappedBy = "accountEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<FaceEntity> faces;
 
 
     public AccountEntity() {
@@ -126,9 +126,6 @@ public class AccountEntity {
     }
 
 
-
-
-
     public RoleEntity getRoles() {
         return roles;
     }
@@ -145,11 +142,11 @@ public class AccountEntity {
         this.departments = departments;
     }
 
-    public List<FaceEntity> getFaces() {
+    public Set<FaceEntity> getFaces() {
         return faces;
     }
 
-    public void setFaces(List<FaceEntity> faces) {
+    public void setFaces(Set<FaceEntity> faces) {
         this.faces = faces;
     }
 

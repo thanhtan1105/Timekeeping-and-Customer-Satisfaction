@@ -1,5 +1,7 @@
 package com.timelinekeeping.entity;
 
+import com.sun.org.apache.xpath.internal.operations.String;
+
 import javax.persistence.*;
 
 /**
@@ -15,8 +17,14 @@ public class FaceEntity {
     private Long id;
 
     @Basic
-    @Column(name = "persisted_face_id")
+    @Column(name = "persisted_face_id", nullable = false, unique = true)
     private String persistedFaceId;
+
+
+    @Basic
+    @Column(name = "store_path", length = 300)
+    private String stoePath;
+
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")
@@ -54,6 +62,14 @@ public class FaceEntity {
 
     public void setAccountEntity(AccountEntity accountEntity) {
         this.accountEntity = accountEntity;
+    }
+
+    public String getStoePath() {
+        return stoePath;
+    }
+
+    public void setStoePath(String stoePath) {
+        this.stoePath = stoePath;
     }
 }
 

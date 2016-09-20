@@ -56,6 +56,10 @@ public class EmotionCustomerEntity {
     @Column(name = "smile")
     private Double smile;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "acount_id", nullable = true)
+    private AccountEntity account;
+
     public EmotionCustomerEntity() { }
 
     public EmotionCustomerEntity(Timestamp createTime, Long createBy, Double anger, Double contempt, Double disgust, Double fear, Double happiness, Double neutral, Double sadness, Double surprise, Double age, Gender gender, Double smile) {

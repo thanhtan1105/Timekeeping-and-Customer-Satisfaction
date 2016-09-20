@@ -1,5 +1,6 @@
 package com.timelinekeeping.constant;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.timelinekeeping.util.HTTPClientUtil;
 
 /**
@@ -26,6 +27,7 @@ public enum  EHTTPClient {
         return null;
     }
 
+    @JsonValue
     public int getIndex() {
         return index;
     }
