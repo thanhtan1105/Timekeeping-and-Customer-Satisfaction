@@ -1,14 +1,13 @@
 package com.timelinekeeping.controller;
 
 import com.timelinekeeping.entity.AccountEntity;
+import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.entity.RoleEntity;
-import com.timelinekeeping.model.AccountModel;
-import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.model.DepartmentSelectModel;
-import com.timelinekeeping.model.RoleModel;
+import com.timelinekeeping.model.*;
 import com.timelinekeeping.service.serviceImplement.AccountServiceImpl;
 import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
 import com.timelinekeeping.service.serviceImplement.RoleServiceImpl;
+import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -88,7 +87,15 @@ public class AccountControllerWeb {
         accountEntity.setUsername(username);
         accountEntity.setFullname(fullName);
 //        accountEntity.setRoleId(ValidateUtil.validateNumber(roleId));
-//        accountEntity.setDepartmentId(ValidateUtil.validateNumber(departmentId));
+
+        DepartmentEntity departmentModel = new DepartmentEntity();
+        departmentModel.setId(ValidateUtil.validateNumber(departmentId));
+        accountEntity.setDepartment(departmentModel);
+//        accountEntity.setDepartment(departmentId);
+
+        RoleEntity roleEntity = new RoleEntity();
+        roleEntity.setId(ValidateUtil.validateNumber(roleId));
+        accountEntity.setRole(roleEntity);
 
         BaseResponse response = accountService.create(accountEntity);
         boolean success = response.isSuccess();

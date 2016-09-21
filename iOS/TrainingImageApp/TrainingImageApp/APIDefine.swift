@@ -38,7 +38,7 @@ let serverUrl: String = {
   case .Hien:
     return "http://192.168.43.79:8080/api"
   case .Tan:
-    return "http://192.168.1.107:8080/api"
+    return "http://192.168.150.66:8080/api"
 	}
 
 }()

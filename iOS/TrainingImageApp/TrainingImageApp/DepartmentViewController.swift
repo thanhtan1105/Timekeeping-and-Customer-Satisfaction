@@ -95,7 +95,8 @@ extension DepartmentViewController {
       let success = dict["success"] as? Int
       if success == 1 {
         print("Call api success")
-        let content = dict["data"] as! [[String : AnyObject]]
+        let data = dict["data"] as! [String : AnyObject]
+        let content = data["content"] as! [[String : AnyObject]]
         self.departmentData = Department.departments(array: content)
         print(self.departmentData)
 

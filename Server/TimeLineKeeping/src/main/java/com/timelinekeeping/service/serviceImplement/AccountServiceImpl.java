@@ -5,20 +5,14 @@ import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.constant.ERROR;
 import com.timelinekeeping.constant.ETimeKeeping;
 import com.timelinekeeping.constant.IContanst;
-import com.timelinekeeping.entity.AccountEntity;
-import com.timelinekeeping.entity.DepartmentEntity;
-import com.timelinekeeping.entity.FaceEntity;
-import com.timelinekeeping.entity.TimeKeepingEntity;
+import com.timelinekeeping.entity.*;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.model.CheckinResponse;
 import com.timelinekeeping.modelMCS.FaceDetectResponse;
 import com.timelinekeeping.modelMCS.FaceIdentifyConfidenceRespone;
 import com.timelinekeeping.modelMCS.FaceIdentityCandidate;
-import com.timelinekeeping.repository.AccountRepo;
-import com.timelinekeeping.repository.DepartmentRepo;
-import com.timelinekeeping.repository.FaceRepo;
-import com.timelinekeeping.repository.TimekeepingRepo;
+import com.timelinekeeping.repository.*;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.UtilApps;
 import com.timelinekeeping.util.ValidateUtil;
@@ -51,6 +45,9 @@ public class AccountServiceImpl {
     private FaceServiceMCSImpl faceServiceMCS;
 
     @Autowired
+    private RoleRepo roleRepo;
+
+    @Autowired
     private AccountRepo accountRepo;
 
     @Autowired
@@ -76,12 +73,15 @@ public class AccountServiceImpl {
             } else {
                 // get department code
                 DepartmentEntity departmentEntity = departmentRepo.findOne(account.getDepartment().getId());
+                RoleEntity roleEntity = roleRepo.findOne(account.getRole().getId());
                 String departmentCode = departmentEntity.getCode();
 
                 BaseResponse response = personServiceMCS.createPerson(departmentCode, account.getUsername(), JsonUtil.toJson(account));
                 Map<String, String> map = (Map<String, String>) response.getData();
                 String personCode = map.get("personId");
+                account.setDepartment(departmentEntity);
                 account.setUserCode(personCode);
+                account.setRole(roleEntity);
 
                 AccountEntity result = accountRepo.saveAndFlush(account);
                 if (result != null) {
@@ -89,10 +89,8 @@ public class AccountServiceImpl {
                     baseResponse.setData(new AccountModel(result));
                 }
             }
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            logger.error(e);
         } finally {
             return baseResponse;
         }
