@@ -2,6 +2,8 @@ package com.timelinekeeping.entity;
 
 import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.model.AccountModel;
+import com.timelinekeeping.model.AccountModifyModel;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -67,9 +69,21 @@ public class AccountEntity implements Serializable {
     public AccountEntity() {
     }
 
-    public AccountEntity(AccountModel accountModel) {
-        this.username = accountModel.getUsername();
-        this.fullname = accountModel.getFullname();
+    public AccountEntity(AccountModifyModel model) {
+        if (model != null) {
+            this.username = StringUtils.isNotEmpty(model.getUsername()) ? model.getUsername() : this.username;
+            this.fullname = StringUtils.isNotEmpty(model.getFullname()) ? model.getFullname() : this.fullname;
+            this.password = StringUtils.isNotEmpty(model.getPassword()) ? model.getPassword() : this.password;
+            this.active = model.getActive() != null ? EStatus.fromIndex(model.getActive()) : this.active;
+        }
+    }
+    public void update(AccountModifyModel model){
+        if (model != null) {
+            this.username = StringUtils.isNotEmpty(model.getUsername()) ? model.getUsername() : this.username;
+            this.fullname = StringUtils.isNotEmpty(model.getFullname()) ? model.getFullname() : this.fullname;
+            this.password = StringUtils.isNotEmpty(model.getPassword()) ? model.getPassword() : this.password;
+            this.active = model.getActive() != null ? EStatus.fromIndex(model.getActive()) : this.active;
+        }
     }
 
     public Long getId() {
@@ -151,6 +165,14 @@ public class AccountEntity implements Serializable {
 
     public void setFaces(Set<FaceEntity> faces) {
         this.faces = faces;
+    }
+
+    public DepartmentEntity getManager() {
+        return manager;
+    }
+
+    public void setManager(DepartmentEntity manager) {
+        this.manager = manager;
     }
 
     @Override

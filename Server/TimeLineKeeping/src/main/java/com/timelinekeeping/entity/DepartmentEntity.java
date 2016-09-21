@@ -1,6 +1,8 @@
 package com.timelinekeeping.entity;
 
 import com.timelinekeeping.constant.EStatus;
+import com.timelinekeeping.constant.ETrainStatus;
+import com.timelinekeeping.model.DepartmentModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -34,6 +36,10 @@ public class DepartmentEntity implements Serializable {
     @Column(name = "active")
     private EStatus active = EStatus.ACTIVE;
 
+    @Basic
+    @Column(name = "status")
+    private ETrainStatus status = ETrainStatus.NOT_STARTED;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FW_Manager_department"))
     private DepartmentEntity manager;
@@ -42,6 +48,16 @@ public class DepartmentEntity implements Serializable {
     private Set<AccountEntity> accountEntitySet;
 
     public DepartmentEntity() {
+    }
+
+    public DepartmentEntity(DepartmentModel model) {
+        if (model != null) {
+            this.code = model.getCode();
+            this.name = model.getName();
+            this.description = model.getDescription();
+            this.active = model.getActive();
+            this.status = model.getStatus();
+        }
     }
 
     public DepartmentEntity(String code, String name, String description, EStatus active) {
@@ -108,5 +124,21 @@ public class DepartmentEntity implements Serializable {
 
     public void setAccountEntitySet(Set<AccountEntity> accountEntitySet) {
         this.accountEntitySet = accountEntitySet;
+    }
+
+    public ETrainStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ETrainStatus status) {
+        this.status = status;
+    }
+
+    public DepartmentEntity getManager() {
+        return manager;
+    }
+
+    public void setManager(DepartmentEntity manager) {
+        this.manager = manager;
     }
 }

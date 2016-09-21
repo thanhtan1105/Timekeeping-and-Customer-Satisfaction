@@ -6,21 +6,22 @@ import com.timelinekeeping.constant.ERROR;
 import com.timelinekeeping.constant.ETimeKeeping;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.*;
-import com.timelinekeeping.model.AccountModel;
-import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.model.CheckinResponse;
+import com.timelinekeeping.model.*;
 import com.timelinekeeping.modelMCS.FaceDetectResponse;
 import com.timelinekeeping.modelMCS.FaceIdentifyConfidenceRespone;
 import com.timelinekeeping.modelMCS.FaceIdentityCandidate;
 import com.timelinekeeping.repository.*;
 import com.timelinekeeping.util.JsonUtil;
+import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.UtilApps;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -45,9 +46,6 @@ public class AccountServiceImpl {
     private FaceServiceMCSImpl faceServiceMCS;
 
     @Autowired
-    private RoleRepo roleRepo;
-
-    @Autowired
     private AccountRepo accountRepo;
 
     @Autowired
@@ -57,92 +55,124 @@ public class AccountServiceImpl {
     private DepartmentRepo departmentRepo;
 
     @Autowired
+    private RoleRepo roleRepo;
+
+    @Autowired
     private TimekeepingRepo timekeepingRepo;
 
     private Logger logger = LogManager.getLogger(AccountServiceImpl.class);
 
-    public BaseResponse create(AccountEntity account) {
+    public BaseResponseG<AccountModel> create(AccountModifyModel account) throws IOException, URISyntaxException {
         BaseResponse baseResponse = new BaseResponse();
         try {
-            System.out.println("Account: " + account.getUsername());
-            if (isExist(account.getUsername())) {
-                baseResponse.setSuccess(false);
-                baseResponse.setMessage("User name " + account.getUsername() + " already exists.");
-                baseResponse.setErrorCode("Account already exist");
-
-            } else {
-                // get department code
-                DepartmentEntity departmentEntity = departmentRepo.findOne(account.getDepartment().getId());
-                RoleEntity roleEntity = roleRepo.findOne(account.getRole().getId());
-                String departmentCode = departmentEntity.getCode();
-
-                BaseResponse response = personServiceMCS.createPerson(departmentCode, account.getUsername(), JsonUtil.toJson(account));
-                Map<String, String> map = (Map<String, String>) response.getData();
-                String personCode = map.get("personId");
-                account.setDepartment(departmentEntity);
-                account.setUserCode(personCode);
-                account.setRole(roleEntity);
-
-                AccountEntity result = accountRepo.saveAndFlush(account);
-                if (result != null) {
-                    baseResponse.setSuccess(true);
-                    baseResponse.setData(new AccountModel(result));
-                }
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info("Account: " + JsonUtil.toJson(account));
+            Integer count = accountRepo.checkExistUsername(account.getUsername());
+            if (count > 0) {
+                return new BaseResponseG<>(false, String.format(ERROR.ACCOUNT_API_CRATE_CUSTOMER_ALREADY_EXIST, account.getUsername()));
             }
-        } catch (Exception e) {
-            logger.error(e);
+            // get department code
+            DepartmentEntity departmentEntity = departmentRepo.findOne(account.getDepartmentId());
+            if (departmentEntity == null) {
+                return new BaseResponseG<>(false, String.format(ERROR.ACCOUNT_API_CRATE_DEPARTMENT_DOES_NOT_EXIST, account.getDepartmentId()));
+            }
+
+            // get role code
+            RoleEntity roleEntity = roleRepo.findOne(account.getDepartmentId());
+            if (roleEntity == null) {
+                return new BaseResponseG<>(false, String.format(ERROR.ACCOUNT_API_CRATE_ROLE_DOES_NOT_EXIST, account.getRoleId()));
+            }
+
+            //get DepartmentCode
+            String departmentCode = departmentEntity.getCode();
+            logger.info("departmentCode: " + departmentCode);
+            BaseResponse response = personServiceMCS.createPerson(departmentCode, account.getUsername(), JsonUtil.toJson(account));
+            if (!response.isSuccess()) {
+                return new BaseResponseG<>(false, ERROR.ERROR_IN_MCS + response.getMessage());
+            }
+            Map<String, String> map = (Map<String, String>) response.getData();
+            String personCode = map.get("personId");
+            logger.info("personCode: " + personCode);
+
+
+            //create entity
+            AccountEntity entity = new AccountEntity(account);
+            entity.setUserCode(personCode);
+            entity.setDepartment(departmentEntity);
+            entity.setRole(roleEntity);
+
+            //save db
+            AccountEntity result = accountRepo.saveAndFlush(entity);
+            if (result != null) {
+                return new BaseResponseG<>(true, new AccountModel(result));
+            }
+            return new BaseResponseG<>(false, ERROR.OTHER);
         } finally {
-            return baseResponse;
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 
-    public List<AccountModel> listAll(Integer page, Integer size) {
+    public Page<AccountModel> listAll(Integer page, Integer size) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            Page<AccountEntity> entityPage = accountRepo.findAll(new PageRequest(page, size));
-            List<AccountEntity> entityList = entityPage.getContent();
-            List<AccountModel> accountModels = entityList.stream().map(AccountModel::new).collect(Collectors.toList());
-            logger.info("Entity result:" + JsonUtil.toJson(accountModels));
-            return accountModels;
+            // paging
+            Pageable pageable = new PageRequest(page, size);
+
+            //repo db
+            Page<AccountEntity> entityPage = accountRepo.findAll(pageable);
+
+            //covert list
+            List<AccountModel> accountModels = entityPage.getContent().stream().map(AccountModel::new).collect(Collectors.toList());
+            Page<AccountModel> returnPage = new PageImpl<>(accountModels, pageable, entityPage.getTotalElements());
+
+            logger.info("Entity result:" + JsonUtil.toJson(returnPage));
+
+            return returnPage;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 
 
-    public List<AccountModel> searchByDepartment(Long departmentId, Integer start, Integer top) {
-        List<AccountEntity> accountEntities = departmentRepo.findByDepartment(departmentId, new PageRequest(start, top));
-        List<AccountModel> accountModels = accountEntities.stream().map(AccountModel::new).collect(Collectors.toList());
-        logger.info("Entity result:" + JsonUtil.toJson(accountModels));
-        return accountModels;
-    }
+    public Page<AccountModel> searchByDepartment(Long departmentId, Integer start, Integer top) {
 
-    public boolean isExist(String username) {
-        AccountEntity accountView = accountRepo.findByUsername(username);
-        return accountView == null ? false : true;
-    }
-
-    public AccountEntity findByUsercode(String code) {
-        return accountRepo.findByUsercode(code);
-    }
-
-    public BaseResponse addFaceImg(String departmentId, Long accountId, InputStream imgStream) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            //STORE FILE
 
-//            String nameFile = persongroupId + "_" + personId + "_" + (new Date().getTime());
-//            StoreFileUtils.storeFile(nameFile, imgStream);
+            // paging
+            Pageable pageable = new PageRequest(start, top);
+
+            //repo db
+            Page<AccountEntity> entityPage = departmentRepo.findByDepartment(departmentId, pageable);
+
+            //covert list
+            List<AccountModel> accountModels = entityPage.getContent().stream().map(AccountModel::new).collect(Collectors.toList());
+            Page<AccountModel> returnPage = new PageImpl<>(accountModels, pageable, entityPage.getTotalElements());
+
+            logger.info("Entity result:" + JsonUtil.toJson(returnPage));
+
+            return returnPage;
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    public BaseResponse addFaceImg(Long accountId, InputStream imgStream) throws URISyntaxException, IOException {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+            InputStream[] streams = UtilApps.muitleStream(imgStream, 2);
 
             AccountEntity accountEntity = accountRepo.findOne(accountId);
             if (accountEntity == null) {
                 return new BaseResponse(false, ERROR.ACCOUNT_ADD_FACE_CANNOT_FOUND_ACCOUNTID, null);
             }
-            BaseResponse baseResponse = personServiceMCS.addFaceImg(departmentId, accountEntity.getUserCode(), imgStream);
+            BaseResponse baseResponse = personServiceMCS.addFaceImg(accountEntity.getDepartment().getCode(), accountEntity.getUserCode(), streams[0]);
             logger.info("RESPONSE" + baseResponse);
             if (!baseResponse.isSuccess()) {
-                return baseResponse;
+                return new BaseResponse(false, ERROR.ERROR_IN_MCS + baseResponse.getMessage(), null);
             }
+
             //Result
             BaseResponse responseResult = new BaseResponse();
             // encoding data
@@ -157,6 +187,10 @@ public class AccountServiceImpl {
                     Map<String, Long> map = new HashMap<>();
                     map.put("faceId", faceReturn.getId());
                     responseResult.setData(JsonUtil.toJson(map));
+
+                    //STORE FILE
+                    String nameFile = accountEntity.getDepartment().getCode() + "_" + accountId + "_" + (new Date().getTime());
+                    StoreFileUtils.storeFile(nameFile, imgStream);
                 } else {
                     responseResult.setSuccess(false);
                     responseResult.setMessage(ERROR.ACCOUNT_ADD_FACE_CANNOT_SAVE_DB);
@@ -200,15 +234,14 @@ public class AccountServiceImpl {
 
             // Get List Department from data
             List<DepartmentEntity> departmentEntities = departmentRepo.findAll();
-            //TODO: ERROR from database
             if (departmentEntities == null || departmentEntities.size() == 0) {
                 return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_MSDS, null);
             }
-            List<String> departmentNames = getDepartmentName(departmentEntities);
-            logger.info("-- List department: " + JsonUtil.toJson(departmentNames));
+            List<String> departmentCode = departmentEntities.stream().map(DepartmentEntity::getCode).collect(Collectors.toList());
+            logger.info("-- List department: " + JsonUtil.toJson(departmentCode));
 
             /** get PersonID from */
-            String personID = checkExistFaceInDepartment(faceID, departmentNames);
+            String personID = checkExistFaceInDepartment(faceID, departmentCode);
             if (ValidateUtil.isEmpty(personID)) {
 
                 logger.error(IContanst.ERROR_LOGGER + ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_CANNOT_IDENTIFY_IMAGE);
@@ -219,7 +252,6 @@ public class AccountServiceImpl {
             // PersonID -> AccountEntity
             AccountEntity accountEntity = accountRepo.findByUsercode(personID.trim());
             if (accountEntity == null) {
-                //TODO: ERROR not found personID in database
                 return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_NOT_FOUND_PERSONID, null);
             }
 
@@ -232,6 +264,8 @@ public class AccountServiceImpl {
             timekeepingRepo.saveAndFlush(timeKeepingEntity);
             logger.info("-- Save TimeKeeping: " + timeKeepingEntity.getTimeCheck());
 
+
+            //TODO reminder
             // accountID -> get Reminder
 
             // convert Reminder
@@ -259,9 +293,7 @@ public class AccountServiceImpl {
         if (responseDetect.isSuccess()) {
             List<FaceDetectResponse> faceDetects = (List<FaceDetectResponse>) responseDetect.getData();
             if (faceDetects.size() > 0) {
-                for (FaceDetectResponse face : faceDetects) {
-                    listFace.add(face.getFaceId());
-                }
+                listFace.addAll(faceDetects.stream().map(FaceDetectResponse::getFaceId).collect(Collectors.toList()));
             } else {
                 return null;
             }
@@ -272,25 +304,14 @@ public class AccountServiceImpl {
     }
 
     /**
-     * get department Name from list departmentEntities
-     */
-    private List<String> getDepartmentName(List<DepartmentEntity> departmentEntities) {
-        List<String> departmentNames = new ArrayList<>();
-        for (DepartmentEntity department : departmentEntities) {
-            departmentNames.add(department.getCode());
-        }
-        return departmentNames;
-    }
-
-    /**
      * check exist faceID in list department
      */
-    private String checkExistFaceInDepartment(String faceID, List<String> departmentNames) throws IOException, URISyntaxException {
+    private String checkExistFaceInDepartment(String faceID, List<String> departmentCode) throws IOException, URISyntaxException {
 
         String personID = null;
         double confidence = 0d;
 
-        for (String departmentName : departmentNames) {
+        for (String departmentName : departmentCode) {
             BaseResponse response = faceServiceMCS.identify(departmentName, faceID);
             if (response.isSuccess()) {
 
@@ -313,7 +334,7 @@ public class AccountServiceImpl {
             }
         }
 
-        /*** check greater then confidence*/
+        //check greater then confidence
         if (confidence > IContanst.MCS_PERSON_DETECT_CONFIDINCE_CORRECT) {
             return personID;
         } else {

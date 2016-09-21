@@ -3,7 +3,7 @@ package com.timelinekeeping.service.serviceImplement;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.FaceEntity;
-import com.timelinekeeping.model.FaceCreateModel;
+import com.timelinekeeping.model.FaceModifyModel;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.FaceRepo;
 import org.apache.log4j.LogManager;
@@ -31,22 +31,22 @@ public class FaceServiceImpl {
     Logger logger = LogManager.getLogger(FaceServiceImpl.class);
 
     //TODO compress error
-    public FaceEntity create(FaceCreateModel faceCreateModel) {
+    public FaceEntity create(FaceModifyModel faceModifyModel) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             FaceEntity entity = null;
             AccountEntity accountEntity;
-            if (!ObjectUtils.isEmpty(faceCreateModel.getAccountId())){
-                accountEntity = accountRepo.findOne(faceCreateModel.getAccountId());
-            }else if (!StringUtils.isEmpty(faceCreateModel.getAccountCode())){
-                accountEntity = accountRepo.findByUsercode(faceCreateModel.getAccountCode());
+            if (!ObjectUtils.isEmpty(faceModifyModel.getAccountId())){
+                accountEntity = accountRepo.findOne(faceModifyModel.getAccountId());
+            }else if (!StringUtils.isEmpty(faceModifyModel.getAccountCode())){
+                accountEntity = accountRepo.findByUsercode(faceModifyModel.getAccountCode());
             }else {
                 return null;
             }
             if (accountEntity == null){
                 return null;
             }
-            entity = new FaceEntity(faceCreateModel.getPersistedFaceId(), accountEntity);
+            entity = new FaceEntity(faceModifyModel.getPersistedFaceId(), accountEntity);
             FaceEntity result = faceRepo.saveAndFlush(entity);
             return result;
         } finally {

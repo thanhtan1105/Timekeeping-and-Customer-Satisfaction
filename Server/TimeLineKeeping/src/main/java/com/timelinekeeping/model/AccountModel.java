@@ -21,23 +21,15 @@ public class AccountModel {
     }
 
     public AccountModel(AccountEntity entity) {
-        this.id = entity.getId();
-        this.username = entity.getUsername();
-        this.role = new RoleModel(entity.getRole());
-        this.active = entity.getActive().getIndex();
-        this.fullname = entity.getFullname();
-        this.token = entity.getToken();
-        this.userCode = entity.getUserCode();
-        this.department = new DepartmentModel(entity.getDepartment());
-    }
-
-
-    public DepartmentModel getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(DepartmentModel department) {
-        this.department = department;
+        if (entity != null) {
+            this.id = entity.getId();
+            this.username = entity.getUsername();
+            this.role = new RoleModel(entity.getRole());
+            this.active = entity.getActive().getIndex();
+            this.fullname = entity.getFullname();
+            this.userCode = entity.getUserCode();
+            this.department = new DepartmentModel(entity.getDepartment());
+        }
     }
 
     public Long getId() {
@@ -76,14 +68,6 @@ public class AccountModel {
         this.fullname = fullname;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
     public RoleModel getRole() {
         return role;
     }
@@ -95,6 +79,12 @@ public class AccountModel {
     public void setUserCode(String userCode) {
         this.userCode = userCode;
     }
-    
 
+    public DepartmentModel getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(DepartmentModel department) {
+        this.department = department;
+    }
 }

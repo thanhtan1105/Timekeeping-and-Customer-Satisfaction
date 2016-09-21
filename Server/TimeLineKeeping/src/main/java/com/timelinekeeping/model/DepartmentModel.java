@@ -1,5 +1,7 @@
 package com.timelinekeeping.model;
 
+import com.timelinekeeping.constant.EStatus;
+import com.timelinekeeping.constant.ETrainStatus;
 import com.timelinekeeping.entity.DepartmentEntity;
 
 /**
@@ -10,15 +12,27 @@ public class DepartmentModel {
     private String code;
     private String name;
     private String description;
+    private EStatus active;
+    private ETrainStatus status;
 
     public DepartmentModel() {
     }
 
+    public DepartmentModel(String code, String name, String description) {
+        this.code = code;
+        this.name = name;
+        this.description = description;
+    }
+
     public DepartmentModel(DepartmentEntity entity) {
-        this.id = entity.getId();
-        this.code = entity.getCode();
-        this.name = entity.getName();
-        this.description = entity.getDescription();
+        if (entity != null) {
+            this.id = entity.getId();
+            this.code = entity.getCode();
+            this.name = entity.getName();
+            this.description = entity.getDescription();
+            this.active = entity.getActive();
+            this.status = entity.getStatus();
+        }
     }
 
     public Long getId() {
@@ -51,6 +65,22 @@ public class DepartmentModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public EStatus getActive() {
+        return active;
+    }
+
+    public void setActive(EStatus active) {
+        this.active = active;
+    }
+
+    public ETrainStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ETrainStatus status) {
+        this.status = status;
     }
 
     @Override

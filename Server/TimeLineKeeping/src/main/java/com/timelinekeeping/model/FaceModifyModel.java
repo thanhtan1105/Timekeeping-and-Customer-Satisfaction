@@ -3,20 +3,20 @@ package com.timelinekeeping.model;
 /**
  * Created by HienTQSE60896 on 9/19/2016.
  */
-public class FaceCreateModel {
+public class FaceModifyModel {
     private String persistedFaceId;
     private Long accountId;
     private String accountCode;
 
-    public FaceCreateModel() {
+    public FaceModifyModel() {
     }
 
-    public FaceCreateModel(String persistedFaceId, Long accountId) {
+    public FaceModifyModel(String persistedFaceId, Long accountId) {
         this.persistedFaceId = persistedFaceId;
         this.accountId = accountId;
     }
 
-    public FaceCreateModel(String persistedFaceId, String accountCode) {
+    public FaceModifyModel(String persistedFaceId, String accountCode) {
         this.persistedFaceId = persistedFaceId;
         this.accountCode = accountCode;
     }
@@ -47,7 +47,7 @@ public class FaceCreateModel {
 
     @Override
     public String toString() {
-        return "FaceCreateModel{" +
+        return "FaceModifyModel{" +
                 "persistedFaceId='" + persistedFaceId + '\'' +
                 ", accountId='" + accountId + '\'' +
                 ", accountCode='" + accountCode + '\'' +

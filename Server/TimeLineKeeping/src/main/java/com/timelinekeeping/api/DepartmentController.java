@@ -34,19 +34,16 @@ public class DepartmentController {
 
     @RequestMapping(value = {"/create"}, method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponseG create(@RequestParam("code") String code,
-                               @RequestParam("name") String name,
-                               @RequestParam("description") String description) {
+    public BaseResponse create(@ModelAttribute DepartmentModel department) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            DepartmentEntity departmentEntity = new DepartmentEntity(code, name, description, EStatus.ACTIVE);
-            BaseResponseG<DepartmentModel> response = departmentService.create(departmentEntity);
+            BaseResponseG<DepartmentModel> response = departmentService.create(department);
             logger.info("RESPONSE: " + JsonUtil.toJson(response));
-            return response;
+            return response.toBaseResponse();
 
         } catch (Exception e) {
             logger.error(e);
-            return new BaseResponseG(e);
+            return new BaseResponse(e);
         } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }
@@ -57,7 +54,6 @@ public class DepartmentController {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         try {
             BaseResponse response = departmentService.training(departmentId);
-            logger.info(IContanst.END_METHOD_CONTROLLER);
             return response;
         } catch (IOException e) {
             logger.error(e);
