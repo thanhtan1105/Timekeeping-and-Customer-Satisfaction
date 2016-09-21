@@ -1,4 +1,4 @@
-package com.timelinekeeping.api;
+package com.timelinekeeping.api.mcs;
 
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/api/face")
+@RequestMapping("/api_mcs/face")
 public class FaceController {
 
     private Logger logger = Logger.getLogger(FaceController.class);

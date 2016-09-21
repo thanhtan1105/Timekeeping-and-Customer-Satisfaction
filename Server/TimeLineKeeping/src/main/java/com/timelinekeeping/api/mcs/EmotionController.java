@@ -1,5 +1,6 @@
-package com.timelinekeeping.api;
+package com.timelinekeeping.api.mcs;
 
+import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
@@ -17,14 +18,13 @@ import java.net.URISyntaxException;
  * Created by HienTQSE60896 on 9/12/2016.
  */
 @RestController
-@RequestMapping("/api/emotion")
+@RequestMapping("/api_mcs/emotion")
 public class EmotionController {
 
     private Logger logger = LogManager.getLogger(EmotionController.class);
 
-
     @Autowired
-    private EmotionServiceImpl emotionService;
+    private EmotionServiceMCSImpl emotionServiceMCS;
 
     @RequestMapping(value = {"/recognize"}, method = RequestMethod.POST)
     @ResponseBody

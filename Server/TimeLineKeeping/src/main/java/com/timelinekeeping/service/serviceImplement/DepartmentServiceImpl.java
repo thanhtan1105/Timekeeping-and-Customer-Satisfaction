@@ -32,7 +32,7 @@ public class DepartmentServiceImpl {
     private Logger logger = LogManager.getLogger(DepartmentServiceImpl.class);
 
     public List<DepartmentEntity> findByName(String name) {
-        return repo.findByName(name);
+        return repo.findByDepartmentName(name);
     }
 
     public DepartmentEntity findBy(long id) {

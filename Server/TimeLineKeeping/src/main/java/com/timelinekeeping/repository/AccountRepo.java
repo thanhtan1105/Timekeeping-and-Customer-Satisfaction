@@ -16,15 +16,12 @@ import java.util.List;
 @Repository
 public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
 
-
-    @Query(value = "SELECT * FROM account a WHERE a.user_code = ?1", nativeQuery = true)
-    AccountEntity findByCode(String code);
-
     @Query("SELECT a FROM AccountEntity a WHERE a.username = ?1 and a.active <>0")
     AccountEntity findByUsername(String username);
 
     @Query("SELECT a FROM AccountEntity a WHERE a.userCode = ?1 and a.active <>0")
     AccountEntity findByUsercode(String code);
 
+    @Query("SELECT a FROM AccountEntity a WHERE a.active <>0")
     List<AccountEntity> findAll();
 }
