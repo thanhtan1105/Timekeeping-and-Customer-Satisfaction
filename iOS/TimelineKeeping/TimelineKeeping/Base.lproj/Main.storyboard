@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Fhn-KJ-YFh">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--Item-->
+        <!--Checkin-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="CameraViewController" customModule="TimelineKeeping" customModuleProvider="target" sceneMemberID="viewController">
@@ -65,7 +66,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="2ae-zA-ttt"/>
+                    <tabBarItem key="tabBarItem" title="Checkin" id="2ae-zA-ttt"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="cameraCapture" destination="zEK-d9-5SV" id="bOP-RP-scd"/>
@@ -77,10 +78,10 @@
             </objects>
             <point key="canvasLocation" x="182" y="496"/>
         </scene>
-        <!--Item 2-->
+        <!--Emotion-->
         <scene sceneID="R7g-nM-BJN">
             <objects>
-                <viewController id="t36-YS-lWv" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CameraEmotionViewController" id="t36-YS-lWv" customClass="CameraEmotionViewController" customModule="TimelineKeeping" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zY8-M5-04f"/>
                         <viewControllerLayoutGuide type="bottom" id="kBa-S9-bMH"/>
@@ -88,14 +89,110 @@
                     <view key="view" contentMode="scaleToFill" id="jLX-Oo-bsc">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rZe-9Q-LvI" userLabel="Camera Preview">
+                                <rect key="frame" x="0.0" y="-1" width="320" height="520"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9XG-6q-Fa9" userLabel="Camera Still">
+                                <rect key="frame" x="0.0" y="-0.5" width="320" height="519.5"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mcR-dY-qoX" userLabel="BottomView">
+                                <rect key="frame" x="0.0" y="462" width="320" height="57"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3eW-I4-kx3">
+                                        <rect key="frame" x="133" y="13.5" width="55" height="30"/>
+                                        <state key="normal" title="Capture"/>
+                                        <connections>
+                                            <action selector="captureFrame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gXJ-Sv-vgk"/>
+                                            <action selector="onCaptureTapped:" destination="t36-YS-lWv" eventType="touchUpInside" id="exh-Da-zKA"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="0.49507004310344827" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="3eW-I4-kx3" firstAttribute="centerX" secondItem="mcR-dY-qoX" secondAttribute="centerX" id="KBO-mk-jFx"/>
+                                    <constraint firstItem="3eW-I4-kx3" firstAttribute="centerY" secondItem="mcR-dY-qoX" secondAttribute="centerY" id="cc7-K1-oXc"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="mcR-dY-qoX" firstAttribute="height" secondItem="jLX-Oo-bsc" secondAttribute="height" multiplier="0.1" id="A6p-nU-s00"/>
+                            <constraint firstItem="mcR-dY-qoX" firstAttribute="top" secondItem="rZe-9Q-LvI" secondAttribute="bottom" id="BeE-Zb-lCw"/>
+                            <constraint firstItem="rZe-9Q-LvI" firstAttribute="leading" secondItem="jLX-Oo-bsc" secondAttribute="leading" id="G9l-42-L4B"/>
+                            <constraint firstItem="mcR-dY-qoX" firstAttribute="leading" secondItem="jLX-Oo-bsc" secondAttribute="leading" id="NpK-1J-2bY"/>
+                            <constraint firstAttribute="trailing" secondItem="mcR-dY-qoX" secondAttribute="trailing" id="QZf-W4-lSe"/>
+                            <constraint firstItem="rZe-9Q-LvI" firstAttribute="top" secondItem="zY8-M5-04f" secondAttribute="bottom" constant="-21" id="SnI-xp-GAu"/>
+                            <constraint firstAttribute="trailing" secondItem="9XG-6q-Fa9" secondAttribute="trailing" id="XnN-mA-Jls"/>
+                            <constraint firstItem="9XG-6q-Fa9" firstAttribute="top" secondItem="zY8-M5-04f" secondAttribute="bottom" constant="-20.5" id="Ykb-1H-MrN"/>
+                            <constraint firstAttribute="trailing" secondItem="rZe-9Q-LvI" secondAttribute="trailing" id="cRf-Bd-K9p"/>
+                            <constraint firstItem="9XG-6q-Fa9" firstAttribute="leading" secondItem="jLX-Oo-bsc" secondAttribute="leading" id="gK4-a0-B3e"/>
+                            <constraint firstItem="mcR-dY-qoX" firstAttribute="top" secondItem="9XG-6q-Fa9" secondAttribute="bottom" id="mWY-yb-qb3"/>
+                            <constraint firstItem="kBa-S9-bMH" firstAttribute="top" secondItem="rZe-9Q-LvI" secondAttribute="bottom" id="qmy-S6-V3j"/>
+                            <constraint firstItem="kBa-S9-bMH" firstAttribute="top" secondItem="9XG-6q-Fa9" secondAttribute="bottom" id="sHb-VT-GAX"/>
+                            <constraint firstItem="kBa-S9-bMH" firstAttribute="top" secondItem="mcR-dY-qoX" secondAttribute="bottom" id="zRT-9U-c2K"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="BeE-Zb-lCw"/>
+                                <exclude reference="mWY-yb-qb3"/>
+                            </mask>
+                        </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 2" id="3lJ-4c-9RD"/>
+                    <tabBarItem key="tabBarItem" title="Emotion" id="3lJ-4c-9RD"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="cameraCapture" destination="3eW-I4-kx3" id="AO9-9P-buc"/>
+                        <outlet property="cameraPreview" destination="rZe-9Q-LvI" id="all-z8-tM7"/>
+                        <outlet property="cameraStill" destination="9XG-6q-Fa9" id="ilh-9q-g7P"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nh0-OO-dAK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="182" y="1257"/>
+            <point key="canvasLocation" x="182" y="1217"/>
+        </scene>
+        <!--Emotion Suggestion View Controller-->
+        <scene sceneID="ECG-l3-UyT">
+            <objects>
+                <viewController storyboardIdentifier="EmotionSuggestionViewController" id="mgw-vR-fpY" customClass="EmotionSuggestionViewController" customModule="TimelineKeeping" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="7zy-u2-5og"/>
+                        <viewControllerLayoutGuide type="bottom" id="mab-LN-3Xh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="SqO-0K-rOa">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" restorationIdentifier="HorizontalBarChartView" translatesAutoresizingMaskIntoConstraints="NO" id="dgK-Fr-rkZ" customClass="HorizontalBarChartView" customModule="Charts">
+                                <rect key="frame" x="0.0" y="28" width="320" height="320"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="183" id="4oP-hb-aiy"/>
+                                    <constraint firstAttribute="width" secondItem="dgK-Fr-rkZ" secondAttribute="height" id="8eA-ha-YPI"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="4oP-hb-aiy"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="dgK-Fr-rkZ" firstAttribute="top" secondItem="7zy-u2-5og" secondAttribute="bottom" constant="8" id="Fmg-ml-g6M"/>
+                            <constraint firstItem="dgK-Fr-rkZ" firstAttribute="leading" secondItem="SqO-0K-rOa" secondAttribute="leading" id="glB-C6-cVz"/>
+                            <constraint firstAttribute="trailing" secondItem="dgK-Fr-rkZ" secondAttribute="trailing" id="zRa-5z-5GN"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="horizontalBarChart" destination="dgK-Fr-rkZ" id="OUZ-8S-qWf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6wS-BX-ysY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="605" y="1217"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="1xt-YG-KbX">

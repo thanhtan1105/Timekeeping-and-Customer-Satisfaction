@@ -8,8 +8,9 @@ target 'TimelineKeeping' do
 
   # Pods for TimelineKeeping
   pod 'Alamofire', '~> 3.4'
-  pod 'TanLT1Extensions'
-
+  pod 'TanLT1Extensions'  
+  pod 'Charts'
+  
   target 'TimelineKeepingTests' do
     inherit! :search_paths
     # Pods for testing

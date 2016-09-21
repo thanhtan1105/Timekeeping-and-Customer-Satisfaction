@@ -9,7 +9,11 @@
 /* Begin PBXBuildFile section */
 		03B7F876A83BA3B95EA40B36 /* Pods_TimelineKeeping.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9DC619DEEFDE423655AD2C4 /* Pods_TimelineKeeping.framework */; };
 		0EA94BBEAA631DB13A0E5554 /* Pods_TimelineKeepingUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D6D7EE6F15EBBB77D99E71 /* Pods_TimelineKeepingUITests.framework */; };
+		A608CDFE1D926DAF001C6D08 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A608CDFD1D926DAF001C6D08 /* Charts.framework */; };
 		A60D4F4A1D91A50F008CBF4E /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60D4F491D91A50F008CBF4E /* AccountModel.swift */; };
+		A60D4F541D922105008CBF4E /* CameraEmotionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60D4F531D922105008CBF4E /* CameraEmotionViewController.swift */; };
+		A60D4F561D92215F008CBF4E /* EmotionSuggestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60D4F551D92215F008CBF4E /* EmotionSuggestionViewController.swift */; };
+		A60D4F5B1D922D8D008CBF4E /* EmotionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60D4F5A1D922D8D008CBF4E /* EmotionModel.swift */; };
 		A61A805C1D77E2900082E80F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A61A805B1D77E2900082E80F /* AppDelegate.swift */; };
 		A61A80611D77E2900082E80F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A61A805F1D77E2900082E80F /* Main.storyboard */; };
 		A61A80631D77E2900082E80F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A61A80621D77E2900082E80F /* Assets.xcassets */; };
@@ -46,7 +50,12 @@
 /* Begin PBXFileReference section */
 		033A86382F62DA8336B563E0 /* Pods-TimelineKeeping.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TimelineKeeping.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TimelineKeeping/Pods-TimelineKeeping.debug.xcconfig"; sourceTree = "<group>"; };
 		7656841AAF0CCE1CD3524A66 /* Pods_TimelineKeepingTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TimelineKeepingTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A608CDFD1D926DAF001C6D08 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = "../../../Library/Developer/Xcode/DerivedData/TimelineKeeping-fniatmoznceoxpceuejpfeqgijys/Build/Products/Debug-iphoneos/Charts/Charts.framework"; sourceTree = "<group>"; };
 		A60D4F491D91A50F008CBF4E /* AccountModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
+		A60D4F4F1D922021008CBF4E /* TimelineKeeping-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TimelineKeeping-Bridging-Header.h"; sourceTree = "<group>"; };
+		A60D4F531D922105008CBF4E /* CameraEmotionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraEmotionViewController.swift; sourceTree = "<group>"; };
+		A60D4F551D92215F008CBF4E /* EmotionSuggestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionSuggestionViewController.swift; sourceTree = "<group>"; };
+		A60D4F5A1D922D8D008CBF4E /* EmotionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionModel.swift; sourceTree = "<group>"; };
 		A61A80581D77E2900082E80F /* TimelineKeeping.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimelineKeeping.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A61A805B1D77E2900082E80F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A61A80601D77E2900082E80F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -80,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A608CDFE1D926DAF001C6D08 /* Charts.framework in Frameworks */,
 				03B7F876A83BA3B95EA40B36 /* Pods_TimelineKeeping.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -106,11 +116,19 @@
 		48CC87AC6229CF4ED33168A4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A608CDFD1D926DAF001C6D08 /* Charts.framework */,
 				B9DC619DEEFDE423655AD2C4 /* Pods_TimelineKeeping.framework */,
 				7656841AAF0CCE1CD3524A66 /* Pods_TimelineKeepingTests.framework */,
 				E0D6D7EE6F15EBBB77D99E71 /* Pods_TimelineKeepingUITests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A60D4F4E1D92200B008CBF4E /* Library */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Library;
 			sourceTree = "<group>";
 		};
 		A61A804F1D77E2900082E80F = {
@@ -138,6 +156,7 @@
 		A61A805A1D77E2900082E80F /* TimelineKeeping */ = {
 			isa = PBXGroup;
 			children = (
+				A60D4F4F1D922021008CBF4E /* TimelineKeeping-Bridging-Header.h */,
 				A61A808E1D77E2CC0082E80F /* Model */,
 				A61A808D1D77E2C30082E80F /* View */,
 				A61A808C1D77E2BE0082E80F /* Controller */,
@@ -145,6 +164,7 @@
 				A61A808A1D77E2A50082E80F /* Storyboard */,
 				A61A80891D77E2990082E80F /* AppDelegate */,
 				A61A80621D77E2900082E80F /* Assets.xcassets */,
+				A60D4F4E1D92200B008CBF4E /* Library */,
 				A61A808B1D77E2AD0082E80F /* Support */,
 			);
 			path = TimelineKeeping;
@@ -198,6 +218,8 @@
 			children = (
 				A6A765B81D85728D00A79643 /* CameraViewController.swift */,
 				A6A765BA1D85D65000A79643 /* ShowInfoViewController.swift */,
+				A60D4F531D922105008CBF4E /* CameraEmotionViewController.swift */,
+				A60D4F551D92215F008CBF4E /* EmotionSuggestionViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -215,6 +237,7 @@
 			children = (
 				A6A765B61D85728900A79643 /* Camera.swift */,
 				A60D4F491D91A50F008CBF4E /* AccountModel.swift */,
+				A60D4F5A1D922D8D008CBF4E /* EmotionModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -529,10 +552,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6A765B91D85728D00A79643 /* CameraViewController.swift in Sources */,
+				A60D4F541D922105008CBF4E /* CameraEmotionViewController.swift in Sources */,
 				A60D4F4A1D91A50F008CBF4E /* AccountModel.swift in Sources */,
 				A6A765B71D85728900A79643 /* Camera.swift in Sources */,
 				A6A765BD1D85D7C900A79643 /* ReminderTableCell.swift in Sources */,
+				A60D4F561D92215F008CBF4E /* EmotionSuggestionViewController.swift in Sources */,
 				A61A805C1D77E2900082E80F /* AppDelegate.swift in Sources */,
+				A60D4F5B1D922D8D008CBF4E /* EmotionModel.swift in Sources */,
 				A652E2251D871700003C6C86 /* APIRequestProtocol.swift in Sources */,
 				A652E2231D8716F2003C6C86 /* APIRequest.swift in Sources */,
 				A6A765BB1D85D65000A79643 /* ShowInfoViewController.swift in Sources */,
@@ -681,10 +707,13 @@
 			baseConfigurationReference = 033A86382F62DA8336B563E0 /* Pods-TimelineKeeping.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = TimelineKeeping/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lethanhtan.TimelineKeeping;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TimelineKeeping/TimelineKeeping-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -693,10 +722,12 @@
 			baseConfigurationReference = A7698FC94D4EB56B275C7A23 /* Pods-TimelineKeeping.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = TimelineKeeping/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lethanhtan.TimelineKeeping;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TimelineKeeping/TimelineKeeping-Bridging-Header.h";
 			};
 			name = Release;
 		};

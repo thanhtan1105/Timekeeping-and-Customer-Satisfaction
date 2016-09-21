@@ -61,7 +61,6 @@ class Department: NSObject {
     aCoder.encodeObject(descriptions, forKey: "descriptions")
     aCoder.encodeObject(active, forKey: "active")
   }
-
   
   static func getDepartmentFromUserDefault() -> Department {
     let userDefault = NSUserDefaults.standardUserDefaults()
