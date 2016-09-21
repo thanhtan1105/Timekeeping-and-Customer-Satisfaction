@@ -78,7 +78,7 @@ public class AccountServiceImpl {
             }
 
             // get role code
-            RoleEntity roleEntity = roleRepo.findOne(account.getDepartmentId());
+            RoleEntity roleEntity = roleRepo.findOne(account.getRoleId());
             if (roleEntity == null) {
                 return new BaseResponseG<>(false, String.format(ERROR.ACCOUNT_API_CRATE_ROLE_DOES_NOT_EXIST, account.getRoleId()));
             }
@@ -100,6 +100,7 @@ public class AccountServiceImpl {
             entity.setUserCode(personCode);
             entity.setDepartment(departmentEntity);
             entity.setRole(roleEntity);
+            entity.setPassword("123456");
 
             //save db
             AccountEntity result = accountRepo.saveAndFlush(entity);
