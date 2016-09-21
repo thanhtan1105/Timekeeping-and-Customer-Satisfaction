@@ -26,21 +26,6 @@ public class EmotionController {
     @Autowired
     private EmotionServiceImpl emotionService;
 
-    @RequestMapping(value = {"/recognize"}, method = RequestMethod.POST)
-    @ResponseBody
-    public BaseResponse recognize(@RequestParam("url") String urlImg) {
-        try {
-            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            BaseResponse response = emotionServiceMCS.recognize(urlImg);
-            return response;
-        } catch (Exception e) {
-            logger.error(e);
-            return new BaseResponse(e);
-        } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
-        }
-    }
-
 
     @RequestMapping(value = {"/recognize_img"}, method = RequestMethod.POST)
     @ResponseBody
@@ -96,6 +81,9 @@ public class EmotionController {
             logger.error(e);
             return new BaseResponse(e);
         } catch (URISyntaxException e) {
+            logger.error(e);
+            return new BaseResponse(e);
+        } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
         } finally {
