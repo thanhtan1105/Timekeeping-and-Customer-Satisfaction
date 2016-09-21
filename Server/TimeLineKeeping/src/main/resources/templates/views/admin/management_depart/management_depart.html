@@ -73,8 +73,9 @@
                         <td th:text="${department.name}"></td>
                         <td th:text="${department.description}"></td>
                         <td>
-                            <input type="checkbox" class="minimal-red"
-                                   th:checked="${department.active.index} == 1"/>
+                            <font class="text-danger" style="font-size: medium;">
+                                <i th:attr="class=(${department.active.index} == 1)? 'fa fa-check-square-o': 'fa fa-square-o'"></i>
+                            </font>
                         </td>
                         <td>
                             <div class="btn-group" style="width: 70%;">
