@@ -55,7 +55,8 @@ public class DepartmentEntity implements Serializable {
             this.code = model.getCode();
             this.name = model.getName();
             this.description = model.getDescription();
-            this.active = model.;
+            this.active = model.getActive();
+            this.status = model.getStatus();
         }
     }
 
@@ -123,5 +124,21 @@ public class DepartmentEntity implements Serializable {
 
     public void setAccountEntitySet(Set<AccountEntity> accountEntitySet) {
         this.accountEntitySet = accountEntitySet;
+    }
+
+    public ETrainStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ETrainStatus status) {
+        this.status = status;
+    }
+
+    public DepartmentEntity getManager() {
+        return manager;
+    }
+
+    public void setManager(DepartmentEntity manager) {
+        this.manager = manager;
     }
 }

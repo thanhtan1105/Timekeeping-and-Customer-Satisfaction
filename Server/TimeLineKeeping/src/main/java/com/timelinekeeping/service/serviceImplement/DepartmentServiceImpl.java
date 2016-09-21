@@ -1,9 +1,13 @@
 package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
+import com.timelinekeeping.constant.ERROR;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.DepartmentEntity;
-import com.timelinekeeping.model.*;
+import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.model.BaseResponseG;
+import com.timelinekeeping.model.DepartmentModel;
+import com.timelinekeeping.model.DepartmentSelectModel;
 import com.timelinekeeping.repository.DepartmentRepo;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.log4j.LogManager;
@@ -36,32 +40,18 @@ public class DepartmentServiceImpl {
 
 
     public BaseResponseG<DepartmentModel> create(DepartmentModel model) throws IOException, URISyntaxException {
-        BaseResponseG<DepartmentModel> baseResponse = new BaseResponseG<DepartmentModel>();
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            if (isExist(model.getCode())) {
-                baseResponse.setSuccess(false);
-                baseResponse.setMessage("Person group " + model.getName() + " already exists.");
-            } else {
-                BaseResponse responseGroup = groupServiceMCS.create(model.getCode(), model.getName(), model.getDescription());
-                if (responseGroup.isSuccess()) {
-                    DepartmentEntity entityReturn = repo.saveAndFlush(new DepartmentEntity(model));
-                    baseResponse.setSuccess(true);
-                    baseResponse.setData(new DepartmentModel(entityReturn));
-                }
+            Integer record = repo.isExist(model.getCode());
+            if (record > 0) {
+                return new BaseResponseG<>(false, String.format(ERROR.DEPARTMENT_API_CREATE_DEPARTMENT_DOES_EXIST, model.getCode()));
             }
-        } finally {
-            logger.info(IContanst.END_METHOD_SERVICE);
-        }
-        return baseResponse;
-    }
-
-    public boolean isExist(String departmentCode) {
-        try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            Integer record = repo.isExist(departmentCode);
-            logger.info(String.format("Check Exist '%s' with size: '%s'", departmentCode, record));
-            return record > 0;
+            BaseResponse responseGroup = groupServiceMCS.create(model.getCode(), model.getName(), model.getDescription());
+            if (responseGroup.isSuccess()) {
+                DepartmentEntity entityReturn = repo.saveAndFlush(new DepartmentEntity(model));
+                return new BaseResponseG<>(true, new DepartmentModel(entityReturn));
+            }
+            return new BaseResponseG<>(false, ERROR.OTHER);
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
@@ -123,7 +113,12 @@ public class DepartmentServiceImpl {
     }
 
     public BaseResponse training(String departmentId) throws IOException, URISyntaxException {
-        DepartmentEntity departmentEntity = repo.findOne(Long.parseLong(departmentId));
-        return groupServiceMCS.trainGroup(departmentEntity.getCode());
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            DepartmentEntity departmentEntity = repo.findOne(Long.parseLong(departmentId));
+            return groupServiceMCS.trainGroup(departmentEntity.getCode());
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
     }
 }

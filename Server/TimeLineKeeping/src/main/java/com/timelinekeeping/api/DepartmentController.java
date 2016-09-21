@@ -37,7 +37,6 @@ public class DepartmentController {
     public BaseResponse create(@ModelAttribute DepartmentModel department) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            De
             BaseResponseG<DepartmentModel> response = departmentService.create(department);
             logger.info("RESPONSE: " + JsonUtil.toJson(response));
             return response.toBaseResponse();

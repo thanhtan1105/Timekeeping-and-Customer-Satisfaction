@@ -77,6 +77,14 @@ public class AccountEntity implements Serializable {
             this.active = model.getActive() != null ? EStatus.fromIndex(model.getActive()) : this.active;
         }
     }
+    public void update(AccountModifyModel model){
+        if (model != null) {
+            this.username = StringUtils.isNotEmpty(model.getUsername()) ? model.getUsername() : this.username;
+            this.fullname = StringUtils.isNotEmpty(model.getFullname()) ? model.getFullname() : this.fullname;
+            this.password = StringUtils.isNotEmpty(model.getPassword()) ? model.getPassword() : this.password;
+            this.active = model.getActive() != null ? EStatus.fromIndex(model.getActive()) : this.active;
+        }
+    }
 
     public Long getId() {
         return id;
@@ -157,6 +165,14 @@ public class AccountEntity implements Serializable {
 
     public void setFaces(Set<FaceEntity> faces) {
         this.faces = faces;
+    }
+
+    public DepartmentEntity getManager() {
+        return manager;
+    }
+
+    public void setManager(DepartmentEntity manager) {
+        this.manager = manager;
     }
 
     @Override
