@@ -5,6 +5,7 @@ import com.timelinekeeping.entity.RoleEntity;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.model.DepartmentSelectModel;
+import com.timelinekeeping.model.RoleModel;
 import com.timelinekeeping.service.serviceImplement.AccountServiceImpl;
 import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
 import com.timelinekeeping.service.serviceImplement.RoleServiceImpl;
@@ -52,11 +53,12 @@ public class AccountControllerWeb {
     public String loadAddAccountView(Model model) {
         logger.info("[Controller- Load Add Account View] BEGIN");
         // Get all roles for selection
-        List<RoleEntity> roleEntities = roleService.listAll();
+        List<RoleModel> roleEntities = roleService.listAll();
         if (roleEntities != null) {
             logger.info("[Controller- Load Add Account View] Size of list roles: "
                     + roleEntities.size());
         }
+
         // Get all departments for selection
         List<DepartmentSelectModel> departmentSelectModels = departmentService.findAll();
         if (roleEntities != null) {
@@ -102,7 +104,7 @@ public class AccountControllerWeb {
             model.addAttribute("departmentId", departmentId);
 
             // Get all roles for selection
-            List<RoleEntity> roleEntities = roleService.listAll();
+            List<RoleModel> roleEntities = roleService.listAll();
             if (roleEntities != null) {
                 logger.info("[Controller- Add Account] Size of list roles: "
                         + roleEntities.size());
