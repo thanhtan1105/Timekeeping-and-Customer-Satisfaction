@@ -12,9 +12,9 @@ import com.timelinekeeping.entity.TimeKeepingEntity;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.model.CheckinResponse;
-import com.timelinekeeping.modelAPI.FaceDetectResponse;
-import com.timelinekeeping.modelAPI.FaceIdentifyConfidenceRespone;
-import com.timelinekeeping.modelAPI.FaceIdentityCandidate;
+import com.timelinekeeping.modelMCS.FaceDetectResponse;
+import com.timelinekeeping.modelMCS.FaceIdentifyConfidenceRespone;
+import com.timelinekeeping.modelMCS.FaceIdentityCandidate;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.DepartmentRepo;
 import com.timelinekeeping.repository.FaceRepo;
@@ -124,8 +124,8 @@ public class AccountServiceImpl {
         return accountView == null ? false : true;
     }
 
-    public AccountEntity findByCode(String code) {
-        return accountRepo.findByCode(code);
+    public AccountEntity findByUsercode(String code) {
+        return accountRepo.findByUsercode(code);
     }
 
     public BaseResponse addFaceImg(String departmentId, Long accountId, InputStream imgStream) throws URISyntaxException, IOException {

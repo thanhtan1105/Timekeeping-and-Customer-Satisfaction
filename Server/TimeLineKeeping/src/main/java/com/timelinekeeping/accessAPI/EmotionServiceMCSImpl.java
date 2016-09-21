@@ -3,10 +3,12 @@ package com.timelinekeeping.accessAPI;
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.modelAPI.EmotionRecognizeResponse;
+import com.timelinekeeping.modelMCS.EmotionRecognizeResponse;
+import com.timelinekeeping.modelMCS.RectangleImage;
 import com.timelinekeeping.util.HTTPClientUtil;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.log4j.LogManager;
@@ -50,6 +52,28 @@ public class EmotionServiceMCSImpl {
             return HTTPClientUtil.getInstanceEmotion().toPost(url, new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.LIST_PARSER, EmotionRecognizeResponse.class);
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    public BaseResponse recognize(InputStream inputStreamImg, RectangleImage ractangle) throws URISyntaxException, IOException {
+
+        try {
+            String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.emotion.recognize");
+            String url = rootPath + urlAddition;
+            logger.info(IContanst.BEGIN_METHOD_MCS + url);
+
+            /*** url -> ${url}*/
+            URIBuilder builder = new URIBuilder(url)
+                    .addParameter("faceRectangles", ractangle.toFaceRectangle());
+//            url = String.format("%s?%s=%s", url, "faceRectangles", ractangle.toFaceRectangle());
+
+            /** entity*/
+            byte[] byteEntity = IOUtils.toByteArray(inputStreamImg);
+//            logger.info("json Entity: " + jsonEntity);
+
+            return HTTPClientUtil.getInstanceEmotion().toPostOct(builder.build(), new ByteArrayEntity(byteEntity), JsonUtil.LIST_PARSER, EmotionRecognizeResponse.class);
+        } finally {
+            logger.info(IContanst.END_METHOD_MCS);
         }
     }
 

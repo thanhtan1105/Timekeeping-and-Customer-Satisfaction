@@ -3,12 +3,15 @@ package com.timelinekeeping.service.serviceImplement;
 import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.constant.EEmotion;
+import com.timelinekeeping.constant.ERROR;
 import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.model.EmotionAnalysisModel;
-import com.timelinekeeping.modelAPI.EmotionRecognizeResponse;
-import com.timelinekeeping.modelAPI.FaceDetectResponse;
+import com.timelinekeeping.modelMCS.EmotionRecognizeResponse;
+import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
+import com.timelinekeeping.modelMCS.FaceDetectResponse;
+import com.timelinekeeping.modelMCS.RectangleImage;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.EmotionRepo;
 import org.apache.commons.io.IOUtils;
@@ -21,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -149,28 +153,27 @@ public class EmotionServiceImpl {
         return new EmotionCustomerEntity(anger, contempt, disgust, fear, happiness, neutral, sadness, surprise, age, gender, smile);
     }
 
-    private EmotionAnalysisModel analyseEmotion(EmotionCustomerEntity emotion) {
+    private EmotionAnalysisModel analyseEmotion(EmotionRecognizeScores emotionScores) {
         logger.info("[Analyse Emotion Service] BEGIN SERVICE");
-        Map<String, Double> listEmotions = new HashMap<String, Double>();
-        listEmotions.put("anger", emotion.getAnger());
-        listEmotions.put("contempt", emotion.getContempt());
-        listEmotions.put("disgust", emotion.getDisgust());
-        listEmotions.put("fear", emotion.getFear());
-        listEmotions.put("happiness", emotion.getHappiness());
-        listEmotions.put("neutral", emotion.getNeutral());
-        listEmotions.put("sadness", emotion.getSadness());
-        listEmotions.put("surprise", emotion.getSurprise());
-        Map.Entry<String, Double> maxEntry = null;
-        for (Map.Entry<String, Double> entry : listEmotions.entrySet()) {
+        Map<EEmotion, Double> listEmotions = new HashMap<EEmotion, Double>();
+        listEmotions.put(EEmotion.ANGER, emotionScores.getAnger());
+        listEmotions.put(EEmotion.CONTEMPT, emotionScores.getContempt());
+        listEmotions.put(EEmotion.DISGUST, emotionScores.getDisgust());
+        listEmotions.put(EEmotion.FEAR, emotionScores.getFear());
+        listEmotions.put(EEmotion.HAPPINESS, emotionScores.getHappiness());
+        listEmotions.put(EEmotion.NEUTRAL, emotionScores.getNeutral());
+        listEmotions.put(EEmotion.SADNESS, emotionScores.getSadness());
+        listEmotions.put(EEmotion.SURPRISE, emotionScores.getSurprise());
+        Map.Entry<EEmotion, Double> maxEntry = null;
+        for (Map.Entry<EEmotion, Double> entry : listEmotions.entrySet()) {
             if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0) {
                 maxEntry = entry;
             }
         }
-        EEmotion emotionMost = EEmotion.fromName(maxEntry.getKey());
         logger.info("[Analyse Emotion Service] emotionMost: " + maxEntry.getKey());
         logger.info("[Analyse Emotion Service] END SERVICE");
 
-        return new EmotionAnalysisModel(emotionMost, emotion);
+        return new EmotionAnalysisModel(maxEntry.getKey(), emotionScores);
     }
 
     public BaseResponse getCustomerEmotion(InputStream inputStreamImg, Long employeeId, boolean isFirstTime)
@@ -182,31 +185,72 @@ public class EmotionServiceImpl {
         // face detect
         FaceServiceMCSImpl faceServiceMCS = new FaceServiceMCSImpl();
         BaseResponse faceResponse = faceServiceMCS.detect(new ByteArrayInputStream(bytes));
+        logger.info("[Get Customer Emotion] face response success: " + faceResponse.isSuccess());
         if (faceResponse.isSuccess()) {
-            // emotion
-            EmotionServiceMCSImpl emotionServiceMCS = new EmotionServiceMCSImpl();
-            BaseResponse emotionResponse = emotionServiceMCS.recognize(new ByteArrayInputStream(bytes));
+            if (faceResponse.getData() != null) {
 
-            if (isFirstTime) {
-                // add suggess
+                // parser face response
+                List<FaceDetectResponse> faceRecognizeList = (List<FaceDetectResponse>) faceResponse.getData();
+                if (faceRecognizeList != null || faceRecognizeList.size() > 0) {
+
+                    List<EmotionAnalysisModel> emotionAnalysisModels = new ArrayList<EmotionAnalysisModel>();
+                    for (FaceDetectResponse faceDetectResponse : faceRecognizeList) {
+                        // get face_attributes
+                        Double age = faceDetectResponse.getFaceAttributes().getAge(); // get age
+                        Gender gender = faceDetectResponse.getFaceAttributes().getGender().toUpperCase()
+                                .equals("MALE") ? Gender.MALE : Gender.FEMALE; // get gender
+                        // get rectangle image
+                        RectangleImage rectangleImage = faceDetectResponse.getFaceRectangle();
+
+                        // emotion recognize
+                        EmotionServiceMCSImpl emotionServiceMCS = new EmotionServiceMCSImpl();
+                        BaseResponse emotionResponse = emotionServiceMCS.recognize(new ByteArrayInputStream(bytes), rectangleImage);
+
+                        // parser emotion response
+                        List<EmotionRecognizeResponse> emotionRecognizeList = (List<EmotionRecognizeResponse>) emotionResponse.getData();
+                        EmotionRecognizeResponse emotionRecognize = emotionRecognizeList.get(0);
+
+                        // get emotion_scores
+                        Double anger = emotionRecognize.getScores().getAnger(); // get anger
+                        Double contempt = emotionRecognize.getScores().getContempt(); // get contempt
+                        Double disgust = emotionRecognize.getScores().getDisgust(); // get Disgust
+                        Double fear = emotionRecognize.getScores().getFear(); // get Fear
+                        Double happiness = emotionRecognize.getScores().getHappiness(); // get happiness
+                        Double neutral = emotionRecognize.getScores().getNeutral(); // get neutral
+                        Double sadness = emotionRecognize.getScores().getSadness(); // get sadness
+                        Double surprise = emotionRecognize.getScores().getSurprise(); // get surprise
+
+                        EmotionRecognizeScores emotionRecognizeScores
+                                = new EmotionRecognizeScores(anger, contempt, disgust, fear, happiness, neutral, sadness, surprise);
+                        // get customer emotion
+                        EmotionAnalysisModel emotionAnalysisModel = analyseEmotion(emotionRecognizeScores);
+                        emotionAnalysisModel.setAge(age);
+                        emotionAnalysisModel.setGender(gender);
+
+                        emotionAnalysisModels.add(emotionAnalysisModel);
+
+                    }
+                    baseResponse.setSuccess(true);
+                    baseResponse.setData(emotionAnalysisModels);
+                }
+
+                if (isFirstTime) {
+                    // TODO: get suggestion
+                }
+
+//            // create time
+//            java.util.Date date = new java.util.Date();
+//            Timestamp timestamp = new Timestamp(date.getTime());
+
+//            // save to database
+//            emotion.setCreateTime(timestamp);
+//            emotion.setCreateBy(accountRepo.findOne(employeeId));
+//            emotionRepo.saveAndFlush(emotion);
+
             }
-            // parse emotion, face response
-            EmotionCustomerEntity emotion = parseEmotionFaceResponse(emotionResponse, faceResponse);
-
-            // create time
-            java.util.Date date = new java.util.Date();
-            Timestamp timestamp = new Timestamp(date.getTime());
-
-            // save to database
-            emotion.setCreateTime(timestamp);
-            emotion.setCreateBy(accountRepo.findOne(employeeId));
-            emotionRepo.saveAndFlush(emotion);
-
-            // get customer emotion
-            EmotionAnalysisModel emotionAnalysisModel = analyseEmotion(emotion);
-            baseResponse.setData(emotionAnalysisModel);
         } else {
             baseResponse.setSuccess(false);
+            baseResponse.setMessage(ERROR.EMOTION_API_GET_CUSTOMER_EMOTION_EMPTY_DETECT);
         }
 
         logger.info("[Get Customer Emotion] END SERVICE");

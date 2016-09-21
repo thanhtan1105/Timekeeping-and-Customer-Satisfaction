@@ -12,6 +12,9 @@ public interface IContanst {
     String BEGIN_METHOD_SERVICE = "--- Begin Service : ";
     String END_METHOD_SERVICE = "---- End Service ----";
 
+    String BEGIN_METHOD_MCS = "--- Begin MCS API : ";
+    String END_METHOD_MCS = "---- End MCS API ----";
+
 
     String BEGIN_METHOD_CONTROLLER = "--- Begin Controller : ";
     String END_METHOD_CONTROLLER = "---- End Controller ----";
