@@ -186,7 +186,7 @@ public class EmotionServiceImpl {
         FaceServiceMCSImpl faceServiceMCS = new FaceServiceMCSImpl();
         BaseResponse faceResponse = faceServiceMCS.detect(new ByteArrayInputStream(bytes));
 
-        if (faceResponse.isSuccess() && faceResponse.getData() == null) {
+        if (faceResponse.isSuccess() && faceResponse.getData() != null) {
             // parser face response
             List<FaceDetectResponse> faceRecognizeList = (List<FaceDetectResponse>) faceResponse.getData();
             if (faceRecognizeList != null && faceRecognizeList.size() > 0) {
