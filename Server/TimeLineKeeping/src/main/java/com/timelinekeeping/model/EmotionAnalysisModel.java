@@ -20,23 +20,18 @@ public class EmotionAnalysisModel implements Serializable {
     public EmotionAnalysisModel() {
     }
 
-    public EmotionAnalysisModel(EEmotion emotionMost, EmotionCustomerEntity emotionEntity) {
+    public EmotionAnalysisModel(EEmotion emotionMost, Double age, Gender gender,
+                                Double smile, EmotionRecognizeScores emotion) {
         this.emotionMost = emotionMost;
-        if (emotionEntity != null) {
-            this.age = emotionEntity.getAge();
-            this.gender = emotionEntity.getGender();
-            this.smile = emotionEntity.getSmile();
-            Double anger = emotionEntity.getAnger();
-            Double contempt = emotionEntity.getContempt();
-            Double disgust = emotionEntity.getDisgust();
-            Double fear = emotionEntity.getFear();
-            Double happiness = emotionEntity.getHappiness();
-            Double neutral = emotionEntity.getNeutral();
-            Double sadness = emotionEntity.getSadness();
-            Double surprise = emotionEntity.getSurprise();
-            this.emotion = new EmotionRecognizeScores(anger, contempt, disgust, fear,
-                    happiness, neutral, sadness, surprise);
-        }
+        this.age = age;
+        this.gender = gender;
+        this.smile = smile;
+        this.emotion = emotion;
+    }
+
+    public EmotionAnalysisModel(EEmotion emotionMost, EmotionRecognizeScores emotion) {
+        this.emotionMost = emotionMost;
+        this.emotion = emotion;
     }
 
     public EEmotion getEmotionMost() {
