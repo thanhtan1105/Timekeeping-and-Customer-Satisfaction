@@ -179,33 +179,36 @@ public class EmotionServiceImpl {
         BaseResponse baseResponse = new BaseResponse();
         byte[] bytes = IOUtils.toByteArray(inputStreamImg);
 
-        // emotion
-        EmotionServiceMCSImpl emotionServiceMCS = new EmotionServiceMCSImpl();
-        BaseResponse emotionResponse = emotionServiceMCS.recognize(new ByteArrayInputStream(bytes));
-
         // face detect
         FaceServiceMCSImpl faceServiceMCS = new FaceServiceMCSImpl();
         BaseResponse faceResponse = faceServiceMCS.detect(new ByteArrayInputStream(bytes));
+        if (faceResponse.isSuccess()) {
+            // emotion
+            EmotionServiceMCSImpl emotionServiceMCS = new EmotionServiceMCSImpl();
+            BaseResponse emotionResponse = emotionServiceMCS.recognize(new ByteArrayInputStream(bytes));
 
-        if (isFirstTime) {
-            // add suggess
+            if (isFirstTime) {
+                // add suggess
+            }
+            // parse emotion, face response
+            EmotionCustomerEntity emotion = parseEmotionFaceResponse(emotionResponse, faceResponse);
+
+            // create time
+            java.util.Date date = new java.util.Date();
+            Timestamp timestamp = new Timestamp(date.getTime());
+
+            // save to database
+            emotion.setCreateTime(timestamp);
+            emotion.setCreateBy(accountRepo.findOne(employeeId));
+            emotionRepo.saveAndFlush(emotion);
+
+            // get customer emotion
+            EmotionAnalysisModel emotionAnalysisModel = analyseEmotion(emotion);
+            baseResponse.setData(emotionAnalysisModel);
+        } else {
+            baseResponse.setSuccess(false);
         }
 
-        // parse emotion, face response
-        EmotionCustomerEntity emotion = parseEmotionFaceResponse(emotionResponse, faceResponse);
-
-        // create time
-        java.util.Date date = new java.util.Date();
-        Timestamp timestamp = new Timestamp(date.getTime());
-
-        // save to database
-        emotion.setCreateTime(timestamp);
-        emotion.setCreateBy(accountRepo.findOne(employeeId));
-        emotionRepo.saveAndFlush(emotion);
-
-        // get customer emotion
-        EmotionAnalysisModel emotionAnalysisModel = analyseEmotion(emotion);
-        baseResponse.setData(emotionAnalysisModel);
         logger.info("[Get Customer Emotion] END SERVICE");
         return baseResponse;
     }
