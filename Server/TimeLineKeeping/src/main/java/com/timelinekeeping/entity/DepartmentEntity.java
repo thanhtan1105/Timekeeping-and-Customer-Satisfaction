@@ -34,6 +34,10 @@ public class DepartmentEntity implements Serializable {
     @Column(name = "active")
     private EStatus active = EStatus.ACTIVE;
 
+    @Basic
+    @Column(name = "status")
+    private EStatus status = EStatus.NO_TRAIN;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FW_Manager_department"))
     private DepartmentEntity manager;

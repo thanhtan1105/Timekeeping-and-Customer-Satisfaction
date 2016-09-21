@@ -29,6 +29,9 @@ public class DepartmentServiceImpl {
     @Autowired(required = true)
     private DepartmentRepo repo;
 
+    @Autowired
+    PersonGroupServiceMCSImpl groupServiceMCS;
+
     private Logger logger = LogManager.getLogger(DepartmentServiceImpl.class);
 
 
@@ -36,12 +39,11 @@ public class DepartmentServiceImpl {
         BaseResponseG<DepartmentModel> baseResponse = new BaseResponseG<DepartmentModel>();
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            if (isExist(model.getName())) {
+            if (isExist(model.getCode())) {
                 baseResponse.setSuccess(false);
                 baseResponse.setMessage("Person group " + model.getName() + " already exists.");
             } else {
-                PersonGroupServiceMCSImpl groupService = new PersonGroupServiceMCSImpl();
-                BaseResponse responseGroup = groupService.create(model.getCode(), model.getName(), model.getDescription());
+                BaseResponse responseGroup = groupServiceMCS.create(model.getCode(), model.getName(), model.getDescription());
                 if (responseGroup.isSuccess()) {
                     DepartmentEntity entityReturn = repo.saveAndFlush(model);
                     baseResponse.setSuccess(true);
@@ -54,11 +56,11 @@ public class DepartmentServiceImpl {
         return baseResponse;
     }
 
-    public boolean isExist(String name) {
+    public boolean isExist(String departmentCode) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            Integer record = repo.isExist(name);
-            logger.info(String.format("Check Exist '%s' with size: '%s'", name, record));
+            Integer record = repo.isExist(departmentCode);
+            logger.info(String.format("Check Exist '%s' with size: '%s'", departmentCode, record));
             return record > 0;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
@@ -122,7 +124,6 @@ public class DepartmentServiceImpl {
 
     public BaseResponse training(String departmentId) throws IOException, URISyntaxException {
         DepartmentEntity departmentEntity = repo.findOne(Long.parseLong(departmentId));
-        PersonGroupServiceMCSImpl personGroupServiceMCS = new PersonGroupServiceMCSImpl();
-        return personGroupServiceMCS.trainGroup(departmentEntity.getCode());
+        return groupServiceMCS.trainGroup(departmentEntity.getCode());
     }
 }

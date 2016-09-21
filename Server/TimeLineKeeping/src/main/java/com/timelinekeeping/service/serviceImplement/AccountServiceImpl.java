@@ -206,11 +206,11 @@ public class AccountServiceImpl {
             if (departmentEntities == null || departmentEntities.size() == 0) {
                 return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_MSDS, null);
             }
-            List<String> departmentNames = getDepartmentName(departmentEntities);
-            logger.info("-- List department: " + JsonUtil.toJson(departmentNames));
+            List<String> departmentCode = departmentEntities.stream().map(DepartmentEntity::getCode).collect(Collectors.toList());
+            logger.info("-- List department: " + JsonUtil.toJson(departmentCode));
 
             /** get PersonID from */
-            String personID = checkExistFaceInDepartment(faceID, departmentNames);
+            String personID = checkExistFaceInDepartment(faceID, departmentCode);
             if (ValidateUtil.isEmpty(personID)) {
 
                 logger.error(IContanst.ERROR_LOGGER + ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_CANNOT_IDENTIFY_IMAGE);
@@ -274,25 +274,14 @@ public class AccountServiceImpl {
     }
 
     /**
-     * get department Name from list departmentEntities
-     */
-    private List<String> getDepartmentName(List<DepartmentEntity> departmentEntities) {
-        List<String> departmentNames = new ArrayList<>();
-        for (DepartmentEntity department : departmentEntities) {
-            departmentNames.add(department.getCode());
-        }
-        return departmentNames;
-    }
-
-    /**
      * check exist faceID in list department
      */
-    private String checkExistFaceInDepartment(String faceID, List<String> departmentNames) throws IOException, URISyntaxException {
+    private String checkExistFaceInDepartment(String faceID, List<String> departmentCode) throws IOException, URISyntaxException {
 
         String personID = null;
         double confidence = 0d;
 
-        for (String departmentName : departmentNames) {
+        for (String departmentName : departmentCode) {
             BaseResponse response = faceServiceMCS.identify(departmentName, faceID);
             if (response.isSuccess()) {
 

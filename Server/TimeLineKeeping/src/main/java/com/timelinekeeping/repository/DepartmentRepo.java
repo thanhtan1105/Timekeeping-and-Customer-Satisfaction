@@ -19,14 +19,14 @@ public interface DepartmentRepo extends JpaRepository<DepartmentEntity, Long> {
     @Query("SELECT d FROM DepartmentEntity d WHERE (d.name LIKE :department) AND (d.active <> 0)")
     List<DepartmentEntity> findByDepartmentName(@Param("department") String name);
 
-    @Query("SELECT COUNT (d.id) FROM DepartmentEntity d WHERE d.name = :code")
+    @Query("SELECT COUNT (d.id) FROM DepartmentEntity d WHERE d.code = :code")
     Integer isExist(@Param("code") String code);
 
     @Query("SELECT d FROM DepartmentEntity d WHERE d.active <> 0")
     Page<DepartmentEntity> findAll(Pageable pageable);
 
-    @Query("SELECT d FROM DepartmentEntity d WHERE (:code is EMPTY  OR d.code = :code) " +
-            "AND (:name is empty OR d.name like CONCAT('%', :name, '%') AND d.active <> 0)")
+    @Query("SELECT d FROM DepartmentEntity d WHERE (:code != NULL  OR d.code = :code) " +
+            "AND (:name != NULL OR d.name like CONCAT('%', :name, '%') AND d.active <> 0)")
     Page<DepartmentEntity> search(@Param("code") String code,
                                   @Param("name") String name,
                                   Pageable pageable);
