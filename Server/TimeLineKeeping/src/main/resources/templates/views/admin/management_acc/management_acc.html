@@ -76,12 +76,11 @@
                         <td th:text="${counter.count} + '.'"></td>
                         <td th:text="${account.username}"></td>
                         <td th:text="${account.fullname}"></td>
-                        <td th:text="${account.role.id}"></td>
-                        <td th:text="${account.department.id}"></td>
+                        <td th:text="${account.role.name}"></td>
+                        <td th:text="${account.department.name}"></td>
                         <td>
-                            <font th:if="${account.active} == 1"
-                                  class="text-danger" style="font-size: medium;">
-                                <i class="fa fa-check-square-o"></i>
+                            <font class="text-danger" style="font-size: medium;">
+                                <i th:attr="class=(${account.active} == 1)? 'fa fa-check-square-o': 'fa fa-square-o'"></i>
                             </font>
                         </td>
                         <td>
