@@ -15,7 +15,6 @@ import java.sql.Timestamp;
 @Table(name = "notification", schema = "mydb")
 public class NotificationEntity implements Serializable {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -38,6 +37,13 @@ public class NotificationEntity implements Serializable {
     private AccountEntity accountReceive;
 
     public NotificationEntity() {
+    }
+
+    public NotificationEntity(String message, Timestamp timeNotify, EStatus status, AccountEntity accountReceive) {
+        this.message = message;
+        this.timeNotify = timeNotify;
+        this.status = status;
+        this.accountReceive = accountReceive;
     }
 
     public Long getId() {

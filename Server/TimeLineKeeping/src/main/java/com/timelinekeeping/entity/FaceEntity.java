@@ -24,7 +24,6 @@ public class FaceEntity  implements Serializable {
     @Column(name = "store_path", length = 300)
     private String stoePath;
 
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", nullable = false)
     private AccountEntity accountEntity;

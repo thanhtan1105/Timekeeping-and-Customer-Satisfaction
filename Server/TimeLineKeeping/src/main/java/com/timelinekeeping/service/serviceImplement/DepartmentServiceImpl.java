@@ -38,7 +38,6 @@ public class DepartmentServiceImpl {
 
     private Logger logger = LogManager.getLogger(DepartmentServiceImpl.class);
 
-
     public BaseResponseG<DepartmentModel> create(DepartmentModel model) throws IOException, URISyntaxException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());

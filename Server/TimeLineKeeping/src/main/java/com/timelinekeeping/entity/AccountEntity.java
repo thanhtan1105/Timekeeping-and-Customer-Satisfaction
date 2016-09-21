@@ -18,7 +18,6 @@ import java.util.Set;
 @Table(name = "account", schema = "mydb")
 public class AccountEntity implements Serializable {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -51,13 +50,14 @@ public class AccountEntity implements Serializable {
     @Column(name = "token")
     private String token;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FW_Account_Role"), nullable = false)
+//    @JoinColumn(name = "role_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FW_id_role"), nullable = false)
+    @JoinColumn(name = "account_role_id")
     private RoleEntity role;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FW_account_department"), nullable = false)
+//    @JoinColumn(name = "department_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FW_id_department"), nullable = false)
+    @JoinColumn(name = "account_department_id")
     private DepartmentEntity department;
 
     @OneToMany(mappedBy = "accountEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -65,7 +65,7 @@ public class AccountEntity implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "manager")
     private DepartmentEntity manager;
-    
+
     public AccountEntity() {
     }
 
