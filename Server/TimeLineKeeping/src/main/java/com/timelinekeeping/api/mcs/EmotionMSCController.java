@@ -4,7 +4,6 @@ import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.modelMCS.RectangleImage;
-import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -12,17 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 /**
  * Created by HienTQSE60896 on 9/12/2016.
  */
 @RestController
 @RequestMapping("/api_mcs/emotion")
-public class EmotionController {
+public class EmotionMSCController {
 
-    private Logger logger = LogManager.getLogger(EmotionController.class);
+    private Logger logger = LogManager.getLogger(EmotionMSCController.class);
 
     @Autowired
     private EmotionServiceMCSImpl emotionServiceMCS;

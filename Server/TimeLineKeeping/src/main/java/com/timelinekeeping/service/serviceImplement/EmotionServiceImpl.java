@@ -185,68 +185,73 @@ public class EmotionServiceImpl {
         // face detect
         FaceServiceMCSImpl faceServiceMCS = new FaceServiceMCSImpl();
         BaseResponse faceResponse = faceServiceMCS.detect(new ByteArrayInputStream(bytes));
-        logger.info("[Get Customer Emotion] face response success: " + faceResponse.isSuccess());
-        if (faceResponse.isSuccess()) {
-            if (faceResponse.getData() != null) {
 
-                // parser face response
-                List<FaceDetectResponse> faceRecognizeList = (List<FaceDetectResponse>) faceResponse.getData();
-                if (faceRecognizeList != null || faceRecognizeList.size() > 0) {
+        if (faceResponse.isSuccess() && faceResponse.getData() == null) {
+            // parser face response
+            List<FaceDetectResponse> faceRecognizeList = (List<FaceDetectResponse>) faceResponse.getData();
+            if (faceRecognizeList != null && faceRecognizeList.size() > 0) {
+                List<EmotionAnalysisModel> emotionAnalysisModels = new ArrayList<EmotionAnalysisModel>();
+                for (FaceDetectResponse faceDetectResponse : faceRecognizeList) {
+                    // get face_attributes
+                    Double age = faceDetectResponse.getFaceAttributes().getAge(); // get age
+                    Gender gender = faceDetectResponse.getFaceAttributes().getGender().toUpperCase()
+                            .equals("MALE") ? Gender.MALE : Gender.FEMALE; // get gender
+                    // get rectangle image
+                    RectangleImage rectangleImage = faceDetectResponse.getFaceRectangle();
 
-                    List<EmotionAnalysisModel> emotionAnalysisModels = new ArrayList<EmotionAnalysisModel>();
-                    for (FaceDetectResponse faceDetectResponse : faceRecognizeList) {
-                        // get face_attributes
-                        Double age = faceDetectResponse.getFaceAttributes().getAge(); // get age
-                        Gender gender = faceDetectResponse.getFaceAttributes().getGender().toUpperCase()
-                                .equals("MALE") ? Gender.MALE : Gender.FEMALE; // get gender
-                        // get rectangle image
-                        RectangleImage rectangleImage = faceDetectResponse.getFaceRectangle();
+                    // emotion recognize
+                    EmotionServiceMCSImpl emotionServiceMCS = new EmotionServiceMCSImpl();
+                    BaseResponse emotionResponse = emotionServiceMCS.recognize(new ByteArrayInputStream(bytes), rectangleImage);
 
-                        // emotion recognize
-                        EmotionServiceMCSImpl emotionServiceMCS = new EmotionServiceMCSImpl();
-                        BaseResponse emotionResponse = emotionServiceMCS.recognize(new ByteArrayInputStream(bytes), rectangleImage);
+                    // parser emotion response
+                    List<EmotionRecognizeResponse> emotionRecognizeList = (List<EmotionRecognizeResponse>) emotionResponse.getData();
+                    EmotionRecognizeResponse emotionRecognize = emotionRecognizeList.get(0);
 
-                        // parser emotion response
-                        List<EmotionRecognizeResponse> emotionRecognizeList = (List<EmotionRecognizeResponse>) emotionResponse.getData();
-                        EmotionRecognizeResponse emotionRecognize = emotionRecognizeList.get(0);
+                    // get emotion_scores
+                    Double anger = emotionRecognize.getScores().getAnger(); // get anger
+                    Double contempt = emotionRecognize.getScores().getContempt(); // get contempt
+                    Double disgust = emotionRecognize.getScores().getDisgust(); // get Disgust
+                    Double fear = emotionRecognize.getScores().getFear(); // get Fear
+                    Double happiness = emotionRecognize.getScores().getHappiness(); // get happiness
+                    Double neutral = emotionRecognize.getScores().getNeutral(); // get neutral
+                    Double sadness = emotionRecognize.getScores().getSadness(); // get sadness
+                    Double surprise = emotionRecognize.getScores().getSurprise(); // get surprise
 
-                        // get emotion_scores
-                        Double anger = emotionRecognize.getScores().getAnger(); // get anger
-                        Double contempt = emotionRecognize.getScores().getContempt(); // get contempt
-                        Double disgust = emotionRecognize.getScores().getDisgust(); // get Disgust
-                        Double fear = emotionRecognize.getScores().getFear(); // get Fear
-                        Double happiness = emotionRecognize.getScores().getHappiness(); // get happiness
-                        Double neutral = emotionRecognize.getScores().getNeutral(); // get neutral
-                        Double sadness = emotionRecognize.getScores().getSadness(); // get sadness
-                        Double surprise = emotionRecognize.getScores().getSurprise(); // get surprise
+                    EmotionRecognizeScores emotionRecognizeScores
+                            = new EmotionRecognizeScores(anger, contempt, disgust, fear, happiness, neutral, sadness, surprise);
+                    // get customer emotion
+                    EmotionAnalysisModel emotionAnalysisModel = analyseEmotion(emotionRecognizeScores);
+                    emotionAnalysisModel.setAge(age);
+                    emotionAnalysisModel.setGender(gender);
 
-                        EmotionRecognizeScores emotionRecognizeScores
-                                = new EmotionRecognizeScores(anger, contempt, disgust, fear, happiness, neutral, sadness, surprise);
-                        // get customer emotion
-                        EmotionAnalysisModel emotionAnalysisModel = analyseEmotion(emotionRecognizeScores);
-                        emotionAnalysisModel.setAge(age);
-                        emotionAnalysisModel.setGender(gender);
+                    emotionAnalysisModels.add(emotionAnalysisModel);
 
-                        emotionAnalysisModels.add(emotionAnalysisModel);
+                    // create time
+                    java.util.Date date = new java.util.Date();
+                    Timestamp timestamp = new Timestamp(date.getTime());
 
-                    }
-                    baseResponse.setSuccess(true);
-                    baseResponse.setData(emotionAnalysisModels);
+                    // save to database
+                    EmotionCustomerEntity emotionCustomerEntity = new EmotionCustomerEntity();
+                    emotionCustomerEntity.setAnger(anger);
+                    emotionCustomerEntity.setContempt(contempt);
+                    emotionCustomerEntity.setDisgust(disgust);
+                    emotionCustomerEntity.setFear(fear);
+                    emotionCustomerEntity.setHappiness(happiness);
+                    emotionCustomerEntity.setNeutral(neutral);
+                    emotionCustomerEntity.setSadness(sadness);
+                    emotionCustomerEntity.setSurprise(surprise);
+                    emotionCustomerEntity.setAge(age);
+                    emotionCustomerEntity.setGender(gender);
+                    emotionCustomerEntity.setCreateTime(timestamp);
+                    emotionCustomerEntity.setCreateBy(accountRepo.findOne(employeeId));
+                    emotionRepo.saveAndFlush(emotionCustomerEntity);
                 }
+                baseResponse.setSuccess(true);
+                baseResponse.setData(emotionAnalysisModels);
+            }
 
-                if (isFirstTime) {
-                    // TODO: get suggestion
-                }
-
-//            // create time
-//            java.util.Date date = new java.util.Date();
-//            Timestamp timestamp = new Timestamp(date.getTime());
-
-//            // save to database
-//            emotion.setCreateTime(timestamp);
-//            emotion.setCreateBy(accountRepo.findOne(employeeId));
-//            emotionRepo.saveAndFlush(emotion);
-
+            if (isFirstTime) {
+                // TODO: get suggestion
             }
         } else {
             baseResponse.setSuccess(false);
