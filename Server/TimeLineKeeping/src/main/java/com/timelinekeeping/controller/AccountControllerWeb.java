@@ -73,7 +73,7 @@ public class AccountControllerWeb {
         return "/views/admin/management_acc/add_acc";
     }
 
-    @RequestMapping(value = "/addAccountProcessing", method = RequestMethod.POST)
+    @RequestMapping(value = "/addAccountProcessing", produces = "text/plain;charset=UTF-8", method = RequestMethod.POST)
     public String addAccount(@RequestParam("username") String username,
                              @RequestParam("fullName") String fullName,
                              @RequestParam("roleId") String roleId,

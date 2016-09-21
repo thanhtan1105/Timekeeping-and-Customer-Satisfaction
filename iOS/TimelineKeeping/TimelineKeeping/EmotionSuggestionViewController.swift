@@ -14,7 +14,7 @@ class EmotionSuggestionViewController: UIViewController {
 //  var emotionData = []
   var emotionData = [0.000629107262, 0.0001229907, 0.000005002479, 0.000003291769, 0.00006865142, 0.998241961, 0.00147524744, 0.000082200575]
 
-  var emotion: Emotion? {
+  var emotion: [Emotion]? {
     didSet {
       //       emotionData = [emotion.anger!, emotion.contempt!, emotion.disgust!, emotion.fear!, emotion.happiness!, emotion.neutral!, emotion.sadness!, emotion.surprise!]
     }

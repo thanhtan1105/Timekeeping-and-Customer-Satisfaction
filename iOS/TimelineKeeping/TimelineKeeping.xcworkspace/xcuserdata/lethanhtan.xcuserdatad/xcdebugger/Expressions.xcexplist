@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "CameraEmotionViewController.((callApiGetEmotion in _FDB52B4C0F25F7937CE0A31976B1D583)(UIImage, completion : (emotion : Emotion?, error : NSError?) -&gt; ()?) -&gt; ()).(closure #1):CameraEmotionViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "dict[&quot;data&quot;]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

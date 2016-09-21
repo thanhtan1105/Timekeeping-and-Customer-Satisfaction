@@ -62,8 +62,7 @@ class Camera: NSObject {
     }
   }
   
-  func startCamera() {
-    
+  func startCamera() {    
       dispatch_async(self.sessionQueue) {
           self.session.startRunning()
       }

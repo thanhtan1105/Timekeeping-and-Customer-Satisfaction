@@ -153,7 +153,6 @@ extension CameraEmotionViewController: CameraDelegate {
           if let adjusted = adjusted {
             self.faceView?.frame = adjusted.bounds
           }
-          
         })
         
         let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
@@ -167,7 +166,7 @@ extension CameraEmotionViewController: CameraDelegate {
         
         let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(0.75 * Double(NSEC_PER_SEC)))
         dispatch_after(delayTime3, dispatch_get_main_queue()) {
-//          self.captureFrame(UIButton())
+          self.onCaptureTapped(UIButton())
         }
       }
       
@@ -196,7 +195,7 @@ extension CameraEmotionViewController {
     }
   }
   
-  private func showInfoScren(emotion: Emotion) {
+  private func showInfoScren(emotion: [Emotion]) {
     let showInforVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("EmotionSuggestionViewController") as! EmotionSuggestionViewController
     showInforVC.emotion = emotion
     self.presentViewController(showInforVC, animated: true, completion: {
@@ -204,7 +203,7 @@ extension CameraEmotionViewController {
     })
   }
   
-  private func callApiGetEmotion(faceImage: UIImage, completion onCompletionHandler: ((emotion: Emotion?, error: NSError?) -> Void)?) {
+  private func callApiGetEmotion(faceImage: UIImage, completion onCompletionHandler: ((emotion: [Emotion]?, error: NSError?) -> Void)?) {
     APIRequest.shareInstance.getEmotionSugesstion(self.cameraStill.image!, employeeId: 3, isFirstTime: true) { (response: ResponsePackage?, error: ErrorWebservice?) in
       guard error == nil else {
         print("Fail")
@@ -215,16 +214,16 @@ extension CameraEmotionViewController {
       
       let dict = response?.response as! [String: AnyObject]
       let success = dict["success"] as? Int
-      if success == 0 {
+      if success == 1 {
         print("Call api success")
-        let content = dict["data"] as! [String : AnyObject]
-        let emotion = Emotion(content)
+        let content = dict["data"] as! [[String : AnyObject]]
+        let emotion = Emotion.emotions(content)
         onCompletionHandler!(emotion: emotion, error: nil)
       } else {
         print("Fail")
         let errorCode = dict["errorCode"] as? String
         let message = dict["message"] as? String
-        onCompletionHandler!(emotion: nil, error: NSError(domain: "", code: Int(errorCode! ?? "0")!, userInfo: ["info" : message!]))
+        onCompletionHandler!(emotion: nil, error: NSError(domain: "", code: 0, userInfo: ["info" : message!]))
       }
     }
   }

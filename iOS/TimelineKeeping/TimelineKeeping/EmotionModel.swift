@@ -57,6 +57,15 @@ class Emotion {
     
   }
   
+  static func emotions(emotions: [[String : AnyObject]]) -> [Emotion] {
+    var emotionResult: [Emotion] = []
+    for key in emotions {
+      let emotion = Emotion(key)
+      emotionResult.append(emotion!)
+    }
+    return emotionResult
+  }
+  
 }
 
 

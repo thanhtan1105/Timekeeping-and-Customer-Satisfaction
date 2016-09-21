@@ -234,9 +234,8 @@ extension CameraViewController {
         onCompletionHandler!(account: account, error: nil)
       } else {
         print("Fail")
-        let errorCode = dict["errorCode"] as? String
         let message = dict["message"] as? String
-        onCompletionHandler!(account: nil, error: NSError(domain: "", code: Int(errorCode! ?? "0")!, userInfo: ["info" : message!]))
+        onCompletionHandler!(account: nil, error: NSError(domain: "", code: 0, userInfo: ["info" : message!]))
       }
 
     }

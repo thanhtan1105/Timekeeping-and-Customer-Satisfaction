@@ -20,17 +20,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JXi-F0-8yB">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="473.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="474"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kyy-K1-12b">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="473.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="474"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oxe-Pe-Lti" userLabel="BottomView">
-                                <rect key="frame" x="0.0" y="473.5" width="320" height="45.5"/>
+                                <rect key="frame" x="0.0" y="474" width="320" height="45"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zEK-d9-5SV">
-                                        <rect key="frame" x="133" y="8.5" width="55" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zEK-d9-5SV">
+                                        <rect key="frame" x="133" y="9" width="55" height="30"/>
                                         <state key="normal" title="Capture"/>
                                         <connections>
                                             <action selector="captureFrame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KhZ-yC-0jZ"/>
@@ -95,13 +95,13 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9XG-6q-Fa9" userLabel="Camera Still">
-                                <rect key="frame" x="0.0" y="-0.5" width="320" height="519.5"/>
+                                <rect key="frame" x="0.0" y="-1" width="320" height="520"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mcR-dY-qoX" userLabel="BottomView">
                                 <rect key="frame" x="0.0" y="462" width="320" height="57"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3eW-I4-kx3">
-                                        <rect key="frame" x="133" y="13.5" width="55" height="30"/>
+                                        <rect key="frame" x="133" y="14" width="55" height="30"/>
                                         <state key="normal" title="Capture"/>
                                         <connections>
                                             <action selector="captureFrame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gXJ-Sv-vgk"/>
@@ -204,8 +204,8 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="t36-YS-lWv" kind="relationship" relationship="viewControllers" id="2D7-gB-cFJ"/>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="chY-gd-vEh"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="Uo1-nk-RKx"/>
+                        <segue destination="t36-YS-lWv" kind="relationship" relationship="viewControllers" id="nK3-m3-YGY"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aFm-ks-hI3" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -244,7 +244,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="72"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="672-kf-0wK" id="zDk-zQ-p8i">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="71.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="72"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="9:00AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v4o-z3-dOc">
