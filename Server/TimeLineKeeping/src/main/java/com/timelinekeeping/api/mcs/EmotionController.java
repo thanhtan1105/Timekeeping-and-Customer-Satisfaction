@@ -1,6 +1,6 @@
-package com.timelinekeeping.api;
+package com.timelinekeeping.api.mcs;
 
-
+import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.modelMCS.RectangleImage;
@@ -19,16 +19,28 @@ import java.net.URISyntaxException;
  * Created by HienTQSE60896 on 9/12/2016.
  */
 @RestController
-@RequestMapping("/api/emotion")
+@RequestMapping("/api_mcs/emotion")
 public class EmotionController {
 
     private Logger logger = LogManager.getLogger(EmotionController.class);
 
-
     @Autowired
-    private EmotionServiceImpl emotionService;
+    private EmotionServiceMCSImpl emotionServiceMCS;
 
-
+    @RequestMapping(value = {"/recognize"}, method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse recognize(@RequestParam("url") String urlImg) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            BaseResponse response = emotionServiceMCS.recognize(urlImg);
+            return response;
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
 
 
     @RequestMapping(value = {"/recognize_img"}, method = RequestMethod.POST)
@@ -40,8 +52,8 @@ public class EmotionController {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response;
             if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
-                response = emotionService.save(imgFile.getInputStream(), employeeId, isFirstTime);
-//                response = emotionServiceMCS.recognize(imgFile.getInputStream());
+//                response = emotionService.save(imgFile.getInputStream(), employeeId, isFirstTime);
+                response = emotionServiceMCS.recognize(imgFile.getInputStream());
             } else {
                 response = new BaseResponse();
                 response.setSuccess(false);
@@ -56,37 +68,14 @@ public class EmotionController {
         }
     }
 
-    @RequestMapping(value = {"/analyse_emotion"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/recognize_rectangle"}, method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponse analyseEmotion(@RequestParam("id") Long id) {
-        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-        BaseResponse baseResponse = emotionService.analyseEmotion(id);
-        logger.info(IContanst.END_METHOD_CONTROLLER);
-        return baseResponse;
-    }
-
-    @RequestMapping(value = {"/get_customer_emotion"}, method = RequestMethod.POST)
-    @ResponseBody
-    public BaseResponse getCustomerEmotion(@RequestParam("image") MultipartFile imgFile,
-                                           @RequestParam("employeeId") String employeeId,
-                                           @RequestParam("isFirstTime") String isFirstTime) {
-        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-        BaseResponse response;
+    public BaseResponse recognize(@RequestParam("img") MultipartFile imgFile,
+                                  @ModelAttribute("rectangle")RectangleImage rectangle) {
         try {
-            if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
-                response = emotionService.getCustomerEmotion(imgFile.getInputStream(), Long.parseLong(employeeId), Boolean.parseBoolean(isFirstTime));
-            } else {
-                response = new BaseResponse();
-                response.setSuccess(false);
-                response.setMessage("File not image format.");
-            }
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            BaseResponse response = emotionServiceMCS.recognize(imgFile.getInputStream(), rectangle);
             return response;
-        } catch (IOException e) {
-            logger.error(e);
-            return new BaseResponse(e);
-        } catch (URISyntaxException e) {
-            logger.error(e);
-            return new BaseResponse(e);
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
@@ -94,4 +83,5 @@ public class EmotionController {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }
     }
+
 }

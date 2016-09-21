@@ -4,6 +4,7 @@ import com.timelinekeeping.api.DepartmentController;
 import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.model.DepartmentModel;
 import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,7 @@ public class DepartmentControllerWeb {
         int page = 0;
         int size = 1000;
 
-        BaseResponse response = departmentService.findAll(page, size);
-        Page<DepartmentEntity> pageDepartment = (Page<DepartmentEntity>) response.getData();
+        Page<DepartmentModel> pageDepartment = departmentService.findAll(page, size);
 
         // List of departments
         model.addAttribute("ListDepartments", pageDepartment.getContent());
@@ -63,7 +63,7 @@ public class DepartmentControllerWeb {
         boolean success = false;
         String url = "/views/admin/management_depart/add_depart";
         try {
-            BaseResponse response = departmentService.create(departmentEntity);
+            BaseResponse response = departmentService.create(departmentEntity).toBaseResponse();
             success = response.isSuccess();
         } catch (IOException e) {
             logger.info("[Add Department] IOException: " + e.getMessage());

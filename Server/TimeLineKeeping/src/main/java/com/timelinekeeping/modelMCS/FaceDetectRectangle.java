@@ -1,18 +1,18 @@
-package com.timelinekeeping.modelAPI;
+package com.timelinekeeping.modelMCS;
 
 /**
  * Created by HienTQSE60896 on 9/10/2016.
  */
-public class RectangleImage {
+public class FaceDetectRectangle {
     private Integer top;
     private Integer left;
     private Integer width;
     private Integer height;
 
-    public RectangleImage() {
+    public FaceDetectRectangle() {
     }
 
-    public RectangleImage(Integer top, Integer left, Integer width, Integer height) {
+    public FaceDetectRectangle(Integer top, Integer left, Integer width, Integer height) {
         this.top = top;
         this.left = left;
         this.width = width;
@@ -53,13 +53,14 @@ public class RectangleImage {
 
     @Override
     public String toString() {
-        return "RectangleImage{" +
+        return "FaceDetectRectangle{" +
                 "top=" + top +
                 ", left=" + left +
                 ", width=" + width +
                 ", height=" + height +
                 '}';
     }
+
     public String toFaceRectangle(){
         return String.format("%s,%s,%s,%s", left, top, width, height);
     }

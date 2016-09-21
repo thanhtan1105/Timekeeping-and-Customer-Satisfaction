@@ -5,6 +5,8 @@ import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.controller.PersonGroupControllerWeb;
 import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.model.BaseResponseG;
+import com.timelinekeeping.model.DepartmentModel;
 import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.log4j.Logger;
@@ -32,19 +34,19 @@ public class DepartmentController {
 
     @RequestMapping(value = {"/create"}, method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponse create(@RequestParam("code") String code,
+    public BaseResponseG create(@RequestParam("code") String code,
                                @RequestParam("name") String name,
                                @RequestParam("description") String description) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             DepartmentEntity departmentEntity = new DepartmentEntity(code, name, description, EStatus.ACTIVE);
-            BaseResponse response = departmentService.create(departmentEntity);
+            BaseResponseG<DepartmentModel> response = departmentService.create(departmentEntity);
             logger.info("RESPONSE: " + JsonUtil.toJson(response));
             return response;
 
         } catch (Exception e) {
             logger.error(e);
-            return new BaseResponse(e);
+            return new BaseResponseG(e);
         } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }
@@ -72,10 +74,12 @@ public class DepartmentController {
     @ResponseBody
     public BaseResponse findAll(@RequestParam("start") int start,
                                 @RequestParam("top") int top) {
-        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-        BaseResponse response = departmentService.findAll(start, top);
-        logger.info(IContanst.END_METHOD_CONTROLLER);
-        return response;
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            return new BaseResponse(true, departmentService.findAll(start, top));
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
     }
 
     @RequestMapping(value = {"/exist_code"}, method = RequestMethod.GET)
@@ -106,7 +110,7 @@ public class DepartmentController {
 
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            Page<DepartmentEntity> departmentEntities = departmentService.searchDepartment(code, name, page, size);
+            Page<DepartmentModel> departmentEntities = departmentService.searchDepartment(code, name, page, size);
             logger.info(JsonUtil.toJson(departmentEntities));
             return new BaseResponse(true, departmentEntities);
         } catch (Exception e){

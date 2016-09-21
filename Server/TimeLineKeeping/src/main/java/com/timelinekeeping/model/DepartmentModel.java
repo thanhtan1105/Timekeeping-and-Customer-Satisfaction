@@ -19,7 +19,6 @@ public class DepartmentModel {
         this.code = entity.getCode();
         this.name = entity.getName();
         this.description = entity.getDescription();
-
     }
 
     public Long getId() {

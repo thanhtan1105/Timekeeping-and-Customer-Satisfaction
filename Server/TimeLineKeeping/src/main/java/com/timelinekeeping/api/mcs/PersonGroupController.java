@@ -1,4 +1,4 @@
-package com.timelinekeeping.api;
+package com.timelinekeeping.api.mcs;
 
 import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
 import com.timelinekeeping.constant.IContanst;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @RestController
-@RequestMapping("/api/persongroups")
+@RequestMapping("/api_mcs/persongroups")
 public class PersonGroupController {
 
     private Logger logger = Logger.getLogger(PersonGroupControllerWeb.class);

@@ -16,21 +16,22 @@ import java.util.List;
  */
 public interface DepartmentRepo extends JpaRepository<DepartmentEntity, Long> {
 
-    @Query(value = "SELECT * FROM department d WHERE d.name LIKE ?1", nativeQuery = true)
-    List<DepartmentEntity> findByName(String name);
+    @Query("SELECT d FROM DepartmentEntity d WHERE (d.name LIKE :department) AND (d.active <> 0)")
+    List<DepartmentEntity> findByDepartmentName(@Param("department") String name);
 
-    @Query("SELECT d FROM DepartmentEntity d WHERE d.name = :code")
-    List<DepartmentEntity> isExist(@Param("code") String code);
+    @Query("SELECT COUNT (d.id) FROM DepartmentEntity d WHERE d.name = :code")
+    Integer isExist(@Param("code") String code);
 
+    @Query("SELECT d FROM DepartmentEntity d WHERE d.active <> 0")
     Page<DepartmentEntity> findAll(Pageable pageable);
 
-    @Query("SELECT d FROM DepartmentEntity d WHERE (:code = null OR d.code = :code) " +
-            "AND (:name = null OR d.name like CONCAT('%', :name, '%') AND d.active <> 0)")
+    @Query("SELECT d FROM DepartmentEntity d WHERE (:code is EMPTY  OR d.code = :code) " +
+            "AND (:name is empty OR d.name like CONCAT('%', :name, '%') AND d.active <> 0)")
     Page<DepartmentEntity> search(@Param("code") String code,
                                   @Param("name") String name,
                                   Pageable pageable);
 
-    @Query("SELECT d.accountEntitySet FROM DepartmentEntity d WHERE d.id = :department_id")
+    @Query("SELECT d.accountEntitySet FROM DepartmentEntity d WHERE d.id = :department_id AND d.active <> 0")
     List<AccountEntity> findByDepartment(@Param("department_id") Long departmentId, Pageable pageable);
 
 
