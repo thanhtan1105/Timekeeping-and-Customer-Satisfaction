@@ -8,9 +8,7 @@ import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.model.EmotionAnalysisModel;
-import com.timelinekeeping.modelAPI.EmotionRecognizeResponse;
-import com.timelinekeeping.modelAPI.EmotionRecognizeScores;
-import com.timelinekeeping.modelAPI.FaceDetectResponse;
+import com.timelinekeeping.modelAPI.*;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.EmotionRepo;
 import org.apache.commons.io.IOUtils;
@@ -184,54 +182,58 @@ public class EmotionServiceImpl {
         // face detect
         FaceServiceMCSImpl faceServiceMCS = new FaceServiceMCSImpl();
         BaseResponse faceResponse = faceServiceMCS.detect(new ByteArrayInputStream(bytes));
-        if (faceResponse.isSuccess() && faceResponse.getData() != null) {
+        logger.info("[Get Customer Emotion] face response success: " + faceResponse.isSuccess());
+        if (faceResponse.isSuccess()) {
+            if (faceResponse.getData() != null) {
 
-            // parser face response
-            List<FaceDetectResponse> faceRecognizeList = (List<FaceDetectResponse>) faceResponse.getData();
-            if (faceRecognizeList != null || faceRecognizeList.size() > 0) {
+                // parser face response
+                List<FaceDetectResponse> faceRecognizeList = (List<FaceDetectResponse>) faceResponse.getData();
+                if (faceRecognizeList != null || faceRecognizeList.size() > 0) {
 
-                List<EmotionAnalysisModel> emotionAnalysisModels = new ArrayList<EmotionAnalysisModel>();
-                for (FaceDetectResponse faceDetectResponse : faceRecognizeList) {
-                    // get face_attributes
-                    Double age = faceDetectResponse.getFaceAttributes().getAge(); // get age
-                    Gender gender = faceDetectResponse.getFaceAttributes().getGender().toUpperCase()
-                            .equals("MALE") ? Gender.MALE : Gender.FEMALE; // get gender
+                    List<EmotionAnalysisModel> emotionAnalysisModels = new ArrayList<EmotionAnalysisModel>();
+                    for (FaceDetectResponse faceDetectResponse : faceRecognizeList) {
+                        // get face_attributes
+                        Double age = faceDetectResponse.getFaceAttributes().getAge(); // get age
+                        Gender gender = faceDetectResponse.getFaceAttributes().getGender().toUpperCase()
+                                .equals("MALE") ? Gender.MALE : Gender.FEMALE; // get gender
+                        // get rectangle image
+                        RectangleImage rectangleImage = faceDetectResponse.getFaceRectangle();
 
-                    // emotion recognize
-                    EmotionServiceMCSImpl emotionServiceMCS = new EmotionServiceMCSImpl();
-                    BaseResponse emotionResponse = emotionServiceMCS.recognize(new ByteArrayInputStream(bytes));
+                        // emotion recognize
+                        EmotionServiceMCSImpl emotionServiceMCS = new EmotionServiceMCSImpl();
+                        BaseResponse emotionResponse = emotionServiceMCS.recognize(new ByteArrayInputStream(bytes), rectangleImage);
 
-                    // parser emotion response
-                    List<EmotionRecognizeResponse> emotionRecognizeList = (List<EmotionRecognizeResponse>) emotionResponse.getData();
-                    EmotionRecognizeResponse emotionRecognize = emotionRecognizeList.get(0);
+                        // parser emotion response
+                        List<EmotionRecognizeResponse> emotionRecognizeList = (List<EmotionRecognizeResponse>) emotionResponse.getData();
+                        EmotionRecognizeResponse emotionRecognize = emotionRecognizeList.get(0);
 
-                    // get emotion_scores
-                    Double anger = emotionRecognize.getScores().getAnger(); // get anger
-                    Double contempt = emotionRecognize.getScores().getContempt(); // get contempt
-                    Double disgust = emotionRecognize.getScores().getDisgust(); // get Disgust
-                    Double fear = emotionRecognize.getScores().getFear(); // get Fear
-                    Double happiness = emotionRecognize.getScores().getHappiness(); // get happiness
-                    Double neutral = emotionRecognize.getScores().getNeutral(); // get neutral
-                    Double sadness = emotionRecognize.getScores().getSadness(); // get sadness
-                    Double surprise = emotionRecognize.getScores().getSurprise(); // get surprise
+                        // get emotion_scores
+                        Double anger = emotionRecognize.getScores().getAnger(); // get anger
+                        Double contempt = emotionRecognize.getScores().getContempt(); // get contempt
+                        Double disgust = emotionRecognize.getScores().getDisgust(); // get Disgust
+                        Double fear = emotionRecognize.getScores().getFear(); // get Fear
+                        Double happiness = emotionRecognize.getScores().getHappiness(); // get happiness
+                        Double neutral = emotionRecognize.getScores().getNeutral(); // get neutral
+                        Double sadness = emotionRecognize.getScores().getSadness(); // get sadness
+                        Double surprise = emotionRecognize.getScores().getSurprise(); // get surprise
 
-                    EmotionRecognizeScores emotionRecognizeScores
-                            = new EmotionRecognizeScores(anger, contempt, disgust, fear, happiness, neutral, sadness, surprise);
-                    // get customer emotion
-                    EmotionAnalysisModel emotionAnalysisModel = analyseEmotion(emotionRecognizeScores);
-                    emotionAnalysisModel.setAge(age);
-                    emotionAnalysisModel.setGender(gender);
+                        EmotionRecognizeScores emotionRecognizeScores
+                                = new EmotionRecognizeScores(anger, contempt, disgust, fear, happiness, neutral, sadness, surprise);
+                        // get customer emotion
+                        EmotionAnalysisModel emotionAnalysisModel = analyseEmotion(emotionRecognizeScores);
+                        emotionAnalysisModel.setAge(age);
+                        emotionAnalysisModel.setGender(gender);
 
-                    emotionAnalysisModels.add(emotionAnalysisModel);
+                        emotionAnalysisModels.add(emotionAnalysisModel);
 
+                    }
+                    baseResponse.setSuccess(true);
+                    baseResponse.setData(emotionAnalysisModels);
                 }
-                baseResponse.setSuccess(true);
-                baseResponse.setData(emotionAnalysisModels);
-            }
 
-            if (isFirstTime) {
-                // TODO: get suggestion
-            }
+                if (isFirstTime) {
+                    // TODO: get suggestion
+                }
 
 //            // create time
 //            java.util.Date date = new java.util.Date();
@@ -242,6 +244,7 @@ public class EmotionServiceImpl {
 //            emotion.setCreateBy(accountRepo.findOne(employeeId));
 //            emotionRepo.saveAndFlush(emotion);
 
+            }
         } else {
             baseResponse.setSuccess(false);
             baseResponse.setMessage(ERROR.EMOTION_API_GET_CUSTOMER_EMOTION_EMPTY_DETECT);

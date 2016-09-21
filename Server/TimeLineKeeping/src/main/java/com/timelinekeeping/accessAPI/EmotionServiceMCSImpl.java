@@ -4,7 +4,7 @@ import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.modelAPI.EmotionRecognizeResponse;
-import com.timelinekeeping.modelAPI.FaceDetectRectangle;
+import com.timelinekeeping.modelAPI.RectangleImage;
 import com.timelinekeeping.util.HTTPClientUtil;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.commons.io.IOUtils;
@@ -55,7 +55,7 @@ public class EmotionServiceMCSImpl {
         }
     }
 
-    public BaseResponse recognize(InputStream inputStreamImg, FaceDetectRectangle ractangle) throws URISyntaxException, IOException {
+    public BaseResponse recognize(InputStream inputStreamImg, RectangleImage ractangle) throws URISyntaxException, IOException {
 
         try {
             String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.emotion.recognize");

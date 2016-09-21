@@ -1,12 +1,10 @@
 package com.timelinekeeping.api;
 
 import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
-import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.modelAPI.FaceDetectRectangle;
+import com.timelinekeeping.modelAPI.RectangleImage;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
-import com.timelinekeeping.util.UtilApps;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -52,7 +50,7 @@ public class EmotionController {
     @RequestMapping(value = {"/recognize_rectangle"}, method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse recognize(@RequestParam("img") MultipartFile imgFile,
-                                  @ModelAttribute("rectangle")FaceDetectRectangle rectangle) {
+                                  @ModelAttribute("rectangle")RectangleImage rectangle) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response = emotionServiceMCS.recognize(imgFile.getInputStream(), rectangle);

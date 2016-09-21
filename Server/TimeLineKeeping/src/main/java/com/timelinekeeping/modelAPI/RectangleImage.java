@@ -60,4 +60,7 @@ public class RectangleImage {
                 ", height=" + height +
                 '}';
     }
+    public String toFaceRectangle(){
+        return String.format("%s,%s,%s,%s", left, top, width, height);
+    }
 }
