@@ -18,6 +18,12 @@ public class DepartmentModel {
     public DepartmentModel() {
     }
 
+    public DepartmentModel(String code, String name, String description) {
+        this.code = code;
+        this.name = name;
+        this.description = description;
+    }
+
     public DepartmentModel(DepartmentEntity entity) {
         if (entity != null) {
             this.id = entity.getId();

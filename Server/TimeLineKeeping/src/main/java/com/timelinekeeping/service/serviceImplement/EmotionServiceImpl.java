@@ -5,6 +5,7 @@ import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.ERROR;
 import com.timelinekeeping.constant.Gender;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.model.EmotionAnalysisModel;
@@ -19,6 +20,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,6 +46,8 @@ public class EmotionServiceImpl {
     private AccountRepo accountRepo;
 
     public BaseResponse save(InputStream inputStreamImg, Long employeeId, boolean isFirstTime) throws IOException, URISyntaxException {
+
+        logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
         BaseResponse baseResponse = new BaseResponse();
         byte[] bytes = IOUtils.toByteArray(inputStreamImg);
 
@@ -58,7 +62,8 @@ public class EmotionServiceImpl {
         if (isFirstTime) {
             // add suggess
         }
-        // TO-DO: implement multi thread
+
+        // TODO: implement multi thread
         // parser emotion response
         List<EmotionRecognizeResponse> emotionRecognizeList = (List<EmotionRecognizeResponse>) emotionResponse.getData();
         EmotionRecognizeResponse emotionRecognize = emotionRecognizeList.get(0);
@@ -87,6 +92,8 @@ public class EmotionServiceImpl {
         EmotionCustomerEntity emotionCustomerEntity = new EmotionCustomerEntity(timestamp, anger, contempt, disgust, fear, happiness, neutral, sadness, surprise, age, gender, smile);
         emotionCustomerEntity.setCreateBy(accountRepo.findOne(employeeId));
         baseResponse.setData(emotionRepo.saveAndFlush(emotionCustomerEntity));
+
+        logger.info(IContanst.END_METHOD_SERVICE);
         return baseResponse;
     }
 

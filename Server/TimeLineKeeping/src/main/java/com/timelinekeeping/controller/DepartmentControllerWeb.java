@@ -57,8 +57,8 @@ public class DepartmentControllerWeb {
         logger.info("[Add Department] department code: " + departmentCode);
         logger.info("[Add Department] department name: " + departmentName);
         logger.info("[Add Department] description: " + description);
-        DepartmentEntity departmentEntity
-                = new DepartmentEntity(departmentCode, departmentName, description, EStatus.ACTIVE);
+        DepartmentModel departmentEntity
+                = new DepartmentModel(departmentCode, departmentName, description);
 
         boolean success = false;
         String url = "/views/admin/management_depart/add_depart";

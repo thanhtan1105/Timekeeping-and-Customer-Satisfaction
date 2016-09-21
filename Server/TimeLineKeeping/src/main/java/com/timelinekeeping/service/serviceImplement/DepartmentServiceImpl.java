@@ -121,4 +121,14 @@ public class DepartmentServiceImpl {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
+
+    public Boolean isExist(String code) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            Integer count = repo.isExist(code);
+            return count > 0;
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
 }
