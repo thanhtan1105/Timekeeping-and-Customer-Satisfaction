@@ -4,6 +4,7 @@ import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.modelAPI.FaceDetectRectangle;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
 import com.timelinekeeping.util.UtilApps;
 import com.timelinekeeping.util.ValidateUtil;
@@ -48,20 +49,21 @@ public class EmotionController {
     }
 
 
-//    @RequestMapping(value = {"/recognize"}, method = RequestMethod.POST)
-//    @ResponseBody
-//    public BaseResponse recognize(@RequestParam("url") String urlImg) {
-//        try {
-//            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-//            BaseResponse response = emotionServiceMCS.recognize(urlImg);
-//            return response;
-//        } catch (Exception e) {
-//            logger.error(e);
-//            return new BaseResponse(e);
-//        } finally {
-//            logger.info(IContanst.END_METHOD_CONTROLLER);
-//        }
-//    }
+    @RequestMapping(value = {"/recognize_rectangle"}, method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse recognize(@RequestParam("img") MultipartFile imgFile,
+                                  @ModelAttribute("rectangle")FaceDetectRectangle rectangle) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            BaseResponse response = emotionServiceMCS.recognize(imgFile.getInputStream(), rectangle);
+            return response;
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
 
     @RequestMapping(value = {"/recognize_img"}, method = RequestMethod.POST)
     @ResponseBody
