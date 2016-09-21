@@ -124,8 +124,8 @@ public class AccountServiceImpl {
         return accountView == null ? false : true;
     }
 
-    public AccountEntity findByCode(String code) {
-        return accountRepo.findByCode(code);
+    public AccountEntity findByUsercode(String code) {
+        return accountRepo.findByUsercode(code);
     }
 
     public BaseResponse addFaceImg(String departmentId, Long accountId, InputStream imgStream) throws URISyntaxException, IOException {
