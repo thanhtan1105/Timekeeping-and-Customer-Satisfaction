@@ -51,13 +51,12 @@ public class AccountEntity implements Serializable {
     private String token;
 
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "role_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FW_id_role"), nullable = false)
-    @JoinColumn(name = "account_role_id")
+    @JoinColumn(name = "role_id", nullable = false)
+
     private RoleEntity role;
 
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "department_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FW_id_department"), nullable = false)
-    @JoinColumn(name = "account_department_id")
+    @JoinColumn(name = "department_id", nullable = false)
     private DepartmentEntity department;
 
     @OneToMany(mappedBy = "accountEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
