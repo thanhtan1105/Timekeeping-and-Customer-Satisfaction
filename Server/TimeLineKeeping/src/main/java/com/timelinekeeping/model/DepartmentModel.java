@@ -1,7 +1,10 @@
 package com.timelinekeeping.model;
 
 import com.timelinekeeping.constant.EStatus;
+<<<<<<< HEAD
 import com.timelinekeeping.constant.ETrainStatus;
+=======
+>>>>>>> w3-trung-verify_management_dept_web
 import com.timelinekeeping.entity.DepartmentEntity;
 
 /**
@@ -90,6 +93,7 @@ public class DepartmentModel {
                 ", code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", active=" + active +
                 '}';
     }
 }

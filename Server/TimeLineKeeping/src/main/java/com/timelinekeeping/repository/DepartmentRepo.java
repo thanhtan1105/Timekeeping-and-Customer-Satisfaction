@@ -22,7 +22,7 @@ public interface DepartmentRepo extends JpaRepository<DepartmentEntity, Long> {
     @Query("SELECT COUNT (d.id) FROM DepartmentEntity d WHERE d.code = :code")
     Integer isExist(@Param("code") String code);
 
-    @Query("SELECT d FROM DepartmentEntity d WHERE d.active <> 0")
+    @Query("SELECT d FROM DepartmentEntity d")
     Page<DepartmentEntity> findAll(Pageable pageable);
 
     @Query("SELECT d FROM DepartmentEntity d WHERE (:code != NULL  OR d.code = :code) " +
