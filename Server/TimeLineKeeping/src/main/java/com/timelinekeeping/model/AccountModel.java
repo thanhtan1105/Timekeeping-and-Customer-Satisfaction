@@ -15,6 +15,7 @@ public class AccountModel {
     private Integer active;
     private String fullname;
     private String token;
+    private DepartmentModel department;
 
     public AccountModel() {
     }
@@ -27,6 +28,16 @@ public class AccountModel {
         this.fullname = entity.getFullname();
         this.token = entity.getToken();
         this.userCode = entity.getUserCode();
+        this.department = new DepartmentModel(entity.getDepartment());
+    }
+
+
+    public DepartmentModel getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(DepartmentModel department) {
+        this.department = department;
     }
 
     public Long getId() {

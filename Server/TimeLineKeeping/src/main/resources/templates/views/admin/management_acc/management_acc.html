@@ -76,8 +76,8 @@
                         <td th:text="${counter.count} + '.'"></td>
                         <td th:text="${account.username}"></td>
                         <td th:text="${account.fullname}"></td>
-                        <td th:text="${account.roleId}"></td>
-                        <td th:text="${account.departmentId}"></td>
+                        <td th:text="${account.role.id}"></td>
+                        <td th:text="${account.department.id}"></td>
                         <td>
                             <font th:if="${account.active} == 1"
                                   class="text-danger" style="font-size: medium;">
