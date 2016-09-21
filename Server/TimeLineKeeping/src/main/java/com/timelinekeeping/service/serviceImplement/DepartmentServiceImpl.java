@@ -4,6 +4,7 @@ import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.model.DepartmentModel;
 import com.timelinekeeping.model.DepartmentSelectModel;
 import com.timelinekeeping.repository.DepartmentRepo;
 import com.timelinekeeping.util.JsonUtil;
@@ -58,11 +59,9 @@ public class DepartmentServiceImpl {
         return repo.isExist(name).size() > 0;
     }
 
-    public BaseResponse findAll(int page, int size) {
-        BaseResponse baseResponse = new BaseResponse();
+    public List<DepartmentModel> findAll(int page, int size) {
         Page<DepartmentEntity> departments = repo.findAll(new PageRequest(page, size));
-        baseResponse.setSuccess(true);
-        baseResponse.setData(departments);
+        List<DepartmentModel> departmentModels = departments.getContent().stream().map(DepartmentModel::new).collect(Collectors.toList())
         logger.info("[Find All] " + JsonUtil.toJson(departments));
         return baseResponse;
     }
