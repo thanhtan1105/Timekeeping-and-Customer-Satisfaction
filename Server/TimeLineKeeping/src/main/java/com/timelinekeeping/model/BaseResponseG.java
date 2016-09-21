@@ -12,6 +12,17 @@ public class BaseResponseG<T> {
     public BaseResponseG() {
     }
 
+    public BaseResponseG(boolean success, T data) {
+        this.success = success;
+        this.data = data;
+    }
+
+    public BaseResponseG(boolean success, String message) {
+        this.success = success;
+        this.message = message;
+    }
+
+
     public BaseResponseG(Exception e) {
         this.success = false;
         this.message = e.getMessage();

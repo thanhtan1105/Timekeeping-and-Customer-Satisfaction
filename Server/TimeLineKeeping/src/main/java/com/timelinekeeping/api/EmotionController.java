@@ -1,12 +1,9 @@
 package com.timelinekeeping.api;
 
-import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
-import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.modelAPI.FaceDetectRectangle;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
-import com.timelinekeeping.util.UtilApps;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -29,24 +26,6 @@ public class EmotionController {
 
     @Autowired
     private EmotionServiceImpl emotionService;
-
-    @Autowired
-    private EmotionServiceMCSImpl emotionServiceMCS;
-
-    @RequestMapping(value = {"/recognize"}, method = RequestMethod.POST)
-    @ResponseBody
-    public BaseResponse recognize(@RequestParam("url") String urlImg) {
-        try {
-            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            BaseResponse response = emotionServiceMCS.recognize(urlImg);
-            return response;
-        } catch (Exception e) {
-            logger.error(e);
-            return new BaseResponse(e);
-        } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
-        }
-    }
 
 
     @RequestMapping(value = {"/recognize_rectangle"}, method = RequestMethod.POST)
@@ -119,6 +98,9 @@ public class EmotionController {
             logger.error(e);
             return new BaseResponse(e);
         } catch (URISyntaxException e) {
+            logger.error(e);
+            return new BaseResponse(e);
+        } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
         } finally {

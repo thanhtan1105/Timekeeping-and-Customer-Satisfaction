@@ -1,13 +1,12 @@
-package com.timelinekeeping.api;
+package com.timelinekeeping.api.mcs;
 
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.modelAPI.FaceDetectResponse;
-import com.timelinekeeping.modelAPI.PersonGroup;
+import com.timelinekeeping.modelMCS.FaceDetectResponse;
+import com.timelinekeeping.modelMCS.PersonGroup;
 import com.timelinekeeping.util.JsonUtil;
-import com.timelinekeeping.util.UtilApps;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/api/face")
+@RequestMapping("/api_mcs/face")
 public class FaceController {
 
     private Logger logger = Logger.getLogger(FaceController.class);
