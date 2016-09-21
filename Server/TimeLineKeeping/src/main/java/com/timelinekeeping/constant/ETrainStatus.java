@@ -7,27 +7,21 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum ETrainStatus {
 
-    NOT_STARTED(0, "DEACTIVE"),
-    RUNNING(1, "ACTIVE"),
-    SUCCES(2, "NO_SEND"),
-    SENDED(3, "NO_SEND");
-
-
-
-
-
-
+    NOT_STARTED(0, "notstarted"),
+    RUNNING(1, "running"),
+    SUCCEEDED(2, "succeeded"),
+    FAILED(3, "failed");
 
     private int index;
     private String name;
 
-    EStatus(int index, String name) {
+    ETrainStatus(int index, String name) {
         this.index = index;
         this.name = name;
     }
 
-    public static EStatus fromIndex(int index){
-        for (EStatus ex : values()){
+    public static ETrainStatus fromIndex(int index){
+        for (ETrainStatus ex : values()){
             if (ex.getIndex() == index){
                 return ex;
             }

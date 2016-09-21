@@ -34,13 +34,11 @@ public class DepartmentController {
 
     @RequestMapping(value = {"/create"}, method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponse create(@RequestParam("code") String code,
-                               @RequestParam("name") String name,
-                               @RequestParam("description") String description) {
+    public BaseResponse create(@ModelAttribute DepartmentModel department) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            DepartmentEntity departmentEntity = new DepartmentEntity(code, name, description, EStatus.ACTIVE);
-            BaseResponseG<DepartmentModel> response = departmentService.create(departmentEntity);
+            De
+            BaseResponseG<DepartmentModel> response = departmentService.create(department);
             logger.info("RESPONSE: " + JsonUtil.toJson(response));
             return response.toBaseResponse();
 

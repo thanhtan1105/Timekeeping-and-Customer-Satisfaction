@@ -10,15 +10,18 @@ public class DepartmentModel {
     private String code;
     private String name;
     private String description;
+    private E
 
     public DepartmentModel() {
     }
 
     public DepartmentModel(DepartmentEntity entity) {
-        this.id = entity.getId();
-        this.code = entity.getCode();
-        this.name = entity.getName();
-        this.description = entity.getDescription();
+        if (entity != null) {
+            this.id = entity.getId();
+            this.code = entity.getCode();
+            this.name = entity.getName();
+            this.description = entity.getDescription();
+        }
     }
 
     public Long getId() {

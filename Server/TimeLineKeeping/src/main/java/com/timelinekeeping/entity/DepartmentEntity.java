@@ -1,6 +1,8 @@
 package com.timelinekeeping.entity;
 
 import com.timelinekeeping.constant.EStatus;
+import com.timelinekeeping.constant.ETrainStatus;
+import com.timelinekeeping.model.DepartmentModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -36,7 +38,7 @@ public class DepartmentEntity implements Serializable {
 
     @Basic
     @Column(name = "status")
-    private EStatus status = EStatus.NO_TRAIN;
+    private ETrainStatus status = ETrainStatus.NOT_STARTED;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FW_Manager_department"))
@@ -46,6 +48,15 @@ public class DepartmentEntity implements Serializable {
     private Set<AccountEntity> accountEntitySet;
 
     public DepartmentEntity() {
+    }
+
+    public DepartmentEntity(DepartmentModel model) {
+        if (model != null) {
+            this.code = model.getCode();
+            this.name = model.getName();
+            this.description = model.getDescription();
+            this.active = model.;
+        }
     }
 
     public DepartmentEntity(String code, String name, String description, EStatus active) {

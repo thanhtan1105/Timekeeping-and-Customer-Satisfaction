@@ -13,8 +13,10 @@ public class RoleModel {
     }
 
     public RoleModel(RoleEntity entity) {
-        this.id = entity.getId();
-        this.name = entity.getName();
+        if (entity != null) {
+            this.id = entity.getId();
+            this.name = entity.getName();
+        }
     }
 
     public Long getId() {

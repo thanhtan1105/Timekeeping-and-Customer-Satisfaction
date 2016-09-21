@@ -9,9 +9,7 @@ import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.entity.FaceEntity;
 import com.timelinekeeping.entity.TimeKeepingEntity;
-import com.timelinekeeping.model.AccountModel;
-import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.model.CheckinResponse;
+import com.timelinekeeping.model.*;
 import com.timelinekeeping.modelMCS.FaceDetectResponse;
 import com.timelinekeeping.modelMCS.FaceIdentifyConfidenceRespone;
 import com.timelinekeeping.modelMCS.FaceIdentityCandidate;
@@ -64,24 +62,40 @@ public class AccountServiceImpl {
 
     private Logger logger = LogManager.getLogger(AccountServiceImpl.class);
 
-    public BaseResponse create(AccountEntity account) {
+    public BaseResponseG<AccountModel> create(AccountModifyModel account) throws IOException, URISyntaxException {
         BaseResponse baseResponse = new BaseResponse();
         try {
-            System.out.println("Account: " + account.getUsername());
-            if (isExist(account.getUsername())) {
-                baseResponse.setSuccess(false);
-                baseResponse.setMessage("User name " + account.getUsername() + " already exists.");
-                baseResponse.setErrorCode("Account already exist");
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info("Account: " + JsonUtil.toJson(account));
 
+            Integer count = accountRepo.checkExistUsername(account.getUsername());
+            if (count > 0) {
+                baseResponse.setSuccess(false);
+                baseResponse.setMessage(String.format(ERROR.ACCOUNT_API_CRATE_CUSTOMER_ALREADY_EXIST, account.getUsername()));
             } else {
                 // get department code
-                DepartmentEntity departmentEntity = departmentRepo.findOne(account.getDepartment().getId());
-                String departmentCode = departmentEntity.getCode();
+                DepartmentEntity departmentEntity = departmentRepo.findOne(account.getDepartmentId());
+                if (departmentEntity == null){
+                    baseResponse.setSuccess(false);
+                    baseResponse.setMessage(String.format(ERROR.ACCOUNT_API_CRATE_DEPARTMENT_DOES_NOT_EXIST, account.getDepartmentId()));
+                }
 
+                //get DepartmentCode
+                String departmentCode = departmentEntity.getCode();
+                logger.info("departmentCode: " + departmentCode);
                 BaseResponse response = personServiceMCS.createPerson(departmentCode, account.getUsername(), JsonUtil.toJson(account));
+                if (!response.isSuccess()){
+                    baseResponse.setSuccess(false);
+                    baseResponse.setMessage(ERROR.ACCOUNT_API_CRATE_ERROR_WHEN_CREATE_PERSON_IN_MCS + response.getMessage());
+                }
                 Map<String, String> map = (Map<String, String>) response.getData();
                 String personCode = map.get("personId");
+                logger.info("personCode: " + personCode);
                 account.setUserCode(personCode);
+
+                //save db
+
+                AccountEntity entity = new AccountEntity(account);
 
                 AccountEntity result = accountRepo.saveAndFlush(account);
                 if (result != null) {
@@ -89,12 +103,8 @@ public class AccountServiceImpl {
                     baseResponse.setData(new AccountModel(result));
                 }
             }
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         } finally {
-            return baseResponse;
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 
@@ -117,11 +127,6 @@ public class AccountServiceImpl {
         List<AccountModel> accountModels = accountEntities.stream().map(AccountModel::new).collect(Collectors.toList());
         logger.info("Entity result:" + JsonUtil.toJson(accountModels));
         return accountModels;
-    }
-
-    public boolean isExist(String username) {
-        AccountEntity accountView = accountRepo.findByUsername(username);
-        return accountView == null ? false : true;
     }
 
     public AccountEntity findByUsercode(String code) {

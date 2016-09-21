@@ -14,4 +14,9 @@ public interface ERROR {
 
     String ACCOUNT_API_SEARCH_DEPARTMENT_EMPTY = "DepartmentID is empty.";
     String EMOTION_API_GET_CUSTOMER_EMOTION_EMPTY_DETECT = "Image cannot detect.";
+    String ACCOUNT_API_CRATE_CUSTOMER_ALREADY_EXIST = "User name %s already exists.";
+    String ACCOUNT_API_CRATE_DEPARTMENT_DOES_NOT_EXIST = "DepartmentID '%s' does not exist.";
+    String ACCOUNT_API_CRATE_ERROR_WHEN_CREATE_PERSON_IN_MCS = "Error when create person MCS. Message: ";
+
+
 }

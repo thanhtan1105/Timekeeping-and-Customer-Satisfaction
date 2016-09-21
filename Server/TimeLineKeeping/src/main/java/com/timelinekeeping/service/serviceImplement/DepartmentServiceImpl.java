@@ -35,7 +35,7 @@ public class DepartmentServiceImpl {
     private Logger logger = LogManager.getLogger(DepartmentServiceImpl.class);
 
 
-    public BaseResponseG<DepartmentModel> create(DepartmentEntity model) throws IOException, URISyntaxException {
+    public BaseResponseG<DepartmentModel> create(DepartmentModel model) throws IOException, URISyntaxException {
         BaseResponseG<DepartmentModel> baseResponse = new BaseResponseG<DepartmentModel>();
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -45,7 +45,7 @@ public class DepartmentServiceImpl {
             } else {
                 BaseResponse responseGroup = groupServiceMCS.create(model.getCode(), model.getName(), model.getDescription());
                 if (responseGroup.isSuccess()) {
-                    DepartmentEntity entityReturn = repo.saveAndFlush(model);
+                    DepartmentEntity entityReturn = repo.saveAndFlush(new DepartmentEntity(model));
                     baseResponse.setSuccess(true);
                     baseResponse.setData(new DepartmentModel(entityReturn));
                 }
