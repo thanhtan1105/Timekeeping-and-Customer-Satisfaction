@@ -195,8 +195,8 @@ public class AccountServiceImpl {
                     responseResult.setData(JsonUtil.toJson(map));
 
                     //STORE FILE
-                    String nameFile = accountEntity.getDepartment().getCode() + "_" + accountId + "_" + (new Date().getTime());
-                    StoreFileUtils.storeFile(nameFile, imgStream);
+//                    String nameFile = accountEntity.getDepartment().getCode() + "_" + accountId + "_" + (new Date().getTime());
+//                    StoreFileUtils.storeFile(nameFile, imgStream);
                 } else {
                     responseResult.setSuccess(false);
                     responseResult.setMessage(ERROR.ACCOUNT_ADD_FACE_CANNOT_SAVE_DB);
