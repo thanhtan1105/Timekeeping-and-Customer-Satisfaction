@@ -14,7 +14,7 @@ public class AccountModel {
     private String userCode;
     private Integer active;
     private String fullname;
-    private String token;
+
     private DepartmentModel department;
 
     public AccountModel() {

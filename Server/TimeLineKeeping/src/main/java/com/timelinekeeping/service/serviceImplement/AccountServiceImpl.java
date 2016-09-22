@@ -144,10 +144,10 @@ public class AccountServiceImpl {
             Pageable pageable = new PageRequest(start, top);
 
             //repo db
-            List<AccountEntity> entityPage = departmentRepo.findByDepartment(departmentId, pageable);
+            Page<AccountEntity> entityPage = accountRepo.findByDepartment(departmentId, pageable);
 
             //covert list
-            List<AccountModel> accountModels = entityPage.stream().map(AccountModel::new).collect(Collectors.toList());
+            List<AccountModel> accountModels = entityPage.getContent().stream().map(AccountModel::new).collect(Collectors.toList());
 //            Page<AccountModel> returnPage = new PageImpl<>(accountModels, pageable, entityPage.getTotalElements());
 
 //            logger.info("Entity result:" + JsonUtil.toJson(returnPage));
@@ -222,14 +222,14 @@ public class AccountServiceImpl {
             /** call API MCS get List FaceID*/
             List<String> listFace = detectImg(fileInputStream);
             if (listFace == null) {
-                logger.error(IContanst.ERROR_LOGGER + ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_CANNOT_DETECT_IMAGE);
-                return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_CANNOT_DETECT_IMAGE, null);
+                logger.error(IContanst.ERROR_LOGGER + ERROR.ACCOUNT_CHECKIN_IMAGE_CANNOT_DETECT_IMAGE);
+                return new BaseResponse(false, ERROR.ACCOUNT_CHECKIN_IMAGE_CANNOT_DETECT_IMAGE, null);
             }
 
             //just detect for only person
             if (listFace.size() > 1) {
                 logger.error(IContanst.ERROR_LOGGER + "List face size: " + listFace.size());
-                return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_EXIST_MANY_PEOPLE_IN_IMAGE, null);
+                return new BaseResponse(false, ERROR.ACCOUNT_CHECKIN_IMAGE_EXIST_MANY_PEOPLE_IN_IMAGE, null);
             }
 
             faceID = listFace.get(0);
@@ -237,7 +237,7 @@ public class AccountServiceImpl {
             // Get List Department from data
             List<DepartmentEntity> departmentEntities = departmentRepo.findAll();
             if (departmentEntities == null || departmentEntities.size() == 0) {
-                return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_MSDS, null);
+                return new BaseResponse(false, ERROR.ACCOUNT_CHECKIN_MSDS, null);
             }
             List<String> departmentCode = departmentEntities.stream().map(DepartmentEntity::getCode).collect(Collectors.toList());
             logger.info("-- List department: " + JsonUtil.toJson(departmentCode));
@@ -246,15 +246,15 @@ public class AccountServiceImpl {
             String personID = checkExistFaceInDepartment(faceID, departmentCode);
             if (ValidateUtil.isEmpty(personID)) {
 
-                logger.error(IContanst.ERROR_LOGGER + ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_CANNOT_IDENTIFY_IMAGE);
-                return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_IMAGE_CANNOT_IDENTIFY_IMAGE, null);
+                logger.error(IContanst.ERROR_LOGGER + ERROR.ACCOUNT_CHECKIN_IMAGE_CANNOT_IDENTIFY_IMAGE);
+                return new BaseResponse(false, ERROR.ACCOUNT_CHECKIN_IMAGE_CANNOT_IDENTIFY_IMAGE, null);
             }
             logger.info("-- PersonID: " + personID);
 
             // PersonID -> AccountEntity
             AccountEntity accountEntity = accountRepo.findByUsercode(personID.trim());
             if (accountEntity == null) {
-                return new BaseResponse(false, ERROR.ERROR_ACCOUNT_CHECKIN_NOT_FOUND_PERSONID, null);
+                return new BaseResponse(false, ERROR.ACCOUNT_CHECKIN_NOT_FOUND_PERSONID, null);
             }
 
             // Save TimeKeeping fro accountID

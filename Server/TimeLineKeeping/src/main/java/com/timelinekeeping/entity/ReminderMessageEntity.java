@@ -1,6 +1,7 @@
 package com.timelinekeeping.entity;
 
 import com.timelinekeeping.constant.EStatus;
+import com.timelinekeeping.model.ReminderModifyModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -37,17 +38,23 @@ public class ReminderMessageEntity implements Serializable {
     private Timestamp createDate = new Timestamp(new Date().getTime());
 
     @Basic
-    @Column(name = "status")
-    private EStatus status = EStatus.ACTIVE;
+    @Column(name = "active")
+    private EStatus active = EStatus.ACTIVE;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
-    private AccountEntity account;
+    private AccountEntity menager;
 
     @OneToMany(mappedBy = "reminderMessage", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<NotificationEntity> notificationSet;
 
     public ReminderMessageEntity() {
+    }
+
+    public ReminderMessageEntity(ReminderModifyModel modifyModel) {
+        this.title = modifyModel.getTitle();
+        this.message = modifyModel.getMessage();
+        this.time = new Timestamp(modifyModel.getTime());
     }
 
     public String getTitle() {
@@ -98,19 +105,21 @@ public class ReminderMessageEntity implements Serializable {
         this.createDate = createDate;
     }
 
-    public EStatus getStatus() {
-        return status;
+    public EStatus getActive() {
+        return active;
     }
 
-    public void setStatus(EStatus status) {
-        this.status = status;
+    public void setActive(EStatus active) {
+        this.active = active;
     }
 
-    public AccountEntity getAccount() {
-        return account;
+    public AccountEntity getMenager() {
+        return menager;
     }
 
-    public void setAccount(AccountEntity account) {
-        this.account = account;
+    public void setMenager(AccountEntity account) {
+        this.menager = account;
     }
+
+
 }

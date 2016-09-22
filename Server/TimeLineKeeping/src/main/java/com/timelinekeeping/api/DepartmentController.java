@@ -2,6 +2,7 @@ package com.timelinekeeping.api;
 
 import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.controller.PersonGroupControllerWeb;
 import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.model.BaseResponse;
@@ -24,7 +25,7 @@ import java.util.Map;
  */
 
 @RestController
-@RequestMapping("/api/department")
+@RequestMapping(I_URI.API_DEPARTMENT)
 public class DepartmentController {
 
     private Logger logger = Logger.getLogger(PersonGroupControllerWeb.class);
@@ -32,7 +33,7 @@ public class DepartmentController {
     @Autowired
     private DepartmentServiceImpl departmentService;
 
-    @RequestMapping(value = {"/create"}, method = RequestMethod.POST)
+    @RequestMapping(value = {I_URI.API_CREATE}, method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse create(@ModelAttribute DepartmentModel department) {
         try {
@@ -49,7 +50,8 @@ public class DepartmentController {
         }
     }
 
-    @RequestMapping(value = {"/training"}, method = RequestMethod.GET)
+    @RequestMapping(value = {I_URI.API_DEPARTMENT_TRAINING}, method = RequestMethod.GET)
+    @ResponseBody
     public BaseResponse training(@RequestParam("departmentId") String departmentId) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         try {
@@ -66,7 +68,7 @@ public class DepartmentController {
         }
     }
 
-    @RequestMapping(value = {"/findAll"}, method = RequestMethod.GET)
+    @RequestMapping(value = {I_URI.API_LIST}, method = RequestMethod.GET)
     @ResponseBody
     public BaseResponse findAll(@RequestParam("start") int start,
                                 @RequestParam("top") int top) {
@@ -78,7 +80,7 @@ public class DepartmentController {
         }
     }
 
-    @RequestMapping(value = {"/exist_code"}, method = RequestMethod.GET)
+    @RequestMapping(value = {I_URI.API_DEPARTMENT_EXIST}, method = RequestMethod.GET)
     @ResponseBody
     public BaseResponse checkExistCode(@RequestParam("code") String code) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -97,7 +99,7 @@ public class DepartmentController {
         }
     }
 
-    @RequestMapping(value = {"/search"}, method = RequestMethod.GET)
+    @RequestMapping(value = {I_URI.API_SEARCH}, method = RequestMethod.GET)
     @ResponseBody
     public BaseResponse search(@RequestParam(name = "code", required = false) String code,
                                @RequestParam(name = "name", required = false) String name,
