@@ -135,7 +135,7 @@ public class AccountServiceImpl {
     }
 
 
-    public Page<AccountModel> searchByDepartment(Long departmentId, Integer start, Integer top) {
+    public List<AccountModel> searchByDepartment(Long departmentId, Integer start, Integer top) {
 
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -144,15 +144,16 @@ public class AccountServiceImpl {
             Pageable pageable = new PageRequest(start, top);
 
             //repo db
-            Page<AccountEntity> entityPage = departmentRepo.findByDepartment(departmentId, pageable);
+            List<AccountEntity> entityPage = departmentRepo.findByDepartment(departmentId, pageable);
 
             //covert list
-            List<AccountModel> accountModels = entityPage.getContent().stream().map(AccountModel::new).collect(Collectors.toList());
-            Page<AccountModel> returnPage = new PageImpl<>(accountModels, pageable, entityPage.getTotalElements());
+            List<AccountModel> accountModels = entityPage.stream().map(AccountModel::new).collect(Collectors.toList());
+//            Page<AccountModel> returnPage = new PageImpl<>(accountModels, pageable, entityPage.getTotalElements());
 
-            logger.info("Entity result:" + JsonUtil.toJson(returnPage));
+//            logger.info("Entity result:" + JsonUtil.toJson(returnPage));
 
-            return returnPage;
+//            return returnPage;
+            return accountModels;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
