@@ -4,6 +4,9 @@
 <script th:src="@{/libs/plugins/jQuery/jQuery-2.1.4.min.js}"></script>
 <!-- Bootstrap 3.3.5 -->
 <script th:src="@{/libs/bootstrap/js/bootstrap.min.js}"></script>
+<!-- bootstrap datetimepicker -->
+<script th:src="@{/libs/plugins/datetimepicker/bootstrap-datetimepicker.js}" charset="UTF-8"></script>
+<script th:src="@{/libs/plugins/datetimepicker/bootstrap-datetimepicker.fr.js}" charset="UTF-8"></script>
 <!-- Select2 -->
 <script th:src="@{/libs/plugins/select2/select2.full.min.js}"></script>
 <!-- DataTables -->
@@ -16,6 +19,18 @@
 
 <script>
     $(function () {
+        // Date-time picker
+        $('.form_datetime').datetimepicker({
+            //language:  'fr',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1
+        });
+
         //Initialize Select2 Elements
         $(".select2").select2();
 
