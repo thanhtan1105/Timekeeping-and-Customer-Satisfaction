@@ -42,7 +42,6 @@ public class DepartmentEntity implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
-//    @JoinColumn(name = "department_account_manager")
     private DepartmentEntity manager;
 
     @OneToMany(mappedBy = "department", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
