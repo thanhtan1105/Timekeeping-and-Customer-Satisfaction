@@ -40,7 +40,7 @@ class CameraEmotionViewController: UIViewController {
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
     self.initializeCamera()
-    
+    self.isCameraTaken = false
     self.cameraStill.image = nil
     self.cameraPreview.alpha = 1.0
     isRunning = false
@@ -111,6 +111,7 @@ class CameraEmotionViewController: UIViewController {
               // fail
               self.cameraPreview.alpha = 1.0
               self.cameraStill.image = nil
+              self.isCameraTaken = false
             }
           })
           
@@ -164,7 +165,7 @@ extension CameraEmotionViewController: CameraDelegate {
       if self.isCameraTaken == false {
         self.isCameraTaken = true
         
-        let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(0.75 * Double(NSEC_PER_SEC)))
+        let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
         dispatch_after(delayTime3, dispatch_get_main_queue()) {
           self.onCaptureTapped(UIButton())
         }
@@ -197,7 +198,7 @@ extension CameraEmotionViewController {
   
   private func showInfoScren(emotion: [Emotion]) {
     let showInforVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("EmotionSuggestionViewController") as! EmotionSuggestionViewController
-    showInforVC.emotion = emotion
+    showInforVC.emotions = emotion
     self.presentViewController(showInforVC, animated: true, completion: {
       self.camera?.stopCamera()
     })
@@ -217,16 +218,19 @@ extension CameraEmotionViewController {
       if success == 1 {
         print("Call api success")
         let content = dict["data"] as! [[String : AnyObject]]
-        let emotion = Emotion.emotions(content)
-        onCompletionHandler!(emotion: emotion, error: nil)
+        if content.count > 0 {
+          let emotion = Emotion.emotions(content)
+          onCompletionHandler!(emotion: emotion, error: nil)
+        } else {
+          onCompletionHandler!(emotion: nil, error: NSError(domain: "", code: 0, userInfo: ["info" : "Cannot detect image"]))
+        }
+        
       } else {
         print("Fail")
-        let errorCode = dict["errorCode"] as? String
-        let message = dict["message"] as? String
-        onCompletionHandler!(emotion: nil, error: NSError(domain: "", code: 0, userInfo: ["info" : message!]))
+//        let message = dict["message"] as? String
+        onCompletionHandler!(emotion: nil, error: NSError(domain: "", code: 0, userInfo: ["info" : "Cannot detect image"]))
       }
     }
   }
-  
 }
 

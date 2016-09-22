@@ -11,18 +11,23 @@ import Charts
 
 class EmotionSuggestionViewController: UIViewController {
 
-//  var emotionData = []
-  var emotionData = [0.000629107262, 0.0001229907, 0.000005002479, 0.000003291769, 0.00006865142, 0.998241961, 0.00147524744, 0.000082200575]
-
-  var emotion: [Emotion]? {
-    didSet {
-      //       emotionData = [emotion.anger!, emotion.contempt!, emotion.disgust!, emotion.fear!, emotion.happiness!, emotion.neutral!, emotion.sadness!, emotion.surprise!]
-    }
-  }
-  let horizentalData = ["anger", "contempt", "disgust", "fear", "happiness", "neutral", "sadness", "surprise"]
+  var emotionData : [Double] = []
+  let emotionStatus = ["anger", "contempt", "disgust", "fear", "happiness", "neutral", "sadness", "surprise"]
   let verticalData: [Double] = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
   
-  @IBOutlet weak var horizontalBarChart: HorizontalBarChartView!
+  var emotions: [Emotion] = [] {
+    didSet {
+      let emotion = emotions.first    
+      emotionData = [emotion!.anger!, emotion!.contempt!, emotion!.disgust!, emotion!.fear!, emotion!.happiness!, emotion!.neutral!, emotion!.sadness!, emotion!.surprise!]
+    }
+  }
+  
+  
+  @IBOutlet weak var barChart: BarChartView!
+  @IBOutlet weak var horizentalChart: HorizontalBarChartView!
+  
+  @IBOutlet weak var ageLabel: UILabel!
+  @IBOutlet weak var genderLabel: UILabel!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -38,48 +43,79 @@ class EmotionSuggestionViewController: UIViewController {
       }
     }
     
-    horizontalBarChart.delegate = self
-    horizontalBarChart.descriptionText = "Customer emotion chart's"
-    horizontalBarChart.drawBarShadowEnabled = false
-    horizontalBarChart.setVisibleXRangeMaximum(0.5)
-    horizontalBarChart.drawGridBackgroundEnabled = false
-    horizontalBarChart.borderLineWidth = 0.1
-    horizontalBarChart.xAxis.drawLimitLinesBehindDataEnabled = true
-    horizontalBarChart.xAxis.drawLabelsEnabled = true
-    horizontalBarChart.xAxis.wordWrapEnabled = true
-    horizontalBarChart.drawBordersEnabled = true
-    horizontalBarChart.xAxis.setLabelsToSkip(0)
-    horizontalBarChart.scaleYEnabled = false
-    horizontalBarChart.scaleXEnabled = false
-    horizontalBarChart.pinchZoomEnabled = false
-    horizontalBarChart.doubleTapToZoomEnabled = false
-    horizontalBarChart.xAxis.axisLineColor = UIColor.clearColor()
-    horizontalBarChart.animate(yAxisDuration: 1.5, easingOption: .EaseInOutQuart)
+    barChart.descriptionText = "";
+    barChart.xAxis.labelPosition = .Bottom
+    barChart.xAxis.setLabelsToSkip(0)
+    barChart.leftAxis.axisMinValue = 0.0
+    barChart.leftAxis.axisMaxValue = 1.2
+    barChart.rightAxis.axisMinValue = 0.0
+    barChart.rightAxis.axisMaxValue = 1.2
+    
+    barChart.scaleYEnabled = true
+    barChart.scaleXEnabled = true
+    barChart.pinchZoomEnabled = false
+    barChart.doubleTapToZoomEnabled = false
+    barChart.xAxis.drawGridLinesEnabled = false
+    barChart.xAxis.wordWrapEnabled = true
+    
+//    horizentalChart.xAxis.setLabelsToSkip(0)
+//    horizentalChart.leftAxis.labelPosition = .OutsideChart
+    barChart.animate(yAxisDuration: 1.5, easingOption: .EaseInOutQuart)
     setDataCount()
+
+    if let age = emotions.first?.age {
+      ageLabel.text = "Age : " + String(format: "%.1f", age)
+    }
+    
+    genderLabel.text = emotions.first?.gender.description
     
   }
+  
+  @IBAction func onCloseTapped(sender: UIButton) {
+    dismissViewControllerAnimated(true, completion: nil)
+  }
+  
 
   func setDataCount() {
+//    var xVals = [NSObject]()
+//    for i in 0..<verticalData.count {
+//      xVals.append(verticalData[i] * 100)
+//    }
+//    
+//    var yVals: [ChartDataEntry] = []
+//    for i in 0..<emotionData.count {
+//      let val: Double = emotionData[i]
+//      yVals.append(BarChartDataEntry(value: val, xIndex: i))
+//    }
+//    
+//    let set1 = BarChartDataSet(yVals: yVals, label: "")
+//    set1.barSpace = 0.3
+//    var dataSets = [IChartDataSet]()
+//    dataSets.append(set1)
+//    
+//    let data = BarChartData(xVals: emotionStatus, dataSets: dataSets)
+//    self.horizentalChart.data = data
     
-    var xVals = [NSObject]()
-    for i in 0..<verticalData.count {
-      xVals.append(verticalData[i] * 100)
+    
+    // Initialize an array to store chart data entries (values; y axis)
+    var emotionEntries = [ChartDataEntry]()
+    
+    for i in 0..<emotionStatus.count {
+      let emotionEntry = BarChartDataEntry(value: emotionData[i], xIndex: i)
+      emotionEntries.append(emotionEntry)
     }
     
-    var yVals: [ChartDataEntry] = []
-    for i in 0..<horizentalData.count {
-      let val: Double = emotionData[i]
-//      yVals.append(BarChartDataEntry(value: val * 100, xIndex: i, data: horizentalData[i]))
-      yVals.append(BarChartDataEntry(values: [val], xIndex: i, label: horizentalData[i]))
-    }
+    // Create bar chart data set containing salesEntries
+    let chartDataSet = BarChartDataSet(yVals: emotionEntries, label: "")
+    chartDataSet.colors = [.redColor(), .yellowColor(), .greenColor()]
+    chartDataSet.colors = ChartColorTemplates.joyful()
     
-    let set1 = BarChartDataSet(yVals: yVals, label: "Emotion point")
-    set1.barSpace = 0.3
-    var dataSets = [IChartDataSet]()
-    dataSets.append(set1)
+    // Create bar chart data with data set and array with values for x axis
+    let chartData = BarChartData(xVals: emotionStatus, dataSets: [chartDataSet])
+
+    // Set bar chart data to previously created data
+    barChart.data = chartData
     
-    let data = BarChartData(xVals: xVals, dataSets: dataSets)
-    self.horizontalBarChart.data = data
   }
   
   override func didReceiveMemoryWarning() {

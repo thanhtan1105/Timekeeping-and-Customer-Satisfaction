@@ -12,6 +12,15 @@ import Foundation
 enum Gender {
   case Male
   case Female
+  
+  var description: String {
+    switch self {
+    case .Female:
+      return "Female"
+    default:
+      return "Male"
+    }
+  }
 }
 
 class Emotion {

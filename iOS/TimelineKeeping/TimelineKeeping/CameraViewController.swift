@@ -118,7 +118,7 @@ class CameraViewController: UIViewController {
               // fail
               self.cameraPreview.alpha = 1.0
               self.cameraStill.image = nil
-              
+              self.isCameraTaken = false
             }
           })
           

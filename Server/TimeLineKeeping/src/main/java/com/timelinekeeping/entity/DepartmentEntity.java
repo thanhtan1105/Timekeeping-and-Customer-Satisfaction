@@ -41,8 +41,8 @@ public class DepartmentEntity implements Serializable {
     private ETrainStatus status = ETrainStatus.NOT_STARTED;
 
     @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "manager_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FW_Manager_department"))
-    @JoinColumn(name = "department_account_manager")
+    @JoinColumn(name = "manager_id")
+//    @JoinColumn(name = "department_account_manager")
     private DepartmentEntity manager;
 
     @OneToMany(mappedBy = "department", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

@@ -164,12 +164,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" restorationIdentifier="HorizontalBarChartView" translatesAutoresizingMaskIntoConstraints="NO" id="dgK-Fr-rkZ" customClass="HorizontalBarChartView" customModule="Charts">
-                                <rect key="frame" x="10" y="28" width="300" height="231"/>
+                            <view contentMode="scaleToFill" restorationIdentifier="BarChartView" translatesAutoresizingMaskIntoConstraints="NO" id="dgK-Fr-rkZ" customClass="BarChartView" customModule="Charts">
+                                <rect key="frame" x="10" y="28" width="300" height="250"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="183" id="4oP-hb-aiy"/>
-                                    <constraint firstAttribute="width" secondItem="dgK-Fr-rkZ" secondAttribute="height" multiplier="1.3" id="8eA-ha-YPI"/>
+                                    <constraint firstAttribute="width" secondItem="dgK-Fr-rkZ" secondAttribute="height" multiplier="1.2" id="8eA-ha-YPI"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -177,17 +177,44 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fpd-ch-Wib">
+                                <rect key="frame" x="140" y="518" width="39" height="30"/>
+                                <state key="normal" title="Close"/>
+                                <connections>
+                                    <action selector="onCloseTapped:" destination="mgw-vR-fpY" eventType="touchUpInside" id="kZC-Xb-SR4"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sv0-VK-EZA">
+                                <rect key="frame" x="140" y="286" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qZC-DY-GFs">
+                                <rect key="frame" x="139" y="328" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="qZC-DY-GFs" firstAttribute="top" secondItem="sv0-VK-EZA" secondAttribute="bottom" constant="21" id="4jN-tI-FGJ"/>
+                            <constraint firstItem="sv0-VK-EZA" firstAttribute="top" secondItem="dgK-Fr-rkZ" secondAttribute="bottom" constant="8" id="Chh-th-Dx3"/>
                             <constraint firstItem="dgK-Fr-rkZ" firstAttribute="top" secondItem="7zy-u2-5og" secondAttribute="bottom" constant="8" id="Fmg-ml-g6M"/>
+                            <constraint firstItem="sv0-VK-EZA" firstAttribute="centerX" secondItem="SqO-0K-rOa" secondAttribute="centerX" id="PFx-bm-H5r"/>
+                            <constraint firstItem="mab-LN-3Xh" firstAttribute="top" secondItem="Fpd-ch-Wib" secondAttribute="bottom" constant="20" id="edg-Xf-JGF"/>
                             <constraint firstItem="dgK-Fr-rkZ" firstAttribute="leading" secondItem="SqO-0K-rOa" secondAttribute="leading" constant="10" id="glB-C6-cVz"/>
+                            <constraint firstItem="Fpd-ch-Wib" firstAttribute="centerX" secondItem="SqO-0K-rOa" secondAttribute="centerX" id="mLk-YQ-vFT"/>
+                            <constraint firstItem="qZC-DY-GFs" firstAttribute="centerX" secondItem="SqO-0K-rOa" secondAttribute="centerX" id="v6F-QT-Z3i"/>
                             <constraint firstAttribute="trailing" secondItem="dgK-Fr-rkZ" secondAttribute="trailing" constant="10" id="zRa-5z-5GN"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
-                        <outlet property="horizontalBarChart" destination="dgK-Fr-rkZ" id="OUZ-8S-qWf"/>
+                        <outlet property="ageLabel" destination="sv0-VK-EZA" id="XbT-sB-Ty2"/>
+                        <outlet property="barChart" destination="dgK-Fr-rkZ" id="nHd-zH-rlP"/>
+                        <outlet property="genderLabel" destination="qZC-DY-GFs" id="oSh-fN-fi1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6wS-BX-ysY" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -244,7 +271,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="72"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="672-kf-0wK" id="zDk-zQ-p8i">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="72"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="71.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="9:00AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v4o-z3-dOc">
