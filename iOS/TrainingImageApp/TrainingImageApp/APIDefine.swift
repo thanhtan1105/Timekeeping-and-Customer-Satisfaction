@@ -55,8 +55,8 @@ let serverUrl: String = {
 
 let urlGetUserDetail: String = serverUrl.stringByAppendingString("/face/identifyImage")
 let urlGetDepartment: String = serverUrl.stringByAppendingString("/department/findAll")
-//let urlGetAccountList: String = serverUrl.stringByAppendingString("/account/searchByDepartment")
-let urlGetAccountList: String = serverUrl.stringByAppendingString("/account/list")
+let urlGetAccountList: String = serverUrl.stringByAppendingString("/account/searchByDepartment")
+//let urlGetAccountList: String = serverUrl.stringByAppendingString("/account/list")
 let urlAddFaceToPerson: String = serverUrl.stringByAppendingString("/account/add_face_img")
 let urlSendTrainingStatus: String = serverUrl.stringByAppendingString("/department/training")
 
