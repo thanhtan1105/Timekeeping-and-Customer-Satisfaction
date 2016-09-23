@@ -68,28 +68,11 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>1.</td>
-                        <td>First Meeting</td>
-                        <td>Họp Đầu Tháng</td>
-                        <td>22-Sep-2016 09:30:00</td>
-                        <td>
-                            <div class="btn-group" style="width: 100%;">
-                                <button class="btn btn-success btn-flat btn-sm" type="button" style="width: 50%;"
-                                        title="Edit Class">
-                                    <i class="glyphicon glyphicon-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-danger btn-flat btn-sm" type="button" style="width: 50%;">
-                                    <i class="glyphicon glyphicon-remove"></i> Delete
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2.</td>
-                        <td>Second Meeting</td>
-                        <td>Họp Cuối Tháng</td>
-                        <td>30-Sep-2016 09:30:00</td>
+                    <tr th:each="reminder,counter: ${ListReminders}">
+                        <td th:text="${counter.count} + '.'"></td>
+                        <td th:text="${reminder.title}"></td>
+                        <td th:text="${reminder.message}"></td>
+                        <td th:text="${reminder.time}"></td>
                         <td>
                             <div class="btn-group" style="width: 100%;">
                                 <button class="btn btn-success btn-flat btn-sm" type="button" style="width: 50%;"
