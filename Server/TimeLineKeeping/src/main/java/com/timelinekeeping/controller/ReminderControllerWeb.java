@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by TrungNN on 9/22/2016.
@@ -115,4 +114,5 @@ public class ReminderControllerWeb {
 
         return url;
     }
+
 }
