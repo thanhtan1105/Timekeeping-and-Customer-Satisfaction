@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout_manager">
+
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Management Reminders</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1 class="text-success">
+            <i class="glyphicon glyphicon-send"></i> Management Reminders
+        </h1>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-laptop active"></i> Management Reminders</li>
+        </ol>
+        <hr style="border-color: green; margin-top: 4px; margin-bottom: 5px;"/>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <!-- Form for search reminders -->
+        <div class="input-group" style="margin-right:  25%; margin-left: 25%; margin-bottom: 5px;">
+            <input type="text" class="form-control" placeholder="Enter Title"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-success btn-flat" type="button"/>
+                        <i class="glyphicon glyphicon-search"></i> Search
+                </span>
+        </div>
+        <!-- ./form for search reminders -->
+        <!-- Add new reminder -->
+        <div class="row" style="margin-bottom: 8px;">
+            <div class="col-sm-2">
+                <a th:href="@{/manager/reminders/addReminder}">
+                    <button type="submit" id="add-new-class-button" class="btn btn-success btn-flat btn-sm">
+                        <i class="glyphicon glyphicon-plus"></i> New Reminder
+                    </button>
+                </a>
+            </div>
+        </div>
+        <!-- /.end add new reminder -->
+        <div class="box box-success">
+            <div class="box-header">
+                <h3 class="box-title text-success"><i class="glyphicon glyphicon-list-alt"></i> Reminders List</h3>
+                <hr style="border-color: green; margin-top: 4px; margin-bottom: 5px; margin-right: 88%; border-width: 2px;">
+            </div>
+            <!-- /.box-header -->
+            <!-- Data-table for list of accounts -->
+            <div class="box-body">
+                <table id="dataTable" class="table table-bordered table-hover" style="border-collapse: collapse;">
+                    <colgroup>
+                        <col span="1" style="width: 5%;">
+                        <col span="1" style="width: 20%;">
+                        <col span="1" style="width: 40%;">
+                        <col span="1" style="width: 20%;">
+                        <col span="1" style="width: 15%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Time</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="reminder,counter: ${ListReminders}">
+                        <td th:text="${counter.count} + '.'"></td>
+                        <td th:text="${reminder.title}"></td>
+                        <td th:text="${reminder.message}"></td>
+                        <!--<td th:text="${reminder.time}"></td>-->
+                        <td th:text="${#dates.format(reminder.time, 'dd-MMM-yyyy HH:mm')}"></td>
+                        <td>
+                            <div class="btn-group" style="width: 100%;">
+                                <button class="btn btn-success btn-flat btn-sm" type="button" style="width: 50%;"
+                                        title="Edit Class">
+                                    <i class="glyphicon glyphicon-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-danger btn-flat btn-sm" type="button" style="width: 50%;">
+                                    <i class="glyphicon glyphicon-remove"></i> Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+            <!-- /.end data-table for list of accounts -->
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<div layout:fragment="js">
+    <!--<script th:src="@{/js/admin/management_depart/management_depart.js}"></script>-->
+</div>
+</body>
+</html>
