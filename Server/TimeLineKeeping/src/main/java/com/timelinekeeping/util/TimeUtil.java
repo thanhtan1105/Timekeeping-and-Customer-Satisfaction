@@ -14,7 +14,7 @@ import java.util.Locale;
 public class TimeUtil {
 
     private Logger logger = Logger.getLogger(TimeUtil.class);
-    private final String pattern = "dd MMMM yyyy - HH:mm a";
+    private final String pattern = "dd MMMM yyyy - hh:mm a";
 
     public Date parseStringToDate(String text) {
         DateFormat format = new SimpleDateFormat(pattern, Locale.ENGLISH);
