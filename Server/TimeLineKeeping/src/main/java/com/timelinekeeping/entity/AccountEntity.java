@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -63,6 +64,7 @@ public class AccountEntity implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "manager")
     private DepartmentEntity manager;
+
 
     public AccountEntity() {
     }
@@ -172,6 +174,7 @@ public class AccountEntity implements Serializable {
     public void setManager(DepartmentEntity manager) {
         this.manager = manager;
     }
+
 
     @Override
     public String toString() {

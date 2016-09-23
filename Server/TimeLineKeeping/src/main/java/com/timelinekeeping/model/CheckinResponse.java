@@ -9,12 +9,13 @@ import java.util.List;
 public class CheckinResponse {
     private Date timeCheckIn;
     private AccountModel account;
-    private List<String> messageReminder;
+    private List<NotificationCheckInModel> messageReminder;
 
     public CheckinResponse() {
     }
 
-    public CheckinResponse(Date timeCheckIn, AccountModel account, List<String> messageReminder) {
+
+    public CheckinResponse(Date timeCheckIn, AccountModel account, List<NotificationCheckInModel> messageReminder) {
         this.timeCheckIn = timeCheckIn;
         this.account = account;
         this.messageReminder = messageReminder;
@@ -36,11 +37,14 @@ public class CheckinResponse {
         this.account = account;
     }
 
-    public List<String> getMessageReminder() {
+//
+
+
+    public List<NotificationCheckInModel> getMessageReminder() {
         return messageReminder;
     }
 
-    public void setMessageReminder(List<String> messageReminder) {
+    public void setMessageReminder(List<NotificationCheckInModel> messageReminder) {
         this.messageReminder = messageReminder;
     }
 
