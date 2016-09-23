@@ -163,6 +163,26 @@ public class AccountServiceImpl {
         }
     }
 
+    public List<AccountModel> searchByDepartmentAndRole(Long departmentId, Long roleId, Integer start, Integer top) {
+
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+            // paging
+            Pageable pageable = new PageRequest(start, top);
+
+            //repo db
+            Page<AccountEntity> entityPage = accountRepo.findByDepartmentAndRole(departmentId, roleId, pageable);
+
+            //covert list
+            List<AccountModel> accountModels = entityPage.getContent().stream().map(AccountModel::new).collect(Collectors.toList());
+
+            return accountModels;
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
     public BaseResponse addFaceImg(Long accountId, InputStream imgStream) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
