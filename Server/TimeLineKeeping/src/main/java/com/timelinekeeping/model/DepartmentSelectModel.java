@@ -8,6 +8,7 @@ import java.io.Serializable;
  * Created by TrungNN on 9/18/2016.
  */
 public class DepartmentSelectModel implements Serializable {
+
     private Long id;
     private String name;
 

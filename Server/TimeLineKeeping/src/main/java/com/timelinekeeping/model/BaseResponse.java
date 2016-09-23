@@ -73,8 +73,6 @@ public class BaseResponse {
         this.errorCode = errorCode;
     }
 
-
-
     @Override
     public String toString() {
         return "BaseResponse{" +

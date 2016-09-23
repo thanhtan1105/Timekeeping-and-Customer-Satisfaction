@@ -1,6 +1,5 @@
 package com.timelinekeeping.entity;
 
-import com.sun.istack.internal.NotNull;
 import com.timelinekeeping.constant.EStatus;
 
 import javax.persistence.*;
@@ -19,9 +18,6 @@ public class NotificationEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Basic
-    @Column(name = "message", length = Integer.MAX_VALUE)
-    private String message;
 
     @Basic
     @Column(name = "time_notify")
@@ -31,19 +27,15 @@ public class NotificationEntity implements Serializable {
     @Column(name = "status")
     private EStatus status = EStatus.NOSEND;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
     private AccountEntity accountReceive;
 
-    public NotificationEntity() {
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reminder_message_id", referencedColumnName = "id", nullable = false)
+    private ReminderMessageEntity reminderMessage;
 
-    public NotificationEntity(String message, Timestamp timeNotify, EStatus status, AccountEntity accountReceive) {
-        this.message = message;
-        this.timeNotify = timeNotify;
-        this.status = status;
-        this.accountReceive = accountReceive;
+    public NotificationEntity() {
     }
 
     public Long getId() {
@@ -54,12 +46,12 @@ public class NotificationEntity implements Serializable {
         this.id = id;
     }
 
-    public String getMessage() {
-        return message;
+    public ReminderMessageEntity getReminderMessage() {
+        return reminderMessage;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setReminderMessage(ReminderMessageEntity reminderMessage) {
+        this.reminderMessage = reminderMessage;
     }
 
     public Timestamp getTimeNotify() {

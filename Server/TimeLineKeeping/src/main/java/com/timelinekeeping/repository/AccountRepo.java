@@ -1,6 +1,7 @@
 package com.timelinekeeping.repository;
 
 import com.timelinekeeping.entity.AccountEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,4 +28,7 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
 
     @Query("SELECT a FROM AccountEntity a WHERE a.active <>0")
     List<AccountEntity> findAll();
+
+    @Query("SELECT a FROM AccountEntity a INNER JOIN a.department d WHERE d.id = :department_id AND a.active <> 0")
+    Page<AccountEntity> findByDepartment(@Param("department_id") Long departmentId, Pageable pageable);
 }
