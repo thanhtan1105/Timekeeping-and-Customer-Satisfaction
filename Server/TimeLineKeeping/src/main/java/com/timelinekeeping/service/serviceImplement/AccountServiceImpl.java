@@ -58,6 +58,10 @@ public class AccountServiceImpl {
     private RoleRepo roleRepo;
 
     @Autowired
+    private NotificationRepo notificationRepo;
+
+
+    @Autowired
     private TimekeepingRepo timekeepingRepo;
 
     private Logger logger = LogManager.getLogger(AccountServiceImpl.class);
@@ -269,13 +273,15 @@ public class AccountServiceImpl {
 
             //TODO reminder
             // accountID -> get Reminder
-
+            List<NotificationEntity> notificationSet = notificationRepo.findByAccountReceive(accountEntity.getId());
             // convert Reminder
+            List<NotificationCheckInModel> message = notificationSet.stream().map(NotificationCheckInModel::new).collect(Collectors.toList());
 
             //Response to Server
             CheckinResponse checkinResponse = new CheckinResponse();
             checkinResponse.setTimeCheckIn(new Date());
             checkinResponse.setAccount(new AccountModel(accountEntity));
+            checkinResponse.setMessageReminder(message);
             response.setSuccess(true);
             response.setData(checkinResponse);
             return response;

@@ -13,10 +13,13 @@ public class AccountNotificationModel {
     public AccountNotificationModel() {
     }
 
+
     public AccountNotificationModel(AccountEntity entity) {
-        this.id = entity.getId();
-        this.username = entity.getUsername();
-        this.fullname = entity.getFullname();
+        if (entity != null) {
+            this.id = entity.getId();
+            this.username = entity.getUsername();
+            this.fullname = entity.getFullname();
+        }
     }
 
     public Long getId() {
