@@ -30,7 +30,10 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
     List<AccountEntity> findAll();
 
     @Query("SELECT a FROM AccountEntity a INNER JOIN a.department d WHERE d.id = :department_id AND a.active <> 0")
-    Page<AccountEntity> findByDepartment(@Param("department_id") Long departmentId, Pageable pageable);
+    Page<AccountEntity> findByDepartmentPaging(@Param("department_id") Long departmentId, Pageable pageable);
+
+    @Query("SELECT a FROM AccountEntity a INNER JOIN a.department d WHERE d.id = :department_id AND a.active <> 0")
+    List<AccountEntity> findByDepartment(@Param("department_id") Long departmentId);
 
     @Query("SELECT a FROM AccountEntity a INNER JOIN a.department d  INNER JOIN a.role r " +
             "WHERE d.id = :department_id AND a.active <> 0 AND r.id <> :role_id")
