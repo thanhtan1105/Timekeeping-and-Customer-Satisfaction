@@ -76,7 +76,6 @@ public class AccountController {
                 return new BaseResponse(false, ERROR.ACCOUNT_API_SEARCH_DEPARTMENT_EMPTY);
             }
 
-
             return new BaseResponse(true, accountService.searchByDepartment(departmentID, start, top));
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
@@ -102,7 +101,6 @@ public class AccountController {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }
     }
-
 
     @RequestMapping(value = I_URI.API_ACCOUNT_CHECK_IN, method = RequestMethod.POST)
     @ResponseBody

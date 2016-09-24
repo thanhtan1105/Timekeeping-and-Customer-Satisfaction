@@ -38,7 +38,7 @@ let serverUrl: String = {
   case .Hien:
     return "http://192.168.43.79:8080/api"
   case .Tan:
-    return "http://192.168.43.93:8080/api"
+    return "http://192.168.1.107:8080/api"
 	}
 
 }()
@@ -54,10 +54,10 @@ let serverUrl: String = {
 } */
 
 let urlGetUserDetail: String = serverUrl.stringByAppendingString("/face/identifyImage")
-let urlGetDepartment: String = serverUrl.stringByAppendingString("/department/findAll")
-let urlGetAccountList: String = serverUrl.stringByAppendingString("/account/searchByDepartment")
+let urlGetDepartment: String = serverUrl.stringByAppendingString("/department/list")
+let urlGetAccountList: String = serverUrl.stringByAppendingString("/account/search_department")
 //let urlGetAccountList: String = serverUrl.stringByAppendingString("/account/list")
-let urlAddFaceToPerson: String = serverUrl.stringByAppendingString("/account/add_face_img")
+let urlAddFaceToPerson: String = serverUrl.stringByAppendingString("/account/add_face")
 let urlSendTrainingStatus: String = serverUrl.stringByAppendingString("/department/training")
 
 
