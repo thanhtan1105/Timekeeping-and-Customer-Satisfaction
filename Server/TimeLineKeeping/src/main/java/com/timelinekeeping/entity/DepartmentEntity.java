@@ -42,7 +42,7 @@ public class DepartmentEntity implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
-    private DepartmentEntity manager;
+    private AccountEntity manager;
 
     @OneToMany(mappedBy = "department", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<AccountEntity> accountEntitySet;
@@ -134,11 +134,11 @@ public class DepartmentEntity implements Serializable {
         this.status = status;
     }
 
-    public DepartmentEntity getManager() {
+    public AccountEntity getManager() {
         return manager;
     }
 
-    public void setManager(DepartmentEntity manager) {
+    public void setManager(AccountEntity manager) {
         this.manager = manager;
     }
 }
