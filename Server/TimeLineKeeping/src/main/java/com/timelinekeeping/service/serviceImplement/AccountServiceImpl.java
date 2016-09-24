@@ -102,6 +102,7 @@ public class AccountServiceImpl {
 
             //create entity
             AccountEntity entity = new AccountEntity(account);
+            entity.setPassword(UtilApps.generatePassword());
             entity.setUserCode(personCode);
             entity.setDepartment(departmentEntity);
             entity.setRole(roleEntity);
