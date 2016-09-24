@@ -8,7 +8,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum  ETimeKeeping {
 
     ON_TIME(0, "On Time"),
-    LATE(1, "Late");
+    LATE(1, "Late"),
+    PRESENT(2, "Present"),
+    ABSENT(3, "Absent"),
+
+    NO_CHECKIN(4, "No CheckIn"),
+    CHECK_IN_MANUAL(5, "Check In Manual"),
+    CHECKIN(6, "Checkin");
 
     private int index;
     private String name;
