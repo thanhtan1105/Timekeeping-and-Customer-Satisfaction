@@ -2,6 +2,7 @@ package com.timelinekeeping.controller;
 
 import com.timelinekeeping.constant.ViewConst;
 import com.timelinekeeping.model.AccountCheckInModel;
+import com.timelinekeeping.model.CheckinManualModel;
 import com.timelinekeeping.service.serviceImplement.TimekeepingServiceImpl;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,13 +46,30 @@ public class CheckinManualControllerWeb {
         return ViewConst.CHECK_IN_MANUAL_VIEW;
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public String checkinManual(@RequestParam("accountIds") String[] accountIds) {
+    @RequestMapping(value = "/checkinManualProcessing", method = RequestMethod.POST)
+    public String checkinManual(@RequestParam("accountIds") String[] accountIds,
+                                @RequestParam("notes") String[] notes,
+                                @RequestParam("noteOfAccountIds") String[] noteOfAccountIds) {
         logger.info("[Controller- Check-in Manual] BEGIN");
         logger.info("[Controller- Check-in Manual] number of accounts: " + accountIds.length);
+        logger.info("[Controller- Check-in Manual] number of notes: " + notes.length);
+        logger.info("[Controller- Check-in Manual] number of note of accountIds: " + noteOfAccountIds.length);
+        List<Long> listAccount = new ArrayList<Long>();
         for (int i = 0; i < accountIds.length; i++) {
+            logger.info("[Controller- Check-in Manual] [" + i + "] accountId: " + accountIds[i]);
+            listAccount.add(ValidateUtil.validateNumber(accountIds[i]));
         }
+        for (int i = 0; i < notes.length; i++) {
+            logger.info("[Controller- Check-in Manual] [" + i + "] note: " + notes[i]);
+        }
+        for (int i = 0; i < noteOfAccountIds.length; i++) {
+            logger.info("[Controller- Check-in Manual] [" + i + "] note of accountIds: " + noteOfAccountIds[i]);
+        }
+
+        List<CheckinManualModel> checkinManualModels = timekeepingService.checkInManual(listAccount);
+        // TODO: check resutl check-in manual
+
         logger.info("[Controller- Check-in Manual] END");
-        return "";
+        return "redirect:/manager/check_in/";
     }
 }

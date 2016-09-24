@@ -75,10 +75,14 @@
                             <td>
                                 <input th:name="accountIds" th:value="${account.id}"
                                        type="checkbox" class="minimal-red"
-                                       th:checked="${account.statusCheckin.index} == 4"/>
+                                       th:checked="${account.statusCheckin.index} == 1"
+                                       th:disabled="${account.statusCheckin.index} == 1"/>
                             </td>
                             <td>
-                                <input type="text" class="form-control input-sm" style="width: 100%"/>
+                                <input th:name="notes" type="text" th:disabled="${account.statusCheckin.index} == 1"
+                                       class="form-control input-sm" style="width: 100%"/>
+                                <input th:name="noteOfAccountIds" type="hidden" th:value="${account.id}"
+                                       th:disabled="${account.statusCheckin.index} == 1"/>
                             </td>
                         </tr>
                         </tbody>
