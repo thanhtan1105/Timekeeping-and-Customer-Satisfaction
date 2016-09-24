@@ -7,6 +7,7 @@ import com.timelinekeeping.constant.ETimeKeeping;
  */
 public class CheckinManualModel {
     private Long accountId;
+    private String note;
     private boolean success;
     private String message;
 
@@ -15,6 +16,11 @@ public class CheckinManualModel {
 
     public CheckinManualModel(Long accountId) {
         this.accountId = accountId;
+    }
+
+    public CheckinManualModel(Long accountId, String note) {
+        this.accountId = accountId;
+        this.note = note;
     }
 
     public Long getAccountId() {
@@ -39,5 +45,13 @@ public class CheckinManualModel {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

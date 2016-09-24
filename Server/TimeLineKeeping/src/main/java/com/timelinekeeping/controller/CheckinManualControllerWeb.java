@@ -65,8 +65,13 @@ public class CheckinManualControllerWeb {
         for (int i = 0; i < noteOfAccountIds.length; i++) {
             logger.info("[Controller- Check-in Manual] [" + i + "] note of accountIds: " + noteOfAccountIds[i]);
         }
+        List<CheckinManualModel> listCheckIn = new ArrayList<>();
+        for (int i = 0; i < Math.min(accountIds.length, notes.length); i++) {
+            listCheckIn.add(new CheckinManualModel(Long.parseLong(accountIds[i]), notes[i]));
+        }
 
-        List<CheckinManualModel> checkinManualModels = timekeepingService.checkInManual(listAccount);
+
+        List<CheckinManualModel> checkinManualModels = timekeepingService.checkInManual(listCheckIn);
         // TODO: check resutl check-in manual
 
         logger.info("[Controller- Check-in Manual] END");
