@@ -1,6 +1,7 @@
 package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping.constant.ERROR;
+import com.timelinekeeping.constant.ETimeKeeping;
 import com.timelinekeeping.constant.ETypeCheckin;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
@@ -67,6 +68,7 @@ public class TimekeepingServiceImpl {
                         timeKeeping = new TimeKeepingEntity();
                         timeKeeping.setAccount(accountEntity);
                         timeKeeping.setType(ETypeCheckin.CHECKIN_MANUAL);
+                        timeKeeping.setStatus(ETimeKeeping.PRESENT);
                         timeKeeping.setTimeCheck(new Timestamp(new Date().getTime()));
                         timekeepingRepo.save(timeKeeping);
                         checkinModel.setSuccess(true);
