@@ -12,7 +12,6 @@ import com.timelinekeeping.modelMCS.FaceIdentifyConfidenceRespone;
 import com.timelinekeeping.modelMCS.FaceIdentityCandidate;
 import com.timelinekeeping.repository.*;
 import com.timelinekeeping.util.JsonUtil;
-import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.UtilApps;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
@@ -293,9 +292,7 @@ public class AccountServiceImpl {
 
             //TODO reminder
             // accountID -> get Reminder
-            List<NotificationEntity> notificationSet = notificationRepo.findByAccountReceive(accountEntity.getId());
-
-
+            List<NotificationEntity> notificationSet = notificationRepo.findByAccountReceiveByDate(accountEntity.getId());
             // convert Reminder
             List<NotificationCheckInModel> message = notificationSet.stream().map(NotificationCheckInModel::new).collect(Collectors.toList());
 
