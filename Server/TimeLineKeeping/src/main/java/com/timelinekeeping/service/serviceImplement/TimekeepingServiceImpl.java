@@ -53,20 +53,20 @@ public class TimekeepingServiceImpl {
         }
     }
 
-    public List<CheckinManualModel> checkInManual(List<Long> listAccount){
+    public List<CheckinManualModel> checkInManual(List<CheckinManualModel> listCheckin){
 
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
 
-            List<CheckinManualModel> checkinResult = new ArrayList<>();
-            for (Long accountId : listAccount){
-                CheckinManualModel checkinModel = new CheckinManualModel(accountId);
+            for (CheckinManualModel checkinModel: listCheckin){
+                Long accountId = checkinModel.getAccountId();
                 AccountEntity accountEntity = accountRepo.findOne(accountId);
                 if (accountEntity != null) {
                     TimeKeepingEntity timeKeeping = timekeepingRepo.findByAccountCheckinDate(accountId, new Date());
                     if (timeKeeping == null) {
                         timeKeeping = new TimeKeepingEntity();
                         timeKeeping.setAccount(accountEntity);
+                        timeKeeping.setNote(timeKeeping.getNote());
                         timeKeeping.setType(ETypeCheckin.CHECKIN_MANUAL);
                         timeKeeping.setStatus(ETimeKeeping.PRESENT);
                         timeKeeping.setTimeCheck(new Timestamp(new Date().getTime()));
@@ -80,10 +80,10 @@ public class TimekeepingServiceImpl {
                     checkinModel.setSuccess(false);
                     checkinModel.setMessage(String.format(ERROR.CHECK_IN_MANUAL_NO_EXIST_ACCOUNTID, accountId + ""));
                 }
-                checkinResult.add(checkinModel);
+                listCheckin.add(checkinModel);
             }
             timekeepingRepo.flush();
-            return checkinResult;
+            return listCheckin;
         }finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
