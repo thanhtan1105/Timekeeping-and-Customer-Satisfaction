@@ -37,4 +37,8 @@ public interface I_URI {
     String API_REMINDER = "/api/reminder";
     String API_REMINDER_LIST_MANAGER = "/list_by_manager";
 
+    /** Timekeeping*/
+    String API_TIMEKEEPING = "/api/time";
+    String API_TIMEKEEPING_LIST_EMPLOYEE = "/list_employee";
+
 }
