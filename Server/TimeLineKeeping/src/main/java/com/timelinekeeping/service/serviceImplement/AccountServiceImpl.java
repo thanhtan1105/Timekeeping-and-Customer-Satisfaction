@@ -4,6 +4,7 @@ import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.constant.ERROR;
 import com.timelinekeeping.constant.ETimeKeeping;
+import com.timelinekeeping.constant.ETypeCheckin;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.*;
 import com.timelinekeeping.model.*;
@@ -283,8 +284,9 @@ public class AccountServiceImpl {
 
             // Save TimeKeeping fro accountID
             TimeKeepingEntity timeKeepingEntity = new TimeKeepingEntity();
-            ETimeKeeping timeKeepingStatus = UtilApps.checkStatusTimeKeeping();
-            timeKeepingEntity.setStatus(timeKeepingStatus);
+//            ETimeKeeping timeKeepingStatus = UtilApps.checkStatusTimeKeeping();
+            timeKeepingEntity.setType(ETypeCheckin.CHECKIN_CAMERA);
+            timeKeepingEntity.setStatus(ETimeKeeping.PRESENT);
             timeKeepingEntity.setAccount(accountEntity);
             timeKeepingEntity.setTimeCheck(new Timestamp(new Date().getTime()));
             timekeepingRepo.saveAndFlush(timeKeepingEntity);

@@ -26,8 +26,7 @@ public class TimeKeepingController {
     private Logger logger = LogManager.getLogger(TimeKeepingController.class);
 
     @RequestMapping(I_URI.API_TIMEKEEPING_LIST_EMPLOYEE)
-    public List<AccountCheckInModel> getEmployeeDepartment(@RequestParam("departmentId") Long departmentId,
-                                                           @RequestParam("accountId") Long accountId){
+    public List<AccountCheckInModel> getEmployeeDepartment(@RequestParam("departmentId") Long departmentId){
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             return timekeepingService.getEmployeeDepartment(departmentId, accountId);
@@ -56,6 +55,16 @@ public class TimeKeepingController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             return timekeepingService.getTimeKeeping(managerId, year, month);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
+
+    @RequestMapping(value = I_URI.API_TIMEKEEPING_CHECK_IN_MANUAL, method = RequestMethod.POST)
+    public List<CheckinManualModel> checkInManual(@RequestParam(value = "accountId", required = false) Long[] listAccountId){
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            return timekeepingService.checkInManual(Arrays.asList(3l,4l,5l));
         } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }

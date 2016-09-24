@@ -34,4 +34,8 @@ public interface ERROR {
 
     /** REMINDER**/
     String REMINDER_MANAGER_ID_NO_EXIST = "Managerid = '%s' no exist in System";
+
+    /** checkin*/
+    String CHECK_IN_MANUAL_NO_EXIST_ACCOUNTID = "No exist accountId = '%s'.";
+    String CHECK_IN_MANUAL_ACCOUNT_CHECKINED = "AccountId = '%s' is used to checkIn.";
 }

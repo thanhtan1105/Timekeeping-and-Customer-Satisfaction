@@ -14,8 +14,9 @@ public class AccountCheckInModel {
     private Long id;
     private String username;
     private String fullname;
-    private ETimeKeeping statusCheckin = ETimeKeeping.NO_CHECKIN;
+    private ETimeKeeping statusCheckin = ETimeKeeping.ABSENT;
     private Date timeCheckin; //if check successful has timeCheckin
+    private Date currentDate = new Date();
 
     public AccountCheckInModel() {
     }
