@@ -40,5 +40,6 @@ public interface I_URI {
     /** Timekeeping*/
     String API_TIMEKEEPING = "/api/time";
     String API_TIMEKEEPING_LIST_EMPLOYEE = "/list_employee";
+    String API_TIMEKEEPING_CHECK_IN_MANUAL = "/check_in_manual";
 
 }
