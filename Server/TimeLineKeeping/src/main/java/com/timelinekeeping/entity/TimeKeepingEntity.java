@@ -1,6 +1,7 @@
 package com.timelinekeeping.entity;
 
 import com.timelinekeeping.constant.ETimeKeeping;
+import com.timelinekeeping.constant.ETypeCheckin;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,12 +21,20 @@ public class TimeKeepingEntity implements Serializable {
     private Long id;
 
     @Basic
+    @Column(name = "type")
+    private ETypeCheckin type;
+
+    @Basic
+    @Column(name = "status")
+    private ETimeKeeping status = ETimeKeeping.ABSENT;
+
+    @Basic
     @Column(name = "time_check")
     private Timestamp timeCheck = new Timestamp(new Date().getTime());
 
     @Basic
-    @Column(name = "status")
-    private ETimeKeeping status = ETimeKeeping.LATE;
+    @Column(name = "note")
+    private String note;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
@@ -65,5 +74,21 @@ public class TimeKeepingEntity implements Serializable {
 
     public void setAccount(AccountEntity account) {
         this.account = account;
+    }
+
+    public ETypeCheckin getType() {
+        return type;
+    }
+
+    public void setType(ETypeCheckin type) {
+        this.type = type;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }
