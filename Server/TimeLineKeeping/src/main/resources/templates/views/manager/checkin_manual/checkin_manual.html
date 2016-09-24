@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout_manager">
+
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Check-in Manual</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1 class="text-success">
+            <i class="glyphicon glyphicon-send"></i> Check-in Manual
+        </h1>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-laptop active"></i> Check-in Manual</li>
+        </ol>
+        <hr style="border-color: green; margin-top: 4px; margin-bottom: 1px;"/>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <!-- Info: manager, department, date -->
+        <div class="text-center" style="margin-bottom: 5px">
+            <font class="text-success" style="font-size: 18px;">Department: IT</font><br/>
+            <font class="text-success" style="font-size: 18px;">Manager: Nguyễn Năng Trung</font><br/>
+            <font class="text-success" style="font-size: 18px;">Date: 18-Sep-2016</font>
+        </div>
+        <div class="box box-success">
+            <div class="box-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 class="box-title text-success"><i class="glyphicon glyphicon-list-alt"></i> Employees
+                            List</h3>
+                        <hr style="border-color: green; margin-top: 4px; margin-bottom: 1px; margin-right: 75%; border-width: 2px;">
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <div class="input-group" style="margin-left: 65%">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success btn-flat btn-sm" type="button">
+                                        <i class="glyphicon glyphicon-search"></i>
+                                    </button>
+                                </span>
+                            <input type="text" class="form-control input-sm" placeholder="Enter Employee Name"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <!-- Data-table for list of accounts -->
+            <div class="box-body">
+                <table id="dataTable" class="table table-bordered table-hover" style="border-collapse: collapse;">
+                    <colgroup>
+                        <col span="1" style="width: 5%;">
+                        <col span="1" style="width: 40%;">
+                        <col span="1" style="width: 5%;">
+                        <col span="1" style="width: 50%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Present</th>
+                        <th>Note</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1.</td>
+                        <td>Thái Quang Hiển</td>
+                        <td><input type="checkbox" class="minimal-red" checked></td>
+                        <td>
+                            <input type="text" class="form-control input-sm" style="width: 100%">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2.</td>
+                        <td>Lê Thanh Tân</td>
+                        <td><input type="checkbox" class="minimal-red"></td>
+                        <td>
+                            <input type="text" class="form-control input-sm" style="width: 100%">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+            <!-- /.end data-table for list of accounts -->
+        </div>
+        <div class="row text-center">
+            <button type="submit" class="btn btn-primary btn-flat">
+                <i class="fa fa-share-square-o"></i> SUBMIT
+            </button>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<div layout:fragment="js">
+    <!--<script th:src="@{/js/admin/management_depart/management_depart.js}"></script>-->
+</div>
+</body>
+</html>
