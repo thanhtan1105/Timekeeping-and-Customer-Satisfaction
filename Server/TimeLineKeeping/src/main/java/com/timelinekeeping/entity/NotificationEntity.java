@@ -63,7 +63,13 @@ public class NotificationEntity implements Serializable {
         this.timeNotify = timeNotify;
     }
 
-    
+    public ENotification getStatus() {
+        return status;
+    }
+
+    public void setStatus(ENotification status) {
+        this.status = status;
+    }
 
     public AccountEntity getAccountReceive() {
         return accountReceive;

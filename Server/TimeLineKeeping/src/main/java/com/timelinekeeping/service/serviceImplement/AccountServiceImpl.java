@@ -2,10 +2,7 @@ package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
-import com.timelinekeeping.constant.ERROR;
-import com.timelinekeeping.constant.ETimeKeeping;
-import com.timelinekeeping.constant.ETypeCheckin;
-import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.constant.*;
 import com.timelinekeeping.entity.*;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.modelMCS.FaceDetectResponse;
@@ -296,6 +293,13 @@ public class AccountServiceImpl {
             //TODO reminder
             // accountID -> get Reminder
             List<NotificationEntity> notificationSet = notificationRepo.findByAccountReceiveByDate(accountEntity.getId());
+            for (NotificationEntity notificationEntity : notificationSet){
+                notificationEntity.setStatus(ENotification.SENDED);
+                notificationEntity.setTimeNotify(new Timestamp(new Date().getTime()));
+                notificationRepo.save(notificationEntity);
+            }
+            notificationRepo.flush();
+
             // convert Reminder
             List<NotificationCheckInModel> message = notificationSet.stream().map(NotificationCheckInModel::new).collect(Collectors.toList());
 
