@@ -3,7 +3,9 @@ package com.timelinekeeping.controller;
 import com.timelinekeeping.constant.ViewConst;
 import com.timelinekeeping.model.AccountCheckInModel;
 import com.timelinekeeping.model.CheckinManualModel;
+import com.timelinekeeping.model.CheckinManualRequestModel;
 import com.timelinekeeping.service.serviceImplement.TimekeepingServiceImpl;
+import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,47 +35,53 @@ public class CheckinManualControllerWeb {
     public String loadCheckinManualView(Model model) {
         logger.info("[Controller- Load Check-in Manual View] BEGIN");
         Long departmentId = ValidateUtil.validateNumber("1");
+        Long accountId = ValidateUtil.validateNumber("1");
         // get list of employees by departmentId
-        List<AccountCheckInModel> accountCheckInModels = timekeepingService.getEmployeeDepartment(departmentId);
+        List<AccountCheckInModel> accountCheckInModels
+                = timekeepingService.getEmployeeDepartment(departmentId, accountId);
         if (accountCheckInModels != null) {
             int sizeOfListAccounts = accountCheckInModels.size();
             model.addAttribute("SizeOfListAccounts", sizeOfListAccounts);
         }
 
+        // get current date
+        Date currentDate = new Date();
+
         model.addAttribute("AccountCheckInModels", accountCheckInModels);
-        model.addAttribute("Usernanme", "trungnn");
+        model.addAttribute("CurrentDate", currentDate);
         logger.info("[Controller- Load Check-in Manual View] END");
 
         return ViewConst.CHECK_IN_MANUAL_VIEW;
     }
 
     @RequestMapping(value = "/checkinManualProcessing", method = RequestMethod.POST)
-    public String checkinManual(@RequestParam("accountIds") String[] accountIds,
-                                @RequestParam("notes") String[] notes,
-                                @RequestParam("noteOfAccountIds") String[] noteOfAccountIds) {
+    public String checkinManual(@RequestParam("accountCheckInModels") String accountCheckInModels) {
         logger.info("[Controller- Check-in Manual] BEGIN");
-        logger.info("[Controller- Check-in Manual] number of accounts: " + accountIds.length);
-        logger.info("[Controller- Check-in Manual] number of notes: " + notes.length);
-        logger.info("[Controller- Check-in Manual] number of note of accountIds: " + noteOfAccountIds.length);
-        List<Long> listAccount = new ArrayList<Long>();
-        for (int i = 0; i < accountIds.length; i++) {
-            logger.info("[Controller- Check-in Manual] [" + i + "] accountId: " + accountIds[i]);
-            listAccount.add(ValidateUtil.validateNumber(accountIds[i]));
-        }
-        for (int i = 0; i < notes.length; i++) {
-            logger.info("[Controller- Check-in Manual] [" + i + "] note: " + notes[i]);
-        }
-        for (int i = 0; i < noteOfAccountIds.length; i++) {
-            logger.info("[Controller- Check-in Manual] [" + i + "] note of accountIds: " + noteOfAccountIds[i]);
-        }
-        List<CheckinManualModel> listCheckIn = new ArrayList<>();
-        for (int i = 0; i < Math.min(accountIds.length, notes.length); i++) {
-            listCheckIn.add(new CheckinManualModel(Long.parseLong(accountIds[i]), notes[i]));
-        }
+        logger.info("[Controller- Check-in Manual] accountCheckInModels: " + accountCheckInModels);
+        // parse string-json to object
+        List<CheckinManualRequestModel> checkinManualRequestModels
+                = JsonUtil.convertListObject(accountCheckInModels, CheckinManualRequestModel.class);
+        if (checkinManualRequestModels != null && checkinManualRequestModels.size() > 0) {
+            logger.info("[Controller- Check-in Manual] size of accountCheckInModels: " + checkinManualRequestModels.size());
+            List<CheckinManualModel> listCheckIn = new ArrayList<>();
 
+            for (CheckinManualRequestModel checkinManualRequestModel : checkinManualRequestModels) {
+                Long accountId = checkinManualRequestModel.getAccountId();
+                String note = checkinManualRequestModel.getNote();
+                boolean isChecked = checkinManualRequestModel.isStatusCheckin();
+                logger.info("[Controller- Check-in Manual] id: " + accountId);
+                logger.info("[Controller- Check-in Manual] statusCheckin: " + isChecked);
+                logger.info("[Controller- Check-in Manual] note: " + note);
 
-        List<CheckinManualModel> checkinManualModels = timekeepingService.checkInManual(listCheckIn);
-        // TODO: check resutl check-in manual
+                if (isChecked) {
+                    listCheckIn.add(new CheckinManualModel(accountId, note));
+                }
+            }
+            logger.info("[Controller- Check-in Manual] size of list check-in: " + listCheckIn.size());
+
+            List<CheckinManualModel> checkinManualModels = timekeepingService.checkInManual(listCheckIn);
+            // TODO: check resutl check-in manual
+        }
 
         logger.info("[Controller- Check-in Manual] END");
         return "redirect:/manager/check_in/";

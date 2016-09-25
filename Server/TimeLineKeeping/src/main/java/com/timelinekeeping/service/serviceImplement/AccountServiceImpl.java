@@ -13,7 +13,6 @@ import com.timelinekeeping.modelMCS.FaceIdentifyConfidenceRespone;
 import com.timelinekeeping.modelMCS.FaceIdentityCandidate;
 import com.timelinekeeping.repository.*;
 import com.timelinekeeping.util.JsonUtil;
-import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.UtilApps;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
@@ -174,7 +173,7 @@ public class AccountServiceImpl {
             Pageable pageable = new PageRequest(start, top);
 
             //repo db
-            Page<AccountEntity> entityPage = accountRepo.findByDepartmentAndRole(departmentId, roleId, pageable);
+            Page<AccountEntity> entityPage = accountRepo.findByDepartmentAndRolePaging(departmentId, roleId, pageable);
 
             //covert list
             List<AccountModel> accountModels = entityPage.getContent().stream().map(AccountModel::new).collect(Collectors.toList());
