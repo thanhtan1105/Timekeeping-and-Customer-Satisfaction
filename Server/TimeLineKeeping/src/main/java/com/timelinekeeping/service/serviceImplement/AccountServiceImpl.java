@@ -173,7 +173,7 @@ public class AccountServiceImpl {
             Pageable pageable = new PageRequest(start, top);
 
             //repo db
-            Page<AccountEntity> entityPage = accountRepo.findByDepartmentAndRolePaging(departmentId, roleId, pageable);
+            Page<AccountEntity> entityPage = accountRepo.findByDepartmentAndRolePaging(departmentId, pageable);
 
             //covert list
             List<AccountModel> accountModels = entityPage.getContent().stream().map(AccountModel::new).collect(Collectors.toList());

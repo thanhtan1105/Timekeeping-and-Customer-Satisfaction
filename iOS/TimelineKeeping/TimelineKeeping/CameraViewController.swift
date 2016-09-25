@@ -111,7 +111,7 @@ class CameraViewController: UIViewController {
           self.cameraStill.image = image
           self.status = .Preview
           
-          self.callApiCheckIn(self.cameraStill.image!, completion: { (account, error) in
+          self.callApiCheckIn(self.cameraStill.image!, completion: { (account, reminder, error) in
             if let account = account {
               self.showInfoScren(account)
             } else {
@@ -214,13 +214,13 @@ extension CameraViewController {
     })
   }
   
-  private func callApiCheckIn(faceImage: UIImage, completion onCompletionHandler: ((account: Account?, error: NSError?) -> Void)?) {
+  private func callApiCheckIn(faceImage: UIImage, completion onCompletionHandler: ((account: Account?, reminder: [Reminder]?, error: NSError?) -> Void)?) {
     APIRequest.shareInstance.identifyImage(faceImage) { (response: ResponsePackage?, error: ErrorWebservice?) in
       print(response?.response)
       
       guard error == nil else {
         print("Fail")
-        onCompletionHandler!(account: nil, error: NSError(domain: "", code: (error?.code)!, userInfo: ["info" : (error?.error_description)!]))
+        onCompletionHandler!(account: nil, reminder: nil, error: NSError(domain: "", code: (error?.code)!, userInfo: ["info" : (error?.error_description)!]))
         return
       }
       
@@ -231,11 +231,14 @@ extension CameraViewController {
         let content = dict["data"] as! [String : AnyObject]
         let accountContent = content["account"] as! [String : AnyObject]
         let account = Account(accountContent)
-        onCompletionHandler!(account: account, error: nil)
+        
+        let reminderContent = content["messageReminder"] as! [String : AnyObject]
+        let reminder = Reminder(reminderContent)
+        onCompletionHandler!(account: account, reminder: nil, error: nil)
       } else {
         print("Fail")
         let message = dict["message"] as? String
-        onCompletionHandler!(account: nil, error: NSError(domain: "", code: 0, userInfo: ["info" : message!]))
+        onCompletionHandler!(account: nil, reminder: nil, error: NSError(domain: "", code: 0, userInfo: ["info" : message!]))
       }
 
     }

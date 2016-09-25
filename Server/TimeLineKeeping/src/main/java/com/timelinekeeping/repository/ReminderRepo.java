@@ -15,6 +15,6 @@ import org.springframework.stereotype.Repository;
 public interface ReminderRepo extends JpaRepository<ReminderMessageEntity, Long> {
 
 
-    @Query("SELECT  re FROM ReminderMessageEntity  re INNER JOIN re.menager a WHERE a.id = :manager_id AND re.active <> 0")
+    @Query("SELECT re FROM ReminderMessageEntity re INNER JOIN re.menager a WHERE a.id = :manager_id AND re.active <> 0")
     Page<ReminderMessageEntity> list(@Param("manager_id") Long managerId, Pageable pageable);
 }

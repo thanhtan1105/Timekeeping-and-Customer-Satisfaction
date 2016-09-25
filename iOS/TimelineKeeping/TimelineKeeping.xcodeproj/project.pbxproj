@@ -27,6 +27,7 @@
 		A6A765B91D85728D00A79643 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A765B81D85728D00A79643 /* CameraViewController.swift */; };
 		A6A765BB1D85D65000A79643 /* ShowInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A765BA1D85D65000A79643 /* ShowInfoViewController.swift */; };
 		A6A765BD1D85D7C900A79643 /* ReminderTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A765BC1D85D7C900A79643 /* ReminderTableCell.swift */; };
+		A6F543B51D983FAF0056A2B0 /* ReminderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6F543B41D983FAF0056A2B0 /* ReminderModel.swift */; };
 		DD7D4056BFEBD683FD399A3F /* Pods_TimelineKeepingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7656841AAF0CCE1CD3524A66 /* Pods_TimelineKeepingTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +76,7 @@
 		A6A765B81D85728D00A79643 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		A6A765BA1D85D65000A79643 /* ShowInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowInfoViewController.swift; sourceTree = "<group>"; };
 		A6A765BC1D85D7C900A79643 /* ReminderTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderTableCell.swift; sourceTree = "<group>"; };
+		A6F543B41D983FAF0056A2B0 /* ReminderModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderModel.swift; sourceTree = "<group>"; };
 		A7698FC94D4EB56B275C7A23 /* Pods-TimelineKeeping.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TimelineKeeping.release.xcconfig"; path = "Pods/Target Support Files/Pods-TimelineKeeping/Pods-TimelineKeeping.release.xcconfig"; sourceTree = "<group>"; };
 		B306A19F1029B41CDBAD0F9C /* Pods-TimelineKeepingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TimelineKeepingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TimelineKeepingTests/Pods-TimelineKeepingTests.release.xcconfig"; sourceTree = "<group>"; };
 		B9DC619DEEFDE423655AD2C4 /* Pods_TimelineKeeping.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TimelineKeeping.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -238,6 +240,7 @@
 				A6A765B61D85728900A79643 /* Camera.swift */,
 				A60D4F491D91A50F008CBF4E /* AccountModel.swift */,
 				A60D4F5A1D922D8D008CBF4E /* EmotionModel.swift */,
+				A6F543B41D983FAF0056A2B0 /* ReminderModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -557,6 +560,7 @@
 				A6A765B71D85728900A79643 /* Camera.swift in Sources */,
 				A6A765BD1D85D7C900A79643 /* ReminderTableCell.swift in Sources */,
 				A60D4F561D92215F008CBF4E /* EmotionSuggestionViewController.swift in Sources */,
+				A6F543B51D983FAF0056A2B0 /* ReminderModel.swift in Sources */,
 				A61A805C1D77E2900082E80F /* AppDelegate.swift in Sources */,
 				A60D4F5B1D922D8D008CBF4E /* EmotionModel.swift in Sources */,
 				A652E2251D871700003C6C86 /* APIRequestProtocol.swift in Sources */,
