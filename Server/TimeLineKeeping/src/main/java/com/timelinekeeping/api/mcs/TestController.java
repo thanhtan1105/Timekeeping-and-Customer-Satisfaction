@@ -31,11 +31,11 @@ public class TestController {
     private NotificationRepo notificationRepo;
 
     @RequestMapping("/list_account")
-    public Page<AccountModel> list(@RequestParam(value = "id", required = false) Long idDepartment) {
+    public List<AccountModel> list(@RequestParam(value = "id", required = false) Long idDepartment) {
 
-        Page<AccountEntity> page = repo.findByDepartment(idDepartment, new PageRequest(0, 100));
-        List<AccountModel> list = page.getContent().stream().map(AccountModel::new).collect(Collectors.toList());
-        return new PageImpl<AccountModel>(list, new PageRequest(0,100), page.getTotalElements());
+        List<AccountEntity> listEntity = repo.findByDepartment(idDepartment);
+        List<AccountModel> list = listEntity.stream().map(AccountModel::new).collect(Collectors.toList());
+        return list;
     }
 
     @RequestMapping("/get_notify")

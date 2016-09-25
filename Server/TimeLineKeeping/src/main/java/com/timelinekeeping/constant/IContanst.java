@@ -28,6 +28,8 @@ public interface IContanst {
     int HTTP_CLIENT_KEY_EMOTION = 1;
 
     String EXTENSION_FILE_IMAGE = "jpg";
+    int PAGE_PAGE_I = 0;
+    int PAGE_SIZE_I = 10;
     String PAGE_PAGE = 0 + "";
     String PAGE_SIZE = 10 + "";
     double MCS_PERSON_DETECT_CONFIDINCE_CORRECT = AppConfigKeys.getInstance().getApiPropertyDouble("detect.person.indetify.confidence");

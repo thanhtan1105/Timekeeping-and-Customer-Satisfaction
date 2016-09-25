@@ -1,6 +1,7 @@
 package com.timelinekeeping.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.timelinekeeping.model.CheckinManualRequestModel;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -73,10 +74,16 @@ public class JsonUtil {
     }
 
     public static void main(String[] args) {
-        String mapString ="{\"group\": \"trưởng ban đào tạo\", \"description\": \"Chức vị chuyên môn quản lý đào tạo cho trường\"}";
+//        String mapString ="{\"group\": \"trưởng ban đào tạo\", \"description\": \"Chức vị chuyên môn quản lý đào tạo cho trường\"}";
+//
+//        Map<String, String> map = convertMapObject(mapString, String.class);
+//
+//        System.out.println(toJson(map));
 
-        Map<String, String> map = convertMapObject(mapString, String.class);
-
-        System.out.println(toJson(map));
+        String mapString = "[{\"accountId\":\"1\", \"statusCheckin\":\"false\", \"note\":\"trung 1\"},{\"accountId\":\"3\", \"statusCheckin\":\"true\", \"note\":\"\"},{\"accountId\":\"4\", \"statusCheckin\":\"false\", \"note\":\"too late\"}]";
+        List<CheckinManualRequestModel> list = convertListObject(mapString, CheckinManualRequestModel.class);
+        if (list != null && list.size() > 0) {
+            System.out.println("result: " + list.get(0).getNote());
+        }
     }
 }
