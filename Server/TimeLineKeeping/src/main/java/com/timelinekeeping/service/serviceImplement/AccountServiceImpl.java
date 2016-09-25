@@ -6,6 +6,7 @@ import com.timelinekeeping.constant.ERROR;
 import com.timelinekeeping.constant.ETimeKeeping;
 import com.timelinekeeping.constant.ETypeCheckin;
 import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.constant.*;
 import com.timelinekeeping.entity.*;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.modelMCS.FaceDetectResponse;
@@ -149,10 +150,10 @@ public class AccountServiceImpl {
             Pageable pageable = new PageRequest(start, top);
 
             //repo db
-            Page<AccountEntity> entityPage = accountRepo.findByDepartmentPaging(departmentId, pageable);
+            List<AccountEntity> entityPage = departmentRepo.findByDepartment(departmentId);
 
             //covert list
-            List<AccountModel> accountModels = entityPage.getContent().stream().map(AccountModel::new).collect(Collectors.toList());
+            List<AccountModel> accountModels = entityPage.stream().map(AccountModel::new).collect(Collectors.toList());
 //            Page<AccountModel> returnPage = new PageImpl<>(accountModels, pageable, entityPage.getTotalElements());
 
 //            logger.info("Entity result:" + JsonUtil.toJson(returnPage));
@@ -296,6 +297,12 @@ public class AccountServiceImpl {
             //TODO reminder
             // accountID -> get Reminder
             List<NotificationEntity> notificationSet = notificationRepo.findByAccountReceiveByDate(accountEntity.getId());
+            for (NotificationEntity notificationEntity : notificationSet){
+                notificationEntity.setStatus(ENotification.SENDED);
+                notificationEntity.setTimeNotify(new Timestamp(new Date().getTime()));
+                notificationRepo.save(notificationEntity);
+            }
+            notificationRepo.flush();
             // convert Reminder
             List<NotificationCheckInModel> message = notificationSet.stream().map(NotificationCheckInModel::new).collect(Collectors.toList());
 

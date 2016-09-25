@@ -33,11 +33,11 @@ public class DepartmentEntity implements Serializable {
     private String description;
 
     @Basic
-    @Column(name = "active")
+    @Column(name = "active", nullable = false)
     private EStatus active = EStatus.ACTIVE;
 
     @Basic
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private ETrainStatus status = ETrainStatus.NOT_STARTED;
 
     @OneToOne(fetch = FetchType.LAZY)

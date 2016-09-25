@@ -90,4 +90,8 @@ public class TimekeepingServiceImpl {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
+
+    public List<CheckinManualModel> getTimeKeeping(Long managerId, Integer year, Integer month) {
+        return null;
+    }
 }
