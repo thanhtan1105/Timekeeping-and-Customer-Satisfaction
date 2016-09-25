@@ -3,23 +3,23 @@ package com.timelinekeeping.constant;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Created by HienTQSE60896 on 9/18/2016.
+ * Created by HienTQSE60896 on 9/21/2016.
  */
-public enum  ETimeKeeping {
+public enum ETypeCheckin {
 
-    PRESENT(1, "Present"),
-    ABSENT(2, "Absent");
+    CHECKIN_CAMERA(0, "Checkin Camera"),
+    CHECKIN_MANUAL(1, "Checkin Manual");
 
     private int index;
     private String name;
 
-    ETimeKeeping(int index, String name) {
+    ETypeCheckin(int index, String name) {
         this.index = index;
         this.name = name;
     }
 
-    public static ETimeKeeping fromIndex(int index){
-        for (ETimeKeeping ex : values()){
+    public static ETypeCheckin fromIndex(int index){
+        for (ETypeCheckin ex : values()){
             if (ex.getIndex() == index){
                 return ex;
             }
