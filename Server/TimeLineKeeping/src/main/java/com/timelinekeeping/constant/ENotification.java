@@ -5,21 +5,20 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Created by lethanhtan on 9/15/16.
  */
-public enum EStatus {
-
-    DEACTIVE(0, "DEACTIVE"),
-    ACTIVE(1, "ACTIVE");
+public enum ENotification {
+    NOSEND(0, "NO_SEND"),
+    SENDED(1, "SENDED");
 
     private int index;
     private String name;
 
-    EStatus(int index, String name) {
+    ENotification(int index, String name) {
         this.index = index;
         this.name = name;
     }
 
-    public static EStatus fromIndex(int index){
-        for (EStatus ex : values()){
+    public static ENotification fromIndex(int index){
+        for (ENotification ex : values()){
             if (ex.getIndex() == index){
                 return ex;
             }

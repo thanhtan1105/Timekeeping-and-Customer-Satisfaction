@@ -274,6 +274,8 @@ public class AccountServiceImpl {
             //TODO reminder
             // accountID -> get Reminder
             List<NotificationEntity> notificationSet = notificationRepo.findByAccountReceive(accountEntity.getId());
+
+
             // convert Reminder
             List<NotificationCheckInModel> message = notificationSet.stream().map(NotificationCheckInModel::new).collect(Collectors.toList());
 
