@@ -26,83 +26,87 @@
         <div class="text-center" style="margin-bottom: 5px">
             <font class="text-success" style="font-size: 18px;">Department: IT</font><br/>
             <font class="text-success" style="font-size: 18px;">Manager: Nguyễn Năng Trung</font><br/>
-            <font class="text-success" style="font-size: 18px;">Date: 18-Sep-2016</font>
+            <font class="text-success" style="font-size: 18px;"
+                    th:text="'Date: ' + ${#dates.format(CurrentDate, 'dd-MMM-yyyy')}"></font>
         </div>
-        <form th:action="@{/manager/check_in/checkinManualProcessing}" method="post">
-            <div class="box box-success">
-                <div class="box-header">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <h3 class="box-title text-success"><i class="glyphicon glyphicon-list-alt"></i> Employees
-                                List</h3>
-                            <hr style="border-color: green; margin-top: 4px; margin-bottom: 1px; margin-right: 75%; border-width: 2px;">
-                        </div>
-                        <div class="col-sm-6 text-right">
-                            <div class="input-group" style="margin-left: 65%">
+        <!--<form th:action="@{/manager/check_in/checkinManualProcessing}" method="post">-->
+        <div class="box box-success">
+            <div class="box-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 class="box-title text-success"><i class="glyphicon glyphicon-list-alt"></i> Employees
+                            List</h3>
+                        <hr style="border-color: green; margin-top: 4px; margin-bottom: 1px; margin-right: 75%; border-width: 2px;">
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <div class="input-group" style="margin-left: 65%">
                                 <span class="input-group-btn">
                                     <button class="btn btn-success btn-flat btn-sm" type="button">
                                         <i class="glyphicon glyphicon-search"></i>
                                     </button>
                                 </span>
-                                <input type="text" class="form-control input-sm" placeholder="Enter Employee Name"/>
-                            </div>
+                            <input type="text" class="form-control input-sm" placeholder="Enter Employee Name"/>
                         </div>
                     </div>
                 </div>
-                <!-- /.box-header -->
-                <!-- Data-table for list of accounts -->
-                <div class="box-body">
-                    <table id="dataTable" class="table table-bordered table-hover" style="border-collapse: collapse;">
-                        <colgroup>
-                            <col span="1" style="width: 5%;">
-                            <col span="1" style="width: 40%;">
-                            <col span="1" style="width: 5%;">
-                            <col span="1" style="width: 50%;">
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Name</th>
-                            <th>Present</th>
-                            <th>Note</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="account,counter: ${AccountCheckInModels}"
-                            th:if="${account.username} != ${Usernanme}">
-                            <td th:text="${counter.count} + '.'"></td>
-                            <td th:text="${account.fullname}"></td>
-                            <td>
-                                <input th:name="accountIds" th:value="${account.id}"
-                                       type="checkbox" class="minimal-red"
-                                       th:checked="${account.statusCheckin.index} == 1"
-                                       th:disabled="${account.statusCheckin.index} == 1"/>
-                            </td>
-                            <td>
-                                <input th:name="notes" type="text" th:disabled="${account.statusCheckin.index} == 1"
-                                       class="form-control input-sm" style="width: 100%"/>
-                                <input th:name="noteOfAccountIds" type="hidden" th:value="${account.id}"
-                                       th:disabled="${account.statusCheckin.index} == 1"/>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.box-body -->
-                <!-- /.end data-table for list of accounts -->
             </div>
-            <div class="row text-center">
-                <!--<form th:action="@{/manager/check_in/checkinManualProcessing}" method="post"-->
-                <!--id="form-submit-checkin-manual"-->
-                <!--onsubmit="getAccountCheckInModels()">-->
-                <!--<input type="hidden" name="sizeOfListAccounts" th:value="${SizeOfListAccounts}"/>-->
-                <!--<input type="hidden" name="accountCheckInModels" value=""/>-->
+            <!-- /.box-header -->
+            <!-- Data-table for list of accounts -->
+            <div class="box-body">
+                <table id="dataTable" class="table table-bordered table-hover" style="border-collapse: collapse;">
+                    <colgroup>
+                        <col span="1" style="width: 5%;">
+                        <col span="1" style="width: 40%;">
+                        <col span="1" style="width: 5%;">
+                        <col span="1" style="width: 50%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Present</th>
+                        <th>Note</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--<tr th:each="account,counter: ${AccountCheckInModels}"-->
+                    <!--th:if="${account.username} != ${Usernanme}">-->
+                    <tr th:each="account,counter: ${AccountCheckInModels}">
+                        <td th:text="${counter.count} + '.'"></td>
+                        <td th:text="${account.fullname}"></td>
+                        <td>
+                            <input th:name="accountIds" th:value="${account.id}"
+                                   type="checkbox" class="minimal-red"
+                                   th:attr="id='statusCheckin-' + ${counter.count}"
+                                   th:checked="${account.statusCheckin.index} == 1"
+                                   th:disabled="${account.statusCheckin.index} == 1"/>
+                        </td>
+                        <td>
+                            <input th:name="note" type="text" th:value="${account.note}"
+                                   th:disabled="${account.statusCheckin.index} == 1"
+                                   th:attr="id='note-' + ${counter.count}"
+                                   class="form-control input-sm" style="width: 100%"/>
+                            <input type="hidden" th:value="${account.id}" th:attr="id='accountId-' + ${counter.count}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+            <!-- /.end data-table for list of accounts -->
+        </div>
+        <div class="row text-center">
+            <form th:action="@{/manager/check_in/checkinManualProcessing}" method="post"
+                  id="form-submit-checkin-manual"
+                  onsubmit="getAccountCheckInModels()">
+                <input type="hidden" name="sizeOfListAccounts" th:value="${SizeOfListAccounts}"/>
+                <input type="hidden" name="accountCheckInModels" value=""/>
                 <button type="submit" class="btn btn-primary btn-flat">
                     <i class="fa fa-share-square-o"></i> SUBMIT
                 </button>
-                <!--</form>-->
-            </div>
-        </form>
+            </form>
+        </div>
+        <!--</form>-->
     </section>
     <!-- /.content -->
 </div>

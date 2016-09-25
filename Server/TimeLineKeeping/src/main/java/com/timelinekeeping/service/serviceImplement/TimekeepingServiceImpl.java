@@ -38,11 +38,12 @@ public class TimekeepingServiceImpl {
 
     private Logger logger = LogManager.getLogger(TimekeepingServiceImpl.class);
 
-    public List<AccountCheckInModel> getEmployeeDepartment(Long departmentId){
+    public List<AccountCheckInModel> getEmployeeDepartment(Long departmentId, Long accountId){
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             List<AccountCheckInModel> listResult = new ArrayList<>();
-            List<AccountEntity> listAccount = accountRepo.findByDepartment(departmentId);
+//            List<AccountEntity> listAccount = accountRepo.findByDepartment(departmentId);
+            List<AccountEntity> listAccount = accountRepo.findByDepartmentAndAccount(departmentId, accountId);
             for (AccountEntity accountEntity : listAccount) {
                 TimeKeepingEntity timeKeepingEntity = timekeepingRepo.findByAccountCheckinDate(accountEntity.getId(), new Date());
                 listResult.add(new AccountCheckInModel(accountEntity, timeKeepingEntity));
@@ -57,6 +58,7 @@ public class TimekeepingServiceImpl {
 
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            List<CheckinManualModel> checkinManualModels = new ArrayList<>();
 
             for (CheckinManualModel checkinModel: listCheckin){
                 Long accountId = checkinModel.getAccountId();
@@ -66,7 +68,7 @@ public class TimekeepingServiceImpl {
                     if (timeKeeping == null) {
                         timeKeeping = new TimeKeepingEntity();
                         timeKeeping.setAccount(accountEntity);
-                        timeKeeping.setNote(timeKeeping.getNote());
+                        timeKeeping.setNote(checkinModel.getNote());
                         timeKeeping.setType(ETypeCheckin.CHECKIN_MANUAL);
                         timeKeeping.setStatus(ETimeKeeping.PRESENT);
                         timeKeeping.setTimeCheck(new Timestamp(new Date().getTime()));
@@ -80,10 +82,10 @@ public class TimekeepingServiceImpl {
                     checkinModel.setSuccess(false);
                     checkinModel.setMessage(String.format(ERROR.CHECK_IN_MANUAL_NO_EXIST_ACCOUNTID, accountId + ""));
                 }
-                listCheckin.add(checkinModel);
+                checkinManualModels.add(checkinModel);
             }
             timekeepingRepo.flush();
-            return listCheckin;
+            return checkinManualModels;
         }finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }

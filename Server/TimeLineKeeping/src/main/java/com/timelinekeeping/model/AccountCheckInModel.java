@@ -17,6 +17,7 @@ public class AccountCheckInModel {
     private ETimeKeeping statusCheckin = ETimeKeeping.ABSENT;
     private Date timeCheckin; //if check successful has timeCheckin
     private Date currentDate = new Date();
+    private String note;
 
     public AccountCheckInModel() {
     }
@@ -29,6 +30,7 @@ public class AccountCheckInModel {
             if (timeEntity != null) {
                 this.statusCheckin = timeEntity.getStatus();
                 this.timeCheckin = timeEntity.getTimeCheck();
+                this.note = timeEntity.getNote();
             }
         }
     }
@@ -71,5 +73,13 @@ public class AccountCheckInModel {
 
     public void setTimeCheckin(Date timeCheckin) {
         this.timeCheckin = timeCheckin;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }
