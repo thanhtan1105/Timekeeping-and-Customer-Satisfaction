@@ -297,14 +297,17 @@ public class AccountServiceImpl {
             //TODO reminder
             // accountID -> get Reminder
             List<NotificationEntity> notificationSet = notificationRepo.findByAccountReceiveByDate(accountEntity.getId());
+            List<NotificationCheckInModel> message = new ArrayList<>();
             for (NotificationEntity notificationEntity : notificationSet){
-                notificationEntity.setStatus(ENotification.SENDED);
-                notificationEntity.setTimeNotify(new Timestamp(new Date().getTime()));
-                notificationRepo.save(notificationEntity);
+                if (notificationEntity.getStatus() == ENotification.NOSEND) {
+                    notificationEntity.setStatus(ENotification.SENDED);
+                    notificationEntity.setTimeNotify(new Timestamp(new Date().getTime()));
+                    notificationRepo.save(notificationEntity);
+                    message.add(new NotificationCheckInModel(notificationEntity));
+                }
             }
             notificationRepo.flush();
             // convert Reminder
-            List<NotificationCheckInModel> message = notificationSet.stream().map(NotificationCheckInModel::new).collect(Collectors.toList());
 
             //Response to Server
             CheckinResponse checkinResponse = new CheckinResponse();
