@@ -26,4 +26,13 @@ class Reminder {
     self.message = message
     self.time = time
   }
+  
+  static func reminders(reminders: [[String : AnyObject]]) -> [Reminder] {
+    var reminderResult: [Reminder] = []
+    for key in reminders {
+      let reminder = Reminder(key)
+      reminderResult.append(reminder!)
+    }
+    return reminderResult
+  }
 }

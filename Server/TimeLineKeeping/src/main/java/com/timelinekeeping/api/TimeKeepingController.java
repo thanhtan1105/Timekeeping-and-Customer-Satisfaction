@@ -61,7 +61,7 @@ public class TimeKeepingController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_TIMEKEEPING_CHECK_IN_MANUAL, method = RequestMethod.POST)
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
     public List<CheckinManualModel> getTimeKeeping(@RequestParam(value = "accountId", required = false) List<CheckinManualModel> listCheckin){
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -70,5 +70,4 @@ public class TimeKeepingController {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }
     }
-
 }

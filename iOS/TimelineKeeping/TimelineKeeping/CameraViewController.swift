@@ -232,8 +232,8 @@ extension CameraViewController {
         let accountContent = content["account"] as! [String : AnyObject]
         let account = Account(accountContent)
         
-        let reminderContent = content["messageReminder"] as! [String : AnyObject]
-        let reminder = Reminder(reminderContent)
+        let reminderContent = content["messageReminder"] as! [[String : AnyObject]]
+        let reminder = Reminder.reminders(reminderContent)
         onCompletionHandler!(account: account, reminder: nil, error: nil)
       } else {
         print("Fail")
