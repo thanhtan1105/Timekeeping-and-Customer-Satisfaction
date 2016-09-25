@@ -60,7 +60,7 @@ public class ReminderControllerWeb {
     public String loadAddReminderView(Model model) {
         logger.info("[Controller- Load Add Reminder View] BEGIN");
 
-        Long departmentId = Long.parseLong("1");
+        Long departmentId = Long.parseLong("5");
         Long roleId = Long.parseLong("3");
         int page = 0;
         int size = 1000;
