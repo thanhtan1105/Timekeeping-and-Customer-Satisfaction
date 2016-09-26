@@ -113,7 +113,7 @@ class CameraViewController: UIViewController {
           
           self.callApiCheckIn(self.cameraStill.image!, completion: { (account, reminder, error) in
             if let account = account {
-              self.showInfoScren(account)
+              self.showInfoScren(account, reminder: reminder!)
             } else {
               // fail
               self.cameraPreview.alpha = 1.0
@@ -206,9 +206,10 @@ extension CameraViewController {
     }
   }
   
-  private func showInfoScren(account: Account) {
+  private func showInfoScren(account: Account, reminder: [Reminder]) {
     let showInforVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ShowInfoViewController") as! ShowInfoViewController
     showInforVC.account = account
+    showInforVC.reminders = reminder
     self.presentViewController(showInforVC, animated: true, completion: {
       self.camera?.stopCamera()
     })
@@ -234,7 +235,7 @@ extension CameraViewController {
         
         let reminderContent = content["messageReminder"] as! [[String : AnyObject]]
         let reminder = Reminder.reminders(reminderContent)
-        onCompletionHandler!(account: account, reminder: nil, error: nil)
+        onCompletionHandler!(account: account, reminder: reminder, error: nil)
       } else {
         print("Fail")
         let message = dict["message"] as? String
