@@ -15,6 +15,7 @@ class ShowInfoViewController: UIViewController {
   @IBOutlet weak var closeButton: UIButton!
 
   var account: Account!
+  var reminders: [Reminder] = []
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -35,11 +36,12 @@ extension ShowInfoViewController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 5
+    return reminders.count
   }
   
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier(ReminderTableCell.ClassName) as! ReminderTableCell
+    cell.reminder = reminders[indexPath.row]
     return cell
   }
 }
