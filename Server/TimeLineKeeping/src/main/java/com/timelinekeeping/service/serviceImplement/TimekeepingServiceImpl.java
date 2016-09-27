@@ -7,9 +7,8 @@ import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.TimeKeepingEntity;
 import com.timelinekeeping.model.AccountCheckInModel;
-import com.timelinekeeping.model.AccountTKReportModel;
 import com.timelinekeeping.model.CheckinManualModel;
-import com.timelinekeeping.model.TimekeepingResponseModel;
+import com.timelinekeeping.model.TimeKeepingReportModel;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.TimekeepingRepo;
 import org.apache.log4j.LogManager;
@@ -18,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by HienTQSE60896 on 9/24/2016.
@@ -89,36 +90,22 @@ public class TimekeepingServiceImpl {
 
     /**
      * get*/
-    public TimekeepingResponseModel getTimeKeeping(Long managerId, Integer year, Integer month) {
+    public List<CheckinManualModel> getTimeKeeping(Long managerId, Integer year, Integer month) {
         //get All acount by manager
         //get all timekeeping in month
         //compare to data
         //respose server
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-
-            List<AccountEntity> listAccount = accountRepo.findByManagerNoActive(managerId);
-
-            //filter account not in month
-            //TODO filter account desiable in moth
-
-            List<Long[]> listCountTime = timekeepingRepo.countEmployeeTime(year, month);
-            Map<Long, Long> mapValue = new HashMap<>();
-            for (Long[] countTime : listCountTime){
-                mapValue.put(countTime[0], countTime[1]);
-            }
-
-            List<AccountTKReportModel> accountTKReportModels = new ArrayList<>();
-            //create list accountResponse
+            List<CheckinManualModel> listResult = new ArrayList<>();
+            List<AccountEntity> listAccount = accountRepo.findByManager(managerId);
+//            List<Long[]> listCount = timekeepingRepo.countEmployeeTime(year, month);
+//            List<TimeKeepingReportModel> listReport = new
             for (AccountEntity accountEntity : listAccount) {
                 TimeKeepingEntity timeKeepingEntity = timekeepingRepo.findByAccountCheckinDate(accountEntity.getId(), new Date());
 //                listResult.add(new CheckinManualModel(accountEntity, timeKeepingEntity));
             }
-
-            //prepare mode response
-            AccountEntity manager = accountRepo.findOne(managerId);
-            TimekeepingResponseModel responseModel = new TimekeepingResponseModel(manager, year, month);
-            return responseModel;
+            return listResult;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
