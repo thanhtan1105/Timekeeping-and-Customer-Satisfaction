@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,11 +25,11 @@ public class TimeKeepingController {
     private Logger logger = LogManager.getLogger(TimeKeepingController.class);
 
     @RequestMapping(I_URI.API_TIMEKEEPING_LIST_EMPLOYEE)
-    public List<AccountCheckInModel> getEmployeeDepartment(@RequestParam("departmentId") Long departmentId,
-                                                           @RequestParam("accountId") Long accountId){
+    public List<AccountCheckInModel> getEmployeeUnderManager(@RequestParam("departmentId") Long departmentId,
+                                                             @RequestParam("accountId") Long accountId){
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            return timekeepingService.getEmployeeDepartment(departmentId, accountId);
+            return timekeepingService.getEmployeeUnderManager(accountId);
         } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }

@@ -38,7 +38,7 @@ public class CheckinManualControllerWeb {
         Long accountId = ValidateUtil.validateNumber("1");
         // get list of employees by departmentId
         List<AccountCheckInModel> accountCheckInModels
-                = timekeepingService.getEmployeeDepartment(departmentId, accountId);
+                = timekeepingService.getEmployeeUnderManager(accountId);
         if (accountCheckInModels != null) {
             int sizeOfListAccounts = accountCheckInModels.size();
             model.addAttribute("SizeOfListAccounts", sizeOfListAccounts);
