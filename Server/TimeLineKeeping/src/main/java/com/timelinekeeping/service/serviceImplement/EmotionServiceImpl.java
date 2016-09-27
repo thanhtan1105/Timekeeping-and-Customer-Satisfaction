@@ -28,10 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by lethanhtan on 9/15/16.
@@ -250,6 +247,11 @@ public class EmotionServiceImpl {
 
                         emotionAnalysisModels.add(emotionAnalysisModel);
 
+                        // save to database
+//                        EmotionCustomerEntity emotionCustomerEntity = new EmotionCustomerEntity(new Timestamp(new Date().getTime()), anger, contempt, disgust, fear, happiness, neutral, sadness, surprise, age, gender);
+//                        emotionCustomerEntity.setCreateBy(accountRepo.findOne(employeeId));
+//                        baseResponse.setData(emotionRepo.saveAndFlush(emotionCustomerEntity));
+
                     }
                     baseResponse.setSuccess(true);
                     responseData.put("emotion", emotionAnalysisModels);
@@ -275,6 +277,7 @@ public class EmotionServiceImpl {
 //            Timestamp timestamp = new Timestamp(date.getTime());
 
 //            // save to database
+
 //            emotion.setCreateTime(timestamp);
 //            emotion.setCreateBy(accountRepo.findOne(employeeId));
 //            emotionRepo.saveAndFlush(emotion);

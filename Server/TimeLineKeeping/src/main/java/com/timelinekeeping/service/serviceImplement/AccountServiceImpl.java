@@ -184,7 +184,7 @@ public class AccountServiceImpl {
             Pageable pageable = new PageRequest(start, top);
 
             //repo db
-            Page<AccountEntity> entityPage = accountRepo.findByDepartmentAndRolePaging(departmentId, pageable);
+            Page<AccountEntity> entityPage = accountRepo.findByDepartmentPaging(departmentId, pageable);
 
             //covert list
             List<AccountModel> accountModels = entityPage.getContent().stream().map(AccountModel::new).collect(Collectors.toList());
@@ -294,14 +294,19 @@ public class AccountServiceImpl {
             }
 
             // Save TimeKeeping fro accountID
-            TimeKeepingEntity timeKeepingEntity = new TimeKeepingEntity();
+            TimeKeepingEntity timeKeepingEntity = timekeepingRepo.findByAccountCheckinDate(accountEntity.getId(), new Date());
+            if (timeKeepingEntity != null){
+                //TODO checked, show message
+            }else {
+                timeKeepingEntity = new TimeKeepingEntity();
 //            ETimeKeeping timeKeepingStatus = UtilApps.checkStatusTimeKeeping();
-            timeKeepingEntity.setType(ETypeCheckin.CHECKIN_CAMERA);
-            timeKeepingEntity.setStatus(ETimeKeeping.PRESENT);
-            timeKeepingEntity.setAccount(accountEntity);
-            timeKeepingEntity.setTimeCheck(new Timestamp(new Date().getTime()));
-            timekeepingRepo.saveAndFlush(timeKeepingEntity);
-            logger.info("-- Save TimeKeeping: " + timeKeepingEntity.getTimeCheck());
+                timeKeepingEntity.setType(ETypeCheckin.CHECKIN_CAMERA);
+                timeKeepingEntity.setStatus(ETimeKeeping.PRESENT);
+                timeKeepingEntity.setAccount(accountEntity);
+                timeKeepingEntity.setTimeCheck(new Timestamp(new Date().getTime()));
+                timekeepingRepo.saveAndFlush(timeKeepingEntity);
+                logger.info("-- Save TimeKeeping: " + timeKeepingEntity.getTimeCheck());
+            }
 
 
             //TODO reminder
