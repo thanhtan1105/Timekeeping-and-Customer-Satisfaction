@@ -4,6 +4,7 @@ import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
+import com.timelinekeeping.modelMCS.RectangleImage;
 
 import java.io.Serializable;
 
@@ -15,6 +16,7 @@ public class EmotionAnalysisModel implements Serializable {
     private Double age;
     private Gender gender;
     private Double smile;
+    private RectangleImage rectangleImage;
     private EmotionRecognizeScores emotion;
 
     public EmotionAnalysisModel() {
@@ -72,6 +74,14 @@ public class EmotionAnalysisModel implements Serializable {
 
     public void setEmotion(EmotionRecognizeScores emotion) {
         this.emotion = emotion;
+    }
+
+    public RectangleImage getRectangleImage() {
+        return rectangleImage;
+    }
+
+    public void setRectangleImage(RectangleImage rectangleImage) {
+        this.rectangleImage = rectangleImage;
     }
 
     @Override
