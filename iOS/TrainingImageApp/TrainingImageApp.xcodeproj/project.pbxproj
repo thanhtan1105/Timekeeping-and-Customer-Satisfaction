@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		23C1A0FBA5C877021F44C076 /* Pods_TrainingImageAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 873891F56F6AFCD1994AC0EE /* Pods_TrainingImageAppTests.framework */; };
 		4F4FC0A2C4BD17E56C08394C /* Pods_TrainingImageApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C97D15C9FE2DD1B90EEAF3E /* Pods_TrainingImageApp.framework */; };
+		A60185651D9BDF36007077E7 /* LeThanhTanLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60185641D9BDF36007077E7 /* LeThanhTanLoading.swift */; };
 		A622A5491D905318004749B8 /* Define.swift in Sources */ = {isa = PBXBuildFile; fileRef = A622A5481D905318004749B8 /* Define.swift */; };
 		A622A54B1D9054C4004749B8 /* AddNewFaceCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A622A54A1D9054C4004749B8 /* AddNewFaceCollectionCell.swift */; };
 		A622A54D1D905508004749B8 /* FaceCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A622A54C1D905508004749B8 /* FaceCollectionCell.swift */; };
@@ -61,6 +62,7 @@
 		7E79D76E4C9B3A4E7983FCE3 /* Pods-TrainingImageAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrainingImageAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrainingImageAppTests/Pods-TrainingImageAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		873891F56F6AFCD1994AC0EE /* Pods_TrainingImageAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TrainingImageAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BA11F29A199593829E044E9 /* Pods-TrainingImageApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrainingImageApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-TrainingImageApp/Pods-TrainingImageApp.release.xcconfig"; sourceTree = "<group>"; };
+		A60185641D9BDF36007077E7 /* LeThanhTanLoading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeThanhTanLoading.swift; sourceTree = "<group>"; };
 		A622A5481D905318004749B8 /* Define.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Define.swift; sourceTree = "<group>"; };
 		A622A54A1D9054C4004749B8 /* AddNewFaceCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewFaceCollectionCell.swift; sourceTree = "<group>"; };
 		A622A54C1D905508004749B8 /* FaceCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceCollectionCell.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 		A622A5471D905303004749B8 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				A60185641D9BDF36007077E7 /* LeThanhTanLoading.swift */,
 				A622A5481D905318004749B8 /* Define.swift */,
 			);
 			name = Common;
@@ -577,6 +580,7 @@
 				A672794D1D8B830900922754 /* DepartmentTableCell.swift in Sources */,
 				A672793E1D8ABE2100922754 /* DepartmentViewController.swift in Sources */,
 				A67279381D8AB43300922754 /* Camera.swift in Sources */,
+				A60185651D9BDF36007077E7 /* LeThanhTanLoading.swift in Sources */,
 				A67279401D8ABE7300922754 /* EmployeeListViewController.swift in Sources */,
 				A672793C1D8AB69300922754 /* BaseViewController.swift in Sources */,
 				A67279471D8B745000922754 /* APIRequestProtocol.swift in Sources */,

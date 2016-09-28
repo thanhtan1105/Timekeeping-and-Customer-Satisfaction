@@ -24,11 +24,16 @@ class Camera: NSObject {
   var sessionQueue: dispatch_queue_t!
   var stillImageOutput: AVCaptureStillImageOutput?
   var metadataOutput: AVCaptureMetadataOutput?
-
-  init(sender: AnyObject) {
+  var position: Position = .Front
+  enum Position {
+    case Front
+    case Back
+  }
+  
+  init(sender: AnyObject, position: Position) {
     super.init()
     self.delegate = sender as? CameraDelegate
-  
+    self.position = position
     self.setObservers()
     self.initializeSession()
   }
@@ -100,12 +105,17 @@ class Camera: NSObject {
             
             if videoConnection != nil {
                 imageOutput.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler: { (imageSampleBuffer: CMSampleBufferRef!, error) -> Void in
-                    let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageSampleBuffer)
-                    let image: UIImage? = UIImage(data: imageData!)!
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                        completed(image: image)
-                    }
+                  guard error == nil else {
+                    completed(image: nil)
+                    return
+                  }
+                  
+                  let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageSampleBuffer)
+                  let image: UIImage? = UIImage(data: imageData!)!
+                  
+                  dispatch_async(dispatch_get_main_queue()) {
+                      completed(image: image)
+                  }
                 })
             } else {
                 dispatch_async(dispatch_get_main_queue()) {
@@ -121,7 +131,12 @@ class Camera: NSObject {
   
   // MARK: Configuration
   func addVideoInput() {
-    let device: AVCaptureDevice = self.deviceWithMediaTypeWithPosition(AVMediaTypeVideo, position: AVCaptureDevicePosition.Front)
+    let device: AVCaptureDevice
+    if position == Camera.Position.Front {
+      device = self.deviceWithMediaTypeWithPosition(AVMediaTypeVideo, position: AVCaptureDevicePosition.Front)
+    } else {
+      device = self.deviceWithMediaTypeWithPosition(AVMediaTypeVideo, position: AVCaptureDevicePosition.Back)
+    }    
     do {
         let input = try AVCaptureDeviceInput(device: device)
         if self.session.canAddInput(input) {

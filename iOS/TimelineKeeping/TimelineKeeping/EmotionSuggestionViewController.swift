@@ -58,13 +58,11 @@ class EmotionSuggestionViewController: UIViewController {
     barChart.xAxis.drawGridLinesEnabled = false
     barChart.xAxis.wordWrapEnabled = true
     
-//    horizentalChart.xAxis.setLabelsToSkip(0)
-//    horizentalChart.leftAxis.labelPosition = .OutsideChart
     barChart.animate(yAxisDuration: 1.5, easingOption: .EaseInOutQuart)
     setDataCount()
 
     if let age = emotions.first?.age {
-      ageLabel.text = "Age : " + String(format: "%.1f", age)
+      ageLabel.text = "Age of face: " + String(format: "%.1f", age)
     }
     
     genderLabel.text = emotions.first?.gender.description
@@ -77,25 +75,6 @@ class EmotionSuggestionViewController: UIViewController {
   
 
   func setDataCount() {
-//    var xVals = [NSObject]()
-//    for i in 0..<verticalData.count {
-//      xVals.append(verticalData[i] * 100)
-//    }
-//    
-//    var yVals: [ChartDataEntry] = []
-//    for i in 0..<emotionData.count {
-//      let val: Double = emotionData[i]
-//      yVals.append(BarChartDataEntry(value: val, xIndex: i))
-//    }
-//    
-//    let set1 = BarChartDataSet(yVals: yVals, label: "")
-//    set1.barSpace = 0.3
-//    var dataSets = [IChartDataSet]()
-//    dataSets.append(set1)
-//    
-//    let data = BarChartData(xVals: emotionStatus, dataSets: dataSets)
-//    self.horizentalChart.data = data
-    
     
     // Initialize an array to store chart data entries (values; y axis)
     var emotionEntries = [ChartDataEntry]()

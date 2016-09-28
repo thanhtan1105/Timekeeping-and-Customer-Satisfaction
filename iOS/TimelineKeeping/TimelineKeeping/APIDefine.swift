@@ -19,17 +19,8 @@ let enviroment = Enviroment.dev
 //let enviroment = Enviroment.test
 //let enviroment = Enviroment.production
 
-let serverUrl: String = {
-	switch enviroment {
-	case .dev:
-		return "http://192.168.1.107:8080/api"
-//    return "http://172.20.10.4:8080/api"
-	case .test:
-		return "Enviroment.TEST HERE"
-	case .production:
-		return "Enviroment.PRODUCTION HERE"
-	}
-}()
+let ip: String = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.150.103"
+let serverUrl: String = "http://" + ip + ":8080/api"
 
 
 // MARK :- URL API

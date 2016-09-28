@@ -152,6 +152,56 @@
             </objects>
             <point key="canvasLocation" x="182" y="1217"/>
         </scene>
+        <!--Setting-->
+        <scene sceneID="Zd3-om-4Vo">
+            <objects>
+                <viewController storyboardIdentifier="SettingViewController" id="i7C-nI-b1S" customClass="SettingViewController" customModule="TimelineKeeping" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="F0M-2Q-qt1"/>
+                        <viewControllerLayoutGuide type="bottom" id="qMP-NM-BhQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Pax-5J-Ylq">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IP:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="79w-mp-h2n">
+                                <rect key="frame" x="14" y="83" width="19.5" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fq8-8V-5mA">
+                                <rect key="frame" x="48.5" y="83" width="261.5" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fq8-8V-5mA" firstAttribute="leading" secondItem="79w-mp-h2n" secondAttribute="trailing" constant="15" id="0Q3-Nc-Ea5"/>
+                            <constraint firstItem="79w-mp-h2n" firstAttribute="top" secondItem="F0M-2Q-qt1" secondAttribute="bottom" constant="19" id="Ce5-c4-hxD"/>
+                            <constraint firstItem="79w-mp-h2n" firstAttribute="height" secondItem="fq8-8V-5mA" secondAttribute="height" id="Uil-u4-Lg9"/>
+                            <constraint firstItem="fq8-8V-5mA" firstAttribute="top" secondItem="79w-mp-h2n" secondAttribute="top" id="d6E-nK-ObI"/>
+                            <constraint firstAttribute="trailing" secondItem="fq8-8V-5mA" secondAttribute="trailing" constant="10" id="qV9-c7-UzB"/>
+                            <constraint firstItem="79w-mp-h2n" firstAttribute="leading" secondItem="Pax-5J-Ylq" secondAttribute="leading" constant="14" id="zjZ-n6-Fve"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Setting" id="c0C-wV-Pqy">
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="d56-5W-32T">
+                            <connections>
+                                <action selector="onSaveTapped:" destination="i7C-nI-b1S" id="IXX-Gf-yfC"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="ipTextField" destination="fq8-8V-5mA" id="NXd-TV-7qa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AbK-lv-TT7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="605" y="1959"/>
+        </scene>
         <!--Emotion Suggestion View Controller-->
         <scene sceneID="ECG-l3-UyT">
             <objects>
@@ -233,6 +283,7 @@
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="Uo1-nk-RKx"/>
                         <segue destination="t36-YS-lWv" kind="relationship" relationship="viewControllers" id="nK3-m3-YGY"/>
+                        <segue destination="vE0-21-EFi" kind="relationship" relationship="viewControllers" id="Wru-0C-D4j"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aFm-ks-hI3" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -278,7 +329,7 @@
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="86" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7Em-zs-Cvg">
                                 <rect key="frame" x="0.0" y="161" width="320" height="349"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReminderTableCell" rowHeight="86" id="672-kf-0wK" customClass="ReminderTableCell" customModule="TimelineKeeping" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="86"/>
@@ -290,18 +341,18 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mkL-2O-Ewy">
                                                     <rect key="frame" x="14" y="10" width="37" height="21"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="9:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CkQ-Nc-OWA">
                                                     <rect key="frame" x="274" y="32" width="36" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g0U-bR-Jfa">
                                                     <rect key="frame" x="0.0" y="75" width="320" height="10"/>
-                                                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="10" id="uQD-ZL-AXx"/>
                                                     </constraints>
@@ -309,7 +360,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="message" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JiN-Do-eS5">
                                                     <rect key="frame" x="14" y="36" width="62" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -368,6 +419,26 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ngt-VH-l3f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="605" y="496"/>
+        </scene>
+        <!--Setting-->
+        <scene sceneID="DZp-yF-opJ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vE0-21-EFi" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Setting" id="KOb-62-dxU"/>
+                    <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2vI-xH-0BA">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="i7C-nI-b1S" kind="relationship" relationship="rootViewController" id="4nD-dc-bgv"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5gg-V1-THm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="182" y="1959"/>
         </scene>
     </scenes>
 </document>

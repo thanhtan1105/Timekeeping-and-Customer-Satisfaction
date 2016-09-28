@@ -31,7 +31,13 @@
                             <constraint firstItem="hbD-wp-qFq" firstAttribute="centerX" secondItem="9an-pF-Dkk" secondAttribute="centerX" id="xgH-pv-1hA"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Training Image" id="tPQ-uD-Etf"/>
+                    <navigationItem key="navigationItem" title="Training Image" id="tPQ-uD-Etf">
+                        <barButtonItem key="rightBarButtonItem" title="Setting" id="o8W-AI-YQb">
+                            <connections>
+                                <action selector="onSettingTapped:" destination="oH8-hi-KVR" id="GEB-qo-nXq"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CyR-gw-vuk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -409,7 +415,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eBS-UD-sKl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="31" y="722"/>
+            <point key="canvasLocation" x="505" y="762"/>
         </scene>
     </scenes>
 </document>

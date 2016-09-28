@@ -25,7 +25,7 @@ class CameraViewController: UIViewController {
   var camera: Camera?
   var status: Status = .Preview
   var faceView: UIView?
-  var isCameraTaken = false
+  var isCameraTaken: Bool = false
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -47,12 +47,9 @@ class CameraViewController: UIViewController {
     self.cameraPreview.alpha = 1.0    
     isRunning = false
     
-//    let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(4 * Double(NSEC_PER_SEC)))
-//    dispatch_after(delayTime, dispatch_get_main_queue()) {
-//      self.isCameraTaken = false
-//      
-//    }
-    
+    LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
+    isCameraTaken = false
+    status = .Preview
   }
   
   override func viewDidAppear(animated: Bool) {
@@ -61,6 +58,11 @@ class CameraViewController: UIViewController {
       self.establishVideoPreviewArea()
       isRunning = true
     }
+  }
+  
+  override func viewDidDisappear(animated: Bool) {
+    super.viewDidDisappear(animated)
+    self.camera?.stopCamera()
   }
   
   func establishVideoPreviewArea() {
@@ -103,7 +105,7 @@ class CameraViewController: UIViewController {
       UIView.animateWithDuration(0.05, animations: { () -> Void in
         self.cameraPreview.alpha = 0.0
         self.cameraStill.alpha = 1.0
-        
+        LeThanhTanLoading.sharedInstance.showLoadingAddedTo(self.view, animated: true)
       })
       
       self.camera?.captureStillImage({ (image) -> Void in
@@ -119,11 +121,14 @@ class CameraViewController: UIViewController {
               self.cameraPreview.alpha = 1.0
               self.cameraStill.image = nil
               self.isCameraTaken = false
+              LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
             }
           })
           
         } else {
           self.status = .Error
+          self.isCameraTaken = false
+          LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
         }
       })
     }
@@ -187,7 +192,7 @@ extension CameraViewController: CameraDelegate {
 // MARK: Private Method
 extension CameraViewController {
   private func initializeCamera() {
-    self.camera = Camera(sender: self)
+    self.camera = Camera(sender: self, position: Camera.Position.Front)
   }
   
   func videoOrientationFromCurrentDeviceOrientation() -> AVCaptureVideoOrientation {
@@ -211,7 +216,7 @@ extension CameraViewController {
     showInforVC.account = account
     showInforVC.reminders = reminder
     self.presentViewController(showInforVC, animated: true, completion: {
-      self.camera?.stopCamera()
+      
     })
   }
   

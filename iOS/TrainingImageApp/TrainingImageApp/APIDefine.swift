@@ -18,30 +18,29 @@ enum Enviroment {
   case Tan
 }
 
-//let enviroment = Enviroment.home
-//let enviroment = Enviroment.Hien
 let enviroment = Enviroment.Tan
-//let enviroment = Enviroment.dev
-//let enviroment = Enviroment.test
-//let enviroment = Enviroment.production
 
-let serverUrl: String = {
-	switch enviroment {
-	case .dev:
-		return "http://192.168.150.81:8080/api"
-	case .test:
-		return "Enviroment.TEST HERE"
-	case .production:
-		return "Enviroment.PRODUCTION HERE"
-  case .home:
-    return "http://192.168.1.102:8080/api"
-  case .Hien:
-    return "http://192.168.43.79:8080/api"
-  case .Tan:
-    return "http://192.168.1.107:8080/api"
-	}
+let ip: String = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? ""
 
-}()
+let serverUrl: String = "http://" + ip + ":8080/api"
+
+//let serverUrl: String = {
+//	switch enviroment {
+//	case .dev:
+//		return "http://192.168.150.81:8080/api"
+//	case .test:
+//		return "Enviroment.TEST HERE"
+//	case .production:
+//		return "Enviroment.PRODUCTION HERE"
+//  case .home:
+//    return "http://192.168.1.102:8080/api"
+//  case .Hien:
+//    return "http://192.168.43.79:8080/api"
+//  case .Tan:
+//    return "http://192.168.1.107:8080/api"
+//	}
+//
+//}()
 
 
 // MARK :- URL API

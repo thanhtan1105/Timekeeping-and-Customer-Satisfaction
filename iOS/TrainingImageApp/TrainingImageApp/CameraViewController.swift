@@ -54,13 +54,7 @@ class CameraViewController: BaseViewController {
     self.cameraStill.image = nil
     self.cameraPreview.alpha = 1.0
     isRunning = false
-    
-    let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(5 * Double(NSEC_PER_SEC)))
-    dispatch_after(delayTime, dispatch_get_main_queue()) {
-      self.isCameraTaken = false
-      
-    }
-    
+    LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
   }
   
   override func viewDidAppear(animated: Bool) {
@@ -111,7 +105,13 @@ class CameraViewController: BaseViewController {
   }
   
   @IBAction func onUsePhotoTapped(sender: UIButton) {
+    LeThanhTanLoading.sharedInstance.showLoadingAddedTo(self.view, animated: true)
     callApiAddFaceToPerson { (isSuccess, error) in
+      // hide loading
+      dispatch_async(dispatch_get_main_queue(), { 
+        LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
+      })
+      
       // error of network
       guard error == nil else {
         let alertVC = UIAlertController(title: "Please try again", message: "Cannot detect face", preferredStyle: .Alert)
@@ -127,10 +127,7 @@ class CameraViewController: BaseViewController {
         self.delegate?.cameraViewController(self, didFinishUploadFace: self.cameraStill.image!)
         self.dismissViewControllerAnimated(true, completion: nil)
       }))
-      self.presentViewController(alertVC, animated: true, completion: nil)
-      
-      
-      
+      self.presentViewController(alertVC, animated: true, completion: nil)                
     }
   }
   
@@ -242,10 +239,6 @@ extension CameraViewController {
         print("Fail")
         return
       }
-//      ["data": {
-//        persistedFaceId = "1062b2b5-7120-4091-9c2f-550de17cdabe";
-//        }, "message": <null>, "errorCode": <null>, "success": 1]
-// 
       let data = response?.response as! [String : AnyObject]
       let success = data["success"] as! Bool
       if success == true {

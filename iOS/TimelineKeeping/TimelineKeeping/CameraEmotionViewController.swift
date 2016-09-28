@@ -40,15 +40,13 @@ class CameraEmotionViewController: UIViewController {
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
     self.initializeCamera()
-    self.isCameraTaken = false
     self.cameraStill.image = nil
     self.cameraPreview.alpha = 1.0
     isRunning = false
-  }
+    LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
+    isCameraTaken = false
+    status = .Preview
 
-
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
   }
   
   override func viewDidAppear(animated: Bool) {
@@ -57,6 +55,11 @@ class CameraEmotionViewController: UIViewController {
       self.establishVideoPreviewArea()
       isRunning = true
     }
+  }
+  
+  override func viewDidDisappear(animated: Bool) {
+    super.viewDidDisappear(animated)
+    self.camera?.stopCamera()
   }
   
   func establishVideoPreviewArea() {
@@ -97,7 +100,7 @@ class CameraEmotionViewController: UIViewController {
       UIView.animateWithDuration(0.05, animations: { () -> Void in
         self.cameraPreview.alpha = 0.0
         self.cameraStill.alpha = 1.0
-        
+        LeThanhTanLoading.sharedInstance.showLoadingAddedTo(self.view, animated: true)
       })
       
       self.camera?.captureStillImage({ (image) -> Void in
@@ -112,11 +115,14 @@ class CameraEmotionViewController: UIViewController {
               self.cameraPreview.alpha = 1.0
               self.cameraStill.image = nil
               self.isCameraTaken = false
+              LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
             }
           })
           
         } else {
           self.status = .Error
+          self.isCameraTaken = false
+          LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
         }
       })
     }
@@ -177,7 +183,7 @@ extension CameraEmotionViewController: CameraDelegate {
 
 extension CameraEmotionViewController {
   private func initializeCamera() {
-    self.camera = Camera(sender: self)
+    self.camera = Camera(sender: self, position: Camera.Position.Back)
   }
   
   func videoOrientationFromCurrentDeviceOrientation() -> AVCaptureVideoOrientation {
@@ -200,7 +206,6 @@ extension CameraEmotionViewController {
     let showInforVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("EmotionSuggestionViewController") as! EmotionSuggestionViewController
     showInforVC.emotions = emotion
     self.presentViewController(showInforVC, animated: true, completion: {
-      self.camera?.stopCamera()
     })
   }
   
