@@ -244,6 +244,7 @@ public class EmotionServiceImpl {
                         EmotionAnalysisModel emotionAnalysisModel = analyseEmotion(emotionRecognizeScores);
                         emotionAnalysisModel.setAge(age);
                         emotionAnalysisModel.setGender(gender);
+                        emotionAnalysisModel.setRectangleImage(faceDetectResponse.getFaceRectangle());
 
                         emotionAnalysisModels.add(emotionAnalysisModel);
 
