@@ -1,9 +1,6 @@
 package com.timelinekeeping.service.serviceImplement;
 
-import com.timelinekeeping.constant.ERROR;
-import com.timelinekeeping.constant.ETimeKeeping;
-import com.timelinekeeping.constant.ETypeCheckin;
-import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.constant.*;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.TimeKeepingEntity;
 import com.timelinekeeping.model.*;
@@ -17,9 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.MonthDay;
 import java.time.YearMonth;
 import java.util.*;
 
@@ -109,9 +103,8 @@ public class TimekeepingServiceImpl {
 
             List<Object[]> listCountTime = timekeepingRepo.countEmployeeTime(year, month);
             Map<Long, Long> mapChekin = new HashMap<>();
-            listCountTime.stream().filter(countTime -> countTime.length >= 2).forEach(countTime -> {
-                mapChekin.put(((BigInteger)countTime[0]).longValue(), ((BigInteger)countTime[1]).longValue());
-            });
+            listCountTime.stream().filter(countTime -> countTime.length >= 2)
+                    .forEach(countTime -> mapChekin.put(((BigInteger) countTime[0]).longValue(), ((BigInteger) countTime[1]).longValue()));
 
             List<AccountTKReportModel> accountTKReportModels = new ArrayList<>();
             //create list accountResponse
@@ -122,7 +115,7 @@ public class TimekeepingServiceImpl {
                 Long dayCheckIn = mapChekin.get(accountId);
 
                 //Count Work day
-                int workDay = countWorkDay(year, month,accountEntity.getTimeCreate(), accountEntity.getTimeDeactive());
+                int workDay = countWorkDay(year, month, accountEntity.getTimeCreate(), accountEntity.getTimeDeactive());
 
                 AccountTKReportModel accountTK = new AccountTKReportModel(accountEntity);
                 accountTK.setDayCheckin(dayCheckIn.intValue());
@@ -142,28 +135,63 @@ public class TimekeepingServiceImpl {
     }
 
 
-    public AccountAttendanceModel getAttendance(Long accountId, Integer year, Integer month){
+    public AccountAttendanceModel getAttendance(Long accountId, Integer year, Integer month) {
         //getAttendance from sql
         List<TimeKeepingEntity> timeKeepingEntityList = timekeepingRepo.getTimekeepingByAccount(accountId, year, month);
 
-
         //convert to map with date key
+        Map<Integer, TimeKeepingEntity> mapTimeKeeping = new HashMap<>();
+        for (TimeKeepingEntity timeKeepingEntity : timeKeepingEntityList) {
+            Date timeCheck = timeKeepingEntity.getTimeCheck();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(timeCheck);
+            Integer dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+            if (timeKeepingEntity.getStatus() == ETimeKeeping.PRESENT) {
+                mapTimeKeeping.put(dayOfMonth, timeKeepingEntity);
+            }
+        }
+
+        //getAccount Entity
+        AccountEntity accountEntity = accountRepo.findOne(accountId);
 
         //deplay attendance in repo with list day status, day, present
         List<AttendanceDateModel> listAttendance = new ArrayList<>();
         YearMonth yearMonth = YearMonth.of(year, month);
         int dayInMonth = yearMonth.lengthOfMonth();
-        for (int i = 1 ; i <= dayInMonth; i++){
+        for (int i = 1; i <= dayInMonth; i++) {
+
+            //create attendance
             AttendanceDateModel attendance = new AttendanceDateModel();
             Calendar calendar = Calendar.getInstance();
-            calendar.set(year, month, i);
+            calendar.set(year, month - 1, i);
             attendance.setDay(i);
             attendance.setDate(calendar.getTime());
 
+            //set DayStatus
+            if (accountEntity.getTimeCreate() != null && calendar.getTime().compareTo(accountEntity.getTimeCreate()) < 0) {
+                attendance.setDayStatus(EDayStatus.DAY_BEFORE_CREATE);
+            } else if (accountEntity.getTimeDeactive() != null && calendar.getTime().compareTo(accountEntity.getTimeDeactive()) > 0) {
+                attendance.setDayStatus(EDayStatus.DAY_AFTER_DEACTIVE);
+            } else {
+                EDayOfWeek dayOfWeek = EDayOfWeek.fromIndex(calendar.get(Calendar.DAY_OF_WEEK));
+                if (dayOfWeek == EDayOfWeek.SUNDAY || dayOfWeek == EDayOfWeek.SATURDAY) {
+                    attendance.setDayStatus(EDayStatus.DAY_OFF);
+                }
+            }
+
+            //Get present from entity
+            TimeKeepingEntity timeKeeping = mapTimeKeeping.get(calendar.get(Calendar.DAY_OF_MONTH));
+            if (timeKeeping != null) {
+                attendance.from(timeKeeping);
+            }
+
+            //add attendance
+            listAttendance.add(attendance);
         }
 
+
         //prepare return model
-        AccountEntity accountEntity = accountRepo.findOne(accountId);
+
         AccountAttendanceModel accountAttendance = new AccountAttendanceModel(accountEntity, year, month);
         accountAttendance.setTotalTimeKeeping(timeKeepingEntityList.size());
         accountAttendance.setAttendances(listAttendance);
@@ -175,7 +203,7 @@ public class TimekeepingServiceImpl {
         return 0;
     }
 
-    private int countWorkDay(Date now){
+    private int countWorkDay(Date now) {
         return 0;
     }
 }
