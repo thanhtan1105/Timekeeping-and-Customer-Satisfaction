@@ -18,7 +18,7 @@ public class AttendanceDateModel {
     private Date timeCheck;
     private String note;
 
-    private EDayStatus dayStatus;
+    private EDayStatus dayStatus = EDayStatus.NORMAL;
 
     public AttendanceDateModel() {
     }
