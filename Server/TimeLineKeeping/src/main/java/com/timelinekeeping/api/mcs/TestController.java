@@ -53,10 +53,10 @@ public class TestController {
     }
 
     @RequestMapping("/count_employee")
-    public  List<Long[]> countEmployee(@RequestParam(value = "year", required = false) Integer year,
+    public  List<List<Long>> countEmployee(@RequestParam(value = "year", required = false) Integer year,
                                                       @RequestParam(value = "month", required = false) Integer month) {
 
-        List<Long[]> list = timekeepingRepo.countEmployeeTime(year, month);
-        return list;
+//        List<List<Long>> list = timekeepingRepo.countEmployeeTime(year, month);
+        return null;
     }
 }
