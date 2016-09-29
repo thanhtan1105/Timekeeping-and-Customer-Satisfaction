@@ -113,11 +113,12 @@ public class AccountServiceImpl {
 
             //create entity
             AccountEntity entity = new AccountEntity(account);
-            entity.setPassword(UtilApps.generatePassword());
+            entity.setUsername(account.getUsername());
             entity.setUserCode(personCode);
-            entity.setDepartment(departmentEntity);
+            entity.setPassword(UtilApps.generatePassword());
+            entity.setFullname(account.getFullname());
             entity.setRole(roleEntity);
-            entity.setPassword("123456");
+            entity.setDepartment(departmentEntity);
 
             //save db
             AccountEntity result = accountRepo.saveAndFlush(entity);
