@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum  ETimeKeeping {
 
-    PRESENT(1, "Present"),
-    ABSENT(2, "Absent");
+    PRESENT(0, "Present"),
+    ABSENT(1, "Absent");
 
     private int index;
     private String name;
