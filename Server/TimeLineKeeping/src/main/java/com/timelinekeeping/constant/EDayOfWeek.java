@@ -34,9 +34,6 @@ public enum EDayOfWeek {
         return null;
     }
 
-    public static EDayOfWeek fromIndex(DayOfWeek day){
-
-    }
 
     @JsonValue
     public int getIndex() {
