@@ -18,7 +18,7 @@ public class TimekeepingResponseModel {
     private int year;
     private int month;
 
-    private List<TimeKeepingEmployeeModel> listEmployee;
+    private List<AccountTKReportModel> listEmployee;
 
     public TimekeepingResponseModel() {
     }
@@ -57,11 +57,11 @@ public class TimekeepingResponseModel {
         this.month = month;
     }
 
-    public List<TimeKeepingEmployeeModel> getListEmployee() {
+    public List<AccountTKReportModel> getListEmployee() {
         return listEmployee;
     }
 
-    public void setListEmployee(List<TimeKeepingEmployeeModel> listEmployee) {
+    public void setListEmployee(List<AccountTKReportModel> listEmployee) {
         this.listEmployee = listEmployee;
     }
 

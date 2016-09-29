@@ -2,6 +2,8 @@ package com.timelinekeeping.model;
 
 import com.timelinekeeping.entity.AccountEntity;
 
+import java.util.Date;
+
 /**
  * Created by HienTQSE60896 on 9/15/2016.
  */
@@ -14,9 +16,8 @@ public class AccountModel {
     private String userCode;
     private Integer active;
     private String fullname;
-
     private DepartmentModel department;
-
+    private Date timeDeactive;
     public AccountModel() {
     }
 
@@ -29,6 +30,7 @@ public class AccountModel {
             this.fullname = entity.getFullname();
             this.userCode = entity.getUserCode();
             this.department = new DepartmentModel(entity.getDepartment());
+            this.timeDeactive = entity.getTimeDeactive();
         }
     }
 
@@ -86,5 +88,13 @@ public class AccountModel {
 
     public void setDepartment(DepartmentModel department) {
         this.department = department;
+    }
+
+    public Date getTimeDeactive() {
+        return timeDeactive;
+    }
+
+    public void setTimeDeactive(Date timeDeactive) {
+        this.timeDeactive = timeDeactive;
     }
 }
