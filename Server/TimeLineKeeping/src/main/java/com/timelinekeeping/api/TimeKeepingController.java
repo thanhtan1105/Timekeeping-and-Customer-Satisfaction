@@ -2,6 +2,7 @@ package com.timelinekeeping.api;
 
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
+import com.timelinekeeping.model.AccountAttendanceModel;
 import com.timelinekeeping.model.AccountCheckInModel;
 import com.timelinekeeping.model.CheckinManualModel;
 import com.timelinekeeping.model.TimekeepingResponseModel;
@@ -64,13 +65,12 @@ public class TimeKeepingController {
     }
 
     @RequestMapping(value = I_URI.API_TIMEKEEPING_ATTENDANCE, method = RequestMethod.POST)
-    public List<CheckinManualModel> getAttendace(@RequestParam(value = "accountId") Long accountId,
-                                                   @RequestParam(value = "year") Integer year,
-                                                   @RequestParam(value = "month") Integer month) {
+    public AccountAttendanceModel getAttendace(@RequestParam(value = "accountId") Long accountId,
+                                               @RequestParam(value = "year") Integer year,
+                                               @RequestParam(value = "month") Integer month) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            timekeepingService.getAttendance(accountId, year, month);
-            return null;
+            return timekeepingService.getAttendance(accountId, year, month);
         } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }

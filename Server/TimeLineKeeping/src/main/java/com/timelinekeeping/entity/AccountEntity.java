@@ -59,7 +59,7 @@ public class AccountEntity implements Serializable {
     private Timestamp timeDeactive;
 
     @Basic
-    @Column(name = "time_create")
+    @Column(name = "time_create", nullable = false)
     private Timestamp timeCreate = new Timestamp(new Date().getTime());
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -88,6 +88,7 @@ public class AccountEntity implements Serializable {
             this.active = model.getActive() != null ? EStatus.fromIndex(model.getActive()) : this.active;
         }
     }
+
     public void update(AccountModifyModel model){
         if (model != null) {
             this.username = StringUtils.isNotEmpty(model.getUsername()) ? model.getUsername() : this.username;
