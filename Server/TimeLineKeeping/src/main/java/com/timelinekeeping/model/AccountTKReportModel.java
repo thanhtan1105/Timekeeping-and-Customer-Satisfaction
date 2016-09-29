@@ -11,7 +11,7 @@ import java.util.Date;
 public class AccountTKReportModel {
     private Long id;
     private String fullname;
-    private Integer countDay;
+    private Integer dayCheckin;
     private Integer dayWork;
     private EStatus active;
     private Date dateDeactive;
@@ -36,11 +36,43 @@ public class AccountTKReportModel {
         this.id = id;
     }
 
-    public Integer getCountDay() {
-        return countDay;
+    public Integer getDayCheckin() {
+        return dayCheckin;
     }
 
-    public void setCountDay(Integer countDay) {
-        this.countDay = countDay;
+    public void setDayCheckin(Integer dayCheckin) {
+        this.dayCheckin = dayCheckin;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public Integer getDayWork() {
+        return dayWork;
+    }
+
+    public void setDayWork(Integer dayWork) {
+        this.dayWork = dayWork;
+    }
+
+    public EStatus getActive() {
+        return active;
+    }
+
+    public void setActive(EStatus active) {
+        this.active = active;
+    }
+
+    public Date getDateDeactive() {
+        return dateDeactive;
+    }
+
+    public void setDateDeactive(Date dateDeactive) {
+        this.dateDeactive = dateDeactive;
     }
 }
