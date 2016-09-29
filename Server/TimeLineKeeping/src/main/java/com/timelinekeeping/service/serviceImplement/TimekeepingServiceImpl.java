@@ -159,7 +159,6 @@ public class TimekeepingServiceImpl {
             calendar.set(year, month, i);
             attendance.setDay(i);
             attendance.setDate(calendar.getTime());
-            Calendar
 
         }
 
