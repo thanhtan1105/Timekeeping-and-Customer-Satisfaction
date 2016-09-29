@@ -4,6 +4,7 @@ import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.AccountCheckInModel;
 import com.timelinekeeping.model.CheckinManualModel;
+import com.timelinekeeping.model.TimekeepingResponseModel;
 import com.timelinekeeping.service.serviceImplement.TimekeepingServiceImpl;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -49,7 +50,7 @@ public class TimeKeepingController {
 
 
     @RequestMapping(value = I_URI.API_TIMEKEEPING_VIEW_TIMEKEEPING, method = RequestMethod.POST)
-    public List<CheckinManualModel> getTimeKeeping(@RequestParam(value = "managerId") Long managerId,
+    public TimekeepingResponseModel getTimeKeeping(@RequestParam(value = "managerId") Long managerId,
                                                    @RequestParam("year") Integer year,
                                                    @RequestParam("month") Integer month){
         try {
