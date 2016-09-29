@@ -118,7 +118,9 @@ public class TimekeepingServiceImpl {
                 int workDay = countWorkDay(year, month, accountEntity.getTimeCreate(), accountEntity.getTimeDeactive());
 
                 AccountTKReportModel accountTK = new AccountTKReportModel(accountEntity);
-                accountTK.setDayCheckin(dayCheckIn.intValue());
+                if (dayCheckIn != null) {
+                    accountTK.setDayCheckin(dayCheckIn.intValue());
+                }
                 accountTK.setDayWork(workDay);
                 accountTKReportModels.add(accountTK);
             }
@@ -189,21 +191,88 @@ public class TimekeepingServiceImpl {
             listAttendance.add(attendance);
         }
 
-
+        //dayWork
+        int dayWork = countWorkDay(year, month, accountEntity.getTimeCreate(), accountEntity.getTimeDeactive());
         //prepare return model
 
         AccountAttendanceModel accountAttendance = new AccountAttendanceModel(accountEntity, year, month);
+        accountAttendance.setDayWork(dayWork);
         accountAttendance.setTotalTimeKeeping(timeKeepingEntityList.size());
         accountAttendance.setAttendances(listAttendance);
         return accountAttendance;
     }
 
-    //TODO
-    private int countWorkDay(int year, int month, Timestamp timeCreate, Timestamp timeDeactive) {
-        return 0;
+    // detemeter fromday, today
+    public static int countWorkDay(int year, int month, Date timeCreate, Date timeDeactive) {
+
+        if (timeCreate == null || (timeDeactive != null && timeCreate.compareTo(timeDeactive) > 0)) {
+            return 0;
+        }
+
+        //init
+        int dayOfMonth = YearMonth.of(year, month).lengthOfMonth();
+        int fromday = 1, today = dayOfMonth;
+
+
+        //start day
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month - 1, fromday);
+
+        //if timeDeactive < fromday, return 0
+        if (timeDeactive != null && calendar.getTime().compareTo(timeDeactive) > 0) {
+            return 0;
+        }
+
+        //if formday < createtime,  fromday = createTime
+        if (calendar.getTime().compareTo(timeCreate) < 0) {
+            calendar.setTime(timeCreate);
+            fromday = calendar.get(Calendar.DAY_OF_MONTH);
+        }
+
+        //today
+        calendar.set(year, month - 1, dayOfMonth);
+
+        //if today < createTime, return 0;
+        if (calendar.getTime().compareTo(timeCreate) < 0) {
+            return 0;
+        }
+        //if timeDeactive < today,  today = timeDeactive
+        if (timeDeactive != null && calendar.getTime().compareTo(timeDeactive) > 0) {
+            calendar.setTime(timeDeactive);
+            today = calendar.get(Calendar.DAY_OF_MONTH);
+
+            //if now() < today,  today = now()
+        } else if (calendar.getTime().compareTo(new Date()) > 0) {
+            calendar.setTime(new Date());
+            today = calendar.get(Calendar.DAY_OF_MONTH);
+        }
+
+
+        return countWorkDay(year, month, fromday, today);
+
     }
 
-    private int countWorkDay(Date now) {
-        return 0;
+    private static int countWorkDay(int year, int month, int fromday, int today) {
+        if (fromday > today) {
+            return 0;
+        }
+        int dayWork = 0;
+        Calendar calendar = Calendar.getInstance();
+        for (int i = fromday; i <= today; i++) {
+            calendar.set(year, month - 1, i);
+            EDayOfWeek dayOfWeek = EDayOfWeek.fromIndex(calendar.get(Calendar.DAY_OF_WEEK));
+            if (dayOfWeek != EDayOfWeek.SATURDAY && dayOfWeek != EDayOfWeek.SUNDAY) {
+                dayWork++;
+            }
+        }
+        return dayWork;
+    }
+
+    public static void main(String[] args) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2016, 8, 1);
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.set(2016, 8, 1);
+        System.out.println(countWorkDay(2016, 9, calendar.getTime(), calendar2.getTime()));
     }
 }
