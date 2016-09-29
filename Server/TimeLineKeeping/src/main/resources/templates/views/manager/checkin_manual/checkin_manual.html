@@ -86,7 +86,7 @@
                                    th:disabled="${account.statusCheckin.index} == 1"
                                    th:attr="id='note-' + ${counter.count}"
                                    class="form-control input-sm" style="width: 100%"/>
-                            <input type="hidden" th:value="${account.id}" th:attr="id='accountId-' + ${counter.count}"/>
+                            <input type="hidden" th:value="${account.id}" th:attr="id='id-' + ${counter.count}"/>
                         </td>
                     </tr>
                     </tbody>
