@@ -273,13 +273,7 @@ public class EmotionServiceImpl {
 
                 baseResponse.setData(responseData);
 
-//            // create time
-//            java.util.Date date = new java.util.Date();
-//            Timestamp timestamp = new Timestamp(date.getTime());
 
-//            // save to database
-
->>>>>>> 7d6c450... commit apiedit
             }
         } else {
             baseResponse.setSuccess(false);

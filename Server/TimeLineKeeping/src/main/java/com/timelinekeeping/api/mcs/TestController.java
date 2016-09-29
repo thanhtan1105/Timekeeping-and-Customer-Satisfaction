@@ -2,7 +2,6 @@ package com.timelinekeeping.api.mcs;
 
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.NotificationEntity;
-import com.timelinekeeping.model.TimeKeepingReportModel;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.NotificationCheckInModel;
 import com.timelinekeeping.repository.AccountRepo;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
