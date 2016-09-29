@@ -17,7 +17,10 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.MonthDay;
+import java.time.YearMonth;
 import java.util.*;
 
 /**
@@ -152,11 +155,12 @@ public class TimekeepingServiceImpl {
         int dayInMonth = yearMonth.lengthOfMonth();
         for (int i = 1 ; i <= dayInMonth; i++){
             AttendanceDateModel attendance = new AttendanceDateModel();
-            LocalDate time = yearMonth.atDay(i);
-            Date date = Date.from(time.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, month, i);
             attendance.setDay(i);
-            attendance.setDate(date);
-            DayOfWeek dayOfWeek = time.getDayOfWeek();
+            attendance.setDate(calendar.getTime());
+            Calendar
+
         }
 
         //prepare return model
