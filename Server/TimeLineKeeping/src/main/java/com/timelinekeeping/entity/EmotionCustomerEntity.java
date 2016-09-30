@@ -57,9 +57,13 @@ public class EmotionCustomerEntity implements Serializable {
     @Column(name = "smile")
     private Double smile;
 
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "acount_id", nullable = true)
+//    private AccountEntity createBy;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "acount_id", nullable = true)
-    private AccountEntity createBy;
+    @JoinColumn(name = "customer_id", nullable = true)
+    private AccountEntity customerService;
 
     public EmotionCustomerEntity() {
     }
@@ -212,11 +216,20 @@ public class EmotionCustomerEntity implements Serializable {
         this.smile = smile;
     }
 
-    public AccountEntity getCreateBy() {
-        return createBy;
+//    public AccountEntity getCreateBy() {
+//        return createBy;
+//    }
+//
+//    public void setCreateBy(AccountEntity account) {
+//        this.createBy = account;
+//    }
+
+
+    public AccountEntity getCustomerService() {
+        return customerService;
     }
 
-    public void setCreateBy(AccountEntity account) {
-        this.createBy = account;
+    public void setCustomerService(AccountEntity customerService) {
+        this.customerService = customerService;
     }
 }

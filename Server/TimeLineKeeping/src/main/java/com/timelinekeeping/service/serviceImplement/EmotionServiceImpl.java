@@ -8,6 +8,7 @@ import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.model.BaseResponseG;
 import com.timelinekeeping.model.EmotionAnalysisModel;
 import com.timelinekeeping.modelMCS.EmotionRecognizeResponse;
 import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
@@ -42,10 +43,10 @@ public class EmotionServiceImpl {
     @Autowired
     private AccountRepo accountRepo;
 
-    public BaseResponse save(InputStream inputStreamImg, Long employeeId, boolean isFirstTime) throws IOException, URISyntaxException {
+    public EmotionCustomerEntity save(InputStream inputStreamImg, Long employeeId, boolean isFirstTime) throws IOException, URISyntaxException {
 
         logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-        BaseResponse baseResponse = new BaseResponse();
+        BaseResponse responseResult = new BaseResponse();
         byte[] bytes = IOUtils.toByteArray(inputStreamImg);
 
         // emotion
@@ -87,11 +88,11 @@ public class EmotionServiceImpl {
 
         // save to database
         EmotionCustomerEntity emotionCustomerEntity = new EmotionCustomerEntity(timestamp, anger, contempt, disgust, fear, happiness, neutral, sadness, surprise, age, gender, smile);
-        emotionCustomerEntity.setCreateBy(accountRepo.findOne(employeeId));
-        baseResponse.setData(emotionRepo.saveAndFlush(emotionCustomerEntity));
+//        emotionCustomerEntity.setCreateBy(accountRepo.findOne(employeeId));
+        EmotionCustomerEntity emotionRespone = emotionRepo.saveAndFlush(emotionCustomerEntity);
 
         logger.info(IContanst.END_METHOD_SERVICE);
-        return baseResponse;
+        return emotionRespone;
     }
 
     public BaseResponse analyseEmotion(Long id) {
@@ -180,10 +181,10 @@ public class EmotionServiceImpl {
         return new EmotionAnalysisModel(maxEntry.getKey(), emotionScores);
     }
 
-    public BaseResponse getCustomerEmotion(InputStream inputStreamImg, Long employeeId, boolean isFirstTime)
+    public BaseResponseG<List<EmotionAnalysisModel>> getCustomerEmotion(InputStream inputStreamImg)
             throws IOException, URISyntaxException {
         logger.info("[Get Customer Emotion] BEGIN SERVICE");
-        BaseResponse baseResponse = new BaseResponse();
+        BaseResponseG<List<EmotionAnalysisModel>> baseResponse = new BaseResponseG<>();
         byte[] bytes = IOUtils.toByteArray(inputStreamImg);
 
         // face detect
@@ -212,6 +213,8 @@ public class EmotionServiceImpl {
 
                         // parser emotion response
                         List<EmotionRecognizeResponse> emotionRecognizeList = (List<EmotionRecognizeResponse>) emotionResponse.getData();
+
+                        //TODO check many face
                         EmotionRecognizeResponse emotionRecognize = emotionRecognizeList.get(0);
 
                         // get emotion_scores
@@ -234,19 +237,11 @@ public class EmotionServiceImpl {
 
                         emotionAnalysisModels.add(emotionAnalysisModel);
 
-                        // save to database
-//                        EmotionCustomerEntity emotionCustomerEntity = new EmotionCustomerEntity(new Timestamp(new Date().getTime()), anger, contempt, disgust, fear, happiness, neutral, sadness, surprise, age, gender);
-//                        emotionCustomerEntity.setCreateBy(accountRepo.findOne(employeeId));
-//                        baseResponse.setData(emotionRepo.saveAndFlush(emotionCustomerEntity));
-
                     }
                     baseResponse.setSuccess(true);
                     baseResponse.setData(emotionAnalysisModels);
                 }
 
-                if (isFirstTime) {
-                    // TODO: get suggestion
-                }
 
 //            // create time
 //            java.util.Date date = new java.util.Date();
