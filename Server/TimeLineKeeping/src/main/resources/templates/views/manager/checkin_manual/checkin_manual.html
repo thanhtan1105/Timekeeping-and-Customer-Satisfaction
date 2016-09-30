@@ -29,7 +29,6 @@
             <font class="text-success" style="font-size: 18px;"
                     th:text="'Date: ' + ${#dates.format(CurrentDate, 'dd-MMM-yyyy')}"></font>
         </div>
-        <!--<form th:action="@{/manager/check_in/checkinManualProcessing}" method="post">-->
         <div class="box box-success">
             <div class="box-header">
                 <div class="row">
@@ -69,8 +68,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <!--<tr th:each="account,counter: ${AccountCheckInModels}"-->
-                    <!--th:if="${account.username} != ${Usernanme}">-->
                     <tr th:each="account,counter: ${AccountCheckInModels}">
                         <td th:text="${counter.count} + '.'"></td>
                         <td th:text="${account.fullname}"></td>
@@ -78,15 +75,15 @@
                             <input th:name="accountIds" th:value="${account.id}"
                                    type="checkbox" class="minimal-red"
                                    th:attr="id='statusCheckin-' + ${counter.count}"
-                                   th:checked="${account.statusCheckin.index} == 1"
-                                   th:disabled="${account.statusCheckin.index} == 1"/>
+                                   th:checked="${account.statusCheckin.index} == 0"
+                                   th:disabled="${account.statusCheckin.index} == 0"/>
                         </td>
                         <td>
                             <input th:name="note" type="text" th:value="${account.note}"
-                                   th:disabled="${account.statusCheckin.index} == 1"
+                                   th:disabled="${account.statusCheckin.index} == 0"
                                    th:attr="id='note-' + ${counter.count}"
                                    class="form-control input-sm" style="width: 100%"/>
-                            <input type="hidden" th:value="${account.id}" th:attr="id='id-' + ${counter.count}"/>
+                            <input type="hidden" th:value="${account.id}" th:attr="id='accountId-' + ${counter.count}"/>
                         </td>
                     </tr>
                     </tbody>
@@ -106,7 +103,6 @@
                 </button>
             </form>
         </div>
-        <!--</form>-->
     </section>
     <!-- /.content -->
 </div>

@@ -33,6 +33,18 @@
             <font class="text-success" style="font-size: 18px;"><b>Date: </b></font>
             <font class="text-success" style="font-size: 18px;"
                   th:text="${#dates.format(TimekeepingResponseModel.nowDate, 'MMM-yyyy')}"></font>
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <div class="input-group date" style="width: 65%; margin-left: 17%; margin-top: 4px;">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar text-success"></i>
+                        </div>
+                        <input type="text" class="form-control pull-right text-center" id="datepicker"/>
+                    </div>
+                </div>
+                <div class="col-sm-4"></div>
+            </div>
         </div>
         <div class=" box box-success">
             <div class="box-header">
