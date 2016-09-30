@@ -11,5 +11,7 @@ public interface ViewConst {
     String MANAGEMENT_REMINDER_VIEW = "/views/manager/management_reminder/management_reminder";
     String ADD_REMINDER_VIEW = "/views/manager/management_reminder/add_reminder";
     String CHECK_IN_MANUAL_VIEW = "/views/manager/checkin_manual/checkin_manual";
+    String TIME_KEEPING_VIEW = "/views/manager/timekeeping/timekeeping";
+    String TIME_KEEPING_DETAILS_VIEW = "/views/manager/timekeeping/timekeeping_details";
 }
 
