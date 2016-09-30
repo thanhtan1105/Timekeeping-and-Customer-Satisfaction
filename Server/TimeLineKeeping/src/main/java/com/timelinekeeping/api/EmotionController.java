@@ -37,7 +37,8 @@ public class EmotionController {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response;
             if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
-                response = emotionService.save(imgFile.getInputStream(), employeeId, isFirstTime);
+                response = new BaseResponse(true);
+                response.setData(emotionService.save(imgFile.getInputStream(), employeeId, isFirstTime));
 //                response = emotionServiceMCS.recognize(imgFile.getInputStream());
             } else {
                 response = new BaseResponse();
@@ -71,7 +72,7 @@ public class EmotionController {
         BaseResponse response;
         try {
             if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
-                response = emotionService.getCustomerEmotion(imgFile.getInputStream(), Long.parseLong(employeeId), Boolean.parseBoolean(isFirstTime));
+                response = emotionService.getCustomerEmotion(imgFile.getInputStream()).toBaseResponse();
             } else {
                 response = new BaseResponse();
                 response.setSuccess(false);
