@@ -9,6 +9,7 @@ import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.entity.MessageEntity;
 import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.model.BaseResponseG;
 import com.timelinekeeping.model.EmotionAnalysisModel;
 import com.timelinekeeping.modelMCS.EmotionRecognizeResponse;
 import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
@@ -50,7 +51,7 @@ public class EmotionServiceImpl {
     public BaseResponse save(InputStream inputStreamImg, Long employeeId, boolean isFirstTime) throws IOException, URISyntaxException {
 
         logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-        BaseResponse baseResponse = new BaseResponse();
+        BaseResponse responseResult = new BaseResponse();
         byte[] bytes = IOUtils.toByteArray(inputStreamImg);
 
         // emotion
@@ -92,11 +93,11 @@ public class EmotionServiceImpl {
 
         // save to database
         EmotionCustomerEntity emotionCustomerEntity = new EmotionCustomerEntity(timestamp, anger, contempt, disgust, fear, happiness, neutral, sadness, surprise, age, gender, smile);
-        emotionCustomerEntity.setCreateBy(accountRepo.findOne(employeeId));
-        baseResponse.setData(emotionRepo.saveAndFlush(emotionCustomerEntity));
+//        emotionCustomerEntity.setCreateBy(accountRepo.findOne(employeeId));
+        EmotionCustomerEntity emotionRespone = emotionRepo.saveAndFlush(emotionCustomerEntity);
 
         logger.info(IContanst.END_METHOD_SERVICE);
-        return baseResponse;
+        return emotionRespone;
     }
 
     public BaseResponse analyseEmotion(Long id) {
@@ -226,6 +227,8 @@ public class EmotionServiceImpl {
 
                         // parser emotion response
                         List<EmotionRecognizeResponse> emotionRecognizeList = (List<EmotionRecognizeResponse>) emotionResponse.getData();
+
+                        //TODO check many face
                         EmotionRecognizeResponse emotionRecognize = emotionRecognizeList.get(0);
 
                         // get emotion_scores
@@ -247,11 +250,6 @@ public class EmotionServiceImpl {
                         emotionAnalysisModel.setRectangleImage(faceDetectResponse.getFaceRectangle());
 
                         emotionAnalysisModels.add(emotionAnalysisModel);
-
-                        // save to database
-//                        EmotionCustomerEntity emotionCustomerEntity = new EmotionCustomerEntity(new Timestamp(new Date().getTime()), anger, contempt, disgust, fear, happiness, neutral, sadness, surprise, age, gender);
-//                        emotionCustomerEntity.setCreateBy(accountRepo.findOne(employeeId));
-//                        baseResponse.setData(emotionRepo.saveAndFlush(emotionCustomerEntity));
 
                     }
                     baseResponse.setSuccess(true);
