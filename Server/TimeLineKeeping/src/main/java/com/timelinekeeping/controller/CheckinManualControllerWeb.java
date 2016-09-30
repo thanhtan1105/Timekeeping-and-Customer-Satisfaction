@@ -35,7 +35,7 @@ public class CheckinManualControllerWeb {
     public String loadCheckinManualView(Model model) {
         logger.info("[Controller- Load Check-in Manual View] BEGIN");
         Long departmentId = ValidateUtil.validateNumber("1");
-        Long accountId = ValidateUtil.validateNumber("1");
+        Long accountId = ValidateUtil.validateNumber("3");
         // get list of employees by departmentId
         List<AccountCheckInModel> accountCheckInModels
                 = timekeepingService.getEmployeeUnderManager(accountId);
