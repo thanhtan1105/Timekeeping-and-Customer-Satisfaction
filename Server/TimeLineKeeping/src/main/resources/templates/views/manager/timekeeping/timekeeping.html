@@ -30,9 +30,6 @@
             <font class="text-success" style="font-size: 18px;"><b>Manager: </b></font>
             <font class="text-success" style="font-size: 18px;"
                   th:text="${TimekeepingResponseModel.managerName}"></font><br/>
-            <font class="text-success" style="font-size: 18px;"><b>Date: </b></font>
-            <font class="text-success" style="font-size: 18px;"
-                  th:text="${#dates.format(TimekeepingResponseModel.nowDate, 'MMM-yyyy')}"></font>
             <div class="row">
                 <div class="col-sm-4"></div>
                 <div class="col-sm-4">
@@ -40,7 +37,8 @@
                         <div class="input-group-addon">
                             <i class="fa fa-calendar text-success"></i>
                         </div>
-                        <input type="text" class="form-control pull-right text-center" id="datepicker"/>
+                        <input type="text" th:value="${#dates.format(TimekeepingResponseModel.nowDate, 'MMMM-yyyy')}"
+                               class="form-control pull-right text-center" id="datepicker"/>
                     </div>
                 </div>
                 <div class="col-sm-4"></div>
