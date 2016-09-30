@@ -4,7 +4,6 @@ package com.timelinekeeping.api;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.modelMCS.RectangleImage;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
@@ -98,13 +97,13 @@ public class EmotionController {
     @RequestMapping(value = {I_URI.API_EMOTION_BEGIN_TRANSACTION}, method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse beginTransaction(@RequestParam("image") MultipartFile imgFile,
-                                           @RequestParam("employeeId") Long employeeId,
-                                           @RequestParam("isFirstTime") Boolean isFirstTime) {
+                                         @RequestParam("employeeId") Long employeeId) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         BaseResponse response = null;
         try {
             if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
-//                response = emotionService.getCustomerEmotion(imgFile.getInputStream(), employeeId, isFirstTime);
+                response = new BaseResponse(true);
+                response.setData(emotionService.beginTransaction(imgFile.getInputStream(), employeeId));
             } else {
                 response = new BaseResponse();
                 response.setSuccess(false);
@@ -113,6 +112,8 @@ public class EmotionController {
             return response;
 
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
             e.printStackTrace();
         } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER);
@@ -123,12 +124,12 @@ public class EmotionController {
     @RequestMapping(value = {I_URI.API_EMOTION_PROCESS_TRANSACTION}, method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse processTransaction(@RequestParam("image") MultipartFile imgFile,
-                                         @RequestParam("code") String transactionCode) {
+                                           @RequestParam("code") String transactionCode) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         BaseResponse response = null;
         try {
             if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
-//                response = emotionService.getCustomerEmotion(imgFile.getInputStream(), employeeId, isFirstTime);
+//                response = emotionService.beginTransaction(imgFile.getInputStream(), employeeId, isFirstTime);
             } else {
                 response = new BaseResponse();
                 response.setSuccess(false);
@@ -166,5 +167,5 @@ public class EmotionController {
         }
     }
 
-    
+
 }
