@@ -24,11 +24,17 @@
         <!-- Your Page Content Here -->
         <!-- Info: manager, department, date -->
         <div class="text-center" style="margin-bottom: 5px">
-            <font class="text-success" style="font-size: 18px;">Department: IT</font><br/>
-            <font class="text-success" style="font-size: 18px;">Manager: Nguyễn Năng Trung</font><br/>
-            <font class="text-success" style="font-size: 18px;">Date: Sep-2016</font>
+            <font class="text-success" style="font-size: 18px;"><b>Department: </b></font>
+            <font class="text-success" style="font-size: 18px;"
+                  th:text="${TimekeepingResponseModel.departmentName}"></font><br/>
+            <font class="text-success" style="font-size: 18px;"><b>Manager: </b></font>
+            <font class="text-success" style="font-size: 18px;"
+                  th:text="${TimekeepingResponseModel.managerName}"></font><br/>
+            <font class="text-success" style="font-size: 18px;"><b>Date: </b></font>
+            <font class="text-success" style="font-size: 18px;"
+                  th:text="${#dates.format(TimekeepingResponseModel.nowDate, 'MMM-yyyy')}"></font>
         </div>
-        <div class="box box-success">
+        <div class=" box box-success">
             <div class="box-header">
                 <div class="row">
                     <div class="col-sm-6">
@@ -69,22 +75,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>1.</td>
-                        <td>Thái Quang Hiển</td>
-                        <td>12/12</td>
-                        <td></td>
-                        <td>
-                            <button class="btn bg-aqua-active btn-flat btn-sm" type="button" style="width: 100%"
-                                    title="Edit Class">
-                                <i class="fa fa-hand-pointer-o"></i> View Details
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2.</td>
-                        <td>Lê Thanh Tân</td>
-                        <td>10/12</td>
+                    <tr th:each="employee,counter: ${TimekeepingResponseModel.listEmployee}">
+                        <td th:text="${counter.count} + '.'"></td>
+                        <td th:text="${employee.fullname}"></td>
+                        <td th:text="(${employee.dayCheckin != null} ? ${employee.dayCheckin}: 0 ) + '/' + ${employee.dayWork}"></td>
                         <td></td>
                         <td>
                             <button class="btn bg-aqua-active btn-flat btn-sm" type="button" style="width: 100%"
