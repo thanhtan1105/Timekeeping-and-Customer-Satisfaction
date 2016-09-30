@@ -16,14 +16,22 @@ class EmotionSuggestionViewController: BaseViewController {
   @IBOutlet weak var ageLabel: UILabel!
   @IBOutlet weak var genderLabel: UILabel!
   
-  var message: [String] = []
   var emotionData : [Double] = []
   let emotionStatus = ["anger", "contempt", "disgust", "fear", "happiness", "neutral", "sadness", "surprise"]
   let verticalData: [Double] = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+  var suggestMessages: [Message] = [] {
+    didSet {
+      dispatch_async(dispatch_get_main_queue()) { 
+        self.tableView.reloadData()
+      }
+    }
+  }
   var emotions: [Emotion] = [] {
     didSet {
       let emotion = emotions.first
-      emotionData = [emotion!.anger!, emotion!.contempt!, emotion!.disgust!, emotion!.fear!, emotion!.happiness!, emotion!.neutral!, emotion!.sadness!, emotion!.surprise!]
+      emotionData = [emotion!.anger!, emotion!.contempt!, emotion!.disgust!,
+                     emotion!.fear!, emotion!.happiness!, emotion!.neutral!,
+                     emotion!.sadness!, emotion!.surprise!]
     }
   }
   
@@ -44,24 +52,21 @@ class EmotionSuggestionViewController: BaseViewController {
   @IBAction func onCloseTapped(sender: UIButton) {
     dismissViewControllerAnimated(true, completion: nil)
   }
-  
-  
-  
 }
 
 extension EmotionSuggestionViewController: UITableViewDelegate, UITableViewDataSource {
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier("EmotionTableCell") as! EmotionTableCell
-    cell.messageLabel.text = "Hello " + String(indexPath.row)
+    cell.messageLabel.text = suggestMessages[indexPath.row]
     return cell
   }
   
   func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    return 5
+    return 1
   }
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 1
+    return suggestMessages.count
   }
   
 }

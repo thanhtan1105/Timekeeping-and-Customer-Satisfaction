@@ -191,7 +191,7 @@ public class EmotionServiceImpl {
     private List<MessageEntity> getListMessage(Gender gender, Double fromAge, Double toAge, EEmotion emotion) {
 
         logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-        List<MessageEntity> messageEntities = messageRepo.getListMessage(fromAge, toAge, gender.getIndex(), emotion.getName());
+        List<MessageEntity> messageEntities = messageRepo.getListMessage(fromAge, toAge, gender.getIndex(), emotion.getIndex());
         logger.info(IContanst.END_METHOD_SERVICE);
         return messageEntities;
     }
@@ -253,7 +253,6 @@ public class EmotionServiceImpl {
                     }
                     baseResponse.setSuccess(true);
                     responseData.put("emotion", emotionAnalysisModels);
-//                    baseResponse.setData(emotionAnalysisModels);
                 }
 
                 if (isFirstTime) {
@@ -262,8 +261,8 @@ public class EmotionServiceImpl {
                     if (emotionAnalysisModels.size() > 0) {
                         EmotionAnalysisModel emotionAnalysisModel = emotionAnalysisModels.get(0);
                         List<MessageEntity> messageEntities = getListMessage(emotionAnalysisModel.getGender(),
-                                emotionAnalysisModel.getAge() - 10,
-                                emotionAnalysisModel.getAge() + 10,
+                                emotionAnalysisModel.getAge() - 5,
+                                emotionAnalysisModel.getAge() + 15,
                                 emotionAnalysisModel.getEmotionMost());
                         responseData.put("suggestMessage", messageEntities);
                     }

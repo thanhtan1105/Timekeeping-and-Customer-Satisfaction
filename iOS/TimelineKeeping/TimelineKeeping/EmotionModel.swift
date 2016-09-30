@@ -9,7 +9,7 @@
 import Foundation
 
 
-enum Gender {
+enum EGender {
   case Male
   case Female
   
@@ -19,6 +19,38 @@ enum Gender {
       return "Female"
     default:
       return "Male"
+    }
+  }
+}
+
+enum EEmotion {
+  case ANGER
+  case CONTEMPT
+  case DISGUST
+  case FEAR
+  case HAPPINESS
+  case NEUTRAL
+  case SADNESS
+  case SURPRISE
+  
+  var description: String {
+    switch self {
+    case .ANGER:
+      return "Anger"
+    case .CONTEMPT:
+      return "Contempt"
+    case .DISGUST:
+      return "Disgust"
+    case .FEAR:
+      return "Fear"
+    case .HAPPINESS:
+      return "Happiness"
+    case .NEUTRAL:
+      return "Neutral"
+    case .SADNESS:
+      return "Sadness"
+    default:
+      return "Surprise"
     }
   }
 }
@@ -35,7 +67,7 @@ class Emotion {
   var sadness: Double?
   var surprise: Double?
   var emotionMost: Int?
-  var gender: Gender!
+  var gender: EGender!
   
   init?(_ info: [String: AnyObject]) {
     let age = info["age"] as! Double

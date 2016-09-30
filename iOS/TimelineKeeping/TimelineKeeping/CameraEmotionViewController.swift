@@ -9,14 +9,16 @@
 import UIKit
 import AVFoundation
 
+
+
 class CameraEmotionViewController: UIViewController {
 
   @IBOutlet weak var cameraStill: UIImageView!
   @IBOutlet weak var cameraPreview: UIView!  
   @IBOutlet weak var cameraCapture: UIButton!
   
-  var preview: AVCaptureVideoPreviewLayer?
   
+  var preview: AVCaptureVideoPreviewLayer?
   var isRunning = false
   var camera: Camera?
   var status: Status = .Preview
@@ -69,7 +71,6 @@ class CameraEmotionViewController: UIViewController {
     self.preview?.cornerRadius = 0
     self.cameraPreview.layer.addSublayer(self.preview!)
   }
-
   
   override func viewWillTransitionToSize(size: CGSize,
                                          withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -107,18 +108,17 @@ class CameraEmotionViewController: UIViewController {
         if image != nil {
           self.cameraStill.image = image
           self.status = .Preview
-          self.callApiGetEmotion(self.cameraStill.image!, completion: { (emotion, error) in
-            if let emotion = emotion {
-              self.showInfoScren(emotion)
+          self.callApiGetEmotion(self.cameraStill.image!, completion: { (emotionResponse, error) in
+            if let emotionResponse = emotionResponse {
+              self.showInfoScren(emotionResponse)
             } else {
               // fail
               self.cameraPreview.alpha = 1.0
               self.cameraStill.image = nil
               self.isCameraTaken = false
               LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
-            }
+           }
           })
-          
         } else {
           self.status = .Error
           self.isCameraTaken = false
@@ -202,14 +202,17 @@ extension CameraEmotionViewController {
     }
   }
   
-  private func showInfoScren(emotion: [Emotion]) {
+  private func showInfoScren(emotionResponse: EmotionResponse) {
     let showInforVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("EmotionSuggestionViewController") as! EmotionSuggestionViewController
-    showInforVC.emotions = emotion
-    self.presentViewController(showInforVC, animated: true, completion: {
-    })
+    showInforVC.emotions = emotionResponse.emotions!  // emotions data
+    if let suggestMessage = emotionResponse.suggestMessages {
+      showInforVC.suggestMessages = suggestMessage  // suggest message data
+    }    
+    self.presentViewController(showInforVC, animated: true, completion: nil)
   }
   
-  private func callApiGetEmotion(faceImage: UIImage, completion onCompletionHandler: ((emotion: [Emotion]?, error: NSError?) -> Void)?) {
+  typealias EmotionResponse = (emotions: [Emotion]?, suggestMessages: [Message]?) // new type
+  private func callApiGetEmotion(faceImage: UIImage, completion onCompletionHandler: ((emotionResponse: EmotionResponse?, error: NSError?) -> Void)?) {
     APIRequest.shareInstance.getEmotionSugesstion(self.cameraStill.image!, employeeId: 3, isFirstTime: true) { (response: ResponsePackage?, error: ErrorWebservice?) in
       guard error == nil else {
         print("Fail")
@@ -222,18 +225,31 @@ extension CameraEmotionViewController {
       let success = dict["success"] as? Int
       if success == 1 {
         print("Call api success")
-        let content = dict["data"] as! [[String : AnyObject]]
-        if content.count > 0 {
-          let emotion = Emotion.emotions(content)
-          onCompletionHandler!(emotion: emotion, error: nil)
-        } else {
-          onCompletionHandler!(emotion: nil, error: NSError(domain: "", code: 0, userInfo: ["info" : "Cannot detect image"]))
-        }
+        let data = dict["data"] as! [String : AnyObject]
         
+        // emotions
+        let emotions = data["emotion"] as! [[String : AnyObject]]
+        var emotion: [Emotion] = []
+        
+        if content.count > 0 {
+          emotion = Emotion.emotions(content)
+          
+          // suggest message
+          let suggestMessages = data["suggestMessage"] as! [[String : AnyObject]]
+          if suggestMessages.count > 0 {
+            let messages = Message.messages(suggestMessages)
+            onCompletionHandler((emotion, messages), nil)
+          } else {
+            onCompletionHandler((emotion, nil), nil)
+          }
+          
+        } else {
+          // cannot detect image
+          onCompletionHandler!(emotionResponse: nil, error: NSError(domain: "", code: 0, userInfo: ["info" : "Cannot detect image"]))
+        }
       } else {
         print("Fail")
-//        let message = dict["message"] as? String
-        onCompletionHandler!(emotion: nil, error: NSError(domain: "", code: 0, userInfo: ["info" : "Cannot detect image"]))
+        onCompletionHandler!(emotionResponse: nil, error: NSError(domain: "", code: 0, userInfo: ["info" : "Cannot detect image"]))
       }
     }
   }

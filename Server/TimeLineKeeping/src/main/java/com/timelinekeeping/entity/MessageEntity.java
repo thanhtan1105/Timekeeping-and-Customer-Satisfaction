@@ -23,12 +23,8 @@ public class MessageEntity implements Serializable {
     private String message;
 
     @Basic
-    @Column(name = "fromAge")
-    private Double fromAge;
-
-    @Basic
-    @Column(name = "toAge")
-    private Double toAge;
+    @Column(name = "age_of_face")
+    private Double ageOfFace;
 
     @Basic
     @Column(name = "gender")
@@ -38,11 +34,11 @@ public class MessageEntity implements Serializable {
     @Column(name = "emotion")
     private EEmotion emotion;
 
-    public MessageEntity(Long id, String message, Double fromAge, Double toAge, Gender gender, EEmotion emotion) {
-        this.id = id;
+    public MessageEntity() { }
+
+    public MessageEntity(String message, Double ageOfFace, Gender gender, EEmotion emotion) {
         this.message = message;
-        this.fromAge = fromAge;
-        this.toAge = toAge;
+        this.ageOfFace = ageOfFace;
         this.gender = gender;
         this.emotion = emotion;
     }
@@ -63,20 +59,12 @@ public class MessageEntity implements Serializable {
         this.message = message;
     }
 
-    public Double getFromAge() {
-        return fromAge;
+    public Double getAgeOfFace() {
+        return ageOfFace;
     }
 
-    public void setFromAge(Double fromAge) {
-        this.fromAge = fromAge;
-    }
-
-    public Double getToAge() {
-        return toAge;
-    }
-
-    public void setToAge(Double toAge) {
-        this.toAge = toAge;
+    public void setAgeOfFace(Double ageOfFace) {
+        this.ageOfFace = ageOfFace;
     }
 
     public Gender getGender() {
