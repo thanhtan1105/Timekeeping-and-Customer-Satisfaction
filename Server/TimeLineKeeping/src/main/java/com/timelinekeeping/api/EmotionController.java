@@ -72,7 +72,8 @@ public class EmotionController {
         BaseResponse response;
         try {
             if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
-                response = emotionService.getCustomerEmotion(imgFile.getInputStream(), employeeId, isFirstTime);
+                response = new BaseResponse(true);
+                response.setData(emotionService.getCustomerEmotion(imgFile.getInputStream()));
             } else {
                 response = new BaseResponse();
                 response.setSuccess(false);
@@ -88,6 +89,78 @@ public class EmotionController {
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
+
+
+    @RequestMapping(value = {I_URI.API_EMOTION_BEGIN_TRANSACTION}, method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse beginTransaction(@RequestParam("image") MultipartFile imgFile,
+                                           @RequestParam("employeeId") Long employeeId,
+                                           @RequestParam("isFirstTime") Boolean isFirstTime) {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        BaseResponse response = null;
+        try {
+            if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
+//                response = emotionService.getCustomerEmotion(imgFile.getInputStream(), employeeId, isFirstTime);
+            } else {
+                response = new BaseResponse();
+                response.setSuccess(false);
+                response.setMessage("File not image format.");
+            }
+            return response;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+        return null;
+    }
+
+    @RequestMapping(value = {I_URI.API_EMOTION_PROCESS_TRANSACTION}, method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse processTransaction(@RequestParam("image") MultipartFile imgFile,
+                                         @RequestParam("code") String transactionCode) {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        BaseResponse response = null;
+        try {
+            if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
+//                response = emotionService.getCustomerEmotion(imgFile.getInputStream(), employeeId, isFirstTime);
+            } else {
+                response = new BaseResponse();
+                response.setSuccess(false);
+                response.setMessage("File not image format.");
+            }
+            return response;
+        } catch (IOException e) {
+            logger.error(e);
+            return new BaseResponse(e);
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
+
+    @RequestMapping(value = {I_URI.API_EMOTION_END_TRANSACTION}, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse endTransaction(@RequestParam("code") String transactionCode) {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        BaseResponse response = null;
+        try {
+//            if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
+//                response = emotionService.getCustomerEmotion(imgFile.getInputStream(), employeeId, isFirstTime);
+//            } else {
+//                response = new BaseResponse();
+//                response.setSuccess(false);
+//                response.setMessage("File not image format.");
+//            }
+            return response;
+
         } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }

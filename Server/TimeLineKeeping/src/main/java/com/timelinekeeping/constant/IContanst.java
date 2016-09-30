@@ -33,4 +33,7 @@ public interface IContanst {
     String PAGE_PAGE = 0 + "";
     String PAGE_SIZE = 10 + "";
     double MCS_PERSON_DETECT_CONFIDINCE_CORRECT = AppConfigKeys.getInstance().getApiPropertyDouble("detect.person.indetify.confidence");
+
+    int AGE_AMOUNT = 5;
+
 }

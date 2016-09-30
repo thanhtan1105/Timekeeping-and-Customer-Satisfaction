@@ -3,13 +3,11 @@ package com.timelinekeeping.service.serviceImplement;
 import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.constant.EEmotion;
-import com.timelinekeeping.constant.ERROR;
 import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.entity.MessageEntity;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.model.BaseResponseG;
 import com.timelinekeeping.model.EmotionAnalysisModel;
 import com.timelinekeeping.modelMCS.EmotionRecognizeResponse;
 import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
@@ -99,7 +97,7 @@ public class EmotionServiceImpl {
         EmotionCustomerEntity emotionRespone = emotionRepo.saveAndFlush(emotionCustomerEntity);
 
         logger.info(IContanst.END_METHOD_SERVICE);
-        return new BaseResponse(true,emotionRespone);
+        return new BaseResponse(true, emotionRespone);
     }
 
     public BaseResponse analyseEmotion(Long id) {
@@ -197,100 +195,82 @@ public class EmotionServiceImpl {
     }
 
 
-    public BaseResponse getCustomerEmotion(InputStream inputStreamImg, Long employeeId, boolean isFirstTime)
+    public List<EmotionAnalysisModel> getCustomerEmotion(InputStream inputStreamImg)
             throws IOException, URISyntaxException {
         logger.info("[Get Customer Emotion] BEGIN SERVICE");
-        BaseResponse baseResponse = new BaseResponse();
-        HashMap<String, Object> responseData = new HashMap<>();
 
+        List<EmotionAnalysisModel> emotionAnalysisModels = new ArrayList<>();
         byte[] bytes = IOUtils.toByteArray(inputStreamImg);
+
         // face detect
         FaceServiceMCSImpl faceServiceMCS = new FaceServiceMCSImpl();
         BaseResponse faceResponse = faceServiceMCS.detect(new ByteArrayInputStream(bytes));
         logger.info("[Get Customer Emotion] face response success: " + faceResponse.isSuccess());
-        if (faceResponse.isSuccess()) {
-            if (faceResponse.getData() != null) {
 
-                // parser face response
-                List<FaceDetectResponse> faceRecognizeList = (List<FaceDetectResponse>) faceResponse.getData();
-                if (faceRecognizeList != null || faceRecognizeList.size() > 0) {
+        if (faceResponse.isSuccess() && faceResponse.getData() != null) {
 
-                    List<EmotionAnalysisModel> emotionAnalysisModels = new ArrayList<>();
-                    for (FaceDetectResponse faceDetectResponse : faceRecognizeList) {
-                        // get face_attributes
-                        Double age = faceDetectResponse.getFaceAttributes().getAge(); // get age
-                        Gender gender = faceDetectResponse.getFaceAttributes().getGender().toUpperCase()
-                                .equals("MALE") ? Gender.MALE : Gender.FEMALE; // get gender
-                        // get rectangle image
-                        RectangleImage rectangleImage = faceDetectResponse.getFaceRectangle();
+            // parser face response
+            List<FaceDetectResponse> faceRecognizeList = (List<FaceDetectResponse>) faceResponse.getData();
+            if (faceRecognizeList != null || faceRecognizeList.size() > 0) {
 
-                        // emotion recognize
-                        EmotionServiceMCSImpl emotionServiceMCS = new EmotionServiceMCSImpl();
-                        BaseResponse emotionResponse = emotionServiceMCS.recognize(new ByteArrayInputStream(bytes), rectangleImage);
+                for (FaceDetectResponse faceDetectResponse : faceRecognizeList) {
+                    // get face_attributes
+                    Double age = faceDetectResponse.getFaceAttributes().getAge(); // get age
+                    Gender gender = faceDetectResponse.getFaceAttributes().getGender().toUpperCase()
+                            .equals("MALE") ? Gender.MALE : Gender.FEMALE; // get gender
+                    // get rectangle image
+                    RectangleImage rectangleImage = faceDetectResponse.getFaceRectangle();
 
-                        // parser emotion response
-                        List<EmotionRecognizeResponse> emotionRecognizeList = (List<EmotionRecognizeResponse>) emotionResponse.getData();
+                    // emotion recognize
+                    EmotionServiceMCSImpl emotionServiceMCS = new EmotionServiceMCSImpl();
+                    BaseResponse emotionResponse = emotionServiceMCS.recognize(new ByteArrayInputStream(bytes), rectangleImage);
 
-                        //TODO check many face
-                        EmotionRecognizeResponse emotionRecognize = emotionRecognizeList.get(0);
+                    // parser emotion response
+                    List<EmotionRecognizeResponse> emotionRecognizeList = (List<EmotionRecognizeResponse>) emotionResponse.getData();
 
-                        // get emotion_scores
-                        Double anger = emotionRecognize.getScores().getAnger(); // get anger
-                        Double contempt = emotionRecognize.getScores().getContempt(); // get contempt
-                        Double disgust = emotionRecognize.getScores().getDisgust(); // get Disgust
-                        Double fear = emotionRecognize.getScores().getFear(); // get Fear
-                        Double happiness = emotionRecognize.getScores().getHappiness(); // get happiness
-                        Double neutral = emotionRecognize.getScores().getNeutral(); // get neutral
-                        Double sadness = emotionRecognize.getScores().getSadness(); // get sadness
-                        Double surprise = emotionRecognize.getScores().getSurprise(); // get surprise
+                    //TODO check many face
+                    EmotionRecognizeResponse emotionRecognize = emotionRecognizeList.get(0);
 
-                        EmotionRecognizeScores emotionRecognizeScores
-                                = new EmotionRecognizeScores(anger, contempt, disgust, fear, happiness, neutral, sadness, surprise);
-                        // get customer emotion
-                        EmotionAnalysisModel emotionAnalysisModel = analyseEmotion(emotionRecognizeScores);
-                        emotionAnalysisModel.setAge(age);
-                        emotionAnalysisModel.setGender(gender);
-                        emotionAnalysisModel.setRectangleImage(faceDetectResponse.getFaceRectangle());
+                    // get emotion_scores
+                    Double anger = emotionRecognize.getScores().getAnger(); // get anger
+                    Double contempt = emotionRecognize.getScores().getContempt(); // get contempt
+                    Double disgust = emotionRecognize.getScores().getDisgust(); // get Disgust
+                    Double fear = emotionRecognize.getScores().getFear(); // get Fear
+                    Double happiness = emotionRecognize.getScores().getHappiness(); // get happiness
+                    Double neutral = emotionRecognize.getScores().getNeutral(); // get neutral
+                    Double sadness = emotionRecognize.getScores().getSadness(); // get sadness
+                    Double surprise = emotionRecognize.getScores().getSurprise(); // get surprise
 
-                        emotionAnalysisModels.add(emotionAnalysisModel);
+                    EmotionRecognizeScores emotionRecognizeScores
+                            = new EmotionRecognizeScores(anger, contempt, disgust, fear, happiness, neutral, sadness, surprise);
+                    // get customer emotion
+                    EmotionAnalysisModel emotionAnalysisModel = analyseEmotion(emotionRecognizeScores);
+                    emotionAnalysisModel.setAge(age);
+                    emotionAnalysisModel.setGender(gender);
+                    emotionAnalysisModel.setRectangleImage(faceDetectResponse.getFaceRectangle());
 
-                    }
-                    baseResponse.setSuccess(true);
-                    responseData.put("emotion", emotionAnalysisModels);
+                    emotionAnalysisModels.add(emotionAnalysisModel);
+
                 }
-
-                if (isFirstTime) {
-                    // TODO: get suggestion
-                    List<EmotionAnalysisModel> emotionAnalysisModels = (List<EmotionAnalysisModel>) responseData.get("emotion");
-                    if (emotionAnalysisModels.size() > 0) {
-                        EmotionAnalysisModel emotionAnalysisModel = emotionAnalysisModels.get(0);
-                        List<MessageEntity> messageEntities = getListMessage(emotionAnalysisModel.getGender(),
-                                emotionAnalysisModel.getAge() - 5,
-                                emotionAnalysisModel.getAge() + 15,
-                                emotionAnalysisModel.getEmotionMost());
-                        responseData.put("suggestMessage", messageEntities);
-                    }
-                }
-
-                baseResponse.setData(responseData);
-
-//            // create time
-//            java.util.Date date = new java.util.Date();
-//            Timestamp timestamp = new Timestamp(date.getTime());
-
-//            // save to database
-
-//            emotion.setCreateTime(timestamp);
-//            emotion.setCreateBy(accountRepo.findOne(employeeId));
-//            emotionRepo.saveAndFlush(emotion);
             }
-        } else {
-            baseResponse.setSuccess(false);
-            baseResponse.setMessage(ERROR.EMOTION_API_GET_CUSTOMER_EMOTION_EMPTY_DETECT);
         }
 
         logger.info("[Get Customer Emotion] END SERVICE");
-        return baseResponse;
+        return emotionAnalysisModels;
     }
+
+    public List<MessageEntity> suggestMessage(EmotionAnalysisModel emotionAnalysisModel) {
+        List<MessageEntity> messageEntities = getListMessage(emotionAnalysisModel.getGender(),
+                emotionAnalysisModel.getAge() - IContanst.AGE_AMOUNT,
+                emotionAnalysisModel.getAge() + IContanst.AGE_AMOUNT,
+                emotionAnalysisModel.getEmotionMost());
+        return messageEntities;
+    }
+
+
+    public void beginTransaction(InputStream imageStream, Long employeeId) {
+
+    }
+
 
 }

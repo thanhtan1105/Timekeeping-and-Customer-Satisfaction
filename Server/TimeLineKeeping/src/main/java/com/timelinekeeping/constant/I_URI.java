@@ -31,6 +31,9 @@ public interface I_URI {
     String API_EMOTION_RECOGNIZE = "/recognize_img";
     String API_EMOTION_ANALYZE = "/analyse_emotion";
     String API_EMOTION_GET_EMOTION = "/get_customer_emotion";
+    String API_EMOTION_BEGIN_TRANSACTION = "/begin_transaction";
+    String API_EMOTION_PROCESS_TRANSACTION = "/process_transaction";
+    String API_EMOTION_END_TRANSACTION = "/end_transaction";
 
 
     /** Reminder*/
