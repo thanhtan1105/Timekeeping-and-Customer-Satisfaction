@@ -36,7 +36,8 @@
                         <div class="input-group-addon">
                             <i class="fa fa-calendar text-success"></i>
                         </div>
-                        <input type="text" class="form-control pull-right text-center" id="datepicker"/>
+                        <input type="text" th:value="${#dates.format(SelectedDate, 'MMMM-yyyy')}"
+                               class="form-control pull-right text-center  selected-date" id="datepicker"/>
                     </div>
                 </div>
                 <div class="col-sm-4"></div>
@@ -47,7 +48,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <h3 class="box-title text-success">
-                            <i class="fa fa-user"></i> Thái Quang Hiển
+                            <i class="fa fa-user"></i>
+                            <font th:text="${AccountAttendanceModel.fullname}"></font>
                         </h3>
                         <hr style="border-color: green; margin-top: 4px; margin-bottom: 1px; margin-right: 73%; border-width: 2px;"/>
                     </div>
@@ -75,35 +77,21 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>1.</td>
-                        <td>01-Sep-2016</td>
+                    <tr th:each="attendance,counter: ${AccountAttendanceModel.attendances}"
+                            th:if="${attendance.dayStatus.index != 3}">
+                        <td th:text="${counter.count} + '.'"></td>
+                        <td th:text="${#dates.format(attendance.date, 'dd-MMM-yyyy')}"></td>
                         <td>
                             <font class="text-primary" style="font-size: medium;">
-                                <i class="fa fa-check-square-o"></i>
+                                <i th:class="${attendance.present.index == 0} ? 'fa fa-check-square-o': 'fa fa-square-o'"></i>
                             </font>
                         </td>
                         <td>
                             <font class="text-danger" style="font-size: medium;">
-                                <i class="fa fa-square-o"></i>
+                                <i th:class="${attendance.present.index == 1} ? 'fa fa-check-square-o': 'fa fa-square-o'"></i>
                             </font>
                         </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>2.</td>
-                        <td>02-Sep-2016</td>
-                        <td>
-                            <font class="text-primary" style="font-size: medium;">
-                                <i class="fa fa-square-o"></i>
-                            </font>
-                        </td>
-                        <td>
-                            <font class="text-danger" style="font-size: medium;">
-                                <i class="fa fa-check-square-o"></i>
-                            </font>
-                        </td>
-                        <td></td>
+                        <td th:text="${attendance.note}"></td>
                     </tr>
                     </tbody>
                 </table>
