@@ -99,7 +99,7 @@ public class EmotionServiceImpl {
         EmotionCustomerEntity emotionRespone = emotionRepo.saveAndFlush(emotionCustomerEntity);
 
         logger.info(IContanst.END_METHOD_SERVICE);
-        return emotionRespone;
+        return new BaseResponse(true,emotionRespone);
     }
 
     public BaseResponse analyseEmotion(Long id) {
