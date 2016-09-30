@@ -27,6 +27,16 @@ public class TimeUtil {
         return date;
     }
 
+    public static Date parseToDate(String text, String pattern) {
+        DateFormat format = new SimpleDateFormat(pattern, Locale.ENGLISH);
+        try {
+            Date date = format.parse(text);
+            return date;
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
 //    public static void main(String[] args) {
 //        String text = "17 September 2016 - 09:30 pm";
 //        DateFormat format = new SimpleDateFormat("dd MMMM yyyy - HH:mm a", Locale.ENGLISH);
