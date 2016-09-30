@@ -66,13 +66,13 @@ public class EmotionController {
     @RequestMapping(value = {I_URI.API_EMOTION_GET_EMOTION}, method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse getCustomerEmotion(@RequestParam("image") MultipartFile imgFile,
-                                           @RequestParam("employeeId") String employeeId,
-                                           @RequestParam("isFirstTime") String isFirstTime) {
+                                           @RequestParam("employeeId") Long employeeId,
+                                           @RequestParam("isFirstTime") Boolean isFirstTime) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         BaseResponse response;
         try {
             if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
-                response = emotionService.getCustomerEmotion(imgFile.getInputStream()).toBaseResponse();
+                response = emotionService.getCustomerEmotion(imgFile.getInputStream(), employeeId, isFirstTime);
             } else {
                 response = new BaseResponse();
                 response.setSuccess(false);
