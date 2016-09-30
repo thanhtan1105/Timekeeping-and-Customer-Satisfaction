@@ -5,17 +5,17 @@
 
 <head lang="en">
     <meta charset="UTF-8"/>
-    <title>Check-in Manual</title>
+    <title>Timekeeping</title>
 </head>
 <body>
 <div layout:fragment="content">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1 class="text-success">
-            <i class="glyphicon glyphicon-send"></i> Check-in Manual
+            <i class="glyphicon glyphicon-send"></i> Timekeeping
         </h1>
         <ol class="breadcrumb">
-            <li><i class="fa fa-laptop active"></i> Check-in Manual</li>
+            <li><i class="fa fa-laptop active"></i> Timekeeping</li>
         </ol>
         <hr style="border-color: green; margin-top: 4px; margin-bottom: 1px;"/>
     </section>
@@ -24,12 +24,27 @@
         <!-- Your Page Content Here -->
         <!-- Info: manager, department, date -->
         <div class="text-center" style="margin-bottom: 5px">
-            <font class="text-success" style="font-size: 18px;">Department: IT</font><br/>
-            <font class="text-success" style="font-size: 18px;">Manager: Nguyễn Năng Trung</font><br/>
+            <font class="text-success" style="font-size: 18px;"><b>Department: </b></font>
             <font class="text-success" style="font-size: 18px;"
-                    th:text="'Date: ' + ${#dates.format(CurrentDate, 'dd-MMM-yyyy')}"></font>
+                  th:text="${TimekeepingResponseModel.departmentName}"></font><br/>
+            <font class="text-success" style="font-size: 18px;"><b>Manager: </b></font>
+            <font class="text-success" style="font-size: 18px;"
+                  th:text="${TimekeepingResponseModel.managerName}"></font><br/>
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <div class="input-group date" style="width: 65%; margin-left: 17%; margin-top: 4px;">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar text-success"></i>
+                        </div>
+                        <input type="text" th:value="${#dates.format(TimekeepingResponseModel.nowDate, 'MMMM-yyyy')}"
+                               class="form-control pull-right text-center" id="datepicker"/>
+                    </div>
+                </div>
+                <div class="col-sm-4"></div>
+            </div>
         </div>
-        <div class="box box-success">
+        <div class=" box box-success">
             <div class="box-header">
                 <div class="row">
                     <div class="col-sm-6">
@@ -50,64 +65,49 @@
                 </div>
             </div>
             <!-- /.box-header -->
-            <!-- Data-table for list of accounts -->
+            <!-- Data-table for list of employees -->
             <div class="box-body">
                 <table id="dataTable" class="table table-bordered table-hover" style="border-collapse: collapse;">
                     <colgroup>
                         <col span="1" style="width: 5%;">
-                        <col span="1" style="width: 40%;">
+                        <col span="1" style="width: 35%;">
+                        <col span="1" style="width: 20%;">
+                        <col span="1" style="width: 35%;">
                         <col span="1" style="width: 5%;">
-                        <col span="1" style="width: 50%;">
                     </colgroup>
                     <thead>
                     <tr>
                         <th>No</th>
                         <th>Name</th>
-                        <th>Present</th>
+                        <th>Total Present Days</th>
                         <th>Note</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="account,counter: ${AccountCheckInModels}">
+                    <tr th:each="employee,counter: ${TimekeepingResponseModel.listEmployee}">
                         <td th:text="${counter.count} + '.'"></td>
-                        <td th:text="${account.fullname}"></td>
+                        <td th:text="${employee.fullname}"></td>
+                        <td th:text="(${employee.dayCheckin != null} ? ${employee.dayCheckin}: 0 ) + '/' + ${employee.dayWork}"></td>
+                        <td></td>
                         <td>
-                            <input th:name="accountIds" th:value="${account.id}"
-                                   type="checkbox" class="minimal-red"
-                                   th:attr="id='statusCheckin-' + ${counter.count}"
-                                   th:checked="${account.statusCheckin.index} == 0"
-                                   th:disabled="${account.statusCheckin.index} == 0"/>
-                        </td>
-                        <td>
-                            <input th:name="note" type="text" th:value="${account.note}"
-                                   th:disabled="${account.statusCheckin.index} == 0"
-                                   th:attr="id='note-' + ${counter.count}"
-                                   class="form-control input-sm" style="width: 100%"/>
-                            <input type="hidden" th:value="${account.id}" th:attr="id='accountId-' + ${counter.count}"/>
+                            <button class="btn bg-aqua-active btn-flat btn-sm" type="button" style="width: 100%"
+                                    title="Edit Class">
+                                <i class="fa fa-hand-pointer-o"></i> View Details
+                            </button>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
             <!-- /.box-body -->
-            <!-- /.end data-table for list of accounts -->
-        </div>
-        <div class="row text-center">
-            <form th:action="@{/manager/check_in/checkinManualProcessing}" method="post"
-                  id="form-submit-checkin-manual"
-                  onsubmit="getAccountCheckInModels()">
-                <input type="hidden" name="sizeOfListAccounts" th:value="${SizeOfListAccounts}"/>
-                <input type="hidden" name="accountCheckInModels" value=""/>
-                <button type="submit" class="btn btn-primary btn-flat">
-                    <i class="fa fa-share-square-o"></i> SUBMIT
-                </button>
-            </form>
+            <!-- /.end data-table for list of employees -->
         </div>
     </section>
     <!-- /.content -->
 </div>
 <div layout:fragment="js">
-    <script th:src="@{/js/manager/checkin_manual/checkin_manual.js}"></script>
+    <!--<script th:src="@{/js/manager/checkin_manual/checkin_manual.js}"></script>-->
 </div>
 </body>
 </html>
