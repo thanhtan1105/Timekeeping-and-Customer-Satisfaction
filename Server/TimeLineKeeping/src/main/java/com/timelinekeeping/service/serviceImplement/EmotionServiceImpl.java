@@ -23,13 +23,15 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lethanhtan on 9/15/16.
@@ -193,6 +195,7 @@ public class EmotionServiceImpl {
         logger.info(IContanst.END_METHOD_SERVICE);
         return messageEntities;
     }
+
 
     public BaseResponse getCustomerEmotion(InputStream inputStreamImg, Long employeeId, boolean isFirstTime)
             throws IOException, URISyntaxException {
