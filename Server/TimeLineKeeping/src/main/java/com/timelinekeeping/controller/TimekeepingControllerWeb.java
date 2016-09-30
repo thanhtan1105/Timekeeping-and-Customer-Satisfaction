@@ -6,6 +6,7 @@ import com.timelinekeeping.model.AccountTKDetailsModel;
 import com.timelinekeeping.model.TimekeepingResponseModel;
 import com.timelinekeeping.service.serviceImplement.TimekeepingServiceImpl;
 import com.timelinekeeping.util.JsonUtil;
+import com.timelinekeeping.util.TimeUtil;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,11 @@ public class TimekeepingControllerWeb {
         // get timekeeping
         TimekeepingResponseModel timekeepingResponseModel
                 = timekeepingService.getTimeKeeping(managerId, year, month);
+        if (timekeepingResponseModel != null) {
+            // get selected date
+            Date selectedDate = timekeepingResponseModel.getNowDate();
+            model.addAttribute("SelectedDate", selectedDate);
+        }
 
         model.addAttribute("TimekeepingResponseModel", timekeepingResponseModel);
 
@@ -77,5 +83,35 @@ public class TimekeepingControllerWeb {
         logger.info("[Controller- Load Timekeeping Details View] END");
 
         return ViewConst.TIME_KEEPING_DETAILS_VIEW;
+    }
+
+    @RequestMapping(value = "/change_month", method = RequestMethod.POST)
+    public String changeMonthTimekeepingView(@RequestParam("selectedMonth") String selectedMonth,
+                                             Model model) {
+        logger.info("[Controller- Change Month Timekeeping View] BEGIN");
+        logger.info("[Controller- Change Month Timekeeping View] selected month: " + selectedMonth);
+        String pattern = "MMMM-yyyy";
+        // parse to date
+        Date selectedDate = TimeUtil.parseToDate(selectedMonth, pattern);
+        logger.info("[Controller- Change Month Timekeeping View] selected date: " + selectedDate);
+        // get month, year
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(selectedDate);
+        Integer month = calendar.get(Calendar.MONTH) + 1;
+        Integer year = calendar.get(Calendar.YEAR);
+        logger.info("[Controller- Change Month Timekeeping View] selected month: " + month);
+        logger.info("[Controller- Change Month Timekeeping View] selected year: " + year);
+
+        Long managerId = ValidateUtil.validateNumber("3");
+
+        // get timekeeping
+        TimekeepingResponseModel timekeepingResponseModel
+                = timekeepingService.getTimeKeeping(managerId, year, month);
+
+        model.addAttribute("TimekeepingResponseModel", timekeepingResponseModel);
+        model.addAttribute("SelectedDate", selectedDate);
+
+        logger.info("[Controller- Change Month Timekeeping View] END");
+        return ViewConst.TIME_KEEPING_VIEW;
     }
 }
