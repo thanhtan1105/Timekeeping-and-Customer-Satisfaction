@@ -2,17 +2,12 @@ package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
-import com.timelinekeeping.constant.EEmotion;
-import com.timelinekeeping.constant.Gender;
-import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.constant.*;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.CustomerServiceEntity;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.entity.MessageEntity;
-import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.model.EmotionAnalysisModel;
-import com.timelinekeeping.model.EmotionCustomerResponse;
-import com.timelinekeeping.model.MessageModel;
+import com.timelinekeeping.model.*;
 import com.timelinekeeping.modelMCS.EmotionRecognizeResponse;
 import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
 import com.timelinekeeping.modelMCS.FaceDetectResponse;
@@ -278,31 +273,100 @@ public class EmotionServiceImpl {
         }
     }
 
-    public EmotionCustomerResponse beginTransaction(InputStream imageStream, Long employeeId) throws IOException, URISyntaxException {
+    public Pair<EmotionCustomerResponse, String> beginTransaction(InputStream imageStream, Long employeeId) throws IOException, URISyntaxException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             //Create Customer service
             AccountEntity employee = accountRepo.findOne(employeeId);
+            if (employee == null) {
+                logger.error(String.format(ERROR.TIME_KEEPING_ACCOUNT_ID_CANNOT_EXIST, employeeId));
+                return new Pair<>(null, String.format(ERROR.TIME_KEEPING_ACCOUNT_ID_CANNOT_EXIST, employeeId));
+            }
             CustomerServiceEntity customerResultEntity = customerRepo.saveAndFlush(new CustomerServiceEntity(employee));
 
 
             List<EmotionAnalysisModel> listEmotionAnalysis = getCustomerEmotion(imageStream);
-            //TODO choose best way
-            EmotionAnalysisModel mostChoose = listEmotionAnalysis.get(0);
+            if (listEmotionAnalysis != null && listEmotionAnalysis.size() > 0) {
+                //TODO choose best way
+                EmotionAnalysisModel mostChoose = listEmotionAnalysis.get(0);
 
-            //save mostChoose
-            EmotionCustomerEntity emotionEntity = emotionRepo.saveAndFlush(new EmotionCustomerEntity(mostChoose, customerResultEntity));
+                //save mostChoose
+                EmotionCustomerEntity emotionEntity = emotionRepo.saveAndFlush(new EmotionCustomerEntity(mostChoose, customerResultEntity));
 
-            //getMessage
-            List<MessageModel> messageModels = null;
-            if (listEmotionAnalysis != null && listEmotionAnalysis.size() >0) {
-                messageModels = suggestMessage(mostChoose);
+                //getMessage
+                List<MessageModel> messageModels = null;
+                if (listEmotionAnalysis != null && listEmotionAnalysis.size() > 0) {
+                    messageModels = suggestMessage(mostChoose);
+                }
+                EmotionCustomerResponse responseEmotion = new EmotionCustomerResponse(customerResultEntity.getCustomerCode(), Arrays.asList(mostChoose), messageModels);
+                return new Pair<>(responseEmotion);
+            } else {
+                return new Pair<>(null, "Cannot analyze image.");
             }
-            return new EmotionCustomerResponse(customerResultEntity.getCustomerCode(), Arrays.asList(mostChoose), messageModels);
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 
+    public Boolean processTransaction(InputStream imageStream, String customerCode) throws IOException, URISyntaxException {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info("CustomerCode: " + customerCode);
+
+            //get Customer Service with customerCode;
+            CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
+
+            if (customerResultEntity != null && (customerResultEntity.getStatus() == ETransaction.BEGIN || customerResultEntity.getStatus() == ETransaction.PROCESS)) {
+
+                //if status == BEGIN, change status = PROCESS. save db
+                if (customerResultEntity.getStatus() == ETransaction.BEGIN) {
+                    customerResultEntity.setStatus(ETransaction.PROCESS);
+                    customerRepo.saveAndFlush(customerResultEntity);
+                }
+
+                //analyze emotion
+                List<EmotionAnalysisModel> listEmotionAnalysis = getCustomerEmotion(imageStream);
+                if (listEmotionAnalysis != null && listEmotionAnalysis.size() > 0) {
+                    //TODO choose best way
+                    EmotionAnalysisModel mostChoose = listEmotionAnalysis.get(0);
+
+                    //save mostChoose
+                    EmotionCustomerEntity emotionEntity = emotionRepo.saveAndFlush(new EmotionCustomerEntity(mostChoose, customerResultEntity));
+                    return true;
+                } else {
+                    logger.error("Cannot analyze customer emotion");
+                    return false;
+                }
+            } else {
+                logger.error("CustomerService has status: " + customerResultEntity.getStatus());
+                return false;
+            }
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    public Boolean endTransaction(String customerCode) throws IOException, URISyntaxException {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info("CustomerCode: " + customerCode);
+
+            //get Customer Service with customerCode;
+            CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
+
+            if (customerResultEntity != null && (customerResultEntity.getStatus() == ETransaction.BEGIN || customerResultEntity.getStatus() == ETransaction.PROCESS)) {
+
+                //change status = END
+                customerResultEntity.setStatus(ETransaction.END);
+                customerRepo.saveAndFlush(customerResultEntity);
+                return true;
+            } else {
+                logger.error("CustomerService has status: " + customerResultEntity.getStatus());
+                return false;
+            }
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
 
 }

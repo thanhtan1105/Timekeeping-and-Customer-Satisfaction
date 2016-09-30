@@ -100,4 +100,12 @@ public class CustomerServiceEntity {
     public void setEmotion(Set<EmotionCustomerEntity> emotion) {
         this.emotion = emotion;
     }
+
+    public ETransaction getStatus() {
+        return status;
+    }
+
+    public void setStatus(ETransaction status) {
+        this.status = status;
+    }
 }

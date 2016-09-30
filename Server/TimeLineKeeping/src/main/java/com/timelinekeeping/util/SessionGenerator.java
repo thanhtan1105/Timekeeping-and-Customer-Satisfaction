@@ -9,6 +9,6 @@ public class SessionGenerator {
 
     //TODO generator
     public static String nextSession() {
-        return (new Date().getTime() * new Date().getTime()) + "";
+        return new Date().getTime()+ "" + new Date().getTime();
     }
 }

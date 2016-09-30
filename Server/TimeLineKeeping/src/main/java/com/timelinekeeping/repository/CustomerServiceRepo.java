@@ -1,5 +1,6 @@
 package com.timelinekeeping.repository;
 
+import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.CustomerServiceEntity;
 import com.timelinekeeping.entity.MessageEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,5 +17,7 @@ import java.util.List;
 @Repository
 public interface CustomerServiceRepo extends JpaRepository<CustomerServiceEntity, Long> {
 
+    @Query("SELECT c FROM CustomerServiceEntity c WHERE c.CustomerCode = :customerCode")
+    public CustomerServiceEntity findByCustomerCode(@Param("customerCode") String customerCode);
 
 }
