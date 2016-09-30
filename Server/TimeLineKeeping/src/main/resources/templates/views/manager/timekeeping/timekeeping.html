@@ -30,6 +30,7 @@
             <font class="text-success" style="font-size: 18px;"><b>Manager: </b></font>
             <font class="text-success" style="font-size: 18px;"
                   th:text="${TimekeepingResponseModel.managerName}"></font><br/>
+
             <div class="row">
                 <div class="col-sm-4"></div>
                 <div class="col-sm-4">
@@ -38,7 +39,7 @@
                             <i class="fa fa-calendar text-success"></i>
                         </div>
                         <input type="text" th:value="${#dates.format(TimekeepingResponseModel.nowDate, 'MMMM-yyyy')}"
-                               class="form-control pull-right text-center" id="datepicker"/>
+                               class="form-control pull-right text-center selected-date" id="datepicker"/>
                     </div>
                 </div>
                 <div class="col-sm-4"></div>
@@ -91,10 +92,15 @@
                         <td th:text="(${employee.dayCheckin != null} ? ${employee.dayCheckin}: 0 ) + '/' + ${employee.dayWork}"></td>
                         <td></td>
                         <td>
-                            <button class="btn bg-aqua-active btn-flat btn-sm" type="button" style="width: 100%"
-                                    title="Edit Class">
-                                <i class="fa fa-hand-pointer-o"></i> View Details
-                            </button>
+                            <form th:action="@{/manager/timekeeping/details}" method="post"
+                                  th:id="'form-submit-view-details-' + ${employee.id}">
+                                <input type="hidden" th:name="accountTKDetailsModel"/>
+                                <button type="button" class="btn bg-aqua-active btn-flat btn-sm view-details-tk"
+                                        th:attr="data-id=${employee.id}"
+                                        style="width: 100%">
+                                    <i class="fa fa-hand-pointer-o"></i> View Details
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     </tbody>
@@ -107,7 +113,7 @@
     <!-- /.content -->
 </div>
 <div layout:fragment="js">
-    <!--<script th:src="@{/js/manager/checkin_manual/checkin_manual.js}"></script>-->
+    <script th:src="@{/js/manager/timekeeping/timekeeping.js}"></script>
 </div>
 </body>
 </html>
