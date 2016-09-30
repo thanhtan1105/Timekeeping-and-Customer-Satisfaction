@@ -247,11 +247,11 @@ public class EmotionCustomerEntity implements Serializable {
 //    }
 
 
-    public AccountEntity getCustomerService() {
+    public CustomerServiceEntity getCustomerService() {
         return customerService;
     }
 
-    public void setCustomerService(AccountEntity customerService) {
+    public void setCustomerService(CustomerServiceEntity customerService) {
         this.customerService = customerService;
     }
 }
