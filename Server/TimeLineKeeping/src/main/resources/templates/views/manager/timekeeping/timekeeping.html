@@ -23,38 +23,50 @@
     <section class="content">
         <!-- Your Page Content Here -->
         <!-- Info: manager, department, date -->
-        <div class="text-center" style="margin-bottom: 5px">
-            <font class="text-success" style="font-size: 18px;"><b>Department: </b></font>
-            <font class="text-success" style="font-size: 18px;"
-                  th:text="${TimekeepingResponseModel.departmentName}"></font><br/>
-            <font class="text-success" style="font-size: 18px;"><b>Manager: </b></font>
-            <font class="text-success" style="font-size: 18px;"
-                  th:text="${TimekeepingResponseModel.managerName}"></font><br/>
+        <div style="margin-bottom: 10px">
+            <!-- department -->
+            <div class="row text-success" style="font-size: 18px;">
+                <div class="col-sm-5 text-right">
+                    <font>Department:</font></div>
+                <div class="col-sm-6 text-left">
+                    <font th:text="${TimekeepingResponseModel.departmentName}"></font></div>
+            </div>
+            <!-- /.end department -->
+            <!-- manager -->
+            <div class="row text-success" style="font-size: 18px;">
+                <div class="col-sm-5 text-right">
+                    <font>Manager:</font></div>
+                <div class="col-sm-6 text-left">
+                    <font th:text="${TimekeepingResponseModel.managerName}"></font></div>
+            </div>
+            <!-- /.end manager -->
+            <!-- month -->
+            <div class="row text-success" style="font-size: 18px;">
+                <div class="col-sm-5 text-right">
+                    <font>Month:</font></div>
+                <div class="col-sm-6 text-left">
+                    <div class="input-group date" style="width: 50%">
+                        <input type="text" th:value="${#dates.format(TimekeepingResponseModel.nowDate, 'MMMM-yyyy')}"
+                               class="form-control pull-left selected-date" id="datepicker"/>
 
-            <div class="row">
-                <div class="col-sm-4"></div>
-                <div class="col-sm-4">
-                    <div class="input-group date" style="width: 65%; margin-left: 17%; margin-top: 4px;">
                         <div class="input-group-addon">
                             <i class="fa fa-calendar text-success"></i>
                         </div>
-                        <input type="text" th:value="${#dates.format(TimekeepingResponseModel.nowDate, 'MMMM-yyyy')}"
-                               class="form-control pull-right text-center selected-date" id="datepicker"/>
                     </div>
                 </div>
-                <div class="col-sm-4"></div>
             </div>
+            <!-- /.end month -->
         </div>
         <div class=" box box-success">
             <div class="box-header">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h3 class="box-title text-success"><i class="glyphicon glyphicon-list-alt"></i> Employees
+                        <h3 class="box-title text-success"><i class="fa fa-users"></i> Employees
                             List</h3>
                         <hr style="border-color: green; margin-top: 4px; margin-bottom: 1px; margin-right: 75%; border-width: 2px;">
                     </div>
                     <div class="col-sm-6 text-right">
-                        <div class="input-group" style="margin-left: 65%">
+                        <div class="input-group" style="margin-left: 60%">
                                 <span class="input-group-btn">
                                     <button class="btn btn-success btn-flat btn-sm" type="button">
                                         <i class="glyphicon glyphicon-search"></i>
@@ -88,7 +100,8 @@
                     <tbody>
                     <tr th:each="employee,counter: ${TimekeepingResponseModel.listEmployee}">
                         <td th:text="${counter.count} + '.'"></td>
-                        <td th:text="${employee.fullname}"></td>
+                        <td th:text="${employee.fullname}"
+                            th:class="'text-primary'"></td>
                         <td th:text="(${employee.dayCheckin != null} ? ${employee.dayCheckin}: 0 ) + '/' + ${employee.dayWork}"></td>
                         <td></td>
                         <td>
