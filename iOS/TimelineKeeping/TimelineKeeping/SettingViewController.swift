@@ -21,6 +21,9 @@ class SettingViewController: BaseViewController {
   @IBAction func onSaveTapped(sender: UIBarButtonItem) {
     let ip = ipTextField.text
     NSUserDefaults.standardUserDefaults().setObject(ip, forKey: "ip")
-    
+    NSUserDefaults.standardUserDefaults().synchronize()
+    ipTextField.resignFirstResponder()
   }
+  
+  
 }

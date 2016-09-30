@@ -61,11 +61,22 @@ public class AccountServiceImpl {
     @Autowired
     private NotificationRepo notificationRepo;
 
-
     @Autowired
     private TimekeepingRepo timekeepingRepo;
 
     private Logger logger = LogManager.getLogger(AccountServiceImpl.class);
+
+    // METHOD
+    public AccountModel login(String username, String password) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            AccountEntity accountEntity = accountRepo.findByUserNameAndPassword(username, password);
+
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+        return null;
+    }
 
     public BaseResponseG<AccountModel> create(AccountModifyModel account) throws IOException, URISyntaxException {
         BaseResponse baseResponse = new BaseResponse();
@@ -139,7 +150,6 @@ public class AccountServiceImpl {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
-
 
     public List<AccountModel> searchByDepartment(Long departmentId, Integer start, Integer top) {
 

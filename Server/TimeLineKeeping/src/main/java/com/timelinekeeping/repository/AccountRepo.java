@@ -20,7 +20,6 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
     @Query("SELECT count(a.id) FROM AccountEntity a WHERE a.username = :username and a.active <>0")
     Integer checkExistUsername(@Param("username") String username);
 
-
     @Query("SELECT a FROM AccountEntity a WHERE a.username = ?1 and a.active <>0")
     AccountEntity findByUsername(String username);
 
@@ -44,4 +43,8 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
             "WHERE d.id = :department_id AND a.active <> 0 AND a.id <> :accountId")
     List<AccountEntity> findByDepartmentAndAccount(@Param("department_id") Long departmentId,
                                                    @Param("accountId") Long accountId);
+
+    @Query("SELECT a FROM AccountEntity a WHERE a.username = ?1 and a.active <>0 and a.password = ?2")
+    AccountEntity findByUserNameAndPassword(@Param("username") String username,
+                                            @Param("password") String password);
 }

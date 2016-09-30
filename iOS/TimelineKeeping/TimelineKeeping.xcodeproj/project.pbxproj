@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		03B7F876A83BA3B95EA40B36 /* Pods_TimelineKeeping.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9DC619DEEFDE423655AD2C4 /* Pods_TimelineKeeping.framework */; };
 		0EA94BBEAA631DB13A0E5554 /* Pods_TimelineKeepingUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0D6D7EE6F15EBBB77D99E71 /* Pods_TimelineKeepingUITests.framework */; };
+		A60185671D9D6AE9007077E7 /* EmotionTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60185661D9D6AE9007077E7 /* EmotionTableCell.swift */; };
 		A608CDFE1D926DAF001C6D08 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A608CDFD1D926DAF001C6D08 /* Charts.framework */; };
 		A60D4F4A1D91A50F008CBF4E /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60D4F491D91A50F008CBF4E /* AccountModel.swift */; };
 		A60D4F541D922105008CBF4E /* CameraEmotionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60D4F531D922105008CBF4E /* CameraEmotionViewController.swift */; };
@@ -54,6 +55,7 @@
 /* Begin PBXFileReference section */
 		033A86382F62DA8336B563E0 /* Pods-TimelineKeeping.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TimelineKeeping.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TimelineKeeping/Pods-TimelineKeeping.debug.xcconfig"; sourceTree = "<group>"; };
 		7656841AAF0CCE1CD3524A66 /* Pods_TimelineKeepingTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TimelineKeepingTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A60185661D9D6AE9007077E7 /* EmotionTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionTableCell.swift; sourceTree = "<group>"; };
 		A608CDFD1D926DAF001C6D08 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = "../../../Library/Developer/Xcode/DerivedData/TimelineKeeping-fniatmoznceoxpceuejpfeqgijys/Build/Products/Debug-iphoneos/Charts/Charts.framework"; sourceTree = "<group>"; };
 		A60D4F491D91A50F008CBF4E /* AccountModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
 		A60D4F4F1D922021008CBF4E /* TimelineKeeping-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TimelineKeeping-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				A6A765BC1D85D7C900A79643 /* ReminderTableCell.swift */,
+				A60185661D9D6AE9007077E7 /* EmotionTableCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -571,6 +574,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A60185671D9D6AE9007077E7 /* EmotionTableCell.swift in Sources */,
 				A6A765B91D85728D00A79643 /* CameraViewController.swift in Sources */,
 				A60D4F541D922105008CBF4E /* CameraEmotionViewController.swift in Sources */,
 				A60D4F4A1D91A50F008CBF4E /* AccountModel.swift in Sources */,

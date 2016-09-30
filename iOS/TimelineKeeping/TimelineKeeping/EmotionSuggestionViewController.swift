@@ -9,40 +9,66 @@
 import UIKit
 import Charts
 
-class EmotionSuggestionViewController: UIViewController {
-
+class EmotionSuggestionViewController: BaseViewController {
+  
+  @IBOutlet weak var barChart: BarChartView!
+  @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var ageLabel: UILabel!
+  @IBOutlet weak var genderLabel: UILabel!
+  
+  var message: [String] = []
   var emotionData : [Double] = []
   let emotionStatus = ["anger", "contempt", "disgust", "fear", "happiness", "neutral", "sadness", "surprise"]
   let verticalData: [Double] = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
-  
   var emotions: [Emotion] = [] {
     didSet {
-      let emotion = emotions.first    
+      let emotion = emotions.first
       emotionData = [emotion!.anger!, emotion!.contempt!, emotion!.disgust!, emotion!.fear!, emotion!.happiness!, emotion!.neutral!, emotion!.sadness!, emotion!.surprise!]
     }
   }
   
-  
-  @IBOutlet weak var barChart: BarChartView!
-  @IBOutlet weak var horizentalChart: HorizontalBarChartView!
-  
-  @IBOutlet weak var ageLabel: UILabel!
-  @IBOutlet weak var genderLabel: UILabel!
-  
   override func viewDidLoad() {
     super.viewDidLoad()
-    for i in 0..<emotionData.count {
-      if emotionData[i] < 0.000001 {
-        emotionData[i] /= 0.00001
-      } else if emotionData[i] < 0.00001 {
-        emotionData[i] /= 0.0001
-      } else if emotionData[i] < 0.0001 {
-        emotionData[i] /= 0.001
-      } else if emotionData[i] < 0.001 {
-        emotionData[i] /= 0.01
-      }
+    initChart()
+    setDataChart()
+    
+    // age
+    if let age = emotions.first?.age {
+      ageLabel.text = "Age of face: " + String(format: "%.1f", age)
     }
     
+    genderLabel.text = emotions.first?.gender.description // gender
+    
+  }
+  
+  @IBAction func onCloseTapped(sender: UIButton) {
+    dismissViewControllerAnimated(true, completion: nil)
+  }
+  
+  
+  
+}
+
+extension EmotionSuggestionViewController: UITableViewDelegate, UITableViewDataSource {
+  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCellWithIdentifier("EmotionTableCell") as! EmotionTableCell
+    cell.messageLabel.text = "Hello " + String(indexPath.row)
+    return cell
+  }
+  
+  func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    return 5
+  }
+  
+  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return 1
+  }
+  
+}
+
+// MARK :- Private method
+extension EmotionSuggestionViewController {
+  private func initChart() {
     barChart.descriptionText = "";
     barChart.xAxis.labelPosition = .Bottom
     barChart.xAxis.setLabelsToSkip(0)
@@ -59,23 +85,9 @@ class EmotionSuggestionViewController: UIViewController {
     barChart.xAxis.wordWrapEnabled = true
     
     barChart.animate(yAxisDuration: 1.5, easingOption: .EaseInOutQuart)
-    setDataCount()
-
-    if let age = emotions.first?.age {
-      ageLabel.text = "Age of face: " + String(format: "%.1f", age)
-    }
-    
-    genderLabel.text = emotions.first?.gender.description
-    
   }
   
-  @IBAction func onCloseTapped(sender: UIButton) {
-    dismissViewControllerAnimated(true, completion: nil)
-  }
-  
-
-  func setDataCount() {
-    
+  private func setDataChart() {
     // Initialize an array to store chart data entries (values; y axis)
     var emotionEntries = [ChartDataEntry]()
     
@@ -91,18 +103,10 @@ class EmotionSuggestionViewController: UIViewController {
     
     // Create bar chart data with data set and array with values for x axis
     let chartData = BarChartData(xVals: emotionStatus, dataSets: [chartDataSet])
-
+    
     // Set bar chart data to previously created data
     barChart.data = chartData
-    
   }
-  
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-  }
-
 }
 
-extension EmotionSuggestionViewController: ChartViewDelegate {
-  
-}
+

@@ -7,6 +7,7 @@ import com.timelinekeeping.constant.ERROR;
 import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
+import com.timelinekeeping.entity.MessageEntity;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.model.EmotionAnalysisModel;
 import com.timelinekeeping.modelMCS.EmotionRecognizeResponse;
@@ -15,6 +16,7 @@ import com.timelinekeeping.modelMCS.FaceDetectResponse;
 import com.timelinekeeping.modelMCS.RectangleImage;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.EmotionRepo;
+import com.timelinekeeping.repository.MessageRepo;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,9 @@ public class EmotionServiceImpl {
 
     @Autowired
     private AccountRepo accountRepo;
+
+    @Autowired
+    private MessageRepo messageRepo;
 
     public BaseResponse save(InputStream inputStreamImg, Long employeeId, boolean isFirstTime) throws IOException, URISyntaxException {
 
@@ -183,12 +188,21 @@ public class EmotionServiceImpl {
         return new EmotionAnalysisModel(maxEntry.getKey(), emotionScores);
     }
 
+    private List<MessageEntity> getListMessage(Gender gender, Double fromAge, Double toAge, EEmotion emotion) {
+
+        logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+        List<MessageEntity> messageEntities = messageRepo.getListMessage(fromAge, toAge, gender.getIndex(), emotion.getName());
+        logger.info(IContanst.END_METHOD_SERVICE);
+        return messageEntities;
+    }
+
     public BaseResponse getCustomerEmotion(InputStream inputStreamImg, Long employeeId, boolean isFirstTime)
             throws IOException, URISyntaxException {
         logger.info("[Get Customer Emotion] BEGIN SERVICE");
         BaseResponse baseResponse = new BaseResponse();
-        byte[] bytes = IOUtils.toByteArray(inputStreamImg);
+        HashMap<String, Object> responseData = new HashMap<>();
 
+        byte[] bytes = IOUtils.toByteArray(inputStreamImg);
         // face detect
         FaceServiceMCSImpl faceServiceMCS = new FaceServiceMCSImpl();
         BaseResponse faceResponse = faceServiceMCS.detect(new ByteArrayInputStream(bytes));
@@ -200,7 +214,7 @@ public class EmotionServiceImpl {
                 List<FaceDetectResponse> faceRecognizeList = (List<FaceDetectResponse>) faceResponse.getData();
                 if (faceRecognizeList != null || faceRecognizeList.size() > 0) {
 
-                    List<EmotionAnalysisModel> emotionAnalysisModels = new ArrayList<EmotionAnalysisModel>();
+                    List<EmotionAnalysisModel> emotionAnalysisModels = new ArrayList<>();
                     for (FaceDetectResponse faceDetectResponse : faceRecognizeList) {
                         // get face_attributes
                         Double age = faceDetectResponse.getFaceAttributes().getAge(); // get age
@@ -238,12 +252,24 @@ public class EmotionServiceImpl {
 
                     }
                     baseResponse.setSuccess(true);
-                    baseResponse.setData(emotionAnalysisModels);
+                    responseData.put("emotion", emotionAnalysisModels);
+//                    baseResponse.setData(emotionAnalysisModels);
                 }
 
                 if (isFirstTime) {
                     // TODO: get suggestion
+                    List<EmotionAnalysisModel> emotionAnalysisModels = (List<EmotionAnalysisModel>) responseData.get("emotion");
+                    if (emotionAnalysisModels.size() > 0) {
+                        EmotionAnalysisModel emotionAnalysisModel = emotionAnalysisModels.get(0);
+                        List<MessageEntity> messageEntities = getListMessage(emotionAnalysisModel.getGender(),
+                                emotionAnalysisModel.getAge() - 10,
+                                emotionAnalysisModel.getAge() + 10,
+                                emotionAnalysisModel.getEmotionMost());
+                        responseData.put("suggestMessage", messageEntities);
+                    }
                 }
+
+                baseResponse.setData(responseData);
 
 //            // create time
 //            java.util.Date date = new java.util.Date();
@@ -253,7 +279,6 @@ public class EmotionServiceImpl {
 //            emotion.setCreateTime(timestamp);
 //            emotion.setCreateBy(accountRepo.findOne(employeeId));
 //            emotionRepo.saveAndFlush(emotion);
-
             }
         } else {
             baseResponse.setSuccess(false);
@@ -263,4 +288,5 @@ public class EmotionServiceImpl {
         logger.info("[Get Customer Emotion] END SERVICE");
         return baseResponse;
     }
+
 }
