@@ -96,7 +96,7 @@ public class TimekeepingServiceImpl {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info(String.format("getTimeKeeping [managerId = '%s'], [year = '%s'], [month = '%s']", managerId, year, month));
 
-            List<AccountEntity> listAccount = accountRepo.findByManagerNoActive(managerId);
+            List<AccountEntity> listAccount = accountRepo.findByManager(managerId);
 
             //filter account not in month
             //TODO filter account desiable in moth
