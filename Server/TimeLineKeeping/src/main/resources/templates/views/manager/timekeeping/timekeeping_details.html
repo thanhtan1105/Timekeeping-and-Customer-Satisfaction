@@ -58,8 +58,8 @@
                     <!-- form change month -->
                     <form th:action="@{/manager/timekeeping/details/change_month}" method="post"
                           th:id="'form-submit-change-month'">
-                        <input type="hidden" th:name="selectedMonth" />
-                        <input type="hidden" th:name="accountId" th:value="${AccountAttendanceModel.id}" />
+                        <input type="hidden" th:name="selectedMonth"/>
+                        <input type="hidden" th:name="accountId" th:value="${AccountAttendanceModel.id}"/>
                     </form>
                     <!-- /.form change month -->
                 </div>
@@ -124,7 +124,8 @@
         </div>
         <div class="row">
             <div class="col-sm-2">
-                <button class="btn btn-primary btn-flat btn-sm" style="width: 45%">
+                <button type="button" class="btn btn-primary btn-flat btn-sm" style="width: 45%"
+                        th:id="'btn-back-to-previous'">
                     <i class="glyphicon glyphicon-arrow-left"></i> BACK
                 </button>
             </div>
