@@ -53,10 +53,12 @@
                             <i class="fa fa-calendar text-success"></i>
                         </div>
                     </div>
+                    <!-- form change month -->
                     <form th:action="@{/manager/timekeeping/change_month}" method="post"
                             th:id="'form-submit-change-month'">
                         <input type="hidden" th:name="selectedMonth" />
                     </form>
+                    <!-- /.form change month -->
                 </div>
             </div>
             <!-- /.end month -->

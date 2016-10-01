@@ -114,4 +114,33 @@ public class TimekeepingControllerWeb {
         logger.info("[Controller- Change Month Timekeeping View] END");
         return ViewConst.TIME_KEEPING_VIEW;
     }
+
+    @RequestMapping(value = "/details/change_month", method = RequestMethod.POST)
+    public String changeMonthTimekeepingDetailsView(@RequestParam("selectedMonth") String selectedMonth,
+                                                    @RequestParam("accountId") Long accountId,
+                                                    Model model) {
+        logger.info("[Controller- Change Month Timekeeping Details View] BEGIN");
+        logger.info("[Controller- Change Month Timekeeping Details View] selected month: " + selectedMonth);
+        logger.info("[Controller- Change Month Timekeeping Details View] accountId: " + accountId);
+        String pattern = "MMMM-yyyy";
+        // parse to date
+        Date selectedDate = TimeUtil.parseToDate(selectedMonth, pattern);
+        logger.info("[Controller- Change Month Timekeeping View] selected date: " + selectedDate);
+        // get month, year
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(selectedDate);
+        Integer month = calendar.get(Calendar.MONTH) + 1;
+        Integer year = calendar.get(Calendar.YEAR);
+        logger.info("[Controller- Change Month Timekeeping View] selected month: " + month);
+        logger.info("[Controller- Change Month Timekeeping View] selected year: " + year);
+
+        // get attendance
+        AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month);
+
+        model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
+        model.addAttribute("SelectedDate", selectedDate);
+
+        logger.info("[Controller- Change Month Timekeeping Details View] END");
+        return ViewConst.TIME_KEEPING_DETAILS_VIEW;
+    }
 }
