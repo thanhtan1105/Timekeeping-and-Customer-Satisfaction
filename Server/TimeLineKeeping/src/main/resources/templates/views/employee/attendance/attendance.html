@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout_employee">
+
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Attendance</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <!-- Info: manager, department, date -->
+        <div style="margin-bottom: 10px">
+            <div class="row text-success" style="font-size: 24px;">
+                <div class="col-sm-5 text-right text-bold">
+                    <i class="fa fa-user"></i>
+                </div>
+                <div class="col-sm-6 text-left">
+                    <font>Your Attendance</font>
+                </div>
+            </div>
+            <!-- department -->
+            <div class="row text-success" style="font-size: 18px;">
+                <div class="col-sm-5 text-right text-bold">
+                    <font>Department:</font></div>
+                <div class="col-sm-6 text-left">
+                    <font>Informaiton Technology</font></div>
+            </div>
+            <!-- /.end department -->
+            <!-- total present days -->
+            <div class="row text-success" style="font-size: 18px;">
+                <div class="col-sm-5 text-right text-bold">
+                    <font>Total present days:</font></div>
+                <div class="col-sm-6 text-left">
+                    <font>12/22</font></div>
+            </div>
+            <!-- /.total present days -->
+            <!-- month -->
+            <div class="row text-success" style="font-size: 18px;">
+                <div class="col-sm-5 text-right text-bold">
+                    <font>Month:</font></div>
+                <div class="col-sm-6 text-left">
+                    <div class="input-group date" style="width: 35%">
+                        <input type="text" class="form-control pull-left" id="datepicker"/>
+
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.end month -->
+        </div>
+        <div class="panel panel-default">
+            <!-- /.box-header -->
+            <!-- table for list of dates -->
+            <div class="panel-body">
+                <table class="table">
+                    <colgroup>
+                        <col span="1" style="width: 5%;">
+                        <col span="1" style="width: 25%;">
+                        <col span="1" style="width: 15%;">
+                        <col span="1" style="width: 20%;">
+                        <col span="1" style="width: 50%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Time Check-in</th>
+                        <th>Note</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1.</td>
+                        <td>01-Sep-2016</td>
+                        <td>
+                            <div class="form-group has-success">
+                                <label class="label label-success" style="font-size: 14px;">Present</label>
+                            </div>
+                        </td>
+                        <td>
+                            <font style="font-style: italic">07:45</font>
+                        </td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>2.</td>
+                        <td>02-Sep-2016</td>
+                        <td>
+                            <div class="form-group has-error">
+                                <label class="label label-danger" style="font-size: 14px;">Absent</label>
+                            </div>
+                        </td>
+                        <td>
+                            <font style="font-style: italic">-</font>
+                        </td>
+                        <td>Nghỉ phép</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+            <!-- /.end table for list of dates -->
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<div layout:fragment="js">
+    <script th:src="@{/js/manager/timekeeping/timekeeping_details.js}"></script>
+</div>
+</body>
+</html>
