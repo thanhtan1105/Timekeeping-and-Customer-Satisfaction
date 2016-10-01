@@ -33,6 +33,27 @@ enum EEmotion {
   case SADNESS
   case SURPRISE
   
+  static func getEEmotion(index: Int) -> EEmotion {
+    switch index {
+    case 0:
+      return EEmotion.ANGER
+    case 1:
+      return EEmotion.CONTEMPT
+    case 2:
+      return EEmotion.DISGUST
+    case 3:
+      return EEmotion.FEAR
+    case 4:
+      return EEmotion.HAPPINESS
+    case 5:
+      return EEmotion.NEUTRAL
+    case 6:
+      return EEmotion.SADNESS
+    default:
+      return EEmotion.SURPRISE
+    }
+  }
+  
   var description: String {
     switch self {
     case .ANGER:
@@ -94,7 +115,7 @@ class Emotion {
     self.sadness = sadness
     self.surprise = surprise
     self.emotionMost = emotionMost
-    self.gender = gender == 0 ? Gender.Male : Gender.Female
+    self.gender = gender == 0 ? EGender.Male : EGender.Female
     
   }
   

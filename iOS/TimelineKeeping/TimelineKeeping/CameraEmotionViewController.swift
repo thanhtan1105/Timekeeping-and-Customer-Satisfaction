@@ -28,27 +28,39 @@ class CameraEmotionViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    cameraCapture.layer.cornerRadius = cameraCapture.frame.size.width / 2
-    
-    faceView = UIView()
-    faceView?.layer.borderColor = UIColor.greenColor().CGColor
-    faceView?.layer.borderWidth = 2
-    faceView?.tag = 280394
-    view.addSubview(faceView!)
-    view.bringSubviewToFront(faceView!)
+//    cameraCapture.layer.cornerRadius = cameraCapture.frame.size.width / 2
+//    
+//    faceView = UIView()
+//    faceView?.layer.borderColor = UIColor.greenColor().CGColor
+//    faceView?.layer.borderWidth = 2
+//    faceView?.tag = 280394
+//    view.addSubview(faceView!)
+//    view.bringSubviewToFront(faceView!)
+
 
   }
   
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
-    self.initializeCamera()
-    self.cameraStill.image = nil
-    self.cameraPreview.alpha = 1.0
-    isRunning = false
-    LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
-    isCameraTaken = false
-    status = .Preview
+//    self.initializeCamera()
+//    self.cameraStill.image = nil
+//    self.cameraPreview.alpha = 1.0
+//    isRunning = false
+//    LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
+//    isCameraTaken = false
+//    status = .Preview
 
+    self.callApiGetEmotion(UIImage(named: "ic_loading")!, completion: { (emotionResponse, error) in
+      if let emotionResponse = emotionResponse {
+        self.showInfoScren(emotionResponse)
+      } else {
+        // fail
+        self.cameraPreview.alpha = 1.0
+        self.cameraStill.image = nil
+        self.isCameraTaken = false
+        LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
+      }
+    })
   }
   
   override func viewDidAppear(animated: Bool) {
@@ -207,16 +219,16 @@ extension CameraEmotionViewController {
     showInforVC.emotions = emotionResponse.emotions!  // emotions data
     if let suggestMessage = emotionResponse.suggestMessages {
       showInforVC.suggestMessages = suggestMessage  // suggest message data
-    }    
+    }
     self.presentViewController(showInforVC, animated: true, completion: nil)
   }
   
   typealias EmotionResponse = (emotions: [Emotion]?, suggestMessages: [Message]?) // new type
   private func callApiGetEmotion(faceImage: UIImage, completion onCompletionHandler: ((emotionResponse: EmotionResponse?, error: NSError?) -> Void)?) {
-    APIRequest.shareInstance.getEmotionSugesstion(self.cameraStill.image!, employeeId: 3, isFirstTime: true) { (response: ResponsePackage?, error: ErrorWebservice?) in
+    APIRequest.shareInstance.getEmotionSugesstion(faceImage, employeeId: 3, isFirstTime: true) { (response: ResponsePackage?, error: ErrorWebservice?) in
       guard error == nil else {
         print("Fail")
-        onCompletionHandler!(emotion: nil, error: nil)
+        onCompletionHandler!(emotionResponse: nil, error: nil)
         return
       }
       print(response?.response)
@@ -231,16 +243,16 @@ extension CameraEmotionViewController {
         let emotions = data["emotion"] as! [[String : AnyObject]]
         var emotion: [Emotion] = []
         
-        if content.count > 0 {
-          emotion = Emotion.emotions(content)
+        if emotions.count > 0 {
+          emotion = Emotion.emotions(emotions)
           
           // suggest message
           let suggestMessages = data["suggestMessage"] as! [[String : AnyObject]]
           if suggestMessages.count > 0 {
             let messages = Message.messages(suggestMessages)
-            onCompletionHandler((emotion, messages), nil)
+            onCompletionHandler!(emotionResponse: (emotion, messages), error: nil)
           } else {
-            onCompletionHandler((emotion, nil), nil)
+            onCompletionHandler!(emotionResponse: (emotion, nil), error: nil)
           }
           
         } else {

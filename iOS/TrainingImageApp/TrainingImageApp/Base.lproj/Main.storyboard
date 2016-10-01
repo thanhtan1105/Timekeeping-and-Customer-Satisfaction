@@ -135,7 +135,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cR7-bF-Wxd" userLabel="BottomView">
-                                <rect key="frame" x="0.0" y="522.5" width="320" height="45.5"/>
+                                <rect key="frame" x="0.0" y="523" width="320" height="45"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f2s-Nh-DXm">
                                         <rect key="frame" x="133" y="8" width="55" height="30"/>
@@ -152,7 +152,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mme-di-fV6">
-                                        <rect key="frame" x="8" y="7.5" width="47" height="30"/>
+                                        <rect key="frame" x="8" y="8" width="47" height="30"/>
                                         <state key="normal" title="Retake"/>
                                         <connections>
                                             <action selector="onRetakeTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="I9W-3M-BgE"/>

@@ -60,7 +60,8 @@ class APIRequest: NSObject {
   }
   
   func getEmotionSugesstion(image: UIImage, employeeId: Int, isFirstTime: Bool, onCompletion: ServiceResponse) {
-    let url = urlGetEmotion
+//    let url = urlGetEmotion // dump
+    let url = "http://capstoneproject.getsandbox.com/getEmotion"
     let request = NSMutableURLRequest(URL: NSURL(string: url)!)
     request.HTTPMethod = "POST"
     

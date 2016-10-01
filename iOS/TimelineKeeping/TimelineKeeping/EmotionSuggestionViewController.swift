@@ -57,7 +57,7 @@ class EmotionSuggestionViewController: BaseViewController {
 extension EmotionSuggestionViewController: UITableViewDelegate, UITableViewDataSource {
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCellWithIdentifier("EmotionTableCell") as! EmotionTableCell
-    cell.messageLabel.text = suggestMessages[indexPath.row]
+    cell.messageLabel.text = suggestMessages[indexPath.row].message
     return cell
   }
   

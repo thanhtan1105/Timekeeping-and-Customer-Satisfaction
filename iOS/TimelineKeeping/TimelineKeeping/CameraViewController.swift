@@ -40,16 +40,16 @@ class CameraViewController: UIViewController {
   }
   
   override func viewWillAppear(animated: Bool) {
-    super.viewWillAppear(animated)
-    self.initializeCamera()
-    
-    self.cameraStill.image = nil
-    self.cameraPreview.alpha = 1.0    
-    isRunning = false
-    
-    LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
-    isCameraTaken = false
-    status = .Preview
+//    super.viewWillAppear(animated)
+//    self.initializeCamera()
+//    
+//    self.cameraStill.image = nil
+//    self.cameraPreview.alpha = 1.0    
+//    isRunning = false
+//    
+//    LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
+//    isCameraTaken = false
+//    status = .Preview
   }
   
   override func viewDidAppear(animated: Bool) {
