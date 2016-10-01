@@ -55,6 +55,13 @@
                             <i class="fa fa-calendar text-success"></i>
                         </div>
                     </div>
+                    <!-- form change month -->
+                    <form th:action="@{/manager/timekeeping/details/change_month}" method="post"
+                          th:id="'form-submit-change-month'">
+                        <input type="hidden" th:name="selectedMonth" />
+                        <input type="hidden" th:name="accountId" th:value="${AccountAttendanceModel.id}" />
+                    </form>
+                    <!-- /.form change month -->
                 </div>
             </div>
             <!-- /.end month -->
@@ -126,7 +133,7 @@
     <!-- /.content -->
 </div>
 <div layout:fragment="js">
-    <!--<script th:src="@{/js/manager/checkin_manual/checkin_manual.js}"></script>-->
+    <script th:src="@{/js/manager/timekeeping/timekeeping_details.js}"></script>
 </div>
 </body>
 </html>
