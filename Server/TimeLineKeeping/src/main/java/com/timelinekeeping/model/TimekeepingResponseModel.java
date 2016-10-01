@@ -1,7 +1,7 @@
 package com.timelinekeeping.model;
 
-import java.time.Month;
-import java.time.Year;
+import com.timelinekeeping.entity.AccountEntity;
+
 import java.util.Date;
 import java.util.List;
 
@@ -9,12 +9,29 @@ import java.util.List;
  * Created by HienTQSE60896 on 9/25/2016.
  */
 public class TimekeepingResponseModel {
-    private Date nowDate;
+
+    private Long managerId;
+    private String departmentName;
+    private String managerName;
+
+    private Date nowDate = new Date();
     private int year;
     private int month;
-    private Integer dayWork;
 
-    private List<TimeKeepingEmployeeModel> listEmpolyee;
+    private List<AccountTKReportModel> listEmployee;
+
+    public TimekeepingResponseModel() {
+    }
+
+    public TimekeepingResponseModel(AccountEntity entity, int year, int month) {
+        if (entity != null) {
+            this.managerId = entity.getId();
+            this.departmentName = entity.getDepartment().getName();
+            this.managerName = entity.getFullname();
+        }
+        this.year = year;
+        this.month = month;
+    }
 
     public Date getNowDate() {
         return nowDate;
@@ -40,19 +57,35 @@ public class TimekeepingResponseModel {
         this.month = month;
     }
 
-    public Integer getDayWork() {
-        return dayWork;
+    public List<AccountTKReportModel> getListEmployee() {
+        return listEmployee;
     }
 
-    public void setDayWork(Integer dayWork) {
-        this.dayWork = dayWork;
+    public void setListEmployee(List<AccountTKReportModel> listEmployee) {
+        this.listEmployee = listEmployee;
     }
 
-    public List<TimeKeepingEmployeeModel> getListEmpolyee() {
-        return listEmpolyee;
+    public Long getManagerId() {
+        return managerId;
     }
 
-    public void setListEmpolyee(List<TimeKeepingEmployeeModel> listEmpolyee) {
-        this.listEmpolyee = listEmpolyee;
+    public void setManagerId(Long managerId) {
+        this.managerId = managerId;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public String getManagerName() {
+        return managerName;
+    }
+
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
     }
 }

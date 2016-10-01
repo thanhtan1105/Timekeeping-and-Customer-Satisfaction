@@ -1,6 +1,8 @@
 package com.timelinekeeping.entity;
 
 import com.timelinekeeping.constant.Gender;
+import com.timelinekeeping.model.EmotionAnalysisModel;
+import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -57,15 +59,18 @@ public class EmotionCustomerEntity implements Serializable {
     @Column(name = "smile")
     private Double smile;
 
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "acount_id", nullable = true)
+//    private AccountEntity createBy;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "acount_id", nullable = true)
-    private AccountEntity createBy;
+    @JoinColumn(name = "customer_id", nullable = true)
+    private CustomerServiceEntity customerService;
 
     public EmotionCustomerEntity() {
     }
 
-    public EmotionCustomerEntity(Timestamp createTime, Double anger, Double contempt, Double disgust, Double fear, Double happiness, Double neutral, Double sadness, Double surprise, Double age, Gender gender, Double smile) {
-        this.createTime = createTime;
+    public EmotionCustomerEntity(Double anger, Double contempt, Double disgust, Double fear, Double happiness, Double neutral, Double sadness, Double surprise, Double age, Gender gender, Double smile) {
         this.anger = anger;
         this.contempt = contempt;
         this.disgust = disgust;
@@ -79,8 +84,24 @@ public class EmotionCustomerEntity implements Serializable {
         this.smile = smile;
     }
 
-    public EmotionCustomerEntity(Double anger, Double contempt, Double disgust, Double fear, Double happiness, Double neutral,
-                                 Double sadness, Double surprise, Double age, Gender gender, Double smile) {
+//    public EmotionCustomerEntity(Double anger, Double contempt, Double disgust, Double fear, Double happiness, Double neutral,
+//                                 Double sadness, Double surprise, Double age, Gender gender, Double smile) {
+//        this.anger = anger;
+//        this.contempt = contempt;
+//        this.disgust = disgust;
+//        this.fear = fear;
+//        this.happiness = happiness;
+//        this.neutral = neutral;
+//        this.sadness = sadness;
+//        this.surprise = surprise;
+//        this.age = age;
+//        this.gender = gender;
+//        this.smile = smile;
+//    }
+
+
+
+    public EmotionCustomerEntity(Double anger, Double contempt, Double disgust, Double fear, Double happiness, Double neutral, Double sadness, Double surprise, Double age, Gender gender) {
         this.anger = anger;
         this.contempt = contempt;
         this.disgust = disgust;
@@ -91,7 +112,26 @@ public class EmotionCustomerEntity implements Serializable {
         this.surprise = surprise;
         this.age = age;
         this.gender = gender;
-        this.smile = smile;
+    }
+
+    public EmotionCustomerEntity(EmotionAnalysisModel analysisModel, CustomerServiceEntity customer) {
+        if (analysisModel != null) {
+            if (analysisModel.getEmotion() != null) {
+                EmotionRecognizeScores emotion =analysisModel.getEmotion();
+                this.anger = emotion.getAnger();
+                this.contempt = emotion.getContempt();
+                this.disgust = emotion.getDisgust();
+                this.fear = emotion.getFear();
+                this.happiness = emotion.getHappiness();
+                this.neutral = emotion.getNeutral();
+                this.sadness = emotion.getSadness();
+                this.surprise = emotion.getSurprise();
+            }
+            this.age = analysisModel.getAge();
+            this.gender = analysisModel.getGender();
+            this.smile = analysisModel.getSmile();
+            this.customerService = customer;
+        }
     }
 
     public Long getId() {
@@ -198,11 +238,20 @@ public class EmotionCustomerEntity implements Serializable {
         this.smile = smile;
     }
 
-    public AccountEntity getCreateBy() {
-        return createBy;
+//    public AccountEntity getCreateBy() {
+//        return createBy;
+//    }
+//
+//    public void setCreateBy(AccountEntity account) {
+//        this.createBy = account;
+//    }
+
+
+    public CustomerServiceEntity getCustomerService() {
+        return customerService;
     }
 
-    public void setCreateBy(AccountEntity account) {
-        this.createBy = account;
+    public void setCustomerService(CustomerServiceEntity customerService) {
+        this.customerService = customerService;
     }
 }

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout_manager">
+
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Timekeeping</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1 class="text-success">
+            <i class="glyphicon glyphicon-send"></i> Timekeeping
+        </h1>
+        <ol class="breadcrumb">
+            <li><a th:href="@{/manager/timekeeping/}">
+                <i class="fa fa-laptop"></i> Timekeeping</a></li>
+            <li class="active">View Details</li>
+        </ol>
+        <hr style="border-color: green; margin-top: 4px; margin-bottom: 1px;"/>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <!-- Info: manager, department, date -->
+        <div class="text-center" style="margin-bottom: 5px">
+            <font class="text-success" style="font-size: 18px;">Department: IT</font><br/>
+            <font class="text-success" style="font-size: 18px;">Manager: Nguyễn Năng Trung</font><br/>
+
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <div class="input-group date" style="width: 65%; margin-left: 17%; margin-top: 4px;">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar text-success"></i>
+                        </div>
+                        <input type="text" class="form-control pull-right text-center" id="datepicker"/>
+                    </div>
+                </div>
+                <div class="col-sm-4"></div>
+            </div>
+        </div>
+        <div class=" box box-success">
+            <div class="box-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 class="box-title text-success">
+                            <i class="fa fa-user"></i> Thái Quang Hiển
+                        </h3>
+                        <hr style="border-color: green; margin-top: 4px; margin-bottom: 1px; margin-right: 73%; border-width: 2px;"/>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <!-- Data-table for list of dates -->
+            <div class="box-body">
+                <table id="dataTable" class="table table-bordered table-hover"
+                       style="border-collapse: collapse;">
+                    <colgroup>
+                        <col span="1" style="width: 5%;">
+                        <col span="1" style="width: 30%;">
+                        <col span="1" style="width: 15%;">
+                        <col span="1" style="width: 15%;">
+                        <col span="1" style="width: 35%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Date</th>
+                        <th>Present</th>
+                        <th>Absent</th>
+                        <th>Note</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1.</td>
+                        <td>01-Sep-2016</td>
+                        <td>
+                            <font class="text-primary" style="font-size: medium;">
+                                <i class="fa fa-check-square-o"></i>
+                            </font>
+                        </td>
+                        <td>
+                            <font class="text-danger" style="font-size: medium;">
+                                <i class="fa fa-square-o"></i>
+                            </font>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>2.</td>
+                        <td>02-Sep-2016</td>
+                        <td>
+                            <font class="text-primary" style="font-size: medium;">
+                                <i class="fa fa-square-o"></i>
+                            </font>
+                        </td>
+                        <td>
+                            <font class="text-danger" style="font-size: medium;">
+                                <i class="fa fa-check-square-o"></i>
+                            </font>
+                        </td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+            <!-- /.end data-table for list of dates -->
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <button class="btn btn-primary btn-flat btn-sm" style="width: 45%">
+                    <i class="glyphicon glyphicon-arrow-left"></i> BACK
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<div layout:fragment="js">
+    <!--<script th:src="@{/js/manager/checkin_manual/checkin_manual.js}"></script>-->
+</div>
+</body>
+</html>

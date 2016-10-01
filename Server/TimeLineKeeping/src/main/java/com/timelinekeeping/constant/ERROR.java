@@ -38,4 +38,6 @@ public interface ERROR {
     /** checkin*/
     String CHECK_IN_MANUAL_NO_EXIST_ACCOUNTID = "No exist accountId = '%s'.";
     String CHECK_IN_MANUAL_ACCOUNT_CHECKINED = "AccountId = '%s' is used to checkIn.";
+
+    String TIME_KEEPING_ACCOUNT_ID_CANNOT_EXIST = "AccountID = '%s' does not exist.";
 }

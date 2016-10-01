@@ -97,6 +97,48 @@
                     </div>
                 </div>
             </div>
+            <!-- /.box-header -->
+            <!-- Data-table for list of accounts -->
+            <div class="box-body">
+                <table id="dataTable" class="table table-bordered table-hover" style="border-collapse: collapse;">
+                    <colgroup>
+                        <col span="1" style="width: 5%;">
+                        <col span="1" style="width: 40%;">
+                        <col span="1" style="width: 5%;">
+                        <col span="1" style="width: 50%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Present</th>
+                        <th>Note</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="account,counter: ${AccountCheckInModels}">
+                        <td th:text="${counter.count} + '.'"></td>
+                        <td th:text="${account.fullname}"></td>
+                        <td>
+                            <input th:name="accountIds" th:value="${account.id}"
+                                   type="checkbox" class="minimal-red"
+                                   th:attr="id='statusCheckin-' + ${counter.count}"
+                                   th:checked="${account.statusCheckin.index} == 0"
+                                   th:disabled="${account.statusCheckin.index} == 0"/>
+                        </td>
+                        <td>
+                            <input th:name="note" type="text" th:value="${account.note}"
+                                   th:disabled="${account.statusCheckin.index} == 0"
+                                   th:attr="id='note-' + ${counter.count}"
+                                   class="form-control input-sm" style="width: 100%"/>
+                            <input type="hidden" th:value="${account.id}" th:attr="id='accountId-' + ${counter.count}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+            <!-- /.end data-table for list of accounts -->
         </div>
         <div class="row text-center">
             <form th:action="@{/manager/check_in/checkinManualProcessing}" method="post"
