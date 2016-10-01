@@ -1,5 +1,6 @@
 package com.timelinekeeping.entity;
 
+import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.model.EmotionAnalysisModel;
 import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
@@ -59,9 +60,9 @@ public class EmotionCustomerEntity implements Serializable {
     @Column(name = "smile")
     private Double smile;
 
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "acount_id", nullable = true)
-//    private AccountEntity createBy;
+    @Column(name = "emotion_most")
+    private EEmotion emotionMost;
+
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id", nullable = true)
@@ -84,36 +85,6 @@ public class EmotionCustomerEntity implements Serializable {
         this.smile = smile;
     }
 
-//    public EmotionCustomerEntity(Double anger, Double contempt, Double disgust, Double fear, Double happiness, Double neutral,
-//                                 Double sadness, Double surprise, Double age, Gender gender, Double smile) {
-//        this.anger = anger;
-//        this.contempt = contempt;
-//        this.disgust = disgust;
-//        this.fear = fear;
-//        this.happiness = happiness;
-//        this.neutral = neutral;
-//        this.sadness = sadness;
-//        this.surprise = surprise;
-//        this.age = age;
-//        this.gender = gender;
-//        this.smile = smile;
-//    }
-
-
-
-    public EmotionCustomerEntity(Double anger, Double contempt, Double disgust, Double fear, Double happiness, Double neutral, Double sadness, Double surprise, Double age, Gender gender) {
-        this.anger = anger;
-        this.contempt = contempt;
-        this.disgust = disgust;
-        this.fear = fear;
-        this.happiness = happiness;
-        this.neutral = neutral;
-        this.sadness = sadness;
-        this.surprise = surprise;
-        this.age = age;
-        this.gender = gender;
-    }
-
     public EmotionCustomerEntity(EmotionAnalysisModel analysisModel, CustomerServiceEntity customer) {
         if (analysisModel != null) {
             if (analysisModel.getEmotion() != null) {
@@ -130,6 +101,7 @@ public class EmotionCustomerEntity implements Serializable {
             this.age = analysisModel.getAge();
             this.gender = analysisModel.getGender();
             this.smile = analysisModel.getSmile();
+            this.emotionMost = analysisModel.getEmotionMost();
             this.customerService = customer;
         }
     }
@@ -238,14 +210,13 @@ public class EmotionCustomerEntity implements Serializable {
         this.smile = smile;
     }
 
-//    public AccountEntity getCreateBy() {
-//        return createBy;
-//    }
-//
-//    public void setCreateBy(AccountEntity account) {
-//        this.createBy = account;
-//    }
+    public EEmotion getEmotionMost() {
+        return emotionMost;
+    }
 
+    public void setEmotionMost(EEmotion emotionMost) {
+        this.emotionMost = emotionMost;
+    }
 
     public CustomerServiceEntity getCustomerService() {
         return customerService;

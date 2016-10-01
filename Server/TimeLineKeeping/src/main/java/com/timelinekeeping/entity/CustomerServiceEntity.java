@@ -29,8 +29,8 @@ public class CustomerServiceEntity {
     private String CustomerCode;
 
     @Basic
-    @Column(name = "point")
-    private Double point = 0d;
+    @Column(name = "grade")
+    private Double grade = 0d;
 
     @Basic
     @Column(name = "status")
@@ -77,12 +77,12 @@ public class CustomerServiceEntity {
         CustomerCode = customerCode;
     }
 
-    public Double getPoint() {
-        return point;
+    public Double getGrade() {
+        return grade;
     }
 
-    public void setPoint(Double point) {
-        this.point = point;
+    public void setGrade(Double point) {
+        this.grade = point;
     }
 
     public AccountEntity getCreateBy() {
@@ -107,5 +107,14 @@ public class CustomerServiceEntity {
 
     public void setStatus(ETransaction status) {
         this.status = status;
+    }
+
+    public void calculateGrade(){
+        double sum = 0d;
+        for (EmotionCustomerEntity emotion : this.emotion){
+            sum += emotion.getEmotionMost().getGrade();
+        }
+        this.grade = sum/emotion.size();
+
     }
 }

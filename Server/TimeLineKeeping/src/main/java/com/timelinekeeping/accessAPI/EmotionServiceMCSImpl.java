@@ -58,6 +58,7 @@ public class EmotionServiceMCSImpl {
     public BaseResponse recognize(InputStream inputStreamImg, RectangleImage ractangle) throws URISyntaxException, IOException {
 
         try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.emotion.recognize");
             String url = rootPath + urlAddition;
             logger.info(IContanst.BEGIN_METHOD_MCS + url);
