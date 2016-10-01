@@ -2,7 +2,7 @@ package com.timelinekeeping.api.mcs;
 
 import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.constant.IContanst;
-import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.modelMCS.RectangleImage;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;

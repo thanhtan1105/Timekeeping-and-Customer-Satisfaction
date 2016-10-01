@@ -20,6 +20,14 @@ public class RoleEntity  implements Serializable{
     @Column(name = "name")
     private String name;
 
+    @Basic
+    @Column(name = "allow_page", length = 1000)
+    private String allowPage;
+
+    @Basic
+    @Column(name = "authen_page", length = 1000)
+    private String authenPage;
+
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     private Set<AccountEntity> accounts;
 
@@ -37,6 +45,22 @@ public class RoleEntity  implements Serializable{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAllowPage() {
+        return allowPage;
+    }
+
+    public void setAllowPage(String allowPage) {
+        this.allowPage = allowPage;
+    }
+
+    public String getAuthenPage() {
+        return authenPage;
+    }
+
+    public void setAuthenPage(String authenPage) {
+        this.authenPage = authenPage;
     }
 
     public Set<AccountEntity> getAccounts() {

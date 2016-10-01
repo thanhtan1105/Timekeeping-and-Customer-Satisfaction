@@ -3,7 +3,7 @@ package com.timelinekeeping.api.mcs;
 import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.controller.PersonGroupControllerWeb;
-import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

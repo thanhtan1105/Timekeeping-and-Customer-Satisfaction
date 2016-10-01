@@ -1,9 +1,7 @@
 package com.timelinekeeping.controller;
 
 import com.timelinekeeping.api.DepartmentController;
-import com.timelinekeeping.constant.EStatus;
-import com.timelinekeeping.entity.DepartmentEntity;
-import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.model.DepartmentModel;
 import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
 import org.apache.log4j.Logger;

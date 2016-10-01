@@ -2,7 +2,7 @@ package com.timelinekeeping.util;
 
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.constant.IContanst;
-import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.modelMCS.ResponseErrorWrap;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

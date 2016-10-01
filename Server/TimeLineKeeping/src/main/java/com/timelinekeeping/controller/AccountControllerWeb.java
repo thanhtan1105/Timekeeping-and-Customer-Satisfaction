@@ -1,8 +1,6 @@
 package com.timelinekeeping.controller;
 
-import com.timelinekeeping.entity.AccountEntity;
-import com.timelinekeeping.entity.DepartmentEntity;
-import com.timelinekeeping.entity.RoleEntity;
+import com.timelinekeeping.common.BaseResponseG;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.service.serviceImplement.AccountServiceImpl;
 import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;

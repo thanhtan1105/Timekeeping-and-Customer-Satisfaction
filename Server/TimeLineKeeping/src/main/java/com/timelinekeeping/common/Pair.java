@@ -1,4 +1,4 @@
-package com.timelinekeeping.model;
+package com.timelinekeeping.common;
 
 /**
  * Created by HienTQSE60896 on 9/17/2016.

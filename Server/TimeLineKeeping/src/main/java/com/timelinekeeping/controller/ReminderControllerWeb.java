@@ -2,7 +2,7 @@ package com.timelinekeeping.controller;
 
 import com.timelinekeeping.constant.ViewConst;
 import com.timelinekeeping.model.AccountModel;
-import com.timelinekeeping.model.BaseResponseG;
+import com.timelinekeeping.common.BaseResponseG;
 import com.timelinekeeping.model.ReminderModel;
 import com.timelinekeeping.model.ReminderModifyModel;
 import com.timelinekeeping.service.serviceImplement.AccountServiceImpl;
