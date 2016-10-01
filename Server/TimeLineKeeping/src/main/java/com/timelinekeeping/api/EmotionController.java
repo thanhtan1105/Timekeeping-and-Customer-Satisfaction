@@ -14,6 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by HienTQSE60896 on 9/12/2016.
  */
@@ -122,7 +127,11 @@ public class EmotionController {
         BaseResponse response = null;
         try {
             if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
-                response = new BaseResponse(emotionService.processTransaction(imgFile.getInputStream(), customerCode));
+                boolean result = emotionService.processTransaction(imgFile.getInputStream(), customerCode);
+                response = new BaseResponse(true);
+                Map<String,Boolean> mapResult = new HashMap<String, Boolean>();
+                mapResult.put("transaction", result);
+                response.setData(mapResult);
             } else {
                 response = new BaseResponse(false, "File not image format.");
             }
@@ -140,8 +149,14 @@ public class EmotionController {
     @ResponseBody
     public BaseResponse endTransaction(@RequestParam("customerCode") String customerCode) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        BaseResponse response;
         try {
-            return new BaseResponse(emotionService.endTransaction(customerCode));
+            boolean result = emotionService.endTransaction(customerCode);
+            response = new BaseResponse(true);
+            Map<String,Boolean> mapResult = new HashMap<String, Boolean>();
+            mapResult.put("transaction", result);
+            response.setData(mapResult);
+            return response;
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(false, e.getMessage());

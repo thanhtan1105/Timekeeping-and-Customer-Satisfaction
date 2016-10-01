@@ -293,7 +293,8 @@ public class EmotionServiceImpl {
                 EmotionAnalysisModel mostChoose = listEmotionAnalysis.get(0);
 
                 //save mostChoose
-                EmotionCustomerEntity emotionEntity = emotionRepo.saveAndFlush(new EmotionCustomerEntity(mostChoose, customerResultEntity));
+                EmotionCustomerEntity emotionEntity  = new EmotionCustomerEntity(mostChoose, customerResultEntity);
+                emotionRepo.saveAndFlush(emotionEntity);
 
                 //getMessage
                 List<MessageModel> messageModels = null;
@@ -357,6 +358,9 @@ public class EmotionServiceImpl {
             CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
 
             if (customerResultEntity != null && (customerResultEntity.getStatus() == ETransaction.BEGIN || customerResultEntity.getStatus() == ETransaction.PROCESS)) {
+
+                //calculate grade
+                customerResultEntity.calculateGrade();
 
                 //change status = END
                 customerResultEntity.setStatus(ETransaction.END);
