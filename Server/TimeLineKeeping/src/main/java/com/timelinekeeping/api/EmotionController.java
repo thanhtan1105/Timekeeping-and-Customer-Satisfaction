@@ -94,12 +94,12 @@ public class EmotionController {
     @RequestMapping(value = {I_URI.API_EMOTION_BEGIN_TRANSACTION}, method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse beginTransaction(@RequestParam("image") MultipartFile imgFile,
-                                         @RequestParam("employeeId") Long employeeId) {
+                                         @RequestParam("employeeId") String employeeId) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         BaseResponse response = null;
         try {
             if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
-                Pair<EmotionCustomerResponse, String> result = emotionService.beginTransaction(imgFile.getInputStream(), employeeId);
+                Pair<EmotionCustomerResponse, String> result = emotionService.beginTransaction(imgFile.getInputStream(), Long.parseLong(employeeId));
                 if (result != null && result.getKey() != null) {
                     response = new BaseResponse(true, result.getKey());
                 } else {
@@ -153,6 +153,4 @@ public class EmotionController {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }
     }
-
-
 }

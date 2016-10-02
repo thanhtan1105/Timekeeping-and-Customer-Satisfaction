@@ -277,7 +277,7 @@ public class EmotionServiceImpl {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             //Create Customer service
-            AccountEntity employee = accountRepo.findOne(employeeId);
+            AccountEntity employee = accountRepo.findById(employeeId);
             if (employee == null) {
                 logger.error(String.format(ERROR.TIME_KEEPING_ACCOUNT_ID_CANNOT_EXIST, employeeId));
                 return new Pair<>(null, String.format(ERROR.TIME_KEEPING_ACCOUNT_ID_CANNOT_EXIST, employeeId));

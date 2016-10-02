@@ -1,0 +1,6 @@
+framework module Pods_CustomerEmotionUITests {
+  umbrella header "Pods-CustomerEmotionUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

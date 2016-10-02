@@ -1,0 +1,20 @@
+PODS:
+  - Alamofire (3.5.0)
+  - Charts (2.3.0):
+    - Charts/Core (= 2.3.0)
+  - Charts/Core (2.3.0)
+  - TanLT1Extensions (0.1.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 3.4)
+  - Charts
+  - TanLT1Extensions
+
+SPEC CHECKSUMS:
+  Alamofire: b70a7352335f8ea5babd0a923eb7e8eacc67b877
+  Charts: 55d7fd9af175b500208601bea872f0fc72c1d19e
+  TanLT1Extensions: 8a53ac053164e7c4b35efe204dc0b711d6b1c60c
+
+PODFILE CHECKSUM: e81d3845249ca3c74747bff7cf8fbb697b10e131
+
+COCOAPODS: 1.1.0.beta.1

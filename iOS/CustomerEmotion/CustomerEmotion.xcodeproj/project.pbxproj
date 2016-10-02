@@ -1,0 +1,823 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5ADB70E5A6D5936A3D6DFCAF /* Pods_CustomerEmotionUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E26BEEDFD7722BA9734DE1 /* Pods_CustomerEmotionUITests.framework */; };
+		A65511111D9F99A10043F411 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65511101D9F99A10043F411 /* AppDelegate.swift */; };
+		A65511161D9F99A10043F411 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A65511141D9F99A10043F411 /* Main.storyboard */; };
+		A65511181D9F99A10043F411 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A65511171D9F99A10043F411 /* Assets.xcassets */; };
+		A655111B1D9F99A10043F411 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A65511191D9F99A10043F411 /* LaunchScreen.storyboard */; };
+		A65511261D9F99A10043F411 /* CustomerEmotionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65511251D9F99A10043F411 /* CustomerEmotionTests.swift */; };
+		A65511311D9F99A10043F411 /* CustomerEmotionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65511301D9F99A10043F411 /* CustomerEmotionUITests.swift */; };
+		A655114A1D9F9C010043F411 /* APIDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65511471D9F9C010043F411 /* APIDefine.swift */; };
+		A655114B1D9F9C010043F411 /* APIRequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65511481D9F9C010043F411 /* APIRequestProtocol.swift */; };
+		A655114C1D9F9C010043F411 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65511491D9F9C010043F411 /* APIRequest.swift */; };
+		A655114F1D9F9C180043F411 /* LeThanhTanLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = A655114D1D9F9C180043F411 /* LeThanhTanLoading.swift */; };
+		A65511501D9F9C180043F411 /* Define.swift in Sources */ = {isa = PBXBuildFile; fileRef = A655114E1D9F9C180043F411 /* Define.swift */; };
+		A65511521D9F9D1F0043F411 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65511511D9F9D1F0043F411 /* SettingViewController.swift */; };
+		A65511551D9F9D9B0043F411 /* CameraEmotionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65511531D9F9D9B0043F411 /* CameraEmotionViewController.swift */; };
+		A65511561D9F9D9B0043F411 /* EmotionSuggestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65511541D9F9D9B0043F411 /* EmotionSuggestionViewController.swift */; };
+		A65511581D9F9E110043F411 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65511571D9F9E110043F411 /* BaseViewController.swift */; };
+		A655115B1D9F9E270043F411 /* EmotionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65511591D9F9E270043F411 /* EmotionModel.swift */; };
+		A655115C1D9F9E270043F411 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A655115A1D9F9E270043F411 /* MessageModel.swift */; };
+		A655115E1D9F9E3B0043F411 /* EmotionTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A655115D1D9F9E3B0043F411 /* EmotionTableCell.swift */; };
+		A65511601D9F9F4A0043F411 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = A655115F1D9F9F4A0043F411 /* Camera.swift */; };
+		AA901010BDDF8EE8BA830984 /* Pods_CustomerEmotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06D9C404E13EDCBF2D1ADA50 /* Pods_CustomerEmotion.framework */; };
+		C65D0E94B0F0EEC88505C5E7 /* Pods_CustomerEmotionTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2A5A216962B4E9F32883671 /* Pods_CustomerEmotionTests.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A65511221D9F99A10043F411 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A65511051D9F99A10043F411 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A655110C1D9F99A10043F411;
+			remoteInfo = CustomerEmotion;
+		};
+		A655112D1D9F99A10043F411 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A65511051D9F99A10043F411 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A655110C1D9F99A10043F411;
+			remoteInfo = CustomerEmotion;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		022CB5830AB365B40AE087FA /* Pods-CustomerEmotionTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomerEmotionTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CustomerEmotionTests/Pods-CustomerEmotionTests.release.xcconfig"; sourceTree = "<group>"; };
+		06D9C404E13EDCBF2D1ADA50 /* Pods_CustomerEmotion.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CustomerEmotion.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		26F1CA9C425AE7F373440481 /* Pods-CustomerEmotionUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomerEmotionUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CustomerEmotionUITests/Pods-CustomerEmotionUITests.release.xcconfig"; sourceTree = "<group>"; };
+		40DF07480838BEBBA6CBE1F5 /* Pods-CustomerEmotionTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomerEmotionTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomerEmotionTests/Pods-CustomerEmotionTests.debug.xcconfig"; sourceTree = "<group>"; };
+		751329C21D251400020F4D64 /* Pods-CustomerEmotion.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomerEmotion.release.xcconfig"; path = "Pods/Target Support Files/Pods-CustomerEmotion/Pods-CustomerEmotion.release.xcconfig"; sourceTree = "<group>"; };
+		9F27B7C868619FD0AEC5537D /* Pods-CustomerEmotionUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomerEmotionUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomerEmotionUITests/Pods-CustomerEmotionUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		A655110D1D9F99A10043F411 /* CustomerEmotion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomerEmotion.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A65511101D9F99A10043F411 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A65511151D9F99A10043F411 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A65511171D9F99A10043F411 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A655111A1D9F99A10043F411 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A655111C1D9F99A10043F411 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A65511211D9F99A10043F411 /* CustomerEmotionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CustomerEmotionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A65511251D9F99A10043F411 /* CustomerEmotionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerEmotionTests.swift; sourceTree = "<group>"; };
+		A65511271D9F99A10043F411 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A655112C1D9F99A10043F411 /* CustomerEmotionUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CustomerEmotionUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A65511301D9F99A10043F411 /* CustomerEmotionUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerEmotionUITests.swift; sourceTree = "<group>"; };
+		A65511321D9F99A10043F411 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A65511471D9F9C010043F411 /* APIDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIDefine.swift; sourceTree = "<group>"; };
+		A65511481D9F9C010043F411 /* APIRequestProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIRequestProtocol.swift; sourceTree = "<group>"; };
+		A65511491D9F9C010043F411 /* APIRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
+		A655114D1D9F9C180043F411 /* LeThanhTanLoading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeThanhTanLoading.swift; sourceTree = "<group>"; };
+		A655114E1D9F9C180043F411 /* Define.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Define.swift; sourceTree = "<group>"; };
+		A65511511D9F9D1F0043F411 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		A65511531D9F9D9B0043F411 /* CameraEmotionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraEmotionViewController.swift; sourceTree = "<group>"; };
+		A65511541D9F9D9B0043F411 /* EmotionSuggestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionSuggestionViewController.swift; sourceTree = "<group>"; };
+		A65511571D9F9E110043F411 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		A65511591D9F9E270043F411 /* EmotionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionModel.swift; sourceTree = "<group>"; };
+		A655115A1D9F9E270043F411 /* MessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
+		A655115D1D9F9E3B0043F411 /* EmotionTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionTableCell.swift; sourceTree = "<group>"; };
+		A655115F1D9F9F4A0043F411 /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		D2A5A216962B4E9F32883671 /* Pods_CustomerEmotionTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CustomerEmotionTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4838736A157770350CA95E6 /* Pods-CustomerEmotion.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomerEmotion.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomerEmotion/Pods-CustomerEmotion.debug.xcconfig"; sourceTree = "<group>"; };
+		F8E26BEEDFD7722BA9734DE1 /* Pods_CustomerEmotionUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CustomerEmotionUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A655110A1D9F99A10043F411 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA901010BDDF8EE8BA830984 /* Pods_CustomerEmotion.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A655111E1D9F99A10043F411 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C65D0E94B0F0EEC88505C5E7 /* Pods_CustomerEmotionTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A65511291D9F99A10043F411 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5ADB70E5A6D5936A3D6DFCAF /* Pods_CustomerEmotionUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1129E83B62C8BCCB2D77A844 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				06D9C404E13EDCBF2D1ADA50 /* Pods_CustomerEmotion.framework */,
+				D2A5A216962B4E9F32883671 /* Pods_CustomerEmotionTests.framework */,
+				F8E26BEEDFD7722BA9734DE1 /* Pods_CustomerEmotionUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1E71F924421A390BEA9A8C85 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E4838736A157770350CA95E6 /* Pods-CustomerEmotion.debug.xcconfig */,
+				751329C21D251400020F4D64 /* Pods-CustomerEmotion.release.xcconfig */,
+				40DF07480838BEBBA6CBE1F5 /* Pods-CustomerEmotionTests.debug.xcconfig */,
+				022CB5830AB365B40AE087FA /* Pods-CustomerEmotionTests.release.xcconfig */,
+				9F27B7C868619FD0AEC5537D /* Pods-CustomerEmotionUITests.debug.xcconfig */,
+				26F1CA9C425AE7F373440481 /* Pods-CustomerEmotionUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		A65511041D9F99A10043F411 = {
+			isa = PBXGroup;
+			children = (
+				A655110F1D9F99A10043F411 /* CustomerEmotion */,
+				A65511241D9F99A10043F411 /* CustomerEmotionTests */,
+				A655112F1D9F99A10043F411 /* CustomerEmotionUITests */,
+				A655110E1D9F99A10043F411 /* Products */,
+				1E71F924421A390BEA9A8C85 /* Pods */,
+				1129E83B62C8BCCB2D77A844 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		A655110E1D9F99A10043F411 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A655110D1D9F99A10043F411 /* CustomerEmotion.app */,
+				A65511211D9F99A10043F411 /* CustomerEmotionTests.xctest */,
+				A655112C1D9F99A10043F411 /* CustomerEmotionUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A655110F1D9F99A10043F411 /* CustomerEmotion */ = {
+			isa = PBXGroup;
+			children = (
+				A655113F1D9F9A100043F411 /* View */,
+				A655113E1D9F9A0B0043F411 /* Model */,
+				A65511401D9F9A140043F411 /* Controller */,
+				A65511431D9F9ADB0043F411 /* Appdelegate */,
+				A65511411D9F9A190043F411 /* Service */,
+				A65511421D9F9AD50043F411 /* Storyboard */,
+				A65511451D9F9AFD0043F411 /* Support */,
+				A65511441D9F9AE40043F411 /* Common */,
+				A65511171D9F99A10043F411 /* Assets.xcassets */,
+			);
+			path = CustomerEmotion;
+			sourceTree = "<group>";
+		};
+		A65511241D9F99A10043F411 /* CustomerEmotionTests */ = {
+			isa = PBXGroup;
+			children = (
+				A65511251D9F99A10043F411 /* CustomerEmotionTests.swift */,
+				A65511271D9F99A10043F411 /* Info.plist */,
+			);
+			path = CustomerEmotionTests;
+			sourceTree = "<group>";
+		};
+		A655112F1D9F99A10043F411 /* CustomerEmotionUITests */ = {
+			isa = PBXGroup;
+			children = (
+				A65511301D9F99A10043F411 /* CustomerEmotionUITests.swift */,
+				A65511321D9F99A10043F411 /* Info.plist */,
+			);
+			path = CustomerEmotionUITests;
+			sourceTree = "<group>";
+		};
+		A655113E1D9F9A0B0043F411 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A655115F1D9F9F4A0043F411 /* Camera.swift */,
+				A65511591D9F9E270043F411 /* EmotionModel.swift */,
+				A655115A1D9F9E270043F411 /* MessageModel.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		A655113F1D9F9A100043F411 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A655115D1D9F9E3B0043F411 /* EmotionTableCell.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		A65511401D9F9A140043F411 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A65511571D9F9E110043F411 /* BaseViewController.swift */,
+				A65511511D9F9D1F0043F411 /* SettingViewController.swift */,
+				A65511531D9F9D9B0043F411 /* CameraEmotionViewController.swift */,
+				A65511541D9F9D9B0043F411 /* EmotionSuggestionViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		A65511411D9F9A190043F411 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				A65511461D9F9BF70043F411 /* Network */,
+			);
+			name = Service;
+			sourceTree = "<group>";
+		};
+		A65511421D9F9AD50043F411 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				A65511191D9F99A10043F411 /* LaunchScreen.storyboard */,
+				A65511141D9F99A10043F411 /* Main.storyboard */,
+			);
+			name = Storyboard;
+			sourceTree = "<group>";
+		};
+		A65511431D9F9ADB0043F411 /* Appdelegate */ = {
+			isa = PBXGroup;
+			children = (
+				A65511101D9F99A10043F411 /* AppDelegate.swift */,
+			);
+			name = Appdelegate;
+			sourceTree = "<group>";
+		};
+		A65511441D9F9AE40043F411 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				A655114D1D9F9C180043F411 /* LeThanhTanLoading.swift */,
+				A655114E1D9F9C180043F411 /* Define.swift */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		A65511451D9F9AFD0043F411 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				A655111C1D9F99A10043F411 /* Info.plist */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+		A65511461D9F9BF70043F411 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				A65511471D9F9C010043F411 /* APIDefine.swift */,
+				A65511481D9F9C010043F411 /* APIRequestProtocol.swift */,
+				A65511491D9F9C010043F411 /* APIRequest.swift */,
+			);
+			name = Network;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A655110C1D9F99A10043F411 /* CustomerEmotion */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A65511351D9F99A10043F411 /* Build configuration list for PBXNativeTarget "CustomerEmotion" */;
+			buildPhases = (
+				CAF7B64A2246FA5A39837BF8 /* [CP] Check Pods Manifest.lock */,
+				A65511091D9F99A10043F411 /* Sources */,
+				A655110A1D9F99A10043F411 /* Frameworks */,
+				A655110B1D9F99A10043F411 /* Resources */,
+				1B80CEF2BE71C7A111712F74 /* [CP] Embed Pods Frameworks */,
+				E23D1991D78E3CC6D5A9B7BC /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CustomerEmotion;
+			productName = CustomerEmotion;
+			productReference = A655110D1D9F99A10043F411 /* CustomerEmotion.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A65511201D9F99A10043F411 /* CustomerEmotionTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A65511381D9F99A10043F411 /* Build configuration list for PBXNativeTarget "CustomerEmotionTests" */;
+			buildPhases = (
+				24E730898A48B1094A812F33 /* [CP] Check Pods Manifest.lock */,
+				A655111D1D9F99A10043F411 /* Sources */,
+				A655111E1D9F99A10043F411 /* Frameworks */,
+				A655111F1D9F99A10043F411 /* Resources */,
+				1F1E3EBA98E8625F91E802D2 /* [CP] Embed Pods Frameworks */,
+				D691DDB76E815A445666E39B /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A65511231D9F99A10043F411 /* PBXTargetDependency */,
+			);
+			name = CustomerEmotionTests;
+			productName = CustomerEmotionTests;
+			productReference = A65511211D9F99A10043F411 /* CustomerEmotionTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A655112B1D9F99A10043F411 /* CustomerEmotionUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A655113B1D9F99A10043F411 /* Build configuration list for PBXNativeTarget "CustomerEmotionUITests" */;
+			buildPhases = (
+				E13E17849D85669E47F8FD57 /* [CP] Check Pods Manifest.lock */,
+				A65511281D9F99A10043F411 /* Sources */,
+				A65511291D9F99A10043F411 /* Frameworks */,
+				A655112A1D9F99A10043F411 /* Resources */,
+				E507DD3F380FED77D6D177EE /* [CP] Embed Pods Frameworks */,
+				CA6FFE411FE6E56B16E40501 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A655112E1D9F99A10043F411 /* PBXTargetDependency */,
+			);
+			name = CustomerEmotionUITests;
+			productName = CustomerEmotionUITests;
+			productReference = A655112C1D9F99A10043F411 /* CustomerEmotionUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A65511051D9F99A10043F411 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Le Thanh Tan";
+				TargetAttributes = {
+					A655110C1D9F99A10043F411 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					A65511201D9F99A10043F411 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = A655110C1D9F99A10043F411;
+					};
+					A655112B1D9F99A10043F411 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = A655110C1D9F99A10043F411;
+					};
+				};
+			};
+			buildConfigurationList = A65511081D9F99A10043F411 /* Build configuration list for PBXProject "CustomerEmotion" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A65511041D9F99A10043F411;
+			productRefGroup = A655110E1D9F99A10043F411 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A655110C1D9F99A10043F411 /* CustomerEmotion */,
+				A65511201D9F99A10043F411 /* CustomerEmotionTests */,
+				A655112B1D9F99A10043F411 /* CustomerEmotionUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A655110B1D9F99A10043F411 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A655111B1D9F99A10043F411 /* LaunchScreen.storyboard in Resources */,
+				A65511181D9F99A10043F411 /* Assets.xcassets in Resources */,
+				A65511161D9F99A10043F411 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A655111F1D9F99A10043F411 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A655112A1D9F99A10043F411 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1B80CEF2BE71C7A111712F74 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomerEmotion/Pods-CustomerEmotion-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1F1E3EBA98E8625F91E802D2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomerEmotionTests/Pods-CustomerEmotionTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		24E730898A48B1094A812F33 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		CA6FFE411FE6E56B16E40501 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomerEmotionUITests/Pods-CustomerEmotionUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CAF7B64A2246FA5A39837BF8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D691DDB76E815A445666E39B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomerEmotionTests/Pods-CustomerEmotionTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E13E17849D85669E47F8FD57 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E23D1991D78E3CC6D5A9B7BC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomerEmotion/Pods-CustomerEmotion-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E507DD3F380FED77D6D177EE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CustomerEmotionUITests/Pods-CustomerEmotionUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A65511091D9F99A10043F411 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A655114B1D9F9C010043F411 /* APIRequestProtocol.swift in Sources */,
+				A655115E1D9F9E3B0043F411 /* EmotionTableCell.swift in Sources */,
+				A655114A1D9F9C010043F411 /* APIDefine.swift in Sources */,
+				A655114F1D9F9C180043F411 /* LeThanhTanLoading.swift in Sources */,
+				A655114C1D9F9C010043F411 /* APIRequest.swift in Sources */,
+				A65511111D9F99A10043F411 /* AppDelegate.swift in Sources */,
+				A65511581D9F9E110043F411 /* BaseViewController.swift in Sources */,
+				A65511551D9F9D9B0043F411 /* CameraEmotionViewController.swift in Sources */,
+				A655115C1D9F9E270043F411 /* MessageModel.swift in Sources */,
+				A65511561D9F9D9B0043F411 /* EmotionSuggestionViewController.swift in Sources */,
+				A65511521D9F9D1F0043F411 /* SettingViewController.swift in Sources */,
+				A65511501D9F9C180043F411 /* Define.swift in Sources */,
+				A65511601D9F9F4A0043F411 /* Camera.swift in Sources */,
+				A655115B1D9F9E270043F411 /* EmotionModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A655111D1D9F99A10043F411 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A65511261D9F99A10043F411 /* CustomerEmotionTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A65511281D9F99A10043F411 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A65511311D9F99A10043F411 /* CustomerEmotionUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A65511231D9F99A10043F411 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A655110C1D9F99A10043F411 /* CustomerEmotion */;
+			targetProxy = A65511221D9F99A10043F411 /* PBXContainerItemProxy */;
+		};
+		A655112E1D9F99A10043F411 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A655110C1D9F99A10043F411 /* CustomerEmotion */;
+			targetProxy = A655112D1D9F99A10043F411 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A65511141D9F99A10043F411 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A65511151D9F99A10043F411 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		A65511191D9F99A10043F411 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A655111A1D9F99A10043F411 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A65511331D9F99A10043F411 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A65511341D9F99A10043F411 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A65511361D9F99A10043F411 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E4838736A157770350CA95E6 /* Pods-CustomerEmotion.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = CustomerEmotion/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lethanhtan.CustomerEmotion;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A65511371D9F99A10043F411 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 751329C21D251400020F4D64 /* Pods-CustomerEmotion.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = CustomerEmotion/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lethanhtan.CustomerEmotion;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		A65511391D9F99A10043F411 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 40DF07480838BEBBA6CBE1F5 /* Pods-CustomerEmotionTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = CustomerEmotionTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lethanhtan.CustomerEmotionTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CustomerEmotion.app/CustomerEmotion";
+			};
+			name = Debug;
+		};
+		A655113A1D9F99A10043F411 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 022CB5830AB365B40AE087FA /* Pods-CustomerEmotionTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = CustomerEmotionTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lethanhtan.CustomerEmotionTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CustomerEmotion.app/CustomerEmotion";
+			};
+			name = Release;
+		};
+		A655113C1D9F99A10043F411 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9F27B7C868619FD0AEC5537D /* Pods-CustomerEmotionUITests.debug.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = CustomerEmotionUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lethanhtan.CustomerEmotionUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = CustomerEmotion;
+			};
+			name = Debug;
+		};
+		A655113D1D9F99A10043F411 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 26F1CA9C425AE7F373440481 /* Pods-CustomerEmotionUITests.release.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = CustomerEmotionUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lethanhtan.CustomerEmotionUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = CustomerEmotion;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A65511081D9F99A10043F411 /* Build configuration list for PBXProject "CustomerEmotion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A65511331D9F99A10043F411 /* Debug */,
+				A65511341D9F99A10043F411 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A65511351D9F99A10043F411 /* Build configuration list for PBXNativeTarget "CustomerEmotion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A65511361D9F99A10043F411 /* Debug */,
+				A65511371D9F99A10043F411 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A65511381D9F99A10043F411 /* Build configuration list for PBXNativeTarget "CustomerEmotionTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A65511391D9F99A10043F411 /* Debug */,
+				A655113A1D9F99A10043F411 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A655113B1D9F99A10043F411 /* Build configuration list for PBXNativeTarget "CustomerEmotionUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A655113C1D9F99A10043F411 /* Debug */,
+				A655113D1D9F99A10043F411 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A65511051D9F99A10043F411 /* Project object */;
+}

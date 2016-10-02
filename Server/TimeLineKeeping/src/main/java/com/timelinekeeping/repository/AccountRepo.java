@@ -17,6 +17,7 @@ import java.util.List;
 @Repository
 public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
 
+
     @Query("SELECT count(a.id) FROM AccountEntity a WHERE a.username = :username and a.active <>0")
     Integer checkExistUsername(@Param("username") String username);
 
@@ -26,6 +27,9 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
     @Query("SELECT a FROM AccountEntity a WHERE a.userCode = ?1 and a.active <>0")
     AccountEntity findByUsercode(String code);
 
+    @Query(value = "SELECT * FROM account a WHERE a.id = ?1 and a.active <>0", nativeQuery = true)
+    AccountEntity findById(Long id);
+
     @Query("SELECT a FROM AccountEntity a WHERE a.active <>0")
     List<AccountEntity> findAll();
 
@@ -34,7 +38,6 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
 
     @Query("SELECT a FROM AccountEntity a INNER JOIN a.department d WHERE d.id = :department_id AND a.active <> 0")
     List<AccountEntity> findByDepartment(@Param("department_id") Long departmentId);
-
 
     @Query("SELECT a FROM AccountEntity a INNER JOIN a.department d " +
             "WHERE d.manager.id = :managerId AND a.active <> 0 AND a.id <> :managerId")

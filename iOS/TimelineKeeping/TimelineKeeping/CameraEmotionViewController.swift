@@ -24,43 +24,32 @@ class CameraEmotionViewController: UIViewController {
   var status: Status = .Preview
   var faceView: UIView?
   var isCameraTaken = false
+  var isBeginTransaction = false
 
   
   override func viewDidLoad() {
     super.viewDidLoad()
-//    cameraCapture.layer.cornerRadius = cameraCapture.frame.size.width / 2
-//    
-//    faceView = UIView()
-//    faceView?.layer.borderColor = UIColor.greenColor().CGColor
-//    faceView?.layer.borderWidth = 2
-//    faceView?.tag = 280394
-//    view.addSubview(faceView!)
-//    view.bringSubviewToFront(faceView!)
+    cameraCapture.layer.cornerRadius = cameraCapture.frame.size.width / 2
+    
+    faceView = UIView()
+    faceView?.layer.borderColor = UIColor.greenColor().CGColor
+    faceView?.layer.borderWidth = 2
+    faceView?.tag = 280394
+    view.addSubview(faceView!)
+    view.bringSubviewToFront(faceView!)
 
 
   }
   
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
-//    self.initializeCamera()
-//    self.cameraStill.image = nil
-//    self.cameraPreview.alpha = 1.0
-//    isRunning = false
-//    LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
-//    isCameraTaken = false
-//    status = .Preview
-
-    self.callApiGetEmotion(UIImage(named: "ic_loading")!, completion: { (emotionResponse, error) in
-      if let emotionResponse = emotionResponse {
-        self.showInfoScren(emotionResponse)
-      } else {
-        // fail
-        self.cameraPreview.alpha = 1.0
-        self.cameraStill.image = nil
-        self.isCameraTaken = false
-        LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
-      }
-    })
+    self.initializeCamera()
+    self.cameraStill.image = nil
+    self.cameraPreview.alpha = 1.0
+    isRunning = false
+    LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
+    isCameraTaken = false
+    status = .Preview
   }
   
   override func viewDidAppear(animated: Bool) {
