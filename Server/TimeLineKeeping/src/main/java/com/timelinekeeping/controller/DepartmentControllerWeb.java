@@ -2,6 +2,8 @@ package com.timelinekeeping.controller;
 
 import com.timelinekeeping.api.DepartmentController;
 import com.timelinekeeping.constant.EStatus;
+import com.timelinekeeping.constant.ETrainStatus;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.model.DepartmentModel;
@@ -37,14 +39,25 @@ public class DepartmentControllerWeb {
 
         Page<DepartmentModel> pageDepartment = departmentService.findAll(page, size);
 
-        // List of departments
+        // set side-bar
+        String sideBar = IContanst.SIDE_BAR_ADMIN_MANAGEMENT_DEPART;
+
+        // list of departments
         model.addAttribute("ListDepartments", pageDepartment.getContent());
+        // side-bar
+        model.addAttribute("SideBar", sideBar);
 
         return "/views/admin/management_depart/management_depart";
     }
 
     @RequestMapping(value = "/addDepartment", method = RequestMethod.GET)
-    public String loadAddDepartmentView() {
+    public String loadAddDepartmentView(Model model) {
+        // set side-bar
+        String sideBar = IContanst.SIDE_BAR_ADMIN_MANAGEMENT_DEPART;
+
+        // side-bar
+        model.addAttribute("SideBar", sideBar);
+
         return "/views/admin/management_depart/add_depart";
     }
 
@@ -59,6 +72,8 @@ public class DepartmentControllerWeb {
         logger.info("[Add Department] description: " + description);
         DepartmentModel departmentEntity
                 = new DepartmentModel(departmentCode, departmentName, description);
+        departmentEntity.setActive(EStatus.ACTIVE);
+        departmentEntity.setStatus(ETrainStatus.NOT_STARTED);
 
         boolean success = false;
         String url = "/views/admin/management_depart/add_depart";

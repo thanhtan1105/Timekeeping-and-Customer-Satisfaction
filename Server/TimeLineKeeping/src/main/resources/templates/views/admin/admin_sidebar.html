@@ -10,13 +10,13 @@
         <ul class="sidebar-menu">
             <li class="header" style="color: white;">MAIN MENU</li>
             <!-- Optionally, you can add icons to the links -->
-            <li>
+            <li th:attr="class=${SideBar == 'ManagementDepart'}? 'active' : ''">
                 <a th:href="@{/admin/departments/}">
                     <i class="fa fa-laptop"></i>
                     <span>Management Departments</span>
                 </a>
             </li>
-            <li>
+            <li th:attr="class=${SideBar == 'ManagementAcc'}? 'active' : ''">
                 <a th:href="@{/admin/accounts/}">
                     <i class="fa fa-laptop"></i>
                     <span>Management Accounts</span>
