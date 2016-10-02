@@ -9,107 +9,70 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1 class="text-primary">
-            <i class="glyphicon glyphicon-send"></i> Check-in Manual
-        </h1>
-        <ol class="breadcrumb">
-            <li><i class="fa fa-laptop active"></i> Check-in Manual</li>
-        </ol>
-        <hr style="border-color: darkblue; margin-top: 4px; margin-bottom: 1px;"/>
-    </section>
     <!-- Main content -->
     <section class="content">
         <!-- Your Page Content Here -->
-        <!-- Info: manager, department, date -->
-        <div class="text-center" style="margin-bottom: 5px">
-            <font class="text-black" style="font-size: 18px;"><b>Department:</b> IT</font><br/>
-            <font class="text-black" style="font-size: 18px;"><b>Manager:</b> Nguyễn Năng Trung</font><br/>
-            <font class="text-black" style="font-size: 18px;"><b>Date:</b> </font>
-            <font class="text-black" style="font-size: 18px;"
-                  th:text="${#dates.format(CurrentDate, 'dd-MMM-yyyy')}"></font>
+        <!-- Info: department, date -->
+        <div style="margin-bottom: 10px">
+            <div class="row text-success" style="font-size: 24px;">
+                <div class="col-sm-5 text-right text-bold">
+                    <i class="fa fa-calendar-check-o"></i>
+                </div>
+                <div class="col-sm-6 text-left">
+                    <font>Check-in Manual</font>
+                </div>
+            </div>
+            <!-- department -->
+            <div class="row text-success" style="font-size: 18px;">
+                <div class="col-sm-5 text-right text-bold">
+                    <font>Department:</font></div>
+                <div class="col-sm-6 text-left">
+                    <font th:if="${session} and ${session.UserSession}"
+                          th:text="${session.UserSession.department.name}"></font></div>
+            </div>
+            <!-- /.end department -->
+            <!-- month -->
+            <div class="row text-success" style="font-size: 18px;">
+                <div class="col-sm-5 text-right text-bold">
+                    <font>Date:</font></div>
+                <div class="col-sm-6 text-left">
+                    <font th:text="${#dates.format(CurrentDate, 'dd-MMM-yyyy')}"></font></div>
+            </div>
+            <!-- /.end month-->
         </div>
         <div class="box box-success">
             <div class="box-header">
                 <div class="row">
                     <div class="col-sm-6">
-                        <font class="text-primary" style="font-size: 18px">
-                            <i class="glyphicon glyphicon-list-alt"></i> Employees List</font>
-                        <hr style="border-color: #3c8dbc; border-width: 2px; margin-top: 4px; margin-right: 74%;"/>
+                        <h3 class="box-title text-success"><i class="fa fa-users"></i> Employees
+                            List</h3>
                     </div>
                     <div class="col-sm-6 text-right">
-                        <div class="input-group" style="margin-left: 55%">
+                        <div class="input-group" style="margin-left: 60%">
                                 <span class="input-group-btn">
-                                    <button class="btn bg-blue-active btn-flat input-sm" type="button">
+                                    <button class="btn btn-success btn-flat btn-sm" type="button">
                                         <i class="glyphicon glyphicon-search"></i>
                                     </button>
                                 </span>
-                            <input type="text" class="form-control input-sm"
-                                   style="font-size: medium; color: black;"
-                                   placeholder="Enter Employee Name"/>
+                            <input type="text" class="form-control input-sm" placeholder="Enter Employee Name"
+                                   style="font-size: 14px"/>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <!-- Data-table for list of accounts -->
-                        <table id="dataTable" class="table table-bordered table-hover"
-                               style="border-color: darkblue">
-                            <colgroup>
-                                <col span="1" style="width: 5%;">
-                                <col span="1" style="width: 40%;">
-                                <col span="1" style="width: 5%;">
-                                <col span="1" style="width: 50%;">
-                            </colgroup>
-                            <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Name</th>
-                                <th>Present</th>
-                                <th>Note</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="account,counter: ${AccountCheckInModels}">
-                                <td th:text="${counter.count} + '.'"></td>
-                                <td th:text="${account.fullname}"></td>
-                                <td>
-                                    <input th:name="accountIds" th:value="${account.id}"
-                                           type="checkbox" class="minimal-red"
-                                           th:attr="id='statusCheckin-' + ${counter.count}"
-                                           th:checked="${account.statusCheckin.index} == 1"
-                                           th:disabled="${account.statusCheckin.index} == 1"/>
-                                </td>
-                                <td>
-                                    <input th:name="note" type="text" th:value="${account.note}"
-                                           th:disabled="${account.statusCheckin.index} == 1"
-                                           th:attr="id='note-' + ${counter.count}"
-                                           class="form-control input-sm"
-                                           style="width: 100%; font-size: medium; color: black;"/>
-                                    <input type="hidden" th:value="${account.id}"
-                                           th:attr="id='accountId-' + ${counter.count}"/>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <!-- /.end data-table for list of accounts -->
                     </div>
                 </div>
             </div>
             <!-- /.box-header -->
-            <!-- Data-table for list of accounts -->
+            <!-- table for list of accounts -->
             <div class="box-body">
-                <table id="dataTable" class="table table-bordered table-hover" style="border-collapse: collapse;">
+                <table class="table">
                     <colgroup>
                         <col span="1" style="width: 5%;">
-                        <col span="1" style="width: 40%;">
-                        <col span="1" style="width: 5%;">
+                        <col span="1" style="width: 25%;">
+                        <col span="1" style="width: 20%;">
                         <col span="1" style="width: 50%;">
                     </colgroup>
                     <thead>
                     <tr>
-                        <th>No</th>
+                        <th>#</th>
                         <th>Name</th>
                         <th>Present</th>
                         <th>Note</th>
@@ -130,7 +93,7 @@
                             <input th:name="note" type="text" th:value="${account.note}"
                                    th:disabled="${account.statusCheckin.index} == 0"
                                    th:attr="id='note-' + ${counter.count}"
-                                   class="form-control input-sm" style="width: 100%"/>
+                                   class="form-control input-sm" style="font-size: 16px; color: black;"/>
                             <input type="hidden" th:value="${account.id}" th:attr="id='accountId-' + ${counter.count}"/>
                         </td>
                     </tr>
@@ -138,7 +101,7 @@
                 </table>
             </div>
             <!-- /.box-body -->
-            <!-- /.end data-table for list of accounts -->
+            <!-- /.end table for list of accounts -->
         </div>
         <div class="row text-center">
             <form th:action="@{/manager/check_in/checkinManualProcessing}" method="post"
@@ -146,9 +109,8 @@
                   onsubmit="getAccountCheckInModels()">
                 <input type="hidden" name="sizeOfListAccounts" th:value="${SizeOfListAccounts}"/>
                 <input type="hidden" name="accountCheckInModels" value=""/>
-                <button type="submit" class="btn btn-bitbucket btn-flat">
-                    <font style="font-size: medium">
-                        <i class="fa fa-share-square-o"></i> SUBMIT</font>
+                <button type="submit" class="btn bg-green-active btn-flat">
+                    <font><i class="fa fa-share-square-o"></i> SUBMIT</font>
                 </button>
             </form>
         </div>

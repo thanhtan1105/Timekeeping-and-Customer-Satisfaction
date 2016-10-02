@@ -71,11 +71,15 @@ public class AccountServiceImpl {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             AccountEntity accountEntity = accountRepo.findByUserNameAndPassword(username, password);
-
+            if (accountEntity == null) {
+                return null;
+            } else {
+                logger.info("[Service- Login] account: " + JsonUtil.toJson(accountEntity));
+                return new AccountModel(accountEntity);
+            }
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
-        return null;
     }
 
     public BaseResponseG<AccountModel> create(AccountModifyModel account) throws IOException, URISyntaxException {
@@ -196,6 +200,26 @@ public class AccountServiceImpl {
         }
     }
 
+    /**
+     * @author TrungNN
+     * Using for selection employee
+     */
+    public List<AccountModel> getEmployeesOfDepart(Long managerId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+            List<AccountEntity> accountEntities = accountRepo.findByManager(managerId);
+
+            // convert list
+            List<AccountModel> accountModels
+                    = accountEntities.stream().map(AccountModel::new).collect(Collectors.toList());
+
+            return accountModels;
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
     public BaseResponse addFaceImg(Long accountId, InputStream imgStream) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -296,9 +320,9 @@ public class AccountServiceImpl {
 
             // Save TimeKeeping fro accountID
             TimeKeepingEntity timeKeepingEntity = timekeepingRepo.findByAccountCheckinDate(accountEntity.getId(), new Date());
-            if (timeKeepingEntity != null){
+            if (timeKeepingEntity != null) {
                 //TODO checked, show message
-            }else {
+            } else {
                 timeKeepingEntity = new TimeKeepingEntity();
 //            ETimeKeeping timeKeepingStatus = UtilApps.checkStatusTimeKeeping();
                 timeKeepingEntity.setType(ETypeCheckin.CHECKIN_CAMERA);
@@ -314,7 +338,7 @@ public class AccountServiceImpl {
             // accountID -> get Reminder
             List<NotificationEntity> notificationSet = notificationRepo.findByAccountReceiveByDate(accountEntity.getId());
             List<NotificationCheckInModel> message = new ArrayList<>();
-            for (NotificationEntity notificationEntity : notificationSet){
+            for (NotificationEntity notificationEntity : notificationSet) {
                 if (notificationEntity.getStatus() == ENotification.NOSEND) {
                     notificationEntity.setStatus(ENotification.SENDED);
                     notificationEntity.setTimeNotify(new Timestamp(new Date().getTime()));

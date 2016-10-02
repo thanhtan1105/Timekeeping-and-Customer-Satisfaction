@@ -3,7 +3,7 @@ package com.timelinekeeping.constant;
 /**
  * Created by TrungNN on 9/22/2016.
  */
-public interface ViewConst {
+public interface IViewConst {
 
     /**
      * Views for manager
@@ -18,5 +18,16 @@ public interface ViewConst {
      * Views for employee
      */
     String ATTENDANCE_VIEW = "/views/employee/attendance/attendance";
+
+    /**
+     * Views for admin
+     */
+    String MANAGEMENT_DEPARTMENT_VIEW = "/views/admin/management_depart/management_depart";
+
+    /**
+     * Views for login
+     */
+    String LOGIN_VIEW = "/views/login/login";
+    String INVALID_VIEW = "views/login/invalid";
 }
 

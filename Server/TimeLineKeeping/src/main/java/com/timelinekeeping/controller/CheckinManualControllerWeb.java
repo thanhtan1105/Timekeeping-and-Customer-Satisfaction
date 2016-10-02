@@ -1,7 +1,9 @@
 package com.timelinekeeping.controller;
 
-import com.timelinekeeping.constant.ViewConst;
+import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.constant.IViewConst;
 import com.timelinekeeping.model.AccountCheckInModel;
+import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.CheckinManualModel;
 import com.timelinekeeping.model.CheckinManualRequestModel;
 import com.timelinekeeping.service.serviceImplement.TimekeepingServiceImpl;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,26 +35,40 @@ public class CheckinManualControllerWeb {
     private TimekeepingServiceImpl timekeepingService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String loadCheckinManualView(Model model) {
+    public String loadCheckinManualView(Model model, HttpSession session) {
         logger.info("[Controller- Load Check-in Manual View] BEGIN");
-        Long departmentId = ValidateUtil.validateNumber("1");
-        Long accountId = ValidateUtil.validateNumber("3");
-        // get list of employees by departmentId
-        List<AccountCheckInModel> accountCheckInModels
-                = timekeepingService.getEmployeeUnderManager(accountId);
-        if (accountCheckInModels != null) {
-            int sizeOfListAccounts = accountCheckInModels.size();
-            model.addAttribute("SizeOfListAccounts", sizeOfListAccounts);
+        String url = IViewConst.LOGIN_VIEW;
+        // get session
+        AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
+        if (accountModel != null) {
+            String role = accountModel.getRole().getName().toUpperCase();
+            // check is manager
+            if ("MANAGER".equals(role)) {
+                Long accountId = accountModel.getId();
+                // get employees list in the department
+                List<AccountCheckInModel> accountCheckInModels
+                        = timekeepingService.getEmployeeUnderManager(accountId);
+                if (accountCheckInModels != null) {
+                    int sizeOfListAccounts = accountCheckInModels.size();
+                    model.addAttribute("SizeOfListAccounts", sizeOfListAccounts);
+                }
+
+                // get current date
+                Date currentDate = new Date();
+                // set side-bar
+                String sideBar = IContanst.SIDE_BAR_MANAGER_CHECK_IN;
+
+                model.addAttribute("AccountCheckInModels", accountCheckInModels);
+                model.addAttribute("CurrentDate", currentDate);
+                // side-bar
+                model.addAttribute("SideBar", sideBar);
+
+                url = IViewConst.CHECK_IN_MANUAL_VIEW;
+            }
         }
 
-        // get current date
-        Date currentDate = new Date();
-
-        model.addAttribute("AccountCheckInModels", accountCheckInModels);
-        model.addAttribute("CurrentDate", currentDate);
         logger.info("[Controller- Load Check-in Manual View] END");
-
-        return ViewConst.CHECK_IN_MANUAL_VIEW;
+        return url;
     }
 
     @RequestMapping(value = "/checkinManualProcessing", method = RequestMethod.POST)
@@ -80,7 +97,7 @@ public class CheckinManualControllerWeb {
             logger.info("[Controller- Check-in Manual] size of list check-in: " + listCheckIn.size());
 
             List<CheckinManualModel> checkinManualModels = timekeepingService.checkInManual(listCheckIn);
-            // TODO: check resutl check-in manual
+            // TODO: check result check-in manual
         }
 
         logger.info("[Controller- Check-in Manual] END");

@@ -1,5 +1,6 @@
 package com.timelinekeeping.controller;
 
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.entity.RoleEntity;
@@ -42,10 +43,16 @@ public class AccountControllerWeb {
         int size = 1000;
 
         Page<AccountModel> listAccounts = accountService.listAll(page, size);
+
+        // set side-bar
+        String sideBar = IContanst.SIDE_BAR_ADMIN_MANAGEMENT_ACC;
+
         // List of accounts
         model.addAttribute("ListAccounts", listAccounts);
-        logger.info("[Controller- Load Management Account View] END");
+        // side-bar
+        model.addAttribute("SideBar", sideBar);
 
+        logger.info("[Controller- Load Management Account View] END");
         return "/views/admin/management_acc/management_acc";
     }
 
@@ -66,10 +73,15 @@ public class AccountControllerWeb {
                     + departmentSelectModels.size());
         }
 
+        // set side-bar
+        String sideBar = IContanst.SIDE_BAR_ADMIN_MANAGEMENT_ACC;
+
         model.addAttribute("ListRoles", roleEntities);
         model.addAttribute("ListDepartments", departmentSelectModels);
-        logger.info("[Controller- Load Add Account View] END");
+        // side-bar
+        model.addAttribute("SideBar", sideBar);
 
+        logger.info("[Controller- Load Add Account View] END");
         return "/views/admin/management_acc/add_acc";
     }
 

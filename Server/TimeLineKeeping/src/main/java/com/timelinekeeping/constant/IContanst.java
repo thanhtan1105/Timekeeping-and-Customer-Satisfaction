@@ -33,4 +33,13 @@ public interface IContanst {
     String PAGE_PAGE = 0 + "";
     String PAGE_SIZE = 10 + "";
     double MCS_PERSON_DETECT_CONFIDINCE_CORRECT = AppConfigKeys.getInstance().getApiPropertyDouble("detect.person.indetify.confidence");
+
+    /**
+     * Side-bar
+     */
+    String SIDE_BAR_ADMIN_MANAGEMENT_DEPART = "ManagementDepart";
+    String SIDE_BAR_ADMIN_MANAGEMENT_ACC = "ManagementAcc";
+    String SIDE_BAR_MANAGER_CHECK_IN = "Checkin";
+    String SIDE_BAR_MANAGER_TIMEKEEPING = "Timekeeping";
+    String SIDE_BAR_MANAGER_MANAGEMENT_REMINDER = "ManagementReminder";
 }
