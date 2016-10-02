@@ -27,7 +27,8 @@
                 <div class="col-sm-5 text-right text-bold">
                     <font>Department:</font></div>
                 <div class="col-sm-6 text-left">
-                    <font>Informaiton Technology</font></div>
+                    <font th:if="${session} and ${session.UserSession}"
+                          th:text="${session.UserSession.department.name}"></font></div>
             </div>
             <!-- /.end department -->
             <!-- month -->

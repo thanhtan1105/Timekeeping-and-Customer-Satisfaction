@@ -28,7 +28,7 @@
                     <font>Department:</font></div>
                 <div class="col-sm-6 text-left">
                     <font th:if="${session} and ${session.UserSession}"
-                            th:text="${session.UserSession.department.name}"></font></div>
+                          th:text="${session.UserSession.department.name}"></font></div>
             </div>
             <!-- /.end department -->
             <!-- total present days -->
@@ -91,14 +91,15 @@
                         <td th:text="${#dates.format(attendance.date, 'dd-MMM-yyyy')}"></td>
                         <td>
                             <label th:class="${attendance.present.index == 0}? 'label label-success' : 'label label-danger'"
-                                    th:text="${attendance.present.index == 0} ? 'Present' : 'Absent'"
+                                   th:text="${attendance.present.index == 0} ? 'Present' : 'Absent'"
                                    style="font-size: 14px;"></label>
                         </td>
                         <td>
                             <font th:text="${attendance.timeCheck != null}? ${#dates.format(attendance.timeCheck, 'HH:mm')}: '-'"
                                   style="font-style: italic"></font>
                         </td>
-                        <td th:text="${attendance.note != null and attendance.note != ''}? ${attendance.note}: '-'">-</td>
+                        <td th:text="${attendance.note != null and attendance.note != ''}? ${attendance.note}: '-'">-
+                        </td>
                     </tr>
                     </tbody>
                 </table>

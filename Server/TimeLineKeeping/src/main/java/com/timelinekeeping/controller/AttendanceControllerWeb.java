@@ -59,8 +59,8 @@ public class AttendanceControllerWeb {
     }
 
     @RequestMapping(value = "/change_month", method = RequestMethod.POST)
-    public String changeMonthTimekeepingDetailsView(@RequestParam("selectedMonth") String selectedMonth,
-                                                    Model model) {
+    public String changeMonthAttendanceView(@RequestParam("selectedMonth") String selectedMonth,
+                                            Model model, HttpSession session) {
         logger.info("[Controller- Change Month Attendance View] BEGIN");
         logger.info("[Controller- Change Month Attendance View] selected month: " + selectedMonth);
         String pattern = "MMMM-yyyy";
@@ -75,15 +75,21 @@ public class AttendanceControllerWeb {
         logger.info("[Controller- Change Month Attendance View] selected month: " + month);
         logger.info("[Controller- Change Month Attendance View] selected year: " + year);
 
-        Long accountId = ValidateUtil.validateNumber("4");
+        String url = IViewConst.INVALID_VIEW;
+        // get session
+        AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
+        if (accountModel != null) {
+            Long accountId = accountModel.getId();
 
-        // get attendance
-        AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month);
+            // get attendance
+            AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month);
 
-        model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
-        model.addAttribute("SelectedDate", selectedDate);
+            model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
+            model.addAttribute("SelectedDate", selectedDate);
+            url = IViewConst.ATTENDANCE_VIEW;
+        }
 
         logger.info("[Controller- Change Month Attendance View] END");
-        return IViewConst.ATTENDANCE_VIEW;
+        return url;
     }
 }
