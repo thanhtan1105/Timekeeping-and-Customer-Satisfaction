@@ -3,6 +3,7 @@ package com.timelinekeeping.controller;
 import com.timelinekeeping.constant.ViewConst;
 import com.timelinekeeping.model.AccountAttendanceModel;
 import com.timelinekeeping.service.serviceImplement.TimekeepingServiceImpl;
+import com.timelinekeeping.util.TimeUtil;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -45,6 +47,35 @@ public class AttendanceControllerWeb {
         model.addAttribute("SelectedDate", currentDate);
 
         logger.info("[Controller- Load Attendance View] END");
+        return ViewConst.ATTENDANCE_VIEW;
+    }
+
+    @RequestMapping(value = "/change_month", method = RequestMethod.POST)
+    public String changeMonthTimekeepingDetailsView(@RequestParam("selectedMonth") String selectedMonth,
+                                                    Model model) {
+        logger.info("[Controller- Change Month Attendance View] BEGIN");
+        logger.info("[Controller- Change Month Attendance View] selected month: " + selectedMonth);
+        String pattern = "MMMM-yyyy";
+        // parse to date
+        Date selectedDate = TimeUtil.parseToDate(selectedMonth, pattern);
+        logger.info("[Controller- Change Month Attendance View] selected date: " + selectedDate);
+        // get month, year
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(selectedDate);
+        Integer month = calendar.get(Calendar.MONTH) + 1;
+        Integer year = calendar.get(Calendar.YEAR);
+        logger.info("[Controller- Change Month Attendance View] selected month: " + month);
+        logger.info("[Controller- Change Month Attendance View] selected year: " + year);
+
+        Long accountId = ValidateUtil.validateNumber("4");
+
+        // get attendance
+        AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month);
+
+        model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
+        model.addAttribute("SelectedDate", selectedDate);
+
+        logger.info("[Controller- Change Month Attendance View] END");
         return ViewConst.ATTENDANCE_VIEW;
     }
 }
