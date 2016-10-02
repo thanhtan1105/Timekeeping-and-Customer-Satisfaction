@@ -9,45 +9,33 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1 class="text-success">
-            <i class="glyphicon glyphicon-send"></i> Timekeeping
-        </h1>
-        <ol class="breadcrumb">
-            <li><a th:href="@{/manager/timekeeping/}">
-                <i class="fa fa-laptop"></i> Timekeeping</a></li>
-            <li class="active">View Details</li>
-        </ol>
-        <hr style="border-color: green; margin-top: 4px; margin-bottom: 1px;"/>
-    </section>
     <!-- Main content -->
     <section class="content">
         <!-- Your Page Content Here -->
         <!-- Info: manager, department, date -->
         <div style="margin-bottom: 10px">
+            <div class="row text-success" style="font-size: 24px;">
+                <div class="col-sm-5 text-right text-bold">
+                    <i class="fa fa-balance-scale"></i>
+                </div>
+                <div class="col-sm-6 text-left">
+                    <font>Timekeeping</font>
+                </div>
+            </div>
             <!-- department -->
             <div class="row text-success" style="font-size: 18px;">
-                <div class="col-sm-5 text-right">
+                <div class="col-sm-5 text-right text-bold">
                     <font>Department:</font></div>
                 <div class="col-sm-6 text-left">
-                    <font>IT</font></div>
+                    <font>Informaiton Technology</font></div>
             </div>
             <!-- /.end department -->
-            <!-- manager -->
-            <div class="row text-success" style="font-size: 18px;">
-                <div class="col-sm-5 text-right">
-                    <font>Manager:</font></div>
-                <div class="col-sm-6 text-left">
-                    <font>Nguyễn Năng Trung</font></div>
-            </div>
-            <!-- /.end manager -->
             <!-- month -->
             <div class="row text-success" style="font-size: 18px;">
-                <div class="col-sm-5 text-right">
+                <div class="col-sm-5 text-right text-bold">
                     <font>Month:</font></div>
                 <div class="col-sm-6 text-left">
-                    <div class="input-group date" style="width: 50%">
+                    <div class="input-group date" style="width: 35%">
                         <input type="text" th:value="${#dates.format(SelectedDate, 'MMMM-yyyy')}"
                                class="form-control pull-left selected-date" id="datepicker"/>
 
@@ -74,18 +62,16 @@
                             <i class="fa fa-user"></i>
                             <font th:text="${AccountAttendanceModel.fullname}"></font>
                         </h3>
-                        <hr style="border-color: green; margin-top: 2px; margin-bottom: 1px;"/>
-                        <font class="text-primary text-capitalize">Total present days:</font>
-                        <font th:text="${AccountAttendanceModel.totalTimeKeeping} + '/' + ${AccountAttendanceModel.dayWork}"
-                              class="text-primary"></font>
+                        <font th:text="'(' + ${AccountAttendanceModel.totalTimeKeeping}
+                        + '/' + ${AccountAttendanceModel.dayWork} + ')'"
+                                th:class="'text-success'"></font>
                     </div>
                 </div>
             </div>
             <!-- /.box-header -->
             <!-- Data-table for list of dates -->
             <div class="box-body">
-                <table id="dataTable" class="table table-bordered table-hover"
-                       style="border-collapse: collapse;">
+                <table class="table">
                     <colgroup>
                         <col span="1" style="width: 5%;">
                         <col span="1" style="width: 25%;">
@@ -95,7 +81,7 @@
                     </colgroup>
                     <thead>
                     <tr>
-                        <th>No</th>
+                        <th>#</th>
                         <th>Date</th>
                         <th>Status</th>
                         <th>Time Check-in</th>
@@ -104,17 +90,20 @@
                     </thead>
                     <tbody>
                     <tr th:each="attendance,counter: ${AccountAttendanceModel.attendances}"
-                        th:if="${attendance.dayStatus.index != 3}">
+                        th:if="${attendance.dayStatus.index != 3 and attendance.dayStatus.index != 4}">
                         <td th:text="${counter.count} + '.'"></td>
-                        <td th:text="${#dates.format(attendance.date, 'dd-MMM-yyyy')}"
-                            th:class="'text-primary'"></td>
+                        <td th:text="${#dates.format(attendance.date, 'dd-MMM-yyyy')}"></td>
                         <td>
-                            <button type="button" class="btn btn-block btn-flat"
-                                    th:attrappend="class=${attendance.present.index == 0} ? ' btn-primary': ' btn-warning'"
-                                    th:text="${attendance.present.index == 0} ? 'Present': 'Absent'"></button>
+                            <label th:class="${attendance.present.index == 0}? 'label label-success' : 'label label-danger'"
+                                   th:text="${attendance.present.index == 0} ? 'Present' : 'Absent'"
+                                   style="font-size: 14px;"></label>
                         </td>
-                        <td th:text="${attendance.timeCheck != null} ? ${#dates.format(attendance.timeCheck, 'HH:mm')}: '-'"></td>
-                        <td th:text="${attendance.note}"></td>
+                        <td>
+                            <font th:text="${attendance.timeCheck != null}? ${#dates.format(attendance.timeCheck, 'HH:mm')}: '-'"
+                                  style="font-style: italic"></font>
+                        </td>
+                        <td th:text="${attendance.note != null and attendance.note != ''}? ${attendance.note}: '-'">-
+                        </td>
                     </tr>
                     </tbody>
                 </table>
