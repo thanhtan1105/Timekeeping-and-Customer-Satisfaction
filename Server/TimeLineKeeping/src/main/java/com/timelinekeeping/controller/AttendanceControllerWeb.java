@@ -2,6 +2,7 @@ package com.timelinekeeping.controller;
 
 import com.timelinekeeping.constant.IViewConst;
 import com.timelinekeeping.model.AccountAttendanceModel;
+import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.service.serviceImplement.TimekeepingServiceImpl;
 import com.timelinekeeping.util.TimeUtil;
 import com.timelinekeeping.util.ValidateUtil;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -29,25 +31,31 @@ public class AttendanceControllerWeb {
     private TimekeepingServiceImpl timekeepingService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String loadAttendanceView(Model model) {
+    public String loadAttendanceView(Model model, HttpSession session) {
         logger.info("[Controller- Load Attendance View] BEGIN");
-        Long accountId = ValidateUtil.validateNumber("4");
-        // get current date
-        Date currentDate = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(currentDate);
-        Integer month = calendar.get(Calendar.MONTH) + 1;
-        Integer year = calendar.get(Calendar.YEAR);
-        logger.info("[Controller- Load Timekeeping View] current month: " + month);
-        logger.info("[Controller- Load Timekeeping View] current year: " + year);
+        String url = IViewConst.INVALID_VIEW;
+        // get session
+        AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
+        if (accountModel != null) {
+            Long accountId = accountModel.getId();
+            // get current date
+            Date currentDate = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentDate);
+            Integer month = calendar.get(Calendar.MONTH) + 1;
+            Integer year = calendar.get(Calendar.YEAR);
+            logger.info("[Controller- Load Timekeeping View] current month: " + month);
+            logger.info("[Controller- Load Timekeeping View] current year: " + year);
 
-        AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month);
+            AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month);
 
-        model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
-        model.addAttribute("SelectedDate", currentDate);
+            model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
+            model.addAttribute("SelectedDate", currentDate);
+            url = IViewConst.ATTENDANCE_VIEW;
+        }
 
         logger.info("[Controller- Load Attendance View] END");
-        return IViewConst.ATTENDANCE_VIEW;
+        return url;
     }
 
     @RequestMapping(value = "/change_month", method = RequestMethod.POST)
