@@ -1,6 +1,6 @@
 package com.timelinekeeping.controller;
 
-import com.timelinekeeping.constant.ViewConst;
+import com.timelinekeeping.constant.IViewConst;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.BaseResponseG;
 import com.timelinekeeping.model.ReminderModel;
@@ -53,7 +53,7 @@ public class ReminderControllerWeb {
 
         logger.info("[Controller- Load Management Reminder View] END");
 
-        return ViewConst.MANAGEMENT_REMINDER_VIEW;
+        return IViewConst.MANAGEMENT_REMINDER_VIEW;
     }
 
     @RequestMapping(value = "/addReminder", method = RequestMethod.GET)
@@ -72,7 +72,7 @@ public class ReminderControllerWeb {
 
         logger.info("[Controller- Load Add Reminder View] END");
 
-        return ViewConst.ADD_REMINDER_VIEW;
+        return IViewConst.ADD_REMINDER_VIEW;
     }
 
     @RequestMapping(value = "/addReminderProcessing", produces = "text/plain;charset=UTF-8", method = RequestMethod.POST)
@@ -104,7 +104,7 @@ public class ReminderControllerWeb {
         // create reminder
         BaseResponseG<ReminderModel> response = reminderService.create(reminderModifyModel);
 
-        String url = ViewConst.ADD_REMINDER_VIEW;
+        String url = IViewConst.ADD_REMINDER_VIEW;
         boolean success = response.isSuccess();
         logger.info("[Controller- Add Reminder] [result] create reminder: " + success);
         if (success) {

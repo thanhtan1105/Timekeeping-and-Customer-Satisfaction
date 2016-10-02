@@ -85,7 +85,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="attendance,counter: ${AccountAttendanceModel.attendances}"
-                        th:if="${attendance.dayStatus.index != 3}">
+                        th:if="${attendance.dayStatus.index != 3 and attendance.dayStatus.index != 4}">
                         <td th:text="${counter.count} + '.'"></td>
                         <td th:text="${#dates.format(attendance.date, 'dd-MMM-yyyy')}"></td>
                         <td>

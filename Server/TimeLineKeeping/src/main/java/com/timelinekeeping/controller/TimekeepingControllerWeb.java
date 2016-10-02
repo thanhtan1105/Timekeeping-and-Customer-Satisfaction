@@ -1,6 +1,6 @@
 package com.timelinekeeping.controller;
 
-import com.timelinekeeping.constant.ViewConst;
+import com.timelinekeeping.constant.IViewConst;
 import com.timelinekeeping.model.AccountAttendanceModel;
 import com.timelinekeeping.model.AccountTKDetailsModel;
 import com.timelinekeeping.model.TimekeepingResponseModel;
@@ -54,7 +54,7 @@ public class TimekeepingControllerWeb {
         model.addAttribute("TimekeepingResponseModel", timekeepingResponseModel);
 
         logger.info("[Controller- Load Timekeeping View] END");
-        return ViewConst.TIME_KEEPING_VIEW;
+        return IViewConst.TIME_KEEPING_VIEW;
     }
 
     @RequestMapping(value = "/details", method = RequestMethod.POST)
@@ -82,7 +82,7 @@ public class TimekeepingControllerWeb {
 
         logger.info("[Controller- Load Timekeeping Details View] END");
 
-        return ViewConst.TIME_KEEPING_DETAILS_VIEW;
+        return IViewConst.TIME_KEEPING_DETAILS_VIEW;
     }
 
     @RequestMapping(value = "/change_month", method = RequestMethod.POST)
@@ -112,7 +112,7 @@ public class TimekeepingControllerWeb {
         model.addAttribute("SelectedDate", selectedDate);
 
         logger.info("[Controller- Change Month Timekeeping View] END");
-        return ViewConst.TIME_KEEPING_VIEW;
+        return IViewConst.TIME_KEEPING_VIEW;
     }
 
     @RequestMapping(value = "/details/change_month", method = RequestMethod.POST)
@@ -141,6 +141,6 @@ public class TimekeepingControllerWeb {
         model.addAttribute("SelectedDate", selectedDate);
 
         logger.info("[Controller- Change Month Timekeeping Details View] END");
-        return ViewConst.TIME_KEEPING_DETAILS_VIEW;
+        return IViewConst.TIME_KEEPING_DETAILS_VIEW;
     }
 }

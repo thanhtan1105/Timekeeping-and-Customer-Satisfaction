@@ -1,6 +1,6 @@
 package com.timelinekeeping.controller;
 
-import com.timelinekeeping.constant.ViewConst;
+import com.timelinekeeping.constant.IViewConst;
 import com.timelinekeeping.model.AccountAttendanceModel;
 import com.timelinekeeping.service.serviceImplement.TimekeepingServiceImpl;
 import com.timelinekeeping.util.TimeUtil;
@@ -47,7 +47,7 @@ public class AttendanceControllerWeb {
         model.addAttribute("SelectedDate", currentDate);
 
         logger.info("[Controller- Load Attendance View] END");
-        return ViewConst.ATTENDANCE_VIEW;
+        return IViewConst.ATTENDANCE_VIEW;
     }
 
     @RequestMapping(value = "/change_month", method = RequestMethod.POST)
@@ -76,6 +76,6 @@ public class AttendanceControllerWeb {
         model.addAttribute("SelectedDate", selectedDate);
 
         logger.info("[Controller- Change Month Attendance View] END");
-        return ViewConst.ATTENDANCE_VIEW;
+        return IViewConst.ATTENDANCE_VIEW;
     }
 }

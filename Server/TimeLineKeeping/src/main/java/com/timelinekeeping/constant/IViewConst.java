@@ -3,7 +3,7 @@ package com.timelinekeeping.constant;
 /**
  * Created by TrungNN on 9/22/2016.
  */
-public interface ViewConst {
+public interface IViewConst {
 
     /**
      * Views for manager

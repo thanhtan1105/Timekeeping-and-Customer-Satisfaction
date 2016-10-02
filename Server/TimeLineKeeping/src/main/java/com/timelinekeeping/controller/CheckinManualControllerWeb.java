@@ -1,6 +1,6 @@
 package com.timelinekeeping.controller;
 
-import com.timelinekeeping.constant.ViewConst;
+import com.timelinekeeping.constant.IViewConst;
 import com.timelinekeeping.model.AccountCheckInModel;
 import com.timelinekeeping.model.CheckinManualModel;
 import com.timelinekeeping.model.CheckinManualRequestModel;
@@ -51,7 +51,7 @@ public class CheckinManualControllerWeb {
         model.addAttribute("CurrentDate", currentDate);
         logger.info("[Controller- Load Check-in Manual View] END");
 
-        return ViewConst.CHECK_IN_MANUAL_VIEW;
+        return IViewConst.CHECK_IN_MANUAL_VIEW;
     }
 
     @RequestMapping(value = "/checkinManualProcessing", method = RequestMethod.POST)
