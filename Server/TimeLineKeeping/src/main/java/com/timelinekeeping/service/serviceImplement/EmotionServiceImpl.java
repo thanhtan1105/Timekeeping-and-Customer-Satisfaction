@@ -271,6 +271,10 @@ public class EmotionServiceImpl {
 
                 baseResponse.setData(responseData);
 
+=======
+//            // save to database
+//
+>>>>>>> origin/w3-hien-apiGetTimekeeping
 
             }
         } else {
