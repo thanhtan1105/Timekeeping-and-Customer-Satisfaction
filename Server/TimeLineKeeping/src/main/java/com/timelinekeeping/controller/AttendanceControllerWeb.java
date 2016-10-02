@@ -37,21 +37,26 @@ public class AttendanceControllerWeb {
         // get session
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
         if (accountModel != null) {
-            Long accountId = accountModel.getId();
-            // get current date
-            Date currentDate = new Date();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(currentDate);
-            Integer month = calendar.get(Calendar.MONTH) + 1;
-            Integer year = calendar.get(Calendar.YEAR);
-            logger.info("[Controller- Load Timekeeping View] current month: " + month);
-            logger.info("[Controller- Load Timekeeping View] current year: " + year);
+            url = IViewConst.LOGIN_VIEW;
+            String role = accountModel.getRole().getName().toUpperCase();
+            // check is employee
+            if ("EMPLOYEE".equals(role)) {
+                Long accountId = accountModel.getId();
+                // get current date
+                Date currentDate = new Date();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(currentDate);
+                Integer month = calendar.get(Calendar.MONTH) + 1;
+                Integer year = calendar.get(Calendar.YEAR);
+                logger.info("[Controller- Load Timekeeping View] current month: " + month);
+                logger.info("[Controller- Load Timekeeping View] current year: " + year);
 
-            AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month);
+                AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month);
 
-            model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
-            model.addAttribute("SelectedDate", currentDate);
-            url = IViewConst.ATTENDANCE_VIEW;
+                model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
+                model.addAttribute("SelectedDate", currentDate);
+                url = IViewConst.ATTENDANCE_VIEW;
+            }
         }
 
         logger.info("[Controller- Load Attendance View] END");
@@ -79,14 +84,19 @@ public class AttendanceControllerWeb {
         // get session
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
         if (accountModel != null) {
-            Long accountId = accountModel.getId();
+            url = IViewConst.LOGIN_VIEW;
+            String role = accountModel.getRole().getName().toUpperCase();
+            // check is employee
+            if ("EMPLOYEE".equals(role)) {
+                Long accountId = accountModel.getId();
 
-            // get attendance
-            AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month);
+                // get attendance
+                AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month);
 
-            model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
-            model.addAttribute("SelectedDate", selectedDate);
-            url = IViewConst.ATTENDANCE_VIEW;
+                model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
+                model.addAttribute("SelectedDate", selectedDate);
+                url = IViewConst.ATTENDANCE_VIEW;
+            }
         }
 
         logger.info("[Controller- Change Month Attendance View] END");
