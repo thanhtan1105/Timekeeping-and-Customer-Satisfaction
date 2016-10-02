@@ -1,7 +1,5 @@
 package com.timelinekeeping.model;
 
-import com.timelinekeeping.util.SessionGenerator;
-
 import java.util.List;
 
 /**

@@ -1,28 +1,20 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <title>Spring Security Example </title>
-    <link rel="stylesheet" th:href="@{/css/login.css}" type="text/css"/>
-    <link rel="stylesheet" th:href="@{/js/b.css}" type="text/css"/>
-    <script type="text/javascript" th:src="@{/js/login.js}" />
-    <script type="text/javascript" th:src="@{/abc.js}" />
-    <script th:src="@{/abc.js}" type="text/javascript">
-    </script>
-
+    <title>Login Page</title>
 </head>
-<body onload="load()">
-<div th:if="${param} and ${param.error}">
+<body>
+<div th:if="${param.error}">
     Invalid username and password.
 </div>
-<div th:if="${param} and ${param.logout}">
+<div th:if="${param.logout}">
     You have been logged out.
 </div>
-<form th:action="@{/login}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
+<form th:action="@{/login}" method="POST">
+    <div><label> Username: <input type="text" name="username"/> </label></div>
     <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Sign In" onclick="breakk('aaaa')"/></div>
-    <a class="a" href="http://google.com" onclick="breakk('aa')"> google</a>
+    <div><input type="submit" value="Sign In"/></div>
 </form>
-
 </body>
 </html>

@@ -1,5 +1,7 @@
 package com.timelinekeeping.model;
 
+import com.timelinekeeping.entity.RoleEntity;
+
 import java.util.List;
 
 /**
@@ -10,7 +12,19 @@ public class RoleAuthen {
     private Long id;
     private String name;
     private List<String> allowPath;
-    private String returnPage;
+    private String authenPage;
+
+    public RoleAuthen() {
+    }
+
+    public RoleAuthen(RoleEntity entity) {
+        if (entity != null) {
+            this.id = entity.getId();
+            this.name = entity.getName();
+            this.allowPath = allowPath;
+            this.authenPage = entity.getAuthenPage();
+        }
+    }
 
     public Long getId() {
         return id;
@@ -36,11 +50,11 @@ public class RoleAuthen {
         this.allowPath = allowPath;
     }
 
-    public String getReturnPage() {
-        return returnPage;
+    public String getAuthenPage() {
+        return authenPage;
     }
 
-    public void setReturnPage(String returnPage) {
-        this.returnPage = returnPage;
+    public void setAuthenPage(String authenPage) {
+        this.authenPage = authenPage;
     }
 }

@@ -62,6 +62,11 @@ public class AccountEntity implements Serializable {
     @Column(name = "time_create", nullable = false)
     private Timestamp timeCreate = new Timestamp(new Date().getTime());
 
+    @Basic
+    @Column(name = "last_login")
+    private Timestamp lastLogin;
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", nullable = false)
     private RoleEntity role;
@@ -203,6 +208,21 @@ public class AccountEntity implements Serializable {
         this.manager = manager;
     }
 
+    public void setTimeDeactive(Timestamp timeDeactive) {
+        this.timeDeactive = timeDeactive;
+    }
+
+    public void setTimeCreate(Timestamp timeCreate) {
+        this.timeCreate = timeCreate;
+    }
+
+    public Timestamp getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Timestamp lastLogin) {
+        this.lastLogin = lastLogin;
+    }
 
     @Override
     public String toString() {

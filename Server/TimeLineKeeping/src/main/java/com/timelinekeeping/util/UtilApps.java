@@ -7,6 +7,9 @@ import org.apache.commons.io.IOUtils;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -49,6 +52,26 @@ public class UtilApps {
         }
         return password;
     }
+
+    public static String generateToken() {
+        int length = 16;
+        String password = "";
+        Random r = new Random();
+        for (int i = 0; i < length; i++) {
+            int p = 97 + r.nextInt(122 - 97);
+            password += r.nextInt(100) +"" + ((char) p);
+        }
+        return password;
+    }
+
+    public static List<String> splitText(String string) {
+        if (string == null || string.length() ==0){
+            return new ArrayList<>();
+        }
+        return Arrays.asList(string.split(";"));
+    }
+
+
 
     public static void main(String[] args) {
         System.out.println(generatePassword());
