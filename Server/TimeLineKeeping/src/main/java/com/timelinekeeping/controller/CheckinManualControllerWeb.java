@@ -36,25 +36,29 @@ public class CheckinManualControllerWeb {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String loadCheckinManualView(Model model, HttpSession session) {
         logger.info("[Controller- Load Check-in Manual View] BEGIN");
-        String url = IViewConst.INVALID_VIEW;
+        String url = IViewConst.LOGIN_VIEW;
         // get session
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
         if (accountModel != null) {
-            Long accountId = accountModel.getId();
-            // get employees list in the department
-            List<AccountCheckInModel> accountCheckInModels
-                    = timekeepingService.getEmployeeUnderManager(accountId);
-            if (accountCheckInModels != null) {
-                int sizeOfListAccounts = accountCheckInModels.size();
-                model.addAttribute("SizeOfListAccounts", sizeOfListAccounts);
+            String role = accountModel.getRole().getName().toUpperCase();
+            // check is manager
+            if ("MANAGER".equals(role)) {
+                Long accountId = accountModel.getId();
+                // get employees list in the department
+                List<AccountCheckInModel> accountCheckInModels
+                        = timekeepingService.getEmployeeUnderManager(accountId);
+                if (accountCheckInModels != null) {
+                    int sizeOfListAccounts = accountCheckInModels.size();
+                    model.addAttribute("SizeOfListAccounts", sizeOfListAccounts);
+                }
+
+                // get current date
+                Date currentDate = new Date();
+
+                model.addAttribute("AccountCheckInModels", accountCheckInModels);
+                model.addAttribute("CurrentDate", currentDate);
+                url = IViewConst.CHECK_IN_MANUAL_VIEW;
             }
-
-            // get current date
-            Date currentDate = new Date();
-
-            model.addAttribute("AccountCheckInModels", accountCheckInModels);
-            model.addAttribute("CurrentDate", currentDate);
-            url = IViewConst.CHECK_IN_MANUAL_VIEW;
         }
 
         logger.info("[Controller- Load Check-in Manual View] END");

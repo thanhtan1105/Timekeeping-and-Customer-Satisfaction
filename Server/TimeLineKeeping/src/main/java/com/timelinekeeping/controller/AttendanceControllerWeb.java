@@ -33,11 +33,10 @@ public class AttendanceControllerWeb {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String loadAttendanceView(Model model, HttpSession session) {
         logger.info("[Controller- Load Attendance View] BEGIN");
-        String url = IViewConst.INVALID_VIEW;
+        String url = IViewConst.LOGIN_VIEW;
         // get session
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
         if (accountModel != null) {
-            url = IViewConst.LOGIN_VIEW;
             String role = accountModel.getRole().getName().toUpperCase();
             // check is employee
             if ("EMPLOYEE".equals(role)) {
@@ -80,11 +79,10 @@ public class AttendanceControllerWeb {
         logger.info("[Controller- Change Month Attendance View] selected month: " + month);
         logger.info("[Controller- Change Month Attendance View] selected year: " + year);
 
-        String url = IViewConst.INVALID_VIEW;
+        String url = IViewConst.LOGIN_VIEW;
         // get session
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
         if (accountModel != null) {
-            url = IViewConst.LOGIN_VIEW;
             String role = accountModel.getRole().getName().toUpperCase();
             // check is employee
             if ("EMPLOYEE".equals(role)) {

@@ -36,11 +36,10 @@ public class TimekeepingControllerWeb {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String loadTimekeepingView(Model model, HttpSession session) {
         logger.info("[Controller- Load Timekeeping View] BEGIN");
-        String url = IViewConst.INVALID_VIEW;
+        String url = IViewConst.LOGIN_VIEW;
         // get session
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
         if (accountModel != null) {
-            url = IViewConst.LOGIN_VIEW;
             String role = accountModel.getRole().getName().toUpperCase();
             // check is manager
             if ("MANAGER".equals(role)) {
@@ -115,11 +114,10 @@ public class TimekeepingControllerWeb {
         logger.info("[Controller- Change Month Timekeeping View] selected month: " + month);
         logger.info("[Controller- Change Month Timekeeping View] selected year: " + year);
 
-        String url = IViewConst.INVALID_VIEW;
+        String url = IViewConst.LOGIN_VIEW;
         // get session
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
         if (accountModel != null) {
-            url = IViewConst.LOGIN_VIEW;
             String role = accountModel.getRole().getName().toUpperCase();
             // check is manager
             if ("MANAGER".equals(role)) {
