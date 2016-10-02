@@ -174,6 +174,8 @@ public class TimekeepingServiceImpl {
                 attendance.setDayStatus(EDayStatus.DAY_BEFORE_CREATE);
             } else if (accountEntity.getTimeDeactive() != null && calendar.getTime().compareTo(accountEntity.getTimeDeactive()) > 0) {
                 attendance.setDayStatus(EDayStatus.DAY_AFTER_DEACTIVE);
+            } else if (calendar.getTime().compareTo(new Date()) > 0) {
+                attendance.setDayStatus(EDayStatus.DAY_FUTURE);
             } else {
                 EDayOfWeek dayOfWeek = EDayOfWeek.fromIndex(calendar.get(Calendar.DAY_OF_WEEK));
                 if (dayOfWeek == EDayOfWeek.SUNDAY || dayOfWeek == EDayOfWeek.SATURDAY) {
