@@ -10,19 +10,19 @@
         <ul class="sidebar-menu">
             <li class="header" style="color: white;">MAIN MENU</li>
             <!-- Optionally, you can add icons to the links -->
-            <li>
+            <li th:attr="class=${SideBar == 'Checkin'}? 'active' : ''">
                 <a th:href="@{/manager/check_in/}">
                     <i class="fa fa-laptop"></i>
                     <span>Check-in Manual</span>
                 </a>
             </li>
-            <li>
+            <li th:attr="class=${SideBar == 'Timekeeping'}? 'active' : ''">
                 <a th:href="@{/manager/timekeeping/}">
                     <i class="fa fa-laptop"></i>
                     <span>Timekeeping</span>
                 </a>
             </li>
-            <li>
+            <li th:attr="class=${SideBar == 'ManagementReminder'}? 'active' : ''">
                 <a th:href="@{/manager/reminders/}">
                     <i class="fa fa-laptop"></i>
                     <span>Management Reminders</span>

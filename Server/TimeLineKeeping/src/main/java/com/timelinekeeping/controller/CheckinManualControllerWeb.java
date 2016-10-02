@@ -1,5 +1,6 @@
 package com.timelinekeeping.controller;
 
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.IViewConst;
 import com.timelinekeeping.model.AccountCheckInModel;
 import com.timelinekeeping.model.AccountModel;
@@ -54,9 +55,14 @@ public class CheckinManualControllerWeb {
 
                 // get current date
                 Date currentDate = new Date();
+                // set side-bar
+                String sideBar = IContanst.SIDE_BAR_MANAGER_CHECK_IN;
 
                 model.addAttribute("AccountCheckInModels", accountCheckInModels);
                 model.addAttribute("CurrentDate", currentDate);
+                // side-bar
+                model.addAttribute("SideBar", sideBar);
+
                 url = IViewConst.CHECK_IN_MANUAL_VIEW;
             }
         }

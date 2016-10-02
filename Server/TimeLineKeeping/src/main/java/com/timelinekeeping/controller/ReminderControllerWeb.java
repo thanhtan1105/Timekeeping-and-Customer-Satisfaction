@@ -1,5 +1,6 @@
 package com.timelinekeeping.controller;
 
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.IViewConst;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.BaseResponseG;
@@ -59,7 +60,13 @@ public class ReminderControllerWeb {
                 List<ReminderModel> reminderModels = pageReminder.getContent();
                 logger.info("[Controller- Load Management Reminder View] [Size] list of reminders: " + reminderModels.size());
 
+                // set side-bar
+                String sideBar = IContanst.SIDE_BAR_MANAGER_MANAGEMENT_REMINDER;
+
                 model.addAttribute("ListReminders", reminderModels);
+                // side-bar
+                model.addAttribute("SideBar", sideBar);
+
                 url = IViewConst.MANAGEMENT_REMINDER_VIEW;
             }
         }
@@ -86,7 +93,13 @@ public class ReminderControllerWeb {
                 List<AccountModel> accountModels = accountService.getEmployeesOfDepart(managerId);
                 logger.info("[Controller- Load Add Reminder View] size of list employees: " + accountModels.size());
 
+                // set side-bar
+                String sideBar = IContanst.SIDE_BAR_MANAGER_MANAGEMENT_REMINDER;
+
                 model.addAttribute("ListAccounts", accountModels);
+                // side-bar
+                model.addAttribute("SideBar", sideBar);
+
                 url = IViewConst.ADD_REMINDER_VIEW;
             }
         }

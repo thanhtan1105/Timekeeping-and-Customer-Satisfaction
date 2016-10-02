@@ -1,5 +1,6 @@
 package com.timelinekeeping.controller;
 
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.IViewConst;
 import com.timelinekeeping.model.AccountAttendanceModel;
 import com.timelinekeeping.model.AccountModel;
@@ -60,7 +61,13 @@ public class TimekeepingControllerWeb {
                     model.addAttribute("SelectedDate", selectedDate);
                 }
 
+                // set side-bar
+                String sideBar = IContanst.SIDE_BAR_MANAGER_TIMEKEEPING;
+
                 model.addAttribute("TimekeepingResponseModel", timekeepingResponseModel);
+                // side-bar
+                model.addAttribute("SideBar", sideBar);
+
                 url = IViewConst.TIME_KEEPING_VIEW;
             }
         }
@@ -91,6 +98,11 @@ public class TimekeepingControllerWeb {
             model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
             model.addAttribute("SelectedDate", selectedDate);
         }
+        // set side-bar
+        String sideBar = IContanst.SIDE_BAR_MANAGER_TIMEKEEPING;
+
+        // side-bar
+        model.addAttribute("SideBar", sideBar);
 
         logger.info("[Controller- Load Timekeeping Details View] END");
 
@@ -126,14 +138,21 @@ public class TimekeepingControllerWeb {
                 // get timekeeping
                 TimekeepingResponseModel timekeepingResponseModel
                         = timekeepingService.getTimeKeeping(managerId, year, month);
+                // set side-bar
+                String sideBar = IContanst.SIDE_BAR_MANAGER_TIMEKEEPING;
 
                 model.addAttribute("TimekeepingResponseModel", timekeepingResponseModel);
                 model.addAttribute("SelectedDate", selectedDate);
+
+                // side-bar
+                model.addAttribute("SideBar", sideBar);
+
+                url = IViewConst.TIME_KEEPING_VIEW;
             }
         }
 
         logger.info("[Controller- Change Month Timekeeping View] END");
-        return IViewConst.TIME_KEEPING_VIEW;
+        return url;
     }
 
     @RequestMapping(value = "/details/change_month", method = RequestMethod.POST)
@@ -157,9 +176,14 @@ public class TimekeepingControllerWeb {
 
         // get attendance
         AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month);
+        // set side-bar
+        String sideBar = IContanst.SIDE_BAR_MANAGER_TIMEKEEPING;
 
         model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
         model.addAttribute("SelectedDate", selectedDate);
+
+        // side-bar
+        model.addAttribute("SideBar", sideBar);
 
         logger.info("[Controller- Change Month Timekeeping Details View] END");
         return IViewConst.TIME_KEEPING_DETAILS_VIEW;
