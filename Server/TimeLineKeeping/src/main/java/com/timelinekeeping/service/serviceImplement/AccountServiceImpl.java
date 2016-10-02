@@ -71,11 +71,15 @@ public class AccountServiceImpl {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             AccountEntity accountEntity = accountRepo.findByUserNameAndPassword(username, password);
-
+            if (accountEntity == null) {
+                return null;
+            } else {
+                logger.info("[Service- Login] account: " + JsonUtil.toJson(accountEntity));
+                return new AccountModel(accountEntity);
+            }
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
-        return null;
     }
 
     public BaseResponseG<AccountModel> create(AccountModifyModel account) throws IOException, URISyntaxException {
