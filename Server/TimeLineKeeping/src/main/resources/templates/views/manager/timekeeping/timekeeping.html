@@ -23,37 +23,56 @@
     <section class="content">
         <!-- Your Page Content Here -->
         <!-- Info: manager, department, date -->
-        <div class="text-center" style="margin-bottom: 5px">
-            <font class="text-success" style="font-size: 18px;"><b>Department: </b></font>
-            <font class="text-success" style="font-size: 18px;"
-                  th:text="${TimekeepingResponseModel.departmentName}"></font><br/>
-            <font class="text-success" style="font-size: 18px;"><b>Manager: </b></font>
-            <font class="text-success" style="font-size: 18px;"
-                  th:text="${TimekeepingResponseModel.managerName}"></font><br/>
-            <div class="row">
-                <div class="col-sm-4"></div>
-                <div class="col-sm-4">
-                    <div class="input-group date" style="width: 65%; margin-left: 17%; margin-top: 4px;">
+        <div style="margin-bottom: 10px">
+            <!-- department -->
+            <div class="row text-success" style="font-size: 18px;">
+                <div class="col-sm-5 text-right">
+                    <font>Department:</font></div>
+                <div class="col-sm-6 text-left">
+                    <font th:text="${TimekeepingResponseModel.departmentName}"></font></div>
+            </div>
+            <!-- /.end department -->
+            <!-- manager -->
+            <div class="row text-success" style="font-size: 18px;">
+                <div class="col-sm-5 text-right">
+                    <font>Manager:</font></div>
+                <div class="col-sm-6 text-left">
+                    <font th:text="${TimekeepingResponseModel.managerName}"></font></div>
+            </div>
+            <!-- /.end manager -->
+            <!-- month -->
+            <div class="row text-success" style="font-size: 18px;">
+                <div class="col-sm-5 text-right">
+                    <font>Month:</font></div>
+                <div class="col-sm-6 text-left">
+                    <div class="input-group date" style="width: 50%">
+                        <input type="text" th:value="${#dates.format(SelectedDate, 'MMMM-yyyy')}"
+                               class="form-control pull-left selected-date" id="datepicker"/>
+
                         <div class="input-group-addon">
                             <i class="fa fa-calendar text-success"></i>
                         </div>
-                        <input type="text" th:value="${#dates.format(TimekeepingResponseModel.nowDate, 'MMMM-yyyy')}"
-                               class="form-control pull-right text-center" id="datepicker"/>
                     </div>
+                    <!-- form change month -->
+                    <form th:action="@{/manager/timekeeping/change_month}" method="post"
+                            th:id="'form-submit-change-month'">
+                        <input type="hidden" th:name="selectedMonth" />
+                    </form>
+                    <!-- /.form change month -->
                 </div>
-                <div class="col-sm-4"></div>
             </div>
+            <!-- /.end month -->
         </div>
         <div class=" box box-success">
             <div class="box-header">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h3 class="box-title text-success"><i class="glyphicon glyphicon-list-alt"></i> Employees
+                        <h3 class="box-title text-success"><i class="fa fa-users"></i> Employees
                             List</h3>
                         <hr style="border-color: green; margin-top: 4px; margin-bottom: 1px; margin-right: 75%; border-width: 2px;">
                     </div>
                     <div class="col-sm-6 text-right">
-                        <div class="input-group" style="margin-left: 65%">
+                        <div class="input-group" style="margin-left: 60%">
                                 <span class="input-group-btn">
                                     <button class="btn btn-success btn-flat btn-sm" type="button">
                                         <i class="glyphicon glyphicon-search"></i>
@@ -87,14 +106,20 @@
                     <tbody>
                     <tr th:each="employee,counter: ${TimekeepingResponseModel.listEmployee}">
                         <td th:text="${counter.count} + '.'"></td>
-                        <td th:text="${employee.fullname}"></td>
+                        <td th:text="${employee.fullname}"
+                            th:class="'text-primary'"></td>
                         <td th:text="(${employee.dayCheckin != null} ? ${employee.dayCheckin}: 0 ) + '/' + ${employee.dayWork}"></td>
                         <td></td>
                         <td>
-                            <button class="btn bg-aqua-active btn-flat btn-sm" type="button" style="width: 100%"
-                                    title="Edit Class">
-                                <i class="fa fa-hand-pointer-o"></i> View Details
-                            </button>
+                            <form th:action="@{/manager/timekeeping/details}" method="post"
+                                  th:id="'form-submit-view-details-' + ${employee.id}">
+                                <input type="hidden" th:name="accountTKDetailsModel"/>
+                                <button type="button" class="btn bg-aqua-active btn-flat btn-sm view-details-tk"
+                                        th:attr="data-id=${employee.id}"
+                                        style="width: 100%">
+                                    <i class="fa fa-hand-pointer-o"></i> View Details
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     </tbody>
@@ -107,7 +132,7 @@
     <!-- /.content -->
 </div>
 <div layout:fragment="js">
-    <!--<script th:src="@{/js/manager/checkin_manual/checkin_manual.js}"></script>-->
+    <script th:src="@{/js/manager/timekeeping/timekeeping.js}"></script>
 </div>
 </body>
 </html>
