@@ -48,7 +48,7 @@ public class EmotionServiceImpl {
     @Autowired
     private MessageRepo messageRepo;
 
-    public BaseResponse save(InputStream inputStreamImg, Long employeeId, boolean isFirstTime) throws IOException, URISyntaxException {
+    public EmotionCustomerEntity save(InputStream inputStreamImg, Long employeeId, boolean isFirstTime) throws IOException, URISyntaxException {
 
         logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
         BaseResponse responseResult = new BaseResponse();
@@ -270,12 +270,6 @@ public class EmotionServiceImpl {
                 }
 
                 baseResponse.setData(responseData);
-
-=======
-//            // save to database
-//
->>>>>>> origin/w3-hien-apiGetTimekeeping
-
             }
         } else {
             baseResponse.setSuccess(false);
