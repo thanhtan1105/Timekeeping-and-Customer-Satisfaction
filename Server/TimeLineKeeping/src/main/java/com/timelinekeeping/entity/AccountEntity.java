@@ -8,6 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -51,6 +53,15 @@ public class AccountEntity implements Serializable {
     @Column(name = "token")
     private String token;
 
+
+    @Basic
+    @Column(name = "time_deactive")
+    private Timestamp timeDeactive;
+
+    @Basic
+    @Column(name = "time_create", nullable = false)
+    private Timestamp timeCreate = new Timestamp(new Date().getTime());
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", nullable = false)
     private RoleEntity role;
@@ -77,6 +88,7 @@ public class AccountEntity implements Serializable {
             this.active = model.getActive() != null ? EStatus.fromIndex(model.getActive()) : this.active;
         }
     }
+
     public void update(AccountModifyModel model){
         if (model != null) {
             this.username = StringUtils.isNotEmpty(model.getUsername()) ? model.getUsername() : this.username;
@@ -142,6 +154,22 @@ public class AccountEntity implements Serializable {
         this.token = token;
     }
 
+
+    public Timestamp getTimeDeactive() {
+        return timeDeactive;
+    }
+
+    public void setTimeDeactive(Long timeDeactive) {
+        this.timeDeactive = new Timestamp(timeDeactive);
+    }
+
+    public Timestamp getTimeCreate() {
+        return timeCreate;
+    }
+
+    public void setTimeCreate(Long timeCreate) {
+        this.timeCreate = new Timestamp(timeCreate);
+    }
 
     public RoleEntity getRole() {
         return role;

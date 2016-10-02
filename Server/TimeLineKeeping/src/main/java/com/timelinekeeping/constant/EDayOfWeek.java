@@ -2,30 +2,38 @@ package com.timelinekeeping.constant;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-/**
- * Created by HienTQSE60896 on 9/18/2016.
- */
-public enum  ETimeKeeping {
+import java.time.DayOfWeek;
 
-    PRESENT(0, "Present"),
-    ABSENT(1, "Absent");
+/**
+ * Created by lethanhtan on 9/15/16.
+ */
+public enum EDayOfWeek {
+
+    SUNDAY(1, "SUNDAY"),
+    MONDAY(2, "MONDAY"),
+    TUESDAY(3, "TUESDAY"),
+    WEDNESDAY(4, "WEDNESDAY"),
+    THURSDAY(5, "THURSDAY"),
+    FRIDAY(6, "FRIDAY"),
+    SATURDAY(7, "SATURDAY");
 
     private int index;
     private String name;
 
-    ETimeKeeping(int index, String name) {
+    EDayOfWeek(int index, String name) {
         this.index = index;
         this.name = name;
     }
 
-    public static ETimeKeeping fromIndex(int index){
-        for (ETimeKeeping ex : values()){
+    public static EDayOfWeek fromIndex(int index){
+        for (EDayOfWeek ex : values()){
             if (ex.getIndex() == index){
                 return ex;
             }
         }
         return null;
     }
+
 
     @JsonValue
     public int getIndex() {

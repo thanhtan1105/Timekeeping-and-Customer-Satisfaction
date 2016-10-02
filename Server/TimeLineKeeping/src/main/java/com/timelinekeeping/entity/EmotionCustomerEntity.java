@@ -57,9 +57,13 @@ public class EmotionCustomerEntity implements Serializable {
     @Column(name = "smile")
     private Double smile;
 
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "acount_id", nullable = true)
+//    private AccountEntity createBy;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "acount_id", nullable = true)
-    private AccountEntity createBy;
+    @JoinColumn(name = "customer_id", nullable = true)
+    private AccountEntity customerService;
 
     public EmotionCustomerEntity() {
     }
@@ -92,6 +96,20 @@ public class EmotionCustomerEntity implements Serializable {
         this.age = age;
         this.gender = gender;
         this.smile = smile;
+    }
+
+    public EmotionCustomerEntity(Timestamp createTime, Double anger, Double contempt, Double disgust, Double fear, Double happiness, Double neutral, Double sadness, Double surprise, Double age, Gender gender) {
+        this.createTime = createTime;
+        this.anger = anger;
+        this.contempt = contempt;
+        this.disgust = disgust;
+        this.fear = fear;
+        this.happiness = happiness;
+        this.neutral = neutral;
+        this.sadness = sadness;
+        this.surprise = surprise;
+        this.age = age;
+        this.gender = gender;
     }
 
     public Long getId() {
@@ -198,11 +216,20 @@ public class EmotionCustomerEntity implements Serializable {
         this.smile = smile;
     }
 
-    public AccountEntity getCreateBy() {
-        return createBy;
+//    public AccountEntity getCreateBy() {
+//        return createBy;
+//    }
+//
+//    public void setCreateBy(AccountEntity account) {
+//        this.createBy = account;
+//    }
+
+
+    public AccountEntity getCustomerService() {
+        return customerService;
     }
 
-    public void setCreateBy(AccountEntity account) {
-        this.createBy = account;
+    public void setCustomerService(AccountEntity customerService) {
+        this.customerService = customerService;
     }
 }

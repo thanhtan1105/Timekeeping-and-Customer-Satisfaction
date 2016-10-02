@@ -9,6 +9,7 @@ import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.entity.MessageEntity;
 import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.model.BaseResponseG;
 import com.timelinekeeping.model.EmotionAnalysisModel;
 import com.timelinekeeping.modelMCS.EmotionRecognizeResponse;
 import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
@@ -28,10 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by lethanhtan on 9/15/16.
@@ -50,10 +48,10 @@ public class EmotionServiceImpl {
     @Autowired
     private MessageRepo messageRepo;
 
-    public BaseResponse save(InputStream inputStreamImg, Long employeeId, boolean isFirstTime) throws IOException, URISyntaxException {
+    public EmotionCustomerEntity save(InputStream inputStreamImg, Long employeeId, boolean isFirstTime) throws IOException, URISyntaxException {
 
         logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-        BaseResponse baseResponse = new BaseResponse();
+        BaseResponse responseResult = new BaseResponse();
         byte[] bytes = IOUtils.toByteArray(inputStreamImg);
 
         // emotion
@@ -95,11 +93,11 @@ public class EmotionServiceImpl {
 
         // save to database
         EmotionCustomerEntity emotionCustomerEntity = new EmotionCustomerEntity(timestamp, anger, contempt, disgust, fear, happiness, neutral, sadness, surprise, age, gender, smile);
-        emotionCustomerEntity.setCreateBy(accountRepo.findOne(employeeId));
-        baseResponse.setData(emotionRepo.saveAndFlush(emotionCustomerEntity));
+//        emotionCustomerEntity.setCreateBy(accountRepo.findOne(employeeId));
+        EmotionCustomerEntity emotionRespone = emotionRepo.saveAndFlush(emotionCustomerEntity);
 
         logger.info(IContanst.END_METHOD_SERVICE);
-        return baseResponse;
+        return emotionRespone;
     }
 
     public BaseResponse analyseEmotion(Long id) {
@@ -229,6 +227,8 @@ public class EmotionServiceImpl {
 
                         // parser emotion response
                         List<EmotionRecognizeResponse> emotionRecognizeList = (List<EmotionRecognizeResponse>) emotionResponse.getData();
+
+                        //TODO check many face
                         EmotionRecognizeResponse emotionRecognize = emotionRecognizeList.get(0);
 
                         // get emotion_scores
@@ -247,6 +247,7 @@ public class EmotionServiceImpl {
                         EmotionAnalysisModel emotionAnalysisModel = analyseEmotion(emotionRecognizeScores);
                         emotionAnalysisModel.setAge(age);
                         emotionAnalysisModel.setGender(gender);
+                        emotionAnalysisModel.setRectangleImage(faceDetectResponse.getFaceRectangle());
 
                         emotionAnalysisModels.add(emotionAnalysisModel);
 
@@ -269,15 +270,6 @@ public class EmotionServiceImpl {
                 }
 
                 baseResponse.setData(responseData);
-
-//            // create time
-//            java.util.Date date = new java.util.Date();
-//            Timestamp timestamp = new Timestamp(date.getTime());
-
-//            // save to database
-//            emotion.setCreateTime(timestamp);
-//            emotion.setCreateBy(accountRepo.findOne(employeeId));
-//            emotionRepo.saveAndFlush(emotion);
             }
         } else {
             baseResponse.setSuccess(false);

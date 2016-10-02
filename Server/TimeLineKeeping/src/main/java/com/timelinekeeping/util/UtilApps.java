@@ -19,10 +19,7 @@ public class UtilApps {
         return ValidateUtil.isEmpty(text) ? null : text.trim();
     }
 
-    //TODO condition check Account is Late and ontime
-//    public static ETimeKeeping checkStatusTimeKeeping() {
-//        return ETimeKeeping.ON_TIME;
-//    }
+
 
     public static InputStream[] muitleStream(InputStream stream, int size) {
         InputStream[] streamResult = new InputStream[size];

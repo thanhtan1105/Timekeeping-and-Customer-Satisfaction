@@ -35,16 +35,15 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
     @Query("SELECT a FROM AccountEntity a INNER JOIN a.department d WHERE d.id = :department_id AND a.active <> 0")
     List<AccountEntity> findByDepartment(@Param("department_id") Long departmentId);
 
-    @Query("SELECT a FROM AccountEntity a INNER JOIN a.department d  INNER JOIN a.role r " +
-            "WHERE d.id = :department_id AND a.active <> 0")
-    Page<AccountEntity> findByDepartmentAndRolePaging(@Param("department_id") Long departmentId, Pageable pageable);
 
     @Query("SELECT a FROM AccountEntity a INNER JOIN a.department d " +
-            "WHERE d.id = :department_id AND a.active <> 0 AND a.id <> :accountId")
-    List<AccountEntity> findByDepartmentAndAccount(@Param("department_id") Long departmentId,
-                                                   @Param("accountId") Long accountId);
+            "WHERE d.manager.id = :managerId AND a.active <> 0 AND a.id <> :managerId")
+    List<AccountEntity> findByManager(@Param("managerId") Long managerId);
 
     @Query("SELECT a FROM AccountEntity a WHERE a.username = ?1 and a.active <>0 and a.password = ?2")
     AccountEntity findByUserNameAndPassword(@Param("username") String username,
                                             @Param("password") String password);
+    @Query("SELECT a FROM AccountEntity a INNER JOIN a.department d " +
+            "WHERE d.manager.id = :managerId AND a.id <> :managerId")
+    List<AccountEntity> findByManagerNoActive(@Param("managerId") Long managerId);
 }

@@ -6,15 +6,12 @@ import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.NotificationCheckInModel;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.NotificationRepo;
+import com.timelinekeeping.repository.TimekeepingRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.management.remote.NotificationResult;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,15 +22,18 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/test")
 public class TestController {
     @Autowired
-    private AccountRepo repo;
+    private AccountRepo accountRepo;
 
     @Autowired
     private NotificationRepo notificationRepo;
 
+    @Autowired
+    private TimekeepingRepo timekeepingRepo;
+
     @RequestMapping("/list_account")
     public List<AccountModel> list(@RequestParam(value = "id", required = false) Long idDepartment) {
 
-        List<AccountEntity> listEntity = repo.findByDepartment(idDepartment);
+        List<AccountEntity> listEntity = accountRepo.findByDepartment(idDepartment);
         List<AccountModel> list = listEntity.stream().map(AccountModel::new).collect(Collectors.toList());
         return list;
     }
@@ -43,5 +43,20 @@ public class TestController {
         List<NotificationEntity> lisNotify =  notificationRepo.findByAccountReceiveByDate(accountId);
         List<NotificationCheckInModel> listCheckIn = lisNotify.stream().map(NotificationCheckInModel::new).collect(Collectors.toList());
         return listCheckIn;
+    }
+
+    @RequestMapping("/get_employee_under_manager")
+    public List<AccountModel> getEmployee(@RequestParam(value = "manager_id", required = false) Long managerId) {
+        List<AccountEntity> lisNotify =  accountRepo.findByManager(managerId);
+        List<AccountModel> listAccount = lisNotify.stream().map(AccountModel::new).collect(Collectors.toList());
+        return listAccount;
+    }
+
+    @RequestMapping("/count_employee")
+    public  List<List<Long>> countEmployee(@RequestParam(value = "year", required = false) Integer year,
+                                                      @RequestParam(value = "month", required = false) Integer month) {
+
+//        List<List<Long>> list = timekeepingRepo.countEmployeeTime(year, month);
+        return null;
     }
 }
