@@ -96,7 +96,7 @@ public class TimekeepingServiceImpl {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info(String.format("getTimeKeeping [managerId = '%s'], [year = '%s'], [month = '%s']", managerId, year, month));
 
-            List<AccountEntity> listAccount = accountRepo.findByManager(managerId);
+            List<AccountEntity> listAccount = accountRepo.findByManagerNoActive(managerId);
 
             //filter account not in month
             //TODO filter account desiable in moth
@@ -174,6 +174,8 @@ public class TimekeepingServiceImpl {
                 attendance.setDayStatus(EDayStatus.DAY_BEFORE_CREATE);
             } else if (accountEntity.getTimeDeactive() != null && calendar.getTime().compareTo(accountEntity.getTimeDeactive()) > 0) {
                 attendance.setDayStatus(EDayStatus.DAY_AFTER_DEACTIVE);
+            } else if (calendar.getTime().compareTo(new Date()) > 0) {
+                attendance.setDayStatus(EDayStatus.DAY_FUTURE);
             } else {
                 EDayOfWeek dayOfWeek = EDayOfWeek.fromIndex(calendar.get(Calendar.DAY_OF_WEEK));
                 if (dayOfWeek == EDayOfWeek.SUNDAY || dayOfWeek == EDayOfWeek.SATURDAY) {

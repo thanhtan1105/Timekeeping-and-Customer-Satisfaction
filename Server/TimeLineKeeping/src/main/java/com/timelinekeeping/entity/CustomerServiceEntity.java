@@ -1,11 +1,7 @@
 package com.timelinekeeping.entity;
 
-import com.timelinekeeping.constant.ETransaction;
-import com.timelinekeeping.util.SessionGenerator;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Set;
 
 /**
@@ -22,7 +18,7 @@ public class CustomerServiceEntity {
 
     @Basic
     @Column(name = "create_time", nullable = false)
-    private Timestamp createTime = new Timestamp(new Date().getTime());
+    private Timestamp createTime;
 
     @Basic
     @Column(name = "customer_code", nullable = false)
@@ -30,28 +26,14 @@ public class CustomerServiceEntity {
 
     @Basic
     @Column(name = "point")
-    private Double point = 0d;
-
-    @Basic
-    @Column(name = "status")
-    private ETransaction status = ETransaction.BEGIN;
+    private Double point;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "create_by")
+    @JoinColumn(name = "create_by", nullable = false)
     private AccountEntity createBy;
-
 
     @OneToMany(mappedBy = "customerService", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<EmotionCustomerEntity> emotion;
-
-    public CustomerServiceEntity() {
-        this.CustomerCode = SessionGenerator.nextSession();
-    }
-
-    public CustomerServiceEntity(AccountEntity createBy) {
-        this.CustomerCode = SessionGenerator.nextSession();
-        this.createBy = createBy;
-    }
 
     public Long getId() {
         return id;
@@ -99,13 +81,5 @@ public class CustomerServiceEntity {
 
     public void setEmotion(Set<EmotionCustomerEntity> emotion) {
         this.emotion = emotion;
-    }
-
-    public ETransaction getStatus() {
-        return status;
-    }
-
-    public void setStatus(ETransaction status) {
-        this.status = status;
     }
 }

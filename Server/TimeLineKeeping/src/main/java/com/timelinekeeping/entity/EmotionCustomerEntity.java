@@ -65,6 +65,7 @@ public class EmotionCustomerEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id", nullable = true)
+
     private CustomerServiceEntity customerService;
 
     public EmotionCustomerEntity() {
@@ -132,6 +133,20 @@ public class EmotionCustomerEntity implements Serializable {
             this.smile = analysisModel.getSmile();
             this.customerService = customer;
         }
+    }
+
+    public EmotionCustomerEntity(Timestamp createTime, Double anger, Double contempt, Double disgust, Double fear, Double happiness, Double neutral, Double sadness, Double surprise, Double age, Gender gender) {
+        this.createTime = createTime;
+        this.anger = anger;
+        this.contempt = contempt;
+        this.disgust = disgust;
+        this.fear = fear;
+        this.happiness = happiness;
+        this.neutral = neutral;
+        this.sadness = sadness;
+        this.surprise = surprise;
+        this.age = age;
+        this.gender = gender;
     }
 
     public Long getId() {
@@ -247,11 +262,13 @@ public class EmotionCustomerEntity implements Serializable {
 //    }
 
 
+
     public CustomerServiceEntity getCustomerService() {
         return customerService;
     }
 
     public void setCustomerService(CustomerServiceEntity customerService) {
+
         this.customerService = customerService;
     }
 }

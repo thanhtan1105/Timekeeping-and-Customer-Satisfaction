@@ -1,12 +1,14 @@
 package com.timelinekeeping.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.timelinekeeping.model.AccountTKDetailsModel;
 import com.timelinekeeping.model.CheckinManualRequestModel;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -80,10 +82,22 @@ public class JsonUtil {
 //
 //        System.out.println(toJson(map));
 
-        String mapString = "[{\"accountId\":\"1\", \"statusCheckin\":\"false\", \"note\":\"trung 1\"},{\"accountId\":\"3\", \"statusCheckin\":\"true\", \"note\":\"\"},{\"accountId\":\"4\", \"statusCheckin\":\"false\", \"note\":\"too late\"}]";
-        List<CheckinManualRequestModel> list = convertListObject(mapString, CheckinManualRequestModel.class);
-        if (list != null && list.size() > 0) {
-            System.out.println("result: " + list.get(0).getNote());
+//        String mapString = "[{\"accountId\":\"1\", \"statusCheckin\":\"false\", \"note\":\"trung 1\"},{\"accountId\":\"3\", \"statusCheckin\":\"true\", \"note\":\"\"},{\"accountId\":\"4\", \"statusCheckin\":\"false\", \"note\":\"too late\"}]";
+//        List<CheckinManualRequestModel> list = convertListObject(mapString, CheckinManualRequestModel.class);
+//        if (list != null && list.size() > 0) {
+//            System.out.println("result: " + list.get(0).getNote());
+//        }
+
+        String mapString = "{\"accountId\":4, \"selectedDate\":\"September-2016\"}";
+        AccountTKDetailsModel accountTKDetailsModel
+                = convertObject(mapString, AccountTKDetailsModel.class, "MMMM-yyyy");
+        if (accountTKDetailsModel != null) {
+            System.out.println("result: " + accountTKDetailsModel.getAccountId());
+            System.out.println("result: " + accountTKDetailsModel.getSelectedDate());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(accountTKDetailsModel.getSelectedDate());
+            System.out.println("Year: " + calendar.get(Calendar.YEAR));
+            System.out.println("Month: " + calendar.get(Calendar.MONTH));
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.timelinekeeping._config;
 
+import com.timelinekeeping.constant.IViewConst;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
@@ -24,20 +25,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/**", "/home", "/api/**").permitAll()
-                .antMatchers("/testManagerSecurity").hasRole("MANAGER")
-                .antMatchers("/testEmployeeSecurity").hasRole("EMPLOYEE")
-                .antMatchers("/testSASecurity").hasRole("ADMIN")
-//                .anyRequest().authenticated()
-                .and()
+                    .antMatchers("/api/**").permitAll()
+                    .antMatchers("/manager/**").hasRole("manager")
+                    .antMatchers("/admin/**").hasRole("admin")
+                    .and()
                 .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .and()
+                    .loginPage(IViewConst.LOGIN_VIEW)
+                    .permitAll()
+                    .and()
                 .logout()
                 .permitAll();
 
-        http.csrf().disable();
+//        http.csrf().disable();
     }
 
     @Autowired

@@ -30,7 +30,16 @@
             todayHighlight: 1,
             startView: 2,
             forceParse: 0,
-            showMeridian: 1
+            showMeridian: 1,
+            startDate: new Date()
+        });
+
+        //Date picker
+        $('#datepicker').datepicker({
+            format: "MM-yyyy",
+            viewMode: "months",
+            minViewMode: "months",
+            autoclose: true
         });
 
         //Date picker
