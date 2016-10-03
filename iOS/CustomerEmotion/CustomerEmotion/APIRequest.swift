@@ -61,7 +61,7 @@ class APIRequest: NSObject {
   }
 
   func processingTransaction(image: UIImage, customerCode: String, onCompletion: ServiceResponse) {
-    let url = urlBeginTransaction // dump
+    let url = urlProcessTransaction // dump
     let request = NSMutableURLRequest(URL: NSURL(string: url)!)
     request.HTTPMethod = "POST"
     
