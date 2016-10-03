@@ -7,20 +7,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum EEmotion {
 
-    ANGER(0, "ANGER"),
-    CONTEMPT(1, "CONTEMPT"),
-    DISGUST(2, "DISGUST"),
-    FEAR(3, "FEAR"),
-    HAPPINESS(4, "HAPPINESS"),
-    NEUTRAL(5, "NEUTRAL"),
-    SADNESS(6, "SADNESS"),
-    SURPRISE(7, "SURPRISE");
+    ANGER(0, 0d, "ANGER"),
+    CONTEMPT(1, 2.5d, "CONTEMPT"),
+    DISGUST(2, 2.5d, "DISGUST"),
+    FEAR(3, 4d, "FEAR"),
+    HAPPINESS(4, 10d, "HAPPINESS"),
+    NEUTRAL(5, 5d, "NEUTRAL"),
+    SADNESS(6, 2.5d, "SADNESS"),
+    SURPRISE(7, 7.5d,"SURPRISE");
 
     private int index;
+    private double grade;
     private String name;
 
-    EEmotion(int index, String name) {
+    EEmotion(int index, double grade, String name) {
         this.index = index;
+        this.grade = grade;
         this.name = name;
     }
 
@@ -42,13 +44,13 @@ public enum EEmotion {
         return null;
     }
 
+    public double getGrade() {
+        return grade;
+    }
+
     @JsonValue
     public int getIndex() {
         return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
     }
 
     public String getName() {

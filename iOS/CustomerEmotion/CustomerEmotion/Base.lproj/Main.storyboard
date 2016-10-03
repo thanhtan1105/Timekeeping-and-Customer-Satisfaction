@@ -79,7 +79,7 @@
         <!--Emotion Suggestion View Controller-->
         <scene sceneID="BWc-eO-zkN">
             <objects>
-                <viewController storyboardIdentifier="EmotionSuggestionViewController" id="km9-Vk-3kS" customClass="EmotionSuggestionViewController" customModule="CustomerEmotion" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EmotionSuggestionViewController" automaticallyAdjustsScrollViewInsets="NO" id="km9-Vk-3kS" customClass="EmotionSuggestionViewController" customModule="CustomerEmotion" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="MMX-79-f48"/>
                         <viewControllerLayoutGuide type="bottom" id="mNA-rw-xS9"/>
@@ -92,31 +92,33 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="XLD-au-NcF">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="267"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="290"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Ty-KB-Ky6">
-                                            <rect key="frame" x="10" y="198" width="57" height="21"/>
+                                            <rect key="frame" x="10" y="223" width="57" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Age" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eXb-5Q-xD5">
-                                            <rect key="frame" x="10" y="227" width="30" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Age" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eXb-5Q-xD5">
+                                            <rect key="frame" x="10" y="252" width="30" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" restorationIdentifier="BarChartView" translatesAutoresizingMaskIntoConstraints="NO" id="leP-8s-gtd" customClass="BarChartView" customModule="Charts">
-                                            <rect key="frame" x="10" y="10" width="300" height="180"/>
+                                            <rect key="frame" x="10" y="15" width="300" height="200"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="183" id="LnD-MH-Szj"/>
+                                                <constraint firstAttribute="height" constant="200" id="l7a-Mb-mbw"/>
                                                 <constraint firstAttribute="width" secondItem="leP-8s-gtd" secondAttribute="height" multiplier="1:0.6" id="veH-zx-7Gr"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
                                                     <exclude reference="LnD-MH-Szj"/>
+                                                    <exclude reference="veH-zx-7Gr"/>
                                                 </mask>
                                             </variation>
                                         </view>
@@ -124,7 +126,7 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="leP-8s-gtd" secondAttribute="trailing" constant="10" id="0lI-Zl-iNx"/>
-                                        <constraint firstItem="leP-8s-gtd" firstAttribute="top" secondItem="XLD-au-NcF" secondAttribute="top" constant="10" id="6Mq-Ak-eYT"/>
+                                        <constraint firstItem="leP-8s-gtd" firstAttribute="top" secondItem="XLD-au-NcF" secondAttribute="top" constant="15" id="6Mq-Ak-eYT"/>
                                         <constraint firstItem="9Ty-KB-Ky6" firstAttribute="leading" secondItem="XLD-au-NcF" secondAttribute="leading" constant="10" id="IQJ-wq-Uag"/>
                                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="eXb-5Q-xD5" secondAttribute="bottom" constant="10" id="OmY-0F-qhV"/>
                                         <constraint firstItem="eXb-5Q-xD5" firstAttribute="leading" secondItem="9Ty-KB-Ky6" secondAttribute="leading" id="RDs-l5-mMw"/>
@@ -135,13 +137,13 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="EmotionTableCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="EmotionTableCell" rowHeight="62" id="ryO-dm-Sbb" customClass="EmotionTableCell" customModule="CustomerEmotion" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="295" width="320" height="62"/>
+                                        <rect key="frame" x="0.0" y="318" width="320" height="62"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ryO-dm-Sbb" id="Xzh-Ug-Db2">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="61"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="62"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Message" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ED4-uh-ffg">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ED4-uh-ffg">
                                                     <rect key="frame" x="20" y="10" width="69" height="42"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -186,6 +188,7 @@
                     <connections>
                         <outlet property="ageLabel" destination="eXb-5Q-xD5" id="8Nn-Ei-yLP"/>
                         <outlet property="barChart" destination="leP-8s-gtd" id="PeU-mB-6gZ"/>
+                        <outlet property="endTransactionButton" destination="dlD-K9-cTy" id="mbS-jE-MNp"/>
                         <outlet property="genderLabel" destination="9Ty-KB-Ky6" id="M1c-z4-PLJ"/>
                         <outlet property="tableView" destination="SuQ-w9-Q3Y" id="Xj2-GZ-2Vz"/>
                     </connections>

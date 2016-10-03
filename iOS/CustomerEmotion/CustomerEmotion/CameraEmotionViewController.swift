@@ -39,6 +39,7 @@ class CameraEmotionViewController: UIViewController {
     faceView?.tag = 280394
     view.addSubview(faceView!)
     view.bringSubviewToFront(faceView!)
+    
   }
   
   override func viewWillAppear(animated: Bool) {
@@ -239,7 +240,7 @@ extension CameraEmotionViewController {
   }
   
   private func initializeCamera() {
-    self.camera = Camera(sender: self, position: Camera.Position.Front)
+    self.camera = Camera(sender: self, position: Camera.Position.Back)
   }
   
   func videoOrientationFromCurrentDeviceOrientation() -> AVCaptureVideoOrientation {
@@ -273,7 +274,7 @@ extension CameraEmotionViewController {
   
   typealias EmotionResponse = (emotions: [Emotion]?, suggestMessages: [Message]?) // new type
   private func callApiBeginTransaction(faceImage: UIImage, completion onCompletionHandler: ((emotionResponse: EmotionResponse?, error: NSError?) -> Void)?) {
-    APIRequest.shareInstance.beginTransaction(faceImage, employeeId: 3) { (response: ResponsePackage?, error: ErrorWebservice?) in
+    APIRequest.shareInstance.beginTransaction(faceImage, employeeId: 5) { (response: ResponsePackage?, error: ErrorWebservice?) in
       guard error == nil else {
         print("Fail")
         onCompletionHandler!(emotionResponse: nil, error: nil)

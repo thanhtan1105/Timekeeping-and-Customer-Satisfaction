@@ -1,7 +1,11 @@
 package com.timelinekeeping.entity;
 
+import com.timelinekeeping.constant.ETransaction;
+import com.timelinekeeping.util.SessionGenerator;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -18,22 +22,36 @@ public class CustomerServiceEntity {
 
     @Basic
     @Column(name = "create_time", nullable = false)
-    private Timestamp createTime;
+    private Timestamp createTime = new Timestamp(new Date().getTime());
 
     @Basic
     @Column(name = "customer_code", nullable = false)
     private String CustomerCode;
 
     @Basic
-    @Column(name = "point")
-    private Double point;
+    @Column(name = "grade")
+    private Double grade = 0d;
+
+    @Basic
+    @Column(name = "status")
+    private ETransaction status = ETransaction.BEGIN;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "create_by", nullable = false)
+    @JoinColumn(name = "create_by")
     private AccountEntity createBy;
+
 
     @OneToMany(mappedBy = "customerService", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<EmotionCustomerEntity> emotion;
+
+    public CustomerServiceEntity() {
+        this.CustomerCode = SessionGenerator.nextSession();
+    }
+
+    public CustomerServiceEntity(AccountEntity createBy) {
+        this.CustomerCode = SessionGenerator.nextSession();
+        this.createBy = createBy;
+    }
 
     public Long getId() {
         return id;
@@ -59,12 +77,12 @@ public class CustomerServiceEntity {
         CustomerCode = customerCode;
     }
 
-    public Double getPoint() {
-        return point;
+    public Double getGrade() {
+        return grade;
     }
 
-    public void setPoint(Double point) {
-        this.point = point;
+    public void setGrade(Double point) {
+        this.grade = point;
     }
 
     public AccountEntity getCreateBy() {
@@ -81,5 +99,22 @@ public class CustomerServiceEntity {
 
     public void setEmotion(Set<EmotionCustomerEntity> emotion) {
         this.emotion = emotion;
+    }
+
+    public ETransaction getStatus() {
+        return status;
+    }
+
+    public void setStatus(ETransaction status) {
+        this.status = status;
+    }
+
+    public void calculateGrade(){
+        double sum = 0d;
+        for (EmotionCustomerEntity emotion : this.emotion){
+            sum += emotion.getEmotionMost().getGrade();
+        }
+        this.grade = sum/emotion.size();
+
     }
 }

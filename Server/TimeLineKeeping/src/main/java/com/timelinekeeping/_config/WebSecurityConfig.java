@@ -24,27 +24,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("userDetailsService")
     private UserDetailsService userDetailsService;
 
-    @Autowired
-    private AuthSuccessHandler authSuccessHandler;
+//    @Autowired
+//    private AuthSuccessHandler authSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
                     .antMatchers("/login/**", "/api/**", "/**").permitAll()
-                    .antMatchers("/manager/**").hasRole("manager")
-                    .antMatchers("/admin/**").hasRole("admin")
-                    .anyRequest().authenticated()
+//                    .antMatchers("/manager/**").hasRole("manager")
+//                    .antMatchers("/admin/**").hasRole("admin")
+//                    .anyRequest().authenticated()
                     .and()
                 .formLogin()
                     .loginPage("/login")
-                    .successHandler(authSuccessHandler)
+//                    .successHandler(authSuccessHandler)
                     .permitAll()
                     .and()
                 .logout()
                     .permitAll();
 
-//        http.csrf().disable();
+        http.csrf().disable();
     }
 
     @Autowired

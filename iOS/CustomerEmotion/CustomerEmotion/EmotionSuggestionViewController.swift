@@ -19,6 +19,7 @@ class EmotionSuggestionViewController: BaseViewController {
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var ageLabel: UILabel!
   @IBOutlet weak var genderLabel: UILabel!
+  @IBOutlet weak var endTransactionButton: UIButton!
   
   var emotionData : [Double] = []
   let emotionStatus = ["anger", "contempt", "disgust", "fear", "happiness", "neutral", "sadness", "surprise"]
@@ -52,6 +53,7 @@ class EmotionSuggestionViewController: BaseViewController {
     
     genderLabel.text = emotions.first?.gender.description // gender
     
+    view.bringSubviewToFront(endTransactionButton)
   }
   
   @IBAction func onCloseTapped(sender: UIButton) {

@@ -4,6 +4,8 @@ package com.timelinekeeping.api;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.model.EmotionCustomerResponse;
+import com.timelinekeeping.model.Pair;
 import com.timelinekeeping.modelMCS.RectangleImage;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
 import com.timelinekeeping.util.ValidateUtil;
@@ -15,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by HienTQSE60896 on 9/12/2016.
@@ -28,66 +32,74 @@ public class EmotionController {
     @Autowired
     private EmotionServiceImpl emotionService;
 
-    @RequestMapping(value = {I_URI.API_EMOTION_RECOGNIZE}, method = RequestMethod.POST)
+    @RequestMapping(value = {I_URI.API_EMOTION_BEGIN_TRANSACTION}, method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponse recognize(@RequestParam("img") MultipartFile imgFile,
-                                  @RequestParam("employeeId") long employeeId,
-                                  @RequestParam("isFirstTime") boolean isFirstTime) {
+    public BaseResponse beginTransaction(@RequestParam("image") MultipartFile imgFile,
+                                         @RequestParam("employeeId") Long employeeId) {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        BaseResponse response = null;
         try {
-            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            BaseResponse response;
             if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
-                response = new BaseResponse(true);
-                response.setData(emotionService.save(imgFile.getInputStream(), employeeId, isFirstTime));
-//                response = emotionServiceMCS.recognize(imgFile.getInputStream());
+                Pair<EmotionCustomerResponse, String> result = emotionService.beginTransaction(imgFile.getInputStream(), employeeId);
+                if (result != null && result.getKey() != null) {
+                    response = new BaseResponse(true, result.getKey());
+                } else {
+                    response = new BaseResponse(false, result.getValue());
+                }
             } else {
-                response = new BaseResponse();
-                response.setSuccess(false);
-                response.setMessage("File not image format.");
+                response = new BaseResponse(false, "File not image format.");
             }
             return response;
+
         } catch (Exception e) {
             logger.error(e);
-            return new BaseResponse(e);
+            return new BaseResponse(false, e.getMessage());
         } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }
     }
 
-    @RequestMapping(value = {I_URI.API_EMOTION_ANALYZE}, method = RequestMethod.POST)
+    @RequestMapping(value = {I_URI.API_EMOTION_PROCESS_TRANSACTION}, method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponse analyseEmotion(@RequestParam("id") Long id) {
+    public BaseResponse processTransaction(@RequestParam("image") MultipartFile imgFile,
+                                           @RequestParam("customerCode") String customerCode) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-        BaseResponse baseResponse = emotionService.analyseEmotion(id);
-        logger.info(IContanst.END_METHOD_CONTROLLER);
-        return baseResponse;
+        BaseResponse response = null;
+        try {
+            if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
+                boolean result = emotionService.processTransaction(imgFile.getInputStream(), customerCode);
+                response = new BaseResponse(true);
+                Map<String,Boolean> mapResult = new HashMap<>();
+                mapResult.put("transaction", result);
+                response.setData(mapResult);
+            } else {
+                response = new BaseResponse(false, "File not image format.");
+            }
+            return response;
+
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(false, e.getMessage());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
     }
 
-    @RequestMapping(value = {I_URI.API_EMOTION_GET_EMOTION}, method = RequestMethod.POST)
+    @RequestMapping(value = {I_URI.API_EMOTION_END_TRANSACTION}, method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponse getCustomerEmotion(@RequestParam("image") MultipartFile imgFile,
-                                           @RequestParam("employeeId") Long employeeId,
-                                           @RequestParam("isFirstTime") boolean isFirstTime) {
+    public BaseResponse endTransaction(@RequestParam("customerCode") String customerCode) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         BaseResponse response;
         try {
-            if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
-                response = emotionService.getCustomerEmotion(imgFile.getInputStream(), employeeId, isFirstTime);
-            } else {
-                response = new BaseResponse();
-                response.setSuccess(false);
-                response.setMessage("File not image format.");
-            }
+            boolean result = emotionService.endTransaction(customerCode);
+            response = new BaseResponse(true);
+            Map<String,Boolean> mapResult = new HashMap<String, Boolean>();
+            mapResult.put("transaction", result);
+            response.setData(mapResult);
             return response;
-        } catch (IOException e) {
-            logger.error(e);
-            return new BaseResponse(e);
-        } catch (URISyntaxException e) {
-            logger.error(e);
-            return new BaseResponse(e);
         } catch (Exception e) {
             logger.error(e);
-            return new BaseResponse(e);
+            return new BaseResponse(false, e.getMessage());
         } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }

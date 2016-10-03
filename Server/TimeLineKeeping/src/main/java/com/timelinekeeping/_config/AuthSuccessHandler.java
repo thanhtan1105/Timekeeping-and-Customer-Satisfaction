@@ -17,17 +17,17 @@ import java.util.Set;
 /**
  * Created by lethanhtan on 9/18/16.
  */
-
-@Component
-public class AuthSuccessHandler implements AuthenticationSuccessHandler {
-
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
-        Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-        if (roles.contains("admin")) {
-            response.sendRedirect("/manager/check_in");
-        }
-    }
-}
+//
+//@Component
+//public class AuthSuccessHandler implements AuthenticationSuccessHandler {
+//
+//    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+//        Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+//        if (roles.contains("admin")) {
+//            response.sendRedirect("/manager/check_in");
+//        }
+//    }
+//}
 
 //        extends SavedRequestAwareAuthenticationSuccessHandler {
 //
