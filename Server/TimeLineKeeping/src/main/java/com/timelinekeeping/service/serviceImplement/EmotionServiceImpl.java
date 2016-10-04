@@ -386,6 +386,8 @@ public class EmotionServiceImpl {
                 return null;
             }
             CustomerServiceEntity customerResultEntity = new CustomerServiceEntity(employee);
+
+            //set status = BEGIN
             customerResultEntity.setStatus(ETransaction.BEGIN);
             return customerRepo.saveAndFlush(customerResultEntity);
         } finally {
@@ -418,6 +420,31 @@ public class EmotionServiceImpl {
                 }
             } else {
                 return null;
+            }
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    /**
+     * @author TrungNN
+     * Web employee: end transaction
+     */
+    public Boolean endTransactionWeb(String customerCode) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            //get Customer Service with customerCode
+            CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
+            if (customerResultEntity != null
+                    && (customerResultEntity.getStatus() == ETransaction.BEGIN
+                    || customerResultEntity.getStatus() == ETransaction.PROCESS)) {
+                //change status = END
+                customerResultEntity.setStatus(ETransaction.END);
+                customerRepo.saveAndFlush(customerResultEntity);
+                return true;
+            } else {
+                logger.error("CustomerService has status: " + customerResultEntity.getStatus());
+                return false;
             }
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);

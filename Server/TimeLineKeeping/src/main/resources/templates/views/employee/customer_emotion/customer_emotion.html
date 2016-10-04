@@ -20,10 +20,13 @@
                 </button>
             </div>
             <div class="col-sm-1">
-                <button class="btn btn-info" th:id="'btn-end-transaction'">
+                <button class="btn btn-info" th:id="'btn-end-transaction'" disabled>
                     End
                 </button>
             </div>
+            <input type="hidden" th:id="employeeId"
+                   th:if="${session} and ${session.UserSession}"
+                   th:value="${session.UserSession.id}" />
         </div>
         <div class="row">
             <font th:id="'result'"></font><br/>

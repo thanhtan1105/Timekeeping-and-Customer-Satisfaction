@@ -164,4 +164,31 @@ public class EmotionController {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }
     }
+
+    /**
+     * @author TrungNN
+     * Web employee: end transaction
+     */
+    @RequestMapping(value = {"/employee/customer_emotion/end_transaction"}, method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse endTransactionWeb(@RequestParam("customerCode") String customerCode) {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        logger.info(Thread.currentThread().getStackTrace()[1].getMethodName() + " customerCode: " + customerCode);
+        BaseResponse response;
+        try {
+            boolean result = emotionService.endTransactionWeb(customerCode);
+            logger.info("[API- End Transaction Web] result: " + result);
+            if (result) {
+                response = new BaseResponse(true);
+            } else {
+                response = new BaseResponse(false);
+            }
+            return response;
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(false, e.getMessage());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
 }
