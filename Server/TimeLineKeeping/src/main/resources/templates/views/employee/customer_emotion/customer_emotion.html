@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout_employee">
+
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Customer Emotion</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <!-- Info: manager, department, date -->
+        <div class="row">
+            <div class="col-sm-1">
+                <button class="btn btn-info" th:id="'btn-begin-transaction'">
+                    Begin
+                </button>
+            </div>
+            <div class="col-sm-1">
+                <button class="btn btn-info" th:id="'btn-end-transaction'">
+                    End
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <font th:id="'result'"></font><br/>
+            <font th:id="'customer-emotion'"></font>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<div layout:fragment="js">
+    <script th:src="@{/js/employee/customer_emotion.js}"></script>
+</div>
+</body>
+</html>
