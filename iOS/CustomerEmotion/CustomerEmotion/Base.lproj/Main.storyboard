@@ -4,7 +4,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Emotion-->
@@ -28,46 +27,18 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jfc-4B-BAC" userLabel="BottomView">
-                                <rect key="frame" x="0.0" y="462" width="320" height="57"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mL6-mR-8C7">
-                                        <rect key="frame" x="100" y="14" width="120" height="30"/>
-                                        <state key="normal" title="Begin transaction"/>
-                                        <connections>
-                                            <action selector="onCaptureTapped:" destination="b6W-PN-OCp" eventType="touchUpInside" id="qAL-lU-e3r"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="0.49507004310000002" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="mL6-mR-8C7" firstAttribute="centerX" secondItem="Jfc-4B-BAC" secondAttribute="centerX" id="8si-Yh-pya"/>
-                                    <constraint firstItem="mL6-mR-8C7" firstAttribute="centerY" secondItem="Jfc-4B-BAC" secondAttribute="centerY" id="ADg-n5-E2f"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Jfc-4B-BAC" firstAttribute="leading" secondItem="hw2-HG-7u1" secondAttribute="leading" id="7U4-Gi-HAe"/>
                             <constraint firstItem="8Om-EG-ebK" firstAttribute="top" secondItem="t0I-ml-iKH" secondAttribute="bottom" constant="-21" id="ENz-kJ-mUP"/>
-                            <constraint firstItem="Jfc-4B-BAC" firstAttribute="top" secondItem="8Om-EG-ebK" secondAttribute="bottom" id="Eco-sP-Sgx"/>
-                            <constraint firstItem="Jfc-4B-BAC" firstAttribute="height" secondItem="hw2-HG-7u1" secondAttribute="height" multiplier="0.1" id="KBg-Bd-4Mn"/>
                             <constraint firstItem="O8r-w0-ZSh" firstAttribute="top" secondItem="8Om-EG-ebK" secondAttribute="bottom" id="Mjj-XH-I7O"/>
                             <constraint firstAttribute="trailing" secondItem="8Om-EG-ebK" secondAttribute="trailing" id="XZu-FV-J9Q"/>
-                            <constraint firstItem="O8r-w0-ZSh" firstAttribute="top" secondItem="Jfc-4B-BAC" secondAttribute="bottom" id="a3m-Oa-0vG"/>
-                            <constraint firstAttribute="trailing" secondItem="Jfc-4B-BAC" secondAttribute="trailing" id="ehe-df-Qdd"/>
                             <constraint firstItem="8Om-EG-ebK" firstAttribute="leading" secondItem="hw2-HG-7u1" secondAttribute="leading" id="fcc-ae-wkR"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="Eco-sP-Sgx"/>
-                            </mask>
-                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="Emotion" id="jyV-xx-gTz"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
-                        <outlet property="beginTransactionButton" destination="mL6-mR-8C7" id="9Am-sP-Wuc"/>
                         <outlet property="cameraPreview" destination="8Om-EG-ebK" id="Pbo-D7-KCy"/>
                         <outlet property="cameraStill" destination="MeQ-TI-KQ7" id="u9d-Av-SuT"/>
                     </connections>
@@ -140,7 +111,7 @@
                                         <rect key="frame" x="0.0" y="318" width="320" height="62"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ryO-dm-Sbb" id="Xzh-Ug-Db2">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="62"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="61.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ED4-uh-ffg">

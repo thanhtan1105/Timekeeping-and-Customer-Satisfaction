@@ -16,10 +16,13 @@ class TimeKeepingViewController: BaseViewController {
   @IBOutlet weak var employeeNameLabel: UILabel!
   
   let user = Account.getAccount()
+  var attendance: [Attendances] = []
   
   override func viewDidLoad() {
     super.viewDidLoad()
     initLayout()
+    tableView.delegate = self
+    tableView.dataSource = self
   }
   
   override func viewWillAppear(animated: Bool) {
@@ -27,7 +30,18 @@ class TimeKeepingViewController: BaseViewController {
     let components = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month], fromDate: NSDate())
     let month = components.month
     let year = components.year
-    callApiGetAttendance(String(user!.id!), month: month, year: year)
+    callApiGetAttendance(String(user!.id!), month: month, year: year) { (data, error) in
+      if error != nil {
+        // show error message
+      } else {
+        self.attendance = data!
+        dispatch_async(dispatch_get_main_queue(), { 
+          self.tableView.reloadData()
+        })
+      }
+      
+      
+    }
   }
   
   @IBAction func onSettingTapped(sender: UIBarButtonItem) {
@@ -43,11 +57,13 @@ extension TimeKeepingViewController: UITableViewDelegate, UITableViewDataSource 
   }
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 1
+    return attendance.count
   }
   
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    return UITableViewCell()
+    let cell = tableView.dequeueReusableCellWithIdentifier("TimekeepingTableCell") as! TimekeepingTableCell
+    cell.dataSource = attendance[indexPath.row]
+    return cell
   }
 }
 
@@ -58,14 +74,18 @@ extension TimeKeepingViewController {
     
   }
   
-  private func callApiGetAttendance(accountID: String, month: Int, year: Int) {
+  private func callApiGetAttendance(accountID: String, month: Int, year: Int, completion onCompletion : ((data: [Attendances]?, error: NSError?) -> Void)) {
     APIRequest.shareInstance.getAttendance(accountID, month: month, year: year) { (response: ResponsePackage?, error: ErrorWebservice?) in
       guard error == nil else {
         print(error)
+        onCompletion(data: nil, error: NSError(domain: "com.staffName", code: 0, userInfo: ["info" : (error?.error_description)!]))
         return
       }
       
-      print(response)
+      let dict = response?.response as! [String: AnyObject]
+      let dataAttendances = dict["attendances"] as! [[String : AnyObject]]
+      let attendances = Attendances.attendances(array: dataAttendances)
+      onCompletion(data: attendances, error: nil)
     }
   }
 }

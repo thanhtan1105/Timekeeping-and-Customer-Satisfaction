@@ -27,6 +27,9 @@
 		A6090BA51DA2E7630039B892 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6090BA41DA2E7630039B892 /* LoginViewController.swift */; };
 		A6090BA71DA2F0640039B892 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6090BA61DA2F0640039B892 /* Account.swift */; };
 		A6090BA91DA34F670039B892 /* HomeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6090BA81DA34F670039B892 /* HomeTabBarController.swift */; };
+		A6AC86B61DA4CDE5002B4688 /* Attendances.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6AC86B51DA4CDE5002B4688 /* Attendances.swift */; };
+		A6AC86B91DA4CFE8002B4688 /* EDayStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6AC86B81DA4CFE8002B4688 /* EDayStatus.swift */; };
+		A6AC86BB1DA4D4FC002B4688 /* EPresent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6AC86BA1DA4D4FC002B4688 /* EPresent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +79,9 @@
 		A6090BA41DA2E7630039B892 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A6090BA61DA2F0640039B892 /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		A6090BA81DA34F670039B892 /* HomeTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabBarController.swift; sourceTree = "<group>"; };
+		A6AC86B51DA4CDE5002B4688 /* Attendances.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attendances.swift; sourceTree = "<group>"; };
+		A6AC86B81DA4CFE8002B4688 /* EDayStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EDayStatus.swift; sourceTree = "<group>"; };
+		A6AC86BA1DA4D4FC002B4688 /* EPresent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPresent.swift; sourceTree = "<group>"; };
 		C12C4AE4DEAEBEB12C0F44D9 /* Pods_StaffAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StaffAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB64B38A6E147CA879BDAAB0 /* Pods-StaffApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StaffApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-StaffApp/Pods-StaffApp.release.xcconfig"; sourceTree = "<group>"; };
 		F6DF59E38B26FBD6873CDD29 /* Pods-StaffAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StaffAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StaffAppTests/Pods-StaffAppTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -144,6 +150,7 @@
 		A6090B5D1DA2DA730039B892 /* StaffApp */ = {
 			isa = PBXGroup;
 			children = (
+				A6AC86B71DA4CFD9002B4688 /* Contant */,
 				A6090B8C1DA2DB780039B892 /* Model */,
 				A6090B8D1DA2DB7D0039B892 /* View */,
 				A6090B8E1DA2DB800039B892 /* Controller */,
@@ -179,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				A6090BA61DA2F0640039B892 /* Account.swift */,
+				A6AC86B51DA4CDE5002B4688 /* Attendances.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -260,6 +268,15 @@
 			children = (
 			);
 			name = Extension;
+			sourceTree = "<group>";
+		};
+		A6AC86B71DA4CFD9002B4688 /* Contant */ = {
+			isa = PBXGroup;
+			children = (
+				A6AC86B81DA4CFE8002B4688 /* EDayStatus.swift */,
+				A6AC86BA1DA4D4FC002B4688 /* EPresent.swift */,
+			);
+			name = Contant;
 			sourceTree = "<group>";
 		};
 		AD320B48F792EBAE964E80DB /* Pods */ = {
@@ -568,11 +585,14 @@
 				A6090B981DA2DBCF0039B892 /* APIRequestProtocol.swift in Sources */,
 				A6090BA31DA2E6A40039B892 /* NotificationTableCell.swift in Sources */,
 				A6090BA11DA2E63F0039B892 /* NotificationViewController.swift in Sources */,
+				A6AC86B91DA4CFE8002B4688 /* EDayStatus.swift in Sources */,
 				A6090B9F1DA2E4470039B892 /* TimekeepingTableCell.swift in Sources */,
 				A6090B971DA2DBCF0039B892 /* APIDefine.swift in Sources */,
 				A6090B991DA2DBCF0039B892 /* APIRequest.swift in Sources */,
+				A6AC86B61DA4CDE5002B4688 /* Attendances.swift in Sources */,
 				A6090B5F1DA2DA730039B892 /* AppDelegate.swift in Sources */,
 				A6090BA51DA2E7630039B892 /* LoginViewController.swift in Sources */,
+				A6AC86BB1DA4D4FC002B4688 /* EPresent.swift in Sources */,
 				A6090B9D1DA2E3E90039B892 /* BaseViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

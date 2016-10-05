@@ -285,32 +285,7 @@ extension CameraEmotionViewController {
       let dict = response?.response as! [String: AnyObject]
       let success = dict["success"] as? Int
       if success == 1 {
-        print("Call api success")
-        let data = dict["data"] as! [String : AnyObject]
         
-        // customer code
-        self.customerCode = data["customerCode"] as! String
-        
-        // emotions
-        let emotions = data["analyzes"] as! [[String : AnyObject]]
-        var emotion: [Emotion] = []
-        
-        if emotions.count > 0 {
-          emotion = Emotion.emotions(emotions)
-          
-          // suggest message
-          let suggestMessages = data["messages"] as! [[String : AnyObject]]
-          if suggestMessages.count > 0 {
-            let messages = Message.messages(suggestMessages)
-            onCompletionHandler!(emotionResponse: (emotion, messages), error: nil)
-          } else {
-            onCompletionHandler!(emotionResponse: (emotion, nil), error: nil)
-          }
-          
-        } else {
-          // cannot detect image
-          onCompletionHandler!(emotionResponse: nil, error: NSError(domain: "", code: 0, userInfo: ["info" : "Cannot detect image"]))
-        }
       } else {
         print("Fail")
         onCompletionHandler!(emotionResponse: nil, error: NSError(domain: "", code: 0, userInfo: ["info" : "Cannot detect image"]))

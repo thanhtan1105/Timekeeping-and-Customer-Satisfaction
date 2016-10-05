@@ -36,25 +36,27 @@ public class EmotionController {
     @Autowired
     private EmotionServiceImpl emotionService;
 
-    @RequestMapping(value = {I_URI.API_EMOTION_BEGIN_TRANSACTION}, method = RequestMethod.POST)
+    @RequestMapping(value = {I_URI.API_EMOTION_BEGIN_TRANSACTION}, method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse beginTransaction(@RequestParam("image") MultipartFile imgFile,
-                                         @RequestParam("employeeId") Long employeeId) {
+    public BaseResponse beginTransaction(@RequestParam("employeeId") Long employeeId) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         BaseResponse response = null;
         try {
-            if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
-                Pair<EmotionCustomerResponse, String> result = emotionService.beginTransaction(imgFile.getInputStream(), employeeId);
-                if (result != null && result.getKey() != null) {
-                    response = new BaseResponse(true, result.getKey());
-                } else {
-                    response = new BaseResponse(false, result.getValue());
-                }
-            } else {
-                response = new BaseResponse(false, "File not image format.");
-            }
+//            if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
+//                Pair<EmotionCustomerResponse, String> result = emotionService.beginTransaction(imgFile.getInputStream(), employeeId);
+//                if (result != null && result.getKey() != null) {
+//                    response = new BaseResponse(true, result.getKey());
+//                } else {
+//                    response = new BaseResponse(false, result.getValue());
+//                }
+//            } else {
+//                response = new BaseResponse(false, "File not image format.");
+//            }
+//            return response;
+            Boolean result = emotionService.beginTransactionMobile(employeeId);
+            response.setSuccess(true);
+            response.setData(new Pair<String, Boolean>("isStartBegin", result));
             return response;
-
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(false, e.getMessage());

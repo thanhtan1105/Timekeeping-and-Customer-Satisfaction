@@ -1,5 +1,6 @@
 package com.timelinekeeping.service.serviceImplement;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.constant.*;
@@ -137,33 +138,6 @@ public class EmotionServiceImpl {
         return baseResponse;
     }
 
-//    private EmotionCustomerEntity parseEmotionFaceResponse(BaseResponse emotionResponse, BaseResponse faceResponse) {
-//        // parser emotion response
-//        List<EmotionRecognizeResponse> emotionRecognizeList = (List<EmotionRecognizeResponse>) emotionResponse.getData();
-//        EmotionRecognizeResponse emotionRecognize = emotionRecognizeList.get(0);
-//
-//        // parser face response
-//        List<FaceDetectResponse> faceRecognizeList = (List<FaceDetectResponse>) faceResponse.getData();
-//        FaceDetectResponse faceDetectResponse = faceRecognizeList.get(0);
-//
-//        // get emotion_scores
-//        Double anger = emotionRecognize.getScores().getAnger(); // get anger
-//        Double contempt = emotionRecognize.getScores().getContempt(); // get contempt
-//        Double disgust = emotionRecognize.getScores().getDisgust(); // get Disgust
-//        Double fear = emotionRecognize.getScores().getFear(); // get Fear
-//        Double happiness = emotionRecognize.getScores().getHappiness(); // get happiness
-//        Double neutral = emotionRecognize.getScores().getNeutral(); // get neutral
-//        Double sadness = emotionRecognize.getScores().getSadness(); // get sadness
-//        Double surprise = emotionRecognize.getScores().getSurprise(); // get surprise
-//
-//        // get face_attributes
-//        Double age = faceDetectResponse.getFaceAttributes().getAge(); // get age
-//        Gender gender = faceDetectResponse.getFaceAttributes().getGender().toUpperCase()
-//                .equals("MALE") ? Gender.MALE : Gender.FEMALE; // get gender
-//        Double smile = faceDetectResponse.getFaceAttributes().getSmile(); // get smile
-//        return new EmotionCustomerEntity(anger, contempt, disgust, fear, happiness, neutral, sadness, surprise, age, gender, smile);
-//    }
-
     private EmotionAnalysisModel analyseEmotion(EmotionRecognizeScores emotionScores) {
         logger.info("[Analyse Emotion Service] BEGIN SERVICE");
         Map<EEmotion, Double> listEmotions = new HashMap<EEmotion, Double>();
@@ -194,7 +168,6 @@ public class EmotionServiceImpl {
         logger.info(IContanst.END_METHOD_SERVICE);
         return messageEntities;
     }
-
 
     public List<EmotionAnalysisModel> getCustomerEmotion(InputStream inputStreamImg)
             throws IOException, URISyntaxException {
@@ -450,4 +423,19 @@ public class EmotionServiceImpl {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
+
+    /**
+     * @author TanLT
+     * Mobile employee: begin transaction
+     */
+    public Boolean beginTransactionMobile(Long employeeId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            CustomerServiceEntity customerServiceEntity = customerRepo.getLastCustomerById(employeeId);
+            return customerServiceEntity == null ? false : true;
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
 }

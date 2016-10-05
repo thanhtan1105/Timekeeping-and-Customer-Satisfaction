@@ -20,4 +20,7 @@ public interface CustomerServiceRepo extends JpaRepository<CustomerServiceEntity
     @Query("SELECT c FROM CustomerServiceEntity c WHERE c.CustomerCode = :customerCode")
     public CustomerServiceEntity findByCustomerCode(@Param("customerCode") String customerCode);
 
+    @Query(value = "SELECT * FROM customer_service c WHERE c.create_by = ?1 AND c.status = 0", nativeQuery = true)
+    public CustomerServiceEntity getLastCustomerById(@Param("create_by") Long employeeId);
+
 }

@@ -17,47 +17,6 @@ class APIRequest: NSObject {
   func beginTransaction(image: UIImage, employeeId: Int, onCompletion: ServiceResponse) {
     let url = urlBeginTransaction // dump
     print(url)
-    let request = NSMutableURLRequest(URL: NSURL(string: url)!)
-    request.HTTPMethod = "POST"
-    
-    Alamofire.upload(request, multipartFormData: { (multipartFormData: MultipartFormData) in
-      let imageData = UIImageJPEGRepresentation(image, 0.05)
-      print("Image data: \(imageData?.length)")
-      let data = NSData()
-      multipartFormData.appendBodyPart(data: imageData!, name: "image", fileName: "\(data)", mimeType: "image/png")
-      multipartFormData.appendBodyPart(data: String(employeeId).dataUsingEncoding(NSUTF8StringEncoding)!, name: "employeeId")
-    }) { (encodingResult: Manager.MultipartFormDataEncodingResult) in
-      switch encodingResult {
-      case .Success(let upload, _, _):
-        upload.responseJSON(completionHandler: { (response: Response<AnyObject, NSError>) in
-          // upload successfully
-          debugPrint(response)
-          do {
-            let json = try NSJSONSerialization.JSONObjectWithData(response.data!, options: []) as! [String: AnyObject]
-            print(json)
-            let responsePackage = ResponsePackage()
-            responsePackage.success = true
-            responsePackage.response = json
-            responsePackage.error = nil
-            onCompletion(responsePackage, nil)
-          } catch {
-            // create error
-            // TO-DO
-            let errorWebservice = ErrorWebservice.init()
-            errorWebservice.code = 0
-            errorWebservice.error_description = "Upload fail"
-            onCompletion(nil, errorWebservice)
-          }
-        })
-      case .Failure(let encodingError):
-        // coudn't upload file
-        print(encodingError)
-        let errorWebservice = ErrorWebservice.init()
-        errorWebservice.code = 0
-        errorWebservice.error_description = "Upload fail"
-        onCompletion(nil, errorWebservice)
-      }
-    }
     
   }
 

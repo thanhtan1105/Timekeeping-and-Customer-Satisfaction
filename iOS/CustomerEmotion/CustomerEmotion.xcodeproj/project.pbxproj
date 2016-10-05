@@ -214,9 +214,9 @@
 			isa = PBXGroup;
 			children = (
 				A65511571D9F9E110043F411 /* BaseViewController.swift */,
-				A65511511D9F9D1F0043F411 /* SettingViewController.swift */,
 				A65511531D9F9D9B0043F411 /* CameraEmotionViewController.swift */,
 				A65511541D9F9D9B0043F411 /* EmotionSuggestionViewController.swift */,
+				A65511511D9F9D1F0043F411 /* SettingViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
