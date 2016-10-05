@@ -181,17 +181,17 @@ public class CustomerSatisfactionControllerWeb {
     }
 
     @RequestMapping(value = "/change_date", method = RequestMethod.POST)
-    public String changeDateCustomerSatisfactionView(@RequestParam("selectedDate") String selectedDate,
+    public String changeDateCustomerSatisfactionView(@RequestParam("selectedMonth") String selectedMonth,
                                                      Model model, HttpSession session) {
         logger.info("[Controller- Change Date Customer Satisfaction Date View] BEGIN");
-        logger.info("[Controller- Change Date Customer Satisfaction Date View] selected date: " + selectedDate);
+        logger.info("[Controller- Change Date Customer Satisfaction Date View] selected month: " + selectedMonth);
         String pattern = "dd-MMMM-yyyy";
         // parse to date
-        Date date = TimeUtil.parseToDate(selectedDate, pattern);
-        logger.info("[Controller- Change Date Customer Satisfaction Date View] selected date: " + date);
+        Date selectedDate = TimeUtil.parseToDate(selectedMonth, pattern);
+        logger.info("[Controller- Change Date Customer Satisfaction Date View] selected date: " + selectedDate);
         // get month, year, day
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
+        calendar.setTime(selectedDate);
         Integer month = calendar.get(Calendar.MONTH) + 1;
         Integer year = calendar.get(Calendar.YEAR);
         Integer day = calendar.get(Calendar.DAY_OF_MONTH);
