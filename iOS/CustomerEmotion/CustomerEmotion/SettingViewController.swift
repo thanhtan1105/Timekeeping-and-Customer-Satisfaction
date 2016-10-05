@@ -14,6 +14,7 @@ class SettingViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.43.93"
     ipTextField.text = ip
     
   }

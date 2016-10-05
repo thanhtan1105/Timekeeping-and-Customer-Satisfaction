@@ -19,8 +19,8 @@ let enviroment = Enviroment.dev
 //let enviroment = Enviroment.test
 //let enviroment = Enviroment.production
 
-let ip: String = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.150.103"
-let serverUrl: String = "http://" + ip + ":8080/api"
+let prefixHttp: String = "http://"
+let surfixHttp: String = ":8080/api"
 
 
 // MARK :- URL API
@@ -32,8 +32,9 @@ let serverUrl: String = "http://" + ip + ":8080/api"
  "userId": "1"
  } */
 
-let urlCheckIn: String = serverUrl.stringByAppendingString("/account/check_in")
-let urlGetEmotion: String = serverUrl.stringByAppendingString("/emotion/get_customer_emotion")
-let urlBeginTransaction: String = serverUrl.stringByAppendingString("/emotion/begin_transaction")
-let urlProcessTransaction: String = serverUrl.stringByAppendingString("/emotion/process_transaction")
-let urlEndTransaction: String = serverUrl.stringByAppendingString("/emotion/end_transaction")
+let urlCheckIn: String = "/account/check_in"
+let urlGetEmotion: String = "/emotion/get_customer_emotion"
+let urlBeginTransaction: String = "/emotion/begin_transaction"
+let urlStartTransaction: String = "/emotion/start_transaction"
+let urlProcessTransaction: String = "/emotion/process_transaction"
+let urlEndTransaction: String = "/emotion/end_transaction"

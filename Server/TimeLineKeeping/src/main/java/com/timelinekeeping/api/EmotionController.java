@@ -6,10 +6,7 @@ import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.entity.CustomerServiceEntity;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
-import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.model.EmotionCustomerResponse;
-import com.timelinekeeping.model.EmotionCustomerWebResponse;
-import com.timelinekeeping.model.Pair;
+import com.timelinekeeping.model.*;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ValidateUtil;
@@ -19,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by HienTQSE60896 on 9/12/2016.
@@ -38,24 +32,37 @@ public class EmotionController {
 
     @RequestMapping(value = {I_URI.API_EMOTION_BEGIN_TRANSACTION}, method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse beginTransaction(@RequestParam("employeeId") Long employeeId) {
+    public BaseResponse beginTransaction(@RequestParam("employeeId") String employeeId) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-        BaseResponse response = null;
+        BaseResponse response = new BaseResponse();
         try {
-//            if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
-//                Pair<EmotionCustomerResponse, String> result = emotionService.beginTransaction(imgFile.getInputStream(), employeeId);
-//                if (result != null && result.getKey() != null) {
-//                    response = new BaseResponse(true, result.getKey());
-//                } else {
-//                    response = new BaseResponse(false, result.getValue());
-//                }
-//            } else {
-//                response = new BaseResponse(false, "File not image format.");
-//            }
-//            return response;
-            Boolean result = emotionService.beginTransactionMobile(employeeId);
-            response.setSuccess(true);
-            response.setData(new Pair<String, Boolean>("isStartBegin", result));
+            CustomerServiceEntity customerServiceEntity = emotionService.beginTransactionMobile(Long.parseLong(employeeId));
+            if (customerServiceEntity != null) {
+                response.setSuccess(true);
+                HashMap hashMap = new HashMap();
+                hashMap.put("isStartBegin", true);
+                hashMap.put("customerService", new CustomerServiceModel(customerServiceEntity));
+                response.setData(hashMap);
+            } else {
+                response.setSuccess(false);
+            }
+            return response;
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(false, e.getMessage());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
+
+    @RequestMapping(value = {I_URI.API_EMOTION_START_TRANSACTION}, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse startMobileTransaction(@RequestParam("customerCode") String customerCode) {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        BaseResponse response = new BaseResponse();
+        try {
+            Boolean responseImp = emotionService.startTransactionMobile(customerCode);
+            response.setSuccess(responseImp);
             return response;
         } catch (Exception e) {
             logger.error(e);
@@ -74,35 +81,18 @@ public class EmotionController {
         try {
             if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
                 boolean result = emotionService.processTransaction(imgFile.getInputStream(), customerCode);
+                boolean shouldEndTransaction = emotionService.shouldEndTransaction(customerCode);
+
                 response = new BaseResponse(true);
                 Map<String, Boolean> mapResult = new HashMap<>();
                 mapResult.put("transaction", result);
+                mapResult.put("shouldEndTransaction", shouldEndTransaction);
                 response.setData(mapResult);
             } else {
                 response = new BaseResponse(false, "File not image format.");
             }
             return response;
 
-        } catch (Exception e) {
-            logger.error(e);
-            return new BaseResponse(false, e.getMessage());
-        } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
-        }
-    }
-
-    @RequestMapping(value = {I_URI.API_EMOTION_END_TRANSACTION}, method = RequestMethod.POST)
-    @ResponseBody
-    public BaseResponse endTransaction(@RequestParam("customerCode") String customerCode) {
-        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-        BaseResponse response;
-        try {
-            boolean result = emotionService.endTransaction(customerCode);
-            response = new BaseResponse(true);
-            Map<String, Boolean> mapResult = new HashMap<String, Boolean>();
-            mapResult.put("transaction", result);
-            response.setData(mapResult);
-            return response;
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(false, e.getMessage());

@@ -14,14 +14,36 @@ class APIRequest: NSObject {
 
   static let shareInstance = APIRequest()
  
-  func beginTransaction(image: UIImage, employeeId: Int, onCompletion: ServiceResponse) {
-    let url = urlBeginTransaction // dump
-    print(url)
+  func beginTransaction(employeeId: String, onCompletion: ServiceResponse) {
+    let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.43.93"
+    let http = prefixHttp + ip + surfixHttp
+    let url = http + urlBeginTransaction
+    let header = [
+      "Content-Type" : "application/json",
+    ]
     
+    var dataSent: [String: AnyObject] = [:]
+    dataSent["employeeId"] = employeeId
+    webservice_GET(url, params: dataSent, headersParams: header, completion: onCompletion)
+  }
+  
+  func startTransaction(customerCode: String, onCompletion: ServiceResponse) {
+    let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.43.93"
+    let http = prefixHttp + ip + surfixHttp
+    let url = http + urlStartTransaction
+    let header = [
+      "Content-Type" : "application/json",
+    ]
+    
+    var dataSent: [String: AnyObject] = [:]
+    dataSent["customerCode"] = customerCode
+    webservice_GET(url, params: dataSent, headersParams: header, completion: onCompletion)
   }
 
   func processingTransaction(image: UIImage, customerCode: String, onCompletion: ServiceResponse) {
-    let url = urlProcessTransaction // dump
+    let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.43.93"
+    let http = prefixHttp + ip + surfixHttp
+    let url = http + urlProcessTransaction
     let request = NSMutableURLRequest(URL: NSURL(string: url)!)
     request.HTTPMethod = "POST"
     

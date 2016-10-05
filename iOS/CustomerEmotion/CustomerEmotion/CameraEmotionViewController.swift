@@ -52,6 +52,7 @@ class CameraEmotionViewController: UIViewController {
     isCameraTaken = false
     isBeginTransaction = false
     isEndTransaction = true
+    beginTransaction()
     status = .Preview
   }
   
@@ -61,6 +62,8 @@ class CameraEmotionViewController: UIViewController {
       self.establishVideoPreviewArea()
       isRunning = true
     }
+    
+    
   }
   
   override func viewDidDisappear(animated: Bool) {
@@ -99,9 +102,8 @@ class CameraEmotionViewController: UIViewController {
     })
     
     super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-		}
+  }
   
-
   @IBAction func onCaptureTapped(sender: UIButton) {
     isBeginTransaction = true
   }
@@ -117,7 +119,6 @@ extension CameraEmotionViewController: CameraDelegate {
   func cameraSessionDidBegin() {
     UIView.animateWithDuration(0.225, animations: { () -> Void in
       self.cameraPreview.alpha = 1.0
-//      self.cameraCapture.alpha = 1.0
     })
   }
   
@@ -133,7 +134,7 @@ extension CameraEmotionViewController: CameraDelegate {
     let adjusted = self.preview?.transformedMetadataObjectForMetadataObject(face)
     dispatch_async(dispatch_get_main_queue()) {
       if self.isBeginTransaction {
-        if self.cameraStill.image == nil {
+        if self.cameraStill.image != nil {
           // filter
           dispatch_async(dispatch_get_main_queue(), {
             if let adjusted = adjusted {
@@ -162,37 +163,17 @@ extension CameraEmotionViewController: CameraDelegate {
   }
 }
 
-extension CameraEmotionViewController: EmotionSuggestionDelegate {
-  func emotionSuggestionController(didEndTransaction emotionSuggestionController: EmotionSuggestionViewController) {
-    endTransaction()
-  }
-}
-
 // MARK: - Private method
 extension CameraEmotionViewController {
   
   private func capture() {
     if isBeginTransaction {
       if self.status == .Preview {
-        if self.customerCode == "" {
-          UIView.animateWithDuration(0.05, animations: { () -> Void in
-            self.cameraPreview.alpha = 0.0
-            self.cameraStill.alpha = 1.0
-            LeThanhTanLoading.sharedInstance.showLoadingAddedTo(self.view, animated: true)
-          })
-        }
-        
         self.camera?.captureStillImage({ (image) -> Void in
           if image != nil {
             self.cameraStill.image = image
             self.status = .Preview
-            if self.customerCode == "" {
-              // begin transaction
-              self.beginTransaction(self.cameraStill.image!)
-            } else {
-              // current transaction
-              self.currentTransaction(self.cameraStill.image!)
-            }
+            self.currentTransaction(self.cameraStill.image!)   // current transaction
             
             if !self.isEndTransaction {
               // delay
@@ -204,43 +185,54 @@ extension CameraEmotionViewController {
           } else {
             self.status = .Error
             self.isCameraTaken = false
-            LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
           }
         })
       }
     }
   }
   
-  private func beginTransaction(image: UIImage) {
-    self.callApiBeginTransaction(image, completion: { (emotionResponse, error) in
-      if let emotionResponse = emotionResponse {
-        self.isEndTransaction = false
-        // delay
-        let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(10 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime3, dispatch_get_main_queue()) {
-          self.isCameraTaken = false
-        }
-        self.showInfoScren(emotionResponse)
+  private func beginTransaction() {
+    self.callApiBeginTransaction("5") { (shouldBeginTransaction, error) in
+      if shouldBeginTransaction == true {
+        self.startTransaction()   // send notify to server
       } else {
-        // fail
-        self.cameraPreview.alpha = 1.0
-        self.cameraStill.image = nil
-        self.isCameraTaken = false
-        LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
+        let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(5 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime3, dispatch_get_main_queue()) {
+          self.beginTransaction()
+        }
+      }
+    }
+  }
+  
+  private func startTransaction() {
+    self.callApiStartTransaction(self.customerCode, completion: { (shouldStartTransaction, error) in
+      if shouldStartTransaction == true {
+        self.isBeginTransaction = true
+        self.isEndTransaction = false
+      } else {
+        let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(5 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime3, dispatch_get_main_queue()) {
+          self.startTransaction()
+        }
       }
     })
   }
   
   private func currentTransaction(image: UIImage) {
-    self.callApiCurrentTransaction(image, customerCode: customerCode)
+    self.callApiCurrentTransaction(image, customerCode: customerCode) { (shouldEndTransaction, error) in
+      if shouldEndTransaction == true {
+        // end transaction
+        self.isBeginTransaction = false
+        self.isEndTransaction = true
+        self.isCameraTaken = false
+        self.customerCode = ""
+        self.beginTransaction()
+      }
+    }
   }
-  
-  private func endTransaction() {
-    self.callApiEndTransaction(customerCode)
-  }
-  
+
   private func initializeCamera() {
-    self.camera = Camera(sender: self, position: Camera.Position.Back)
+    self.camera = Camera(sender: self, position: Camera.Position.Front)
   }
   
   func videoOrientationFromCurrentDeviceOrientation() -> AVCaptureVideoOrientation {
@@ -259,64 +251,75 @@ extension CameraEmotionViewController {
     }
   }
   
-  private func showInfoScren(emotionResponse: EmotionResponse) {
-    let showInforVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("EmotionSuggestionViewController") as! EmotionSuggestionViewController
-    showInforVC.delegate = self
-    showInforVC.emotions = emotionResponse.emotions!  // emotions data
-    if let suggestMessage = emotionResponse.suggestMessages {
-      showInforVC.suggestMessages = suggestMessage  // suggest message data
-    }
-    self.presentViewController(showInforVC, animated: true, completion: {
-      // start new thread to take the picture in background
-      
-    })
-  }
-  
-  typealias EmotionResponse = (emotions: [Emotion]?, suggestMessages: [Message]?) // new type
-  private func callApiBeginTransaction(faceImage: UIImage, completion onCompletionHandler: ((emotionResponse: EmotionResponse?, error: NSError?) -> Void)?) {
-    APIRequest.shareInstance.beginTransaction(faceImage, employeeId: 5) { (response: ResponsePackage?, error: ErrorWebservice?) in
+  private func callApiBeginTransaction(employeeID: String, completion onCompletionHandler: ((shouldBeginTransaction: Bool?, error: NSError?) -> Void)?) {
+    APIRequest.shareInstance.beginTransaction(employeeID) { (response: ResponsePackage?, error: ErrorWebservice?) in
       guard error == nil else {
         print("Fail")
-        onCompletionHandler!(emotionResponse: nil, error: nil)
+        onCompletionHandler!(shouldBeginTransaction: nil, error: nil)
         return
       }
-      print(response?.response)
       
+      print(response?.response)
+
       let dict = response?.response as! [String: AnyObject]
       let success = dict["success"] as? Int
       if success == 1 {
+        let data = dict["data"] as! [String : AnyObject]
+        let customerService = data["customerService"] as! [String : AnyObject]
+        self.customerCode = customerService["customerCode"] as! String
+        onCompletionHandler!(shouldBeginTransaction: true, error: nil)
         
       } else {
         print("Fail")
-        onCompletionHandler!(emotionResponse: nil, error: NSError(domain: "", code: 0, userInfo: ["info" : "Cannot detect image"]))
+        onCompletionHandler!(shouldBeginTransaction: false, error: nil)
+      }
+      
+    }
+  }
+  
+  private func callApiStartTransaction(customerCode: String, completion onCompletionHandler: ((shouldStartTransaction: Bool?, error: NSError?) -> Void)?) {
+    APIRequest.shareInstance.startTransaction(customerCode) { (response: ResponsePackage?, error: ErrorWebservice?) in
+      guard error == nil else {
+        print("Fail")
+        onCompletionHandler!(shouldStartTransaction: nil, error: nil)
+        return
+      }
+      
+      print(response?.response)
+      
+      let dict = response?.response as! [String: AnyObject]
+      
+      let success = dict["success"] as? Int
+      if success == 1 {
+        onCompletionHandler!(shouldStartTransaction: true, error: nil)
+      } else {
+        print("Fail")
+        onCompletionHandler!(shouldStartTransaction: false, error: nil)
       }
     }
   }
   
-  private func callApiCurrentTransaction(faceImage: UIImage, customerCode: String) {
+  
+  private func callApiCurrentTransaction(faceImage: UIImage, customerCode: String, completion onCompletionHandler: ((shouldEndTransaction: Bool?, error: NSError?) -> Void)?) {
     APIRequest.shareInstance.processingTransaction(faceImage, customerCode: customerCode) { (response: ResponsePackage?, error: ErrorWebservice?) in
       guard error == nil else {
         print("Fail")
         return
       }
       print(response?.response)
+      let dict = response?.response as! [String : AnyObject]
+      let success = dict["success"] as? Int
+      if success == 1 {
+        let data = dict["data"] as! [String : AnyObject]
+        let shouldEndTransaction = data["shouldEndTransaction"] as! Bool
+        onCompletionHandler!(shouldEndTransaction: shouldEndTransaction, error: nil)
+      } else {
+        print("Fail")
+        onCompletionHandler!(shouldEndTransaction: false, error: nil)
+      }
     }
   }
   
-  private func callApiEndTransaction(customerCode: String) {
-    APIRequest.shareInstance.endTransaction(customerCode) { (response: ResponsePackage?, error: ErrorWebservice?) in
-      guard error == nil else {
-        print("Fail")
-        return
-      }
-      let dict = response?.response as! [String: AnyObject]
-      let success = dict["success"] as? Int
-      print(success)
-      self.isBeginTransaction = false
-      self.customerCode = ""
-      self.isEndTransaction = true
-    }
-  }
   
 }
 

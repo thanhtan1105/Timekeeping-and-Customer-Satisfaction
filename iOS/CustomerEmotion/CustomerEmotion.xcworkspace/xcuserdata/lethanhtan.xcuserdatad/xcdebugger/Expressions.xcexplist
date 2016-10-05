@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "CameraEmotionViewController.((callApiBeginTransaction in _7FC510F0D79C3F445DDF68307C3EF5FB)(String, completion : (shouldBeginTransaction : Bool?, error : NSError?) -&gt; ()?) -&gt; ()).(closure #1):CameraEmotionViewController.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

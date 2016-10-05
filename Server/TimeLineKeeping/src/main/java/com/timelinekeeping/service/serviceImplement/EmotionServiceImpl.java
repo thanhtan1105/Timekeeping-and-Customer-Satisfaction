@@ -319,30 +319,12 @@ public class EmotionServiceImpl {
         }
     }
 
-    public Boolean endTransaction(String customerCode) throws IOException, URISyntaxException {
-        try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            logger.info("CustomerCode: " + customerCode);
-
-            //get Customer Service with customerCode;
-            CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
-
-            if (customerResultEntity != null && (customerResultEntity.getStatus() == ETransaction.BEGIN || customerResultEntity.getStatus() == ETransaction.PROCESS)) {
-
-                //calculate grade
-                customerResultEntity.calculateGrade();
-
-                //change status = END
-                customerResultEntity.setStatus(ETransaction.END);
-                customerRepo.saveAndFlush(customerResultEntity);
-                return true;
-            } else {
-                logger.error("CustomerService has status: " + customerResultEntity.getStatus());
-                return false;
-            }
-        } finally {
-            logger.info(IContanst.END_METHOD_SERVICE);
-        }
+    public Boolean shouldEndTransaction(String customerCode) {
+        logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+        logger.info("CustomerCode: " + customerCode);
+        //get Customer Service with customerCode;
+        CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
+        return customerResultEntity.getStatus() == ETransaction.END ? true : false;
     }
 
     /**
@@ -428,13 +410,29 @@ public class EmotionServiceImpl {
      * @author TanLT
      * Mobile employee: begin transaction
      */
-    public Boolean beginTransactionMobile(Long employeeId) {
+    public CustomerServiceEntity beginTransactionMobile(Long employeeId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             CustomerServiceEntity customerServiceEntity = customerRepo.getLastCustomerById(employeeId);
-            return customerServiceEntity == null ? false : true;
+            return customerServiceEntity;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
+    }
+
+    /**
+     * @author TanLT
+     * Mobile employee: start transaction
+     */
+    public Boolean startTransactionMobile(String customerCode) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            CustomerServiceEntity customerServiceEntity = customerRepo.startTransactionByCustomercode(customerCode);
+            customerServiceEntity.setStatus(ETransaction.PROCESS);
+            customerRepo.saveAndFlush(customerServiceEntity);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+        return true;
     }
 }
