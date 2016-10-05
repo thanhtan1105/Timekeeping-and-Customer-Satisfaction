@@ -13,6 +13,7 @@ public interface IViewConst {
     String CHECK_IN_MANUAL_VIEW = "/views/manager/checkin_manual/checkin_manual";
     String TIME_KEEPING_VIEW = "/views/manager/timekeeping/timekeeping";
     String TIME_KEEPING_DETAILS_VIEW = "/views/manager/timekeeping/timekeeping_details";
+    String CUSTOMER_SATISFACTION_MONTH_VIEW = "/views/manager/customer_satisfaction/cus_satisfaction_month";
 
     /**
      * Views for employee
