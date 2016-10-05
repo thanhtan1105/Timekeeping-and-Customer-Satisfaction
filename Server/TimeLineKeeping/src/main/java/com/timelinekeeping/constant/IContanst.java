@@ -55,4 +55,5 @@ public interface IContanst {
     /** CHECKIN*/
     String TIME_CHECK_IN_SYSTEM = AppConfigKeys.getInstance().getApiPropertyValue("checkin.time.system");
 
+
 }
