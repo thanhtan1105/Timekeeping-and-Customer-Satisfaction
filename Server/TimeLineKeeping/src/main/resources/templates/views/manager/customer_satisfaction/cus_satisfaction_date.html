@@ -50,8 +50,13 @@
             <div class="col-md-12">
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs">
-                        <li><a data-toggle="tab">Filter By Month</a></li>
+                        <li>
+                            <a th:id="'change-to-tag-month'" data-toggle="tab">
+                                Filter By Month</a>
+                        </li>
                         <li class="active"><a data-toggle="tab">Filter By Date</a></li>
+                        <form th:id="'form-submit-change-to-tag-month'"
+                              th:action="@{/manager/cus_satisfaction/month/}" method="get"></form>
                     </ul>
                     <div class="tab-content">
                         <div class="active tab-pane">

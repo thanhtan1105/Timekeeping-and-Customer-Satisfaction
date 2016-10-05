@@ -20,3 +20,13 @@ function initDatePicker(id, format, viewMode, minViewMode) {
         autoclose: true
     });
 }
+
+/**
+ * Event: change to tag month
+ */
+$('#change-to-tag-month').on('click', function () {
+    var $form_submit_change_to_tag_month = $('#form-submit-change-to-tag-month');
+
+    // submit form
+    $form_submit_change_to_tag_month.submit();
+});
