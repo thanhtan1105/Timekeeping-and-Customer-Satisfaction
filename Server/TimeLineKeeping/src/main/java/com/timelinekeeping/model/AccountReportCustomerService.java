@@ -14,7 +14,7 @@ public class AccountReportCustomerService {
     private RoleModel role;
     private String fullname;
     private Long totalCustomer;
-    private Double grade;
+    private Double grade = 0d;
 
     public AccountReportCustomerService() {
     }
@@ -30,8 +30,8 @@ public class AccountReportCustomerService {
 
     public void fromReport(Object[] obj){
         if (obj.length == 3){
-            this.totalCustomer = ((BigInteger)obj[1]).longValue();
-            this.grade = (Double) obj[2];
+            this.totalCustomer = obj[1] != null ? ((BigInteger)obj[1]).longValue() : 0;
+            this.grade = obj[2] != null ? (Double) obj[2] : 0;
         }
 
     }

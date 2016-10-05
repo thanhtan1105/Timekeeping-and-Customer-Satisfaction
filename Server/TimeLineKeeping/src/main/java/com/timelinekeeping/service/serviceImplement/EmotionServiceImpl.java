@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.sql.Timestamp;
+import java.time.YearMonth;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -455,6 +456,7 @@ public class EmotionServiceImpl {
     public CustomerServiceReport reportCustomerService(Integer year, Integer month, Integer day, Long managerId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+//            logger.("Year = {}, Month = {}, Day = {}, ManagerId = {}", year, month, day, managerId);
             AccountEntity manager = accountRepo.findById(managerId);
             if (manager == null){
                 return null;
@@ -481,6 +483,45 @@ public class EmotionServiceImpl {
             CustomerServiceReport customerServiceReport = new CustomerServiceReport(year, month, departmentModel, accountReports);
             customerServiceReport.complete();
             return customerServiceReport;
+
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    public CustomerServiceReport reportCustomerServiceEmployee(Integer year, Integer month, Long eployeeId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            //get employee
+
+            AccountEntity employee = accountRepo.findById(eployeeId);
+            if (employee == null){
+                return null;
+            }
+
+            //getListObject day
+            List<Object[]> objs = customerRepo.reportCustomerByMonthAndEmployee(year, month, eployeeId);
+            //Convert qua mapValue
+            Map<Long, Object[]> mapVal = UtilApps.converListObject2Map(objs);
+            //get dayMax in month
+            YearMonth yearMonth = YearMonth.of(year, month);
+            int dayInMonth = yearMonth.lengthOfMonth();
+
+            //for one day create Employee Customer Report
+            for (int i = 1; i<= dayInMonth; i++){
+
+            }
+            //convert to map
+
+            //get tu value trong map add to account
+
+            //create object return
+
+//            DepartmentModel departmentModel = new DepartmentModel(manager.getDepartment());
+//            CustomerServiceReport customerServiceReport = new CustomerServiceReport(year, month, departmentModel, accountReports);
+//            customerServiceReport.complete();
+//            return customerServiceReport;
+            return null;
 
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);

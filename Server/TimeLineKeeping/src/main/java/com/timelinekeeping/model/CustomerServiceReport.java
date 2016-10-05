@@ -1,13 +1,13 @@
 package com.timelinekeeping.model;
 
-import java.util.Date;
+import java.time.YearMonth;
 import java.util.List;
 
 /**
  * Created by HienTQSE60896 on 10/5/2016.
  */
 public class CustomerServiceReport {
-    private Date timeReport;
+    private YearMonth timeReport;
     private Integer year;
     private Integer month;
     private DepartmentModel department;
@@ -28,14 +28,17 @@ public class CustomerServiceReport {
     }
 
     public void complete() {
-        this.timeReport = new Date();
+        this.timeReport = YearMonth.of(year, month);
         this.totalEmployee = employeeReport.size();
         Double sum = 0d;
-        for (AccountReportCustomerService report : employeeReport) sum += report.getGrade();
+        for (AccountReportCustomerService report : employeeReport) {
+
+            sum += report.getGrade() != null ? report.getGrade() : 0;
+        }
         this.gradeAvg = sum / totalEmployee;
     }
 
-    public void setTimeReport(Date timeReport) {
+    public void setTimeReport(YearMonth timeReport) {
         this.timeReport = timeReport;
     }
 

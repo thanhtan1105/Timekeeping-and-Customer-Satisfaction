@@ -74,4 +74,12 @@ public class TestController {
 //        List<List<Long>> list = timekeepingRepo.countEmployeeTime(year, month);
         return customerServiceRepo.reportCustomerByMonth(year, month, day);
     }
+    @RequestMapping("/count_Customer_employee")
+    public List<Object[]> countCustomerByEmployee(@RequestParam(value = "year") Integer year,
+                                        @RequestParam(value = "month") Integer month,
+                                        @RequestParam(value = "employee_id") Long employeeId) {
+
+//        List<List<Long>> list = timekeepingRepo.countEmployeeTime(year, month);
+        return customerServiceRepo.reportCustomerByMonthAndEmployee(year, month, employeeId);
+    }
 }

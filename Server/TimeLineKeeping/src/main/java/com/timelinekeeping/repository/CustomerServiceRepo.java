@@ -1,8 +1,6 @@
 package com.timelinekeeping.repository;
 
-import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.CustomerServiceEntity;
-import com.timelinekeeping.entity.MessageEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,4 +23,9 @@ public interface CustomerServiceRepo extends JpaRepository<CustomerServiceEntity
     public List<Object[]> reportCustomerByMonth(@Param("year") Integer year,
                                                 @Param("month") Integer month,
                                                 @Param("day") Integer day);
+
+    @Query(value = "select day(create_time)as day, count(customer_code) as totalCustomer, avg(grade) as grade from customer_service where create_by = :employee_id and year(create_time)=:year and month(create_time)=:month group by day(create_time)", nativeQuery = true)
+    public List<Object[]> reportCustomerByMonthAndEmployee(@Param("year") Integer year,
+                                                           @Param("month") Integer month,
+                                                           @Param("employee_id") Long employeeId);
 }
