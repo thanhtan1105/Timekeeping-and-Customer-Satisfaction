@@ -30,3 +30,16 @@ $('#change-to-tag-date').on('click', function () {
     // submit form
     $form_submit_change_to_tag_date.submit();
 });
+
+/**
+ * Event: select another month
+ */
+$('.selected-date').on('change', function() {
+    var selectedDate = $('.selected-date').val(),
+        $form_submit_change_month = $('#form-submit-change-month'),
+        selectedMonth = $form_submit_change_month.find('[name="selectedMonth"]');
+    selectedMonth.val(selectedDate);
+
+    // submit form
+    $form_submit_change_month.submit();
+});
