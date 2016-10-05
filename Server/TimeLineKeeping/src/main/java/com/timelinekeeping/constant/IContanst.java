@@ -2,6 +2,8 @@ package com.timelinekeeping.constant;
 
 import com.timelinekeeping._config.AppConfigKeys;
 
+import java.util.Date;
+
 /**
  * Created by HienTQSE60896 on 9/8/2016.
  */
@@ -48,5 +50,8 @@ public interface IContanst {
     String SIDE_BAR_MANAGER_MANAGEMENT_REMINDER = "ManagementReminder";
     String SIDE_BAR_EMPLOYEE_ATTENDANCE = "Attendance";
     String SIDE_BAR_EMPLOYEE_CUSTOMER_EMOTION = "CustomerEmotion";
+
+    /** CHECKIN*/
+    String TIME_CHECK_IN_SYSTEM = AppConfigKeys.getInstance().getApiPropertyValue("checkin.time.system");
 
 }
