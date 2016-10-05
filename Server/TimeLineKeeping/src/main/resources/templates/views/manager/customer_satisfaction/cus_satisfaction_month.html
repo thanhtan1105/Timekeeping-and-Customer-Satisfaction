@@ -101,27 +101,16 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td>1.</td>
-                                            <td>Thái Quang Hiển</td>
-                                            <td class="text-center">100</td>
-                                            <td class="text-center">9.5</td>
+                                        <tr th:each="employee,counter: ${CustomerServiceReport.employeeReport}">
+                                            <td th:text="${counter.count} + '.'"></td>
+                                            <td th:text="${employee.username}"></td>
+                                            <td th:text="${employee.totalCustomer != null}? ${employee.totalCustomer}: 0"
+                                                class="text-center"></td>
+                                            <td th:text="${#numbers.formatDecimal(employee.grade, 1, 2)}"
+                                                class="text-center"></td>
                                             <td class="text-center">
                                                 <button class="btn bg-aqua-active btn-flat btn-sm" type="button"
                                                         style="width: 100%;"
-                                                        title="Edit Class">
-                                                    <i class="fa fa-hand-pointer-o"></i> View Details
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2.</td>
-                                            <td>Lê Thanh Tân</td>
-                                            <td class="text-center">90</td>
-                                            <td class="text-center">9</td>
-                                            <td class="text-center">
-                                                <button class="btn bg-aqua-active btn-flat btn-sm" type="button"
-                                                        style="width: 100%"
                                                         title="Edit Class">
                                                     <i class="fa fa-hand-pointer-o"></i> View Details
                                                 </button>

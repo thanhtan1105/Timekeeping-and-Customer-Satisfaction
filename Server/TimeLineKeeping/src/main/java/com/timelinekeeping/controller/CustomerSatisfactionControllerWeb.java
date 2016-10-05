@@ -62,7 +62,7 @@ public class CustomerSatisfactionControllerWeb {
                 // set side-bar
                 String sideBar = IContanst.SIDE_BAR_MANAGER_CUSTOMER_SATISFACTION;
 
-//                model.addAttribute("CustomerServiceReport", customerServiceReport);
+                model.addAttribute("CustomerServiceReport", customerServiceReport);
                 model.addAttribute("SelectedDate", currentDate);
                 // side-bar
                 model.addAttribute("SideBar", sideBar);
