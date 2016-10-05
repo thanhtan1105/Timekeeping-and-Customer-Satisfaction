@@ -3,14 +3,19 @@
  */
 
 /**
+ * Data bar chart
+ * @type {{data: *[emotion ratios], color: string}}
+ */
+var bar_data = {
+    data: [["Anger", 0.0001], ["Contempt", 0.0005], ["Disgust", 0.00001], ["Fear", 0.00003],
+        ["Happiness", 0.9], ["Neutral", 0.1], ["Sadness", 0.00002], ["Surprise", 0.0002]],
+    color: "#3c8dbc"
+};
+
+/**
  * Init bar chart
  */
-$(function () {
-    var bar_data = {
-        data: [["Anger", 0.0001], ["Contempt", 0.0005], ["Disgust", 0.00001], ["Fear", 0.00003],
-            ["Happiness", 0.9], ["Neutral", 0.1], ["Sadness", 0.00002], ["Surprise", 0.0002]],
-        color: "#3c8dbc"
-    };
+function load_bar_chart() {
     $.plot("#bar-chart", [bar_data], {
         grid: {
             borderWidth: 1,
@@ -29,7 +34,7 @@ $(function () {
             tickLength: 0
         }
     });
-});
+}
 
 /**
  * Event: begin transaction
@@ -88,7 +93,10 @@ function worker_begin_transaction() {
                 customerCode = response.data;
                 $('#result').html(customerCode);
                 if (customerCode != null) {
+                    //stop request: begin transaction
                     clearTimeout(timer_begin_transaction);
+
+                    //call request: get first emotion
                     worker_get_emotion();
                 }
             } else {
@@ -140,6 +148,16 @@ function worker_get_emotion() {
                 content += ' - gender: ' + gender;
                 content += ' - emotionMost: ' + emotionMost;
                 $('#customer-emotion').html(content);
+
+                //set data bar chart
+                bar_data = {
+                    data: [["Anger", anger], ["Contempt", contempt], ["Disgust", disgust], ["Fear", fear],
+                        ["Happiness", happiness], ["Neutral", neutral], ["Sadness", sadness], ["Surprise", surprise]],
+                    color: "#3c8dbc"
+                };
+                load_bar_chart();
+
+                //stop request: get first emotion
                 clearTimeout(timer_get_emotion);
             }
         }
