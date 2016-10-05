@@ -28,7 +28,10 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -335,35 +338,98 @@ public class AccountServiceImpl {
                 logger.info("-- Save TimeKeeping: " + timeKeepingEntity.getTimeCheck());
             }
 
+            //TODO push notification
+
+            pushNotification(accountEntity);
 
             //TODO reminder
-            // accountID -> get Reminder
-            List<NotificationEntity> notificationSet = notificationRepo.findByAccountReceiveByDate(accountEntity.getId());
-            List<NotificationCheckInModel> message = new ArrayList<>();
-            for (NotificationEntity notificationEntity : notificationSet) {
-                if (notificationEntity.getStatus() == ENotification.NOSEND) {
-                    notificationEntity.setStatus(ENotification.SENDED);
-                    notificationEntity.setTimeNotify(new Timestamp(new Date().getTime()));
-                    notificationRepo.save(notificationEntity);
-                    message.add(new NotificationCheckInModel(notificationEntity));
-                }
-            }
-            notificationRepo.flush();
             // convert Reminder
 
             //Response to Server
             CheckinResponse checkinResponse = new CheckinResponse();
-            checkinResponse.setTimeCheckIn(new Date());
-            checkinResponse.setAccount(new AccountModel(accountEntity));
-            checkinResponse.setMessageReminder(message);
+//            checkinResponse.setTimeCheckIn(new Date());
+//            checkinResponse.setAccount(new AccountModel(accountEntity));
+//            checkinResponse.setMessageReminder(message);
             response.setSuccess(true);
-            response.setData(checkinResponse);
+//            response.setData(checkinResponse);
             return response;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 
+    /**
+     * push notification for device
+     */
+     private void pushNotification(AccountEntity accountEntity) {
+         try {
+             String jsonResponse;
+             URL url = new URL("https://onesignal.com/api/v1/notifications");
+             HttpURLConnection con = (HttpURLConnection)url.openConnection();
+             con.setUseCaches(false);
+             con.setDoOutput(true);
+             con.setDoInput(true);
+
+             con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+             con.setRequestProperty("Authorization", "Basic ZjkwMjQ4MzQtNzM4Ny00NjRhLWFhZmItOGE5ZmEyZGIyMjBh");
+             con.setRequestMethod("POST");
+
+             String strJsonBody = "{"
+                     +   "\"app_id\": \"dbd7cdd6-9555-416b-bc08-21aa24164299\","
+                     +   "\"include_player_ids\" : [\"" + accountEntity.getToken() + "\"],"
+                     +   "\"data\": {\"id\": "+ accountEntity.getId() +"},"
+                     +   "\"contents\": {\"en\": \"Check in successfully\"},"
+                     +   "\"headings\": {\"en\": \"Check in successfully\"}"
+                     + "}";
+
+             System.out.println("strJsonBody:\n" + strJsonBody);
+
+             byte[] sendBytes = strJsonBody.getBytes("UTF-8");
+             con.setFixedLengthStreamingMode(sendBytes.length);
+
+             OutputStream outputStream = con.getOutputStream();
+             outputStream.write(sendBytes);
+
+             int httpResponse = con.getResponseCode();
+             System.out.println("httpResponse: " + httpResponse);
+
+             if (httpResponse >= HttpURLConnection.HTTP_OK  && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST) {
+                 Scanner scanner = new Scanner(con.getInputStream(), "UTF-8");
+                 jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                 scanner.close();
+             } else {
+                 Scanner scanner = new Scanner(con.getErrorStream(), "UTF-8");
+                 jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                 scanner.close();
+             }
+             System.out.println("jsonResponse:\n" + jsonResponse);
+
+         } catch(Throwable t) {
+             t.printStackTrace();
+         }
+     }
+
+    /**
+     *
+     */
+    public List<NotificationCheckInModel> getReminder(Long accountID) {
+        AccountEntity accountEntity = accountRepo.findOne(accountID);
+
+        // accountID -> get Reminder
+        List<NotificationEntity> notificationSet = notificationRepo.findByAccountReceiveByDate(accountEntity.getId());
+        List<NotificationCheckInModel> message = new ArrayList<>();
+        for (NotificationEntity notificationEntity : notificationSet) {
+            if (notificationEntity.getStatus() == ENotification.NOSEND) {
+//                notificationEntity.setStatus(ENotification.SENDED);
+//                notificationEntity.setTimeNotify(new Timestamp(new Date().getTime()));
+//                notificationRepo.save(notificationEntity);
+                message.add(new NotificationCheckInModel(notificationEntity));
+            }
+        }
+//        notificationRepo.flush();
+
+        return message;
+    }
     /**
      * call API and detect img
      */
@@ -422,5 +488,21 @@ public class AccountServiceImpl {
         } else {
             return null;
         }
+    }
+
+    public boolean addMobileTokenID(String accountID, String tokenID) {
+        logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+        List<AccountEntity> list = accountRepo.findByToken(tokenID);
+        if (list.size() != 0 && list != null) {
+            // update null to id
+            AccountEntity accountEntity = list.get(0);
+            accountEntity.setToken(tokenID);
+            accountRepo.saveAndFlush(accountEntity);
+        } else {
+            AccountEntity accountEntity = accountRepo.findOne(Long.parseLong(accountID));
+            accountEntity.setToken(tokenID);
+            accountRepo.saveAndFlush(accountEntity);
+        }
+        return true;
     }
 }

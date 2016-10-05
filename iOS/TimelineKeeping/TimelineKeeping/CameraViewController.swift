@@ -114,15 +114,16 @@ class CameraViewController: UIViewController {
           self.status = .Preview
           
           self.callApiCheckIn(self.cameraStill.image!, completion: { (account, reminder, error) in
-            if let account = account {
-              self.showInfoScren(account, reminder: reminder!)
-            } else {
-              // fail
-              self.cameraPreview.alpha = 1.0
-              self.cameraStill.image = nil
-              self.isCameraTaken = false
-              LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
-            }
+//            if let account = account {
+//              self.showInfoScren(account, reminder: reminder!)
+//            } else {
+//            }
+            // fail
+            self.cameraPreview.alpha = 1.0
+            self.cameraStill.image = nil
+            self.isCameraTaken = false
+            LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
+
           })
           
         } else {
@@ -234,17 +235,17 @@ extension CameraViewController {
       let success = dict["success"] as? Int
       if success == 1 {
         print("Call api success")
-        let content = dict["data"] as! [String : AnyObject]
-        let accountContent = content["account"] as! [String : AnyObject]
-        let account = Account(accountContent)
-        
-        let reminderContent = content["messageReminder"] as! [[String : AnyObject]]
-        let reminder = Reminder.reminders(reminderContent)
-        onCompletionHandler!(account: account, reminder: reminder, error: nil)
+//        let content = dict["data"] as! [String : AnyObject]
+//        let accountContent = content["account"] as! [String : AnyObject]
+//        let account = Account(accountContent)
+//        
+//        let reminderContent = content["messageReminder"] as! [[String : AnyObject]]
+//        let reminder = Reminder.reminders(reminderContent)
+        onCompletionHandler!(account: nil, reminder: nil, error: nil)
       } else {
         print("Fail")
-        let message = dict["message"] as? String
-        onCompletionHandler!(account: nil, reminder: nil, error: NSError(domain: "", code: 0, userInfo: ["info" : message!]))
+//        let message = dict["message"] as? String
+        onCompletionHandler!(account: nil, reminder: nil, error: nil)
       }
 
     }

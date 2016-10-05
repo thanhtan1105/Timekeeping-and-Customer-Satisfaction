@@ -22,7 +22,7 @@ public enum EDayStatus {
     }
 
     public static EDayStatus fromIndex(int index){
-        for (EDayStatus ex : values()){
+        for (EDayStatus ex : values()) {
             if (ex.getIndex() == index){
                 return ex;
             }

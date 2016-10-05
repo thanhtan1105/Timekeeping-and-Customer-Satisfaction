@@ -1,0 +1,18 @@
+PODS:
+  - Alamofire (3.5.1)
+  - OneSignal (2.1.15)
+  - TanLT1Extensions (0.1.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 3.4)
+  - OneSignal
+  - TanLT1Extensions
+
+SPEC CHECKSUMS:
+  Alamofire: 0dfba1184a543e2aa160f4e39cac4e8aba48d223
+  OneSignal: de89d8a0667559332f825dbc2f545af8ce110a5f
+  TanLT1Extensions: 8a53ac053164e7c4b35efe204dc0b711d6b1c60c
+
+PODFILE CHECKSUM: b26ddd1fa553a591e02742f83f1969151d25f230
+
+COCOAPODS: 1.1.0.beta.1
