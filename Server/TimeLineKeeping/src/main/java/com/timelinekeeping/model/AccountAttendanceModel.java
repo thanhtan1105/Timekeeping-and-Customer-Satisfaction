@@ -1,6 +1,7 @@
 package com.timelinekeeping.model;
 
 import com.timelinekeeping.constant.EStatus;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 
 import java.util.Date;
@@ -15,7 +16,7 @@ public class AccountAttendanceModel {
     private String fullname;
     private EStatus active;
     private Date dateDeactive;
-
+    private String timeSystem = IContanst.TIME_CHECK_IN_SYSTEM; // time to compare employee absent or present
     private Integer year;
     private Integer month;
 
@@ -117,5 +118,13 @@ public class AccountAttendanceModel {
 
     public void setDayWork(Integer dayWork) {
         this.dayWork = dayWork;
+    }
+
+    public String getTimeSystem() {
+        return timeSystem;
+    }
+
+    public void setTimeSystem(String timeSystem) {
+        this.timeSystem = timeSystem;
     }
 }
