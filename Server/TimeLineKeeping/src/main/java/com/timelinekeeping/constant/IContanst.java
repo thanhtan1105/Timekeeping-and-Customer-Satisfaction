@@ -49,6 +49,8 @@ public interface IContanst {
     String SIDE_BAR_MANAGER_CHECK_IN = "Checkin";
     String SIDE_BAR_MANAGER_TIMEKEEPING = "Timekeeping";
     String SIDE_BAR_MANAGER_MANAGEMENT_REMINDER = "ManagementReminder";
+    String SIDE_BAR_EMPLOYEE_ATTENDANCE = "Attendance";
+    String SIDE_BAR_EMPLOYEE_CUSTOMER_EMOTION = "CustomerEmotion";
 
     /** CHECKIN*/
     String TIME_CHECK_IN_SYSTEM = AppConfigKeys.getInstance().getApiPropertyValue("checkin.time.system");
