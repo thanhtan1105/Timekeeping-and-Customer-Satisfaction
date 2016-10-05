@@ -36,10 +36,10 @@ $('#change-to-tag-month').on('click', function () {
  */
 $('.selected-date').on('change', function() {
     var selectedDate = $('.selected-date').val(),
-        $form_submit_change_date = $('#form-submit-change-date'),
-        selectedDate = $form_submit_change_date.find('[name="selectedDate"]');
-    selectedDate.val(selectedDate);
+        $form_submit_change_month = $('#form-submit-change-date'),
+        selectedMonth = $form_submit_change_month.find('[name="selectedMonth"]');
+    selectedMonth.val(selectedDate);
 
     // submit form
-    $form_submit_change_date.submit();
+    $form_submit_change_month.submit();
 });
