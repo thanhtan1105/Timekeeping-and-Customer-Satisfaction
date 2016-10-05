@@ -2,20 +2,50 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
+<head lang="en">
+    <meta charset="UTF-8">
     <title>Login Page</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" th:href="@{/libs/bootstrap/css/bootstrap.min.css}"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"/>
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"/>
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/libs/dist/css/AdminLTE.min.css}"/>
 </head>
-<body>
-<div th:if="${param.error}">
-    Invalid username and password.
+<body class="hold-transition login-page">
+<div class="login-box">
+    <div class="login-logo">
+        <a><b>TK</b>&amp;CS</a>
+    </div>
+    <div class="login-box-body">
+        <form th:action="@{/login/processing}" method="post">
+            <div class="form-group has-feedback">
+                <input type="text" th:name="username"
+                       class="form-control" placeholder="Username"
+                       style="font-size: 16px"/>
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" th:name="password"
+                       class="form-control" placeholder="Password"
+                       style="font-size: 16px"/>
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
-<form th:action="@{/login/processing}" method="post">
-    <label>Username: </label> <input type="text" name="username"/><br/>
-    <label>Password: </label> <input type="password" name="password"/><br/>
-    <input type="submit" value="Sign In"/>
-</form>
+
+<!-- jQuery 2.2.0 -->
+<script src="plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
