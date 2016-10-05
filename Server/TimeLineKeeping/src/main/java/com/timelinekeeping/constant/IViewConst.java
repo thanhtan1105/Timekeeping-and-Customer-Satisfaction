@@ -14,6 +14,7 @@ public interface IViewConst {
     String TIME_KEEPING_VIEW = "/views/manager/timekeeping/timekeeping";
     String TIME_KEEPING_DETAILS_VIEW = "/views/manager/timekeeping/timekeeping_details";
     String CUSTOMER_SATISFACTION_MONTH_VIEW = "/views/manager/customer_satisfaction/cus_satisfaction_month";
+    String CUSTOMER_SATISFACTION_DATE_VIEW = "/views/manager/customer_satisfaction/cus_satisfaction_date";
 
     /**
      * Views for employee

@@ -20,4 +20,10 @@ public class CustomerSatisfactionControllerWeb {
         logger.info("[Controller- Load Customer Satisfaction Month View] BEGIN");
         return IViewConst.CUSTOMER_SATISFACTION_MONTH_VIEW;
     }
+
+    @RequestMapping(value = "/date/", method = RequestMethod.GET)
+    public String loadCustomerSatisfactionDateView() {
+        logger.info("[Controller- Load Customer Satisfaction Date View] BEGIN");
+        return IViewConst.CUSTOMER_SATISFACTION_DATE_VIEW;
+    }
 }
