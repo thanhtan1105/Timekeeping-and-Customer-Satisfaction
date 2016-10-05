@@ -133,8 +133,8 @@ public class CustomerSatisfactionControllerWeb {
     }
 
     @RequestMapping(value = "/change_month", method = RequestMethod.POST)
-    public String changeMonthTimekeepingView(@RequestParam("selectedMonth") String selectedMonth,
-                                             Model model, HttpSession session) {
+    public String changeMonthCustomerSatisfactionView(@RequestParam("selectedMonth") String selectedMonth,
+                                                      Model model, HttpSession session) {
         logger.info("[Controller- Change Month Customer Satisfaction Month View] BEGIN");
         logger.info("[Controller- Change Month Customer Satisfaction Month View] selected month: " + selectedMonth);
         String pattern = "MMMM-yyyy";
@@ -177,6 +177,54 @@ public class CustomerSatisfactionControllerWeb {
         }
 
         logger.info("[Controller- Change Month Customer Satisfaction Month View] END");
+        return url;
+    }
+
+    @RequestMapping(value = "/change_date", method = RequestMethod.POST)
+    public String changeDateCustomerSatisfactionView(@RequestParam("selectedDate") String selectedDate,
+                                                     Model model, HttpSession session) {
+        logger.info("[Controller- Change Date Customer Satisfaction Date View] BEGIN");
+        logger.info("[Controller- Change Date Customer Satisfaction Date View] selected date: " + selectedDate);
+        String pattern = "dd-MMMM-yyyy";
+        // parse to date
+        Date date = TimeUtil.parseToDate(selectedDate, pattern);
+        logger.info("[Controller- Change Date Customer Satisfaction Date View] selected date: " + date);
+        // get month, year, day
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        Integer month = calendar.get(Calendar.MONTH) + 1;
+        Integer year = calendar.get(Calendar.YEAR);
+        Integer day = calendar.get(Calendar.DAY_OF_MONTH);
+        logger.info("[Controller- Change Date Customer Satisfaction Date View] selected year: " + year);
+        logger.info("[Controller- Change Date Customer Satisfaction Date View] selected month: " + month);
+        logger.info("[Controller- Change Date Customer Satisfaction Date View] selected date: " + day);
+
+        String url = IViewConst.LOGIN_VIEW;
+        // get session
+        AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
+        if (accountModel != null) {
+            String role = accountModel.getRole().getName().toUpperCase();
+            // check is manager
+            if ("MANAGER".equals(role)) {
+                Long managerId = accountModel.getId();
+
+                //get customer satisfaction report
+                CustomerServiceReport customerServiceReport
+                        = emotionService.reportCustomerService(year, month, day, managerId);
+
+                // set side-bar
+                String sideBar = IContanst.SIDE_BAR_MANAGER_CUSTOMER_SATISFACTION;
+
+                model.addAttribute("CustomerServiceReport", customerServiceReport);
+                model.addAttribute("SelectedDate", selectedDate);
+                // side-bar
+                model.addAttribute("SideBar", sideBar);
+
+                url = IViewConst.CUSTOMER_SATISFACTION_DATE_VIEW;
+            }
+        }
+
+        logger.info("[Controller- Change Date Customer Satisfaction Date View] END");
         return url;
     }
 }
