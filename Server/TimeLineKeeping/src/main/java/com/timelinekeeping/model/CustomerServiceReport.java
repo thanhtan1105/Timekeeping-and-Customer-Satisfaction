@@ -12,6 +12,7 @@ public class CustomerServiceReport {
     private Integer month;
     private DepartmentModel department;
     private Integer totalEmployee;
+    private Long totalCustomer;
     private Double gradeAvg;
 
     private List<AccountReportCustomerService> employeeReport;
@@ -31,11 +32,13 @@ public class CustomerServiceReport {
         this.timeReport = YearMonth.of(year, month);
         this.totalEmployee = employeeReport.size();
         Double sum = 0d;
+        Long sumCustomer = 0l;
         for (AccountReportCustomerService report : employeeReport) {
-
-            sum += report.getGrade() != null ? report.getGrade() : 0;
+            sum += report.getGrade() != null ? report.getGrade() *report.getTotalCustomer() : 0;
+            sumCustomer += report.getTotalCustomer() ;
         }
-        this.gradeAvg = sum / totalEmployee;
+        this.gradeAvg = sumCustomer != 0 ? sum / sumCustomer : 0;
+        this.totalCustomer = sumCustomer;
     }
 
     public void setTimeReport(YearMonth timeReport) {

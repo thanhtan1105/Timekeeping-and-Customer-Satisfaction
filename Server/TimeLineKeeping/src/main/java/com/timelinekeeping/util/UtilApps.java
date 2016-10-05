@@ -24,7 +24,6 @@ public class UtilApps {
     }
 
 
-
     public static InputStream[] muitleStream(InputStream stream, int size) {
         InputStream[] streamResult = new InputStream[size];
         try {
@@ -49,15 +48,17 @@ public class UtilApps {
         Random r = new Random();
         for (int i = 0; i < 4; i++) {
             int p = 97 + r.nextInt(122 - 97);
-            password += r.nextInt(100) +"" + ((char) p);
+            password += r.nextInt(100) + "" + ((char) p);
         }
         return password;
     }
 
-    public static Map<Long, Object[]> converListObject2Map(List<Object[]> objs){
+    public static Map<Long, Object[]> converListObject2Map(List<Object[]> objs) {
         Map<Long, Object[]> map = new HashMap<>();
-        for (Object[] obj: objs) map.put(((BigInteger) obj[0]).longValue(), obj);
-        return  map;
+        for (Object[] obj : objs) {
+            map.put(((Number) obj[0]).longValue(), obj);
+        }
+        return map;
     }
 
     public static void main(String[] args) {

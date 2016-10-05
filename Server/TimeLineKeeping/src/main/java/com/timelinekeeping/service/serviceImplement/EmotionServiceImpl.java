@@ -16,6 +16,7 @@ import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.CustomerServiceRepo;
 import com.timelinekeeping.repository.EmotionRepo;
 import com.timelinekeeping.repository.MessageRepo;
+import com.timelinekeeping.util.ServiceUtils;
 import com.timelinekeeping.util.UtilApps;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -457,7 +458,7 @@ public class EmotionServiceImpl {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             AccountEntity manager = accountRepo.findById(managerId);
-            if (manager == null){
+            if (manager == null) {
                 return null;
             }
             List<AccountEntity> accountEntities = accountRepo.findByManager(managerId);
@@ -469,10 +470,10 @@ public class EmotionServiceImpl {
             Map<Long, Object[]> mapVal = UtilApps.converListObject2Map(objs);
 
             //get tu value trong map add to account
-            for (AccountReportCustomerService customerService: accountReports){
+            for (AccountReportCustomerService customerService : accountReports) {
                 Object[] objects = mapVal.get(customerService.getId());
-                if (objects != null && objects.length >0){
-                    customerService.fromReport(objects);
+                if (objects != null && objects.length > 0) {
+                    customerService.from(objects);
                 }
             }
 
@@ -488,13 +489,15 @@ public class EmotionServiceImpl {
         }
     }
 
-    public CustomerServiceReport reportCustomerServiceEmployee(Integer year, Integer month, Long eployeeId) {
+    public EmployeeReportCustomerService reportCustomerServiceEmployee(Integer year, Integer month, Long eployeeId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            //get employee
+            //List Date Report
+            List<EmployeeReportDate> dayReports = new ArrayList<>();
 
+            //get employee
             AccountEntity employee = accountRepo.findById(eployeeId);
-            if (employee == null){
+            if (employee == null) {
                 return null;
             }
 
@@ -507,20 +510,36 @@ public class EmotionServiceImpl {
             int dayInMonth = yearMonth.lengthOfMonth();
 
             //for one day create Employee Customer Report
-            for (int i = 1; i<= dayInMonth; i++){
+            for (int i = 1; i <= dayInMonth; i++) {
 
+                //create day, dateTime
+                EmployeeReportDate employeeReportDate = new EmployeeReportDate();
+                employeeReportDate.setDay(i);
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month - 1, i);
+                employeeReportDate.setDate(calendar.getTime());
+
+
+                //day type
+                employeeReportDate.setDayStatus(ServiceUtils.convertDateType(employee, calendar));
+
+
+                //get tu value trong map add to account
+                Object[] objects = mapVal.get((long)i);
+                if (objects != null && objects.length > 0) {
+                    employeeReportDate.from(objects);
+                }
+
+                //add to list
+                dayReports.add(employeeReportDate);
             }
-            //convert to map
 
-            //get tu value trong map add to account
 
             //create object return
-
-//            DepartmentModel departmentModel = new DepartmentModel(manager.getDepartment());
-//            CustomerServiceReport customerServiceReport = new CustomerServiceReport(year, month, departmentModel, accountReports);
-//            customerServiceReport.complete();
-//            return customerServiceReport;
-            return null;
+            EmployeeReportCustomerService customerService = new EmployeeReportCustomerService(year, month, employee);
+            customerService.setReportDate(dayReports);
+            customerService.complete();
+            return customerService;
 
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);

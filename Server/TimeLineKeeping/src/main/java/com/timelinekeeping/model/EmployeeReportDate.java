@@ -2,6 +2,7 @@ package com.timelinekeeping.model;
 
 import com.timelinekeeping.constant.EDayStatus;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -10,8 +11,8 @@ import java.util.Date;
 public class EmployeeReportDate {
     private int day;
     private Date date;
-    private int totalCustomer;
-    private Double grade;
+    private int totalCustomer = 0;
+    private double grade = 0d;
     private EDayStatus dayStatus = EDayStatus.NORMAL;
 
     public EmployeeReportDate() {
@@ -23,6 +24,14 @@ public class EmployeeReportDate {
         this.totalCustomer = totalCustomer;
         this.grade = grade;
         this.dayStatus = dayStatus;
+    }
+
+    public void from(Object[] obj){
+        if (obj!= null && obj.length ==3){
+            this.totalCustomer = obj[1] != null ? ((BigInteger)obj[1]).intValue() : 0;
+            this.grade = obj[2] != null ? (Double) obj[2] : 0;
+        }
+
     }
 
     public int getDay() {

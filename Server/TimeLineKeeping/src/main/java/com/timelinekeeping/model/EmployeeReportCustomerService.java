@@ -1,5 +1,7 @@
 package com.timelinekeeping.model;
 
+import com.timelinekeeping.entity.AccountEntity;
+
 import java.time.YearMonth;
 import java.util.List;
 
@@ -17,11 +19,35 @@ public class EmployeeReportCustomerService {
     private String fullname;
     private DepartmentModel department;
     private Long totalCustomer;
-    private Double grade;
+    private Double gradeAvg;
 
     private List<EmployeeReportDate> reportDate;
 
     public EmployeeReportCustomerService() {
+    }
+
+    public EmployeeReportCustomerService(Integer year, Integer month, AccountEntity entity) {
+        this.year = year;
+        this.month = month;
+        if (entity != null) {
+            this.id = entity.getId();
+            this.username = entity.getUsername();
+            this.role = new RoleModel(entity.getRole());
+            this.fullname = entity.getFullname();
+            this.department = new DepartmentModel(entity.getDepartment());
+        }
+    }
+
+    public void complete() {
+        this.yearMonth = YearMonth.of(year, month);
+        Double sum = 0d;
+        Long sumCustomer = 0l;
+        for (EmployeeReportDate report : reportDate) {
+            sum += report.getGrade() != null ? report.getGrade() * report.getTotalCustomer() : 0;
+            sumCustomer += report.getTotalCustomer();
+        }
+        this.gradeAvg = sumCustomer !=0 ? sum / sumCustomer : 0;
+        this.totalCustomer = sumCustomer;
     }
 
     public YearMonth getYearMonth() {
@@ -96,12 +122,12 @@ public class EmployeeReportCustomerService {
         this.totalCustomer = totalCustomer;
     }
 
-    public Double getGrade() {
-        return grade;
+    public Double getGradeAvg() {
+        return gradeAvg;
     }
 
-    public void setGrade(Double grade) {
-        this.grade = grade;
+    public void setGradeAvg(Double gradeAvg) {
+        this.gradeAvg = gradeAvg;
     }
 
     public List<EmployeeReportDate> getReportDate() {
@@ -110,5 +136,22 @@ public class EmployeeReportCustomerService {
 
     public void setReportDate(List<EmployeeReportDate> reportDate) {
         this.reportDate = reportDate;
+    }
+
+    @Override
+    public String toString() {
+        return "EmployeeReportCustomerService{" +
+                "yearMonth=" + yearMonth +
+                ", year=" + year +
+                ", month=" + month +
+                ", id=" + id +
+                ", username='" + username + '\'' +
+                ", role=" + role +
+                ", fullname='" + fullname + '\'' +
+                ", department=" + department +
+                ", totalCustomer=" + totalCustomer +
+                ", gradeAvg=" + gradeAvg +
+                ", reportDate=" + reportDate +
+                '}';
     }
 }
