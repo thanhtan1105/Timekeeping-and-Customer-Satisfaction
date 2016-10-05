@@ -8,11 +8,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum ETransaction {
 
     BEGIN(0, "BEGIN"),
-    PROCESS(1, "PROCESS"),
-    END(2, "END"),
-    ERROR(3, "ERROR"),
-    PAUSE(4, "PAUSE"),
-    STOP(5, "STOP");
+    BEGIN_MOBILE(1, "BEGIN_MOBILE"),
+    PROCESS(2, "PROCESS"),
+    END(3, "END"),
+    ERROR(4, "ERROR"),
+    PAUSE(5, "PAUSE"),
+    STOP(6  , "STOP");
 
     private int index;
     private String name;
