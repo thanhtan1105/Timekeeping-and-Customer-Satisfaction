@@ -21,7 +21,7 @@ public interface CustomerServiceRepo extends JpaRepository<CustomerServiceEntity
     public CustomerServiceEntity findByCustomerCode(@Param("customerCode") String customerCode);
 
 
-    @Query(value = "SELECT create_by, count(customer_code) as cusotmer_code, avg(grade) as grade from customer_service WHERE  year(create_time) = :year AND month(create_time)=:month AND (null != :day or day(create_time) = :day) Group by create_by;", nativeQuery = true)
+    @Query(value = "SELECT create_by, count(customer_code) as cusotmer_code, avg(grade) as grade from customer_service WHERE  year(create_time) = :year AND month(create_time)=:month AND (:day = -1 or day(create_time) = :day) Group by create_by;", nativeQuery = true)
     public List<Object[]> reportCustomerByMonth(@Param("year") Integer year,
                                                 @Param("month") Integer month,
                                                 @Param("day") Integer day);

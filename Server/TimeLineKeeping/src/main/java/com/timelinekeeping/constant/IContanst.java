@@ -34,6 +34,7 @@ public interface IContanst {
     int PAGE_SIZE_I = 10;
     String PAGE_PAGE = 0 + "";
     String PAGE_SIZE = 10 + "";
+    String DEFAULT_INT = -1 + "";
     double MCS_PERSON_DETECT_CONFIDINCE_CORRECT = AppConfigKeys.getInstance().getApiPropertyDouble("detect.person.indetify.confidence");
 
 
@@ -51,5 +52,6 @@ public interface IContanst {
 
     /** CHECKIN*/
     String TIME_CHECK_IN_SYSTEM = AppConfigKeys.getInstance().getApiPropertyValue("checkin.time.system");
+
 
 }

@@ -7,6 +7,10 @@ import org.apache.commons.io.IOUtils;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -48,6 +52,12 @@ public class UtilApps {
             password += r.nextInt(100) +"" + ((char) p);
         }
         return password;
+    }
+
+    public static Map<Long, Object[]> converListObject2Map(List<Object[]> objs){
+        Map<Long, Object[]> map = new HashMap<>();
+        for (Object[] obj: objs) map.put(((BigInteger) obj[0]).longValue(), obj);
+        return  map;
     }
 
     public static void main(String[] args) {
