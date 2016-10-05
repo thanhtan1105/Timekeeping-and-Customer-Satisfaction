@@ -27,7 +27,7 @@
                 <div class="col-sm-5 text-right text-bold">
                     <font>Department:</font></div>
                 <div class="col-sm-6 text-left">
-                    <font>Informaiton Technology</font></div>
+                    <font th:text="${CustomerServiceReport.department.name}">Informaiton Technology</font></div>
             </div>
             <!-- /.end department -->
             <!-- month -->
@@ -36,7 +36,8 @@
                     <font>Month:</font></div>
                 <div class="col-sm-6 text-left">
                     <div class="input-group date" style="width: 35%">
-                        <input type="text" class="form-control pull-left" id="date_picker_month"/>
+                        <input type="text" th:value="${#dates.format(SelectedDate, 'MMMM-yyyy')}"
+                               class="form-control pull-left" id="date_picker_month"/>
 
                         <div class="input-group-addon">
                             <i class="fa fa-calendar text-success"></i>
@@ -58,7 +59,7 @@
                                 Filter By Date</a>
                         </li>
                         <form th:id="'form-submit-change-to-tag-date'"
-                                th:action="@{/manager/cus_satisfaction/date/}" method="get"></form>
+                              th:action="@{/manager/cus_satisfaction/date/}" method="get"></form>
                     </ul>
                     <div class="tab-content">
                         <div class="active tab-pane">
