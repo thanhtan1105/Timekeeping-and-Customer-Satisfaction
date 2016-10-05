@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout_manager">
+
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Customer Satisfaction</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <!-- Info: manager, department, date -->
+        <div style="margin-bottom: 10px">
+            <div class="row text-success" style="font-size: 24px;">
+                <div class="col-sm-5 text-right text-bold">
+                    <i class="fa fa-thumbs-o-up"></i>
+                </div>
+                <div class="col-sm-6 text-left">
+                    <font>Customer Satisfaction</font>
+                </div>
+            </div>
+            <!-- department -->
+            <div class="row text-success" style="font-size: 18px;">
+                <div class="col-sm-5 text-right text-bold">
+                    <font>Department:</font></div>
+                <div class="col-sm-6 text-left">
+                    <font>Informaiton Technology</font></div>
+            </div>
+            <!-- /.end department -->
+            <!-- month -->
+            <div class="row text-success" style="font-size: 18px;">
+                <div class="col-sm-5 text-right text-bold">
+                    <font>Month:</font></div>
+                <div class="col-sm-6 text-left">
+                    <div class="input-group date" style="width: 35%">
+                        <input type="text" class="form-control pull-left" id="date_picker_month"/>
+
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.end month -->
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- Line chart -->
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title text-success">
+                            <i class="fa fa-user"></i> Thái Quang Hiển</h3>
+                    </div>
+                    <div class="box-body chart-responsive">
+                        <div class="chart" id="line-chart" style="height: 300px;"></div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <button class="btn btn-primary btn-flat btn-sm" style="width: 45%">
+                    <i class="glyphicon glyphicon-arrow-left"></i> BACK
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<div layout:fragment="js">
+    <script th:src="@{/js/manager/customer_satisfaction/cus_satisfaction_month_details.js}"></script>
+</div>
+</body>
+</html>
