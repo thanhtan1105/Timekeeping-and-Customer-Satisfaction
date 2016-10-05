@@ -27,7 +27,8 @@
                 <div class="col-sm-5 text-right text-bold">
                     <font>Department:</font></div>
                 <div class="col-sm-6 text-left">
-                    <font>Informaiton Technology</font></div>
+                    <font th:if="${session} and ${session.UserSession}"
+                          th:text="${session.UserSession.department.name}"></font></div>
             </div>
             <!-- /.end department -->
             <!-- date -->
@@ -35,7 +36,7 @@
                 <div class="col-sm-5 text-right text-bold">
                     <font>Date:</font></div>
                 <div class="col-sm-6 text-left">
-                    <font>04-Oct-2016</font></div>
+                    <font th:text="${#dates.format(CurrentDate, 'dd-MMM-yyyy')}"></font></div>
             </div>
             <!-- /.end date -->
             <!-- button -->
@@ -52,15 +53,11 @@
                 </div>
                 <input type="hidden" th:id="employeeId"
                        th:if="${session} and ${session.UserSession}"
-                       th:value="${session.UserSession.id}" />
+                       th:value="${session.UserSession.id}"/>
             </div>
             <!-- /.end button -->
-            <div class="row">
-                <font th:id="'result'"></font><br/>
-                <font th:id="'customer-emotion'"></font>
-            </div>
         </div>
-        <div class="panel panel-default">
+        <div class="panel panel-default" th:id="'panel-bar-chart'">
             <div class="panel-body">
                 <div class="row" style="margin-bottom: 5px">
                     <div class="col-sm-1"></div>
@@ -73,14 +70,16 @@
                 <div class="row">
                     <div class="col-sm-1"></div>
                     <div class="col-sm-10">
-                        <label>Age:</label> 24
+                        <label>Age:</label>
+                        <font th:id="'font-age'"></font>
                     </div>
                     <div class="col-sm-1"></div>
                 </div>
                 <div class="row">
                     <div class="col-sm-1"></div>
                     <div class="col-sm-10">
-                        <label>Gender:</label> Male
+                        <label>Gender:</label>
+                        <font th:id="'font-gender'"></font>
                     </div>
                     <div class="col-sm-1"></div>
                 </div>

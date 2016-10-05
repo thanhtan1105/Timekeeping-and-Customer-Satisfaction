@@ -3,6 +3,11 @@
  */
 
 /**
+ * Hide: panel bar chart
+ */
+event_hide('#panel-bar-chart');
+
+/**
  * Data bar chart
  * @type {{data: *[emotion ratios], color: string}}
  */
@@ -44,6 +49,8 @@ $('#btn-begin-transaction').on('click', function () {
     event_disabled('#btn-end-transaction', false);
     //disable button begin
     event_disabled('#btn-begin-transaction', true);
+    //hide panel bar chart
+    event_hide('#panel-bar-chart');
     //request begin transaction
     worker_begin_transaction();
 });
@@ -70,6 +77,8 @@ $('#btn-end-transaction').on('click', function () {
                 event_disabled('#btn-end-transaction', true);
                 //enable button begin
                 event_disabled('#btn-begin-transaction', false);
+                //hide panel bar chart
+                event_hide('#panel-bar-chart');
             }
         }
     });
@@ -91,7 +100,6 @@ function worker_begin_transaction() {
         success: function (response) {
             if (response.success) {
                 customerCode = response.data;
-                $('#result').html(customerCode);
                 if (customerCode != null) {
                     //stop request: begin transaction
                     clearTimeout(timer_begin_transaction);
@@ -134,21 +142,11 @@ function worker_get_emotion() {
                     age = data.age,
                     gender = data.gender,
                     emotionMost = data.emotionMost,
-                    content = '';
-                content += 'anger: ' + anger;
-                content += ' - contempt: ' + contempt;
-                content += ' - disgust: ' + disgust;
-                content += ' - fear: ' + fear;
-                content += ' - happiness: ' + happiness;
-                content += ' - happiness: ' + happiness;
-                content += ' - neutral: ' + neutral;
-                content += ' - sadness: ' + sadness;
-                content += ' - surprise: ' + surprise;
-                content += ' - age: ' + age;
-                content += ' - gender: ' + gender;
-                content += ' - emotionMost: ' + emotionMost;
-                $('#customer-emotion').html(content);
+                    $font_age = $('#font-age'),
+                    $font_gender = $('#font-gender');
 
+                //show panel bar chart
+                event_show('#panel-bar-chart');
                 //set data bar chart
                 bar_data = {
                     data: [["Anger", anger], ["Contempt", contempt], ["Disgust", disgust], ["Fear", fear],
@@ -156,6 +154,14 @@ function worker_get_emotion() {
                     color: "#3c8dbc"
                 };
                 load_bar_chart();
+                //set age
+                $font_age.html(age);
+                //set gender
+                if (gender == 0) {
+                    $font_gender.html('Male');
+                } else {
+                    $font_gender.html('Female');
+                }
 
                 //stop request: get first emotion
                 clearTimeout(timer_get_emotion);
@@ -165,7 +171,28 @@ function worker_get_emotion() {
     timer_get_emotion = setTimeout(worker_get_emotion, 5000);
 };
 
+/**
+ * Event: disabled/enabled
+ * @param id
+ * @param isDisabled
+ */
 function event_disabled(id, isDisabled) {
     $(id).prop('disabled', isDisabled);
+}
+
+/**
+ * Event: hide
+ * @param id
+ */
+function event_hide(id) {
+    $(id).hide();
+}
+
+/**
+ * Event: show
+ * @param id
+ */
+function event_show(id) {
+    $(id).show();
 }
 
