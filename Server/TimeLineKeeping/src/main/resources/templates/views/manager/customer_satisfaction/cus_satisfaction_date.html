@@ -27,7 +27,7 @@
                 <div class="col-sm-5 text-right text-bold">
                     <font>Department:</font></div>
                 <div class="col-sm-6 text-left">
-                    <font>Informaiton Technology</font></div>
+                    <font th:text="${CustomerServiceReport.department.name}"></font></div>
             </div>
             <!-- /.end department -->
             <!-- date -->
@@ -36,7 +36,8 @@
                     <font>Date:</font></div>
                 <div class="col-sm-6 text-left">
                     <div class="input-group date" style="width: 35%">
-                        <input type="text" class="form-control pull-left" id="date_picker_date"/>
+                        <input type="text" th:value="${#dates.format(SelectedDate, 'dd-MMMM-yyyy')}"
+                               class="form-control pull-left" id="date_picker_date"/>
 
                         <div class="input-group-addon">
                             <i class="fa fa-calendar text-success"></i>
@@ -83,10 +84,9 @@
                                     <table class="table">
                                         <colgroup>
                                             <col span="1" style="width: 5%;">
-                                            <col span="1" style="width: 25%;">
                                             <col span="1" style="width: 30%;">
-                                            <col span="1" style="width: 35%;">
-                                            <col span="1" style="width: 5%;">
+                                            <col span="1" style="width: 25%;">
+                                            <col span="1" style="width: 40%;">
                                         </colgroup>
                                         <thead>
                                         <tr>
@@ -94,35 +94,16 @@
                                             <th>Name</th>
                                             <th class="text-center">Total Served Customers</th>
                                             <th class="text-center">Grade</th>
-                                            <th class="text-center">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td>1.</td>
-                                            <td>Thái Quang Hiển</td>
-                                            <td class="text-center">10</td>
-                                            <td class="text-center">9.5</td>
-                                            <td class="text-center">
-                                                <button class="btn bg-aqua-active btn-flat btn-sm" type="button"
-                                                        style="width: 100%;"
-                                                        title="Edit Class">
-                                                    <i class="fa fa-hand-pointer-o"></i> View Details
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2.</td>
-                                            <td>Lê Thanh Tân</td>
-                                            <td class="text-center">9</td>
-                                            <td class="text-center">9</td>
-                                            <td class="text-center">
-                                                <button class="btn bg-aqua-active btn-flat btn-sm" type="button"
-                                                        style="width: 100%"
-                                                        title="Edit Class">
-                                                    <i class="fa fa-hand-pointer-o"></i> View Details
-                                                </button>
-                                            </td>
+                                        <tr th:each="employee,counter: ${CustomerServiceReport.employeeReport}">
+                                            <td th:text="${counter.count} + '.'"></td>
+                                            <td th:text="${employee.username}"></td>
+                                            <td th:text="${employee.totalCustomer != null}? ${employee.totalCustomer}: 0"
+                                                class="text-center"></td>
+                                            <td th:text="${#numbers.formatDecimal(employee.grade, 1, 2)}"
+                                                class="text-center"></td>
                                         </tr>
                                         </tbody>
                                     </table>
