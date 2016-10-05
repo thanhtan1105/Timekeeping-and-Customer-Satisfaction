@@ -3,6 +3,35 @@
  */
 
 /**
+ * Init bar chart
+ */
+$(function () {
+    var bar_data = {
+        data: [["Anger", 0.0001], ["Contempt", 0.0005], ["Disgust", 0.00001], ["Fear", 0.00003],
+            ["Happiness", 0.9], ["Neutral", 0.1], ["Sadness", 0.00002], ["Surprise", 0.0002]],
+        color: "#3c8dbc"
+    };
+    $.plot("#bar-chart", [bar_data], {
+        grid: {
+            borderWidth: 1,
+            borderColor: "#f3f3f3",
+            tickColor: "#f3f3f3"
+        },
+        series: {
+            bars: {
+                show: true,
+                barWidth: 0.5,
+                align: "center"
+            }
+        },
+        xaxis: {
+            mode: "categories",
+            tickLength: 0
+        }
+    });
+});
+
+/**
  * Event: begin transaction
  */
 $('#btn-begin-transaction').on('click', function () {
