@@ -11,14 +11,28 @@ public class CustomerServiceReport {
     private Integer year;
     private Integer month;
     private DepartmentModel department;
+    private Integer totalEmployee;
+    private Double gradeAvg;
 
-    private List<CustomerServiceReportEmployee> employeeReport;
+    private List<AccountReportCustomerService> employeeReport;
 
     public CustomerServiceReport() {
+
     }
 
-    public Date getTimeReport() {
-        return timeReport;
+    public CustomerServiceReport(Integer year, Integer month, DepartmentModel department, List<AccountReportCustomerService> employeeReport) {
+        this.year = year;
+        this.month = month;
+        this.department = department;
+        this.employeeReport = employeeReport;
+    }
+
+    public void complete() {
+        this.timeReport = new Date();
+        this.totalEmployee = employeeReport.size();
+        Double sum = 0d;
+        for (AccountReportCustomerService report : employeeReport) sum += report.getGrade();
+        this.gradeAvg = sum / totalEmployee;
     }
 
     public void setTimeReport(Date timeReport) {
@@ -49,11 +63,11 @@ public class CustomerServiceReport {
         this.department = department;
     }
 
-    public List<CustomerServiceReportEmployee> getEmployeeReport() {
+    public List<AccountReportCustomerService> getEmployeeReport() {
         return employeeReport;
     }
 
-    public void setEmployeeReport(List<CustomerServiceReportEmployee> employeeReport) {
+    public void setEmployeeReport(List<AccountReportCustomerService> employeeReport) {
         this.employeeReport = employeeReport;
     }
 }

@@ -36,6 +36,7 @@ public interface I_URI {
     String API_EMOTION_BEGIN_TRANSACTION = "/begin_transaction";
     String API_EMOTION_PROCESS_TRANSACTION = "/process_transaction";
     String API_EMOTION_END_TRANSACTION = "/end_transaction";
+    String API_EMOTION_REPORT = "/report";
 
 
     /** Reminder*/
