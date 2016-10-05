@@ -437,5 +437,4 @@ public class EmotionServiceImpl {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
-
 }
