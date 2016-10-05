@@ -456,7 +456,6 @@ public class EmotionServiceImpl {
     public CustomerServiceReport reportCustomerService(Integer year, Integer month, Integer day, Long managerId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-//            logger.("Year = {}, Month = {}, Day = {}, ManagerId = {}", year, month, day, managerId);
             AccountEntity manager = accountRepo.findById(managerId);
             if (manager == null){
                 return null;

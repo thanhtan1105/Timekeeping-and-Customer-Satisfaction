@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout_manager">
+
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Customer Satisfaction</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <!-- Info: manager, department, date -->
+        <div style="margin-bottom: 10px">
+            <div class="row text-success" style="font-size: 24px;">
+                <div class="col-sm-5 text-right text-bold">
+                    <i class="fa fa-thumbs-o-up"></i>
+                </div>
+                <div class="col-sm-6 text-left">
+                    <font>Customer Satisfaction</font>
+                </div>
+            </div>
+            <!-- department -->
+            <div class="row text-success" style="font-size: 18px;">
+                <div class="col-sm-5 text-right text-bold">
+                    <font>Department:</font></div>
+                <div class="col-sm-6 text-left">
+                    <font th:text="${CustomerServiceReport.department.name}">Informaiton Technology</font></div>
+            </div>
+            <!-- /.end department -->
+            <!-- month -->
+            <div class="row text-success" style="font-size: 18px;">
+                <div class="col-sm-5 text-right text-bold">
+                    <font>Month:</font></div>
+                <div class="col-sm-6 text-left">
+                    <div class="input-group date" style="width: 35%">
+                        <input type="text" th:value="${#dates.format(SelectedDate, 'MMMM-yyyy')}"
+                               class="form-control pull-left" id="date_picker_month"/>
+
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.end month -->
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a data-toggle="tab">Filter By Month</a>
+                        </li>
+                        <li>
+                            <a th:id="'change-to-tag-date'" data-toggle="tab">
+                                Filter By Date</a>
+                        </li>
+                        <form th:id="'form-submit-change-to-tag-date'"
+                              th:action="@{/manager/cus_satisfaction/date/}" method="get"></form>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="active tab-pane">
+                            <div class="row" style="margin-bottom: 10px;">
+                                <div class="col-sm-6">
+                                    <font class="box-title text-success" style="font-size: 19px">
+                                        <i class="fa fa-users"></i> Employees List</font>
+                                </div>
+                                <div class="col-sm-6 text-right">
+                                    <div class="input-group" style="margin-left: 60%">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-success btn-flat btn-sm" type="button">
+                                                    <i class="glyphicon glyphicon-search"></i>
+                                                </button>
+                                            </span>
+                                        <input type="text" class="form-control input-sm"
+                                               placeholder="Enter Employee Name"
+                                               style="font-size: 15px"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table">
+                                        <colgroup>
+                                            <col span="1" style="width: 5%;">
+                                            <col span="1" style="width: 25%;">
+                                            <col span="1" style="width: 30%;">
+                                            <col span="1" style="width: 35%;">
+                                            <col span="1" style="width: 5%;">
+                                        </colgroup>
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th class="text-center">Total Served Customers</th>
+                                            <th class="text-center">Grade</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>1.</td>
+                                            <td>Thái Quang Hiển</td>
+                                            <td class="text-center">100</td>
+                                            <td class="text-center">9.5</td>
+                                            <td class="text-center">
+                                                <button class="btn bg-aqua-active btn-flat btn-sm" type="button"
+                                                        style="width: 100%;"
+                                                        title="Edit Class">
+                                                    <i class="fa fa-hand-pointer-o"></i> View Details
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2.</td>
+                                            <td>Lê Thanh Tân</td>
+                                            <td class="text-center">90</td>
+                                            <td class="text-center">9</td>
+                                            <td class="text-center">
+                                                <button class="btn bg-aqua-active btn-flat btn-sm" type="button"
+                                                        style="width: 100%"
+                                                        title="Edit Class">
+                                                    <i class="fa fa-hand-pointer-o"></i> View Details
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.tab-pane -->
+                    </div>
+                    <!-- /.tab-content -->
+                </div>
+                <!-- /.nav-tabs-custom -->
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<div layout:fragment="js">
+    <script th:src="@{/js/manager/customer_satisfaction/cus_satisfaction_month.js}"></script>
+</div>
+</body>
+</html>
