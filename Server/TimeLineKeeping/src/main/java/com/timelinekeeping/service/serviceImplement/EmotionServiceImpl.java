@@ -284,14 +284,13 @@ public class EmotionServiceImpl {
             }
             CustomerServiceEntity customerResultEntity = customerRepo.saveAndFlush(new CustomerServiceEntity(employee));
 
-
             List<EmotionAnalysisModel> listEmotionAnalysis = getCustomerEmotion(imageStream);
             if (listEmotionAnalysis != null && listEmotionAnalysis.size() > 0) {
                 //TODO choose best way
                 EmotionAnalysisModel mostChoose = listEmotionAnalysis.get(0);
 
                 //save mostChoose
-                EmotionCustomerEntity emotionEntity  = new EmotionCustomerEntity(mostChoose, customerResultEntity);
+                EmotionCustomerEntity emotionEntity = new EmotionCustomerEntity(mostChoose, customerResultEntity);
                 emotionRepo.saveAndFlush(emotionEntity);
 
                 //getMessage
@@ -373,4 +372,82 @@ public class EmotionServiceImpl {
         }
     }
 
+    /**
+     * @author TrungNN
+     * Web employee: begin transaction
+     */
+    public CustomerServiceEntity beginTransactionWeb(Long employeeId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            //create Customer service
+            AccountEntity employee = accountRepo.findOne(employeeId);
+            if (employee == null) {
+                logger.error(String.format(ERROR.TIME_KEEPING_ACCOUNT_ID_CANNOT_EXIST, employeeId));
+                return null;
+            }
+            CustomerServiceEntity customerResultEntity = new CustomerServiceEntity(employee);
+
+            //set status = BEGIN
+            customerResultEntity.setStatus(ETransaction.BEGIN);
+            return customerRepo.saveAndFlush(customerResultEntity);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    /**
+     * @author TrungNN
+     * Web employee: get 1st emotion
+     */
+    public EmotionCustomerWebResponse getFirstEmotionWeb(String customerCode) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            //get Customer Service with customerCode
+            CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
+            if (customerResultEntity != null
+                    && (customerResultEntity.getStatus() == ETransaction.BEGIN
+                    || customerResultEntity.getStatus() == ETransaction.PROCESS)) {
+                Long customerId = customerResultEntity.getId();
+                List<EmotionCustomerEntity> emotionCustomerEntities = emotionRepo.findByCustomerId(customerId);
+                logger.info("[API Service- Get First Customer Emotion Web] list emotion customer[size]: "
+                        + emotionCustomerEntities.size());
+                if (emotionCustomerEntities != null && emotionCustomerEntities.size() > 0) {
+                    EmotionCustomerWebResponse emotionCustomerWebResponse
+                            = new EmotionCustomerWebResponse(emotionCustomerEntities.get(0));
+                    return emotionCustomerWebResponse;
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    /**
+     * @author TrungNN
+     * Web employee: end transaction
+     */
+    public Boolean endTransactionWeb(String customerCode) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            //get Customer Service with customerCode
+            CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
+            if (customerResultEntity != null
+                    && (customerResultEntity.getStatus() == ETransaction.BEGIN
+                    || customerResultEntity.getStatus() == ETransaction.PROCESS)) {
+                //change status = END
+                customerResultEntity.setStatus(ETransaction.END);
+                customerRepo.saveAndFlush(customerResultEntity);
+                return true;
+            } else {
+                logger.error("CustomerService has status: " + customerResultEntity.getStatus());
+                return false;
+            }
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
 }
