@@ -12,10 +12,18 @@ import Alamofire
 // MARK: - Public method
 class APIRequest: NSObject {
 
+  var http : String {
+    get {
+      let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.43.93"
+      let http = prefixHttp + ip + surfixHttp
+      return http
+    }
+  }
+  
   static let shareInstance = APIRequest()
   
   func login(username: String, password: String, onCompletion: ServiceResponse) {
-    let url = urlLogin
+    let url = http + urlLogin
     let header = [
       "Content-Type" : "application/json",
     ]
@@ -28,7 +36,7 @@ class APIRequest: NSObject {
   }
   
   func updateToken(accountID: String, token: String, onCompletion: ServiceResponse) {
-    let url = urlUpdateToken
+    let url = http + urlUpdateToken
     let header = [
       "Content-Type" : "application/json",
     ]
@@ -42,7 +50,7 @@ class APIRequest: NSObject {
   }
   
   func getNotification(accountID: String, onCompletion: ServiceResponse) {
-    let url = urlGetReminder
+    let url = http + urlGetReminder
     let header = [
       "Content-Type" : "application/json",
     ]
@@ -54,7 +62,7 @@ class APIRequest: NSObject {
   }
   
   func getAttendance(accountID: String, month: Int, year: Int, onCompletion: ServiceResponse) {
-    let url = urlGetAttance
+    let url = http + urlGetAttance
     let header = [
       "Content-Type" : "application/json",
       ]

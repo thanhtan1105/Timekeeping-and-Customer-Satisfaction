@@ -8,17 +8,6 @@
 
 import Foundation
 
-// Server
-enum Enviroment {
-  case dev
-  case test
-  case production
-}
-
-let enviroment = Enviroment.dev
-//let enviroment = Enviroment.test
-//let enviroment = Enviroment.production
-
 let prefixHttp: String = "http://"
 let surfixHttp: String = ":8080/api"
 

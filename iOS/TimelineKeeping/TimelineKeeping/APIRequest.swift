@@ -12,10 +12,19 @@ import Alamofire
 // MARK: - Public method
 class APIRequest: NSObject {
 
+  var http : String {
+    get {
+      let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "172.20.10.4"
+      let http = prefixHttp + ip + surfixHttp
+      return http
+    }
+  }
+  
+  
   static let shareInstance = APIRequest()
  
   func identifyImage(image: UIImage, onCompletion: ServiceResponse) {
-    let url = urlCheckIn
+    let url = http + urlCheckIn
     print(url)
     let request = NSMutableURLRequest(URL: NSURL(string: url)!)
     request.HTTPMethod = "POST"

@@ -12,11 +12,17 @@ import Alamofire
 // MARK: - Public method
 class APIRequest: NSObject {
 
+  var http : String {
+    get {
+      let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.43.93"
+      let http = prefixHttp + ip + surfixHttp
+      return http
+    }
+  }
+  
   static let shareInstance = APIRequest()
  
   func beginTransaction(employeeId: String, onCompletion: ServiceResponse) {
-    let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.43.93"
-    let http = prefixHttp + ip + surfixHttp
     let url = http + urlBeginTransaction
     let header = [
       "Content-Type" : "application/json",
@@ -28,8 +34,6 @@ class APIRequest: NSObject {
   }
   
   func startTransaction(customerCode: String, onCompletion: ServiceResponse) {
-    let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.43.93"
-    let http = prefixHttp + ip + surfixHttp
     let url = http + urlStartTransaction
     let header = [
       "Content-Type" : "application/json",
@@ -41,8 +45,6 @@ class APIRequest: NSObject {
   }
 
   func processingTransaction(image: UIImage, customerCode: String, onCompletion: ServiceResponse) {
-    let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.43.93"
-    let http = prefixHttp + ip + surfixHttp
     let url = http + urlProcessTransaction
     let request = NSMutableURLRequest(URL: NSURL(string: url)!)
     request.HTTPMethod = "POST"

@@ -8,39 +8,9 @@
 
 import Foundation
 
-// Server
-enum Enviroment {
-	case dev
-	case test
-	case production
-  case home
-  case Hien
-  case Tan
-}
+let prefixHttp: String = "http://"
+let surfixHttp: String = ":8080/api"
 
-let enviroment = Enviroment.Tan
-
-let ip: String = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? ""
-
-let serverUrl: String = "http://" + ip + ":8080/api"
-
-//let serverUrl: String = {
-//	switch enviroment {
-//	case .dev:
-//		return "http://192.168.150.81:8080/api"
-//	case .test:
-//		return "Enviroment.TEST HERE"
-//	case .production:
-//		return "Enviroment.PRODUCTION HERE"
-//  case .home:
-//    return "http://192.168.1.102:8080/api"
-//  case .Hien:
-//    return "http://192.168.43.79:8080/api"
-//  case .Tan:
-//    return "http://192.168.1.107:8080/api"
-//	}
-//
-//}()
 
 
 // MARK :- URL API
@@ -52,12 +22,11 @@ let serverUrl: String = "http://" + ip + ":8080/api"
  "userId": "1"
 } */
 
-let urlGetUserDetail: String = serverUrl.stringByAppendingString("/face/identifyImage")
-let urlGetDepartment: String = serverUrl.stringByAppendingString("/department/list")
-let urlGetAccountList: String = serverUrl.stringByAppendingString("/account/search_department")
-//let urlGetAccountList: String = serverUrl.stringByAppendingString("/account/list")
-let urlAddFaceToPerson: String = serverUrl.stringByAppendingString("/account/add_face")
-let urlSendTrainingStatus: String = serverUrl.stringByAppendingString("/department/training")
+let urlGetUserDetail: String = "/face/identifyImage"
+let urlGetDepartment: String = "/department/list"
+let urlGetAccountList: String = "/account/search_department"
+let urlAddFaceToPerson: String = "/account/add_face"
+let urlSendTrainingStatus: String = "/department/training"
 
 
 

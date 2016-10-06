@@ -29,7 +29,7 @@ class TrainingImageViewController: BaseViewController {
     }
     
     alert.addTextFieldWithConfigurationHandler { (textField: UITextField) in
-      textField.text = ip
+      textField.text = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? ""
     }
     alert.addAction(okAction)
     alert.addAction(cancelAction)

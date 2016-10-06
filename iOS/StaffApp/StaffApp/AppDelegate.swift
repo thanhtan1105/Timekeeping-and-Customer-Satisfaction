@@ -17,20 +17,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
   
-    // _ = OneSignal(launchOptions: launchOptions, appId: "dbd7cdd6-9555-416b-bc08-21aa24164299", handleNotification: nil)
-    
-    // OneSignal.defaultClient().enableInAppAlertNotification(true)
     OneSignal.initWithLaunchOptions(launchOptions, appId: "dbd7cdd6-9555-416b-bc08-21aa24164299") { (result: OSNotificationOpenedResult!) in
       // This block gets called when the user reacts to a notification received
       let payload = result.notification.payload
-      let id = payload.additionalData["id"] as! Int
+//      let id = payload.additionalData["id"] as! Int
       
       // download notification
-      
-      
-      
-      
-      print(payload)
+      dispatch_async(dispatch_get_main_queue(), { 
+        let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+        let viewController = appDelegate!.window!.rootViewController
+        if (viewController as? HomeTabBarController) != nil {
+          let homeTabbar = viewController as! HomeTabBarController
+          let listVC: [UIViewController] = homeTabbar.viewControllers!
+          let navigation = listVC[0] as! UINavigationController
+          let timelineVC = navigation.childViewControllers[0] as! TimeKeepingViewController
+          timelineVC.initLoadData()
+
+        }
+      })
       
     }
     
@@ -65,16 +69,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func changeRootView(vc: UIViewController) {
     navigation?.setViewControllers([vc], animated: true)
-  }
-
-  func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-    let characterSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
-    let deviceTokenString: String = (deviceToken.description as NSString)
-      .stringByTrimmingCharactersInSet(characterSet)
-      .stringByReplacingOccurrencesOfString( " ", withString: "") as String
-    
-    NSUserDefaults.standardUserDefaults().setObject(deviceTokenString, forKey: "token")
-    print(deviceTokenString)
   }
   
   func applicationWillResignActive(application: UIApplication) {

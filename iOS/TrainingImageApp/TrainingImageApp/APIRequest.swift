@@ -12,10 +12,18 @@ import Alamofire
 // MARK: - Public method
 class APIRequest: NSObject {
 
+  var http : String {
+    get {
+      let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.43.93"
+      let http = prefixHttp + ip + surfixHttp
+      return http
+    }
+  }
   static let shareInstance = APIRequest()
  
   func getDepartmentList(start: Int, top: Int, onCompletion: ServiceResponse) {
-    let url = urlGetDepartment
+    let url = http + urlGetDepartment
+
     let params: [String : AnyObject] = [
       "start" : start,
       "top" : top

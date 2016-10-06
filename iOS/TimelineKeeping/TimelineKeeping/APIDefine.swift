@@ -8,19 +8,9 @@
 
 import Foundation
 
-// Server
-enum Enviroment {
-	case dev
-	case test
-	case production
-}
+let prefixHttp: String = "http://"
+let surfixHttp: String = ":8080/api"
 
-let enviroment = Enviroment.dev
-//let enviroment = Enviroment.test
-//let enviroment = Enviroment.production
-
-let ip: String = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.150.103"
-let serverUrl: String = "http://" + ip + ":8080/api"
 
 
 // MARK :- URL API
@@ -32,5 +22,5 @@ let serverUrl: String = "http://" + ip + ":8080/api"
  "userId": "1"
 } */
 
-let urlCheckIn: String = serverUrl.stringByAppendingString("/account/check_in")
-let urlGetEmotion: String = serverUrl.stringByAppendingString("/emotion/get_customer_emotion")
+let urlCheckIn: String = "/account/check_in"
+let urlGetEmotion: String = "/emotion/get_customer_emotion"

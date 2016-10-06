@@ -23,10 +23,14 @@ class TimeKeepingViewController: BaseViewController {
     initLayout()
     tableView.delegate = self
     tableView.dataSource = self
+    initLoadData()
   }
   
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
+  }
+  
+  func initLoadData() {
     let components = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month], fromDate: NSDate())
     let month = components.month
     let year = components.year
@@ -35,12 +39,10 @@ class TimeKeepingViewController: BaseViewController {
         // show error message
       } else {
         self.attendance = data!
-        dispatch_async(dispatch_get_main_queue(), { 
+        dispatch_async(dispatch_get_main_queue(), {
           self.tableView.reloadData()
         })
       }
-      
-      
     }
   }
   
@@ -69,6 +71,8 @@ extension TimeKeepingViewController: UITableViewDelegate, UITableViewDataSource 
 
 // MARK: - Private method
 extension TimeKeepingViewController {
+  
+  
   private func initLayout() {
     employeeNameLabel.text = user?.username
     

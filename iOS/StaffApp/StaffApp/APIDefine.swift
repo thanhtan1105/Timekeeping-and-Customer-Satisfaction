@@ -8,20 +8,8 @@
 
 import Foundation
 
-// Server
-enum Enviroment {
-	case dev
-	case test
-	case production
-}
-
-let enviroment = Enviroment.dev
-//let enviroment = Enviroment.test
-//let enviroment = Enviroment.production
-
-let ip: String = "192.168.43.93"
-let serverUrl: String = "http://" + ip + ":8080/api"
-
+let prefixHttp: String = "http://"
+let surfixHttp: String = ":8080/api"
 
 // MARK :- URL API
 /* {
@@ -32,8 +20,8 @@ let serverUrl: String = "http://" + ip + ":8080/api"
  "userId": "1"
 } */
 
-let urlCheckIn: String = serverUrl.stringByAppendingString("/account/check_in")
-let urlLogin: String = serverUrl.stringByAppendingString("/account/login")
-let urlUpdateToken: String = serverUrl.stringByAppendingString("/account/update_token_id_mobile")
-let urlGetReminder: String = serverUrl.stringByAppendingString("/account/get_reminder")
-let urlGetAttance: String = serverUrl.stringByAppendingString("/time/get_attendance")
+let urlCheckIn: String = "/account/check_in"
+let urlLogin: String = "/account/login"
+let urlUpdateToken: String = "/account/update_token_id_mobile"
+let urlGetReminder: String = "/account/get_reminder"
+let urlGetAttance: String = "/time/get_attendance"

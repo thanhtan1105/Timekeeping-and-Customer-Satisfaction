@@ -14,7 +14,7 @@ class SettingViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    ipTextField.text = ip
+    ipTextField.text = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? ""
     
   }
 
