@@ -17,6 +17,8 @@ import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.CustomerServiceRepo;
 import com.timelinekeeping.repository.EmotionRepo;
 import com.timelinekeeping.repository.MessageRepo;
+import com.timelinekeeping.util.ServiceUtils;
+import com.timelinekeeping.util.UtilApps;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.sql.Timestamp;
+import java.time.YearMonth;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -420,6 +423,40 @@ public class EmotionServiceImpl {
         }
     }
 
+    public CustomerServiceReport reportCustomerService(Integer year, Integer month, Integer day, Long managerId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            AccountEntity manager = accountRepo.findById(managerId);
+            if (manager == null) {
+                return null;
+            }
+            List<AccountEntity> accountEntities = accountRepo.findByManager(managerId);
+            List<AccountReportCustomerService> accountReports = accountEntities.stream().map(AccountReportCustomerService::new).collect(Collectors.toList());
+
+            //get report
+            List<Object[]> objs = customerRepo.reportCustomerByMonth(year, month, day);
+            //convert to map
+            Map<Long, Object[]> mapVal = UtilApps.converListObject2Map(objs);
+
+            //get tu value trong map add to account
+            for (AccountReportCustomerService customerService : accountReports) {
+                Object[] objects = mapVal.get(customerService.getId());
+                if (objects != null && objects.length > 0) {
+                    customerService.from(objects);
+                }
+            }
+
+            //create object return
+
+            DepartmentModel departmentModel = new DepartmentModel(manager.getDepartment());
+            CustomerServiceReport customerServiceReport = new CustomerServiceReport(year, month, departmentModel, accountReports);
+            customerServiceReport.complete();
+            return customerServiceReport;
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
     /**
      * @author TanLT
      * Mobile employee: start transaction
@@ -434,5 +471,62 @@ public class EmotionServiceImpl {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
         return true;
+    }
+
+    public EmployeeReportCustomerService reportCustomerServiceEmployee(Integer year, Integer month, Long eployeeId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            //List Date Report
+            List<EmployeeReportDate> dayReports = new ArrayList<>();
+
+            //get employee
+            AccountEntity employee = accountRepo.findById(eployeeId);
+            if (employee == null) {
+                return null;
+            }
+
+            //getListObject day
+            List<Object[]> objs = customerRepo.reportCustomerByMonthAndEmployee(year, month, eployeeId);
+            //Convert qua mapValue
+            Map<Long, Object[]> mapVal = UtilApps.converListObject2Map(objs);
+            //get dayMax in month
+            YearMonth yearMonth = YearMonth.of(year, month);
+            int dayInMonth = yearMonth.lengthOfMonth();
+
+            //for one day create Employee Customer Report
+            for (int i = 1; i <= dayInMonth; i++) {
+
+                //create day, dateTime
+                EmployeeReportDate employeeReportDate = new EmployeeReportDate();
+                employeeReportDate.setDay(i);
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month - 1, i);
+                employeeReportDate.setDate(calendar.getTime());
+
+
+                //day type
+                employeeReportDate.setDayStatus(ServiceUtils.convertDateType(employee, calendar));
+
+
+                //get tu value trong map add to account
+                Object[] objects = mapVal.get((long)i);
+                if (objects != null && objects.length > 0) {
+                    employeeReportDate.from(objects);
+                }
+
+                //add to list
+                dayReports.add(employeeReportDate);
+            }
+
+
+            //create object return
+            EmployeeReportCustomerService customerService = new EmployeeReportCustomerService(year, month, employee);
+            customerService.setReportDate(dayReports);
+            customerService.complete();
+            return customerService;
+
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
     }
 }

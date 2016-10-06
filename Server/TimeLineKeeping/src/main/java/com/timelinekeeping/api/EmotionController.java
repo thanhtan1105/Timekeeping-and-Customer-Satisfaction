@@ -1,22 +1,21 @@
 package com.timelinekeeping.api;
 
 
-import com.timelinekeeping.constant.ERROR;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.entity.CustomerServiceEntity;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
-import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by HienTQSE60896 on 9/12/2016.
@@ -176,6 +175,51 @@ public class EmotionController {
                 response = new BaseResponse(false);
             }
             return response;
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(false, e.getMessage());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
+
+    @RequestMapping(value = {I_URI.API_EMOTION_REPORT}, method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse reportEmotion(@RequestParam("year") Integer year,
+                                      @RequestParam("month") Integer month,
+                                      @RequestParam(value = "day", defaultValue = IContanst.DEFAULT_INT) Integer day,
+                                      @RequestParam("managerId") Long managerId) {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        BaseResponse response = null;
+        try {
+            CustomerServiceReport customerServiceReport = emotionService.reportCustomerService(year, month, day, managerId);
+            if (customerServiceReport != null) {
+                return new BaseResponse(true, customerServiceReport);
+            }else {
+                return new BaseResponse(false);
+            }
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(false, e.getMessage());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
+
+    @RequestMapping(value = {I_URI.API_EMOTION_REPORT_EMPLOYEE}, method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse reportEmotion(@RequestParam("year") Integer year,
+                                      @RequestParam("month") Integer month,
+                                      @RequestParam("employeeId") Long employeeId) {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        BaseResponse response = null;
+        try {
+            EmployeeReportCustomerService customerServiceReport = emotionService.reportCustomerServiceEmployee(year, month, employeeId);
+            if (customerServiceReport != null) {
+                return new BaseResponse(true, customerServiceReport);
+            }else {
+                return new BaseResponse(false);
+            }
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(false, e.getMessage());

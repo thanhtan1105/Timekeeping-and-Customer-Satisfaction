@@ -10,13 +10,13 @@
         <ul class="sidebar-menu">
             <li class="header" style="color: white;">MAIN MENU</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class="active">
+            <li th:attr="class=${SideBar == 'Attendance'}? 'active' : ''">
                 <a th:href="@{/employee/attendance/}">
                     <i class="fa fa-users"></i>
                     <span>Attendance</span>
                 </a>
             </li>
-            <li>
+            <li th:attr="class=${SideBar == 'CustomerEmotion'}? 'active' : ''">
                 <a th:href="@{/employee/customer_emotion/}">
                     <i class="fa fa-smile-o"></i>
                     <span>Customer Emotion</span>

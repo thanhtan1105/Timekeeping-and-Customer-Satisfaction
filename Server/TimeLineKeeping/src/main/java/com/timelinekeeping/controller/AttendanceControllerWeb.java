@@ -1,5 +1,6 @@
 package com.timelinekeeping.controller;
 
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.IViewConst;
 import com.timelinekeeping.model.AccountAttendanceModel;
 import com.timelinekeeping.model.AccountModel;
@@ -52,8 +53,13 @@ public class AttendanceControllerWeb {
 
                 AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month);
 
+                // set side-bar
+                String sideBar = IContanst.SIDE_BAR_EMPLOYEE_ATTENDANCE;
+
                 model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
                 model.addAttribute("SelectedDate", currentDate);
+                // side-bar
+                model.addAttribute("SideBar", sideBar);
                 url = IViewConst.ATTENDANCE_VIEW;
             }
         }
@@ -91,8 +97,13 @@ public class AttendanceControllerWeb {
                 // get attendance
                 AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month);
 
+                // set side-bar
+                String sideBar = IContanst.SIDE_BAR_EMPLOYEE_ATTENDANCE;
+
                 model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
                 model.addAttribute("SelectedDate", selectedDate);
+                // side-bar
+                model.addAttribute("SideBar", sideBar);
                 url = IViewConst.ATTENDANCE_VIEW;
             }
         }

@@ -1,10 +1,12 @@
 package com.timelinekeeping.api.mcs;
 
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.NotificationEntity;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.NotificationCheckInModel;
 import com.timelinekeeping.repository.AccountRepo;
+import com.timelinekeeping.repository.CustomerServiceRepo;
 import com.timelinekeeping.repository.NotificationRepo;
 import com.timelinekeeping.repository.TimekeepingRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,10 @@ public class TestController {
 
     @Autowired
     private TimekeepingRepo timekeepingRepo;
+
+
+    @Autowired
+    private CustomerServiceRepo customerServiceRepo;
 
     @RequestMapping("/list_account")
     public List<AccountModel> list(@RequestParam(value = "id", required = false) Long idDepartment) {
@@ -58,5 +64,22 @@ public class TestController {
 
 //        List<List<Long>> list = timekeepingRepo.countEmployeeTime(year, month);
         return null;
+    }
+
+    @RequestMapping("/count_Customer")
+    public List<Object[]> countCustomer(@RequestParam(value = "year") Integer year,
+                                        @RequestParam(value = "month") Integer month,
+                                        @RequestParam(value = "day", defaultValue = IContanst.DEFAULT_INT) Integer day) {
+
+//        List<List<Long>> list = timekeepingRepo.countEmployeeTime(year, month);
+        return customerServiceRepo.reportCustomerByMonth(year, month, day);
+    }
+    @RequestMapping("/count_Customer_employee")
+    public List<Object[]> countCustomerByEmployee(@RequestParam(value = "year") Integer year,
+                                        @RequestParam(value = "month") Integer month,
+                                        @RequestParam(value = "employee_id") Long employeeId) {
+
+//        List<List<Long>> list = timekeepingRepo.countEmployeeTime(year, month);
+        return customerServiceRepo.reportCustomerByMonthAndEmployee(year, month, employeeId);
     }
 }
