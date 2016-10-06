@@ -24,9 +24,21 @@ public enum EGradeReport {
     }
 
     public static EGradeReport fromIndex(int index) {
-        for (EGradeReport ex : values()) {
-            if (ex.getIndex() == index) {
-                return ex;
+        for (EGradeReport eg : values()) {
+            if (eg.getIndex() == index) {
+                return eg;
+            }
+        }
+        return null;
+    }
+
+    public static EGradeReport fromGrade(double grade) {
+        for (EGradeReport eg : values()) {
+            if (grade == 10d) {
+                return EXCELLENT;
+            }
+            if (grade >= eg.getFrom() && grade < eg.getTo()) {
+                return eg;
             }
         }
         return null;
@@ -62,5 +74,9 @@ public enum EGradeReport {
 
     public void setTo(double to) {
         this.to = to;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(EGradeReport.fromGrade(9).getName());
     }
 }

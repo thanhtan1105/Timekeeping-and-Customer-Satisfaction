@@ -46,7 +46,7 @@
                     <!-- form change month -->
                     <form th:action="@{/manager/cus_satisfaction/change_month}" method="post"
                           th:id="'form-submit-change-month'">
-                        <input type="hidden" th:name="selectedMonth" />
+                        <input type="hidden" th:name="selectedMonth"/>
                     </form>
                     <!-- /.form change month -->
                 </div>
@@ -92,9 +92,9 @@
                                     <table class="table">
                                         <colgroup>
                                             <col span="1" style="width: 5%;">
-                                            <col span="1" style="width: 25%;">
+                                            <col span="1" style="width: 15%;">
+                                            <col span="1" style="width: 45%;">
                                             <col span="1" style="width: 30%;">
-                                            <col span="1" style="width: 35%;">
                                             <col span="1" style="width: 5%;">
                                         </colgroup>
                                         <thead>
@@ -102,18 +102,17 @@
                                             <th>#</th>
                                             <th>Name</th>
                                             <th class="text-center">Total Served Customers</th>
-                                            <th class="text-center">Grade</th>
+                                            <th>Evaluation</th>
                                             <th class="text-center">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr th:each="employee,counter: ${CustomerServiceReport.employeeReport}">
                                             <td th:text="${counter.count} + '.'"></td>
-                                            <td th:text="${employee.username}"></td>
+                                            <td th:text="${employee.fullname}"></td>
                                             <td th:text="${employee.totalCustomer != null}? ${employee.totalCustomer}: 0"
                                                 class="text-center"></td>
-                                            <td th:text="${#numbers.formatDecimal(employee.grade, 1, 2)}"
-                                                class="text-center"></td>
+                                            <td th:text="${employee.totalCustomer != 0}? ${employee.evaluation}: 'N/A'"></td>
                                             <td class="text-center">
                                                 <button class="btn bg-aqua-active btn-flat btn-sm" type="button"
                                                         style="width: 100%;"
