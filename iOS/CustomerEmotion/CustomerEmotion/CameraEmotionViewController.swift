@@ -232,7 +232,7 @@ extension CameraEmotionViewController {
   }
 
   private func initializeCamera() {
-    self.camera = Camera(sender: self, position: Camera.Position.Front)
+    self.camera = Camera(sender: self, position: Camera.Position.Back)
   }
   
   func videoOrientationFromCurrentDeviceOrientation() -> AVCaptureVideoOrientation {
