@@ -398,6 +398,7 @@ public class EmotionServiceImpl {
                     || customerResultEntity.getStatus() == ETransaction.PROCESS)) {
                 //change status = END
                 customerResultEntity.setStatus(ETransaction.END);
+                customerResultEntity.calculateGrade();
                 customerRepo.saveAndFlush(customerResultEntity);
                 return true;
             } else {
@@ -423,39 +424,7 @@ public class EmotionServiceImpl {
         }
     }
 
-    public CustomerServiceReport reportCustomerService(Integer year, Integer month, Integer day, Long managerId) {
-        try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            AccountEntity manager = accountRepo.findById(managerId);
-            if (manager == null) {
-                return null;
-            }
-            List<AccountEntity> accountEntities = accountRepo.findByManager(managerId);
-            List<AccountReportCustomerService> accountReports = accountEntities.stream().map(AccountReportCustomerService::new).collect(Collectors.toList());
 
-            //get report
-            List<Object[]> objs = customerRepo.reportCustomerByMonth(year, month, day);
-            //convert to map
-            Map<Long, Object[]> mapVal = UtilApps.converListObject2Map(objs);
-
-            //get tu value trong map add to account
-            for (AccountReportCustomerService customerService : accountReports) {
-                Object[] objects = mapVal.get(customerService.getId());
-                if (objects != null && objects.length > 0) {
-                    customerService.from(objects);
-                }
-            }
-
-            //create object return
-
-            DepartmentModel departmentModel = new DepartmentModel(manager.getDepartment());
-            CustomerServiceReport customerServiceReport = new CustomerServiceReport(year, month, departmentModel, accountReports);
-            customerServiceReport.complete();
-            return customerServiceReport;
-        } finally {
-            logger.info(IContanst.END_METHOD_SERVICE);
-        }
-    }
 
     /**
      * @author TanLT
@@ -467,10 +436,10 @@ public class EmotionServiceImpl {
             CustomerServiceEntity customerServiceEntity = customerRepo.startTransactionByCustomercode(customerCode);
             customerServiceEntity.setStatus(ETransaction.PROCESS);
             customerRepo.saveAndFlush(customerServiceEntity);
+            return true;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
-        return true;
     }
 
     public EmployeeReportCustomerService reportCustomerServiceEmployee(Integer year, Integer month, Long eployeeId) {
@@ -525,6 +494,41 @@ public class EmotionServiceImpl {
             customerService.complete();
             return customerService;
 
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+
+    public CustomerServiceReport reportCustomerService(Integer year, Integer month, Integer day, Long managerId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            AccountEntity manager = accountRepo.findById(managerId);
+            if (manager == null) {
+                return null;
+            }
+            List<AccountEntity> accountEntities = accountRepo.findByManager(managerId);
+            List<AccountReportCustomerService> accountReports = accountEntities.stream().map(AccountReportCustomerService::new).collect(Collectors.toList());
+
+            //get report
+            List<Object[]> objs = customerRepo.reportCustomerByMonth(year, month, day);
+            //convert to map
+            Map<Long, Object[]> mapVal = UtilApps.converListObject2Map(objs);
+
+            //get tu value trong map add to account
+            for (AccountReportCustomerService customerService : accountReports) {
+                Object[] objects = mapVal.get(customerService.getId());
+                if (objects != null && objects.length > 0) {
+                    customerService.from(objects);
+                }
+            }
+
+            //create object return
+
+            DepartmentModel departmentModel = new DepartmentModel(manager.getDepartment());
+            CustomerServiceReport customerServiceReport = new CustomerServiceReport(year, month, departmentModel, accountReports);
+            customerServiceReport.complete();
+            return customerServiceReport;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }

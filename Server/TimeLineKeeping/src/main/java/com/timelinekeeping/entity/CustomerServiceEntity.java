@@ -109,12 +109,12 @@ public class CustomerServiceEntity {
         this.status = status;
     }
 
-    public void calculateGrade(){
+    public void calculateGrade() {
         double sum = 0d;
-        for (EmotionCustomerEntity emotion : this.emotion){
+        for (EmotionCustomerEntity emotion : this.emotion) {
             sum += emotion.getEmotionMost().getGrade();
         }
-        this.grade = sum/emotion.size();
+        this.grade = sum / emotion.size();
 
     }
 }

@@ -4,7 +4,6 @@ package com.timelinekeeping.api;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.entity.CustomerServiceEntity;
-import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
 import com.timelinekeeping.util.ValidateUtil;
@@ -13,7 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import java.util.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -195,7 +194,7 @@ public class EmotionController {
             CustomerServiceReport customerServiceReport = emotionService.reportCustomerService(year, month, day, managerId);
             if (customerServiceReport != null) {
                 return new BaseResponse(true, customerServiceReport);
-            }else {
+            } else {
                 return new BaseResponse(false);
             }
         } catch (Exception e) {
@@ -217,7 +216,7 @@ public class EmotionController {
             EmployeeReportCustomerService customerServiceReport = emotionService.reportCustomerServiceEmployee(year, month, employeeId);
             if (customerServiceReport != null) {
                 return new BaseResponse(true, customerServiceReport);
-            }else {
+            } else {
                 return new BaseResponse(false);
             }
         } catch (Exception e) {
