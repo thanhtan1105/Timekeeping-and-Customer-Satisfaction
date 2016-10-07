@@ -114,11 +114,16 @@
                                                 class="text-center"></td>
                                             <td th:text="${employee.totalCustomer != 0}? ${employee.evaluation}: 'N/A'"></td>
                                             <td class="text-center">
-                                                <button class="btn bg-aqua-active btn-flat btn-sm" type="button"
-                                                        style="width: 100%;"
-                                                        title="Edit Class">
-                                                    <i class="fa fa-hand-pointer-o"></i> View Details
-                                                </button>
+                                                <form th:action="@{/manager/cus_satisfaction/month/details}" method="post"
+                                                      th:id="'form-submit-view-details-' + ${employee.id}">
+                                                    <input type="hidden" th:name="accountCustomerServiceDetails"/>
+                                                    <button type="button"
+                                                            class="btn bg-aqua-active btn-flat btn-sm view-details-customer-service"
+                                                            th:attr="data-id=${employee.id}"
+                                                            style="width: 100%">
+                                                        <i class="fa fa-hand-pointer-o"></i> View Details
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                         </tbody>
