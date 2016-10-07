@@ -147,6 +147,7 @@ public class CustomerSatisfactionControllerWeb {
             Integer month = calendar.get(Calendar.MONTH) + 1;
             Integer year = calendar.get(Calendar.YEAR);
 
+            //get employee report customer service
             EmployeeReportCustomerService customerServiceReport
                     = emotionService.reportCustomerServiceEmployee(year, month, accountId);
 
@@ -257,5 +258,40 @@ public class CustomerSatisfactionControllerWeb {
 
         logger.info("[Controller- Change Date Customer Satisfaction Date View] END");
         return url;
+    }
+
+    @RequestMapping(value = "/details/change_month", method = RequestMethod.POST)
+    public String changeMonthDetailsCustomerSatisfactionView(@RequestParam("selectedMonth") String selectedMonth,
+                                                             @RequestParam("accountId") Long accountId,
+                                                             Model model) {
+        logger.info("[Controller- Change Month Customer Satisfaction Details View] BEGIN");
+        logger.info("[Controller- Change Month Customer Satisfaction Details View] selected month: " + selectedMonth);
+        logger.info("[Controller- Change Month Customer Satisfaction Details View] accountId: " + accountId);
+        String pattern = "MMMM-yyyy";
+        // parse to date
+        Date selectedDate = TimeUtil.parseToDate(selectedMonth, pattern);
+        logger.info("[Controller- Change Month Customer Satisfaction View] selected date: " + selectedDate);
+        // get month, year
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(selectedDate);
+        Integer month = calendar.get(Calendar.MONTH) + 1;
+        Integer year = calendar.get(Calendar.YEAR);
+        logger.info("[Controller- Change Month Timekeeping View] selected month: " + month);
+        logger.info("[Controller- Change Month Timekeeping View] selected year: " + year);
+
+        //get employee report customer service
+        EmployeeReportCustomerService customerServiceReport
+                = emotionService.reportCustomerServiceEmployee(year, month, accountId);
+
+        // set side-bar
+        String sideBar = IContanst.SIDE_BAR_MANAGER_CUSTOMER_SATISFACTION;
+
+        model.addAttribute("CustomerServiceReport", customerServiceReport);
+        model.addAttribute("SelectedDate", selectedDate);
+        // side-bar
+        model.addAttribute("SideBar", sideBar);
+
+        logger.info("[Controller- Change Month Customer Satisfaction Details View] END");
+        return IViewConst.CUSTOMER_SATISFACTION_MONTH_DETAILS_VIEW;
     }
 }
