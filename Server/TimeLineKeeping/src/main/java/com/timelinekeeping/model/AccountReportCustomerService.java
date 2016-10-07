@@ -1,5 +1,6 @@
 package com.timelinekeeping.model;
 
+import com.timelinekeeping.constant.EGradeReport;
 import com.timelinekeeping.entity.AccountEntity;
 
 import java.math.BigInteger;
@@ -15,6 +16,7 @@ public class AccountReportCustomerService {
     private String fullname;
     private long totalCustomer = 0;
     private Double grade = 0d;
+    private String evaluation;
 
     public AccountReportCustomerService() {
     }
@@ -28,10 +30,11 @@ public class AccountReportCustomerService {
         }
     }
 
-    public void from(Object[] obj){
-        if (obj.length == 3){
-            this.totalCustomer = obj[1] != null ? ((BigInteger)obj[1]).longValue() : 0;
+    public void from(Object[] obj) {
+        if (obj.length == 3) {
+            this.totalCustomer = obj[1] != null ? ((BigInteger) obj[1]).longValue() : 0;
             this.grade = obj[2] != null ? (Double) obj[2] : 0;
+            this.evaluation = EGradeReport.fromGrade(this.grade).getName();
         }
 
     }
@@ -82,5 +85,13 @@ public class AccountReportCustomerService {
 
     public void setGrade(Double grade) {
         this.grade = grade;
+    }
+
+    public String getEvaluation() {
+        return evaluation;
+    }
+
+    public void setEvaluation(String evaluation) {
+        this.evaluation = evaluation;
     }
 }
