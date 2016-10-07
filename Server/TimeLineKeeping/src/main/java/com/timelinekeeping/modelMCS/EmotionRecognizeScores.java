@@ -10,14 +10,14 @@ import java.util.List;
  * Created by HienTQSE60896 on 9/13/2016.
  */
 public class EmotionRecognizeScores {
-    private Double anger;
-    private Double contempt;
-    private Double disgust;
-    private Double fear;
-    private Double happiness;
-    private Double neutral;
-    private Double sadness;
-    private Double surprise;
+    private Double anger = 0d;
+    private Double contempt = 0d;
+    private Double disgust = 0d;
+    private Double fear = 0d;
+    private Double happiness = 0d;
+    private Double neutral = 0d;
+    private Double sadness = 0d;
+    private Double surprise = 0d;
 
     public EmotionRecognizeScores() {
     }
@@ -124,7 +124,7 @@ public class EmotionRecognizeScores {
     }
 
     public static void main(String[] args) {
-        EmotionRecognizeScores emotionRecognizeScores = new EmotionRecognizeScores(0d, 0d,6d,5d,4d,3d,2d,1d);
+        EmotionRecognizeScores emotionRecognizeScores = new EmotionRecognizeScores(0d, 0d, 6d, 5d, 4d, 3d, 2d, 1d);
         emotionRecognizeScores.clearData(1);
         System.out.println(emotionRecognizeScores.getEmotionExist());
         return;

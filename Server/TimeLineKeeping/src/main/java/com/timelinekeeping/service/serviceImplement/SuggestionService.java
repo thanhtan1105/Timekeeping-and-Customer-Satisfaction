@@ -23,7 +23,7 @@ public class SuggestionService {
     private QuantityRepo quantityRepo;
 
 
-    public ESuggestionSubject getSubject(Integer age, Gender gender) {
+    public ESuggestionSubject getSubject(Double age, Gender gender) {
         ESuggestionSubject result = ESuggestionSubject.ANH;
         if (age < 20) {
             result = ESuggestionSubject.EM;
@@ -53,7 +53,8 @@ public class SuggestionService {
 
 
     public String getEmotion(EmotionCompare emotionCompare) {
-        List<String> quantities = quantityRepo.findQuantity(emotionCompare.getValue());
+//        List<String> quantities = quantityRepo.findQuantity(emotionCompare.getValue());
+        List<String> quantities = new ArrayList<>();
         String quantity = null;
         if (ValidateUtil.isEmpty(quantity)) {
             quantity = IContanst.QUANLITY_EMOTION_DEFAULT;
@@ -65,44 +66,53 @@ public class SuggestionService {
 
 
     public String listEmotion(EmotionAnalysisModel analysisModel) {
+        ESuggestionSubject subject = getSubject(analysisModel.getAge(), analysisModel.getGender());
         String result = "";
         EmotionRecognizeScores emotionScores = analysisModel.getEmotion();
         emotionScores.clearData(IContanst.EXCEPTION_VALUE);
         //get emotionCompar
         List<EmotionCompare> emotionCompares = emotionScores.getEmotionExist();
         if (emotionCompares.size() <= 0) {
-            result= "";
+            result = "";
         } else if (emotionCompares.size() == 1) {
             // single time
-            result= getEmotion(emotionCompares.get(0));
+            result = String.format(IContanst.SUGGESTION_1_EMOTION, subject.getName(), getEmotion(emotionCompares.get(0)));
         } else {
             //many time
 
             //cut 1 list -> postive list, negative list
-            List<EmotionCompare> postive = new ArrayList<>();
+            List<EmotionCompare> positive = new ArrayList<>();
             List<EmotionCompare> negative = new ArrayList<>();
             for (EmotionCompare emotionCompare : emotionCompares) {
                 if (emotionCompare.getEmotion().getGrade() > 0) {
-                    postive.add(emotionCompare);
+                    positive.add(emotionCompare);
                 } else {
                     negative.add(emotionCompare);
                 }
             }
-            if (negative.size() == 0) {
-                //only positive
-
-                if (postive.size() == 2) {
-                    result = String.format("%s và %s", getEmotion(postive.get(0)), getEmotion(postive.get(1)));
-                }else{
-                    result = String.format("%s , %s và %s", getEmotion(postive.get(0)), getEmotion(postive.get(1)), getEmotion(postive.get(2)));
+            if (positive.size() == 0 || negative.size() == 0) {
+                if (positive.size() == 0) {
+                    //only negative
+                    negative.sort((EmotionCompare e1, EmotionCompare e2) -> Math.abs(e1.getValue()) > Math.abs(e2.getValue()) ? -1 : 1);
+                    positive = negative;
                 }
+                //only positive
+                if (positive.size() == 2) {
+                    result = String.format(IContanst.SUGGESTION_2_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(positive.get(1)));
+                } else {
+                    result = String.format(IContanst.SUGGESTION_3_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(positive.get(1)), getEmotion(positive.get(2)));
+                }
+/*
 
-
-            } else if (postive.size() == 0) {
-                //only negative
-
+                if (negative.size() == 2) {
+                    result = String.format("%s và %s", getEmotion(negative.get(0)), getEmotion(negative.get(1)));
+                } else {
+                    result = String.format("%s , %s và %s", getEmotion(negative.get(0)), getEmotion(negative.get(1)), getEmotion(negative.get(2)));
+                }
+*/
             } else {
                 //Bolt
+
             }
 
         }
@@ -112,6 +122,14 @@ public class SuggestionService {
 
 
     public static void main(String[] args) {
-        System.out.println(Math.random());
+        SuggestionService suggestionService = new SuggestionService();
+        EmotionAnalysisModel analysisModel = new EmotionAnalysisModel();
+//        System.out.println(suggestionService.getSubject(24d, Gender.MALE).getName());
+        analysisModel.setAge(24d);
+        analysisModel.setGender(Gender.FEMALE);
+        EmotionRecognizeScores emotionRecognizeScores = new EmotionRecognizeScores();
+        emotionRecognizeScores.setHappiness(0.9d);
+        analysisModel.setEmotion(emotionRecognizeScores);
+        System.out.println(suggestionService.listEmotion(analysisModel));
     }
 }
