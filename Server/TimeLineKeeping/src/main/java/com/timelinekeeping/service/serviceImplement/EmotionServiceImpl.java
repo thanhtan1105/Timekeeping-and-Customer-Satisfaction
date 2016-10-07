@@ -307,8 +307,8 @@ public class EmotionServiceImpl {
                     EmotionAnalysisModel mostChoose = listEmotionAnalysis.get(0);
 
                     //save mostChoose
-                    EmotionCustomerEntity emotionEntity = emotionRepo.saveAndFlush(new EmotionCustomerEntity(mostChoose, customerResultEntity));
-                    return true;
+                    EmotionCustomerEntity emotionEntity = new EmotionCustomerEntity(mostChoose, customerResultEntity);
+                    emotionRepo.saveAndFlush(emotionEntity);
                 } else {
                     logger.error("Cannot analyze customer emotion");
                     return false;
@@ -320,6 +320,7 @@ public class EmotionServiceImpl {
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
+        return true;
     }
 
     public Boolean shouldEndTransaction(String customerCode) {

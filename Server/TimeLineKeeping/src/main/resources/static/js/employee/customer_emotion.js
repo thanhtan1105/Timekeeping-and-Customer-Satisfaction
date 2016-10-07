@@ -112,7 +112,7 @@ function worker_begin_transaction() {
             }
         }
     });
-    timer_begin_transaction = setTimeout(worker_begin_transaction, 1000);
+    timer_begin_transaction = setTimeout(worker_begin_transaction, 2500);
 };
 
 /**
@@ -168,7 +168,7 @@ function worker_get_emotion() {
             }
         }
     });
-    timer_get_emotion = setTimeout(worker_get_emotion, 1000);
+    timer_get_emotion = setTimeout(worker_get_emotion, 2500);
 };
 
 /**
