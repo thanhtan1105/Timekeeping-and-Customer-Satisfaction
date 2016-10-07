@@ -1,7 +1,9 @@
 package com.timelinekeeping.modelMCS;
 
 import com.timelinekeeping.constant.EEmotion;
+import com.timelinekeeping.model.EmotionCompare;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -107,7 +109,24 @@ public class EmotionRecognizeScores {
         if (surprise < except) surprise = 0d;
     }
 
-    public List<EEmotion> getEmotionExist(){
-        return null;
+    public List<EmotionCompare> getEmotionExist() {
+        List<EmotionCompare> listCompare = new ArrayList<>();
+        if (anger > 0) listCompare.add(new EmotionCompare(EEmotion.ANGER, anger));
+        if (contempt > 0) listCompare.add(new EmotionCompare(EEmotion.CONTEMPT, contempt));
+        if (disgust > 0) listCompare.add(new EmotionCompare(EEmotion.DISGUST, disgust));
+        if (fear > 0) listCompare.add(new EmotionCompare(EEmotion.FEAR, fear));
+        if (happiness > 0) listCompare.add(new EmotionCompare(EEmotion.HAPPINESS, happiness));
+        if (neutral > 0) listCompare.add(new EmotionCompare(EEmotion.NEUTRAL, neutral));
+        if (sadness > 0) listCompare.add(new EmotionCompare(EEmotion.SADNESS, sadness));
+        if (surprise > 0) listCompare.add(new EmotionCompare(EEmotion.SURPRISE, surprise));
+        listCompare.sort((EmotionCompare e1, EmotionCompare e2) -> e1.getValue() > e2.getValue() ? -1 : 0);
+        return listCompare;
+    }
+
+    public static void main(String[] args) {
+        EmotionRecognizeScores emotionRecognizeScores = new EmotionRecognizeScores(0d, 0d,6d,5d,4d,3d,2d,1d);
+        emotionRecognizeScores.clearData(1);
+        System.out.println(emotionRecognizeScores.getEmotionExist());
+        return;
     }
 }

@@ -98,8 +98,6 @@ public class EmotionAnalysisModel implements Serializable {
 
     }
 
-
-
     @Override
     public int hashCode() {
         int result = emotionMost != null ? emotionMost.hashCode() : 0;
