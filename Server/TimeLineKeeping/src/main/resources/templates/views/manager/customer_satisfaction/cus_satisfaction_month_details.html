@@ -37,12 +37,19 @@
                 <div class="col-sm-6 text-left">
                     <div class="input-group date" style="width: 35%">
                         <input type="text" th:value="${#dates.format(SelectedDate, 'MMMM-yyyy')}"
-                               class="form-control pull-left" id="date_picker_month"/>
+                               class="form-control pull-left selected-date" id="date_picker_month"/>
 
                         <div class="input-group-addon">
                             <i class="fa fa-calendar text-success"></i>
                         </div>
                     </div>
+                    <!-- form change month -->
+                    <form th:action="@{/manager/cus_satisfaction/details/change_month}" method="post"
+                          th:id="'form-submit-change-month'">
+                        <input type="hidden" th:name="selectedMonth"/>
+                        <input type="hidden" th:name="accountId" th:value="${CustomerServiceReport.id}"/>
+                    </form>
+                    <!-- /.form change month -->
                 </div>
             </div>
             <!-- /.end month -->
