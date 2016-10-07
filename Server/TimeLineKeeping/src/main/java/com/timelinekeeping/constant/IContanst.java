@@ -60,7 +60,9 @@ public interface IContanst {
 
 
     /** suggestion model**/
-    String QUANLITY_EMOTION_DEFAULT = "Có";
+    String QUANLITY_EMOTION_DEFAULT = "một ít";
     double EXCEPTION_VALUE = 0.05;
-
+    String SUGGESTION_1_EMOTION = "%s cảm thấy %s.";
+    String SUGGESTION_2_EMOTION = "%s cảm thấy %s và %s.";
+    String SUGGESTION_3_EMOTION = "%s cảm thấy %s, %s và %s.";
 }
