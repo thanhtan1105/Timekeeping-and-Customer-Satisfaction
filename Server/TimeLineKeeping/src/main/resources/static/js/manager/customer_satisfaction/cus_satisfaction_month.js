@@ -34,7 +34,7 @@ $('#change-to-tag-date').on('click', function () {
 /**
  * Event: select another month
  */
-$('.selected-date').on('change', function() {
+$('.selected-date').on('change', function () {
     var selectedDate = $('.selected-date').val(),
         $form_submit_change_month = $('#form-submit-change-month'),
         selectedMonth = $form_submit_change_month.find('[name="selectedMonth"]');
@@ -42,4 +42,24 @@ $('.selected-date').on('change', function() {
 
     // submit form
     $form_submit_change_month.submit();
+});
+
+/**
+ * Submit form view details
+ */
+$('.view-details-customer-service').on('click', function () {
+    var id = $(this).attr('data-id'),
+        $form_submit_details = $('#form-submit-view-details-' + id),
+        accountCustomerServiceDetails = $form_submit_details.find('[name="accountCustomerServiceDetails"]'),
+        accountId = id,
+        selectedDate = $('.selected-date').val(),
+        accountCustomerServiceDetailsJson = '{';
+    accountCustomerServiceDetailsJson += '"accountId":' + accountId;
+    accountCustomerServiceDetailsJson += ', "selectedDate":"' + selectedDate + '"';
+    accountCustomerServiceDetailsJson += '}';
+
+    accountCustomerServiceDetails.val(accountCustomerServiceDetailsJson);
+
+    // submit form
+    $form_submit_details.submit();
 });
