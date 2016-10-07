@@ -1,5 +1,9 @@
 package com.timelinekeeping.modelMCS;
 
+import com.timelinekeeping.constant.EEmotion;
+
+import java.util.List;
+
 /**
  * Created by HienTQSE60896 on 9/13/2016.
  */
@@ -90,5 +94,20 @@ public class EmotionRecognizeScores {
 
     public void setSurprise(Double surprise) {
         this.surprise = surprise;
+    }
+
+    public void clearData(double except) {
+        if (anger < except) anger = 0d;
+        if (contempt < except) contempt = 0d;
+        if (disgust < except) disgust = 0d;
+        if (fear < except) fear = 0d;
+        if (happiness < except) happiness = 0d;
+        if (neutral < except) neutral = 0d;
+        if (sadness < except) sadness = 0d;
+        if (surprise < except) surprise = 0d;
+    }
+
+    public List<EEmotion> getEmotionExist(){
+        return null;
     }
 }

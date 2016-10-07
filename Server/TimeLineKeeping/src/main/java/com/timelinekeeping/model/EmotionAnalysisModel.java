@@ -2,7 +2,6 @@ package com.timelinekeeping.model;
 
 import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.Gender;
-import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
 import com.timelinekeeping.modelMCS.RectangleImage;
 
@@ -98,6 +97,8 @@ public class EmotionAnalysisModel implements Serializable {
         return !(emotion != null ? !emotion.equals(that.emotion) : that.emotion != null);
 
     }
+
+
 
     @Override
     public int hashCode() {
