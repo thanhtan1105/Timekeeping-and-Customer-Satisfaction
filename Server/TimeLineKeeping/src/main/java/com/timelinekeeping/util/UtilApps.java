@@ -7,7 +7,6 @@ import org.apache.commons.io.IOUtils;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +58,11 @@ public class UtilApps {
             map.put(((Number) obj[0]).longValue(), obj);
         }
         return map;
+    }
+
+
+    public static int random(int x, int y) {
+        return (int) Math.random() * (x - y + 1) + y;
     }
 
     public static void main(String[] args) {

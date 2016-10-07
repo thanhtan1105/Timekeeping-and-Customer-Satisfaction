@@ -3,12 +3,10 @@ package com.timelinekeeping.api.mcs;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.NotificationEntity;
+import com.timelinekeeping.entity.QuantityEmotionEnity;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.NotificationCheckInModel;
-import com.timelinekeeping.repository.AccountRepo;
-import com.timelinekeeping.repository.CustomerServiceRepo;
-import com.timelinekeeping.repository.NotificationRepo;
-import com.timelinekeeping.repository.TimekeepingRepo;
+import com.timelinekeeping.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,6 +33,9 @@ public class TestController {
 
     @Autowired
     private CustomerServiceRepo customerServiceRepo;
+
+    @Autowired
+    private QuantityRepo quantityRepo;
 
     @RequestMapping("/list_account")
     public List<AccountModel> list(@RequestParam(value = "id", required = false) Long idDepartment) {
@@ -81,5 +82,11 @@ public class TestController {
 
 //        List<List<Long>> list = timekeepingRepo.countEmployeeTime(year, month);
         return customerServiceRepo.reportCustomerByMonthAndEmployee(year, month, employeeId);
+    }
+
+    @RequestMapping("/quantity_emotion")
+    public List<String> quantityEmotion(@RequestParam(value = "value") Double value) {
+
+        return quantityRepo.findQuantity(value);
     }
 }

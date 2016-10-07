@@ -58,4 +58,9 @@ public interface IContanst {
     String TIME_CHECK_IN_SYSTEM = AppConfigKeys.getInstance().getApiPropertyValue("checkin.time.system");
 
 
+
+    /** suggestion model**/
+    String QUANLITY_EMOTION_DEFAULT = "Có";
+    double EXCEPTION_VALUE = 0.05;
+
 }
