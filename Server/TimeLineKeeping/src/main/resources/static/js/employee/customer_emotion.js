@@ -131,6 +131,8 @@ function worker_get_emotion() {
                 } else {
                     $font_gender.html('Nữ');
                 }
+                //set image customer
+                setSrcImage('#image-customer', '/libs/dist/img/user2-160x160.jpg')
 
                 //stop request: get first emotion
                 clearTimeout(timer_get_emotion);
@@ -165,3 +167,11 @@ function event_show(id) {
     $(id).show();
 }
 
+/**
+ * Event: set source image
+ * @param id
+ * @param src
+ */
+function setSrcImage(id, src) {
+    $(id).attr('src', src);
+}
