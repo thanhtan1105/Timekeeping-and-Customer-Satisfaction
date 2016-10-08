@@ -3,9 +3,43 @@
  */
 
 /**
- * Hide: div overview customer emotion
+ * Hide: panel bar chart
  */
 event_hide('#div-overview-customer-emotion');
+
+/**
+ * Data bar chart
+ * @type {{data: *[emotion ratios], color: string}}
+ */
+var bar_data = {
+    data: [["Anger", 0.0001], ["Contempt", 0.0005], ["Disgust", 0.00001], ["Fear", 0.00003],
+        ["Happiness", 0.9], ["Neutral", 0.1], ["Sadness", 0.00002], ["Surprise", 0.0002]],
+    color: "#3c8dbc"
+};
+
+/**
+ * Init bar chart
+ */
+function load_bar_chart() {
+    $.plot("#bar-chart", [bar_data], {
+        grid: {
+            borderWidth: 1,
+            borderColor: "#f3f3f3",
+            tickColor: "#f3f3f3"
+        },
+        series: {
+            bars: {
+                show: true,
+                barWidth: 0.5,
+                align: "center"
+            }
+        },
+        xaxis: {
+            mode: "categories",
+            tickLength: 0
+        }
+    });
+}
 
 /**
  * Event: begin transaction
@@ -15,7 +49,7 @@ $('#btn-begin-transaction').on('click', function () {
     event_disabled('#btn-end-transaction', false);
     //disable button begin
     event_disabled('#btn-begin-transaction', true);
-    //hide div overview customer emotion
+    //hide panel bar chart
     event_hide('#div-overview-customer-emotion');
     //request begin transaction
     worker_begin_transaction();
@@ -43,7 +77,7 @@ $('#btn-end-transaction').on('click', function () {
                 event_disabled('#btn-end-transaction', true);
                 //enable button begin
                 event_disabled('#btn-begin-transaction', false);
-                //hide div overview customer emotion
+                //hide panel bar chart
                 event_hide('#div-overview-customer-emotion');
             }
         }
@@ -111,15 +145,22 @@ function worker_get_emotion() {
                     $font_age = $('#font-age'),
                     $font_gender = $('#font-gender');
 
-                //div overview customer emotion
+                //show panel bar chart
                 event_show('#div-overview-customer-emotion');
+                //set data bar chart
+                bar_data = {
+                    data: [["Anger", anger], ["Contempt", contempt], ["Disgust", disgust], ["Fear", fear],
+                        ["Happiness", happiness], ["Neutral", neutral], ["Sadness", sadness], ["Surprise", surprise]],
+                    color: "#3c8dbc"
+                };
+                load_bar_chart();
                 //set age
                 $font_age.html(age);
                 //set gender
                 if (gender == 0) {
-                    $font_gender.html('Nam');
+                    $font_gender.html('Male');
                 } else {
-                    $font_gender.html('Nữ');
+                    $font_gender.html('Female');
                 }
 
                 //stop request: get first emotion

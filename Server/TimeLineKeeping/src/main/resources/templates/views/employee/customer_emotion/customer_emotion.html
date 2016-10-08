@@ -57,7 +57,7 @@
             </div>
             <!-- /.end button begin-end transaction -->
         </div>
-        <div class="row" style="margin-top: 25px">
+        <div th:id="'div-overview-customer-emotion'" class="row" style="margin-top: 25px">
             <div class="col-sm-3">
                 <div class="row">
                     <div class="col-sm-12">
@@ -71,7 +71,7 @@
                                 <font class="users-list-name">Giới Tính</font>
                             </div>
                             <div class="col-sm-6 text-left">
-                                <font>Nam</font>
+                                <font th:id="'font-gender'">Nam</font>
                             </div>
                         </div>
                         <div class="row">
@@ -79,7 +79,7 @@
                                 <font class="users-list-name">Tuổi Dự Đoán</font>
                             </div>
                             <div class="col-sm-6 text-left">
-                                <font>20-30</font>
+                                <font th:id="'font-age'">20-30</font>
                             </div>
                         </div>
                     </div>
@@ -135,7 +135,7 @@
     <!-- /.content -->
 </div>
 <div layout:fragment="js">
-    <!--<script th:src="@{/js/employee/customer_emotion.js}"></script>-->
+    <script th:src="@{/js/employee/customer_emotion.js}"></script>
 </div>
 </body>
 </html>
