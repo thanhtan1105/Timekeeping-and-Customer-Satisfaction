@@ -14,8 +14,8 @@ import java.util.Map;
  */
 public class AnalyzeImage {
 
-    private static final String fileResult = "D:\\fileResult_011.csv";
-    private static final String folder = "C:\\Users\\HienTQSE60896\\Google Drive\\Capstone Project\\Khao_Sat\\Images\\@Trung\\2016_10_08 (1)\\1";
+    private static final String fileResult = "D:\\Survey\\fileResult_10_08_02.csv";
+    private static final String folder = "C:\\Users\\HienTQSE60896\\Google Drive\\Capstone Project\\Khao_Sat\\Images\\10_7\\2";
 
     public static void writeFile(Map<String, EmotionAnalysisModel> mapData) throws IOException {
         FileWriter fw = new FileWriter(fileResult);
@@ -24,7 +24,7 @@ public class AnalyzeImage {
         bf.newLine();
         for (Map.Entry<String, EmotionAnalysisModel> map : mapData.entrySet()) {
             String nameFile = map.getKey();
-            String[] split = nameFile.trim().split("[.]+");
+            String[] split = nameFile.trim().split("[.-]+");
             String age_g = "", gender_g = "";
             if (split.length > 2) {
                 age_g = split[0];
@@ -68,7 +68,8 @@ public class AnalyzeImage {
                         EmotionServiceImpl emotionService = new EmotionServiceImpl();
                         BaseResponse response = emotionService.getCustomerEmotion(new FileInputStream(imageFile), null, false);
                         if (response.isSuccess()) {
-                            List<EmotionAnalysisModel> listAnalyze = (List<EmotionAnalysisModel>) response.getData();
+                            HashMap<String, Object> listAnalyzeMap = (HashMap<String, Object>) response.getData();
+                            List<EmotionAnalysisModel> listAnalyze = (List<EmotionAnalysisModel>) listAnalyzeMap.get("emotion");
                             for (EmotionAnalysisModel analysisModel : listAnalyze) {
                                 mapResult.put(imageFile.getName(), analysisModel);
                             }
