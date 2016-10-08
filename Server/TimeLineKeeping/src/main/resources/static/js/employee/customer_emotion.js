@@ -8,15 +8,21 @@
 event_hide('#div-overview-customer-emotion');
 
 /**
+ * Hide: div loader
+ */
+event_hide('#div-loader');
+
+/**
  * Event: begin transaction
  */
 $('#btn-begin-transaction').on('click', function () {
-    //enable button end
-    event_disabled('#btn-end-transaction', false);
+
     //disable button begin
     event_disabled('#btn-begin-transaction', true);
     //hide div overview customer emotion
     event_hide('#div-overview-customer-emotion');
+    //show div loader
+    event_show('#div-loader');
     //request begin transaction
     worker_begin_transaction();
 });
@@ -111,8 +117,12 @@ function worker_get_emotion() {
                     $font_age = $('#font-age'),
                     $font_gender = $('#font-gender');
 
-                //div overview customer emotion
+                //hide div loader
+                event_hide('#div-loader');
+                //show div overview customer emotion
                 event_show('#div-overview-customer-emotion');
+                //enable button end
+                event_disabled('#btn-end-transaction', false);
                 //set age
                 $font_age.html(age);
                 //set gender
