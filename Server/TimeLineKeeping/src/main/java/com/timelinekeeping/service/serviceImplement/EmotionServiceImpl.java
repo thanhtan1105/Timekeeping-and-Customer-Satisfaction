@@ -1,6 +1,5 @@
 package com.timelinekeeping.service.serviceImplement;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.constant.*;
@@ -236,14 +235,15 @@ public class EmotionServiceImpl {
         return emotionAnalysisModels;
     }
 
-    public List<MessageModel> suggestMessage(EmotionAnalysisModel emotionAnalysisModel) {
+    public MessageModel suggestMessage(EmotionAnalysisModel emotionAnalysisModel) {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            List<MessageEntity> messageEntities = getListMessage(emotionAnalysisModel.getGender(),
-                    emotionAnalysisModel.getAge() - IContanst.AGE_AMOUNT,
-                    emotionAnalysisModel.getAge() + IContanst.AGE_AMOUNT,
-                    emotionAnalysisModel.getEmotionMost());
-            return messageEntities.stream().map(MessageModel::new).collect(Collectors.toList());
+//            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+//            List<MessageEntity> messageEntities = getListMessage(emotionAnalysisModel.getGender(),
+//                    emotionAnalysisModel.getAge() - IContanst.AGE_AMOUNT,
+//                    emotionAnalysisModel.getAge() + IContanst.AGE_AMOUNT,
+//                    emotionAnalysisModel.getEmotionMost());
+//            return messageEntities.stream().map(MessageModel::new).collect(Collectors.toList());
+            return null;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
@@ -270,11 +270,11 @@ public class EmotionServiceImpl {
                 emotionRepo.saveAndFlush(emotionEntity);
 
                 //getMessage
-                List<MessageModel> messageModels = null;
+                MessageModel messageModel = null;
                 if (listEmotionAnalysis != null && listEmotionAnalysis.size() > 0) {
-                    messageModels = suggestMessage(mostChoose);
+                    messageModel = suggestMessage(mostChoose);
                 }
-                EmotionCustomerResponse responseEmotion = new EmotionCustomerResponse(customerResultEntity.getCustomerCode(), Arrays.asList(mostChoose), messageModels);
+                EmotionCustomerResponse responseEmotion = new EmotionCustomerResponse(customerResultEntity.getCustomerCode(), mostChoose, messageModel);
                 return new Pair<>(responseEmotion);
             } else {
                 return new Pair<>(null, "Cannot analyze image.");
@@ -358,11 +358,21 @@ public class EmotionServiceImpl {
      * @author TrungNN
      * Web employee: get 1st emotion
      */
-    public EmotionCustomerWebResponse getFirstEmotionWeb(String customerCode) {
+    public EmotionCustomerResponse getFirstEmotionWeb(String customerCode) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            EmotionCustomerResponse response = new EmotionCustomerResponse();
+            response.setCustomerCode("1234546565");
+            response.setAnalyzes(new EmotionAnalysisModel());
+            MessageModel messageModel = new MessageModel(123l, "http://cafekubua.com/wp-content/uploads/2016/04/maxresdefault.jpg", 24.5d, Gender.FEMALE, EEmotion.CONTEMPT);
+            messageModel.setMessage(Arrays.asList(new String("Anh ấy đang rất hạnh phúc.")));
+            messageModel.setSugguest(Arrays.asList(new String("Bạn nên rót cho anh ấy ly nước")));
+            response.setMessages(messageModel);
+            return response;
+
+
             //get Customer Service with customerCode
-            CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
+           /* CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
             if (customerResultEntity != null
                     && (customerResultEntity.getStatus() == ETransaction.BEGIN
                     || customerResultEntity.getStatus() == ETransaction.PROCESS)) {
@@ -379,7 +389,7 @@ public class EmotionServiceImpl {
                 }
             } else {
                 return null;
-            }
+            }*/
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
@@ -424,7 +434,6 @@ public class EmotionServiceImpl {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
-
 
 
     /**
@@ -479,7 +488,7 @@ public class EmotionServiceImpl {
 
 
                 //get tu value trong map add to account
-                Object[] objects = mapVal.get((long)i);
+                Object[] objects = mapVal.get((long) i);
                 if (objects != null && objects.length > 0) {
                     employeeReportDate.from(objects);
                 }

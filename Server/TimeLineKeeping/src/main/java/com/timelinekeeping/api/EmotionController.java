@@ -137,10 +137,10 @@ public class EmotionController {
         logger.info(Thread.currentThread().getStackTrace()[1].getMethodName() + " customer code: " + customerCode);
         BaseResponse response;
         try {
-            EmotionCustomerWebResponse emotionCustomerWebResponse = emotionService.getFirstEmotionWeb(customerCode);
+            EmotionCustomerResponse emotionCustomerWebResponse = emotionService.getFirstEmotionWeb(customerCode);
             if (emotionCustomerWebResponse != null) {
                 logger.info("[API- Get First Customer Emotion Web] customer emotion: not null");
-                logger.info("[API- Get First Customer Emotion Web] age: " + emotionCustomerWebResponse.getAge());
+                logger.info("[API- Get First Customer Emotion Web] age: " + emotionCustomerWebResponse.getMessages().getAgeOfFace());
                 response = new BaseResponse(true, emotionCustomerWebResponse);
             } else {
                 logger.info("[API- Get First Customer Emotion Web] customer emotion: null");

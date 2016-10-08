@@ -9,13 +9,13 @@ import java.util.List;
  */
 public class EmotionCustomerResponse {
     private String customerCode;
-    private List<EmotionAnalysisModel> analyzes;
-    private List<MessageModel> messages;
+    private EmotionAnalysisModel analyzes;
+    private MessageModel messages;
 
     public EmotionCustomerResponse() {
     }
 
-    public EmotionCustomerResponse(String customerCode, List<EmotionAnalysisModel> analyzes, List<MessageModel> messages) {
+    public EmotionCustomerResponse(String customerCode, EmotionAnalysisModel analyzes, MessageModel messages) {
         this.customerCode = customerCode;
         this.analyzes = analyzes;
         this.messages = messages;
@@ -29,19 +29,19 @@ public class EmotionCustomerResponse {
         this.customerCode = customerCode;
     }
 
-    public List<EmotionAnalysisModel> getAnalyzes() {
+    public EmotionAnalysisModel getAnalyzes() {
         return analyzes;
     }
 
-    public void setAnalyzes(List<EmotionAnalysisModel> analyzes) {
+    public void setAnalyzes(EmotionAnalysisModel analyzes) {
         this.analyzes = analyzes;
     }
 
-    public List<MessageModel> getMessages() {
+    public MessageModel getMessages() {
         return messages;
     }
 
-    public void setMessages(List<MessageModel> messages) {
+    public void setMessages(MessageModel messages) {
         this.messages = messages;
     }
 }
