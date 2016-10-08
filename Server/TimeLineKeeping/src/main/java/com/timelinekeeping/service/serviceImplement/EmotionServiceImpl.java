@@ -278,7 +278,6 @@ public class EmotionServiceImpl {
 
 //            // save to database
 
->>>>>>> 7d6c450... commit apiedit
             }
         } else {
             baseResponse.setSuccess(false);
