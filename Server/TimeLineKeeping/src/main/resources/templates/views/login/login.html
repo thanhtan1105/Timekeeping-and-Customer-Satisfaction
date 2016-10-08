@@ -21,6 +21,7 @@
         <a><b>TK</b>&amp;CS</a>
     </div>
     <div class="login-box-body">
+        <h1 th:text="#{message.test.header}"></h1>
         <form th:action="@{/login/processing}" method="post">
             <div class="form-group has-feedback">
                 <input type="text" th:name="username"
