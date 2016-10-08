@@ -14,20 +14,27 @@ import java.util.Map;
  */
 public class AnalyzeImage {
 
-    private static final String fileResult = "D:\\fileResult05.csv";
-    private static final String folder = "D:\\Hinh\\5";
+    private static final String fileResult = "D:\\fileResult_011.csv";
+    private static final String folder = "C:\\Users\\HienTQSE60896\\Google Drive\\Capstone Project\\Khao_Sat\\Images\\@Trung\\2016_10_08 (1)\\1";
 
     public static void writeFile(Map<String, EmotionAnalysisModel> mapData) throws IOException {
         FileWriter fw = new FileWriter(fileResult);
         BufferedWriter bf = new BufferedWriter(fw);
-        bf.write("Code,NameFile,Age,Gender,EmotionMost,Anger,Contempt,Disgust,Fear,Happiness,Neutral,Sadness,Surprise");
+        bf.write("NameFile,AGE_G,GENDER_G,Age,Gender,EmotionMost,Anger,Contempt,Disgust,Fear,Happiness,Neutral,Sadness,Surprise");
         bf.newLine();
         for (Map.Entry<String, EmotionAnalysisModel> map : mapData.entrySet()) {
             String nameFile = map.getKey();
-            String code = nameFile.trim().split("[._]+")[2];
+            String[] split = nameFile.trim().split("[.]+");
+            String age_g = "", gender_g = "";
+            if (split.length > 2) {
+                age_g = split[0];
+                gender_g = split[1];
+            }
             EmotionAnalysisModel emotionAnalysisModel = map.getValue();
-            bf.write(code + ",");
             bf.write(nameFile + ",");
+            bf.write(age_g + ",");
+            bf.write(gender_g + ",");
+
             if (emotionAnalysisModel != null) {
                 bf.write(emotionAnalysisModel.getAge() + ",");
                 bf.write(emotionAnalysisModel.getGender() + ",");
