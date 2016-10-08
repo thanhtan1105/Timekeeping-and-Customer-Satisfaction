@@ -102,17 +102,15 @@ public class SuggestionService {
                 } else {
                     result = String.format(IContanst.SUGGESTION_3_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(positive.get(1)), getEmotion(positive.get(2)));
                 }
-/*
 
-                if (negative.size() == 2) {
-                    result = String.format("%s và %s", getEmotion(negative.get(0)), getEmotion(negative.get(1)));
-                } else {
-                    result = String.format("%s , %s và %s", getEmotion(negative.get(0)), getEmotion(negative.get(1)), getEmotion(negative.get(2)));
-                }
-*/
             } else {
                 //Bolt
-
+                negative.sort((EmotionCompare e1, EmotionCompare e2) -> Math.abs(e1.getValue()) > Math.abs(e2.getValue()) ? -1 : 1);
+                if (positive.size() > negative.size()){
+                    result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(positive.get(1)), getEmotion(negative.get(0)));
+                }else {
+                    result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(negative.get(0)), getEmotion(negative.get(1)));
+                }
             }
 
         }
@@ -129,6 +127,8 @@ public class SuggestionService {
         analysisModel.setGender(Gender.FEMALE);
         EmotionRecognizeScores emotionRecognizeScores = new EmotionRecognizeScores();
         emotionRecognizeScores.setHappiness(0.9d);
+        emotionRecognizeScores.setSadness(0.1d);
+        emotionRecognizeScores.setAnger(0.2d);
         analysisModel.setEmotion(emotionRecognizeScores);
         System.out.println(suggestionService.listEmotion(analysisModel));
     }

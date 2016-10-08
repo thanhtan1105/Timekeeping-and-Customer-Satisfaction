@@ -372,7 +372,7 @@ public class EmotionServiceImpl {
 
 
             //get Customer Service with customerCode
-           /* CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
+            CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
             if (customerResultEntity != null
                     && (customerResultEntity.getStatus() == ETransaction.BEGIN
                     || customerResultEntity.getStatus() == ETransaction.PROCESS)) {
