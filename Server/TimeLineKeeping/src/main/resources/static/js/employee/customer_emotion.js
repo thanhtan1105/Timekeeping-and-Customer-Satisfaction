@@ -106,11 +106,9 @@ function worker_get_emotion() {
                     messages = data.messages,
                     customer_emotion_msg = messages.message,
                     suggestions = messages.sugguest,
-                    age_of_face = messages.ageOfFace,
                     age_predict = messages.predict,
                     gender = messages.gender,
                     urlImage = messages.url,
-                    $font_age_of_face = $('#font-age-of-face'),
                     $font_age_predict = $('#font-age-predict'),
                     $font_gender = $('#font-gender'),
                     $customer_emotion_msg = $('#customer-emotion-message'),
@@ -124,13 +122,6 @@ function worker_get_emotion() {
                 event_show('#div-overview-customer-emotion');
                 //enable button end
                 event_disabled('#btn-end-transaction', false);
-
-                //set age of face
-                if (age_of_face != null) {
-                    $font_age_of_face.html(age_of_face);
-                } else {
-                    $font_age_of_face.html('N/A');
-                }
 
                 //set age predict
                 if (age_predict != null) {
