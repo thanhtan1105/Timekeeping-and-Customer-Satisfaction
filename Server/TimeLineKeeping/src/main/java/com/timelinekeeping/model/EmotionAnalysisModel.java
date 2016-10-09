@@ -2,6 +2,7 @@ package com.timelinekeeping.model;
 
 import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.Gender;
+import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
 import com.timelinekeeping.modelMCS.RectangleImage;
 
@@ -33,6 +34,22 @@ public class EmotionAnalysisModel implements Serializable {
     public EmotionAnalysisModel(EEmotion emotionMost, EmotionRecognizeScores emotion) {
         this.emotionMost = emotionMost;
         this.emotion = emotion;
+    }
+
+    public EmotionAnalysisModel(EmotionCustomerEntity emotionCustomerEntity) {
+        if (emotionCustomerEntity != null) {
+            EmotionRecognizeScores emotionScores = new EmotionRecognizeScores();
+            emotionScores.setAnger(emotionCustomerEntity.getAnger());
+            emotionScores.setContempt(emotionCustomerEntity.getContempt());
+            emotionScores.setDisgust(emotionCustomerEntity.getDisgust());
+            emotionScores.setFear(emotionCustomerEntity.getFear());
+            emotionScores.setHappiness(emotionCustomerEntity.getHappiness());
+            emotionScores.setNeutral(emotionCustomerEntity.getNeutral());
+            emotionScores.setSadness(emotionCustomerEntity.getSadness());
+            emotionScores.setSurprise(emotionCustomerEntity.getSurprise());
+            this.emotion = emotionScores;
+        }
+
     }
 
     public EEmotion getEmotionMost() {

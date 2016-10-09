@@ -2,6 +2,7 @@ package com.timelinekeeping.model;
 
 import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.Gender;
+import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.entity.MessageEntity;
 
 import java.util.List;
@@ -38,6 +39,14 @@ public class MessageModel {
         this.ageOfFace = ageOfFace;
         this.gender = gender;
         this.emotion = emotion;
+    }
+
+    public MessageModel(EmotionCustomerEntity emotionCustomerEntity) {
+        if (emotionCustomerEntity != null) {
+            this.ageOfFace = emotionCustomerEntity.getAge();
+            this.gender = emotionCustomerEntity.getGender();
+            this.emotion = emotion;
+        }
     }
 
     public Long getId() {

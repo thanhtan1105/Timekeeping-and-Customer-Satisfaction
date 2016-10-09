@@ -10,6 +10,7 @@ import com.timelinekeeping.repository.QuantityRepo;
 import com.timelinekeeping.util.UtilApps;
 import com.timelinekeeping.util.ValidateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 /**
  * Created by HienTQSE60896 on 10/7/2016.
  */
+@Service
 public class SuggestionService {
 
     @Autowired
@@ -65,7 +67,7 @@ public class SuggestionService {
     }
 
 
-    public String listEmotion(EmotionAnalysisModel analysisModel) {
+    public String getEmotionMessage(EmotionAnalysisModel analysisModel) {
         ESuggestionSubject subject = getSubject(analysisModel.getAge(), analysisModel.getGender());
         String result = "";
         EmotionRecognizeScores emotionScores = analysisModel.getEmotion();
@@ -130,6 +132,6 @@ public class SuggestionService {
         emotionRecognizeScores.setSadness(0.1d);
         emotionRecognizeScores.setAnger(0.2d);
         analysisModel.setEmotion(emotionRecognizeScores);
-        System.out.println(suggestionService.listEmotion(analysisModel));
+        System.out.println(suggestionService.getEmotionMessage(analysisModel));
     }
 }

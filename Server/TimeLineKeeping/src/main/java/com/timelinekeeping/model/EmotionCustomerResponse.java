@@ -1,5 +1,6 @@
 package com.timelinekeeping.model;
 
+import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.util.SessionGenerator;
 
 import java.util.List;
@@ -20,6 +21,13 @@ public class EmotionCustomerResponse {
         this.analyzes = analyzes;
         this.messages = messages;
     }
+
+    public EmotionCustomerResponse(String customerCode) {
+        this.customerCode = customerCode;
+    }
+
+
+
 
     public String getCustomerCode() {
         return customerCode;

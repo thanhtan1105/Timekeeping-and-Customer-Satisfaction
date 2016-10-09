@@ -52,6 +52,9 @@ public class EmotionServiceImpl {
     @Autowired
     private CustomerServiceRepo customerRepo;
 
+    @Autowired
+    private SuggestionService suggestionService;
+
     public BaseResponse save(InputStream inputStreamImg, Long employeeId, boolean isFirstTime) throws IOException, URISyntaxException {
 
         logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -361,15 +364,6 @@ public class EmotionServiceImpl {
     public EmotionCustomerResponse getFirstEmotionWeb(String customerCode) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            EmotionCustomerResponse response = new EmotionCustomerResponse();
-            response.setCustomerCode("1234546565");
-            response.setAnalyzes(new EmotionAnalysisModel());
-            MessageModel messageModel = new MessageModel(123l, "http://cafekubua.com/wp-content/uploads/2016/04/maxresdefault.jpg", 24.5d, Gender.FEMALE, EEmotion.CONTEMPT);
-            messageModel.setMessage(Arrays.asList(new String("Anh ấy đang rất hạnh phúc.")));
-            messageModel.setSugguest(Arrays.asList(new String("Bạn nên rót cho anh ấy ly nước")));
-            response.setMessages(messageModel);
-            return response;
-
 
             //get Customer Service with customerCode
             CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
@@ -381,15 +375,23 @@ public class EmotionServiceImpl {
                 logger.info("[API Service- Get First Customer Emotion Web] list emotion customer[size]: "
                         + emotionCustomerEntities.size());
                 if (emotionCustomerEntities != null && emotionCustomerEntities.size() > 0) {
-                    EmotionCustomerWebResponse emotionCustomerWebResponse
-                            = new EmotionCustomerWebResponse(emotionCustomerEntities.get(0));
-                    return emotionCustomerWebResponse;
+                    EmotionCustomerEntity emotionCustomerEntity
+                            = emotionCustomerEntities.get(0);
+
+                    //get analysis
+                    EmotionAnalysisModel analysisModel = new EmotionAnalysisModel(emotionCustomerEntity);
+                    String messageEmotion = suggestionService.getEmotionMessage(analysisModel);
+
+                    //create message
+                    MessageModel messageModel = new MessageModel(emotionCustomerEntity);
+                    messageModel.setMessage(Arrays.asList(messageEmotion));
+                    return new EmotionCustomerResponse(customerCode, analysisModel, messageModel);
                 } else {
                     return null;
                 }
             } else {
                 return null;
-            }*/
+            }
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
