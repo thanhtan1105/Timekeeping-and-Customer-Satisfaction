@@ -109,7 +109,6 @@ function worker_get_emotion() {
                     age_predict = messages.predict,
                     gender = messages.gender,
                     urlImage = messages.url,
-                    $font_age_of_face = $('#font-age-of-face'),
                     $font_age_predict = $('#font-age-predict'),
                     $font_gender = $('#font-gender'),
                     $customer_emotion_msg = $('#customer-emotion-message'),
