@@ -55,13 +55,13 @@ public class SuggestionService {
 
 
     public String getEmotion(EmotionCompare emotionCompare) {
-//        List<String> quantities = quantityRepo.findQuantity(emotionCompare.getValue());
-        List<String> quantities = new ArrayList<>();
+        List<String> quantities = quantityRepo.findQuantity(emotionCompare.getValue());
+//        List<String> quantities = new ArrayList<>();
         String quantity = null;
-        if (ValidateUtil.isEmpty(quantity)) {
+        if (ValidateUtil.isEmpty(quantities)) {
             quantity = IContanst.QUANLITY_EMOTION_DEFAULT;
         } else {
-            quantity = quantities.get(UtilApps.random(0, quantities.size()));
+            quantity = quantities.get(UtilApps.random(0, quantities.size() -1));
         }
         return String.format("%s %s", quantity, emotionCompare.getEmotion().getName());
     }

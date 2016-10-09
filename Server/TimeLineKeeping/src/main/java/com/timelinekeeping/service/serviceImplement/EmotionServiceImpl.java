@@ -375,8 +375,7 @@ public class EmotionServiceImpl {
                 logger.info("[API Service- Get First Customer Emotion Web] list emotion customer[size]: "
                         + emotionCustomerEntities.size());
                 if (emotionCustomerEntities != null && emotionCustomerEntities.size() > 0) {
-                    EmotionCustomerEntity emotionCustomerEntity
-                            = emotionCustomerEntities.get(0);
+                    EmotionCustomerEntity emotionCustomerEntity= emotionCustomerEntities.get(0);
 
                     //get analysis
                     EmotionAnalysisModel analysisModel = new EmotionAnalysisModel(emotionCustomerEntity);

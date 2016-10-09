@@ -61,11 +61,11 @@ public class UtilApps {
     }
 
 
-    public static int random(int x, int y) {
-        return (int) Math.random() * (x - y + 1) + y;
+    public static int random(int min, int max) {
+        return Math.abs(new Random().nextInt()) % (max - min + 1) + min;
     }
 
     public static void main(String[] args) {
-        System.out.println(generatePassword());
+        System.out.println(random(0,9));
     }
 }

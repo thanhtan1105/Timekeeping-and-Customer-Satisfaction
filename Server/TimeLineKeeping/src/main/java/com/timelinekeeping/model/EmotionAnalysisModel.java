@@ -48,6 +48,10 @@ public class EmotionAnalysisModel implements Serializable {
             emotionScores.setSadness(emotionCustomerEntity.getSadness());
             emotionScores.setSurprise(emotionCustomerEntity.getSurprise());
             this.emotion = emotionScores;
+            this.age = emotionCustomerEntity.getAge();
+            this.gender = emotionCustomerEntity.getGender();
+            this.smile = emotionCustomerEntity.getSmile();
+            this.emotionMost = emotionCustomerEntity.getEmotionMost();
         }
 
     }

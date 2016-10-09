@@ -95,8 +95,8 @@ public class TestController {
     }
 
     @RequestMapping("/get_first_emotion_message")
-    public EmotionCustomerResponse getFirstEmotion() {
+    public EmotionCustomerResponse getFirstEmotion(@RequestParam(value = "customerCode") String customerCode) {
 
-        return emotionService.getFirstEmotionWeb("1234");
+        return emotionService.getFirstEmotionWeb(customerCode);
     }
 }
