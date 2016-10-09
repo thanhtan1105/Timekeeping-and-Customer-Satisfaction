@@ -129,13 +129,16 @@ public class SuggestionService {
             case ANGER: formatString = "Bạn nên rót cho %s ly nước."; break;
             case CONTEMPT: formatString = "Bạn nên bình tỉnh và tôn trọng %s khi nói chuyện";break;
             case DISGUST: formatString = "Bạn nên lăng nghe những ấm uất của %s.";break;
-            case FEAR: formatString = "Bạn nên tạo không giang cỡ mở với %s.";break;
+            case FEAR: formatString = "Bạn nên tạo không gian cỡ mở với %s.";break;
             case HAPPINESS: formatString = "Bạn nên đón nhận niềm vui chung với %s";break;
             case NEUTRAL: formatString = "Bạn nên nói chuyện với %s bình thường";break;
             case SADNESS: formatString = "Bạn nên nói chuyện với %s nhẹ nhàng.";break;
             case SURPRISE: formatString = "Bạn nên bình tỉnh nói chuyện với %s.";break;
             default: formatString = "Bạn nên nói chuyện với %s nhẹ nhàng.";break;
         }
+
+        // TODO get from database
+
         return String.format(formatString, subject.getName());
     }
 
