@@ -65,7 +65,20 @@ public class UtilApps {
         return Math.abs(new Random().nextInt()) % (max - min + 1) + min;
     }
 
+    public static String formatSentence(String sentence) {
+        if (ValidateUtil.isEmpty(sentence)) {
+            return "";
+        }
+        sentence.replaceAll("\\s+", "");
+        sentence = sentence.trim();
+        sentence = sentence.substring(0, 1).toUpperCase() + sentence.substring(1);
+        if (sentence.charAt(sentence.length() - 1) != '.') {
+            sentence += '.';
+        }
+        return sentence;
+    }
+
     public static void main(String[] args) {
-        System.out.println(random(0,9));
+        System.out.println(formatSentence(" còn đó  những  niềm  tin  đen"));
     }
 }

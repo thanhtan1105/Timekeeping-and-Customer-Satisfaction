@@ -7,14 +7,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum  ESuggestionSubject {
 
-    ANH(0, "Anh ấy"),
-    CHI(1, "Chị ấy"),
-    EM(2, "Em ấy"),
-    CHU(3, "Chú ấy"),
-    CO(4, "Cô ấy"),
-    BAC(4, "Bác ấy"),
-    ONG(4, "Ông"),
-    BA(4, "Bà");
+    ANH(0, "anh ấy"),
+    CHI(1, "chị ấy"),
+    EM(2, "em ấy"),
+    CHU(3, "chú ấy"),
+    CO(4, "cô ấy"),
+    BAC(4, "bác ấy"),
+    ONG(4, "ông"),
+    BA(4, "bà");
 
     private int index;
     private String name;

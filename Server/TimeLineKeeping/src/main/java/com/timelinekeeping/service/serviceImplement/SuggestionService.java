@@ -1,5 +1,6 @@
 package com.timelinekeeping.service.serviceImplement;
 
+import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.ESuggestionSubject;
 import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.constant.IContanst;
@@ -23,6 +24,7 @@ public class SuggestionService {
 
     @Autowired
     private QuantityRepo quantityRepo;
+
 
 
     public ESuggestionSubject getSubject(Double age, Gender gender) {
@@ -120,9 +122,25 @@ public class SuggestionService {
         return result;
     }
 
+    public String getSuggestion(EEmotion emotion, Double age, Gender gender){
+        ESuggestionSubject subject = getSubject(age, gender);
+        String formatString ;
+        switch (emotion){
+            case ANGER: formatString = "Bạn nên rót cho %s ly nước."; break;
+            case CONTEMPT: formatString = "Bạn nên bình tỉnh và tôn trọng %s khi nói chuyện";break;
+            case DISGUST: formatString = "Bạn nên lăng nghe những ấm uất của %s.";break;
+            case FEAR: formatString = "Bạn nên tạo không giang cỡ mở với %s.";break;
+            case HAPPINESS: formatString = "Bạn nên đón nhận niềm vui chung với %s";break;
+            case NEUTRAL: formatString = "Bạn nên nói chuyện với %s bình thường";break;
+            case SADNESS: formatString = "Bạn nên nói chuyện với %s nhẹ nhàng.";break;
+            case SURPRISE: formatString = "Bạn nên bình tỉnh nói chuyện với %s.";break;
+            default: formatString = "Bạn nên nói chuyện với %s nhẹ nhàng.";break;
+        }
+        return String.format(formatString, subject.getName());
+    }
+
 
     public static void main(String[] args) {
-        SuggestionService suggestionService = new SuggestionService();
         EmotionAnalysisModel analysisModel = new EmotionAnalysisModel();
 //        System.out.println(suggestionService.getSubject(24d, Gender.MALE).getName());
         analysisModel.setAge(24d);
@@ -132,6 +150,7 @@ public class SuggestionService {
         emotionRecognizeScores.setSadness(0.1d);
         emotionRecognizeScores.setAnger(0.2d);
         analysisModel.setEmotion(emotionRecognizeScores);
+        SuggestionService suggestionService = new SuggestionService();
         System.out.println(suggestionService.getEmotionMessage(analysisModel));
     }
 }
