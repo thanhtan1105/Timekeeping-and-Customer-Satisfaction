@@ -21,26 +21,35 @@
         <a><b>TK</b>&amp;CS</a>
     </div>
     <div class="login-box-body">
-        <h1 th:text="#{message.test.header}"></h1>
-        <form th:action="@{/login/processing}" method="post">
-            <div class="form-group has-feedback">
-                <input type="text" th:name="username"
-                       class="form-control" placeholder="Username"
-                       style="font-size: 16px"/>
-                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+        <div class="row" style="margin-bottom: 10px">
+            <div class="col-sm-12 text-center">
+                <img th:src="@{/libs/dist/img/avatar_customer.png}" class="img-circle"
+                     style="width: 150px; height: 150px;"/>
             </div>
-            <div class="form-group has-feedback">
-                <input type="password" th:name="password"
-                       class="form-control" placeholder="Password"
-                       style="font-size: 16px"/>
-                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <form th:action="@{/login/processing}" method="post">
+                    <div class="form-group has-feedback">
+                        <input type="text" th:name="username"
+                               class="form-control" placeholder="Username"
+                               style="font-size: 16px"/>
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="password" th:name="password"
+                               class="form-control" placeholder="Password"
+                               style="font-size: 16px"/>
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
