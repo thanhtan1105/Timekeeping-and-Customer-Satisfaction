@@ -1,6 +1,5 @@
 package com.timelinekeeping.service.serviceImplement;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.constant.*;
@@ -52,6 +51,9 @@ public class EmotionServiceImpl {
 
     @Autowired
     private CustomerServiceRepo customerRepo;
+
+    @Autowired
+    private SuggestionService suggestionService;
 
     public BaseResponse save(InputStream inputStreamImg, Long employeeId, boolean isFirstTime) throws IOException, URISyntaxException {
 
@@ -236,14 +238,15 @@ public class EmotionServiceImpl {
         return emotionAnalysisModels;
     }
 
-    public List<MessageModel> suggestMessage(EmotionAnalysisModel emotionAnalysisModel) {
+    public MessageModel suggestMessage(EmotionAnalysisModel emotionAnalysisModel) {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            List<MessageEntity> messageEntities = getListMessage(emotionAnalysisModel.getGender(),
-                    emotionAnalysisModel.getAge() - IContanst.AGE_AMOUNT,
-                    emotionAnalysisModel.getAge() + IContanst.AGE_AMOUNT,
-                    emotionAnalysisModel.getEmotionMost());
-            return messageEntities.stream().map(MessageModel::new).collect(Collectors.toList());
+//            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+//            List<MessageEntity> messageEntities = getListMessage(emotionAnalysisModel.getGender(),
+//                    emotionAnalysisModel.getAge() - IContanst.AGE_AMOUNT,
+//                    emotionAnalysisModel.getAge() + IContanst.AGE_AMOUNT,
+//                    emotionAnalysisModel.getEmotionMost());
+//            return messageEntities.stream().map(MessageModel::new).collect(Collectors.toList());
+            return null;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
@@ -270,11 +273,11 @@ public class EmotionServiceImpl {
                 emotionRepo.saveAndFlush(emotionEntity);
 
                 //getMessage
-                List<MessageModel> messageModels = null;
+                MessageModel messageModel = null;
                 if (listEmotionAnalysis != null && listEmotionAnalysis.size() > 0) {
-                    messageModels = suggestMessage(mostChoose);
+                    messageModel = suggestMessage(mostChoose);
                 }
-                EmotionCustomerResponse responseEmotion = new EmotionCustomerResponse(customerResultEntity.getCustomerCode(), Arrays.asList(mostChoose), messageModels);
+                EmotionCustomerResponse responseEmotion = new EmotionCustomerResponse(customerResultEntity.getCustomerCode(), mostChoose, messageModel);
                 return new Pair<>(responseEmotion);
             } else {
                 return new Pair<>(null, "Cannot analyze image.");
@@ -358,9 +361,10 @@ public class EmotionServiceImpl {
      * @author TrungNN
      * Web employee: get 1st emotion
      */
-    public EmotionCustomerWebResponse getFirstEmotionWeb(String customerCode) {
+    public EmotionCustomerResponse getFirstEmotionWeb(String customerCode) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+
             //get Customer Service with customerCode
             CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
             if (customerResultEntity != null
@@ -371,9 +375,18 @@ public class EmotionServiceImpl {
                 logger.info("[API Service- Get First Customer Emotion Web] list emotion customer[size]: "
                         + emotionCustomerEntities.size());
                 if (emotionCustomerEntities != null && emotionCustomerEntities.size() > 0) {
-                    EmotionCustomerWebResponse emotionCustomerWebResponse
-                            = new EmotionCustomerWebResponse(emotionCustomerEntities.get(0));
-                    return emotionCustomerWebResponse;
+                    EmotionCustomerEntity emotionCustomerEntity= emotionCustomerEntities.get(0);
+
+                    //get analysis
+                    EmotionAnalysisModel analysisModel = new EmotionAnalysisModel(emotionCustomerEntity);
+                    String messageEmotion = suggestionService.getEmotionMessage(analysisModel);
+                    String sugguestion = suggestionService.getSuggestion(emotionCustomerEntity.getEmotionMost(), emotionCustomerEntity.getAge(), emotionCustomerEntity.getGender());
+
+                    //create message
+                    MessageModel messageModel = new MessageModel(emotionCustomerEntity);
+                    messageModel.setMessage(Arrays.asList(UtilApps.formatSentence(messageEmotion)));
+                    messageModel.setSugguest(Arrays.asList(UtilApps.formatSentence(sugguestion)));
+                    return new EmotionCustomerResponse(customerCode, analysisModel, messageModel);
                 } else {
                     return null;
                 }
@@ -424,7 +437,6 @@ public class EmotionServiceImpl {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
-
 
 
     /**
@@ -479,7 +491,7 @@ public class EmotionServiceImpl {
 
 
                 //get tu value trong map add to account
-                Object[] objects = mapVal.get((long)i);
+                Object[] objects = mapVal.get((long) i);
                 if (objects != null && objects.length > 0) {
                     employeeReportDate.from(objects);
                 }

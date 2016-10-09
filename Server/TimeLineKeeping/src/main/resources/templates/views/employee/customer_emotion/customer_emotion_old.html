@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout_employee">
+
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Customer Emotion</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <!-- Info: manager, department, date -->
+        <div style="margin-bottom: 10px">
+            <div class="row text-success" style="font-size: 24px;">
+                <div class="col-sm-5 text-right text-bold">
+                    <i class="fa fa-smile-o"></i>
+                </div>
+                <div class="col-sm-6 text-left">
+                    <font>Customer Emotion</font>
+                </div>
+            </div>
+            <!-- department -->
+            <div class="row text-success" style="font-size: 18px;">
+                <div class="col-sm-5 text-right text-bold">
+                    <font>Department:</font></div>
+                <div class="col-sm-6 text-left">
+                    <font th:if="${session} and ${session.UserSession}"
+                          th:text="${session.UserSession.department.name}"></font></div>
+            </div>
+            <!-- /.end department -->
+            <!-- date -->
+            <div class="row text-success" style="font-size: 18px;">
+                <div class="col-sm-5 text-right text-bold">
+                    <font>Date:</font></div>
+                <div class="col-sm-6 text-left">
+                    <font th:text="${#dates.format(CurrentDate, 'dd-MMM-yyyy')}"></font></div>
+            </div>
+            <!-- /.end date -->
+            <!-- button -->
+            <div class="row" style="font-size: 18px;">
+                <div class="col-sm-5 text-right">
+                    <button class="btn bg-aqua-active" style="width: 10%" title="Begin Transaction"
+                            th:id="'btn-begin-transaction'">
+                        <i class="fa fa-play"></i></button>
+                </div>
+                <div class="col-sm-6 text-left">
+                    <button class="btn bg-red-active" style="width: 8%" disabled title="End Transaction"
+                            th:id="'btn-end-transaction'">
+                        <i class="fa fa-stop"></i></button>
+                </div>
+                <input type="hidden" th:id="employeeId"
+                       th:if="${session} and ${session.UserSession}"
+                       th:value="${session.UserSession.id}"/>
+            </div>
+            <!-- /.end button -->
+        </div>
+        <div class="panel panel-default" th:id="'panel-bar-chart'">
+            <div class="panel-body">
+                <div class="row" style="margin-bottom: 5px">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-10">
+                        <!-- Bar chart -->
+                        <div id="bar-chart" style="height: 300px;"></div>
+                    </div>
+                    <div class="col-sm-1"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-10">
+                        <label>Age:</label>
+                        <font th:id="'font-age'"></font>
+                    </div>
+                    <div class="col-sm-1"></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-10">
+                        <label>Gender:</label>
+                        <font th:id="'font-gender'"></font>
+                    </div>
+                    <div class="col-sm-1"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<div layout:fragment="js">
+    <script th:src="@{/js/employee/customer_emotion.js}"></script>
+</div>
+</body>
+</html>

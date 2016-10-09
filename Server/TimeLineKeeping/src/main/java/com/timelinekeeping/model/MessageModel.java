@@ -2,7 +2,10 @@ package com.timelinekeeping.model;
 
 import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.Gender;
+import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.entity.MessageEntity;
+
+import java.util.List;
 
 /**
  * Created by HienTQSE60896 on 9/30/2016.
@@ -10,7 +13,9 @@ import com.timelinekeeping.entity.MessageEntity;
 public class MessageModel {
 
     private Long id;
-    private String message;
+    private List<String> message;
+    private List<String> sugguest;
+    private String url;
     private Double ageOfFace;
     private Gender gender;
     private EEmotion emotion;
@@ -18,13 +23,29 @@ public class MessageModel {
     public MessageModel() {
     }
 
-    public MessageModel(MessageEntity entity) {
-        if (entity != null) {
-            this.id = entity.getId();
-            this.message = entity.getMessage();
-            this.ageOfFace = entity.getAgeOfFace();
-            this.gender = entity.getGender();
-            this.emotion = entity.getEmotion();
+    public MessageModel(Long id, List<String> message, List<String> suggest, String url, Double ageOfFace, Gender gender, EEmotion emotion) {
+        this.id = id;
+        this.message = message;
+        this.sugguest = suggest;
+        this.url = url;
+        this.ageOfFace = ageOfFace;
+        this.gender = gender;
+        this.emotion = emotion;
+    }
+
+    public MessageModel(Long id, String url, Double ageOfFace, Gender gender, EEmotion emotion) {
+        this.id = id;
+        this.url = url;
+        this.ageOfFace = ageOfFace;
+        this.gender = gender;
+        this.emotion = emotion;
+    }
+
+    public MessageModel(EmotionCustomerEntity emotionCustomerEntity) {
+        if (emotionCustomerEntity != null) {
+            this.ageOfFace = emotionCustomerEntity.getAge();
+            this.gender = emotionCustomerEntity.getGender();
+            this.emotion = emotion;
         }
     }
 
@@ -34,14 +55,6 @@ public class MessageModel {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public Double getAgeOfFace() {
@@ -66,5 +79,29 @@ public class MessageModel {
 
     public void setEmotion(EEmotion emotion) {
         this.emotion = emotion;
+    }
+
+    public List<String> getMessage() {
+        return message;
+    }
+
+    public void setMessage(List<String> message) {
+        this.message = message;
+    }
+
+    public List<String> getSugguest() {
+        return sugguest;
+    }
+
+    public void setSugguest(List<String> sugguest) {
+        this.sugguest = sugguest;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

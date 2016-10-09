@@ -7,7 +7,6 @@ import org.apache.commons.io.IOUtils;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +60,25 @@ public class UtilApps {
         return map;
     }
 
+
+    public static int random(int min, int max) {
+        return Math.abs(new Random().nextInt()) % (max - min + 1) + min;
+    }
+
+    public static String formatSentence(String sentence) {
+        if (ValidateUtil.isEmpty(sentence)) {
+            return "";
+        }
+        sentence.replaceAll("\\s+", "");
+        sentence = sentence.trim();
+        sentence = sentence.substring(0, 1).toUpperCase() + sentence.substring(1);
+        if (sentence.charAt(sentence.length() - 1) != '.') {
+            sentence += '.';
+        }
+        return sentence;
+    }
+
     public static void main(String[] args) {
-        System.out.println(generatePassword());
+        System.out.println(formatSentence(" còn đó  những  niềm  tin  đen"));
     }
 }

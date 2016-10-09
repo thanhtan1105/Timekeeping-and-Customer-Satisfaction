@@ -18,7 +18,7 @@ public class AppConfigKeys {
     private static AppConfigKeys instance = null;
 
     private static final String NAME_FILE_API_PROPERTIES = "apiConfig.properties";
-    private static final String NAME_FILE_MESSAGE_PROPERTIES = "message.properties";
+    private static final String NAME_FILE_MESSAGE_PROPERTIES = "messages.properties";
 
     public static AppConfigKeys getInstance() {
         if (instance == null) {

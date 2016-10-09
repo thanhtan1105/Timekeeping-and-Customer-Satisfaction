@@ -19,13 +19,13 @@
                     <i class="fa fa-smile-o"></i>
                 </div>
                 <div class="col-sm-6 text-left">
-                    <font>Customer Emotion</font>
+                    <font>Cảm Xúc Khách Hàng</font>
                 </div>
             </div>
             <!-- department -->
             <div class="row text-success" style="font-size: 18px;">
                 <div class="col-sm-5 text-right text-bold">
-                    <font>Department:</font></div>
+                    <font>Phòng Ban:</font></div>
                 <div class="col-sm-6 text-left">
                     <font th:if="${session} and ${session.UserSession}"
                           th:text="${session.UserSession.department.name}"></font></div>
@@ -34,12 +34,12 @@
             <!-- date -->
             <div class="row text-success" style="font-size: 18px;">
                 <div class="col-sm-5 text-right text-bold">
-                    <font>Date:</font></div>
+                    <font>Ngày:</font></div>
                 <div class="col-sm-6 text-left">
                     <font th:text="${#dates.format(CurrentDate, 'dd-MMM-yyyy')}"></font></div>
             </div>
             <!-- /.end date -->
-            <!-- button -->
+            <!-- button begin-end transaction -->
             <div class="row" style="font-size: 18px;">
                 <div class="col-sm-5 text-right">
                     <button class="btn bg-aqua-active" style="width: 10%" title="Begin Transaction"
@@ -55,36 +55,103 @@
                        th:if="${session} and ${session.UserSession}"
                        th:value="${session.UserSession.id}"/>
             </div>
-            <!-- /.end button -->
+            <!-- /.end button begin-end transaction -->
         </div>
-        <div class="panel panel-default" th:id="'panel-bar-chart'">
-            <div class="panel-body">
-                <div class="row" style="margin-bottom: 5px">
-                    <div class="col-sm-1"></div>
-                    <div class="col-sm-10">
-                        <!-- Bar chart -->
-                        <div id="bar-chart" style="height: 300px;"></div>
-                    </div>
-                    <div class="col-sm-1"></div>
-                </div>
+        <div th:id="'div-overview-customer-emotion'" class="row" style="margin-top: 25px">
+            <div class="col-sm-3">
                 <div class="row">
-                    <div class="col-sm-1"></div>
-                    <div class="col-sm-10">
-                        <label>Age:</label>
-                        <font th:id="'font-age'"></font>
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <img th:id="'image-customer'" th:src="@{/libs/dist/img/user8-128x128.jpg}"
+                                     class="img-bordered-sm" style="width: 180px; height: 180px;"/>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 8px">
+                            <div class="col-sm-7 text-right">
+                                <font class="users-list-name text-bold">Giới Tính</font>
+                            </div>
+                            <div class="col-sm-5 text-left">
+                                <font th:id="'font-gender'"></font>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-7 text-right">
+                                <font class="users-list-name text-bold">Tuổi Khuôn Mặt</font>
+                            </div>
+                            <div class="col-sm-5 text-left">
+                                <font th:id="'font-age-of-face'"></font>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-7 text-right">
+                                <font class="users-list-name text-bold">Tuổi Dự Đoán</font>
+                            </div>
+                            <div class="col-sm-5 text-left">
+                                <font th:id="'font-age-predict'"></font>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-sm-1"></div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-1"></div>
-                    <div class="col-sm-10">
-                        <label>Gender:</label>
-                        <font th:id="'font-gender'"></font>
-                    </div>
-                    <div class="col-sm-1"></div>
+            </div>
+            <div class="col-sm-9">
+                <ul class="timeline">
+                    <!-- customer emotion -->
+                    <li class="time-label">
+                        <span class="bg-red">Cảm xúc khách hàng</span>
+                    </li>
+                    <!-- emotion -->
+                    <li>
+                        <i class="fa fa-heartbeat bg-aqua"></i>
+
+                        <div class="timeline-item">
+                            <h3 class="timeline-header">
+                                <font class="text-primary text-bold">Tâm trạng hiện tại</font>
+                            </h3>
+
+                            <div class="timeline-body">
+                                <ul th:id="'customer-emotion-message'">
+                                    <li>Anh ấy hiện tại đang rất vui vẻ.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- suggest behavior -->
+                    <li class="time-label">
+                        <span class="bg-green">Gợi ý cách ứng xử</span>
+                    </li>
+                    <!-- suggestion -->
+                    <li>
+                        <i class="fa fa-comments bg-yellow"></i>
+
+                        <div class="timeline-item">
+                            <h3 class="timeline-header">
+                                <font class="text-primary text-bold">Một số gợi ý</font>
+                            </h3>
+
+                            <div class="timeline-body">
+                                <ul th:id="'suggestion-behavior-message'">
+                                    <li>Bạn nên nói chuyện với giọng nói vừa phải.</li>
+                                    <li>Bạn nên cười nhẹ khi nói chuyện.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- loader -->
+        <div th:id="'div-loader'" class="row" style="margin-top: 50px;">
+            <div class="col-sm-11 text-center">
+                <div class="thecube">
+                    <div class="cube c1"></div>
+                    <div class="cube c2"></div>
+                    <div class="cube c4"></div>
+                    <div class="cube c3"></div>
                 </div>
             </div>
         </div>
+        <!-- /.end loader -->
     </section>
     <!-- /.content -->
 </div>

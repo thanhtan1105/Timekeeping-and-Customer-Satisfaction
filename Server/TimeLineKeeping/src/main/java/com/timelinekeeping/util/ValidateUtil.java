@@ -28,8 +28,11 @@ public class ValidateUtil implements Serializable {
         }
     }
 
-    public static boolean isEmpty(Collection collection){
+    public static boolean isNotEmpty(Collection collection){
         return collection != null && collection.size() >0;
+    }
+    public static boolean isEmpty(Collection collection){
+        return collection == null || collection.size() <=0;
     }
 
     public static boolean isEmpty(String text){
