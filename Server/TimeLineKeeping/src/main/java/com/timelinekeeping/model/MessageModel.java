@@ -2,6 +2,7 @@ package com.timelinekeeping.model;
 
 import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.Gender;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.entity.MessageEntity;
 
@@ -19,6 +20,7 @@ public class MessageModel {
     private Double ageOfFace;
     private Gender gender;
     private EEmotion emotion;
+    private String predict;
 
     public MessageModel() {
     }
@@ -45,7 +47,7 @@ public class MessageModel {
         if (emotionCustomerEntity != null) {
             this.ageOfFace = emotionCustomerEntity.getAge();
             this.gender = emotionCustomerEntity.getGender();
-            this.emotion = emotion;
+            this.predict = String.format("%s - %s", (int)(ageOfFace - IContanst.AGE_AMOUNT), (int)(ageOfFace + IContanst.AGE_AMOUNT));
         }
     }
 
@@ -103,5 +105,13 @@ public class MessageModel {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getPredict() {
+        return predict;
+    }
+
+    public void setPredict(String predict) {
+        this.predict = predict;
     }
 }
