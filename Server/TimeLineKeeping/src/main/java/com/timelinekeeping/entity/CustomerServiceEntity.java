@@ -1,7 +1,7 @@
 package com.timelinekeeping.entity;
 
 import com.timelinekeeping.constant.ETransaction;
-import com.timelinekeeping.util.SessionGenerator;
+import com.timelinekeeping.util.UtilApps;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -45,11 +45,11 @@ public class CustomerServiceEntity {
     private Set<EmotionCustomerEntity> emotion;
 
     public CustomerServiceEntity() {
-        this.CustomerCode = SessionGenerator.nextSession();
+        this.CustomerCode = UtilApps.generateToken();
     }
 
     public CustomerServiceEntity(AccountEntity createBy) {
-        this.CustomerCode = SessionGenerator.nextSession();
+        this.CustomerCode = UtilApps.generateToken();
         this.createBy = createBy;
     }
 
