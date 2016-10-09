@@ -1,6 +1,7 @@
 package com.timelinekeeping.repository;
 
 import com.timelinekeeping.entity.AccountEntity;
+import com.timelinekeeping.entity.ToDoListEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -43,8 +44,6 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
     int updateMobileTokenID(@Param("accountID") Long accountID,
                             @Param("tokenID") String tokenID);
 
-
-
     @Query("SELECT a FROM AccountEntity a WHERE a.token = :token")
     List<AccountEntity> findByToken(@Param("token") String token);
 
@@ -60,4 +59,5 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
     @Query("SELECT a FROM AccountEntity a INNER JOIN a.department d " +
             "WHERE d.manager.id = :managerId AND a.id <> :managerId")
     List<AccountEntity> findByManagerNoActive(@Param("managerId") Long managerId);
+
 }

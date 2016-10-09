@@ -23,6 +23,13 @@ class NotificationViewController: BaseViewController {
     callApiGetReminder(String(user!.id!)) { (data, error) in
       dispatch_async(dispatch_get_main_queue(), {      
         self.notifications = data!
+        if data?.count == 0 {
+          self.tableView.hidden = true
+          
+        } else {
+          self.tableView.hidden = false
+          
+        }
         self.tableView.reloadData()
       })
     }

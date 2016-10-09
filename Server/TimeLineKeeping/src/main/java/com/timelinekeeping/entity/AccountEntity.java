@@ -1,6 +1,7 @@
 package com.timelinekeeping.entity;
 
 import com.timelinekeeping.constant.EStatus;
+import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.AccountModifyModel;
 import org.apache.commons.lang3.StringUtils;
@@ -40,6 +41,11 @@ public class AccountEntity implements Serializable {
     @NotNull
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Basic
+    @NotNull
+    @Column(name = "gender", nullable = false)
+    private Gender gender;
 
     @Basic
     @Column(name = "active")
@@ -85,6 +91,7 @@ public class AccountEntity implements Serializable {
             this.fullname = StringUtils.isNotEmpty(model.getFullname()) ? model.getFullname() : this.fullname;
             this.password = StringUtils.isNotEmpty(model.getPassword()) ? model.getPassword() : this.password;
             this.active = model.getActive() != null ? EStatus.fromIndex(model.getActive()) : this.active;
+            this.gender = model.getGender();
         }
     }
 
@@ -153,6 +160,13 @@ public class AccountEntity implements Serializable {
         this.token = token;
     }
 
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
 
     public Timestamp getTimeDeactive() {
         return timeDeactive;

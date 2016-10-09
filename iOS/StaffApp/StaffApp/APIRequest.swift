@@ -14,7 +14,7 @@ class APIRequest: NSObject {
 
   var http : String {
     get {
-      let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "172.20.10.4"
+      let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.150.113"
       let http = prefixHttp + ip + surfixHttp
       return http
     }
@@ -35,12 +35,27 @@ class APIRequest: NSObject {
     webservice_POST(url, params: dataSent, headersParams: header, completion: onCompletion)
   }
   
+  func getToDoList(day: Int, month: Int, year: Int, accoundId: String, onCompletion: ServiceResponse) {
+    let url = http + urlGetToDoList
+    let header = [
+      "Content-Type" : "application/json",
+      ]
+    
+    var dataSent: [String: AnyObject] = [:]
+    dataSent["day"] = day
+    dataSent["month"] = month
+    dataSent["year"] = year
+    dataSent["accountId"] = accoundId
+    
+    webservice_GET(url, params: dataSent, headersParams: header, completion: onCompletion)
+
+  }
+  
   func updateToken(accountID: String, token: String, onCompletion: ServiceResponse) {
     let url = http + urlUpdateToken
     let header = [
       "Content-Type" : "application/json",
     ]
-    
     
     var dataSent: [String: AnyObject] = [:]
     dataSent["accountID"] = accountID
@@ -59,6 +74,18 @@ class APIRequest: NSObject {
     dataSent["accountId"] = accountID
     
     webservice_POST(url, params: dataSent, headersParams: header, completion: onCompletion)
+  }
+  
+  func selectTask(id: String, onCompletion: ServiceResponse) {
+    let url = http + urlSelectTask
+    let header = [
+      "Content-Type" : "application/json",
+      ]
+    
+    var dataSent: [String: AnyObject] = [:]
+    dataSent["id"] = id
+    
+    webservice_GET(url, params: dataSent, headersParams: header, completion: onCompletion)
   }
   
   func getAttendance(accountID: String, month: Int, year: Int, onCompletion: ServiceResponse) {

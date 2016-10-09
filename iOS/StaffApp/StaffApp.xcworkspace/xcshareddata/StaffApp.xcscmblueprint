@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "3810BE717BF3ACDADEEC7D4B2738598BEE49FFD7",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "D6A1A2CC9637F2129D74CF93DD80E8C91D1A7FB3" : 0,
+    "3810BE717BF3ACDADEEC7D4B2738598BEE49FFD7" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "CF08E6A8-D2FD-4EA4-BF17-842877D03B34",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "D6A1A2CC9637F2129D74CF93DD80E8C91D1A7FB3" : "Desktop\/iOS\/MooPlan\/",
+    "3810BE717BF3ACDADEEC7D4B2738598BEE49FFD7" : "Timekeeping-and-Customer-Satisfaction\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "StaffApp",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "iOS\/StaffApp\/StaffApp.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/thanhtan1105\/Timekeeping-and-Customer-Satisfaction.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3810BE717BF3ACDADEEC7D4B2738598BEE49FFD7"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/thanhtan1105\/moo-plans.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D6A1A2CC9637F2129D74CF93DD80E8C91D1A7FB3"
+    }
+  ]
+}

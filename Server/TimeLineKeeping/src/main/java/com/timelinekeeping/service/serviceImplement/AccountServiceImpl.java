@@ -374,12 +374,20 @@ public class AccountServiceImpl {
              con.setRequestProperty("Authorization", "Basic ZjkwMjQ4MzQtNzM4Ny00NjRhLWFhZmItOGE5ZmEyZGIyMjBh");
              con.setRequestMethod("POST");
 
+             // make data
+             Gender gender = accountEntity.getGender();
+             String welcomeMessage = "Xin chào ";
+             String prefix = gender == Gender.MALE ? "anh " : "chị ";
+             welcomeMessage += prefix + " ";
+             welcomeMessage += accountEntity.getFullname() + " ";
+             welcomeMessage += ". Chúc " + prefix + " " + "một ngày làm việc tốt lành";
+
              String strJsonBody = "{"
                      +   "\"app_id\": \"dbd7cdd6-9555-416b-bc08-21aa24164299\","
                      +   "\"include_player_ids\" : [\"" + accountEntity.getToken() + "\"],"
                      +   "\"data\": {\"id\": "+ accountEntity.getId() +"},"
                      +   "\"contents\": {\"en\": \"Check in successfully\"},"
-                     +   "\"headings\": {\"en\": \"Check in successfully\"}"
+                     +   "\"headings\": {\"vn\": " + welcomeMessage + "}"
                      + "}";
 
              System.out.println("strJsonBody:\n" + strJsonBody);
@@ -505,4 +513,6 @@ public class AccountServiceImpl {
         }
         return true;
     }
+
+
 }

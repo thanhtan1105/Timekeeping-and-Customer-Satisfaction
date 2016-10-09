@@ -18,6 +18,7 @@ public class AccountModel {
     private String fullname;
     private DepartmentModel department;
     private Date timeDeactive;
+
     public AccountModel() {
     }
 

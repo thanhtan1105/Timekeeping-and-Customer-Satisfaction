@@ -40,7 +40,6 @@ public interface I_URI {
     String API_EMOTION_REPORT = "/report";
     String API_EMOTION_REPORT_EMPLOYEE = "/report_employee";
 
-
     /** Reminder*/
     String API_REMINDER = "/api/reminder";
     String API_REMINDER_LIST_MANAGER = "/list_by_manager";
@@ -52,4 +51,8 @@ public interface I_URI {
     String API_TIMEKEEPING_VIEW_TIMEKEEPING = "/get_time_keeping";
     String API_TIMEKEEPING_ATTENDANCE = "/get_attendance";
 
+    /** To do list */
+    String API_TODOLIST = "/api/todo_list";
+    String API_TODOLIST_GET = "/get";
+    String API_TODOLIST_SELECT_TASK = "/select_task";
 }

@@ -19,7 +19,6 @@ public class NotificationEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
     @Basic
     @Column(name = "time_notify")
     private Timestamp timeNotify;

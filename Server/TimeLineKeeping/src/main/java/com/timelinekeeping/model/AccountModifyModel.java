@@ -1,5 +1,7 @@
 package com.timelinekeeping.model;
 
+import com.timelinekeeping.constant.Gender;
+
 /**
  * Created by HienTQSE60896 on 9/15/2016.
  */
@@ -13,10 +15,19 @@ public class AccountModifyModel {
     private Integer active;
     private Long roleId;
     private Long departmentId;
+    private Gender gender;
 
     public AccountModifyModel() {
     }
 
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
 
     public Long getId() {
         return id;
