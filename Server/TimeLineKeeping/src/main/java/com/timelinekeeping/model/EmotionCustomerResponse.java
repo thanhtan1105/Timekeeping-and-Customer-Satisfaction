@@ -1,10 +1,5 @@
 package com.timelinekeeping.model;
 
-import com.timelinekeeping.entity.EmotionCustomerEntity;
-import com.timelinekeeping.util.SessionGenerator;
-
-import java.util.List;
-
 /**
  * Created by HienTQSE60896 on 9/30/2016.
  */

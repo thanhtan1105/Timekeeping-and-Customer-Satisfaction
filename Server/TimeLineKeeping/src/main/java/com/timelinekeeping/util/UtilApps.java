@@ -51,6 +51,12 @@ public class UtilApps {
         }
         return password;
     }
+    public static String generateToken() {
+        String token = "";
+        Random r = new Random();
+        token = r.nextLong() + "";
+        return token;
+    }
 
     public static Map<Long, Object[]> converListObject2Map(List<Object[]> objs) {
         Map<Long, Object[]> map = new HashMap<>();
@@ -79,6 +85,6 @@ public class UtilApps {
     }
 
     public static void main(String[] args) {
-        System.out.println(formatSentence(" còn đó  những  niềm  tin  đen"));
+        System.out.println(generateToken());
     }
 }
