@@ -1,9 +1,6 @@
 package com.timelinekeeping.controller;
 
 import com.timelinekeeping.constant.IContanst;
-import com.timelinekeeping.entity.AccountEntity;
-import com.timelinekeeping.entity.DepartmentEntity;
-import com.timelinekeeping.entity.RoleEntity;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.service.serviceImplement.AccountServiceImpl;
 import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
@@ -101,8 +98,8 @@ public class AccountControllerWeb {
             AccountModifyModel account = new AccountModifyModel();
             account.setUsername(username);
             account.setFullname(fullName);
-            account.setRoleId(ValidateUtil.validateNumber(roleId));
-            account.setDepartmentId(ValidateUtil.validateNumber(departmentId));
+            account.setRoleId(ValidateUtil.isNumber(roleId));
+            account.setDepartmentId(ValidateUtil.isNumber(departmentId));
 
             BaseResponseG<AccountModel> response = accountService.create(account);
             boolean success = response.isSuccess();

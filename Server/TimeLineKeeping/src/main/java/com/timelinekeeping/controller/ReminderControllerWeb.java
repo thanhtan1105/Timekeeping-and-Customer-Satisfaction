@@ -125,7 +125,7 @@ public class ReminderControllerWeb {
         List<Long> employeeSet = new ArrayList<Long>();
         for (int i = 0; i < listEmployees.length; i++) {
             logger.info("[Controller- Add Reminder] employeeId[" + i + "]: " + listEmployees[i]);
-            employeeSet.add(ValidateUtil.validateNumber(listEmployees[i]));
+            employeeSet.add(ValidateUtil.isNumber(listEmployees[i]));
         }
 
         String url = IViewConst.LOGIN_VIEW;
