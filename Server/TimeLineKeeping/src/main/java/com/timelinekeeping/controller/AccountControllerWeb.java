@@ -98,8 +98,8 @@ public class AccountControllerWeb {
             AccountModifyModel account = new AccountModifyModel();
             account.setUsername(username);
             account.setFullname(fullName);
-            account.setRoleId(ValidateUtil.isNumber(roleId));
-            account.setDepartmentId(ValidateUtil.isNumber(departmentId));
+            account.setRoleId(ValidateUtil.parseNumber(roleId));
+            account.setDepartmentId(ValidateUtil.parseNumber(departmentId));
 
             BaseResponseG<AccountModel> response = accountService.create(account);
             boolean success = response.isSuccess();
