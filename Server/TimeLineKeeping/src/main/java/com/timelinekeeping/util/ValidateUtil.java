@@ -11,7 +11,7 @@ import java.util.Collection;
  */
 public class ValidateUtil implements Serializable {
 
-    public static Long validateNumber(String number) {
+    public static Long isNumber(String number) {
         try {
             return Long.parseLong(number);
         } catch (NumberFormatException ex) {

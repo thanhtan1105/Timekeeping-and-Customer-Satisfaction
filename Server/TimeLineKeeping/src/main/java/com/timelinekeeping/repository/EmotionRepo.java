@@ -18,5 +18,8 @@ public interface EmotionRepo extends JpaRepository<EmotionCustomerEntity, Long> 
      */
     @Query(value = "SELECT e FROM EmotionCustomerEntity e INNER JOIN e.customerService c " +
             "WHERE c.id = :customerId")
-    List<EmotionCustomerEntity> findByCustomerId(@Param("customerId") Long customerId);
+    public List<EmotionCustomerEntity> findByCustomerId(@Param("customerId") Long customerId);
+
+    @Query(value = "select * from mydb.emotion c where customer_id = 2 order by c.create_time desc limit 1;", nativeQuery = true)
+    public EmotionCustomerEntity findByCustomerIdLeast(@Param("customerId") Long customerId);
 }

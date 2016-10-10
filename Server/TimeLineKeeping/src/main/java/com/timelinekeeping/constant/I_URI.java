@@ -32,7 +32,7 @@ public interface I_URI {
     String API_EMOTION = "/api/emotion";
     String API_EMOTION_RECOGNIZE = "/recognize_img";
     String API_EMOTION_ANALYZE = "/analyse_emotion";
-    String API_EMOTION_GET_EMOTION = "/get_customer_emotion";
+    String API_EMOTION_GET_EMOTION = "/get_emotion";
     String API_EMOTION_BEGIN_TRANSACTION = "/begin_transaction";
     String API_EMOTION_START_TRANSACTION = "/start_transaction";
     String API_EMOTION_PROCESS_TRANSACTION = "/process_transaction";
@@ -55,4 +55,11 @@ public interface I_URI {
     String API_TODOLIST = "/api/todo_list";
     String API_TODOLIST_GET = "/get";
     String API_TODOLIST_SELECT_TASK = "/select_task";
+
+
+    /** SESSION*/
+    String SESSION_API_EMOTION_CUSTOMER_CODE = "customerCode";
+
+    /** parameter*/
+    String PARAMETER_EMOTION_ACCOUNT_ID = "accountId";
 }

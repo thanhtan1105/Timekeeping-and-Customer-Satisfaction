@@ -3,12 +3,11 @@ package com.timelinekeeping.api.mcs;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.NotificationEntity;
-import com.timelinekeeping.entity.QuantityEmotionEnity;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.EmotionCustomerResponse;
 import com.timelinekeeping.model.NotificationCheckInModel;
 import com.timelinekeeping.repository.*;
-import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
+import com.timelinekeeping.service.serviceImplement.EmotionService2Impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,7 +31,7 @@ public class TestController {
     @Autowired
     private TimekeepingRepo timekeepingRepo;
     @Autowired
-    private EmotionServiceImpl emotionService;
+    private EmotionService2Impl emotionService;
 
 
     @Autowired
