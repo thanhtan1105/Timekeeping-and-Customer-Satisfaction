@@ -40,16 +40,16 @@
             </div>
             <!-- /.end date -->
             <!-- button begin-end transaction -->
-            <div class="row" style="font-size: 18px;">
+            <div class="row" style="font-size: 18px; margin-top: 5px;">
                 <div class="col-sm-5 text-right">
-                    <button class="btn bg-aqua-active" style="width: 10%" title="Begin Transaction"
-                            th:id="'btn-begin-transaction'">
+                    <button class="btn bg-aqua-active" style="width: 10%" disabled title="Next"
+                            th:id="'btn-next-transaction'">
                         <i class="fa fa-play"></i></button>
                 </div>
                 <div class="col-sm-6 text-left">
-                    <button class="btn bg-red-active" style="width: 8%" disabled title="End Transaction"
-                            th:id="'btn-end-transaction'">
-                        <i class="fa fa-stop"></i></button>
+                    <button class="btn bg-red-active" style="width: 8%" disabled title="Skip"
+                            th:id="'btn-skip-transaction'">
+                        <i class="fa fa-fast-forward"></i></button>
                 </div>
                 <input type="hidden" th:id="employeeId"
                        th:if="${session} and ${session.UserSession}"
@@ -57,7 +57,7 @@
             </div>
             <!-- /.end button begin-end transaction -->
         </div>
-        <div th:id="'div-overview-customer-emotion'" class="row" style="margin-top: 25px">
+        <div th:id="'div-overview-customer-emotion'" class="row" style="margin-top: 25px; display: none;">
             <div class="col-sm-3">
                 <div class="row">
                     <div class="col-sm-12">
@@ -133,7 +133,7 @@
             </div>
         </div>
         <!-- loader -->
-        <div th:id="'div-loader'" class="row" style="margin-top: 50px;">
+        <div th:id="'div-loader'" class="row" style="margin-top: 50px; display: none;">
             <div class="col-sm-11 text-center">
                 <div class="thecube">
                     <div class="cube c1"></div>
