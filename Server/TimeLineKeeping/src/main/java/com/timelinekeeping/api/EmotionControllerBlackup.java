@@ -182,48 +182,5 @@ public class EmotionControllerBlackup {
         }
     }
 
-    @RequestMapping(value = {I_URI.API_EMOTION_REPORT}, method = RequestMethod.POST)
-    @ResponseBody
-    public BaseResponse reportEmotion(@RequestParam("year") Integer year,
-                                      @RequestParam("month") Integer month,
-                                      @RequestParam(value = "day", defaultValue = IContanst.DEFAULT_INT) Integer day,
-                                      @RequestParam("managerId") Long managerId) {
-        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-        BaseResponse response = null;
-        try {
-            CustomerServiceReport customerServiceReport = emotionService.reportCustomerService(year, month, day, managerId);
-            if (customerServiceReport != null) {
-                return new BaseResponse(true, customerServiceReport);
-            } else {
-                return new BaseResponse(false);
-            }
-        } catch (Exception e) {
-            logger.error(e);
-            return new BaseResponse(false, e.getMessage());
-        } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
-        }
-    }
 
-    @RequestMapping(value = {I_URI.API_EMOTION_REPORT_EMPLOYEE}, method = RequestMethod.POST)
-    @ResponseBody
-    public BaseResponse reportEmotion(@RequestParam("year") Integer year,
-                                      @RequestParam("month") Integer month,
-                                      @RequestParam("employeeId") Long employeeId) {
-        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-        BaseResponse response = null;
-        try {
-            EmployeeReportCustomerService customerServiceReport = emotionService.reportCustomerServiceEmployee(year, month, employeeId);
-            if (customerServiceReport != null) {
-                return new BaseResponse(true, customerServiceReport);
-            } else {
-                return new BaseResponse(false);
-            }
-        } catch (Exception e) {
-            logger.error(e);
-            return new BaseResponse(false, e.getMessage());
-        } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
-        }
-    }
 }

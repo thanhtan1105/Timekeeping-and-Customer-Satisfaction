@@ -6,7 +6,7 @@ import com.timelinekeeping.model.AccountCustomerServiceDetails;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.CustomerServiceReport;
 import com.timelinekeeping.model.EmployeeReportCustomerService;
-import com.timelinekeeping.service.serviceImplement.EmotionService2Impl;
+import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.TimeUtil;
 import org.apache.log4j.Logger;
@@ -31,7 +31,7 @@ public class CustomerSatisfactionControllerWeb {
     private Logger logger = Logger.getLogger(CustomerSatisfactionControllerWeb.class);
 
     @Autowired
-    private EmotionService2Impl emotionService;
+    private EmotionServiceImpl emotionService;
 
     @RequestMapping(value = "/month/", method = RequestMethod.GET)
     public String loadCustomerSatisfactionMonthView(Model model, HttpSession session) {

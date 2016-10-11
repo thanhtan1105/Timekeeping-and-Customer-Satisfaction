@@ -1,10 +1,12 @@
 package com.timelinekeeping.model;
 
+import java.util.Map;
+
 /**
  * Created by HienTQSE60896 on 9/17/2016.
  */
-public class Pair<K, V> {
-
+public class Pair<K, V> implements Map.Entry<K,V>
+{
     private K key;
     private V value;
 
@@ -32,8 +34,10 @@ public class Pair<K, V> {
         return value;
     }
 
-    public void setValue(V value) {
+    public V setValue(V value) {
+        final V result = value;
         this.value = value;
+        return result;
     }
 
     @Override
