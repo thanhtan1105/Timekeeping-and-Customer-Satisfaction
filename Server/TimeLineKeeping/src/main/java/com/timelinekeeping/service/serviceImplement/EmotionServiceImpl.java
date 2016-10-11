@@ -61,7 +61,6 @@ public class EmotionServiceImpl {
                     || customerResultEntity.getStatus() == ETransaction.PROCESS)) {
                 Long customerId = customerResultEntity.getId();
                 EmotionCustomerEntity emotionCustomerEntity = emotionRepo.findByCustomerIdLeast(customerId);
-                logger.info("emotionCustomer Exist: " + emotionCustomerEntity != null);
                 if (emotionCustomerEntity != null) {
                     //get analysis
                     EmotionAnalysisModel analysisModel = new EmotionAnalysisModel(emotionCustomerEntity);
@@ -70,8 +69,8 @@ public class EmotionServiceImpl {
 
                     //create message
                     MessageModel messageModel = new MessageModel(emotionCustomerEntity);
-                    messageModel.setMessage(Arrays.asList(UtilApps.formatSentence(messageEmotion)));
-                    messageModel.setSugguest(Arrays.asList(UtilApps.formatSentence(sugguestion)));
+                    messageModel.setMessage(Collections.singletonList(UtilApps.formatSentence(messageEmotion)));
+                    messageModel.setSugguest(Collections.singletonList(UtilApps.formatSentence(sugguestion)));
                     return new EmotionCustomerResponse(customerCode, analysisModel, messageModel);
                 } else {
                     return null;
@@ -106,10 +105,10 @@ public class EmotionServiceImpl {
     }
 
     /**
-     * @author TrungNN
+     * author TrungNN
      * Web employee: end transaction
      */
-    public Boolean endTransactionWeb(String customerCode) {
+    public Long endTransactionWeb(String customerCode) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             //get Customer Service with customerCode
@@ -121,10 +120,10 @@ public class EmotionServiceImpl {
                 customerResultEntity.setStatus(ETransaction.END);
                 customerResultEntity.calculateGrade();
                 customerRepo.saveAndFlush(customerResultEntity);
-                return true;
+                return customerResultEntity.getCreateBy()!= null ? customerResultEntity.getCreateBy().getId() : null;
             } else {
                 logger.error("CustomerService has status: " + customerResultEntity.getStatus());
-                return false;
+                return null;
             }
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
@@ -172,6 +171,20 @@ public class EmotionServiceImpl {
         }
         return true;
     }
+
+
+    /** next transaction
+     * author: hientq
+     * call entransaction old, and create new transaction*/
+    public CustomerServiceModel nextTransaction(String customerCode) {
+
+        Long accountId = endTransactionWeb(customerCode);
+        if (accountId != null){
+            return beginTransaction(accountId);
+        }
+        return null;
+    }
+
 
 
     public EmployeeReportCustomerService reportCustomerServiceEmployee(Integer year, Integer month, Long eployeeId) {
@@ -267,7 +280,7 @@ public class EmotionServiceImpl {
     }
 
 
-    public List<EmotionAnalysisModel> getCustomerEmotion(InputStream inputStreamImg)
+    private List<EmotionAnalysisModel> getCustomerEmotion(InputStream inputStreamImg)
             throws IOException, URISyntaxException {
         logger.info("[Get Customer Emotion] BEGIN SERVICE");
 

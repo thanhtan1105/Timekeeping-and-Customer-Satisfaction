@@ -83,6 +83,33 @@ public class EmotionController {
         }
     }
 
+    @RequestMapping(value = I_URI.API_EMOTION_NEXT_TRANSACTION)
+    @ResponseBody
+    public BaseResponse nextTransaction(@RequestParam(I_URI.PARAMETER_EMOTION_ACCOUNT_ID) Long accountId,
+                                    HttpSession session) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.debug(String.format("accountId = '%s' ", accountId));
+            String customerCode = (String) session.getAttribute(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
+            if (ValidateUtil.isEmpty(customerCode)) {
+                return new BaseResponse(false);
+            }
+
+            CustomerServiceModel result = emotionService.nextTransaction(customerCode);
+            if (result != null) {
+                return new BaseResponse(true, new Pair<String, String>( "customerCode", result.getCustomerCode()));
+            } else {
+                return new BaseResponse(false);
+            }
+
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(false, e.getMessage());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
+
     @RequestMapping(value = {I_URI.API_EMOTION_REPORT}, method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse reportEmotion(@RequestParam("year") Integer year,

@@ -54,7 +54,7 @@ public class UtilApps {
     public static String generateToken() {
         String token = "";
         Random r = new Random();
-        token = r.nextLong() + "";
+        token = Math.abs(r.nextLong()) + "";
         return token;
     }
 
