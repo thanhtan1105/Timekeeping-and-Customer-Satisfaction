@@ -2,6 +2,7 @@ package com.timelinekeeping.controller;
 
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.IViewConst;
+import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.AccountCustomerServiceDetails;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.CustomerServiceReport;
@@ -25,7 +26,7 @@ import java.util.Date;
  * Created by TrungNN on 10/5/2016.
  */
 @Controller
-@RequestMapping("/manager/cus_satisfaction")
+@RequestMapping(I_URI.WEB_MANAGER_CUS_SATISFACTION)
 public class CustomerSatisfactionControllerWeb {
 
     private Logger logger = Logger.getLogger(CustomerSatisfactionControllerWeb.class);

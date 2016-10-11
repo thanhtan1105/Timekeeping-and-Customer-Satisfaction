@@ -78,7 +78,9 @@ public class AccountServiceImpl {
                 return null;
             } else {
                 logger.info("[Service- Login] account: " + JsonUtil.toJson(accountEntity));
-                return new AccountModel(accountEntity);
+                AccountModel accountModel = new AccountModel(accountEntity);
+                accountModel.replaceRele(accountEntity.getRole());
+                return accountModel;
             }
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);

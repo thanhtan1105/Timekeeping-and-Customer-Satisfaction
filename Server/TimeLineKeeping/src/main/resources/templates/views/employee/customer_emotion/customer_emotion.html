@@ -7,11 +7,14 @@
     <meta charset="UTF-8"/>
     <title>Customer Emotion</title>
 </head>
-<body>
-<div layout:fragment="content">
+<body onload="worker_get_emotion()">
+<div layout:fragment="content" >
     <!-- Main content -->
     <section class="content">
         <!-- Your Page Content Here -->
+        <!-- store accountId-->
+        <input id="accountId" th:if="${session} and ${session.UserSession}"
+              th:value="${session.UserSession.id}" type="hidden"/>
         <!-- Info: manager, department, date -->
         <div style="margin-bottom: 10px">
             <div class="row text-success" style="font-size: 24px;">
@@ -19,43 +22,27 @@
                     <i class="fa fa-smile-o"></i>
                 </div>
                 <div class="col-sm-6 text-left">
-                    <font>Cảm Xúc Khách Hàng</font>
+                    <span>Cảm Xúc Khách Hàng</span>
                 </div>
             </div>
             <!-- department -->
             <div class="row text-success" style="font-size: 18px;">
                 <div class="col-sm-5 text-right text-bold">
-                    <font>Phòng Ban:</font></div>
+                    <span>Phòng Ban:</span></div>
                 <div class="col-sm-6 text-left">
-                    <font th:if="${session} and ${session.UserSession}"
-                          th:text="${session.UserSession.department.name}"></font></div>
+                    <span th:if="${session} and ${session.UserSession}"
+                          th:text="${session.UserSession.department.name}"></span></div>
             </div>
             <!-- /.end department -->
             <!-- date -->
             <div class="row text-success" style="font-size: 18px;">
                 <div class="col-sm-5 text-right text-bold">
-                    <font>Ngày:</font></div>
+                    <span>Ngày:</span></div>
                 <div class="col-sm-6 text-left">
-                    <font th:text="${#dates.format(CurrentDate, 'dd-MMM-yyyy')}"></font></div>
+                    <span th:text="${#dates.format(CurrentDate, 'dd-MMM-yyyy')}"></span></div>
             </div>
             <!-- /.end date -->
-            <!-- button begin-end transaction -->
-            <div class="row" style="font-size: 18px;">
-                <div class="col-sm-5 text-right">
-                    <button class="btn bg-aqua-active" style="width: 10%" title="Begin Transaction"
-                            th:id="'btn-begin-transaction'">
-                        <i class="fa fa-play"></i></button>
-                </div>
-                <div class="col-sm-6 text-left">
-                    <button class="btn bg-red-active" style="width: 8%" disabled title="End Transaction"
-                            th:id="'btn-end-transaction'">
-                        <i class="fa fa-stop"></i></button>
-                </div>
-                <input type="hidden" th:id="employeeId"
-                       th:if="${session} and ${session.UserSession}"
-                       th:value="${session.UserSession.id}"/>
-            </div>
-            <!-- /.end button begin-end transaction -->
+
         </div>
         <div th:id="'div-overview-customer-emotion'" class="row" style="margin-top: 25px">
             <div class="col-sm-3">
@@ -69,10 +56,10 @@
                         </div>
                         <div class="row" style="margin-top: 8px">
                             <div class="col-sm-7 text-right">
-                                <font class="users-list-name text-bold">Giới Tính</font>
+                                <span class="users-list-name text-bold">Giới Tính</span>
                             </div>
                             <div class="col-sm-5 text-left">
-                                <font th:id="'font-gender'"></font>
+                                <span th:id="'font-gender'"></span>
                             </div>
                         </div>
                         <div class="row">
@@ -98,7 +85,7 @@
 
                         <div class="timeline-item">
                             <h3 class="timeline-header">
-                                <font class="text-primary text-bold">Tâm trạng hiện tại</font>
+                                <span class="text-primary text-bold">Tâm trạng hiện tại</span>
                             </h3>
 
                             <div class="timeline-body">
@@ -118,7 +105,7 @@
 
                         <div class="timeline-item">
                             <h3 class="timeline-header">
-                                <font class="text-primary text-bold">Một số gợi ý</font>
+                                <span class="text-primary text-bold">Một số gợi ý</span>
                             </h3>
 
                             <div class="timeline-body">
@@ -144,11 +131,30 @@
             </div>
         </div>
         <!-- /.end loader -->
+        <!-- button begin-end transaction -->
+        <div class="row" style="font-size: 18px;">
+            <div class="col-sm-5 text-right">
+                <button class="btn bg-aqua-active" style="width: 10%" title="Begin Transaction"
+                        th:id="'btn-begin-transaction'">
+                    <i class="fa fa-play"></i></button>
+            </div>
+            <div class="col-sm-6 text-left">
+                <button class="btn bg-red-active" style="width: 8%" disabled title="End Transaction"
+                        th:id="'btn-end-transaction'">
+                    <i class="fa fa-stop"></i></button>
+            </div>
+            <input type="hidden" th:id="employeeId"
+                   th:if="${session} and ${session.UserSession}"
+                   th:value="${session.UserSession.id}"/>
+        </div>
+        <!-- /.end button begin-end transaction -->
     </section>
     <!-- /.content -->
 </div>
 <div layout:fragment="js">
+    <script th:src="@{/js/common.js}"></script>
     <script th:src="@{/js/employee/customer_emotion.js}"></script>
+
 </div>
 </body>
 </html>

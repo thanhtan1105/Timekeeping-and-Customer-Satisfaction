@@ -24,17 +24,18 @@ $('#btn-begin-transaction').on('click', function () {
     //show div loader
     event_show('#div-loader');
     //request begin transaction
-    worker_begin_transaction();
+    worker_next_transaction();
 });
 
 var timer_begin_transaction;
 var timer_get_emotion;
 var customerCode;
+var accountId = $('#accountId').val();
 
 /**
  * Event: end transaction
  */
-$('#btn-end-transaction').on('click', function () {
+/*$('#btn-end-transaction').on('click', function () {
     var formDataJson = {
         'customerCode': customerCode
     };
@@ -54,27 +55,34 @@ $('#btn-end-transaction').on('click', function () {
             }
         }
     });
-});
+});*/
 
 /**
  * Worker: begin transaction
  */
-function worker_begin_transaction() {
+function worker_next_transaction() {
     var employeeId = $('#employeeId').val(),
         formDataJson = {
             'employeeId': employeeId
         };
-    console.info('[worker_begin_transaction] employeeId: ' + employeeId);
+    var urlString = '/api/emotion/next?accountId=' + accountId;
     $.ajax({
-        type: "POST",
-        url: '/api/emotion/employee/customer_emotion/begin_transaction',
-        data: formDataJson,
+        type: "GET",
+        url: urlString,
+        // data: formDataJson,
         success: function (response) {
             if (response.success) {
                 customerCode = response.data;
                 if (customerCode != null) {
+                    //disable button end
+                    event_disabled('#btn-end-transaction', true);
+                    //enable button begin
+                    event_disabled('#btn-begin-transaction', false);
+                    //hide div overview customer emotion
+                    event_hide('#div-overview-customer-emotion');
+
                     //stop request: begin transaction
-                    clearTimeout(timer_begin_transaction);
+                    // clearTimeout(timer_begin_transaction);
 
                     //call request: get first emotion
                     worker_get_emotion();
@@ -84,7 +92,7 @@ function worker_begin_transaction() {
             }
         }
     });
-    timer_begin_transaction = setTimeout(worker_begin_transaction, 2500);
+    // timer_begin_transaction = setTimeout(worker_begin_transaction, 2500);
 };
 
 /**
@@ -94,11 +102,12 @@ function worker_get_emotion() {
     var formDataJson = {
         'customerCode': customerCode
     };
-    console.info('[worker_get_emotion] customerCode: ' + customerCode);
+    var urlString = '/api/emotion/get_emotion?accountId=' + accountId;
+    console.info('[worker_get_emotion] accountId: ' + accountId);
     $.ajax({
-        type: "POST",
-        url: '/api/emotion/employee/customer_emotion/get_emotion',
-        data: formDataJson,
+        type: "GET",
+        url: urlString,
+        // data: formDataJson,
         success: function (response) {
             console.info('success: ' + response.success);
             if (response.success) {
@@ -173,7 +182,7 @@ function worker_get_emotion() {
             }
         }
     });
-    timer_get_emotion = setTimeout(worker_get_emotion, 2500);
+    timer_get_emotion = setTimeout(worker_get_emotion, time_out);
 };
 
 /**

@@ -161,7 +161,7 @@ public class AccountController {
             baseResponse.setMessage("Incorrect username or password");
         } else {
             baseResponse.setSuccess(true);
-            baseResponse.setData(accountModel);
+            baseResponse.setData(new Pair<>("token", accountModel.getToken()));
         }
         return baseResponse;
     }

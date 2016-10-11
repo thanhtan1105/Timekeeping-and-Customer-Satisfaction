@@ -1,10 +1,10 @@
 package com.timelinekeeping._config;
 
 import com.timelinekeeping.constant.IViewConst;
+import com.timelinekeeping.constant.I_URI;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.web.servlet.config.annotation.*;
 
 /**
@@ -25,9 +25,10 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName(IViewConst.LOGIN_VIEW);
-        registry.addViewController("/login").setViewName(IViewConst.LOGIN_VIEW);
+        registry.addViewController(I_URI.WEB_LOGIN).setViewName(IViewConst.LOGIN_VIEW);
+        registry.addViewController(I_URI.WEB_ERROR_INVALID).setViewName(IViewConst.INVALID_VIEW);
+        registry.addViewController(I_URI.WEB_ERROR_PERMISSION).setViewName(IViewConst.PERMISSION_DENIED_VIEW);
     }
-
 
 
     @Override
@@ -38,12 +39,19 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public Interceptor interceptor(){
+    public Interceptor interceptor() {
         return new Interceptor();
+    }
+
+    @Bean
+    public AuthenInterceptor authenInterceptor() {
+        return new AuthenInterceptor();
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(interceptor());
+        registry.addInterceptor(authenInterceptor());
+        registry.addInterceptor(interceptor()).addPathPatterns(I_URI.API_EMOTION + I_URI.API_EMOTION_UPLOAD_IMAGE)
+        .addPathPatterns(I_URI.API_EMOTION + I_URI.API_EMOTION_GET_EMOTION);
     }
 }

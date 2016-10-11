@@ -2,6 +2,7 @@ package com.timelinekeeping.controller;
 
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.IViewConst;
+import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.AccountAttendanceModel;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.AccountTKDetailsModel;
@@ -26,7 +27,7 @@ import java.util.Date;
  * Created by TrungNN on 9/30/2016.
  */
 @Controller
-@RequestMapping("/manager/timekeeping")
+@RequestMapping(I_URI.WEB_MANAGER_TIMEKEEPING)
 public class TimekeepingControllerWeb {
 
     private Logger logger = Logger.getLogger(TimekeepingControllerWeb.class);

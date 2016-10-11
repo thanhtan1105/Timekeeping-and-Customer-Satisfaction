@@ -1,6 +1,8 @@
 package com.timelinekeeping.model;
 
+import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.entity.AccountEntity;
+import com.timelinekeeping.entity.RoleEntity;
 
 import java.util.Date;
 
@@ -18,6 +20,8 @@ public class AccountModel {
     private String fullname;
     private DepartmentModel department;
     private Date timeDeactive;
+    private Gender gender;
+    private String token;
 
     public AccountModel() {
     }
@@ -30,8 +34,16 @@ public class AccountModel {
             this.active = entity.getActive().getIndex();
             this.fullname = entity.getFullname();
             this.userCode = entity.getUserCode();
+            this.token = entity.getToken();
             this.department = new DepartmentModel(entity.getDepartment());
             this.timeDeactive = entity.getTimeDeactive();
+            this.gender = entity.getGender();
+        }
+    }
+
+    public void replaceRele(RoleEntity roleEntity){
+        if (roleEntity != null){
+            this.role = new RoleAuthen(roleEntity);
         }
     }
 
@@ -97,5 +109,21 @@ public class AccountModel {
 
     public void setTimeDeactive(Date timeDeactive) {
         this.timeDeactive = timeDeactive;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

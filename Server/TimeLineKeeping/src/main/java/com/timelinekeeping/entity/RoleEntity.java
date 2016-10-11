@@ -20,6 +20,16 @@ public class RoleEntity  implements Serializable{
     @Column(name = "name")
     private String name;
 
+    @Basic
+    @Column(name = "redirect")
+    private String redirect;
+
+    @Basic
+    @Column(name = "allow_page")
+    public String allowPage;
+
+
+
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     private Set<AccountEntity> accounts;
 
@@ -45,6 +55,22 @@ public class RoleEntity  implements Serializable{
 
     public void setAccounts(Set<AccountEntity> accounts) {
         this.accounts = accounts;
+    }
+
+    public String getRedirect() {
+        return redirect;
+    }
+
+    public void setRedirect(String redirect) {
+        this.redirect = redirect;
+    }
+
+    public String getAllowPage() {
+        return allowPage;
+    }
+
+    public void setAllowPage(String allowUser) {
+        this.allowPage = allowUser;
     }
 
     @Override

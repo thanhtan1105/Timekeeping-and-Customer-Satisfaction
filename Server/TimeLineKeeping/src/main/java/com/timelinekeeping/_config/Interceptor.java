@@ -24,16 +24,16 @@ public class Interceptor extends HandlerInterceptorAdapter{
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        System.out.println("Interceptor");
         String url = request.getRequestURI();
         if (url != null && url.contains(I_URI.API_EMOTION)){
-            HttpSession session = request.getSession();
             String accountID = request.getParameter(I_URI.PARAMETER_EMOTION_ACCOUNT_ID);
             if (ValidateUtil.isNotEmpty(accountID) && ValidateUtil.isNumeric(accountID)){
-                String customerCode = (String) session.getAttribute(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountID);
+                String customerCode = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountID);
                 if (ValidateUtil.isEmpty(customerCode)) {
                     Long accountIdNum = ValidateUtil.parseNumber(accountID);
                     CustomerServiceModel customerServiceModel = emotionService.beginTransaction(accountIdNum);
-                    session.setAttribute(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountID , customerServiceModel.getCustomerCode());
+                    EmotionSession.setValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountID , customerServiceModel.getCustomerCode());
                 }
             }
         }

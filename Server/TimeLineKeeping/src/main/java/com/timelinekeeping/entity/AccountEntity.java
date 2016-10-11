@@ -1,9 +1,11 @@
 package com.timelinekeeping.entity;
 
+import ch.qos.logback.classic.pattern.Util;
 import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.AccountModifyModel;
+import com.timelinekeeping.util.UtilApps;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
@@ -83,6 +85,7 @@ public class AccountEntity implements Serializable {
 
 
     public AccountEntity() {
+        this.token = UtilApps.generateToken();
     }
 
     public AccountEntity(AccountModifyModel model) {
