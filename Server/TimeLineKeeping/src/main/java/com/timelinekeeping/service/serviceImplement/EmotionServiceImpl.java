@@ -6,7 +6,10 @@ import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.CustomerServiceEntity;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
-import com.timelinekeeping.model.*;
+import com.timelinekeeping.model.CustomerServiceModel;
+import com.timelinekeeping.model.EmotionAnalysisModel;
+import com.timelinekeeping.model.EmotionCustomerResponse;
+import com.timelinekeeping.model.MessageModel;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.CustomerServiceRepo;
 import com.timelinekeeping.repository.EmotionRepo;
@@ -72,24 +75,50 @@ public class EmotionServiceImpl {
         }
     }
 
-    public CustomerServiceModel beginTransaction(Long employeeId){
-            try {
-                logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-                //create Customer service
-                AccountEntity employee = accountRepo.findOne(employeeId);
-                if (employee == null) {
-                    logger.error(String.format(ERROR.TIME_KEEPING_ACCOUNT_ID_CANNOT_EXIST, employeeId));
-                    return null;
-                }
-                CustomerServiceEntity customerResultEntity = new CustomerServiceEntity(employee);
-
-                //set status = BEGIN
-                customerResultEntity.setStatus(ETransaction.BEGIN);
-                CustomerServiceEntity entity = customerRepo.saveAndFlush(customerResultEntity);
-                return new CustomerServiceModel(entity);
-
-            } finally {
-                logger.info(IContanst.END_METHOD_SERVICE);
+    public CustomerServiceModel beginTransaction(Long employeeId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            //create Customer service
+            AccountEntity employee = accountRepo.findOne(employeeId);
+            if (employee == null) {
+                logger.error(String.format(ERROR.TIME_KEEPING_ACCOUNT_ID_CANNOT_EXIST, employeeId));
+                return null;
             }
+            CustomerServiceEntity customerResultEntity = new CustomerServiceEntity(employee);
+
+            //set status = BEGIN
+            customerResultEntity.setStatus(ETransaction.BEGIN);
+            CustomerServiceEntity entity = customerRepo.saveAndFlush(customerResultEntity);
+            return new CustomerServiceModel(entity);
+
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
+    }
+
+    /**
+     * @author TrungNN
+     * Web employee: end transaction
+     */
+    public Boolean endTransactionWeb(String customerCode) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            //get Customer Service with customerCode
+            CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
+            if (customerResultEntity != null
+                    && (customerResultEntity.getStatus() == ETransaction.BEGIN
+                    || customerResultEntity.getStatus() == ETransaction.PROCESS)) {
+                //change status = END
+                customerResultEntity.setStatus(ETransaction.END);
+                customerResultEntity.calculateGrade();
+                customerRepo.saveAndFlush(customerResultEntity);
+                return true;
+            } else {
+                logger.error("CustomerService has status: " + customerResultEntity.getStatus());
+                return false;
+            }
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
 }

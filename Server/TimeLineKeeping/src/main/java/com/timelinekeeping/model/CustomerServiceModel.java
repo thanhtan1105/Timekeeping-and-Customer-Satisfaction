@@ -18,7 +18,7 @@ public class CustomerServiceModel {
     private String customerCode;
     private Double grade = 0d;
     private ETransaction status = ETransaction.BEGIN;
-    private AccountModel createBy;
+    private AccountManager createBy;
 
     public CustomerServiceModel() {
     }
@@ -30,7 +30,7 @@ public class CustomerServiceModel {
             this.customerCode = customerServiceEntity.getCustomerCode();
             this.grade = customerServiceEntity.getGrade();
             this.status = customerServiceEntity.getStatus();
-            this.createBy = new AccountModel(customerServiceEntity.getCreateBy());
+            this.createBy = new AccountManager(customerServiceEntity.getCreateBy());
         }
     }
 
@@ -74,11 +74,11 @@ public class CustomerServiceModel {
         this.status = status;
     }
 
-    public AccountModel getCreateBy() {
+    public AccountManager getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(AccountModel createBy) {
+    public void setCreateBy(AccountManager createBy) {
         this.createBy = createBy;
     }
 }

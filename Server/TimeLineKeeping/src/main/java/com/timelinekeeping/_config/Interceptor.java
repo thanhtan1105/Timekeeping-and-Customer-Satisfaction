@@ -1,6 +1,7 @@
 package com.timelinekeeping._config;
 
 import com.timelinekeeping.constant.I_URI;
+import com.timelinekeeping.model.CustomerServiceModel;
 import com.timelinekeeping.repository.CustomerServiceRepo;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
 import com.timelinekeeping.util.ValidateUtil;
@@ -20,16 +21,19 @@ public class Interceptor extends HandlerInterceptorAdapter{
 
     @Autowired
     private EmotionServiceImpl emotionService;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String url = request.getRequestURI();
         if (url != null && url.contains(I_URI.API_EMOTION)){
             HttpSession session = request.getSession();
             String accountID = request.getParameter(I_URI.PARAMETER_EMOTION_ACCOUNT_ID);
-            if (ValidateUtil.isNotEmpty(accountID)){
+            if (ValidateUtil.isNotEmpty(accountID) && ValidateUtil.isNumeric(accountID)){
                 String customerCode = (String) session.getAttribute(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountID);
                 if (ValidateUtil.isEmpty(customerCode)) {
-//                    emotionService.beginTransaction()
+                    Long accountIdNum = ValidateUtil.parseNumber(accountID);
+                    CustomerServiceModel customerServiceModel = emotionService.beginTransaction(accountIdNum);
+                    session.setAttribute(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountID , customerServiceModel.getCustomerCode());
                 }
             }
         }

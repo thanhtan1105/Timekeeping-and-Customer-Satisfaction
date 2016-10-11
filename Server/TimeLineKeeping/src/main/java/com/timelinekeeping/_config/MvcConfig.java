@@ -1,6 +1,7 @@
 package com.timelinekeeping._config;
 
 import com.timelinekeeping.constant.IViewConst;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -36,8 +37,13 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         }
     }
 
+    @Bean
+    public Interceptor interceptor(){
+        return new Interceptor();
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new Interceptor());
+        registry.addInterceptor(interceptor());
     }
 }

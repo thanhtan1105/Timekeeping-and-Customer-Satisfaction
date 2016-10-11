@@ -42,7 +42,7 @@ public class ValidateUtil implements Serializable {
         return text != null && text.length() >0;
     }
 
-    public boolean isNumeric(String s) {
+    public static boolean isNumeric(String s) {
         return s.matches("[-+]?\\d*\\.?\\d+");
     }
 }
