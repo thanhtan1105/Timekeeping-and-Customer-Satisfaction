@@ -104,7 +104,13 @@ public class EmotionController {
             String customerCode = customerValue.getKey();
 
             CustomerServiceModel result = emotionService.nextTransaction(customerCode);
-            if (result != null) {
+            if (result != null && ValidateUtil.isNotEmpty(result.getCustomerCode())) {
+                String newCustomer = result.getCustomerCode();
+
+                //replace newCustomer to session
+                EmotionSession.remove(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
+                EmotionSession.setValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId, new Pair<String, String>(newCustomer));
+
                 return new BaseResponse(true, new Pair<String, String>("customerCode", result.getCustomerCode()));
             } else {
                 return new BaseResponse(false);
