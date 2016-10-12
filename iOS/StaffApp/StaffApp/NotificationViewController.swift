@@ -21,16 +21,18 @@ class NotificationViewController: BaseViewController {
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
     callApiGetReminder(String(user!.id!)) { (data, error) in
-      dispatch_async(dispatch_get_main_queue(), {      
-        self.notifications = data!
-        if data?.count == 0 {
-          self.tableView.hidden = true
-          
-        } else {
-          self.tableView.hidden = false
-          
+      dispatch_async(dispatch_get_main_queue(), {
+        if let data = data {
+          self.notifications = data
+          if data.count == 0 {
+            self.tableView.hidden = true
+            
+          } else {
+            self.tableView.hidden = false
+            
+          }
+          self.tableView.reloadData()
         }
-        self.tableView.reloadData()
       })
     }
   }

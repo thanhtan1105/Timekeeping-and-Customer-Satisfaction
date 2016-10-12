@@ -56,6 +56,7 @@
 		A682FC631DA9FA590047CDBE /* ToDoListTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A682FC621DA9FA590047CDBE /* ToDoListTableCell.swift */; };
 		A682FC651DAA31FA0047CDBE /* TodoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A682FC641DAA31FA0047CDBE /* TodoList.swift */; };
 		A682FC671DAA72E40047CDBE /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A682FC661DAA72E40047CDBE /* AddTaskViewController.swift */; };
+		A682FC701DAB3E8D0047CDBE /* BeaconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A682FC6F1DAB3E8D0047CDBE /* BeaconViewController.swift */; };
 		A6AC86B61DA4CDE5002B4688 /* Attendances.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6AC86B51DA4CDE5002B4688 /* Attendances.swift */; };
 		A6AC86B91DA4CFE8002B4688 /* EDayStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6AC86B81DA4CFE8002B4688 /* EDayStatus.swift */; };
 		A6AC86BB1DA4D4FC002B4688 /* EPresent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6AC86BA1DA4D4FC002B4688 /* EPresent.swift */; };
@@ -138,6 +139,8 @@
 		A682FC621DA9FA590047CDBE /* ToDoListTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDoListTableCell.swift; sourceTree = "<group>"; };
 		A682FC641DAA31FA0047CDBE /* TodoList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoList.swift; sourceTree = "<group>"; };
 		A682FC661DAA72E40047CDBE /* AddTaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
+		A682FC6F1DAB3E8D0047CDBE /* BeaconViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconViewController.swift; sourceTree = "<group>"; };
+		A682FC711DAB3F5C0047CDBE /* StaffApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StaffApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		A6AC86B51DA4CDE5002B4688 /* Attendances.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attendances.swift; sourceTree = "<group>"; };
 		A6AC86B81DA4CFE8002B4688 /* EDayStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EDayStatus.swift; sourceTree = "<group>"; };
 		A6AC86BA1DA4D4FC002B4688 /* EPresent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPresent.swift; sourceTree = "<group>"; };
@@ -210,6 +213,8 @@
 		A6090B5D1DA2DA730039B892 /* StaffApp */ = {
 			isa = PBXGroup;
 			children = (
+				A682FC711DAB3F5C0047CDBE /* StaffApp-Bridging-Header.h */,
+				A682FC681DAB3CCF0047CDBE /* Framework */,
 				A6AC86B71DA4CFD9002B4688 /* Contant */,
 				A6090B8C1DA2DB780039B892 /* Model */,
 				A6090B8D1DA2DB7D0039B892 /* View */,
@@ -271,6 +276,7 @@
 				A682FC661DAA72E40047CDBE /* AddTaskViewController.swift */,
 				A6090B9A1DA2E3DE0039B892 /* TimeKeepingViewController.swift */,
 				A6090BA01DA2E63F0039B892 /* NotificationViewController.swift */,
+				A682FC6F1DAB3E8D0047CDBE /* BeaconViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -375,6 +381,13 @@
 			);
 			name = CVCalendar;
 			path = ../../../../Desktop/iOS/MooPlan/MooPlan;
+			sourceTree = "<group>";
+		};
+		A682FC681DAB3CCF0047CDBE /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Framework;
 			sourceTree = "<group>";
 		};
 		A6AC86B71DA4CFD9002B4688 /* Contant */ = {
@@ -710,6 +723,7 @@
 				A682FC591DA9EE730047CDBE /* CVCalendarWeekday.swift in Sources */,
 				A682FC521DA9EE730047CDBE /* CVCalendarViewAnimator.swift in Sources */,
 				A682FC651DAA31FA0047CDBE /* TodoList.swift in Sources */,
+				A682FC701DAB3E8D0047CDBE /* BeaconViewController.swift in Sources */,
 				A682FC4F1DA9EE730047CDBE /* CVCalendarMonthView.swift in Sources */,
 				A682FC491DA9EE730047CDBE /* CVCalendarDayView.swift in Sources */,
 				A682FC511DA9EE730047CDBE /* CVCalendarView.swift in Sources */,
@@ -875,11 +889,19 @@
 			baseConfigurationReference = 965A30CB7E415DF0F814F891 /* Pods-StaffApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/StaffApp",
+				);
 				INFOPLIST_FILE = StaffApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.supercoolapps.employeeapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "StaffApp/StaffApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -888,11 +910,18 @@
 			baseConfigurationReference = DB64B38A6E147CA879BDAAB0 /* Pods-StaffApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/StaffApp",
+				);
 				INFOPLIST_FILE = StaffApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.supercoolapps.employeeapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "StaffApp/StaffApp-Bridging-Header.h";
 			};
 			name = Release;
 		};

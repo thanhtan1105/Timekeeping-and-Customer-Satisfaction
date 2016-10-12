@@ -173,7 +173,7 @@ function worker_get_emotion() {
             }
         }
     });
-    timer_get_emotion = setTimeout(worker_get_emotion, 2500);
+    timer_get_emotion = setTimeout(worker_get_emotion, 4000);
 };
 
 /**

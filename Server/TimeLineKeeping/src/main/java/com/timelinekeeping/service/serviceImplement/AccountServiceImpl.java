@@ -377,7 +377,7 @@ public class AccountServiceImpl {
              // make data
              Gender gender = accountEntity.getGender();
              String welcomeMessage = "Xin chào ";
-             String prefix = gender == Gender.MALE ? "anh " : "chị ";
+             String prefix = gender == Gender.MALE ? "anh" : "chị";
              welcomeMessage += prefix + " ";
              welcomeMessage += accountEntity.getFullname() + " ";
              welcomeMessage += ". Chúc " + prefix + " " + "một ngày làm việc tốt lành";
@@ -386,8 +386,8 @@ public class AccountServiceImpl {
                      +   "\"app_id\": \"dbd7cdd6-9555-416b-bc08-21aa24164299\","
                      +   "\"include_player_ids\" : [\"" + accountEntity.getToken() + "\"],"
                      +   "\"data\": {\"id\": "+ accountEntity.getId() +"},"
-                     +   "\"contents\": {\"en\": \"Check in successfully\"},"
-                     +   "\"headings\": {\"vn\": " + welcomeMessage + "}"
+                     +   "\"headings\": {\"en\": \"Check in successfully\"},"
+                     +   "\"contents\": {\"en\": \"" + welcomeMessage + "\"}"
                      + "}";
 
              System.out.println("strJsonBody:\n" + strJsonBody);
@@ -475,7 +475,8 @@ public class AccountServiceImpl {
                 List<FaceIdentifyConfidenceRespone> faceIdentifies = (List<FaceIdentifyConfidenceRespone>) response.getData();
 
                 //check success
-                if (ValidateUtil.isEmpty(faceIdentifies) && faceIdentifies.size() == 1) {
+                // TODO check again check in
+//                if (ValidateUtil.isEmpty(faceIdentifies) && faceIdentifies.size() == 1) {
                     List<FaceIdentityCandidate> candidateList = faceIdentifies.get(0).getCandidates();
                     for (FaceIdentityCandidate candidate : candidateList) {
                         if (candidate.getConfidence() > confidence) {
@@ -483,9 +484,9 @@ public class AccountServiceImpl {
                             personID = candidate.getPersonId();
                         }
                     }
-                } else {
-                    logger.error("When get face identify one image, has many value");
-                }
+//                } else {
+//                    logger.error("When get face identify one image, has many value");
+//                }
 
             }
         }

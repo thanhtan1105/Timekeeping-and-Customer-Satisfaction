@@ -14,7 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
   var navigation: UINavigationController?
-
+  
+  
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
   
     OneSignal.initWithLaunchOptions(launchOptions, appId: "dbd7cdd6-9555-416b-bc08-21aa24164299") { (result: OSNotificationOpenedResult!) in

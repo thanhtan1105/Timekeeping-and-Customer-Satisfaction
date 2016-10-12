@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="8G6-Kx-cN1">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -286,7 +285,14 @@
                             <constraint firstItem="Ud8-wY-3ny" firstAttribute="top" secondItem="4WL-DA-pMa" secondAttribute="bottom" constant="10" id="adR-61-9zY"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Notification" id="9zR-Zw-jx9"/>
+                    <navigationItem key="navigationItem" title="Notification" id="9zR-Zw-jx9">
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="5PZ-wG-sNC">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <segue destination="5dz-Tg-KBI" kind="show" id="BHf-GJ-Gqm"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="tableView" destination="4WL-DA-pMa" id="IA4-Vp-iRe"/>
@@ -295,6 +301,39 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TEu-8B-2Ox" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="625" y="1729"/>
+        </scene>
+        <!--Beacon View Controller-->
+        <scene sceneID="1EC-66-cFB">
+            <objects>
+                <viewController storyboardIdentifier="BeaconViewController" id="5dz-Tg-KBI" customClass="BeaconViewController" customModule="StaffApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9A8-i6-2v1"/>
+                        <viewControllerLayoutGuide type="bottom" id="9Wh-P0-814"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hex-AQ-PYN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TextMap" translatesAutoresizingMaskIntoConstraints="NO" id="cKL-ao-Ynn">
+                                <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="cKL-ao-Ynn" firstAttribute="leading" secondItem="hex-AQ-PYN" secondAttribute="leading" id="2Bq-Bw-fzO"/>
+                            <constraint firstAttribute="trailing" secondItem="cKL-ao-Ynn" secondAttribute="trailing" id="8yk-dk-awP"/>
+                            <constraint firstItem="9Wh-P0-814" firstAttribute="top" secondItem="cKL-ao-Ynn" secondAttribute="bottom" id="NuB-pg-eWW"/>
+                            <constraint firstItem="cKL-ao-Ynn" firstAttribute="top" secondItem="9A8-i6-2v1" secondAttribute="bottom" id="j0H-bM-9rx"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="textMapImageView" destination="cKL-ao-Ynn" id="Pe2-3N-rfx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RWQ-UI-VzW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1047" y="1729"/>
         </scene>
         <!--To do list-->
         <scene sceneID="c0E-wg-yop">
@@ -620,6 +659,7 @@
     </scenes>
     <resources>
         <image name="Logo" width="1481" height="1193"/>
+        <image name="TextMap" width="575" height="516"/>
         <image name="password" width="1024" height="1024"/>
         <image name="radio_uncheck" width="256" height="256"/>
         <image name="username" width="1024" height="1024"/>

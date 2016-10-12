@@ -14,7 +14,7 @@ class APIRequest: NSObject {
 
   var http : String {
     get {
-      let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.150.113"
+      let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "172.20.10.2"
       let http = prefixHttp + ip + surfixHttp
       return http
     }
