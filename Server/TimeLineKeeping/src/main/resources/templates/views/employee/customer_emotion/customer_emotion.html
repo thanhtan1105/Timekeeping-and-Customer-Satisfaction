@@ -54,9 +54,6 @@
                             th:id="'btn-skip-transaction'">
                         <i class="fa fa-stop"></i></button>
                 </div>
-                <input type="hidden" th:id="employeeId"
-                       th:if="${session} and ${session.UserSession}"
-                       th:value="${session.UserSession.id}"/>
             </div>
             <!-- /.end button begin-end transaction -->
         </div>

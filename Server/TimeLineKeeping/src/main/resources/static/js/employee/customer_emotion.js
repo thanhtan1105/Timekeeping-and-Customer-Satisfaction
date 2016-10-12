@@ -4,15 +4,13 @@
 
 var accountId = $('#accountId').val();
 var customerCode;
+var timer_get_emotion;
 
 /**
  * Worker: get first emotion
  * Description: run on loading page or clicking skip button
  */
 function worker_get_emotion() {
-    var formDataJson = {
-        'customerCode': customerCode
-    };
     var urlString = '/api/emotion/get_emotion?accountId=' + accountId;
     console.info('[worker_get_emotion] accountId: ' + accountId);
     $.ajax({
@@ -40,8 +38,10 @@ function worker_get_emotion() {
                 event_hide('#div-loader');
                 //show div overview customer emotion
                 event_show('#div-overview-customer-emotion');
-                //enable button end
-                event_disabled('#btn-end-transaction', false);
+                //enable button next
+                event_disabled('#btn-next-transaction', false);
+                //enable button skip
+                event_disabled('#btn-skip-transaction', false);
 
                 //set age predict
                 if (age_predict != null) {
