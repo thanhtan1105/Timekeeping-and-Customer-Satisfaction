@@ -2,3 +2,4 @@
 .idea/
 build/
 *.log
+*.log.4
