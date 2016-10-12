@@ -3,9 +3,15 @@ package com.timelinekeeping.accessAPI;
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.util.HTTPClientUtil;
 import com.timelinekeeping.util.JsonUtil;
+import com.timelinekeeping.util.ServiceUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -19,9 +25,12 @@ public class SMSNotification {
     private Logger logger = LogManager.getLogger(PersonServiceMCSImpl.class);
     private String rootPath = AppConfigKeys.getInstance().getApiPropertyValue("api.sms.url");
 
+    private String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.130 Chrome/52.3.2743.130 Safari/537.36";
+
     public BaseResponse sendSms(String phone, String message) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
+
 
             /*** url*/
             URIBuilder builder = new URIBuilder(rootPath)
@@ -30,8 +39,23 @@ public class SMSNotification {
                     .addParameter("content", message);
 
             /** entity*/
+            HttpGet request = new HttpGet(builder.build());
+            request.setHeader("Content-Type", "application/json");
+            request.setHeader("User-Agent", USER_AGENT);
 
-            return HTTPClientUtil.getInstanceFace().toGet(builder.build(), JsonUtil.MAP_PARSER, String.class);
+            /** create HttpClient*/
+            CloseableHttpClient httpClient = HttpClients.custom().setSSLHostnameVerifier(new NoopHostnameVerifier()).build();
+            /** Http Response*/
+            HttpResponse response = httpClient.execute(request);
+            String dataResponse = ServiceUtils.getDataResponse(response.getEntity());
+            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK ||
+                    response.getStatusLine().getStatusCode() == HttpStatus.SC_ACCEPTED) {
+                return JsonUtil.convertObject(dataResponse, BaseResponse.class);
+            } else {
+                return new BaseResponse(false, dataResponse);
+            }
+
+
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
