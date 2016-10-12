@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Created by HienTQSE60896 on 10/10/2016.
@@ -43,7 +46,10 @@ public class EmotionController {
             EmotionCustomerResponse emotionCustomer = emotionService.getEmotionCustomer(customerCode);
             //get url image
             if (customerValue.getValue() != null) {
-                emotionCustomer.getMessages().setUrl(customerValue.getValue());
+                String url = customerValue.getValue();
+                byte[] data = Files.readAllBytes(Paths.get(url));
+                emotionCustomer.getMessages().setUrl(url);
+                emotionCustomer.getMessages().setImage(data);
             }
             if (emotionCustomer != null) {
                 return new BaseResponse(true, emotionCustomer);

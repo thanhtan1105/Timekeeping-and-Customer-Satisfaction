@@ -62,6 +62,7 @@ function worker_get_emotion() {
                     age_predict = messages.predict,
                     gender = messages.gender,
                     urlImage = messages.url,
+                    imageByte = messages.image,
                     $font_age_predict = $('#font-age-predict'),
                     $font_gender = $('#font-gender'),
                     $customer_emotion_msg = $('#customer-emotion-message'),
@@ -94,7 +95,8 @@ function worker_get_emotion() {
 
                 //set image customer
                 if (urlImage != null) {
-                    setSrcImage('#image-customer', urlImage)
+                    // setSrcImage('#image-customer', urlImage)
+                    setSrcImage('#image-customer', "data:image/png;base64," + imageByte)
                 } else {
                     setSrcImage('#image-customer', '/libs/dist/img/avatar_customer.png')
                 }
