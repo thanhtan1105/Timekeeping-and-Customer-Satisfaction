@@ -18,7 +18,10 @@ public class EmotionSession implements Serializable{
     }
 
     public static Pair<String, String> getValue(String key){
+        System.out.println("Key: -->" + key);
+        System.out.println("Value: -->" + map.get(key));
         return map.get(key);
+
     }
 
     public static void remove(String key){

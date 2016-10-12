@@ -22,7 +22,7 @@ import java.net.URISyntaxException;
  * Created by HienTQSE60896 on 10/12/2016.
  */
 public class SMSNotification {
-    private Logger logger = LogManager.getLogger(PersonServiceMCSImpl.class);
+    private Logger logger = LogManager.getLogger(SMSNotification.class);
     private String rootPath = AppConfigKeys.getInstance().getApiPropertyValue("api.sms.url");
 
     private String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.130 Chrome/52.3.2743.130 Safari/537.36";
