@@ -5,12 +5,16 @@ import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
+import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.ValidateUtil;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.ByteArrayInputStream;
 
 /**
  * Created by HienTQSE60896 on 10/10/2016.
@@ -31,12 +35,16 @@ public class EmotionController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.debug(String.format("accountId = '%s' ", accountId));
-            String customerCode = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
-            if (ValidateUtil.isEmpty(customerCode)) {
+            Pair<String, String> customerValue = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
+            if (customerValue != null && ValidateUtil.isEmpty(customerValue.getKey())) {
                 return new BaseResponse(false);
             }
-
+            String customerCode = customerValue.getKey();
             EmotionCustomerResponse emotionCustomer = emotionService.getEmotionCustomer(customerCode);
+            //get url image
+            if (customerValue.getValue() != null) {
+                emotionCustomer.getMessages().setUrl(customerValue.getValue());
+            }
             if (emotionCustomer != null) {
                 return new BaseResponse(true, emotionCustomer);
             } else {
@@ -58,13 +66,17 @@ public class EmotionController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.debug(String.format("accountId = '%s' ", accountId));
-            String customerCode = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
-            if (ValidateUtil.isEmpty(customerCode)) {
+            Pair<String, String> customerValue = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
+            if (customerValue != null && ValidateUtil.isEmpty(customerValue.getKey())) {
                 return new BaseResponse(false);
             }
-
-            Boolean result = emotionService.uploadImage(imageFile.getInputStream(), customerCode);
+            String customerCode = customerValue.getKey();
+            byte[] byteImage = IOUtils.toByteArray(imageFile.getInputStream());
+            Boolean result = emotionService.uploadImage(new ByteArrayInputStream(byteImage), customerCode);
             if (result != null && result) {
+                String fileName =  I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId;
+                String urlFile = StoreFileUtils.storeFile(fileName, new ByteArrayInputStream(byteImage));
+                customerValue.setValue(urlFile);
                 return new BaseResponse(true, new Pair<>("uploadSuccess", result));
             } else {
                 return new BaseResponse(false);
@@ -84,10 +96,12 @@ public class EmotionController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.debug(String.format("accountId = '%s' ", accountId));
-            String customerCode = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
-            if (ValidateUtil.isEmpty(customerCode)) {
+
+            Pair<String, String> customerValue = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
+            if (customerValue != null && ValidateUtil.isEmpty(customerValue.getKey())) {
                 return new BaseResponse(false);
             }
+            String customerCode = customerValue.getKey();
 
             CustomerServiceModel result = emotionService.nextTransaction(customerCode);
             if (result != null) {

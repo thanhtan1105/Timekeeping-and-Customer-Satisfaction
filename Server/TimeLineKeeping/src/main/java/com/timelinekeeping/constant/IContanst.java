@@ -39,6 +39,7 @@ public interface IContanst {
 
 
     int AGE_AMOUNT = 2;
+    int SEND_SMS = 1;
 
 
     /**
