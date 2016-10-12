@@ -10,17 +10,35 @@ var timer_get_emotion;
  * Event: next transaction
  */
 $('#btn-next-transaction').on('click', function () {
-    //enable button next
+    //disable button next
     event_disabled('#btn-next-transaction', true);
-    //enable button skip
+    //disable button skip
     event_disabled('#btn-skip-transaction', true);
     //hide div overview customer emotion
     event_hide('#div-overview-customer-emotion');
     //show div loader
     event_show('#div-loader');
 
-    //worker next transaction running
+    //call request: next transaction
     worker_next_transaction();
+});
+
+/**
+ * Event: skip transaction
+ */
+$('#btn-skip-transaction').on('click', function () {
+    console.info('Running btn skip');
+    //disable button next
+    event_disabled('#btn-next-transaction', true);
+    //disable button skip
+    event_disabled('#btn-skip-transaction', true);
+    //hide div overview customer emotion
+    event_hide('#div-overview-customer-emotion');
+    //show div loader
+    event_show('#div-loader');
+
+    //call request: get first emotion
+    worker_get_emotion();
 });
 
 /**
@@ -127,16 +145,6 @@ function worker_next_transaction() {
             if (response.success) {
                 customerCode = response.data;
                 if (customerCode != null) {
-                    //disable button end
-                    event_disabled('#btn-end-transaction', true);
-                    //enable button begin
-                    event_disabled('#btn-begin-transaction', false);
-                    //hide div overview customer emotion
-                    event_hide('#div-overview-customer-emotion');
-
-                    //stop request: begin transaction
-                    // clearTimeout(timer_begin_transaction);
-
                     //call request: get first emotion
                     worker_get_emotion();
                 }
@@ -145,7 +153,6 @@ function worker_next_transaction() {
             }
         }
     });
-    // timer_begin_transaction = setTimeout(worker_begin_transaction, 2500);
 };
 
 /**
