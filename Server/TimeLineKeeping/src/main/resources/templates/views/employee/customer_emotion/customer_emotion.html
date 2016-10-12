@@ -136,7 +136,7 @@
             </div>
         </div>
         <!-- loader -->
-        <div th:id="'div-loader'" class="row" style="margin-top: 50px; display: none;">
+        <div th:id="'div-loader'" class="row" style="margin-top: 50px;">
             <div class="col-sm-11 text-center">
                 <div class="thecube">
                     <div class="cube c1"></div>
@@ -147,30 +147,13 @@
             </div>
         </div>
         <!-- /.end loader -->
-        <!-- button begin-end transaction -->
-        <div class="row" style="font-size: 18px;">
-            <div class="col-sm-5 text-right">
-                <button class="btn bg-aqua-active" style="width: 10%" title="Begin Transaction"
-                        th:id="'btn-begin-transaction'">
-                    <i class="fa fa-play"></i></button>
-            </div>
-            <div class="col-sm-6 text-left">
-                <button class="btn bg-red-active" style="width: 8%" disabled title="End Transaction"
-                        th:id="'btn-end-transaction'">
-                    <i class="fa fa-stop"></i></button>
-            </div>
-            <input type="hidden" th:id="employeeId"
-                   th:if="${session} and ${session.UserSession}"
-                   th:value="${session.UserSession.id}"/>
-        </div>
-        <!-- /.end button begin-end transaction -->
+
     </section>
     <!-- /.content -->
 </div>
 <div layout:fragment="js">
     <script th:src="@{/js/common.js}"></script>
     <script th:src="@{/js/employee/customer_emotion.js}"></script>
-
 </div>
 </body>
 </html>
