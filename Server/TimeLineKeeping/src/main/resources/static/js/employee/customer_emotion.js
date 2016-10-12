@@ -7,6 +7,23 @@ var customerCode;
 var timer_get_emotion;
 
 /**
+ * Event: next transaction
+ */
+$('#btn-next-transaction').on('click', function () {
+    //enable button next
+    event_disabled('#btn-next-transaction', true);
+    //enable button skip
+    event_disabled('#btn-skip-transaction', true);
+    //hide div overview customer emotion
+    event_hide('#div-overview-customer-emotion');
+    //show div loader
+    event_show('#div-loader');
+
+    //worker next transaction running
+    worker_next_transaction();
+});
+
+/**
  * Worker: get first emotion
  * Description: run on loading page or clicking skip button
  */
@@ -94,6 +111,41 @@ function worker_get_emotion() {
         }
     });
     timer_get_emotion = setTimeout(worker_get_emotion, time_out);
+};
+
+/**
+ * Worker: next transaction
+ * Description: ending current transaction and creating new transaction
+ */
+function worker_next_transaction() {
+    var urlString = '/api/emotion/next?accountId=' + accountId;
+    $.ajax({
+        type: "GET",
+        url: urlString,
+        // data: formDataJson,
+        success: function (response) {
+            if (response.success) {
+                customerCode = response.data;
+                if (customerCode != null) {
+                    //disable button end
+                    event_disabled('#btn-end-transaction', true);
+                    //enable button begin
+                    event_disabled('#btn-begin-transaction', false);
+                    //hide div overview customer emotion
+                    event_hide('#div-overview-customer-emotion');
+
+                    //stop request: begin transaction
+                    // clearTimeout(timer_begin_transaction);
+
+                    //call request: get first emotion
+                    worker_get_emotion();
+                }
+            } else {
+                alert(response.data);
+            }
+        }
+    });
+    // timer_begin_transaction = setTimeout(worker_begin_transaction, 2500);
 };
 
 /**
