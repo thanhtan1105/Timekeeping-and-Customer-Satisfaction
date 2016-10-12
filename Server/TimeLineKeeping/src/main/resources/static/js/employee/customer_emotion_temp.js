@@ -2,12 +2,101 @@
  * Created by TrungNN on 10/4/2016.
  */
 
-var accountId = $('#accountId').val();
+/**
+ * Hide: div overview customer emotion
+ */
+event_hide('#div-overview-customer-emotion');
+
+/**
+ * Hide: div loader
+ */
+event_hide('#div-loader');
+
+/**
+ * Event: begin transaction
+ */
+$('#btn-begin-transaction').on('click', function () {
+
+    //disable button begin
+    event_disabled('#btn-begin-transaction', true);
+    //hide div overview customer emotion
+    event_hide('#div-overview-customer-emotion');
+    //show div loader
+    event_show('#div-loader');
+    //request begin transaction
+    worker_next_transaction();
+});
+
+var timer_begin_transaction;
+var timer_get_emotion;
 var customerCode;
+var accountId = $('#accountId').val();
+
+/**
+ * Event: end transaction
+ */
+/*$('#btn-end-transaction').on('click', function () {
+    var formDataJson = {
+        'customerCode': customerCode
+    };
+    console.info('[end_transaction] customerCode: ' + customerCode);
+    $.ajax({
+        type: "POST",
+        url: '/api/emotion/employee/customer_emotion/end_transaction',
+        data: formDataJson,
+        success: function (response) {
+            if (response.success) {
+                //disable button end
+                event_disabled('#btn-end-transaction', true);
+                //enable button begin
+                event_disabled('#btn-begin-transaction', false);
+                //hide div overview customer emotion
+                event_hide('#div-overview-customer-emotion');
+            }
+        }
+    });
+});*/
+
+/**
+ * Worker: begin transaction
+ */
+function worker_next_transaction() {
+    var employeeId = $('#employeeId').val(),
+        formDataJson = {
+            'employeeId': employeeId
+        };
+    var urlString = '/api/emotion/next?accountId=' + accountId;
+    $.ajax({
+        type: "GET",
+        url: urlString,
+        // data: formDataJson,
+        success: function (response) {
+            if (response.success) {
+                customerCode = response.data;
+                if (customerCode != null) {
+                    //disable button end
+                    event_disabled('#btn-end-transaction', true);
+                    //enable button begin
+                    event_disabled('#btn-begin-transaction', false);
+                    //hide div overview customer emotion
+                    event_hide('#div-overview-customer-emotion');
+
+                    //stop request: begin transaction
+                    // clearTimeout(timer_begin_transaction);
+
+                    //call request: get first emotion
+                    worker_get_emotion();
+                }
+            } else {
+                alert(response.data);
+            }
+        }
+    });
+    // timer_begin_transaction = setTimeout(worker_begin_transaction, 2500);
+};
 
 /**
  * Worker: get first emotion
- * Description: run on loading page or clicking skip button
  */
 function worker_get_emotion() {
     var formDataJson = {
