@@ -11,7 +11,7 @@ import java.util.Collection;
  */
 public class ValidateUtil implements Serializable {
 
-    public static Long validateNumber(String number) {
+    public static Long parseNumber(String number) {
         try {
             return Long.parseLong(number);
         } catch (NumberFormatException ex) {
@@ -40,5 +40,9 @@ public class ValidateUtil implements Serializable {
     }
     public static boolean isNotEmpty(String text){
         return text != null && text.length() >0;
+    }
+
+    public static boolean isNumeric(String s) {
+        return s.matches("[-+]?\\d*\\.?\\d+");
     }
 }

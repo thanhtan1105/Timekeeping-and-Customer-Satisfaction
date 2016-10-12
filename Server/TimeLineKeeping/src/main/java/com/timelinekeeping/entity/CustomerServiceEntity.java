@@ -1,7 +1,8 @@
 package com.timelinekeeping.entity;
 
 import com.timelinekeeping.constant.ETransaction;
-import com.timelinekeeping.util.SessionGenerator;
+import com.timelinekeeping.util.UtilApps;
+import com.timelinekeeping.util.ValidateUtil;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -21,7 +22,7 @@ public class CustomerServiceEntity {
     private Long id;
 
     @Basic
-    @Column(name = "create_time", nullable = false)
+    @Column(name = "create_time")
     private Timestamp createTime = new Timestamp(new Date().getTime());
 
     @Basic
@@ -45,11 +46,11 @@ public class CustomerServiceEntity {
     private Set<EmotionCustomerEntity> emotion;
 
     public CustomerServiceEntity() {
-        this.CustomerCode = SessionGenerator.nextSession();
+        this.CustomerCode = UtilApps.generateToken();
     }
 
     public CustomerServiceEntity(AccountEntity createBy) {
-        this.CustomerCode = SessionGenerator.nextSession();
+        this.CustomerCode = UtilApps.generateToken();
         this.createBy = createBy;
     }
 
@@ -110,11 +111,13 @@ public class CustomerServiceEntity {
     }
 
     public void calculateGrade() {
-        double sum = 0d;
-        for (EmotionCustomerEntity emotion : this.emotion) {
-            sum += emotion.getEmotionMost().getGrade();
+        if (ValidateUtil.isNotEmpty(emotion)) {
+            double sum = 0d;
+            for (EmotionCustomerEntity emotion : this.emotion) {
+                sum += emotion.getEmotionMost().getGrade();
+            }
+            this.grade = sum / emotion.size();
         }
-        this.grade = sum / emotion.size();
 
     }
 }

@@ -51,6 +51,12 @@ public class UtilApps {
         }
         return password;
     }
+    public static String generateToken() {
+        String token = "";
+        Random r = new Random();
+        token = Math.abs(r.nextLong()) + "";
+        return token;
+    }
 
     public static Map<Long, Object[]> converListObject2Map(List<Object[]> objs) {
         Map<Long, Object[]> map = new HashMap<>();
