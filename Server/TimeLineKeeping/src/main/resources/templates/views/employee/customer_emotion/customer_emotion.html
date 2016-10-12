@@ -42,7 +42,23 @@
                     <span th:text="${#dates.format(CurrentDate, 'dd-MMM-yyyy')}"></span></div>
             </div>
             <!-- /.end date -->
-
+            <!-- button begin-end transaction -->
+            <div class="row" style="font-size: 18px; margin-top: 5px;">
+                <div class="col-sm-5 text-right">
+                    <button class="btn bg-aqua-active" style="width: 10%" disabled title="Next"
+                            th:id="'btn-next-transaction'">
+                        <i class="fa fa-play"></i></button>
+                </div>
+                <div class="col-sm-6 text-left">
+                    <button class="btn bg-red-active" style="width: 8%" disabled title="Skip"
+                            th:id="'btn-skip-transaction'">
+                        <i class="fa fa-fast-forward"></i></button>
+                </div>
+                <input type="hidden" th:id="employeeId"
+                       th:if="${session} and ${session.UserSession}"
+                       th:value="${session.UserSession.id}"/>
+            </div>
+            <!-- /.end button begin-end transaction -->
         </div>
         <div th:id="'div-overview-customer-emotion'" class="row" style="margin-top: 25px; display: none;">
             <div class="col-sm-3">
