@@ -39,7 +39,7 @@ public class EmotionController {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.debug(String.format("accountId = '%s' ", accountId));
             Pair<String, String> customerValue = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
-            if (customerValue != null && ValidateUtil.isEmpty(customerValue.getKey())) {
+            if (customerValue == null || ValidateUtil.isEmpty(customerValue.getKey())) {
                 return new BaseResponse(false);
             }
             String customerCode = customerValue.getKey();
@@ -73,7 +73,7 @@ public class EmotionController {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.debug(String.format("accountId = '%s' ", accountId));
             Pair<String, String> customerValue = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
-            if (customerValue != null && ValidateUtil.isEmpty(customerValue.getKey())) {
+            if (customerValue == null || ValidateUtil.isEmpty(customerValue.getKey())) {
                 return new BaseResponse(false);
             }
             String customerCode = customerValue.getKey();
@@ -98,18 +98,19 @@ public class EmotionController {
 
     @RequestMapping(value = I_URI.API_EMOTION_NEXT_TRANSACTION)
     @ResponseBody
-    public BaseResponse nextTransaction(@RequestParam(I_URI.PARAMETER_EMOTION_ACCOUNT_ID) Long accountId) {
+    public BaseResponse nextTransaction(@RequestParam(I_URI.PARAMETER_EMOTION_ACCOUNT_ID) Long accountId,
+                                        @RequestParam(value = "skip", required = false) Boolean isSkip) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.debug(String.format("accountId = '%s' ", accountId));
 
             Pair<String, String> customerValue = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
-            if (customerValue != null && ValidateUtil.isEmpty(customerValue.getKey())) {
+            if (customerValue == null || ValidateUtil.isEmpty(customerValue.getKey())) {
                 return new BaseResponse(false);
             }
             String customerCode = customerValue.getKey();
 
-            CustomerServiceModel result = emotionService.nextTransaction(customerCode);
+            CustomerServiceModel result = emotionService.nextTransaction(customerCode, isSkip);
             if (result != null && ValidateUtil.isNotEmpty(result.getCustomerCode())) {
                 String newCustomer = result.getCustomerCode();
 
@@ -129,6 +130,7 @@ public class EmotionController {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }
     }
+
 
     @RequestMapping(value = {I_URI.API_EMOTION_REPORT}, method = RequestMethod.POST)
     @ResponseBody

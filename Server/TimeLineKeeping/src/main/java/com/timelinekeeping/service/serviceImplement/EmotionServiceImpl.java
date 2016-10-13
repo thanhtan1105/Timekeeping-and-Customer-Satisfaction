@@ -109,19 +109,22 @@ public class EmotionServiceImpl {
      * author TrungNN
      * Web employee: end transaction
      */
-    public Long endTransactionWeb(String customerCode) {
+    public Long changeStatusTransaction(String customerCode, ETransaction stauts) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info(String.format("customerCode = '%s', Status = ''",customerCode, stauts));
             //get Customer Service with customerCode
             CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
             if (customerResultEntity != null
                     && (customerResultEntity.getStatus() == ETransaction.BEGIN
                     || customerResultEntity.getStatus() == ETransaction.PROCESS)) {
                 //change status = END
-                customerResultEntity.setStatus(ETransaction.END);
-                customerResultEntity.calculateGrade();
+                customerResultEntity.setStatus(stauts);
+                if (stauts == ETransaction.END) {
+                    customerResultEntity.calculateGrade();
+                }
                 customerRepo.saveAndFlush(customerResultEntity);
-                return customerResultEntity.getCreateBy()!= null ? customerResultEntity.getCreateBy().getId() : null;
+                return customerResultEntity.getCreateBy() != null ? customerResultEntity.getCreateBy().getId() : null;
             } else {
                 logger.error("CustomerService has status: " + customerResultEntity.getStatus());
                 return null;
@@ -131,9 +134,11 @@ public class EmotionServiceImpl {
         }
     }
 
+
     /**
      * upload image to transaction
-     * author: hientq*/
+     * author: hientq
+     */
     public Boolean uploadImage(InputStream imageStream, String customerCode) throws IOException, URISyntaxException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -175,18 +180,24 @@ public class EmotionServiceImpl {
     }
 
 
-    /** next transaction
+    /**
+     * next transaction
      * author: hientq
-     * call entransaction old, and create new transaction*/
-    public CustomerServiceModel nextTransaction(String customerCode) {
-
-        Long accountId = endTransactionWeb(customerCode);
-        if (accountId != null){
+     * call entransaction old, and create new transaction
+     */
+    public CustomerServiceModel nextTransaction(String customerCode, Boolean isSkip) {
+        ETransaction transaction = null;
+        if (isSkip == null  || isSkip == false){
+            transaction = ETransaction.END;
+        }else{
+            transaction = ETransaction.PAUSE;
+        }
+        Long accountId = changeStatusTransaction(customerCode, transaction);
+        if (accountId != null) {
             return beginTransaction(accountId);
         }
         return null;
     }
-
 
 
     public EmployeeReportCustomerService reportCustomerServiceEmployee(Integer year, Integer month, Long eployeeId) {
