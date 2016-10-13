@@ -14,6 +14,7 @@ import com.timelinekeeping.modelMCS.RectangleImage;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.CustomerServiceRepo;
 import com.timelinekeeping.repository.EmotionRepo;
+import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ServiceUtils;
 import com.timelinekeeping.util.UtilApps;
 import org.apache.commons.io.IOUtils;
@@ -140,7 +141,7 @@ public class EmotionServiceImpl {
 
             //get Customer Service with customerCode;
             CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
-
+            logger.info("customer Emotion: " + JsonUtil.toJson(new CustomerServiceModel(customerResultEntity)));
             if (customerResultEntity != null && (customerResultEntity.getStatus() == ETransaction.BEGIN || customerResultEntity.getStatus() == ETransaction.PROCESS)) {
 
                 //if status == BEGIN, change status = PROCESS. save db
@@ -162,6 +163,7 @@ public class EmotionServiceImpl {
                     logger.error("Cannot analyze customer emotion");
                     return false;
                 }
+                logger.info("customer listEmotionAnalysis: " + JsonUtil.toJson(listEmotionAnalysis));
             } else {
                 logger.error("CustomerService has status: " + customerResultEntity.getStatus());
                 return false;
@@ -291,11 +293,12 @@ public class EmotionServiceImpl {
         FaceServiceMCSImpl faceServiceMCS = new FaceServiceMCSImpl();
         BaseResponse faceResponse = faceServiceMCS.detect(new ByteArrayInputStream(bytes));
         logger.info("[Get Customer Emotion] face response success: " + faceResponse.isSuccess());
-
+        logger.info("EEEEEEEEEEEEE : faceResponse: " + JsonUtil.toJson(faceResponse));
         if (faceResponse.isSuccess() && faceResponse.getData() != null) {
 
             // parser face response
             List<FaceDetectResponse> faceRecognizeList = (List<FaceDetectResponse>) faceResponse.getData();
+
             if (faceRecognizeList != null || faceRecognizeList.size() > 0) {
 
                 for (FaceDetectResponse faceDetectResponse : faceRecognizeList) {
@@ -312,7 +315,7 @@ public class EmotionServiceImpl {
 
                     // parser emotion response
                     List<EmotionRecognizeResponse> emotionRecognizeList = (List<EmotionRecognizeResponse>) emotionResponse.getData();
-
+                    logger.info("EEEEEEEEEEEEE : Response: " + JsonUtil.toJson(emotionRecognizeList));
                     //TODO check many face
                     EmotionRecognizeResponse emotionRecognize = emotionRecognizeList.get(0);
 
