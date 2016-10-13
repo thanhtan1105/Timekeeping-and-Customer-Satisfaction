@@ -2,6 +2,7 @@ package com.timelinekeeping.controller;
 
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.IViewConst;
+import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.AccountCheckInModel;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.CheckinManualModel;
@@ -26,7 +27,7 @@ import java.util.List;
  * Created by TrungNN on 9/24/2016.
  */
 @Controller
-@RequestMapping("/manager/check_in")
+@RequestMapping(I_URI.WEB_MANAGER_CHECK_IN)
 public class CheckinManualControllerWeb {
 
     private Logger logger = Logger.getLogger(CheckinManualControllerWeb.class);

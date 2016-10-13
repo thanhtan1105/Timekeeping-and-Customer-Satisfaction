@@ -21,6 +21,7 @@ public class MessageModel {
     private Gender gender;
     private EEmotion emotion;
     private String predict;
+    private byte[] image;
 
     public MessageModel() {
     }
@@ -113,5 +114,13 @@ public class MessageModel {
 
     public void setPredict(String predict) {
         this.predict = predict;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

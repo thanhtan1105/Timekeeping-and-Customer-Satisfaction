@@ -2,6 +2,7 @@ package com.timelinekeeping.controller;
 
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.IViewConst;
+import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.BaseResponseG;
 import com.timelinekeeping.model.ReminderModel;
@@ -28,7 +29,7 @@ import java.util.List;
  * Created by TrungNN on 9/22/2016.
  */
 @Controller
-@RequestMapping("/manager/reminders")
+@RequestMapping(I_URI.WEB_MANAGER_REMINDER)
 public class ReminderControllerWeb {
 
     private Logger logger = Logger.getLogger(ReminderControllerWeb.class);

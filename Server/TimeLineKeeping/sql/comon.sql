@@ -10,3 +10,8 @@ INSERT INTO `mydb`.`quantity_emotion` (`from_value`, `name`, `to_value`) VALUES 
 INSERT INTO `mydb`.`quantity_emotion` (`from_value`, `name`, `to_value`) VALUES ('0.9', 'vô cùng', '1.5');
 INSERT INTO `mydb`.`quantity_emotion` (`from_value`, `name`, `to_value`) VALUES ('0.8', 'gần như', '1.2');
 
+
+/** ROLE*/
+INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('admin','/admin/**;/account/**;/department/**','redirect:/admin/departments/');
+INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('manager','/manager/**','redirect:/manager/check_in/');
+INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('employee','/employee/**','redirect:/employee/attendance/');

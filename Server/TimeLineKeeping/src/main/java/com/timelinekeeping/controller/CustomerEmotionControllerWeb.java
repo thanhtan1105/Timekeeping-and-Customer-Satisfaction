@@ -2,6 +2,7 @@ package com.timelinekeeping.controller;
 
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.IViewConst;
+import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.AccountModel;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,7 @@ import java.util.Date;
  * Created by TrungNN on 10/4/2016.
  */
 @Controller
-@RequestMapping("/employee/customer_emotion")
+@RequestMapping(I_URI.WEB_EMPLOYEE_EMOTION)
 public class CustomerEmotionControllerWeb {
 
     private Logger logger = Logger.getLogger(CustomerEmotionControllerWeb.class);

@@ -4,6 +4,7 @@ import com.timelinekeeping.api.DepartmentController;
 import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.ETrainStatus;
 import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.model.DepartmentModel;
@@ -24,7 +25,7 @@ import java.net.URISyntaxException;
  * Created by TrungNN on 9/17/2016.
  */
 @Controller
-@RequestMapping("/admin/departments")
+@RequestMapping(I_URI.WEB_ADMIN_DEPARTMENT)
 public class DepartmentControllerWeb {
 
     private Logger logger = Logger.getLogger(DepartmentController.class);

@@ -1,6 +1,7 @@
 package com.timelinekeeping.controller;
 
 import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.service.serviceImplement.AccountServiceImpl;
 import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
@@ -21,7 +22,7 @@ import java.util.List;
  * Created by TrungNN on 9/18/2016.
  */
 @Controller
-@RequestMapping("/admin/accounts")
+@RequestMapping(I_URI.WEB_ADMIN_ACCOUNT)
 public class AccountControllerWeb {
 
     private Logger logger = Logger.getLogger(AccountControllerWeb.class);

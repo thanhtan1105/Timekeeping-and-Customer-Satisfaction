@@ -15,19 +15,24 @@ import java.io.*;
 public class StoreFileUtils {
     private static String PATH = AppConfigKeys.getInstance().getApiPropertyValue("file.store.path");
 
-    public static boolean storeFile(String nameFile, InputStream fileStore){
+    public static String storeFile(String nameFile, InputStream fileStore){
         try {
             String fileName = PATH + File.separator + String.format("%s.%s", nameFile, IContanst.EXTENSION_FILE_IMAGE);
             File file = new File(fileName);
             if (!file.getParentFile().exists()){
                 file.getParentFile().mkdir();
+            }else{
+                if (file.exists()){
+                    file.delete();
+                }
             }
+
             BufferedImage bufferedImage = ImageIO.read(fileStore);
             ImageIO.write(bufferedImage, IContanst.EXTENSION_FILE_IMAGE, file);
-            return true;
+            return fileName;
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 

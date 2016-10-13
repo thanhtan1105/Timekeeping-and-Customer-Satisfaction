@@ -2,10 +2,7 @@ package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
-import com.timelinekeeping.constant.ERROR;
-import com.timelinekeeping.constant.ETimeKeeping;
-import com.timelinekeeping.constant.ETypeCheckin;
-import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.accessAPI.SMSNotification;
 import com.timelinekeeping.constant.*;
 import com.timelinekeeping.entity.*;
 import com.timelinekeeping.model.*;
@@ -78,7 +75,9 @@ public class AccountServiceImpl {
                 return null;
             } else {
                 logger.info("[Service- Login] account: " + JsonUtil.toJson(accountEntity));
-                return new AccountModel(accountEntity);
+                AccountModel accountModel = new AccountModel(accountEntity);
+                accountModel.replaceRele(accountEntity.getRole());
+                return accountModel;
             }
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
@@ -341,6 +340,7 @@ public class AccountServiceImpl {
             //TODO push notification
 
             pushNotification(accountEntity);
+            new SMSNotification().sendSms(new AccountModel(accountEntity));
 
             //TODO reminder
             // convert Reminder
@@ -438,6 +438,7 @@ public class AccountServiceImpl {
 
         return message;
     }
+
     /**
      * call API and detect img
      */

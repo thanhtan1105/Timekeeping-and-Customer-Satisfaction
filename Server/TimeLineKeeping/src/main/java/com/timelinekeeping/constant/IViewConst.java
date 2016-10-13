@@ -31,7 +31,8 @@ public interface IViewConst {
     /**
      * Views for login
      */
-    String LOGIN_VIEW = "/views/login/login";
-    String INVALID_VIEW = "views/login/invalid";
+    String LOGIN_VIEW = "/views/login";
+    String INVALID_VIEW = "views/error/invalid";
+    String PERMISSION_DENIED_VIEW = "views/error/permissionDenied";
 }
 
