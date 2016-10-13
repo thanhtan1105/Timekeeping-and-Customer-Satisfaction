@@ -109,7 +109,36 @@ public class EmotionRecognizeScores {
         if (surprise < except) surprise = 0d;
     }
 
+    public void competitiveEmotion() {
+//        List<Pair<EEmotion, EEmotion>> listEmotionCompetitor = IContanst.COMPETITION_EMOTION;
+//        for (Pair<EEmotion, EEmotion> pair: listEmotionCompetitor){
+//
+//
+//        }
+        if (anger > 0 && happiness > 0) {
+            double value = anger * EEmotion.ANGER.getGrade() + happiness * EEmotion.HAPPINESS.getGrade();
+            if (value < 0) {
+                this.anger = value / EEmotion.ANGER.getGrade();
+                this.happiness = 0d;
+            }else{
+                this.happiness = value / EEmotion.HAPPINESS.getGrade();
+                this.anger = 0d;
+            }
+        }
+        if (sadness > 0 && happiness > 0) {
+            double value = sadness * EEmotion.SADNESS.getGrade() + happiness * EEmotion.HAPPINESS.getGrade();
+            if (value < 0) {
+                this.sadness = value / EEmotion.SADNESS.getGrade();
+                this.happiness = 0d;
+            }else{
+                this.happiness = value / EEmotion.HAPPINESS.getGrade();
+                this.sadness = 0d;
+            }
+        }
+    }
+
     public List<EmotionCompare> getEmotionExist() {
+        competitiveEmotion();
         List<EmotionCompare> listCompare = new ArrayList<>();
         if (anger > 0) listCompare.add(new EmotionCompare(EEmotion.ANGER, anger));
         if (contempt > 0) listCompare.add(new EmotionCompare(EEmotion.CONTEMPT, contempt));

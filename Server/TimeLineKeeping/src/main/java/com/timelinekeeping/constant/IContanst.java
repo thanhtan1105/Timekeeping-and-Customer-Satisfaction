@@ -1,8 +1,12 @@
 package com.timelinekeeping.constant;
 
 import com.timelinekeeping._config.AppConfigKeys;
+import com.timelinekeeping.model.Pair;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by HienTQSE60896 on 9/8/2016.
@@ -68,4 +72,8 @@ public interface IContanst {
     String SUGGESTION_3_EMOTION = "%s cảm thấy %s, %s và %s.";
     String SUGGESTION_BOTH_2_1_EMOTION = "%s cảm thấy %s và %s nhưng %s.";
     String SUGGESTION_BOTH_1_2_EMOTION = "%s cảm thấy %s nhưng %s và %s.";
+
+    /** Message Competition*/
+    List<Pair<EEmotion, EEmotion>> COMPETITION_EMOTION = Arrays.asList(new Pair<>(EEmotion.ANGER, EEmotion.HAPPINESS),
+            new Pair<>(EEmotion.ANGER, EEmotion.HAPPINESS));
 }
