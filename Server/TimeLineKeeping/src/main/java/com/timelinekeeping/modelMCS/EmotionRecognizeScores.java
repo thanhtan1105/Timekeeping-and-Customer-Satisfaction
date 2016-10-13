@@ -4,7 +4,9 @@ import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.model.EmotionCompare;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by HienTQSE60896 on 9/13/2016.
@@ -150,6 +152,31 @@ public class EmotionRecognizeScores {
         if (surprise > 0) listCompare.add(new EmotionCompare(EEmotion.SURPRISE, surprise));
         listCompare.sort((EmotionCompare e1, EmotionCompare e2) -> e1.getValue() > e2.getValue() ? -1 : 0);
         return listCompare;
+    }
+    public Map<EEmotion, Double> map(){
+        Map<EEmotion, Double> map = new HashMap<>();
+        map.put(EEmotion.ANGER, anger);
+        map.put(EEmotion.ANGER, contempt);
+        map.put(EEmotion.ANGER, disgust);
+        map.put(EEmotion.ANGER, fear);
+        map.put(EEmotion.ANGER, happiness);
+        map.put(EEmotion.ANGER, neutral);
+        map.put(EEmotion.ANGER, sadness);
+        map.put(EEmotion.ANGER, surprise);
+        return map;
+    }
+
+    public EEmotion most(){
+        Map<EEmotion, Double> map = map();
+        EEmotion emotion = null;
+        Double value = 0d;
+        for (Map.Entry<EEmotion, Double> entry : map.entrySet()){
+            if (entry.getValue() > value){
+                value = entry.getValue();
+                emotion = entry.getKey();
+            }
+        }
+        return emotion;
     }
 
     public static void main(String[] args) {
