@@ -21,31 +21,9 @@ class APIRequest: NSObject {
   }
   
   static let shareInstance = APIRequest()
- 
-  func beginTransaction(employeeId: String, onCompletion: ServiceResponse) {
-    let url = http + urlBeginTransaction
-    let header = [
-      "Content-Type" : "application/json",
-    ]
-    
-    var dataSent: [String: AnyObject] = [:]
-    dataSent["employeeId"] = employeeId
-    webservice_GET(url, params: dataSent, headersParams: header, completion: onCompletion)
-  }
-  
-  func startTransaction(customerCode: String, onCompletion: ServiceResponse) {
-    let url = http + urlStartTransaction
-    let header = [
-      "Content-Type" : "application/json",
-    ]
-    
-    var dataSent: [String: AnyObject] = [:]
-    dataSent["customerCode"] = customerCode
-    webservice_GET(url, params: dataSent, headersParams: header, completion: onCompletion)
-  }
 
-  func processingTransaction(image: UIImage, customerCode: String, onCompletion: ServiceResponse) {
-    let url = http + urlProcessTransaction
+  func processingTransaction(image: UIImage, accountID: String, onCompletion: ServiceResponse) {
+    let url = http + urlEmotionUpload
     let request = NSMutableURLRequest(URL: NSURL(string: url)!)
     request.HTTPMethod = "POST"
     
@@ -54,7 +32,7 @@ class APIRequest: NSObject {
       print("Image data: \(imageData?.length)")
       let data = NSData()
       multipartFormData.appendBodyPart(data: imageData!, name: "image", fileName: "\(data)", mimeType: "image/png")
-      multipartFormData.appendBodyPart(data: String(customerCode).dataUsingEncoding(NSUTF8StringEncoding)!, name: "customerCode")
+      multipartFormData.appendBodyPart(data: String(accountID).dataUsingEncoding(NSUTF8StringEncoding)!, name: "accountId")
     }) { (encodingResult: Manager.MultipartFormDataEncodingResult) in
       switch encodingResult {
       case .Success(let upload, _, _):
@@ -87,14 +65,6 @@ class APIRequest: NSObject {
         onCompletion(nil, errorWebservice)
       }
     }
-  }
-  
-  func endTransaction(customerCode: String, onCompletion: ServiceResponse) {
-    let url = urlEndTransaction
-    let params: [String : AnyObject] = [
-      "customerCode" : customerCode
-    ]
-    webservice_POST(url, params: params, headersParams: nil, completion: onCompletion)
   }
 
 }

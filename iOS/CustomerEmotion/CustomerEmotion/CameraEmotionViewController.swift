@@ -19,15 +19,12 @@ class CameraEmotionViewController: UIViewController {
   @IBOutlet weak var cameraPreview: UIView!
   @IBOutlet weak var beginTransactionButton: UIButton!
   
-  
   var preview: AVCaptureVideoPreviewLayer?
   var isRunning = false
   var camera: Camera?
   var status: Status = .Preview
   var faceView: UIView?
   var isCameraTaken = false
-  var isBeginTransaction = false
-  var isEndTransaction = true
   var customerCode = ""
   
   
@@ -50,9 +47,6 @@ class CameraEmotionViewController: UIViewController {
     isRunning = false
     LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
     isCameraTaken = false
-    isBeginTransaction = false
-    isEndTransaction = true
-    beginTransaction()
     status = .Preview
   }
   
@@ -105,7 +99,7 @@ class CameraEmotionViewController: UIViewController {
   }
   
   @IBAction func onCaptureTapped(sender: UIButton) {
-    isBeginTransaction = true
+    
   }
 
 }
@@ -133,7 +127,8 @@ extension CameraEmotionViewController: CameraDelegate {
   func camera(camera: Camera, didShowFaceDetect face: AVMetadataFaceObject) {
     let adjusted = self.preview?.transformedMetadataObjectForMetadataObject(face)
     dispatch_async(dispatch_get_main_queue()) {
-      if self.isBeginTransaction {
+      // filter camera
+      if (adjusted?.bounds.size.width >= screenSize.width / 2.8) && (adjusted?.bounds.size.height >= screenSize.width / 2.8) {
         if self.cameraStill.image != nil {
           // filter
           dispatch_async(dispatch_get_main_queue(), {
@@ -156,9 +151,7 @@ extension CameraEmotionViewController: CameraDelegate {
             self.capture()
           }
         }
-        
       }
-      
     }
   }
 }
@@ -167,70 +160,26 @@ extension CameraEmotionViewController: CameraDelegate {
 extension CameraEmotionViewController {
   
   private func capture() {
-    if isBeginTransaction {
-      if self.status == .Preview {
-        self.camera?.captureStillImage({ (image) -> Void in
-          if image != nil {
-            self.cameraStill.image = image
-            self.status = .Preview
-            self.currentTransaction(self.cameraStill.image!)   // current transaction
-            
-            if !self.isEndTransaction {
-              // delay
-              let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(10 * Double(NSEC_PER_SEC)))
-              dispatch_after(delayTime3, dispatch_get_main_queue()) {
-                self.isCameraTaken = false
-              }
-            }
-          } else {
-            self.status = .Error
+    if self.status == .Preview {
+      self.camera?.captureStillImage({ (image) -> Void in
+        if image != nil {
+          self.cameraStill.image = image
+          self.status = .Preview
+          self.detectEmotion(self.customerCode, image: self.cameraStill.image!) // current transaction
+          
+          // delay
+          let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(15 * Double(NSEC_PER_SEC)))
+          dispatch_after(delayTime3, dispatch_get_main_queue()) {
             self.isCameraTaken = false
           }
-        })
-      }
-    }
-  }
-  
-  private func beginTransaction() {
-    self.callApiBeginTransaction("5") { (shouldBeginTransaction, error) in
-      if shouldBeginTransaction == true {
-        self.startTransaction()   // send notify to server
-      } else {
-        let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(5 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime3, dispatch_get_main_queue()) {
-          self.beginTransaction()
+        } else {
+          self.status = .Error
+          self.isCameraTaken = false
         }
-      }
+      })
     }
   }
   
-  private func startTransaction() {
-    self.callApiStartTransaction(self.customerCode, completion: { (shouldStartTransaction, error) in
-      if shouldStartTransaction == true {
-        self.isBeginTransaction = true
-        self.isEndTransaction = false
-      } else {
-        let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(5 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime3, dispatch_get_main_queue()) {
-          self.startTransaction()
-        }
-      }
-    })
-  }
-  
-  private func currentTransaction(image: UIImage) {
-    self.callApiCurrentTransaction(image, customerCode: customerCode) { (shouldEndTransaction, error) in
-      if shouldEndTransaction == true {
-        // end transaction
-        self.isBeginTransaction = false
-        self.isEndTransaction = true
-        self.isCameraTaken = false
-        self.customerCode = ""
-        self.beginTransaction()
-      }
-    }
-  }
-
   private func initializeCamera() {
     self.camera = Camera(sender: self, position: Camera.Position.Back)
   }
@@ -251,75 +200,19 @@ extension CameraEmotionViewController {
     }
   }
   
-  private func callApiBeginTransaction(employeeID: String, completion onCompletionHandler: ((shouldBeginTransaction: Bool?, error: NSError?) -> Void)?) {
-    APIRequest.shareInstance.beginTransaction(employeeID) { (response: ResponsePackage?, error: ErrorWebservice?) in
-      guard error == nil else {
-        print("Fail")
-        onCompletionHandler!(shouldBeginTransaction: nil, error: nil)
-        return
-      }
-      
-      print(response?.response)
-
-      let dict = response?.response as! [String: AnyObject]
-      let success = dict["success"] as? Int
-      if success == 1 {
-        let data = dict["data"] as! [String : AnyObject]
-        let customerService = data["customerService"] as! [String : AnyObject]
-        self.customerCode = customerService["customerCode"] as! String
-        onCompletionHandler!(shouldBeginTransaction: true, error: nil)
+  private func detectEmotion(accountID: String, image: UIImage) {
+    APIRequest.shareInstance.processingTransaction(image, accountID: "4") { (response: ResponsePackage?, error: ErrorWebservice?) in
+      guard error != nil else {
         
-      } else {
-        print("Fail")
-        onCompletionHandler!(shouldBeginTransaction: false, error: nil)
-      }
-      
-    }
-  }
-  
-  private func callApiStartTransaction(customerCode: String, completion onCompletionHandler: ((shouldStartTransaction: Bool?, error: NSError?) -> Void)?) {
-    APIRequest.shareInstance.startTransaction(customerCode) { (response: ResponsePackage?, error: ErrorWebservice?) in
-      guard error == nil else {
-        print("Fail")
-        onCompletionHandler!(shouldStartTransaction: nil, error: nil)
         return
       }
       
-      print(response?.response)
       
-      let dict = response?.response as! [String: AnyObject]
-      
-      let success = dict["success"] as? Int
-      if success == 1 {
-        onCompletionHandler!(shouldStartTransaction: true, error: nil)
-      } else {
-        print("Fail")
-        onCompletionHandler!(shouldStartTransaction: false, error: nil)
-      }
     }
   }
-  
-  
-  private func callApiCurrentTransaction(faceImage: UIImage, customerCode: String, completion onCompletionHandler: ((shouldEndTransaction: Bool?, error: NSError?) -> Void)?) {
-    APIRequest.shareInstance.processingTransaction(faceImage, customerCode: customerCode) { (response: ResponsePackage?, error: ErrorWebservice?) in
-      guard error == nil else {
-        print("Fail")
-        return
-      }
-      print(response?.response)
-      let dict = response?.response as! [String : AnyObject]
-      let success = dict["success"] as? Int
-      if success == 1 {
-        let data = dict["data"] as! [String : AnyObject]
-        let shouldEndTransaction = data["shouldEndTransaction"] as! Bool
-        onCompletionHandler!(shouldEndTransaction: shouldEndTransaction, error: nil)
-      } else {
-        print("Fail")
-        onCompletionHandler!(shouldEndTransaction: false, error: nil)
-      }
-    }
-  }
-  
-  
 }
+
+
+
+
 
