@@ -19,8 +19,8 @@ $('#btn-next-transaction').on('click', function () {
     //show div loader
     event_show('#div-loader');
 
-    //call request: next transaction
-    worker_next_transaction();
+    //call request: next transaction (isSkip == false)
+    worker_next_transaction(false);
 });
 
 /**
@@ -37,8 +37,8 @@ $('#btn-skip-transaction').on('click', function () {
     //show div loader
     event_show('#div-loader');
 
-    //call request: get first emotion
-    worker_get_emotion();
+    //call request: next transaction (isSkip == true)
+    worker_next_transaction(true);
 });
 
 /**
@@ -135,10 +135,11 @@ function worker_get_emotion() {
 
 /**
  * Worker: next transaction
- * Description: ending current transaction and creating new transaction
+ * @param isSkip (true: skip; false: next)
  */
-function worker_next_transaction() {
-    var urlString = '/api/emotion/next?accountId=' + accountId;
+function worker_next_transaction(isSkip) {
+    var urlString = '/api/emotion/next?accountId=' + accountId
+        + '&skip=' + isSkip;
     $.ajax({
         type: "GET",
         url: urlString,
