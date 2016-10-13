@@ -2,10 +2,7 @@ package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
-import com.timelinekeeping.constant.ERROR;
-import com.timelinekeeping.constant.ETimeKeeping;
-import com.timelinekeeping.constant.ETypeCheckin;
-import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.accessAPI.SMSNotification;
 import com.timelinekeeping.constant.*;
 import com.timelinekeeping.entity.*;
 import com.timelinekeeping.model.*;
@@ -343,6 +340,7 @@ public class AccountServiceImpl {
             //TODO push notification
 
             pushNotification(accountEntity);
+            new SMSNotification().sendSms(new AccountModel(accountEntity));
 
             //TODO reminder
             // convert Reminder
@@ -363,61 +361,61 @@ public class AccountServiceImpl {
     /**
      * push notification for device
      */
-     private void pushNotification(AccountEntity accountEntity) {
-         try {
-             String jsonResponse;
-             URL url = new URL("https://onesignal.com/api/v1/notifications");
-             HttpURLConnection con = (HttpURLConnection)url.openConnection();
-             con.setUseCaches(false);
-             con.setDoOutput(true);
-             con.setDoInput(true);
+    private void pushNotification(AccountEntity accountEntity) {
+        try {
+            String jsonResponse;
+            URL url = new URL("https://onesignal.com/api/v1/notifications");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setUseCaches(false);
+            con.setDoOutput(true);
+            con.setDoInput(true);
 
-             con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-             con.setRequestProperty("Authorization", "Basic ZjkwMjQ4MzQtNzM4Ny00NjRhLWFhZmItOGE5ZmEyZGIyMjBh");
-             con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            con.setRequestProperty("Authorization", "Basic ZjkwMjQ4MzQtNzM4Ny00NjRhLWFhZmItOGE5ZmEyZGIyMjBh");
+            con.setRequestMethod("POST");
 
-             // make data
-             Gender gender = accountEntity.getGender();
-             String welcomeMessage = "Xin chào ";
-             String prefix = gender == Gender.MALE ? "anh " : "chị ";
-             welcomeMessage += prefix + " ";
-             welcomeMessage += accountEntity.getFullname() + " ";
-             welcomeMessage += ". Chúc " + prefix + " " + "một ngày làm việc tốt lành";
+            // make data
+            Gender gender = accountEntity.getGender();
+            String welcomeMessage = "Xin chào ";
+            String prefix = gender == Gender.MALE ? "anh " : "chị ";
+            welcomeMessage += prefix + " ";
+            welcomeMessage += accountEntity.getFullname() + " ";
+            welcomeMessage += ". Chúc " + prefix + " " + "một ngày làm việc tốt lành";
 
-             String strJsonBody = "{"
-                     +   "\"app_id\": \"dbd7cdd6-9555-416b-bc08-21aa24164299\","
-                     +   "\"include_player_ids\" : [\"" + accountEntity.getToken() + "\"],"
-                     +   "\"data\": {\"id\": "+ accountEntity.getId() +"},"
-                     +   "\"contents\": {\"en\": \"Check in successfully\"},"
-                     +   "\"headings\": {\"vn\": " + welcomeMessage + "}"
-                     + "}";
+            String strJsonBody = "{"
+                    + "\"app_id\": \"dbd7cdd6-9555-416b-bc08-21aa24164299\","
+                    + "\"include_player_ids\" : [\"" + accountEntity.getToken() + "\"],"
+                    + "\"data\": {\"id\": " + accountEntity.getId() + "},"
+                    + "\"contents\": {\"en\": \"Check in successfully\"},"
+                    + "\"headings\": {\"vn\": " + welcomeMessage + "}"
+                    + "}";
 
-             System.out.println("strJsonBody:\n" + strJsonBody);
+            System.out.println("strJsonBody:\n" + strJsonBody);
 
-             byte[] sendBytes = strJsonBody.getBytes("UTF-8");
-             con.setFixedLengthStreamingMode(sendBytes.length);
+            byte[] sendBytes = strJsonBody.getBytes("UTF-8");
+            con.setFixedLengthStreamingMode(sendBytes.length);
 
-             OutputStream outputStream = con.getOutputStream();
-             outputStream.write(sendBytes);
+            OutputStream outputStream = con.getOutputStream();
+            outputStream.write(sendBytes);
 
-             int httpResponse = con.getResponseCode();
-             System.out.println("httpResponse: " + httpResponse);
+            int httpResponse = con.getResponseCode();
+            System.out.println("httpResponse: " + httpResponse);
 
-             if (httpResponse >= HttpURLConnection.HTTP_OK  && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST) {
-                 Scanner scanner = new Scanner(con.getInputStream(), "UTF-8");
-                 jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
-                 scanner.close();
-             } else {
-                 Scanner scanner = new Scanner(con.getErrorStream(), "UTF-8");
-                 jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
-                 scanner.close();
-             }
-             System.out.println("jsonResponse:\n" + jsonResponse);
+            if (httpResponse >= HttpURLConnection.HTTP_OK && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST) {
+                Scanner scanner = new Scanner(con.getInputStream(), "UTF-8");
+                jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                scanner.close();
+            } else {
+                Scanner scanner = new Scanner(con.getErrorStream(), "UTF-8");
+                jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                scanner.close();
+            }
+            System.out.println("jsonResponse:\n" + jsonResponse);
 
-         } catch(Throwable t) {
-             t.printStackTrace();
-         }
-     }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
 
     /**
      *
@@ -440,6 +438,7 @@ public class AccountServiceImpl {
 
         return message;
     }
+
     /**
      * call API and detect img
      */

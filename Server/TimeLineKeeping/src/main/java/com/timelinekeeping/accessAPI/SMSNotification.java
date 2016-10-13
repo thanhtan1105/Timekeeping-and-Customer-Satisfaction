@@ -1,7 +1,9 @@
 package com.timelinekeeping.accessAPI;
 
 import com.timelinekeeping._config.AppConfigKeys;
+import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.BaseResponse;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ServiceUtils;
@@ -61,6 +63,19 @@ public class SMSNotification {
         }
     }
 
+    public BaseResponse sendSms(AccountModel accountModel) throws IOException, URISyntaxException {
+        if (IContanst.SEND_SMS != 1) {
+            return null;
+        }
+        // make data
+        Gender gender = accountModel.getGender();
+        String welcomeMessage = "Xin chao ";
+        String prefix = gender == Gender.MALE ? "anh " : "chi ";
+        welcomeMessage += prefix + " ";
+        welcomeMessage += accountModel.getFullname() + " ";
+        welcomeMessage += ". Chuc " + prefix + " " + "mot ngay lam viec tot lanh";
+        return sendSms("0936714994", welcomeMessage);
+    }
     public static void main(String[] args) {
         try {
             System.out.println(JsonUtil.toJson(new SMSNotification().sendSms("0936714994", "Xin chao a Tan Xau trai.")));
