@@ -3,7 +3,9 @@ package com.timelinekeeping.model;
 import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
+import com.timelinekeeping.modelMCS.EmotionRecognizeResponse;
 import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
+import com.timelinekeeping.modelMCS.FaceDetectResponse;
 import com.timelinekeeping.modelMCS.RectangleImage;
 
 import java.io.Serializable;
@@ -54,6 +56,17 @@ public class EmotionAnalysisModel implements Serializable {
             this.emotionMost = emotionCustomerEntity.getEmotionMost();
         }
 
+    }
+
+    public EmotionAnalysisModel(FaceDetectResponse faceDetectResponse, EmotionRecognizeResponse emotionRecognize) {
+        // get face_attributes
+        this.age = faceDetectResponse.getFaceAttributes().getAge(); // get age
+        this.gender = faceDetectResponse.getFaceAttributes().getGender().toUpperCase()
+                .equals("MALE") ? Gender.MALE : Gender.FEMALE; // get gender
+        this.smile = faceDetectResponse.getFaceAttributes().getSmile();
+        this.rectangleImage = faceDetectResponse.getFaceRectangle();
+        this.emotion = emotionRecognize.getScores();
+        this.emotionMost = emotion.most();
     }
 
     public EEmotion getEmotionMost() {

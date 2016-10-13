@@ -18,6 +18,7 @@ import java.io.ByteArrayInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 
 /**
  * Created by HienTQSE60896 on 10/10/2016.
@@ -78,6 +79,12 @@ public class EmotionController {
             }
             String customerCode = customerValue.getKey();
             byte[] byteImage = IOUtils.toByteArray(imageFile.getInputStream());
+
+            /** TEST store file before*/
+            String fileNameBefore =  I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId + "BEFORE" + new Date().getTime();
+            StoreFileUtils.storeFile(fileNameBefore, new ByteArrayInputStream(byteImage));
+            /** TEST store file before*/
+
             Boolean result = emotionService.uploadImage(new ByteArrayInputStream(byteImage), customerCode);
             if (result != null && result) {
                 String fileName =  I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId;
