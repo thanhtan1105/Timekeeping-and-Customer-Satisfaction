@@ -36,6 +36,7 @@ public interface IContanst {
     String EXTENSION_FILE_IMAGE = "jpg";
     int PAGE_PAGE_I = 0;
     int PAGE_SIZE_I = 10;
+    int PAGE_SIZE_CONTENT = 10;
     String PAGE_PAGE = 0 + "";
     String PAGE_SIZE = 10 + "";
     String DEFAULT_INT = -1 + "";

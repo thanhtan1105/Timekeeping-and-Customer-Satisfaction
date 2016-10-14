@@ -11,6 +11,8 @@ import com.timelinekeeping.model.NotificationCheckInModel;
 import com.timelinekeeping.repository.*;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -100,11 +102,11 @@ public class TestController {
 
 
     @RequestMapping("/emotion_content")
-    public List<EmotionContentEntity> getEmotionContent(@RequestParam(value = "first") EEmotion first,
+    public Page<EmotionContentEntity> getEmotionContent(@RequestParam(value = "first") EEmotion first,
                                                         @RequestParam(value = "second", required = false) EEmotion second,
                                                         @RequestParam(value = "third", required = false) EEmotion third) {
 
-        return emotionContentRepo.getEmotionContent(first, second, third);
+        return emotionContentRepo.getEmotionContent(first, second, third, new PageRequest(IContanst.PAGE_PAGE_I, IContanst.PAGE_SIZE_CONTENT));
     }
 
 }

@@ -13,6 +13,8 @@ import com.timelinekeeping.repository.QuantityRepo;
 import com.timelinekeeping.util.UtilApps;
 import com.timelinekeeping.util.ValidateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -143,9 +145,13 @@ public class SuggestionService {
 
         // get from database
         //TODO add many emotion
-        List<EmotionContentEntity> listContent = emotionContentRepo.getEmotionContent(emotion, null, null);
-        String formatString = listContent.get(UtilApps.random(0, listContent.size() - 1)).getMessage();
-        return String.format(formatString, subject.getName());
+        Page<EmotionContentEntity> pageContent = emotionContentRepo.getEmotionContent(emotion, null, null, new PageRequest(IContanst.PAGE_PAGE_I, IContanst.PAGE_SIZE_CONTENT));
+        if(pageContent != null && pageContent.getContent() != null && pageContent.getContent().size() > 0){
+
+        }
+//        String formatString = listContent.get(UtilApps.random(0, listContent.size() - 1)).getMessage();
+//        return String.format(formatString, subject.getName());
+        return null;
     }
 
 

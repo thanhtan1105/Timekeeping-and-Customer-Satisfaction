@@ -2,6 +2,8 @@ package com.timelinekeeping.repository;
 
 import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.entity.EmotionContentEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,8 +18,9 @@ import java.util.List;
 @Repository
 public interface EmotionContentRepo extends JpaRepository<EmotionContentEntity, Long> {
 
-    @Query("SELECT e FROM EmotionContentEntity  e WHERE e.emotionFirst = :first AND (:second = null  or e.emotionSecond =:second  ) AND (:third = null or e.emotionThird =:third  )")
-    public List<EmotionContentEntity> getEmotionContent(@Param("first") EEmotion first,
+    @Query("SELECT e FROM EmotionContentEntity  e WHERE e.emotionFirst = :first AND (:second = null  or e.emotionSecond =:second  ) AND (:third = null or e.emotionThird =:third )order by e.vote")
+    public Page<EmotionContentEntity> getEmotionContent(@Param("first") EEmotion first,
                                                         @Param("second") EEmotion second,
-                                                        @Param("third") EEmotion third);
+                                                        @Param("third") EEmotion third,
+                                                        Pageable pageable);
 }
