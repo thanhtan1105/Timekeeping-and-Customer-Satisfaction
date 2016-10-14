@@ -15,15 +15,15 @@ public enum EEmotion {
     NEUTRAL(5, 5d, "NEUTRAL"),
     SADNESS(6, 2.5d, "SADNESS"),
     SURPRISE(7, 7.5d,"SURPRISE");*/
-
-    ANGER(0, -5d, "giận dữ"),
-    CONTEMPT(1, -4d, "kinh thường"),
-    DISGUST(2, -2.5d, "căm phẫn"),
-    FEAR(3, -1d, "nhút nhát"),
-    NEUTRAL(4, 2.5, "bình thản"),
-    SADNESS(5, -2.5d, "buồn"),
-    SURPRISE(6, 3d,"ngạc nhiên"),
-    HAPPINESS(7, 5d, "hạnh phúc");
+    NONE(0, 0d, ""),
+    ANGER(1, -5d, "giận dữ"),
+    CONTEMPT(2, -4d, "kinh thường"),
+    DISGUST(3, -2.5d, "căm phẫn"),
+    FEAR(4, -1d, "nhút nhát"),
+    NEUTRAL(5, 2.5, "bình thản"),
+    SADNESS(6, -2.5d, "buồn"),
+    SURPRISE(7, 3d,"ngạc nhiên"),
+    HAPPINESS(8, 5d, "hạnh phúc");
 
     private int index;
     private double grade;

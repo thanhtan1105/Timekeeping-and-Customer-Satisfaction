@@ -7,7 +7,7 @@ import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.EmotionCustomerResponse;
 import com.timelinekeeping.model.NotificationCheckInModel;
 import com.timelinekeeping.repository.*;
-import com.timelinekeeping.service.serviceImplement.EmotionService2Impl;
+import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +31,7 @@ public class TestController {
     @Autowired
     private TimekeepingRepo timekeepingRepo;
     @Autowired
-    private EmotionService2Impl emotionService;
+    private EmotionServiceImpl emotionService;
 
 
     @Autowired
@@ -92,10 +92,5 @@ public class TestController {
 
         return quantityRepo.findQuantity(value);
     }
-
-    @RequestMapping("/get_first_emotion_message")
-    public EmotionCustomerResponse getFirstEmotion(@RequestParam(value = "customerCode") String customerCode) {
-
-        return emotionService.getFirstEmotionWeb(customerCode);
-    }
+    
 }
