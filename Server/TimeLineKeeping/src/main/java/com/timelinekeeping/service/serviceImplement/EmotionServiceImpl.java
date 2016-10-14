@@ -66,12 +66,12 @@ public class EmotionServiceImpl {
                     //get analysis
                     EmotionAnalysisModel analysisModel = new EmotionAnalysisModel(emotionCustomerEntity);
                     String messageEmotion = suggestionService.getEmotionMessage(analysisModel);
-                    String sugguestion = suggestionService.getSuggestion(emotionCustomerEntity.getEmotionMost(), emotionCustomerEntity.getAge(), emotionCustomerEntity.getGender());
+                    String suggestion = suggestionService.getSuggestion(emotionCustomerEntity.getEmotionMost(), emotionCustomerEntity.getAge(), emotionCustomerEntity.getGender());
 
                     //create message
                     MessageModel messageModel = new MessageModel(emotionCustomerEntity);
                     messageModel.setMessage(Collections.singletonList(UtilApps.formatSentence(messageEmotion)));
-                    messageModel.setSugguest(Collections.singletonList(UtilApps.formatSentence(sugguestion)));
+                    messageModel.setSugguest(Collections.singletonList(UtilApps.formatSentence(suggestion)));
                     return new EmotionCustomerResponse(customerCode, analysisModel, messageModel);
                 } else {
                     return null;

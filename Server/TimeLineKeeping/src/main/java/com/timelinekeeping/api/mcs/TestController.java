@@ -1,7 +1,9 @@
 package com.timelinekeeping.api.mcs;
 
+import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
+import com.timelinekeeping.entity.EmotionContentEntity;
 import com.timelinekeeping.entity.NotificationEntity;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.EmotionCustomerResponse;
@@ -39,6 +41,9 @@ public class TestController {
 
     @Autowired
     private QuantityRepo quantityRepo;
+
+    @Autowired
+    private EmotionContentRepo emotionContentRepo;
 
     @RequestMapping("/list_account")
     public List<AccountModel> list(@RequestParam(value = "id", required = false) Long idDepartment) {
@@ -91,6 +96,15 @@ public class TestController {
     public List<String> quantityEmotion(@RequestParam(value = "value") Double value) {
 
         return quantityRepo.findQuantity(value);
+    }
+
+
+    @RequestMapping("/emotion_content")
+    public List<EmotionContentEntity> getEmotionContent(@RequestParam(value = "first") EEmotion first,
+                                                        @RequestParam(value = "second", required = false) EEmotion second,
+                                                        @RequestParam(value = "third", required = false) EEmotion third) {
+
+        return emotionContentRepo.getEmotionContent(first, second, third);
     }
 
 }

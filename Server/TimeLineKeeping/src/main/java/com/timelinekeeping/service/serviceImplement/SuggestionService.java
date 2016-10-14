@@ -4,9 +4,11 @@ import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.ESuggestionSubject;
 import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.entity.EmotionContentEntity;
 import com.timelinekeeping.model.EmotionAnalysisModel;
 import com.timelinekeeping.model.EmotionCompare;
 import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
+import com.timelinekeeping.repository.EmotionContentRepo;
 import com.timelinekeeping.repository.QuantityRepo;
 import com.timelinekeeping.util.UtilApps;
 import com.timelinekeeping.util.ValidateUtil;
@@ -25,6 +27,8 @@ public class SuggestionService {
     @Autowired
     private QuantityRepo quantityRepo;
 
+    @Autowired
+    private EmotionContentRepo emotionContentRepo;
 
 
     public ESuggestionSubject getSubject(Double age, Gender gender) {
@@ -63,7 +67,7 @@ public class SuggestionService {
         if (ValidateUtil.isEmpty(quantities)) {
             quantity = IContanst.QUANLITY_EMOTION_DEFAULT;
         } else {
-            quantity = quantities.get(UtilApps.random(0, quantities.size() -1));
+            quantity = quantities.get(UtilApps.random(0, quantities.size() - 1));
         }
         return String.format("%s %s", quantity, emotionCompare.getEmotion().getName());
     }
@@ -110,9 +114,9 @@ public class SuggestionService {
             } else {
                 //Bolt
                 negative.sort((EmotionCompare e1, EmotionCompare e2) -> Math.abs(e1.getValue()) > Math.abs(e2.getValue()) ? -1 : 1);
-                if (positive.size() > negative.size()){
+                if (positive.size() > negative.size()) {
                     result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(positive.get(1)), getEmotion(negative.get(0)));
-                }else {
+                } else {
                     result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(negative.get(0)), getEmotion(negative.get(1)));
                 }
             }
@@ -122,9 +126,9 @@ public class SuggestionService {
         return result;
     }
 
-    public String getSuggestion(EEmotion emotion, Double age, Gender gender){
+    public String getSuggestion(EEmotion emotion, Double age, Gender gender) {
         ESuggestionSubject subject = getSubject(age, gender);
-        String formatString ;
+        /*String formatString ;
         switch (emotion){
             case ANGER: formatString = "Bạn nên rót cho %s ly nước."; break;
             case CONTEMPT: formatString = "Bạn nên bình tỉnh và tôn trọng %s khi nói chuyện";break;
@@ -135,10 +139,12 @@ public class SuggestionService {
             case SADNESS: formatString = "Bạn nên nói chuyện với %s nhẹ nhàng.";break;
             case SURPRISE: formatString = "Bạn nên bình tỉnh nói chuyện với %s.";break;
             default: formatString = "Bạn nên nói chuyện với %s nhẹ nhàng.";break;
-        }
+        }*/
 
-        // TODO get from database
-
+        // get from database
+        //TODO add many emotion
+        List<EmotionContentEntity> listContent = emotionContentRepo.getEmotionContent(emotion, null, null);
+        String formatString = listContent.get(UtilApps.random(0, listContent.size() - 1)).getMessage();
         return String.format(formatString, subject.getName());
     }
 

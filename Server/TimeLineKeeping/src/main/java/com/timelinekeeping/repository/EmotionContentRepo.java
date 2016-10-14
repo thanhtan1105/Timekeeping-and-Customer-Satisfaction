@@ -1,0 +1,23 @@
+package com.timelinekeeping.repository;
+
+import com.timelinekeeping.constant.EEmotion;
+import com.timelinekeeping.entity.EmotionContentEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+/**
+ * Created by lethanhtan on 9/19/16.
+ */
+
+@Repository
+public interface EmotionContentRepo extends JpaRepository<EmotionContentEntity, Long> {
+
+    @Query("SELECT e FROM EmotionContentEntity  e WHERE e.emotionFirst = :first AND (:second = null  or e.emotionSecond =:second  ) AND (:third = null or e.emotionThird =:third  )")
+    public List<EmotionContentEntity> getEmotionContent(@Param("first") EEmotion first,
+                                                        @Param("second") EEmotion second,
+                                                        @Param("third") EEmotion third);
+}
