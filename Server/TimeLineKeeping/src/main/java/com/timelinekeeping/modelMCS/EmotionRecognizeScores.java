@@ -1,6 +1,7 @@
 package com.timelinekeeping.modelMCS;
 
 import com.timelinekeeping.constant.EEmotion;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.EmotionCompare;
 
 import java.util.ArrayList;
@@ -112,11 +113,7 @@ public class EmotionRecognizeScores {
     }
 
     public void competitiveEmotion() {
-//        List<Pair<EEmotion, EEmotion>> listEmotionCompetitor = IContanst.COMPETITION_EMOTION;
-//        for (Pair<EEmotion, EEmotion> pair: listEmotionCompetitor){
-//
-//
-//        }
+
         if (anger > 0 && happiness > 0) {
             double value = anger * EEmotion.ANGER.getGrade() + happiness * EEmotion.HAPPINESS.getGrade();
             if (value < 0) {
@@ -156,13 +153,13 @@ public class EmotionRecognizeScores {
     public Map<EEmotion, Double> map(){
         Map<EEmotion, Double> map = new HashMap<>();
         map.put(EEmotion.ANGER, anger);
-        map.put(EEmotion.ANGER, contempt);
-        map.put(EEmotion.ANGER, disgust);
-        map.put(EEmotion.ANGER, fear);
-        map.put(EEmotion.ANGER, happiness);
-        map.put(EEmotion.ANGER, neutral);
-        map.put(EEmotion.ANGER, sadness);
-        map.put(EEmotion.ANGER, surprise);
+        map.put(EEmotion.CONTEMPT, contempt);
+        map.put(EEmotion.DISGUST, disgust);
+        map.put(EEmotion.FEAR, fear);
+        map.put(EEmotion.HAPPINESS, happiness);
+        map.put(EEmotion.NEUTRAL, neutral);
+        map.put(EEmotion.SADNESS, sadness);
+        map.put(EEmotion.SURPRISE, surprise);
         return map;
     }
 

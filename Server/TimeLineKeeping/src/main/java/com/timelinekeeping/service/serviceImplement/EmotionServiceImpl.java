@@ -2,17 +2,18 @@ package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
-import com.timelinekeeping.constant.*;
+import com.timelinekeeping.constant.ERROR;
+import com.timelinekeeping.constant.ETransaction;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.CustomerServiceEntity;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.modelMCS.EmotionRecognizeResponse;
-import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
 import com.timelinekeeping.modelMCS.FaceDetectResponse;
-import com.timelinekeeping.modelMCS.RectangleImage;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.CustomerServiceRepo;
+import com.timelinekeeping.repository.EmotionContentRepo;
 import com.timelinekeeping.repository.EmotionRepo;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ServiceUtils;
@@ -49,6 +50,9 @@ public class EmotionServiceImpl {
     @Autowired
     private AccountRepo accountRepo;
 
+    @Autowired
+    private EmotionContentRepo contentRepo;
+
     private Logger logger = LogManager.getLogger(EmotionServiceImpl.class);
 
     public EmotionCustomerResponse getEmotionCustomer(String customerCode) {
@@ -66,12 +70,11 @@ public class EmotionServiceImpl {
                     //get analysis
                     EmotionAnalysisModel analysisModel = new EmotionAnalysisModel(emotionCustomerEntity);
                     String messageEmotion = suggestionService.getEmotionMessage(analysisModel);
-                    String suggestion = suggestionService.getSuggestion(emotionCustomerEntity.getEmotionMost(), emotionCustomerEntity.getAge(), emotionCustomerEntity.getGender());
-
+                    List<EmotionContentModel> suggestion = suggestionService.getSuggestion(emotionCustomerEntity.getEmotionMost(), emotionCustomerEntity.getAge(), emotionCustomerEntity.getGender());
                     //create message
                     MessageModel messageModel = new MessageModel(emotionCustomerEntity);
                     messageModel.setMessage(Collections.singletonList(UtilApps.formatSentence(messageEmotion)));
-                    messageModel.setSugguest(Collections.singletonList(UtilApps.formatSentence(suggestion)));
+                    messageModel.setSugguest(suggestion);
                     return new EmotionCustomerResponse(customerCode, analysisModel, messageModel);
                 } else {
                     return null;
@@ -351,4 +354,13 @@ public class EmotionServiceImpl {
         return analysisModel;
     }
 
+
+    public void vote(Long contentId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            contentRepo.updateVote(contentId);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
 }

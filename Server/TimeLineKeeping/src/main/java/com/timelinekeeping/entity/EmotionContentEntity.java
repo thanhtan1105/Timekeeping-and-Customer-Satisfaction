@@ -17,13 +17,13 @@ public class EmotionContentEntity {
     private Long id;
 
     @Column(name = "emotion_first")
-    private EEmotion emotionFirst;
+    private EEmotion emotionFirst = EEmotion.NONE;
 
     @Column(name = "emotion_second")
-    private EEmotion emotionSecond;
+    private EEmotion emotionSecond = EEmotion.NONE;
 
     @Column(name = "emotion_third")
-    private EEmotion emotionThird;
+    private EEmotion emotionThird = EEmotion.NONE;
 
     @Column(name = "message")
     private String message;
@@ -32,7 +32,7 @@ public class EmotionContentEntity {
     private EStatus status = EStatus.ACTIVE;
 
     @Column(name = "vote")
-    private Long vote;
+    private Long vote = 0l;
 
     public Long getId() {
         return id;
@@ -72,5 +72,21 @@ public class EmotionContentEntity {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public EStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EStatus status) {
+        this.status = status;
+    }
+
+    public Long getVote() {
+        return vote;
+    }
+
+    public void setVote(Long vote) {
+        this.vote = vote;
     }
 }

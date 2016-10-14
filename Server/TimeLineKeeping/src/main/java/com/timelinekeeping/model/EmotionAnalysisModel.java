@@ -24,20 +24,6 @@ public class EmotionAnalysisModel implements Serializable {
     public EmotionAnalysisModel() {
     }
 
-    public EmotionAnalysisModel(EEmotion emotionMost, Double age, Gender gender,
-                                Double smile, EmotionRecognizeScores emotion) {
-        this.emotionMost = emotionMost;
-        this.age = age;
-        this.gender = gender;
-        this.smile = smile;
-        this.emotion = emotion;
-    }
-
-    public EmotionAnalysisModel(EEmotion emotionMost, EmotionRecognizeScores emotion) {
-        this.emotionMost = emotionMost;
-        this.emotion = emotion;
-    }
-
     public EmotionAnalysisModel(EmotionCustomerEntity emotionCustomerEntity) {
         if (emotionCustomerEntity != null) {
             EmotionRecognizeScores emotionScores = new EmotionRecognizeScores();
@@ -53,7 +39,8 @@ public class EmotionAnalysisModel implements Serializable {
             this.age = emotionCustomerEntity.getAge();
             this.gender = emotionCustomerEntity.getGender();
             this.smile = emotionCustomerEntity.getSmile();
-            this.emotionMost = emotionCustomerEntity.getEmotionMost();
+            this.emotionMost = emotionScores.most();
+
         }
 
     }
