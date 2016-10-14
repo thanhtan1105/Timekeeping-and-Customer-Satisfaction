@@ -5,6 +5,7 @@
 var accountId = $('#accountId').val();
 var customerCode;
 var timer_get_emotion;
+var nextAngle = 0;
 
 /**
  * Event: next transaction
@@ -19,8 +20,8 @@ $('#btn-next-transaction').on('click', function () {
     //show div loader
     event_show('#div-loader');
 
-    //call request: next transaction
-    worker_next_transaction();
+    //call request: next transaction (isSkip == false)
+    worker_next_transaction(false);
 });
 
 /**
@@ -37,8 +38,17 @@ $('#btn-skip-transaction').on('click', function () {
     //show div loader
     event_show('#div-loader');
 
-    //call request: get first emotion
-    worker_get_emotion();
+    //call request: next transaction (isSkip == true)
+    worker_next_transaction(true);
+});
+
+/**
+ * Event: click button rotate
+ * Description: rotate right 90
+ */
+$('#btn-rotate-image').on('click', function () {
+    var degrees = 90;
+    rotateRight('#image-customer', degrees);
 });
 
 /**
@@ -100,6 +110,8 @@ function worker_get_emotion() {
                 } else {
                     setSrcImage('#image-customer', '/libs/dist/img/avatar_customer.png')
                 }
+                //rotate image right 90
+                rotateRight('#image-customer', 90);
 
                 //set customer emotion message
                 if (customer_emotion_msg != null && customer_emotion_msg.length > 0) {
@@ -135,10 +147,11 @@ function worker_get_emotion() {
 
 /**
  * Worker: next transaction
- * Description: ending current transaction and creating new transaction
+ * @param isSkip (true: skip; false: next)
  */
-function worker_next_transaction() {
-    var urlString = '/api/emotion/next?accountId=' + accountId;
+function worker_next_transaction(isSkip) {
+    var urlString = '/api/emotion/next?accountId=' + accountId
+        + '&skip=' + isSkip;
     $.ajax({
         type: "GET",
         url: urlString,
@@ -189,4 +202,26 @@ function event_show(id) {
  */
 function setSrcImage(id, src) {
     $(id).attr('src', src);
+}
+
+/**
+ * function: get angle
+ * @param degrees
+ * @returns {number}
+ */
+function getAngle(degrees) {
+    nextAngle += degrees;
+    if (nextAngle >= 360) {
+        nextAngle = 0;
+    }
+    return nextAngle;
+}
+
+/**
+ * function: rotate right
+ * @param id
+ * @param degrees
+ */
+function rotateRight(id_image, degrees) {
+    $(id_image).rotate(getAngle(degrees));
 }

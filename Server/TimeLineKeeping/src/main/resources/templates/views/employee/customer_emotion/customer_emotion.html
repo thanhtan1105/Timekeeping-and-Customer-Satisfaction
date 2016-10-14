@@ -17,29 +17,29 @@
               th:value="${session.UserSession.id}" type="hidden"/>
         <!-- Info: manager, department, date -->
         <div style="margin-bottom: 10px">
-            <div class="row text-success" style="font-size: 24px;">
-                <div class="col-sm-5 text-right text-bold">
-                    <i class="fa fa-smile-o"></i>
-                </div>
-                <div class="col-sm-6 text-left">
-                    <span>Cảm Xúc Khách Hàng</span>
+            <div class="row text-black" style="font-size: 24px;">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-8 text-left">
+                    <label>
+                        <font>Cảm Xúc Khách Hàng</font>
+                    </label>
                 </div>
             </div>
             <!-- department -->
-            <div class="row text-success" style="font-size: 18px;">
-                <div class="col-sm-5 text-right text-bold">
-                    <span>Phòng Ban:</span></div>
+            <div class="row text-black" style="font-size: 18px;">
+                <div class="col-sm-5 text-right ">
+                    <label>Phòng Ban:</label></div>
                 <div class="col-sm-6 text-left">
-                    <span th:if="${session} and ${session.UserSession}"
-                          th:text="${session.UserSession.department.name}"></span></div>
+                    <font th:if="${session} and ${session.UserSession}"
+                          th:text="${session.UserSession.department.name}"></font></div>
             </div>
             <!-- /.end department -->
             <!-- date -->
-            <div class="row text-success" style="font-size: 18px;">
-                <div class="col-sm-5 text-right text-bold">
-                    <span>Ngày:</span></div>
+            <div class="row text-black" style="font-size: 18px;">
+                <div class="col-sm-5 text-right">
+                    <label>Ngày:</label></div>
                 <div class="col-sm-6 text-left">
-                    <span th:text="${#dates.format(CurrentDate, 'dd-MMM-yyyy')}"></span></div>
+                    <font th:text="${#dates.format(CurrentDate, 'dd-MMM-yyyy')}"></font></div>
             </div>
             <!-- /.end date -->
             <!-- button begin-end transaction -->
@@ -67,6 +67,16 @@
                                      class="img-bordered-sm" style="width: 180px; height: 180px;"/>
                             </div>
                         </div>
+                        <!-- button rotate right 90 -->
+                        <div class="row">
+                            <div class="col-sm-12 text-center" style="margin-top: 8px">
+                                <button th:id="'btn-rotate-image'" class="btn bg-blue-gradient"
+                                        title="Rotate Right 90">
+                                    <i class="fa fa-rotate-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.end button rotate right 90-->
                         <div class="row" style="margin-top: 8px">
                             <div class="col-sm-7 text-right">
                                 <span class="users-list-name text-bold">Giới Tính</span>
@@ -134,7 +144,7 @@
         </div>
         <!-- loader -->
         <div th:id="'div-loader'" class="row" style="margin-top: 50px;">
-            <div class="col-sm-11 text-center">
+            <div class="col-sm-10 text-center">
                 <div class="thecube">
                     <div class="cube c1"></div>
                     <div class="cube c2"></div>
