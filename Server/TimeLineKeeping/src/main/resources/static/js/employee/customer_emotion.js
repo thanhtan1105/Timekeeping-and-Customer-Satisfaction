@@ -131,6 +131,18 @@ function worker_get_emotion() {
                         ul_content_suggestion_behavior += '<li>' +
                             suggestions[i].message +
                             '</li>';
+                        ul_content_suggestion_behavior += '<ul class="list-inline">' +
+                            '<li>' +
+                            '<button type="button" class="btn btn-default btn-xs">' +
+                            '<i class="fa fa-thumbs-o-up margin-r-5"></i> Vote</button>' +
+                            '</li>' +
+                            '<li><span class="badge bg-aqua-gradient">' +
+                            suggestions[i].vote +
+                            '</span></li>' +
+                            '</ul>';
+                        if (i < suggestions.length - 1) {
+                            ul_content_suggestion_behavior += '<hr/>';
+                        }
                     }
                 } else {
                     ul_content_suggestion_behavior += '<li>N/A</li>';
