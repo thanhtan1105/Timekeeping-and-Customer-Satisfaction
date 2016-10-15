@@ -287,7 +287,7 @@ public class AccountServiceImpl {
                 logger.error(IContanst.ERROR_LOGGER + ERROR.ACCOUNT_CHECKIN_IMAGE_CANNOT_DETECT_IMAGE);
                 return new BaseResponse(false, ERROR.ACCOUNT_CHECKIN_IMAGE_CANNOT_DETECT_IMAGE, null);
             }
-            
+
             // Get List Department from data
             List<DepartmentEntity> departmentEntities = departmentRepo.findAll();
             if (departmentEntities == null || departmentEntities.size() == 0) {
