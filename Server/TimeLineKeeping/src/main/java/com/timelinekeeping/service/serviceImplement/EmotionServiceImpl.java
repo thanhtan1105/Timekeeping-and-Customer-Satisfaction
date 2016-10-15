@@ -58,7 +58,7 @@ public class EmotionServiceImpl {
     public EmotionCustomerResponse getEmotionCustomer(String customerCode) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-
+            logger.info("CustomerCode:" + customerCode);
             //get Customer Service with customerCode
             CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
             if (customerResultEntity != null
@@ -165,7 +165,7 @@ public class EmotionServiceImpl {
                     EmotionCustomerEntity emotionEntity = new EmotionCustomerEntity(emotionAnalysis, customerResultEntity);
                     emotionRepo.saveAndFlush(emotionEntity);
                 } else {
-                    logger.error("Cannot analyze customer emotion");
+                    logger.error("********************** Cannot analyze customer emotion  ********************");
                     return false;
                 }
             } else {

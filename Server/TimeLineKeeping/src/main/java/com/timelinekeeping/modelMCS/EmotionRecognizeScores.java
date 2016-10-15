@@ -124,6 +124,7 @@ public class EmotionRecognizeScores {
                 this.anger = 0d;
             }
         }
+
         if (sadness > 0 && happiness > 0) {
             double value = sadness * EEmotion.SADNESS.getGrade() + happiness * EEmotion.HAPPINESS.getGrade();
             if (value < 0) {
@@ -134,6 +135,7 @@ public class EmotionRecognizeScores {
                 this.sadness = 0d;
             }
         }
+
     }
 
     public List<EmotionCompare> getEmotionExist() {

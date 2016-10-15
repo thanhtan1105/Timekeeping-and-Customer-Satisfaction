@@ -102,6 +102,7 @@ public class SuggestionService {
                     negative.add(emotionCompare);
                 }
             }
+
             if (positive.size() == 0 || negative.size() == 0) {
                 if (positive.size() == 0) {
                     //only negative
