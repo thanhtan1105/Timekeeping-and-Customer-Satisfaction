@@ -129,7 +129,7 @@ function worker_get_emotion() {
                 if (suggestions != null && suggestions.length > 0) {
                     for (var i = 0; i < suggestions.length; i++) {
                         ul_content_suggestion_behavior += '<li>' +
-                            suggestions[i] +
+                            suggestions[i].message +
                             '</li>';
                     }
                 } else {
