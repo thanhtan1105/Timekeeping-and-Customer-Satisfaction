@@ -133,10 +133,18 @@ function worker_get_emotion() {
                             '</li>';
                         ul_content_suggestion_behavior += '<ul class="list-inline">' +
                             '<li>' +
-                            '<button type="button" class="btn btn-default btn-xs">' +
+                            '<button type="button" class="btn btn-default btn-xs btn-vote" ' +
+                            'id="btn-vote-' +
+                            suggestions[i].id +
+                            '" ' +
+                            'onclick="voteSuggestion(' +
+                            suggestions[i].id +
+                            ')">' +
                             '<i class="fa fa-thumbs-o-up margin-r-5"></i> Vote</button>' +
                             '</li>' +
-                            '<li><span class="badge bg-aqua-gradient">' +
+                            '<li><span class="badge bg-aqua-gradient" id="span-vote-' +
+                            suggestions[i].id +
+                            '">' +
                             suggestions[i].vote +
                             '</span></li>' +
                             '</ul>';
@@ -236,4 +244,40 @@ function getAngle(degrees) {
  */
 function rotateRight(id_image, degrees) {
     $(id_image).rotate(getAngle(degrees));
+}
+
+/**
+ * function: vote suggestion
+ * @param id contentId
+ */
+function voteSuggestion(id) {
+    var urlString = '/api/emotion/vote?content_id=' + id;
+    console.info('[Function voteSuggestion] contentId: ' + id);
+    $.ajax({
+        type: "GET",
+        url: urlString,
+        success: function (response) {
+            var success = response.success;
+            console.info('[Function voteSuggestion] success: ' + success);
+            if (success) {
+                setVote(id);
+            } else {
+                console.info('[Function voteSuggestion] error: ' + response.data);
+            }
+        }
+    });
+}
+
+/**
+ * Set content: span_vote
+ * @param id
+ */
+function setVote(id) {
+    var $span_vote = $('#span-vote-' + id),
+        $btn_vote = $('#btn-vote-' + id),
+        vote = parseInt($span_vote.text());
+    vote += 1;
+    $span_vote.html(vote);
+    //disabled button vote
+    $btn_vote.prop('disabled', true);
 }
