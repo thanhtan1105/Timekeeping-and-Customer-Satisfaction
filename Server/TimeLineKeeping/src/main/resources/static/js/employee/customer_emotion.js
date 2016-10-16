@@ -112,6 +112,8 @@ function worker_get_emotion() {
                 }
                 //rotate image right 90
                 rotateRight('#image-customer', 90);
+                //reset next angle
+                resetNextAngle();
 
                 //set customer emotion message
                 if (customer_emotion_msg != null && customer_emotion_msg.length > 0) {
@@ -247,6 +249,13 @@ function rotateRight(id_image, degrees) {
 }
 
 /**
+ * function: reset next angle = 0
+ */
+function resetNextAngle() {
+    nextAngle = 0;
+}
+
+/**
  * function: vote suggestion
  * @param id contentId
  */
@@ -269,7 +278,7 @@ function voteSuggestion(id) {
 }
 
 /**
- * Set content: span_vote
+ * function: set content span_vote
  * @param id
  */
 function setVote(id) {
