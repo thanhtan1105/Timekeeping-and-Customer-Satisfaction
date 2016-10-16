@@ -61,7 +61,6 @@ function worker_get_emotion() {
     $.ajax({
         type: "GET",
         url: urlString,
-        // data: formDataJson,
         success: function (response) {
             console.info('success: ' + response.success);
             if (response.success) {
@@ -113,7 +112,7 @@ function worker_get_emotion() {
                 //rotate image right 90
                 // rotateRight('#image-customer', 90);
                 //reset next angle
-                resetNextAngle();
+                resetNextAngle('#image-customer');
 
                 //set customer emotion message
                 if (customer_emotion_msg != null && customer_emotion_msg.length > 0) {
@@ -177,7 +176,6 @@ function worker_next_transaction(isSkip) {
     $.ajax({
         type: "GET",
         url: urlString,
-        // data: formDataJson,
         success: function (response) {
             if (response.success) {
                 customerCode = response.data;
@@ -250,9 +248,12 @@ function rotateRight(id_image, degrees) {
 
 /**
  * function: reset next angle = 0
+ * @param id_image
  */
-function resetNextAngle() {
+function resetNextAngle(id_image) {
     nextAngle = 0;
+    //rotate right image 0 degree
+    rotateRight(id_image, 0);
 }
 
 /**
