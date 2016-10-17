@@ -350,6 +350,7 @@
 				TargetAttributes = {
 					A655110C1D9F99A10043F411 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = W5KA45T8VV;
 					};
 					A65511201D9F99A10043F411 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -709,10 +710,13 @@
 			baseConfigurationReference = E4838736A157770350CA95E6 /* Pods-CustomerEmotion.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = CustomerEmotion/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lethanhtan.CustomerEmotion;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -721,10 +725,13 @@
 			baseConfigurationReference = 751329C21D251400020F4D64 /* Pods-CustomerEmotion.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = CustomerEmotion/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lethanhtan.CustomerEmotion;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

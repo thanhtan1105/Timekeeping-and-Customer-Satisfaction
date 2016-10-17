@@ -25,8 +25,6 @@ class CameraEmotionViewController: UIViewController {
   var status: Status = .Preview
   var faceView: UIView?
   var isCameraTaken = false
-  var customerCode = ""
-  
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -165,13 +163,7 @@ extension CameraEmotionViewController {
         if image != nil {
           self.cameraStill.image = image
           self.status = .Preview
-          self.detectEmotion(self.customerCode, image: self.cameraStill.image!) // current transaction
-          
-          // delay
-          let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(15 * Double(NSEC_PER_SEC)))
-          dispatch_after(delayTime3, dispatch_get_main_queue()) {
-            self.isCameraTaken = false
-          }
+          self.detectEmotion(self.cameraStill.image!) // current transaction
         } else {
           self.status = .Error
           self.isCameraTaken = false
@@ -200,14 +192,26 @@ extension CameraEmotionViewController {
     }
   }
   
-  private func detectEmotion(accountID: String, image: UIImage) {
-    APIRequest.shareInstance.processingTransaction(image, accountID: "4") { (response: ResponsePackage?, error: ErrorWebservice?) in
-      guard error != nil else {
-        
-        return
+  private func detectEmotion(image: UIImage) {
+    let accountId = NSUserDefaults.standardUserDefaults().objectForKey("accoundID") as? String ?? "4"
+    APIRequest.shareInstance.processingTransaction(image, accountID: accountId) { (response: ResponsePackage?, error: ErrorWebservice?) in
+      if let response = response?.response {
+        let dataResponse = response as! [String : AnyObject]
+        let success = dataResponse["success"] as? Int
+        if success == 1 {
+          // delay
+          let timeoutString = NSUserDefaults.standardUserDefaults().objectForKey("timeout") as? String
+          let timeout = Double(timeoutString!) ?? 15.0
+          let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(timeout * Double(NSEC_PER_SEC)))
+          dispatch_after(delayTime3, dispatch_get_main_queue()) {
+            self.isCameraTaken = false
+          }
+        } else {
+          self.isCameraTaken = false
+        }
+      } else {
+        self.isCameraTaken = false
       }
-      
-      
     }
   }
 }

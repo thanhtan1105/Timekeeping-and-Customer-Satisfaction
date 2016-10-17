@@ -46,14 +46,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("pushToken:%@", pushToken)
       }
     }
-  
-    if !isLogin() {
-      let storyboard = UIStoryboard(name: "Main", bundle: nil)
-      let loginViewController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController")
-      navigation = UINavigationController(rootViewController: loginViewController)
-      window?.rootViewController = navigation
-      window?.makeKeyAndVisible()
-    }
+//  
+//    if !isLogin() {
+//      let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//      let loginViewController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController")
+//      navigation = UINavigationController(rootViewController: loginViewController)
+//      window?.rootViewController = navigation
+//      window?.makeKeyAndVisible()
+//    }
 
     return true
   }

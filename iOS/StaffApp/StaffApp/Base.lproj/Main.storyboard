@@ -305,7 +305,7 @@
         <!--Beacon View Controller-->
         <scene sceneID="1EC-66-cFB">
             <objects>
-                <viewController storyboardIdentifier="BeaconViewController" id="5dz-Tg-KBI" customClass="BeaconViewController" customModule="StaffApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BeaconViewController" automaticallyAdjustsScrollViewInsets="NO" id="5dz-Tg-KBI" customClass="BeaconViewController" customModule="StaffApp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9A8-i6-2v1"/>
                         <viewControllerLayoutGuide type="bottom" id="9Wh-P0-814"/>
@@ -314,21 +314,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TextMap" translatesAutoresizingMaskIntoConstraints="NO" id="cKL-ao-Ynn">
+                            <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7LN-6h-Rr7">
                                 <rect key="frame" x="0.0" y="64" width="320" height="455"/>
-                            </imageView>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="cKL-ao-Ynn" firstAttribute="leading" secondItem="hex-AQ-PYN" secondAttribute="leading" id="2Bq-Bw-fzO"/>
-                            <constraint firstAttribute="trailing" secondItem="cKL-ao-Ynn" secondAttribute="trailing" id="8yk-dk-awP"/>
-                            <constraint firstItem="9Wh-P0-814" firstAttribute="top" secondItem="cKL-ao-Ynn" secondAttribute="bottom" id="NuB-pg-eWW"/>
-                            <constraint firstItem="cKL-ao-Ynn" firstAttribute="top" secondItem="9A8-i6-2v1" secondAttribute="bottom" id="j0H-bM-9rx"/>
+                            <constraint firstItem="7LN-6h-Rr7" firstAttribute="top" secondItem="9A8-i6-2v1" secondAttribute="bottom" id="DLp-5w-6EA"/>
+                            <constraint firstItem="7LN-6h-Rr7" firstAttribute="leading" secondItem="hex-AQ-PYN" secondAttribute="leading" id="IIU-GQ-4w1"/>
+                            <constraint firstAttribute="trailing" secondItem="7LN-6h-Rr7" secondAttribute="trailing" id="WFm-DQ-9o7"/>
+                            <constraint firstItem="9Wh-P0-814" firstAttribute="top" secondItem="7LN-6h-Rr7" secondAttribute="bottom" id="xrL-hI-mtZ"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
-                        <outlet property="textMapImageView" destination="cKL-ao-Ynn" id="Pe2-3N-rfx"/>
+                        <outlet property="scrollView" destination="7LN-6h-Rr7" id="dJ2-Qa-ghg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RWQ-UI-VzW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -659,7 +659,6 @@
     </scenes>
     <resources>
         <image name="Logo" width="1481" height="1193"/>
-        <image name="TextMap" width="575" height="516"/>
         <image name="password" width="1024" height="1024"/>
         <image name="radio_uncheck" width="256" height="256"/>
         <image name="username" width="1024" height="1024"/>

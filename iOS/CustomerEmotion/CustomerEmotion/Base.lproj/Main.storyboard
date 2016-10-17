@@ -209,15 +209,48 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AccoundID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g6h-8c-aYE">
+                                <rect key="frame" x="14" y="129" width="89" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Timeout:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kHW-Qt-2WI">
+                                <rect key="frame" x="14" y="170" width="75" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MBA-XU-a7A">
+                                <rect key="frame" x="112" y="125" width="198" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dcN-AM-gcp">
+                                <rect key="frame" x="112" y="163" width="198" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="y1P-CK-Tyt" firstAttribute="height" secondItem="XQt-vr-2jU" secondAttribute="height" id="4if-pK-KDH"/>
+                            <constraint firstItem="g6h-8c-aYE" firstAttribute="leading" secondItem="y1P-CK-Tyt" secondAttribute="leading" id="6cY-a0-LIC"/>
+                            <constraint firstItem="MBA-XU-a7A" firstAttribute="centerY" secondItem="g6h-8c-aYE" secondAttribute="centerY" id="78C-H6-ecp"/>
+                            <constraint firstItem="dcN-AM-gcp" firstAttribute="leading" secondItem="MBA-XU-a7A" secondAttribute="leading" id="DU1-IH-Bcf"/>
                             <constraint firstItem="y1P-CK-Tyt" firstAttribute="leading" secondItem="tiR-xm-HPI" secondAttribute="leading" constant="14" id="IvM-PU-XjM"/>
+                            <constraint firstItem="dcN-AM-gcp" firstAttribute="top" secondItem="MBA-XU-a7A" secondAttribute="bottom" constant="8" symbolic="YES" id="J5q-FE-Bkp"/>
                             <constraint firstItem="XQt-vr-2jU" firstAttribute="top" secondItem="y1P-CK-Tyt" secondAttribute="top" id="PlG-PJ-Wq8"/>
+                            <constraint firstItem="dcN-AM-gcp" firstAttribute="leading" secondItem="kHW-Qt-2WI" secondAttribute="trailing" constant="23" id="Tgr-3W-C1g"/>
                             <constraint firstItem="XQt-vr-2jU" firstAttribute="leading" secondItem="y1P-CK-Tyt" secondAttribute="trailing" constant="15" id="arC-s2-0bB"/>
+                            <constraint firstItem="dcN-AM-gcp" firstAttribute="trailing" secondItem="MBA-XU-a7A" secondAttribute="trailing" id="b7A-2R-iyj"/>
                             <constraint firstAttribute="trailing" secondItem="XQt-vr-2jU" secondAttribute="trailing" constant="10" id="dgf-xG-q5n"/>
+                            <constraint firstItem="MBA-XU-a7A" firstAttribute="trailing" secondItem="XQt-vr-2jU" secondAttribute="trailing" id="dmB-4G-BET"/>
                             <constraint firstItem="y1P-CK-Tyt" firstAttribute="top" secondItem="6RQ-se-lqq" secondAttribute="bottom" constant="19" id="nmS-yz-QlF"/>
+                            <constraint firstItem="g6h-8c-aYE" firstAttribute="top" secondItem="y1P-CK-Tyt" secondAttribute="bottom" constant="16" id="rxz-VO-phz"/>
+                            <constraint firstItem="kHW-Qt-2WI" firstAttribute="top" secondItem="g6h-8c-aYE" secondAttribute="bottom" constant="20" id="sY7-yq-vgs"/>
+                            <constraint firstItem="kHW-Qt-2WI" firstAttribute="leading" secondItem="g6h-8c-aYE" secondAttribute="leading" id="yOA-21-5ix"/>
+                            <constraint firstItem="MBA-XU-a7A" firstAttribute="leading" secondItem="tiR-xm-HPI" secondAttribute="leading" constant="112" id="z7f-X4-Uo3"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Setting" id="X5a-8s-adM">
@@ -229,7 +262,9 @@
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="accountIdTextField" destination="MBA-XU-a7A" id="wCC-Hh-7sr"/>
                         <outlet property="ipTextField" destination="XQt-vr-2jU" id="FOt-B3-2i7"/>
+                        <outlet property="timeoutTextField" destination="dcN-AM-gcp" id="PD1-ZK-2Ov"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nd5-e1-v9d" userLabel="First Responder" sceneMemberID="firstResponder"/>

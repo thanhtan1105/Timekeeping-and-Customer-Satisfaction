@@ -324,11 +324,10 @@ public class AccountServiceImpl {
             TimeKeepingEntity timeKeepingEntity = timekeepingRepo.findByAccountCheckinDate(accountEntity.getId(), new Date());
 
             if (timeKeepingEntity != null) {
-                //TODO checked, show message
-            } else {
+                // TODO checked, show message
 
+            } else {
                 timeKeepingEntity = new TimeKeepingEntity();
-//            ETimeKeeping timeKeepingStatus = UtilApps.checkStatusTimeKeeping();
                 timeKeepingEntity.setType(ETypeCheckin.CHECKIN_CAMERA);
                 timeKeepingEntity.setStatus(ETimeKeeping.PRESENT);
                 timeKeepingEntity.setAccount(accountEntity);
@@ -337,21 +336,14 @@ public class AccountServiceImpl {
                 logger.info("-- Save TimeKeeping: " + timeKeepingEntity.getTimeCheck());
             }
 
-            //TODO push notification
-
+            // push notification
             pushNotification(accountEntity);
+
+            // push sms
             new SMSNotification().sendSms(new AccountModel(accountEntity));
 
-            //TODO reminder
-            // convert Reminder
-
             //Response to Server
-            CheckinResponse checkinResponse = new CheckinResponse();
-//            checkinResponse.setTimeCheckIn(new Date());
-//            checkinResponse.setAccount(new AccountModel(accountEntity));
-//            checkinResponse.setMessageReminder(message);
             response.setSuccess(true);
-//            response.setData(checkinResponse);
             return response;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);

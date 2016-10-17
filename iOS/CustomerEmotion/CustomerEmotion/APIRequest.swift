@@ -28,7 +28,7 @@ class APIRequest: NSObject {
     request.HTTPMethod = "POST"
     
     Alamofire.upload(request, multipartFormData: { (multipartFormData: MultipartFormData) in
-      let imageData = UIImageJPEGRepresentation(image, 0.05)
+      let imageData = UIImageJPEGRepresentation(image, 0.1)
       print("Image data: \(imageData?.length)")
       let data = NSData()
       multipartFormData.appendBodyPart(data: imageData!, name: "image", fileName: "\(data)", mimeType: "image/png")

@@ -20,7 +20,7 @@ class NotificationViewController: BaseViewController {
   
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
-    callApiGetReminder(String(user!.id!)) { (data, error) in
+    callApiGetReminder(String(5)) { (data, error) in
       dispatch_async(dispatch_get_main_queue(), {
         if let data = data {
           self.notifications = data
