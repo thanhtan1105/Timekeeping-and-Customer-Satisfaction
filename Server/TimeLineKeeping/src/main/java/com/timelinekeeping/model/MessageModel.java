@@ -15,7 +15,7 @@ public class MessageModel {
 
     private Long id;
     private List<String> message;
-    private List<String> sugguest;
+    private List<EmotionContentModel> sugguest;
     private String url;
     private Double ageOfFace;
     private Gender gender;
@@ -24,16 +24,6 @@ public class MessageModel {
     private byte[] image;
 
     public MessageModel() {
-    }
-
-    public MessageModel(Long id, List<String> message, List<String> suggest, String url, Double ageOfFace, Gender gender, EEmotion emotion) {
-        this.id = id;
-        this.message = message;
-        this.sugguest = suggest;
-        this.url = url;
-        this.ageOfFace = ageOfFace;
-        this.gender = gender;
-        this.emotion = emotion;
     }
 
     public MessageModel(Long id, String url, Double ageOfFace, Gender gender, EEmotion emotion) {
@@ -92,11 +82,11 @@ public class MessageModel {
         this.message = message;
     }
 
-    public List<String> getSugguest() {
+    public List<EmotionContentModel> getSugguest() {
         return sugguest;
     }
 
-    public void setSugguest(List<String> sugguest) {
+    public void setSugguest(List<EmotionContentModel> sugguest) {
         this.sugguest = sugguest;
     }
 

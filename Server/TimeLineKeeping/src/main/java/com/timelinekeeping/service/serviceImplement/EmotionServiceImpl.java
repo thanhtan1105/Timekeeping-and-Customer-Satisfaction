@@ -2,18 +2,20 @@ package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
-import com.timelinekeeping.constant.*;
+import com.timelinekeeping.constant.ERROR;
+import com.timelinekeeping.constant.ETransaction;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.CustomerServiceEntity;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.modelMCS.EmotionRecognizeResponse;
-import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
 import com.timelinekeeping.modelMCS.FaceDetectResponse;
-import com.timelinekeeping.modelMCS.RectangleImage;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.CustomerServiceRepo;
+import com.timelinekeeping.repository.EmotionContentRepo;
 import com.timelinekeeping.repository.EmotionRepo;
+import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ServiceUtils;
 import com.timelinekeeping.util.UtilApps;
 import org.apache.commons.io.IOUtils;
@@ -48,12 +50,15 @@ public class EmotionServiceImpl {
     @Autowired
     private AccountRepo accountRepo;
 
+    @Autowired
+    private EmotionContentRepo contentRepo;
+
     private Logger logger = LogManager.getLogger(EmotionServiceImpl.class);
 
     public EmotionCustomerResponse getEmotionCustomer(String customerCode) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-
+            logger.info("CustomerCode:" + customerCode);
             //get Customer Service with customerCode
             CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
             if (customerResultEntity != null
@@ -65,12 +70,11 @@ public class EmotionServiceImpl {
                     //get analysis
                     EmotionAnalysisModel analysisModel = new EmotionAnalysisModel(emotionCustomerEntity);
                     String messageEmotion = suggestionService.getEmotionMessage(analysisModel);
-                    String sugguestion = suggestionService.getSuggestion(emotionCustomerEntity.getEmotionMost(), emotionCustomerEntity.getAge(), emotionCustomerEntity.getGender());
-
+                    List<EmotionContentModel> suggestion = suggestionService.getSuggestion(emotionCustomerEntity.getEmotionMost(), emotionCustomerEntity.getAge(), emotionCustomerEntity.getGender());
                     //create message
                     MessageModel messageModel = new MessageModel(emotionCustomerEntity);
                     messageModel.setMessage(Collections.singletonList(UtilApps.formatSentence(messageEmotion)));
-                    messageModel.setSugguest(Collections.singletonList(UtilApps.formatSentence(sugguestion)));
+                    messageModel.setSugguest(suggestion);
                     return new EmotionCustomerResponse(customerCode, analysisModel, messageModel);
                 } else {
                     return null;
@@ -108,19 +112,22 @@ public class EmotionServiceImpl {
      * author TrungNN
      * Web employee: end transaction
      */
-    public Long endTransactionWeb(String customerCode) {
+    public Long changeStatusTransaction(String customerCode, ETransaction stauts) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info(String.format("customerCode = '%s', Status = ''", customerCode, stauts));
             //get Customer Service with customerCode
             CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
             if (customerResultEntity != null
                     && (customerResultEntity.getStatus() == ETransaction.BEGIN
                     || customerResultEntity.getStatus() == ETransaction.PROCESS)) {
                 //change status = END
-                customerResultEntity.setStatus(ETransaction.END);
-                customerResultEntity.calculateGrade();
+                customerResultEntity.setStatus(stauts);
+                if (stauts == ETransaction.END) {
+                    customerResultEntity.calculateGrade();
+                }
                 customerRepo.saveAndFlush(customerResultEntity);
-                return customerResultEntity.getCreateBy()!= null ? customerResultEntity.getCreateBy().getId() : null;
+                return customerResultEntity.getCreateBy() != null ? customerResultEntity.getCreateBy().getId() : null;
             } else {
                 logger.error("CustomerService has status: " + customerResultEntity.getStatus());
                 return null;
@@ -130,9 +137,11 @@ public class EmotionServiceImpl {
         }
     }
 
+
     /**
      * upload image to transaction
-     * author: hientq*/
+     * author: hientq
+     */
     public Boolean uploadImage(InputStream imageStream, String customerCode) throws IOException, URISyntaxException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -140,7 +149,7 @@ public class EmotionServiceImpl {
 
             //get Customer Service with customerCode;
             CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
-
+            logger.info("customer Emotion: " + JsonUtil.toJson(new CustomerServiceModel(customerResultEntity)));
             if (customerResultEntity != null && (customerResultEntity.getStatus() == ETransaction.BEGIN || customerResultEntity.getStatus() == ETransaction.PROCESS)) {
 
                 //if status == BEGIN, change status = PROCESS. save db
@@ -150,16 +159,13 @@ public class EmotionServiceImpl {
                 }
 
                 //analyze emotion
-                List<EmotionAnalysisModel> listEmotionAnalysis = getCustomerEmotion(imageStream);
-                if (listEmotionAnalysis != null && listEmotionAnalysis.size() > 0) {
-                    //TODO choose best way
-                    EmotionAnalysisModel mostChoose = listEmotionAnalysis.get(0);
-
+                EmotionAnalysisModel emotionAnalysis = getCustomerEmotion(imageStream);
+                if (emotionAnalysis != null) {
                     //save mostChoose
-                    EmotionCustomerEntity emotionEntity = new EmotionCustomerEntity(mostChoose, customerResultEntity);
+                    EmotionCustomerEntity emotionEntity = new EmotionCustomerEntity(emotionAnalysis, customerResultEntity);
                     emotionRepo.saveAndFlush(emotionEntity);
                 } else {
-                    logger.error("Cannot analyze customer emotion");
+                    logger.error("********************** Cannot analyze customer emotion  ********************");
                     return false;
                 }
             } else {
@@ -173,18 +179,24 @@ public class EmotionServiceImpl {
     }
 
 
-    /** next transaction
+    /**
+     * next transaction
      * author: hientq
-     * call entransaction old, and create new transaction*/
-    public CustomerServiceModel nextTransaction(String customerCode) {
-
-        Long accountId = endTransactionWeb(customerCode);
-        if (accountId != null){
+     * call entransaction old, and create new transaction
+     */
+    public CustomerServiceModel nextTransaction(String customerCode, Boolean isSkip) {
+        ETransaction transaction = null;
+        if (isSkip == null || isSkip == false) {
+            transaction = ETransaction.END;
+        } else {
+            transaction = ETransaction.PAUSE;
+        }
+        Long accountId = changeStatusTransaction(customerCode, transaction);
+        if (accountId != null) {
             return beginTransaction(accountId);
         }
         return null;
     }
-
 
 
     public EmployeeReportCustomerService reportCustomerServiceEmployee(Integer year, Integer month, Long eployeeId) {
@@ -280,90 +292,75 @@ public class EmotionServiceImpl {
     }
 
 
-    private List<EmotionAnalysisModel> getCustomerEmotion(InputStream inputStreamImg)
+    private EmotionAnalysisModel getCustomerEmotion(InputStream inputStreamImg)
             throws IOException, URISyntaxException {
         logger.info("[Get Customer Emotion] BEGIN SERVICE");
 
-        List<EmotionAnalysisModel> emotionAnalysisModels = new ArrayList<>();
         byte[] bytes = IOUtils.toByteArray(inputStreamImg);
 
+
+        Date dateFrom = new Date();
+        //Call API
         // face detect
         FaceServiceMCSImpl faceServiceMCS = new FaceServiceMCSImpl();
+        // emotion recognize
+        EmotionServiceMCSImpl emotionServiceMCS = new EmotionServiceMCSImpl();
         BaseResponse faceResponse = faceServiceMCS.detect(new ByteArrayInputStream(bytes));
+        BaseResponse emotionResponse = emotionServiceMCS.recognize(new ByteArrayInputStream(bytes));
         logger.info("[Get Customer Emotion] face response success: " + faceResponse.isSuccess());
+        logger.info("EEEEEEEEEEEEE : faceResponse: " + JsonUtil.toJson(faceResponse));
+        Date dateto = new Date();
+        logger.info(" -- Time Call API: " + (dateto.getTime() - dateFrom.getTime()));
 
-        if (faceResponse.isSuccess() && faceResponse.getData() != null) {
+        if (faceResponse.isSuccess() && faceResponse.getData() != null &&
+                emotionResponse.isSuccess() && emotionResponse.getData() != null) {
 
             // parser face response
             List<FaceDetectResponse> faceRecognizeList = (List<FaceDetectResponse>) faceResponse.getData();
-            if (faceRecognizeList != null || faceRecognizeList.size() > 0) {
+            //parser emotionRecognizeList
+            List<EmotionRecognizeResponse> emotionRecognizeList = (List<EmotionRecognizeResponse>) emotionResponse.getData();
 
-                for (FaceDetectResponse faceDetectResponse : faceRecognizeList) {
-                    // get face_attributes
-                    Double age = faceDetectResponse.getFaceAttributes().getAge(); // get age
-                    Gender gender = faceDetectResponse.getFaceAttributes().getGender().toUpperCase()
-                            .equals("MALE") ? Gender.MALE : Gender.FEMALE; // get gender
-                    // get rectangle image
-                    RectangleImage rectangleImage = faceDetectResponse.getFaceRectangle();
+            return chooseMapping(faceRecognizeList, emotionRecognizeList);
 
-                    // emotion recognize
-                    EmotionServiceMCSImpl emotionServiceMCS = new EmotionServiceMCSImpl();
-                    BaseResponse emotionResponse = emotionServiceMCS.recognize(new ByteArrayInputStream(bytes), rectangleImage);
-
-                    // parser emotion response
-                    List<EmotionRecognizeResponse> emotionRecognizeList = (List<EmotionRecognizeResponse>) emotionResponse.getData();
-
-                    //TODO check many face
-                    EmotionRecognizeResponse emotionRecognize = emotionRecognizeList.get(0);
-
-                    // get emotion_scores
-                    Double anger = emotionRecognize.getScores().getAnger(); // get anger
-                    Double contempt = emotionRecognize.getScores().getContempt(); // get contempt
-                    Double disgust = emotionRecognize.getScores().getDisgust(); // get Disgust
-                    Double fear = emotionRecognize.getScores().getFear(); // get Fear
-                    Double happiness = emotionRecognize.getScores().getHappiness(); // get happiness
-                    Double neutral = emotionRecognize.getScores().getNeutral(); // get neutral
-                    Double sadness = emotionRecognize.getScores().getSadness(); // get sadness
-                    Double surprise = emotionRecognize.getScores().getSurprise(); // get surprise
-
-                    EmotionRecognizeScores emotionRecognizeScores
-                            = new EmotionRecognizeScores(anger, contempt, disgust, fear, happiness, neutral, sadness, surprise);
-                    // get customer emotion
-                    EmotionAnalysisModel emotionAnalysisModel = analyseEmotion(emotionRecognizeScores);
-                    emotionAnalysisModel.setAge(age);
-                    emotionAnalysisModel.setGender(gender);
-                    emotionAnalysisModel.setRectangleImage(faceDetectResponse.getFaceRectangle());
-
-                    emotionAnalysisModels.add(emotionAnalysisModel);
-
-                }
-            }
         }
 
         logger.info("[Get Customer Emotion] END SERVICE");
-        return emotionAnalysisModels;
+        return null;
     }
 
-    private EmotionAnalysisModel analyseEmotion(EmotionRecognizeScores emotionScores) {
-        logger.info("[Analyse Emotion Service] BEGIN SERVICE");
-        Map<EEmotion, Double> listEmotions = new HashMap<EEmotion, Double>();
-        listEmotions.put(EEmotion.ANGER, emotionScores.getAnger());
-        listEmotions.put(EEmotion.CONTEMPT, emotionScores.getContempt());
-        listEmotions.put(EEmotion.DISGUST, emotionScores.getDisgust());
-        listEmotions.put(EEmotion.FEAR, emotionScores.getFear());
-        listEmotions.put(EEmotion.HAPPINESS, emotionScores.getHappiness());
-        listEmotions.put(EEmotion.NEUTRAL, emotionScores.getNeutral());
-        listEmotions.put(EEmotion.SADNESS, emotionScores.getSadness());
-        listEmotions.put(EEmotion.SURPRISE, emotionScores.getSurprise());
-        Map.Entry<EEmotion, Double> maxEntry = null;
-        for (Map.Entry<EEmotion, Double> entry : listEmotions.entrySet()) {
-            if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0) {
-                maxEntry = entry;
+    /** choose pair from list Face and list Emotion
+     * author: hientq
+     *
+     * */
+    private EmotionAnalysisModel chooseMapping(List<FaceDetectResponse> faceRecognizeList, List<EmotionRecognizeResponse> emotionRecognizeList) {
+        Map<String, FaceDetectResponse> faceMap = new HashMap<>();
+        for (FaceDetectResponse  face :faceRecognizeList){
+            faceMap.put(face.getFaceRectangle().toFaceRectangle(), face);
+        }
+
+        long area = 0l;
+        EmotionAnalysisModel analysisModel = null;
+        for (EmotionRecognizeResponse emotionRecognize : emotionRecognizeList){
+            FaceDetectResponse face = faceMap.get(emotionRecognize.getFaceRectangle().toFaceRectangle());
+            if (face != null){
+                long areaEmotion = emotionRecognize.getFaceRectangle().area();
+                if (area < areaEmotion){
+                    area = areaEmotion;
+                    analysisModel = new EmotionAnalysisModel(face, emotionRecognize);
+                }
+
             }
         }
-        logger.info("[Analyse Emotion Service] emotionMost: " + maxEntry.getKey());
-        logger.info("[Analyse Emotion Service] END SERVICE");
+        return analysisModel;
+    }
 
-        return new EmotionAnalysisModel(maxEntry.getKey(), emotionScores);
+
+    public void vote(Long contentId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            contentRepo.updateVote(contentId);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
     }
 }

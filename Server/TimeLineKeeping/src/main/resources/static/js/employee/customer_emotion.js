@@ -5,6 +5,7 @@
 var accountId = $('#accountId').val();
 var customerCode;
 var timer_get_emotion;
+var nextAngle = 0;
 
 /**
  * Event: next transaction
@@ -19,8 +20,8 @@ $('#btn-next-transaction').on('click', function () {
     //show div loader
     event_show('#div-loader');
 
-    //call request: next transaction
-    worker_next_transaction();
+    //call request: next transaction (isSkip == false)
+    worker_next_transaction(false);
 });
 
 /**
@@ -37,8 +38,17 @@ $('#btn-skip-transaction').on('click', function () {
     //show div loader
     event_show('#div-loader');
 
-    //call request: get first emotion
-    worker_get_emotion();
+    //call request: next transaction (isSkip == true)
+    worker_next_transaction(true);
+});
+
+/**
+ * Event: click button rotate
+ * Description: rotate right 90
+ */
+$('#btn-rotate-image').on('click', function () {
+    var degrees = 90;
+    rotateRight('#image-customer', degrees);
 });
 
 /**
@@ -51,7 +61,6 @@ function worker_get_emotion() {
     $.ajax({
         type: "GET",
         url: urlString,
-        // data: formDataJson,
         success: function (response) {
             console.info('success: ' + response.success);
             if (response.success) {
@@ -100,6 +109,10 @@ function worker_get_emotion() {
                 } else {
                     setSrcImage('#image-customer', '/libs/dist/img/avatar_customer.png')
                 }
+                //rotate image right 90
+                // rotateRight('#image-customer', 90);
+                //reset next angle
+                resetNextAngle('#image-customer');
 
                 //set customer emotion message
                 if (customer_emotion_msg != null && customer_emotion_msg.length > 0) {
@@ -117,8 +130,28 @@ function worker_get_emotion() {
                 if (suggestions != null && suggestions.length > 0) {
                     for (var i = 0; i < suggestions.length; i++) {
                         ul_content_suggestion_behavior += '<li>' +
-                            suggestions[i] +
+                            suggestions[i].message +
                             '</li>';
+                        ul_content_suggestion_behavior += '<ul class="list-inline">' +
+                            '<li>' +
+                            '<button type="button" class="btn btn-default btn-xs btn-vote" ' +
+                            'id="btn-vote-' +
+                            suggestions[i].id +
+                            '" ' +
+                            'onclick="voteSuggestion(' +
+                            suggestions[i].id +
+                            ')">' +
+                            '<i class="fa fa-thumbs-o-up margin-r-5"></i> Vote</button>' +
+                            '</li>' +
+                            '<li><span class="badge bg-aqua-gradient" id="span-vote-' +
+                            suggestions[i].id +
+                            '">' +
+                            suggestions[i].vote +
+                            '</span></li>' +
+                            '</ul>';
+                        if (i < suggestions.length - 1) {
+                            ul_content_suggestion_behavior += '<hr/>';
+                        }
                     }
                 } else {
                     ul_content_suggestion_behavior += '<li>N/A</li>';
@@ -135,14 +168,14 @@ function worker_get_emotion() {
 
 /**
  * Worker: next transaction
- * Description: ending current transaction and creating new transaction
+ * @param isSkip (true: skip; false: next)
  */
-function worker_next_transaction() {
-    var urlString = '/api/emotion/next?accountId=' + accountId;
+function worker_next_transaction(isSkip) {
+    var urlString = '/api/emotion/next?accountId=' + accountId
+        + '&skip=' + isSkip;
     $.ajax({
         type: "GET",
         url: urlString,
-        // data: formDataJson,
         success: function (response) {
             if (response.success) {
                 customerCode = response.data;
@@ -189,4 +222,72 @@ function event_show(id) {
  */
 function setSrcImage(id, src) {
     $(id).attr('src', src);
+}
+
+/**
+ * function: get angle
+ * @param degrees
+ * @returns {number}
+ */
+function getAngle(degrees) {
+    nextAngle += degrees;
+    if (nextAngle >= 360) {
+        nextAngle = 0;
+    }
+    return nextAngle;
+}
+
+/**
+ * function: rotate right
+ * @param id
+ * @param degrees
+ */
+function rotateRight(id_image, degrees) {
+    $(id_image).rotate(getAngle(degrees));
+}
+
+/**
+ * function: reset next angle = 0
+ * @param id_image
+ */
+function resetNextAngle(id_image) {
+    nextAngle = 0;
+    //rotate right image 0 degree
+    rotateRight(id_image, 0);
+}
+
+/**
+ * function: vote suggestion
+ * @param id contentId
+ */
+function voteSuggestion(id) {
+    var urlString = '/api/emotion/vote?content_id=' + id;
+    console.info('[Function voteSuggestion] contentId: ' + id);
+    $.ajax({
+        type: "GET",
+        url: urlString,
+        success: function (response) {
+            var success = response.success;
+            console.info('[Function voteSuggestion] success: ' + success);
+            if (success) {
+                setVote(id);
+            } else {
+                console.info('[Function voteSuggestion] error: ' + response.data);
+            }
+        }
+    });
+}
+
+/**
+ * function: set content span_vote
+ * @param id
+ */
+function setVote(id) {
+    var $span_vote = $('#span-vote-' + id),
+        $btn_vote = $('#btn-vote-' + id),
+        vote = parseInt($span_vote.text());
+    vote += 1;
+    $span_vote.html(vote);
+    //disabled button vote
+    $btn_vote.prop('disabled', true);
 }

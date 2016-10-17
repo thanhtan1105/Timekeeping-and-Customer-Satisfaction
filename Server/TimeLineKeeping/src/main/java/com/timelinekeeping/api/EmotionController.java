@@ -16,8 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 
 /**
  * Created by HienTQSE60896 on 10/10/2016.
@@ -39,7 +39,7 @@ public class EmotionController {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.debug(String.format("accountId = '%s' ", accountId));
             Pair<String, String> customerValue = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
-            if (customerValue != null && ValidateUtil.isEmpty(customerValue.getKey())) {
+            if (customerValue == null || ValidateUtil.isEmpty(customerValue.getKey())) {
                 return new BaseResponse(false);
             }
             String customerCode = customerValue.getKey();
@@ -73,20 +73,26 @@ public class EmotionController {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.debug(String.format("accountId = '%s' ", accountId));
             Pair<String, String> customerValue = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
-            if (customerValue != null && ValidateUtil.isEmpty(customerValue.getKey())) {
+            if (customerValue == null || ValidateUtil.isEmpty(customerValue.getKey())) {
                 return new BaseResponse(false);
             }
             String customerCode = customerValue.getKey();
             byte[] byteImage = IOUtils.toByteArray(imageFile.getInputStream());
+
+            /** TEST store file before*/
+            String fileNameBefore = I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId + "BEFORE" + new Date().getTime();
+            StoreFileUtils.storeFile(fileNameBefore, new ByteArrayInputStream(byteImage));
+            /** TEST store file before*/
+
             Boolean result = emotionService.uploadImage(new ByteArrayInputStream(byteImage), customerCode);
             if (result != null && result) {
-                String fileName =  I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId;
+                String fileName = I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId;
                 String urlFile = StoreFileUtils.storeFile(fileName, new ByteArrayInputStream(byteImage));
                 customerValue.setValue(urlFile);
                 return new BaseResponse(true, new Pair<>("uploadSuccess", result));
             } else {
                 return new BaseResponse(false);
-            }
+            }c
 
         } catch (Exception e) {
             logger.error(e);
@@ -98,18 +104,19 @@ public class EmotionController {
 
     @RequestMapping(value = I_URI.API_EMOTION_NEXT_TRANSACTION)
     @ResponseBody
-    public BaseResponse nextTransaction(@RequestParam(I_URI.PARAMETER_EMOTION_ACCOUNT_ID) Long accountId) {
+    public BaseResponse nextTransaction(@RequestParam(I_URI.PARAMETER_EMOTION_ACCOUNT_ID) Long accountId,
+                                        @RequestParam(value = "skip", required = false) Boolean isSkip) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.debug(String.format("accountId = '%s' ", accountId));
 
             Pair<String, String> customerValue = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
-            if (customerValue != null && ValidateUtil.isEmpty(customerValue.getKey())) {
+            if (customerValue == null || ValidateUtil.isEmpty(customerValue.getKey())) {
                 return new BaseResponse(false);
             }
             String customerCode = customerValue.getKey();
 
-            CustomerServiceModel result = emotionService.nextTransaction(customerCode);
+            CustomerServiceModel result = emotionService.nextTransaction(customerCode, isSkip);
             if (result != null && ValidateUtil.isNotEmpty(result.getCustomerCode())) {
                 String newCustomer = result.getCustomerCode();
 
@@ -129,6 +136,7 @@ public class EmotionController {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }
     }
+
 
     @RequestMapping(value = {I_URI.API_EMOTION_REPORT}, method = RequestMethod.POST)
     @ResponseBody
@@ -167,6 +175,22 @@ public class EmotionController {
             } else {
                 return new BaseResponse(false);
             }
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(false, e.getMessage());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
+
+    @RequestMapping(value = {I_URI.API_EMOTION_VOTE}, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse reportEmotion(@RequestParam("content_id") Long contentId) {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        BaseResponse response = null;
+        try {
+            emotionService.vote(contentId);
+            return new BaseResponse(true);
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(false, e.getMessage());

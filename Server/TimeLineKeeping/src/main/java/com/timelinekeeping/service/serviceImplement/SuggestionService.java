@@ -4,13 +4,19 @@ import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.ESuggestionSubject;
 import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.entity.EmotionContentEntity;
 import com.timelinekeeping.model.EmotionAnalysisModel;
 import com.timelinekeeping.model.EmotionCompare;
+import com.timelinekeeping.model.EmotionContentModel;
 import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
+import com.timelinekeeping.repository.EmotionContentRepo;
 import com.timelinekeeping.repository.QuantityRepo;
 import com.timelinekeeping.util.UtilApps;
 import com.timelinekeeping.util.ValidateUtil;
+import org.hibernate.collection.internal.PersistentBag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,6 +31,8 @@ public class SuggestionService {
     @Autowired
     private QuantityRepo quantityRepo;
 
+    @Autowired
+    private EmotionContentRepo emotionContentRepo;
 
 
     public ESuggestionSubject getSubject(Double age, Gender gender) {
@@ -63,7 +71,7 @@ public class SuggestionService {
         if (ValidateUtil.isEmpty(quantities)) {
             quantity = IContanst.QUANLITY_EMOTION_DEFAULT;
         } else {
-            quantity = quantities.get(UtilApps.random(0, quantities.size() -1));
+            quantity = quantities.get(UtilApps.random(0, quantities.size() - 1));
         }
         return String.format("%s %s", quantity, emotionCompare.getEmotion().getName());
     }
@@ -94,6 +102,7 @@ public class SuggestionService {
                     negative.add(emotionCompare);
                 }
             }
+
             if (positive.size() == 0 || negative.size() == 0) {
                 if (positive.size() == 0) {
                     //only negative
@@ -110,9 +119,9 @@ public class SuggestionService {
             } else {
                 //Bolt
                 negative.sort((EmotionCompare e1, EmotionCompare e2) -> Math.abs(e1.getValue()) > Math.abs(e2.getValue()) ? -1 : 1);
-                if (positive.size() > negative.size()){
+                if (positive.size() > negative.size()) {
                     result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(positive.get(1)), getEmotion(negative.get(0)));
-                }else {
+                } else {
                     result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(negative.get(0)), getEmotion(negative.get(1)));
                 }
             }
@@ -122,24 +131,22 @@ public class SuggestionService {
         return result;
     }
 
-    public String getSuggestion(EEmotion emotion, Double age, Gender gender){
+    public List<EmotionContentModel> getSuggestion(EEmotion emotion, Double age, Gender gender) {
         ESuggestionSubject subject = getSubject(age, gender);
-        String formatString ;
-        switch (emotion){
-            case ANGER: formatString = "Bạn nên rót cho %s ly nước."; break;
-            case CONTEMPT: formatString = "Bạn nên bình tỉnh và tôn trọng %s khi nói chuyện";break;
-            case DISGUST: formatString = "Bạn nên lăng nghe những ấm uất của %s.";break;
-            case FEAR: formatString = "Bạn nên tạo không gian cỡ mở với %s.";break;
-            case HAPPINESS: formatString = "Bạn nên đón nhận niềm vui chung với %s";break;
-            case NEUTRAL: formatString = "Bạn nên nói chuyện với %s bình thường";break;
-            case SADNESS: formatString = "Bạn nên nói chuyện với %s nhẹ nhàng.";break;
-            case SURPRISE: formatString = "Bạn nên bình tỉnh nói chuyện với %s.";break;
-            default: formatString = "Bạn nên nói chuyện với %s nhẹ nhàng.";break;
+
+        // get from database
+        //TODO add many emotion
+        Page<EmotionContentEntity> pageContent = emotionContentRepo.getEmotionContent(emotion, null, null, new PageRequest(IContanst.PAGE_PAGE_I, IContanst.PAGE_SIZE_CONTENT));
+        List<EmotionContentModel> modelContents = new ArrayList<>();
+        if(pageContent != null && pageContent.getContent() != null && pageContent.getContent().size() > 0){
+            for (EmotionContentEntity entity : pageContent.getContent()){
+                EmotionContentModel model = new EmotionContentModel(entity);
+                String message = model.getMessage();
+                model.setMessage(UtilApps.formatSentence(String.format(message, subject.getName())));
+                modelContents.add(model);
+            }
         }
-
-        // TODO get from database
-
-        return String.format(formatString, subject.getName());
+        return modelContents;
     }
 
 

@@ -281,21 +281,12 @@ public class AccountServiceImpl {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
 
             BaseResponse response = new BaseResponse(); /** return */
-            String faceID;
             /** call API MCS get List FaceID*/
-            List<String> listFace = detectImg(fileInputStream);
-            if (listFace == null) {
+            String faceID = detectImg(fileInputStream);
+            if (faceID == null) {
                 logger.error(IContanst.ERROR_LOGGER + ERROR.ACCOUNT_CHECKIN_IMAGE_CANNOT_DETECT_IMAGE);
                 return new BaseResponse(false, ERROR.ACCOUNT_CHECKIN_IMAGE_CANNOT_DETECT_IMAGE, null);
             }
-
-            //just detect for only person
-            if (listFace.size() > 1) {
-                logger.error(IContanst.ERROR_LOGGER + "List face size: " + listFace.size());
-                return new BaseResponse(false, ERROR.ACCOUNT_CHECKIN_IMAGE_EXIST_MANY_PEOPLE_IN_IMAGE, null);
-            }
-
-            faceID = listFace.get(0);
 
             // Get List Department from data
             List<DepartmentEntity> departmentEntities = departmentRepo.findAll();
@@ -433,23 +424,32 @@ public class AccountServiceImpl {
 
     /**
      * call API and detect img
+     * @return faceId has rectangle maximun
      */
-    private List<String> detectImg(InputStream fileInputStream) throws IOException, URISyntaxException {
-        List<String> listFace = new ArrayList<>();
+    private String detectImg(InputStream fileInputStream) throws IOException, URISyntaxException {
+//        List<String> listFace = new ArrayList<>();
+        String faceId = null;
 
         BaseResponse responseDetect = faceServiceMCS.detect(fileInputStream);
 
         if (responseDetect.isSuccess()) {
             List<FaceDetectResponse> faceDetects = (List<FaceDetectResponse>) responseDetect.getData();
             if (faceDetects.size() > 0) {
-                listFace.addAll(faceDetects.stream().map(FaceDetectResponse::getFaceId).collect(Collectors.toList()));
+                Long area = 0l;
+                for (FaceDetectResponse face : faceDetects){
+                    Long areaFace = face.getFaceRectangle().area();
+                    if (area < areaFace){
+                        area = areaFace;
+                        faceId = face.getFaceId();
+                    }
+                }
             } else {
                 return null;
             }
         } else {
             return null;
         }
-        return listFace;
+        return faceId;
     }
 
     /**

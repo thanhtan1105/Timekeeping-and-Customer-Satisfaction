@@ -1,10 +1,13 @@
 package com.timelinekeeping.modelMCS;
 
 import com.timelinekeeping.constant.EEmotion;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.EmotionCompare;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by HienTQSE60896 on 9/13/2016.
@@ -110,11 +113,7 @@ public class EmotionRecognizeScores {
     }
 
     public void competitiveEmotion() {
-//        List<Pair<EEmotion, EEmotion>> listEmotionCompetitor = IContanst.COMPETITION_EMOTION;
-//        for (Pair<EEmotion, EEmotion> pair: listEmotionCompetitor){
-//
-//
-//        }
+
         if (anger > 0 && happiness > 0) {
             double value = anger * EEmotion.ANGER.getGrade() + happiness * EEmotion.HAPPINESS.getGrade();
             if (value < 0) {
@@ -125,6 +124,7 @@ public class EmotionRecognizeScores {
                 this.anger = 0d;
             }
         }
+
         if (sadness > 0 && happiness > 0) {
             double value = sadness * EEmotion.SADNESS.getGrade() + happiness * EEmotion.HAPPINESS.getGrade();
             if (value < 0) {
@@ -135,6 +135,7 @@ public class EmotionRecognizeScores {
                 this.sadness = 0d;
             }
         }
+
     }
 
     public List<EmotionCompare> getEmotionExist() {
@@ -150,6 +151,31 @@ public class EmotionRecognizeScores {
         if (surprise > 0) listCompare.add(new EmotionCompare(EEmotion.SURPRISE, surprise));
         listCompare.sort((EmotionCompare e1, EmotionCompare e2) -> e1.getValue() > e2.getValue() ? -1 : 0);
         return listCompare;
+    }
+    public Map<EEmotion, Double> map(){
+        Map<EEmotion, Double> map = new HashMap<>();
+        map.put(EEmotion.ANGER, anger);
+        map.put(EEmotion.CONTEMPT, contempt);
+        map.put(EEmotion.DISGUST, disgust);
+        map.put(EEmotion.FEAR, fear);
+        map.put(EEmotion.HAPPINESS, happiness);
+        map.put(EEmotion.NEUTRAL, neutral);
+        map.put(EEmotion.SADNESS, sadness);
+        map.put(EEmotion.SURPRISE, surprise);
+        return map;
+    }
+
+    public EEmotion most(){
+        Map<EEmotion, Double> map = map();
+        EEmotion emotion = null;
+        Double value = 0d;
+        for (Map.Entry<EEmotion, Double> entry : map.entrySet()){
+            if (entry.getValue() > value){
+                value = entry.getValue();
+                emotion = entry.getKey();
+            }
+        }
+        return emotion;
     }
 
     public static void main(String[] args) {

@@ -1,14 +1,18 @@
 package com.timelinekeeping.api.mcs;
 
+import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
+import com.timelinekeeping.entity.EmotionContentEntity;
 import com.timelinekeeping.entity.NotificationEntity;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.EmotionCustomerResponse;
 import com.timelinekeeping.model.NotificationCheckInModel;
 import com.timelinekeeping.repository.*;
-import com.timelinekeeping.service.serviceImplement.EmotionService2Impl;
+import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +35,7 @@ public class TestController {
     @Autowired
     private TimekeepingRepo timekeepingRepo;
     @Autowired
-    private EmotionService2Impl emotionService;
+    private EmotionServiceImpl emotionService;
 
 
     @Autowired
@@ -39,6 +43,9 @@ public class TestController {
 
     @Autowired
     private QuantityRepo quantityRepo;
+
+    @Autowired
+    private EmotionContentRepo emotionContentRepo;
 
     @RequestMapping("/list_account")
     public List<AccountModel> list(@RequestParam(value = "id", required = false) Long idDepartment) {
@@ -93,9 +100,13 @@ public class TestController {
         return quantityRepo.findQuantity(value);
     }
 
-    @RequestMapping("/get_first_emotion_message")
-    public EmotionCustomerResponse getFirstEmotion(@RequestParam(value = "customerCode") String customerCode) {
 
-        return emotionService.getFirstEmotionWeb(customerCode);
+    @RequestMapping("/emotion_content")
+    public Page<EmotionContentEntity> getEmotionContent(@RequestParam(value = "first") EEmotion first,
+                                                        @RequestParam(value = "second", required = false) EEmotion second,
+                                                        @RequestParam(value = "third", required = false) EEmotion third) {
+
+        return emotionContentRepo.getEmotionContent(first, second, third, new PageRequest(IContanst.PAGE_PAGE_I, IContanst.PAGE_SIZE_CONTENT));
     }
+
 }
