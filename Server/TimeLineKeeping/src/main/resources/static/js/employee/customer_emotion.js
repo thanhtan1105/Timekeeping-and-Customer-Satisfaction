@@ -112,7 +112,10 @@ function worker_get_emotion() {
                 //rotate image right 90
                 // rotateRight('#image-customer', 90);
                 //reset next angle
+                // resetNextAngle('#image-customer');
                 resetNextAngle('#image-customer');
+                //rotate image right 90
+                rotateRight('#image-customer', 90);
 
                 //set customer emotion message
                 if (customer_emotion_msg != null && customer_emotion_msg.length > 0) {

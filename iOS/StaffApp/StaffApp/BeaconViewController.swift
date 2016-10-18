@@ -32,12 +32,12 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
     }
   }
   
-  let imageView = UIImageView(image: UIImage(named: "TextMap"))
+  let imageView = UIImageView(image: UIImage(named: "RoomFPTMap"))
   
   let ESTIMOTE_PROXIMITY_UUID = NSUUID(UUIDString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")
-  let A = (x: 165.6, y: 156.0)
-  let B = (x: 282.0, y: 24.0)
-  let C = (x: 360.0, y: 64.8)
+  let C = (x: 108.0, y: 174.0)
+  let B = (x: 216.0, y: 126.0)
+  let A = (x: 372.0, y: 216.0)
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -137,22 +137,7 @@ extension BeaconViewController {
           line4.backgroundColor = UIColor.greenColor()
           line4.tag = 3
           self.imageView.addSubview(line4)
-          
         }
-        
-//        if (!x1.isNaN) {
-//          let templeView1 = view.viewWithTag(2)
-//          if templeView1 != nil {
-//            templeView1?.removeFromSuperview()
-//          }
-//          let line3 = UIView(frame: CGRect(x: x1, y: y1, width: 10.0, height: 10.0))
-//          line3.backgroundColor = UIColor.redColor()
-//          line3.tag = 2
-//          self.textMapImageView.addSubview(line3)
-//        }
-        
-//        if (!x2.isNaN) {
-//        }
       }
 
     }

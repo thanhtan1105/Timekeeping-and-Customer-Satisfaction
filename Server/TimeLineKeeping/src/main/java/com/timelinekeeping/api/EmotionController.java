@@ -92,7 +92,7 @@ public class EmotionController {
                 return new BaseResponse(true, new Pair<>("uploadSuccess", result));
             } else {
                 return new BaseResponse(false);
-            }c
+            }
 
         } catch (Exception e) {
             logger.error(e);
