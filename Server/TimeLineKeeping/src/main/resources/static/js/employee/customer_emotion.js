@@ -109,8 +109,6 @@ function worker_get_emotion() {
                 } else {
                     setSrcImage('#image-customer', '/libs/dist/img/avatar_customer.png')
                 }
-                //rotate image right 90
-                // rotateRight('#image-customer', 90);
                 //reset next angle
                 // resetNextAngle('#image-customer');
                 resetNextAngle('#image-customer');
@@ -256,7 +254,7 @@ function rotateRight(id_image, degrees) {
 function resetNextAngle(id_image) {
     nextAngle = 0;
     //rotate right image 0 degree
-    rotateRight(id_image, 0);
+    // rotateRight(id_image, 0);
 }
 
 /**

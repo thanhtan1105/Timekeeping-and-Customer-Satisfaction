@@ -92,7 +92,12 @@ public class AccountController {
                                          @RequestParam(value = "accountId") Long accountId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            return accountService.addFaceImg(Long.valueOf(accountId), imageFile.getInputStream());
+            Long faceId = accountService.addFaceImg(Long.valueOf(accountId), imageFile.getInputStream());
+            if (faceId != null) {
+                return new BaseResponse(true, new Pair<>("faceId", faceId));
+            }else{
+                return new BaseResponse(false);
+            }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
