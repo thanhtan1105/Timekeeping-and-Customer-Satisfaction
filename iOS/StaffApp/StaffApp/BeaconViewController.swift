@@ -94,9 +94,6 @@ extension BeaconViewController: ESTBeaconManagerDelegate {
 extension BeaconViewController {
   private func calculateDistance(beacons: [CLBeacon]) {
     if beacons.count >= 3 {
-
-
-      // dump
       let indexD1 = beacons.indexOf { (beacon: CLBeacon) -> Bool in
         return beacon.major == 1
       }
@@ -113,7 +110,7 @@ extension BeaconViewController {
       let d3 = beacons[indexD3!].accuracy * scale
       print("D3: \(d3)\n")
       
-      if (d1 != -1.0 && d2 != -1.0 && d3 != -1.0) {
+      if (d1 != -1.0 * scale && d2 != -1.0 * scale && d3 != -1.0 * scale) {
         let a1 = 2 * (B.x - A.x)
         let b1 = 2 * (B.y - A.y)
         let c1 = pow(d1, 2) - pow(d2, 2) + pow(B.x, 2) - pow(A.x, 2) + pow(B.y, 2) - pow(A.y, 2)

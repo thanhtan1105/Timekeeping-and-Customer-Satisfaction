@@ -10,6 +10,7 @@
 		04967F09FF34519C984ED672 /* Pods_StaffApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C9E8654817535CBF8ED646A /* Pods_StaffApp.framework */; };
 		15DC449A68D858CE74EFCF27 /* Pods_StaffAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C12C4AE4DEAEBEB12C0F44D9 /* Pods_StaffAppUITests.framework */; };
 		2B3A11F9181BB8FA32F4125E /* Pods_StaffAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56C1F823D4C0849E4AA12B97 /* Pods_StaffAppTests.framework */; };
+		A6061A721DB8C6220097A7BA /* Beacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6061A711DB8C6220097A7BA /* Beacon.swift */; };
 		A6090B5F1DA2DA730039B892 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6090B5E1DA2DA730039B892 /* AppDelegate.swift */; };
 		A6090B641DA2DA730039B892 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A6090B621DA2DA730039B892 /* Main.storyboard */; };
 		A6090B661DA2DA730039B892 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6090B651DA2DA730039B892 /* Assets.xcassets */; };
@@ -87,6 +88,7 @@
 		8E040F2E56651908DE245E96 /* Pods-StaffAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StaffAppUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-StaffAppUITests/Pods-StaffAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		965A30CB7E415DF0F814F891 /* Pods-StaffApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StaffApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StaffApp/Pods-StaffApp.debug.xcconfig"; sourceTree = "<group>"; };
 		9C9CFA66E06D6F467E4B9D1D /* Pods-StaffAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StaffAppUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StaffAppUITests/Pods-StaffAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		A6061A711DB8C6220097A7BA /* Beacon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Beacon.swift; sourceTree = "<group>"; };
 		A6090B5B1DA2DA730039B892 /* StaffApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StaffApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6090B5E1DA2DA730039B892 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A6090B631DA2DA730039B892 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 				A6AC86B51DA4CDE5002B4688 /* Attendances.swift */,
 				A6EBEC3F1DA7441D00418D00 /* Notification.swift */,
 				A682FC641DAA31FA0047CDBE /* TodoList.swift */,
+				A6061A711DB8C6220097A7BA /* Beacon.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -710,6 +713,7 @@
 				A682FC5B1DA9EE730047CDBE /* CVDate.swift in Sources */,
 				A682FC531DA9EE730047CDBE /* CVCalendarViewAnimatorDelegate.swift in Sources */,
 				A682FC501DA9EE730047CDBE /* CVCalendarTouchController.swift in Sources */,
+				A6061A721DB8C6220097A7BA /* Beacon.swift in Sources */,
 				A6090BA91DA34F670039B892 /* HomeTabBarController.swift in Sources */,
 				A6090B981DA2DBCF0039B892 /* APIRequestProtocol.swift in Sources */,
 				A6EBEC401DA7441D00418D00 /* Notification.swift in Sources */,
