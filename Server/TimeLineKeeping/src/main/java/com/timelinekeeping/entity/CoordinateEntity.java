@@ -3,14 +3,15 @@ package com.timelinekeeping.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Created by lethanhtan on 10/17/16.
  */
 
 @Entity
-@Table(name = "beacon", schema = "mydb")
-public class BeaconEntity implements Serializable {
+@Table(name = "coordinate", schema = "mydb")
+public class CoordinateEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,14 +19,22 @@ public class BeaconEntity implements Serializable {
     private Long id;
 
     @Basic
+    @Column(name = "name")
+    private String name;
+
+    @Basic
+    @Column(name = "floor")
+    private Integer floor = 0;
+
+    @Basic
     @NotNull
     @Column(name = "latitude")
-    private Double latitude;
+    private Double latitude = 0d;
 
     @Basic
     @NotNull
     @Column(name = "longitude")
-    private Double longitude;
+    private Double longitude = 0d;
 
     @Basic
     @NotNull
@@ -37,9 +46,14 @@ public class BeaconEntity implements Serializable {
     @Column(name = "major")
     private int major;
 
-    public BeaconEntity() { }
 
-    public BeaconEntity(Double latitude, Double longitude, int minjor, int major) {
+//    private Set<ConnectionPointEntity> connection;
+
+
+    public CoordinateEntity() {
+    }
+
+    public CoordinateEntity(Double latitude, Double longitude, int minjor, int major) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.minjor = minjor;
@@ -84,5 +98,21 @@ public class BeaconEntity implements Serializable {
 
     public void setMajor(int major) {
         this.major = major;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getFloor() {
+        return floor;
+    }
+
+    public void setFloor(Integer floor) {
+        this.floor = floor;
     }
 }
