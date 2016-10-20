@@ -11,6 +11,7 @@ import com.timelinekeeping.modelMCS.FaceIdentifyConfidenceRespone;
 import com.timelinekeeping.modelMCS.FaceIdentityCandidate;
 import com.timelinekeeping.repository.*;
 import com.timelinekeeping.util.JsonUtil;
+import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.UtilApps;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
@@ -222,7 +223,7 @@ public class AccountServiceImpl {
         }
     }
 
-    public BaseResponse addFaceImg(Long accountId, InputStream imgStream) throws URISyntaxException, IOException {
+    public Long addFaceImg(Long accountId, InputStream imgStream) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -230,16 +231,15 @@ public class AccountServiceImpl {
 
             AccountEntity accountEntity = accountRepo.findOne(accountId);
             if (accountEntity == null) {
-                return new BaseResponse(false, ERROR.ACCOUNT_ADD_FACE_CANNOT_FOUND_ACCOUNTID, null);
+                return null;
             }
             BaseResponse baseResponse = personServiceMCS.addFaceImg(accountEntity.getDepartment().getCode(), accountEntity.getUserCode(), streams[0]);
             logger.info("RESPONSE" + baseResponse);
             if (!baseResponse.isSuccess()) {
-                return new BaseResponse(false, ERROR.ERROR_IN_MCS + baseResponse.getMessage(), null);
+                return null;
             }
 
-            //Result
-            BaseResponse responseResult = new BaseResponse();
+
             // encoding data
             Map<String, String> mapResult = (Map<String, String>) baseResponse.getData(); // get face
             if (mapResult != null && mapResult.size() > 0) {
@@ -248,20 +248,14 @@ public class AccountServiceImpl {
                 FaceEntity faceCreate = new FaceEntity(persistedFaceID, accountEntity);
                 FaceEntity faceReturn = faceRepo.saveAndFlush(faceCreate);
                 if (faceReturn != null) {
-                    responseResult.setSuccess(true);
-                    Map<String, Long> map = new HashMap<>();
-                    map.put("faceId", faceReturn.getId());
-                    responseResult.setData(JsonUtil.toJson(map));
 
                     //STORE FILE
-//                    String nameFile = accountEntity.getDepartment().getCode() + "_" + accountId + "_" + (new Date().getTime());
-//                    StoreFileUtils.storeFile(nameFile, imgStream);
-                } else {
-                    responseResult.setSuccess(false);
-                    responseResult.setMessage(ERROR.ACCOUNT_ADD_FACE_CANNOT_SAVE_DB);
+                    String nameFile = accountEntity.getDepartment().getCode() + "_" + accountId + "_" + faceReturn.getId();
+                    StoreFileUtils.storeFile(nameFile, imgStream);
+                    return faceReturn.getId();
                 }
             }
-            return responseResult;
+            return null;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
