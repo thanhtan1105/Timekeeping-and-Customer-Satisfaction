@@ -126,14 +126,8 @@ extension BeaconViewController {
         if D != 0 {
           let x = Dx / D
           let y = Dy / D
-          let templeView2 = view.viewWithTag(3)
-          if templeView2 != nil {
-            templeView2?.removeFromSuperview()
-          }
-          let line4 = UIView(frame: CGRect(x: x , y: y, width: 10.0, height: 10.0))
-          line4.backgroundColor = UIColor.greenColor()
-          line4.tag = 3
-          self.imageView.addSubview(line4)
+          print("x: \(x)")
+          print("y: \(y)")
         }
       }
 
