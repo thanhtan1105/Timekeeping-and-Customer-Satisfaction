@@ -54,20 +54,20 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
     self.scrollView.delegate = self
     
     
-    let line1 = UIView(frame: CGRect(x: A.x, y: A.y, width: 10.0, height: 10.0))
-    line1.backgroundColor = UIColor.redColor()
-    line1.tag = 0
-    self.imageView.addSubview(line1)
-
-    let line2 = UIView(frame: CGRect(x: B.x, y: B.y, width: 10.0, height: 10.0))
-    line2.backgroundColor = UIColor.greenColor()
-    line2.tag = 1
-    self.imageView.addSubview(line2)
-    
-    let line3 = UIView(frame: CGRect(x: C.x, y: C.y, width: 10.0, height: 10.0))
-    line3.backgroundColor = UIColor.blueColor()
-    line3.tag = 0
-    self.imageView.addSubview(line3)
+//    let line1 = UIView(frame: CGRect(x: A.x, y: A.y, width: 10.0, height: 10.0))
+//    line1.backgroundColor = UIColor.redColor()
+//    line1.tag = 0
+//    self.imageView.addSubview(line1)
+//
+//    let line2 = UIView(frame: CGRect(x: B.x, y: B.y, width: 10.0, height: 10.0))
+//    line2.backgroundColor = UIColor.greenColor()
+//    line2.tag = 1
+//    self.imageView.addSubview(line2)
+//    
+//    let line3 = UIView(frame: CGRect(x: C.x, y: C.y, width: 10.0, height: 10.0))
+//    line3.backgroundColor = UIColor.blueColor()
+//    line3.tag = 0
+//    self.imageView.addSubview(line3)
 
   }
   

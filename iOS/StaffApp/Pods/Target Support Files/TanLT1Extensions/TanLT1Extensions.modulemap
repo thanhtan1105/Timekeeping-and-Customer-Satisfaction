@@ -1,6 +1,0 @@
-framework module TanLT1Extensions {
-  umbrella header "TanLT1Extensions-umbrella.h"
-
-  export *
-  module * { export * }
-}
