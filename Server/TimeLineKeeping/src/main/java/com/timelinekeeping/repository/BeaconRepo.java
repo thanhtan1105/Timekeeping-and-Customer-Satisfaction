@@ -1,7 +1,6 @@
 package com.timelinekeeping.repository;
 
-import com.timelinekeeping.entity.AccountEntity;
-import com.timelinekeeping.entity.BeaconEntity;
+import com.timelinekeeping.entity.CoordinateEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface BeaconRepo extends JpaRepository<BeaconEntity, Long> {
+public interface BeaconRepo extends JpaRepository<CoordinateEntity, Long> {
 
 
 }
