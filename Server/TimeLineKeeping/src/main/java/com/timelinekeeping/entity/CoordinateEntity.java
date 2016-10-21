@@ -1,5 +1,7 @@
 package com.timelinekeeping.entity;
 
+import com.timelinekeeping.constant.EBeaconPoint;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -47,7 +49,10 @@ public class CoordinateEntity implements Serializable {
     private int major;
 
 
-//    private Set<ConnectionPointEntity> connection;
+    @Basic
+    @NotNull
+    @Column(name = "type")
+    private EBeaconPoint type = EBeaconPoint.CAN_MOVE;
 
 
     public CoordinateEntity() {
@@ -114,5 +119,13 @@ public class CoordinateEntity implements Serializable {
 
     public void setFloor(Integer floor) {
         this.floor = floor;
+    }
+
+    public EBeaconPoint getType() {
+        return type;
+    }
+
+    public void setType(EBeaconPoint type) {
+        this.type = type;
     }
 }

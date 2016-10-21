@@ -1,0 +1,33 @@
+package com.timelinekeeping.api;
+
+import com.timelinekeeping.constant.I_URI;
+import com.timelinekeeping.model.CoordinateModel;
+import com.timelinekeeping.service.serviceImplement.BeaconServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+/**
+ * Created by HienTQSE60896 on 10/21/2016.
+ */
+@RestController
+@RequestMapping(I_URI.API_BEACON)
+public class BeaconController {
+
+    @Autowired
+    private BeaconServiceImpl beaconService;
+
+    @RequestMapping(I_URI.API_BEACON_GET_ROOM_POINT)
+    public List<CoordinateModel> getRoomPoint(){
+        return beaconService.getRoomPoint();
+    }
+
+    @RequestMapping(I_URI.API_BEACON_GET_POINT)
+    public List<CoordinateModel> getPoint(){
+        return beaconService.getPoint();
+    }
+
+
+}
