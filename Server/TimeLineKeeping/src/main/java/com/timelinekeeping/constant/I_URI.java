@@ -53,6 +53,11 @@ public interface I_URI {
     String API_EMOTION_REPORT_EMPLOYEE = "/report_employee";
 
     /**
+     * Coorinate
+     */
+    String API_COORDINATE = "/api/coordinate";
+    String API_COORDINATE_LIST = "/list";
+    /**
      * Reminder
      */
     String API_REMINDER = "/api/reminder";
@@ -74,6 +79,9 @@ public interface I_URI {
     String API_TODOLIST_GET = "/get";
     String API_TODOLIST_SELECT_TASK = "/select_task";
 
+    /**
+     * WEB
+     */
     String WEB_ADMIN_ACCOUNT = "/admin/accounts";
     String WEB_ADMIN_DEPARTMENT = "/admin/departments";
     String WEB_MANAGER_CHECK_IN = "/manager/check_in";

@@ -46,6 +46,10 @@ public class CoordinateEntity implements Serializable {
     @Column(name = "major")
     private int major;
 
+    @Basic
+    @NotNull
+    @Column(name = "areaName")
+    private String areaName;
 
 //    private Set<ConnectionPointEntity> connection;
 
@@ -53,11 +57,12 @@ public class CoordinateEntity implements Serializable {
     public CoordinateEntity() {
     }
 
-    public CoordinateEntity(Double latitude, Double longitude, int minjor, int major) {
+    public CoordinateEntity(Double latitude, Double longitude, int minjor, int major, String areaName) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.minjor = minjor;
         this.major = major;
+        this.areaName = areaName;
     }
 
     public Long getId() {
@@ -114,5 +119,13 @@ public class CoordinateEntity implements Serializable {
 
     public void setFloor(Integer floor) {
         this.floor = floor;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
     }
 }

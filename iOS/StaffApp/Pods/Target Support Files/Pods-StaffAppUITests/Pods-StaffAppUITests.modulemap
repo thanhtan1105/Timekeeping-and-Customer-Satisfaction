@@ -1,0 +1,6 @@
+framework module Pods_StaffAppUITests {
+  umbrella header "Pods-StaffAppUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

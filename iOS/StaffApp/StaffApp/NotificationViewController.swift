@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class NotificationViewController: BaseViewController {
 
@@ -16,6 +17,7 @@ class NotificationViewController: BaseViewController {
   var notifications: [Notification] = []
   override func viewDidLoad() {
     super.viewDidLoad()
+    callApiGetAllBeacon()   // beacon
   }
   
   override func viewWillAppear(animated: Bool) {
@@ -75,6 +77,31 @@ extension NotificationViewController {
         onCompletion(data: nil, error: nil)
       }
       print(dict)
+    }
+  }
+  
+  private func callApiGetAllBeacon() {
+    APIRequest.shareInstance.getAllBeacon { (response: ResponsePackage?, error: ErrorWebservice?) in
+      guard error == nil else {
+        print("get beacon data fail")
+        return
+      }
+      
+      let responseData = response?.response as! [String : AnyObject]
+      let success = responseData["success"] as! Int
+      if success == 1 {
+        let data = responseData["data"] as! [String : AnyObject]
+        let content = data["content"] as! [[String : AnyObject]]
+        let beaconList = Beacon.beaconList(array: content)
+        
+        // insert DB
+        let realm = try! Realm()
+        try! realm.write({
+          for beacon in beaconList {
+            realm.add(beacon, update: true)
+          }
+        })
+      }
     }
   }
 }

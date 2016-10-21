@@ -14,7 +14,7 @@ class APIRequest: NSObject {
 
   var http : String {
     get {
-      let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "172.20.10.2"
+      let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.43.93"
       let http = prefixHttp + ip + surfixHttp
       return http
     }
@@ -92,7 +92,7 @@ class APIRequest: NSObject {
     let url = http + urlGetAttance
     let header = [
       "Content-Type" : "application/json",
-      ]
+    ]
     
     var dataSent: [String: AnyObject] = [:]
     dataSent["accountId"] = accountID
@@ -100,7 +100,14 @@ class APIRequest: NSObject {
     dataSent["year"] = year
     
     webservice_POST(url, params: dataSent, headersParams: header, completion: onCompletion)
-    
+  }
+  
+  func getAllBeacon(onCompletion: ServiceResponse) {
+    let url = http + urlGetBeacon
+    let header = [
+      "Content-Type" : "application/json",
+    ]
+    webservice_GET(url, params: [:], headersParams: header, completion: onCompletion)    
   }
 }
 

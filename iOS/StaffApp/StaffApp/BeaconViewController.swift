@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import RealmSwift
 
 let top_margin = 150
 let max_distance = 20
@@ -31,13 +32,11 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
       calculateDistance(beacons)
     }
   }
+  let realm = try! Realm()
   
   let imageView = UIImageView(image: UIImage(named: "RoomFPTMap"))
   
   let ESTIMOTE_PROXIMITY_UUID = NSUUID(UUIDString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")
-  let C = (x: 108.0, y: 174.0)
-  let B = (x: 216.0, y: 126.0)
-  let A = (x: 372.0, y: 216.0)
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -92,32 +91,33 @@ extension BeaconViewController: ESTBeaconManagerDelegate {
 
 // MARK :- Private method
 extension BeaconViewController {
+  
+  
   private func calculateDistance(beacons: [CLBeacon]) {
     if beacons.count >= 3 {
-      let indexD1 = beacons.indexOf { (beacon: CLBeacon) -> Bool in
-        return beacon.major == 1
-      }
-      let d1 = beacons[indexD1!].accuracy * scale
+      let d1 = beacons[0].accuracy
       print("D1: \(d1)\n")
-      let indexD2 = beacons.indexOf { (beacon: CLBeacon) -> Bool in
-        return beacon.major == 2
-      }
-      let d2 = beacons[indexD2!].accuracy * scale
+      let d2 = beacons[1].accuracy
       print("D2: \(d2)\n")
-      let indexD3 = beacons.indexOf { (beacon: CLBeacon) -> Bool in
-        return beacon.major == 3
-      }
-      let d3 = beacons[indexD3!].accuracy * scale
+      let d3 = beacons[2].accuracy
       print("D3: \(d3)\n")
       
-      if (d1 != -1.0 * scale && d2 != -1.0 * scale && d3 != -1.0 * scale) {
+      let beacon1 = realm.objects(Beacon.self).filter("major = \(beacons[0].major)").first
+      let beacon2 = realm.objects(Beacon.self).filter("major = \(beacons[1].major)").first
+      let beacon3 = realm.objects(Beacon.self).filter("major = \(beacons[2].major)").first
+      
+      let A = (x: beacon1!.latitude, y: beacon1!.longitude)
+      let B = (x: beacon2!.latitude, y: beacon2!.longitude)
+      let C = (x: beacon3!.latitude, y: beacon3!.longitude)
+      
+      if (d1 != -1.0 && d2 != -1.0 && d3 != -1.0) {
         let a1 = 2 * (B.x - A.x)
         let b1 = 2 * (B.y - A.y)
         let c1 = pow(d1, 2) - pow(d2, 2) + pow(B.x, 2) - pow(A.x, 2) + pow(B.y, 2) - pow(A.y, 2)
         
         let a2 = 2 * (C.x - A.x)
         let b2 = 2 * (C.y - A.y)
-        let c2 = pow(d1, 2) - pow(d2, 2) + pow(C.x, 2) - pow(A.x, 2) + pow(C.y, 2) - pow(A.y, 2)
+        let c2 = pow(d1, 2) - pow(d3, 2) + pow(C.x, 2) - pow(A.x, 2) + pow(C.y, 2) - pow(A.y, 2)
         
         let D = a1 * b2 - a2 * b1
         let Dx = c1 * b2 - c2 * b1
@@ -128,14 +128,90 @@ extension BeaconViewController {
           let y = Dy / D
           print("x: \(x)")
           print("y: \(y)")
+          // check beacon inside area
+          let dAB: Double = pow(A.x - B.x, 2) + pow(A.y - B.y, 2)
+          let dAC: Double = pow(A.x - C.x, 2) + pow(A.y - C.y, 2)
+          let dBC: Double = pow(B.x - C.x, 2) + pow(B.y - C.y, 2)
+          let maxD = max(dAB, dAC, dBC)
+          
+          let approximate : Double = 2.0
+          
+//          print("Dang o dau do")
+//          var areaName : [String : Int] = [:]
+//          areaName[beacon1!.areaName] = areaName[beacon1!.areaName]! + 1
+//          areaName[beacon2!.areaName] = areaName[beacon2!.areaName]! + 1
+//          areaName[beacon3!.areaName] = areaName[beacon3!.areaName]! + 1
+//          var max: (String, Int) = ("", 0)
+//          for (key, value) in areaName {
+//            
+//          }
+          switch maxD {
+          case dAB:
+            if A.x == C.x {
+              // hinh 1
+              if min(C.y, A.y) - approximate < y && y < max(C.y, A.y) + approximate &&
+                min(B.x, C.x) + approximate < x && x < max(B.x, C.x) {
+                print("I AM HERE dAB")
+              } else {
+                print("Khong xac dinh")
+              }
+            } else {
+              // hinh 2
+              if min(C.y, B.y) - approximate < y && y < max(C.y, B.y) + approximate &&
+                min(A.x, C.x) - approximate < x && x < max(A.x, C.x) + approximate {
+                print("I AM HERE dAB")
+              } else {
+                print("Khong xac dinh")
+              }
+            }
+            break
+          case dAC:
+            if A.x == B.x {
+              // hinh 1
+              if min(B.y, A.y) - approximate < y && y < max(B.y, A.y) + approximate &&
+                min(C.x, B.x) - approximate < x && x < max(C.x, B.x) + approximate {
+                print("I AM HERE dAC")
+              } else {
+                print("Khong xac dinh")
+              }
+              
+            } else {
+              // hinh 2
+              if min(B.y, C.y) - approximate < y && y < max(B.y, C.y) + approximate &&
+                min(B.x, A.x) - approximate < x && x < max(B.x, A.x) + approximate {
+                print("I AM HERE dAC")
+              } else {
+                print("Khong xac dinh")
+              }
+            }
+            break
+          case dBC:
+            if A.x == B.x {
+              // hinh 1
+              if min(A.y, B.y) - approximate < y && y < max(A.y, B.y) + approximate &&
+                min(A.x, C.x) - approximate < x && x < max(A.x, C.x) + approximate {
+                print("I AM HERE dBC")
+              } else {
+                print("Khong xac dinh")
+              }
+            } else {
+              // hinh 2
+              if min(A.y, C.y) - approximate < y && y < max(A.y, C.y) + approximate &&
+                min(A.x, B.x) - approximate < x && x < max(A.x, B.x) + approximate {
+                print("I AM HERE dBC")
+              } else {
+                print("Khong xac dinh")
+              }
+            }
+            break
+            
+          default:
+            break
+          }
+          
         }
       }
-
     }
     
   }
 }
-
-
-
-
