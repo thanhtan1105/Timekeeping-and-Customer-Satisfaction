@@ -1,7 +1,6 @@
 package com.timelinekeeping.service.algorithm;
 
 import com.timelinekeeping.entity.ConnectionPointEntity;
-import com.timelinekeeping.entity.CoordinateEntity;
 import com.timelinekeeping.model.CoordinateModel;
 import com.timelinekeeping.repository.ConnectionRepo;
 import com.timelinekeeping.repository.CoordinateRepo;
@@ -32,19 +31,19 @@ public class BeaconAlgorithm {
         queue = new ArrayDeque<>();
     }
 
-    private void prepareGraph(){
+    private void prepareGraph() {
         graph = new HashMap<>();
         distance = new HashMap<>();
 
         //convert to graph
         List<ConnectionPointEntity> listConnection = connectionRepo.findAll();
-        for (ConnectionPointEntity connection: listConnection){
+        for (ConnectionPointEntity connection : listConnection) {
 
             //vertex 1;
             CoordinateModel vertex1 = new CoordinateModel(connection.getVertex1());
             CoordinateModel vertex2 = new CoordinateModel(connection.getVertex2());
             List<CoordinateModel> listVertex1 = graph.get(vertex1.getId());
-            if (listVertex1 == null){
+            if (listVertex1 == null) {
                 listVertex1 = new ArrayList<>();
                 graph.put(vertex1.getId(), listVertex1);
             }
@@ -52,7 +51,7 @@ public class BeaconAlgorithm {
 
             //vertex 2
             List<CoordinateModel> listVertex2 = graph.get(vertex1.getId());
-            if (listVertex2 == null){
+            if (listVertex2 == null) {
                 listVertex2 = new ArrayList<>();
                 graph.put(vertex1.getId(), listVertex2);
             }
@@ -60,30 +59,30 @@ public class BeaconAlgorithm {
         }
     }
 
-    public void findSortPath(Long beginVertex,  Long endVertex){
+    public void findSortPath(Long beginVertex, Long endVertex) {
         queue.add(beginVertex);
         //add vertex to queue
-        while (queue.size() >0){
+        while (queue.size() > 0) {
             Long vertexId = queue.remove();
 
             //get oneVertexr
             CoordinateModel point1 = new CoordinateModel(coordinateRepo.findOne(vertexId));
             List<CoordinateModel> listVertex = graph.get(vertexId);
             if (ValidateUtil.isEmpty(listVertex)) {
-                for (CoordinateModel pointTo : listVertex){
+                for (CoordinateModel pointTo : listVertex) {
 
                 }
             }
         }
     }
 
-    public Double distance(CoordinateModel point1, CoordinateModel point2){
+    public Double distance(CoordinateModel point1, CoordinateModel point2) {
         return Math.sqrt(Math.pow(point1.getLatitude() - point2.getLatitude(), 2) + Math.pow(point1.getLongitude() - point2.getLongitude(), 2));
     }
 
     public static void main(String[] args) {
 
-        System.out.println(new BeaconAlgorithm().distance(new CoordinateModel(2, 2), new CoordinateModel(3,3)));
+        System.out.println(new BeaconAlgorithm().distance(new CoordinateModel(2d, 2d), new CoordinateModel(3d, 3d)));
     }
 
 }

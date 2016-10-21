@@ -1,6 +1,7 @@
 package com.timelinekeeping.api;
 
 import com.timelinekeeping.constant.I_URI;
+import com.timelinekeeping.model.BeaconModel;
 import com.timelinekeeping.model.CoordinateModel;
 import com.timelinekeeping.service.serviceImplement.BeaconServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class BeaconController {
     }
 
     @RequestMapping(I_URI.API_BEACON_GET_BEACON_POINT)
-    public List<CoordinateModel> getBeaconPoint(){
+    public List<BeaconModel> getBeaconPoint(){
         return beaconService.getBeaconPoint();
     }
 
