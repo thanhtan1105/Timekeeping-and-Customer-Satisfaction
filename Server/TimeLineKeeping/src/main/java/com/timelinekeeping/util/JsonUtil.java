@@ -1,7 +1,7 @@
 package com.timelinekeeping.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.timelinekeeping.model.Pair;
+import com.timelinekeeping.common.Pair;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

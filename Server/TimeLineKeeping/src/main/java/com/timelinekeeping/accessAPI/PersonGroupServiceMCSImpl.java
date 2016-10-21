@@ -2,7 +2,7 @@ package com.timelinekeeping.accessAPI;
 
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.constant.IContanst;
-import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.modelMCS.PersonGroup;
 import com.timelinekeeping.modelMCS.PersonGroupTrainingStatus;
 import com.timelinekeeping.util.HTTPClientUtil;

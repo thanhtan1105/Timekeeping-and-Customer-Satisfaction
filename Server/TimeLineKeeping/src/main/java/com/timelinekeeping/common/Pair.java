@@ -1,4 +1,4 @@
-package com.timelinekeeping.model;
+package com.timelinekeeping.common;
 
 import java.util.Map;
 

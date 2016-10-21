@@ -1,46 +1,33 @@
 package com.timelinekeeping.model;
 
-import com.timelinekeeping.constant.EBeaconPoint;
-import com.timelinekeeping.entity.CoordinateEntity;
-import com.timelinekeeping.constant.EBeaconPoint;
-import com.timelinekeeping.entity.CoordinateEntity;
+import com.timelinekeeping.entity.BeaconEntity;
 
 /**
- * Created by lethanhtan on 10/20/16.
+ * Created by HienTQSE60896 on 10/21/2016.
  */
-public class CoordinateModel {
+public class BeaconModel {
 
     private Long id;
+
     private String name;
+
     private Integer floor = 0;
+
     private Double latitude = 0d;
+
     private Double longitude = 0d;
+
     private int minjor;
+
     private int major;
+
     private String areaName;
-    private EBeaconPoint type;
 
-    public CoordinateModel() {
-
+    public BeaconModel() {
     }
 
-    public CoordinateModel(Long id, String name, Integer floor, Double latitude, Double longitude, int minjor, int major, String areaName) {
-        this.id = id;
-        this.name = name;
-        this.floor = floor;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.minjor = minjor;
-        this.major = major;
-        this.areaName = areaName;
-    }
 
-    public CoordinateModel(Double latitude, Double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
-    public CoordinateModel(CoordinateEntity entity) {
+    public BeaconModel(BeaconEntity entity) {
         if (entity != null) {
             this.id = entity.getId();
             this.name = entity.getName();
@@ -50,8 +37,8 @@ public class CoordinateModel {
             this.minjor = entity.getMinjor();
             this.major = entity.getMajor();
             this.areaName = entity.getAreaName();
-            this.type = entity.getType();
         }
+
     }
 
     public Long getId() {
@@ -117,13 +104,4 @@ public class CoordinateModel {
     public void setAreaName(String areaName) {
         this.areaName = areaName;
     }
-
-    public EBeaconPoint getType() {
-        return type;
-    }
-
-    public void setType(EBeaconPoint type) {
-        this.type = type;
-    }
 }
-

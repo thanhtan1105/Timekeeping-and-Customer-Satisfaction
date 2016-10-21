@@ -1,20 +1,14 @@
 package com.timelinekeeping.entity;
 
-import com.timelinekeeping.constant.EBeaconPoint;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.Set;
 
 /**
- * Created by lethanhtan on 10/17/16.
+ * Created by HienTQSE60896 on 10/21/2016.
  */
-
 @Entity
-@Table(name = "coordinate", schema = "mydb")
-public class CoordinateEntity implements Serializable {
-
+@Table(name = "beacon", schema = "mydb")
+public class BeaconEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -50,24 +44,8 @@ public class CoordinateEntity implements Serializable {
 
     @Basic
     @NotNull
-    @Column(name = "areaName")
+    @Column(name = "area_name")
     private String areaName;
-
-    @Basic
-    @NotNull
-    @Column(name = "type")
-    private EBeaconPoint type = EBeaconPoint.CAN_MOVE;
-
-    public CoordinateEntity() {
-    }
-
-    public CoordinateEntity(Double latitude, Double longitude, int minjor, int major, String areaName) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.minjor = minjor;
-        this.major = major;
-        this.areaName = areaName;
-    }
 
     public Long getId() {
         return id;
@@ -75,6 +53,22 @@ public class CoordinateEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getFloor() {
+        return floor;
+    }
+
+    public void setFloor(Integer floor) {
+        this.floor = floor;
     }
 
     public Double getLatitude() {
@@ -109,35 +103,11 @@ public class CoordinateEntity implements Serializable {
         this.major = major;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getFloor() {
-        return floor;
-    }
-
-    public void setFloor(Integer floor) {
-        this.floor = floor;
-    }
-
     public String getAreaName() {
         return areaName;
     }
 
     public void setAreaName(String areaName) {
         this.areaName = areaName;
-    }
-
-    public EBeaconPoint getType() {
-        return type;
-    }
-
-    public void setType(EBeaconPoint type) {
-        this.type = type;
     }
 }

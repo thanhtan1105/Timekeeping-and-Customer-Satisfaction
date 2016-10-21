@@ -1,7 +1,7 @@
 package com.timelinekeeping._config;
 
 
-import com.timelinekeeping.model.Pair;
+import com.timelinekeeping.common.Pair;
 
 import java.io.Serializable;
 import java.util.HashMap;

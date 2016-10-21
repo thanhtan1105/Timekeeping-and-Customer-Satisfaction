@@ -2,7 +2,7 @@ package com.timelinekeeping.api;
 
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
-import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.model.ReminderModifyModel;
 import com.timelinekeeping.service.serviceImplement.ReminderServiceImpl;
 import org.apache.log4j.LogManager;

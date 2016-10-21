@@ -1,11 +1,9 @@
 package com.timelinekeeping.constant;
 
 import com.timelinekeeping._config.AppConfigKeys;
-import com.timelinekeeping.model.Pair;
+import com.timelinekeeping.common.Pair;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**

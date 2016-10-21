@@ -4,7 +4,7 @@ import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.AccountModel;
-import com.timelinekeeping.model.BaseResponse;
+import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ServiceUtils;
 import org.apache.http.HttpResponse;

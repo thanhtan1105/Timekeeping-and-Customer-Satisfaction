@@ -1,12 +1,10 @@
 package com.timelinekeeping.api;
 
-import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.controller.PersonGroupControllerWeb;
-import com.timelinekeeping.entity.DepartmentEntity;
-import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.model.BaseResponseG;
+import com.timelinekeeping.common.BaseResponse;
+import com.timelinekeeping.common.BaseResponseG;
 import com.timelinekeeping.model.DepartmentModel;
 import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
 import com.timelinekeeping.util.JsonUtil;
