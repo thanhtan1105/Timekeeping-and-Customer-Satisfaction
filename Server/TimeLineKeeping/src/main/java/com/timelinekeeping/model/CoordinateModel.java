@@ -1,5 +1,8 @@
 package com.timelinekeeping.model;
 
+import com.timelinekeeping.constant.EBeaconPoint;
+import com.timelinekeeping.entity.CoordinateEntity;
+import com.timelinekeeping.constant.EBeaconPoint;
 import com.timelinekeeping.entity.CoordinateEntity;
 
 /**
@@ -15,6 +18,7 @@ public class CoordinateModel {
     private int minjor;
     private int major;
     private String areaName;
+    private EBeaconPoint type;
 
     public CoordinateModel() {
 
@@ -41,6 +45,7 @@ public class CoordinateModel {
             this.minjor = entity.getMinjor();
             this.major = entity.getMajor();
             this.areaName = entity.getAreaName();
+            this.type = entity.getType();
         }
     }
 
@@ -106,6 +111,14 @@ public class CoordinateModel {
 
     public void setAreaName(String areaName) {
         this.areaName = areaName;
+    }
+
+    public EBeaconPoint getType() {
+        return type;
+    }
+
+    public void setType(EBeaconPoint type) {
+        this.type = type;
     }
 }
 
