@@ -317,17 +317,26 @@
                             <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7LN-6h-Rr7">
                                 <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                             </scrollView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Finding ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v3C-aK-iO6">
+                                <rect key="frame" x="96" y="483" width="128" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="7LN-6h-Rr7" firstAttribute="top" secondItem="9A8-i6-2v1" secondAttribute="bottom" id="DLp-5w-6EA"/>
                             <constraint firstItem="7LN-6h-Rr7" firstAttribute="leading" secondItem="hex-AQ-PYN" secondAttribute="leading" id="IIU-GQ-4w1"/>
                             <constraint firstAttribute="trailing" secondItem="7LN-6h-Rr7" secondAttribute="trailing" id="WFm-DQ-9o7"/>
+                            <constraint firstItem="9Wh-P0-814" firstAttribute="top" secondItem="v3C-aK-iO6" secondAttribute="bottom" constant="15" id="g3Y-JK-eN1"/>
                             <constraint firstItem="9Wh-P0-814" firstAttribute="top" secondItem="7LN-6h-Rr7" secondAttribute="bottom" id="xrL-hI-mtZ"/>
+                            <constraint firstItem="v3C-aK-iO6" firstAttribute="centerX" secondItem="hex-AQ-PYN" secondAttribute="centerX" id="ysh-4D-TLK"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="currentLocationLabel" destination="v3C-aK-iO6" id="lN4-Q0-Qkh"/>
                         <outlet property="scrollView" destination="7LN-6h-Rr7" id="dJ2-Qa-ghg"/>
                     </connections>
                 </viewController>

@@ -17,11 +17,12 @@ class NotificationViewController: BaseViewController {
   var notifications: [Notification] = []
   override func viewDidLoad() {
     super.viewDidLoad()
-    callApiGetAllBeacon()   // beacon
+    
   }
   
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
+    callApiGetAllBeacon()   // beacon
     callApiGetReminder(String(5)) { (data, error) in
       dispatch_async(dispatch_get_main_queue(), {
         if let data = data {

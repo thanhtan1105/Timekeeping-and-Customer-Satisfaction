@@ -19,6 +19,7 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
   @IBOutlet weak var informationLabel: UILabel!
   @IBOutlet weak var scrollView: UIScrollView!
   @IBOutlet weak var textMapImageView: UIImageView!
+  @IBOutlet weak var currentLocationLabel: UILabel!
   
   var beacon: CLBeacon? = nil
   var beaconManager: ESTBeaconManager? = nil
@@ -91,20 +92,74 @@ extension BeaconViewController: ESTBeaconManagerDelegate {
 
 // MARK :- Private method
 extension BeaconViewController {
-  
+  private func identifyArea(beacon1: Beacon, beacon2: Beacon, beacon3: Beacon) -> String {
+    var areaName : [String : Int] = [:]
+    
+    let area1Array: [String] = beacon1.areaName.characters.split{$0 == ","}.map(String.init)
+    for key in area1Array {
+      if areaName[key] == nil {
+        areaName[key] = 0
+      } else {
+        areaName[key] = areaName[key]! + 1
+      }
+    }
+    
+    let area2Array: [String] = beacon2.areaName.characters.split{$0 == ","}.map(String.init)
+    for key in area2Array {
+      if areaName[key] == nil {
+        areaName[key] = 0
+      } else {
+        areaName[key] = areaName[key]! + 1
+      }
+    }
+    
+    let area3Array: [String] = beacon3.areaName.characters.split{$0 == ","}.map(String.init)
+    for key in area3Array {
+      if areaName[key] == nil {
+        areaName[key] = 0
+      } else {
+        areaName[key] = areaName[key]! + 1
+      }
+    }
+    
+    var maxCountBeacon: (areaName: String, count: Int) = ("", 0)
+    for (key, value) in areaName {
+      if value > maxCountBeacon.count {
+        maxCountBeacon.areaName = key
+        maxCountBeacon.count = value
+      }
+    }
+    
+    return maxCountBeacon.areaName
+  }
   
   private func calculateDistance(beacons: [CLBeacon]) {
-    if beacons.count >= 3 {
-      let d1 = beacons[0].accuracy
+    var beaconFilter = beacons
+    var i = 0
+    while i != beaconFilter.count {
+      let beacon = beaconFilter[i]
+      if beacon.accuracy == -1.0 {
+        beaconFilter.removeAtIndex(i)
+      } else {
+        i = i + 1
+      }
+    }
+    
+    if beaconFilter.count >= 3 {
+      let sortListBeacons = beaconFilter.sort({ (first: CLBeacon, second: CLBeacon) -> Bool in
+        return first.accuracy < second.accuracy
+      })
+      
+      let d1 = sortListBeacons[0].accuracy
       print("D1: \(d1)\n")
-      let d2 = beacons[1].accuracy
+      let d2 = sortListBeacons[1].accuracy
       print("D2: \(d2)\n")
-      let d3 = beacons[2].accuracy
+      let d3 = sortListBeacons[2].accuracy
       print("D3: \(d3)\n")
       
-      let beacon1 = realm.objects(Beacon.self).filter("major = \(beacons[0].major)").first
-      let beacon2 = realm.objects(Beacon.self).filter("major = \(beacons[1].major)").first
-      let beacon3 = realm.objects(Beacon.self).filter("major = \(beacons[2].major)").first
+      let beacon1 = realm.objects(Beacon.self).filter("major = \(sortListBeacons[0].major)").first
+      let beacon2 = realm.objects(Beacon.self).filter("major = \(sortListBeacons[1].major)").first
+      let beacon3 = realm.objects(Beacon.self).filter("major = \(sortListBeacons[2].major)").first
       
       let A = (x: beacon1!.latitude, y: beacon1!.longitude)
       let B = (x: beacon2!.latitude, y: beacon2!.longitude)
@@ -133,25 +188,16 @@ extension BeaconViewController {
           let dAC: Double = pow(A.x - C.x, 2) + pow(A.y - C.y, 2)
           let dBC: Double = pow(B.x - C.x, 2) + pow(B.y - C.y, 2)
           let maxD = max(dAB, dAC, dBC)
-          
           let approximate : Double = 2.0
-          
-//          print("Dang o dau do")
-//          var areaName : [String : Int] = [:]
-//          areaName[beacon1!.areaName] = areaName[beacon1!.areaName]! + 1
-//          areaName[beacon2!.areaName] = areaName[beacon2!.areaName]! + 1
-//          areaName[beacon3!.areaName] = areaName[beacon3!.areaName]! + 1
-//          var max: (String, Int) = ("", 0)
-//          for (key, value) in areaName {
-//            
-//          }
           switch maxD {
           case dAB:
             if A.x == C.x {
               // hinh 1
               if min(C.y, A.y) - approximate < y && y < max(C.y, A.y) + approximate &&
                 min(B.x, C.x) + approximate < x && x < max(B.x, C.x) {
-                print("I AM HERE dAB")
+                print("I AM HERE dAB: ")
+                currentLocationLabel.text = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
+                
               } else {
                 print("Khong xac dinh")
               }
@@ -159,7 +205,8 @@ extension BeaconViewController {
               // hinh 2
               if min(C.y, B.y) - approximate < y && y < max(C.y, B.y) + approximate &&
                 min(A.x, C.x) - approximate < x && x < max(A.x, C.x) + approximate {
-                print("I AM HERE dAB")
+                print("I AM HERE dAB: ")
+                currentLocationLabel.text = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
               } else {
                 print("Khong xac dinh")
               }
@@ -170,7 +217,8 @@ extension BeaconViewController {
               // hinh 1
               if min(B.y, A.y) - approximate < y && y < max(B.y, A.y) + approximate &&
                 min(C.x, B.x) - approximate < x && x < max(C.x, B.x) + approximate {
-                print("I AM HERE dAC")
+                print("I AM HERE dAC: ")
+                currentLocationLabel.text = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
               } else {
                 print("Khong xac dinh")
               }
@@ -179,7 +227,9 @@ extension BeaconViewController {
               // hinh 2
               if min(B.y, C.y) - approximate < y && y < max(B.y, C.y) + approximate &&
                 min(B.x, A.x) - approximate < x && x < max(B.x, A.x) + approximate {
-                print("I AM HERE dAC")
+                print("I AM HERE dAC: ")
+                currentLocationLabel.text = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
+
               } else {
                 print("Khong xac dinh")
               }
@@ -190,7 +240,8 @@ extension BeaconViewController {
               // hinh 1
               if min(A.y, B.y) - approximate < y && y < max(A.y, B.y) + approximate &&
                 min(A.x, C.x) - approximate < x && x < max(A.x, C.x) + approximate {
-                print("I AM HERE dBC")
+                print("I AM HERE dBC: ")
+                currentLocationLabel.text = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
               } else {
                 print("Khong xac dinh")
               }
@@ -198,7 +249,8 @@ extension BeaconViewController {
               // hinh 2
               if min(A.y, C.y) - approximate < y && y < max(A.y, C.y) + approximate &&
                 min(A.x, B.x) - approximate < x && x < max(A.x, B.x) + approximate {
-                print("I AM HERE dBC")
+                print("I AM HERE dBC: ")
+                currentLocationLabel.text = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
               } else {
                 print("Khong xac dinh")
               }
