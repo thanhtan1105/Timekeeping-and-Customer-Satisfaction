@@ -18,4 +18,9 @@ public interface CoordinateRepo extends JpaRepository<CoordinateEntity, Long> {
     @Query("SELECT c FROM CoordinateEntity c WHERE c.type = 1")
     public List<CoordinateEntity> findAllPointRoom();
 
+    @Query("SELECT c FROM CoordinateEntity c WHERE c.type = 7")
+    public List<CoordinateEntity> findAllPointBeacon();
+
+    @Query("SELECT a FROM CoordinateEntity a")
+    List<CoordinateEntity> findAll();
 }
