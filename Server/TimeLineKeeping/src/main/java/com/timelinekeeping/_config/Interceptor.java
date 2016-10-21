@@ -2,7 +2,7 @@ package com.timelinekeeping._config;
 
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.CustomerServiceModel;
-import com.timelinekeeping.model.Pair;
+import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
 import com.timelinekeeping.util.ValidateUtil;
 import org.springframework.beans.factory.annotation.Autowired;

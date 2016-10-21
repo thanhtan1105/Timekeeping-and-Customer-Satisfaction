@@ -27,6 +27,11 @@ public class CoordinateModel {
     public CoordinateModel() {
     }
 
+    public CoordinateModel(Double latitude, Double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public CoordinateModel(CoordinateEntity entity) {
         if (entity != null) {
             this.id = entity.getId();

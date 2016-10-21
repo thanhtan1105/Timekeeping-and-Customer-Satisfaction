@@ -2,9 +2,7 @@ package com.timelinekeeping.api.mcs;
 
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.constant.IContanst;
-import com.timelinekeeping.entity.DepartmentEntity;
-import com.timelinekeeping.model.BaseResponse;
-import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
+import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.Logger;

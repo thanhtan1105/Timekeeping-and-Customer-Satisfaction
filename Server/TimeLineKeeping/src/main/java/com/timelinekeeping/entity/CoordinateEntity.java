@@ -54,7 +54,6 @@ public class CoordinateEntity implements Serializable {
     @Column(name = "type")
     private EBeaconPoint type = EBeaconPoint.CAN_MOVE;
 
-
     public CoordinateEntity() {
     }
 
