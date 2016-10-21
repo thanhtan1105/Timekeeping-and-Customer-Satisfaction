@@ -56,4 +56,34 @@ INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `min
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('0', '2', '21.2', '0', '0', 'WC','1');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('0', '20', '21.2', '0', '0', 'Thư Viện','1');
 
+/** VERTEX **/
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('1', '11');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('2', '12');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('3', '13');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('4', '14');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('5', '15');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('6', '16');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('7', '17');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('8', '18');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('9', '19');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('10', '20');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('11', '12');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('12', '13');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('13', '14');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('14', '15');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('15', '16');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('16', '17');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('17', '18');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('18', '19');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('19', '20');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('11', '21');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('20', '24');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('21', '22');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('22', '23');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('23', '24');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('21', '26');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('22', '25');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('23', '27');
+
+
 
