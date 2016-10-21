@@ -57,6 +57,8 @@ public interface I_URI {
      */
     String API_COORDINATE = "/api/coordinate";
     String API_COORDINATE_LIST = "/list";
+    String API_COORDINATE_GET_ROOM_POINT = "/list_room_point";
+    String API_COORDINATE_GET_POINT = "/list_point";
     /**
      * Reminder
      */
@@ -84,7 +86,7 @@ public interface I_URI {
      */
     String WEB_ADMIN_ACCOUNT = "/admin/accounts";
     String WEB_ADMIN_DEPARTMENT = "/admin/departments";
-    String WEB_MANAGER_CHECK_IN = "/manager/check_in";
+    String WEB_MANAGER_CHECK_IN = "/manager/check_in";  
     String WEB_MANAGER_CUS_SATISFACTION = "/manager/cus_satisfaction";
     String WEB_MANAGER_REMINDER = "/manager/reminders";
     String WEB_MANAGER_TIMEKEEPING = "/manager/timekeeping";
@@ -106,11 +108,8 @@ public interface I_URI {
      * parameter
      */
     String PARAMETER_EMOTION_ACCOUNT_ID = "accountId";
-
     String API_BEACON = "/api/beacon";
-    String API_BEACON_GET_ROOM_POINT = "/list_room_point";
     String API_BEACON_GET_BEACON_POINT = "/list_beacon_point";
-    String API_BEACON_GET_POINT = "/list_point";
 
 
 }

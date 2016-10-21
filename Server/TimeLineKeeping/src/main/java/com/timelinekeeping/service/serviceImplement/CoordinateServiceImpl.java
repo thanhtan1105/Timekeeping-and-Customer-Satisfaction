@@ -5,6 +5,7 @@ import com.timelinekeeping.entity.CoordinateEntity;
 import com.timelinekeeping.model.CoordinateModel;
 import com.timelinekeeping.repository.CoordinateRepo;
 import com.timelinekeeping.util.JsonUtil;
+import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,4 +46,24 @@ public class CoordinateServiceImpl {
         logger.info("Entity result:" + JsonUtil.toJson(returnPage));
         return returnPage;
     }
+
+    public List<CoordinateModel> getRoomPoint() {
+        List<CoordinateEntity> list = coordinateRepo.findAllPointRoom();
+        if (ValidateUtil.isEmpty(list)){
+            return null;
+        }else {
+            return list.stream().map(CoordinateModel::new).collect(Collectors.toList());
+        }
+    }
+
+
+    public List<CoordinateModel> getPoint() {
+        List<CoordinateEntity> list = coordinateRepo.findAll();
+        if (ValidateUtil.isEmpty(list)){
+            return null;
+        }else {
+            return list.stream().map(CoordinateModel::new).collect(Collectors.toList());
+        }
+    }
+
 }

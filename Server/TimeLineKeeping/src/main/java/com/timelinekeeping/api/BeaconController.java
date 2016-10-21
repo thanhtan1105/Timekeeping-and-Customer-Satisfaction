@@ -20,20 +20,8 @@ public class BeaconController {
     @Autowired
     private BeaconServiceImpl beaconService;
 
-    @RequestMapping(I_URI.API_BEACON_GET_ROOM_POINT)
-    public List<CoordinateModel> getRoomPoint(){
-        return beaconService.getRoomPoint();
-    }
-
     @RequestMapping(I_URI.API_BEACON_GET_BEACON_POINT)
     public List<BeaconModel> getBeaconPoint(){
         return beaconService.getBeaconPoint();
     }
-
-    @RequestMapping(I_URI.API_BEACON_GET_POINT)
-    public List<CoordinateModel> getPoint(){
-        return beaconService.getPoint();
-    }
-
-
 }
