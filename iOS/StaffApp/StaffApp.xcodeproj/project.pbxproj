@@ -27,6 +27,10 @@
 		A6090BA51DA2E7630039B892 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6090BA41DA2E7630039B892 /* LoginViewController.swift */; };
 		A6090BA71DA2F0640039B892 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6090BA61DA2F0640039B892 /* Account.swift */; };
 		A6090BA91DA34F670039B892 /* HomeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6090BA81DA34F670039B892 /* HomeTabBarController.swift */; };
+		A66FD9981DBA1BA1008E496E /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66FD9971DBA1BA1008E496E /* Vertex.swift */; };
+		A66FD99B1DBA1C57008E496E /* Edge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66FD99A1DBA1C57008E496E /* Edge.swift */; };
+		A66FD99D1DBA1F0D008E496E /* SwiftGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66FD99C1DBA1F0D008E496E /* SwiftGraph.swift */; };
+		A66FD99F1DBA2285008E496E /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66FD99E1DBA2285008E496E /* Path.swift */; };
 		A682FC471DA9EE730047CDBE /* CVAuxiliaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A682FC2B1DA9EE730047CDBE /* CVAuxiliaryView.swift */; };
 		A682FC481DA9EE730047CDBE /* CVCalendarContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A682FC2C1DA9EE730047CDBE /* CVCalendarContentViewController.swift */; };
 		A682FC491DA9EE730047CDBE /* CVCalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A682FC2D1DA9EE730047CDBE /* CVCalendarDayView.swift */; };
@@ -111,6 +115,10 @@
 		A6090BA41DA2E7630039B892 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A6090BA61DA2F0640039B892 /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		A6090BA81DA34F670039B892 /* HomeTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabBarController.swift; sourceTree = "<group>"; };
+		A66FD9971DBA1BA1008E496E /* Vertex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
+		A66FD99A1DBA1C57008E496E /* Edge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Edge.swift; sourceTree = "<group>"; };
+		A66FD99C1DBA1F0D008E496E /* SwiftGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftGraph.swift; sourceTree = "<group>"; };
+		A66FD99E1DBA2285008E496E /* Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
 		A682FC2B1DA9EE730047CDBE /* CVAuxiliaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVAuxiliaryView.swift; sourceTree = "<group>"; };
 		A682FC2C1DA9EE730047CDBE /* CVCalendarContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVCalendarContentViewController.swift; sourceTree = "<group>"; };
 		A682FC2D1DA9EE730047CDBE /* CVCalendarDayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVCalendarDayView.swift; sourceTree = "<group>"; };
@@ -252,6 +260,7 @@
 		A6090B8C1DA2DB780039B892 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A66FD9991DBA1BC4008E496E /* Graphs */,
 				A6090BA61DA2F0640039B892 /* Account.swift */,
 				A6AC86B51DA4CDE5002B4688 /* Attendances.swift */,
 				A6EBEC3F1DA7441D00418D00 /* Notification.swift */,
@@ -341,6 +350,17 @@
 			children = (
 			);
 			name = Extension;
+			sourceTree = "<group>";
+		};
+		A66FD9991DBA1BC4008E496E /* Graphs */ = {
+			isa = PBXGroup;
+			children = (
+				A66FD9971DBA1BA1008E496E /* Vertex.swift */,
+				A66FD99A1DBA1C57008E496E /* Edge.swift */,
+				A66FD99C1DBA1F0D008E496E /* SwiftGraph.swift */,
+				A66FD99E1DBA2285008E496E /* Path.swift */,
+			);
+			name = Graphs;
 			sourceTree = "<group>";
 		};
 		A682FC2A1DA9EE680047CDBE /* Libraries */ = {
@@ -707,6 +727,7 @@
 				A682FC601DA9EE730047CDBE /* CVShape.swift in Sources */,
 				A682FC581DA9EE730047CDBE /* CVCalendarWeekContentViewController.swift in Sources */,
 				A682FC5C1DA9EE730047CDBE /* CVRange.swift in Sources */,
+				A66FD9981DBA1BA1008E496E /* Vertex.swift in Sources */,
 				A6090B9B1DA2E3DE0039B892 /* TimeKeepingViewController.swift in Sources */,
 				A6090BA71DA2F0640039B892 /* Account.swift in Sources */,
 				A682FC571DA9EE730047CDBE /* CVCalendarViewPresentationMode.swift in Sources */,
@@ -735,6 +756,7 @@
 				A6090B971DA2DBCF0039B892 /* APIDefine.swift in Sources */,
 				A682FC541DA9EE730047CDBE /* CVCalendarViewAppearance.swift in Sources */,
 				A682FC471DA9EE730047CDBE /* CVAuxiliaryView.swift in Sources */,
+				A66FD99F1DBA2285008E496E /* Path.swift in Sources */,
 				A682FC631DA9FA590047CDBE /* ToDoListTableCell.swift in Sources */,
 				A6090B991DA2DBCF0039B892 /* APIRequest.swift in Sources */,
 				A682FC4E1DA9EE730047CDBE /* CVCalendarMonthContentViewController.swift in Sources */,
@@ -745,6 +767,8 @@
 				A682FC481DA9EE730047CDBE /* CVCalendarContentViewController.swift in Sources */,
 				A6090B5F1DA2DA730039B892 /* AppDelegate.swift in Sources */,
 				A6090BA51DA2E7630039B892 /* LoginViewController.swift in Sources */,
+				A66FD99D1DBA1F0D008E496E /* SwiftGraph.swift in Sources */,
+				A66FD99B1DBA1C57008E496E /* Edge.swift in Sources */,
 				A6AC86BB1DA4D4FC002B4688 /* EPresent.swift in Sources */,
 				A682FC551DA9EE730047CDBE /* CVCalendarViewAppearanceDelegate.swift in Sources */,
 				A682FC5D1DA9EE730047CDBE /* CVScrollDirection.swift in Sources */,
