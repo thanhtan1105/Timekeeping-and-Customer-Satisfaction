@@ -24,6 +24,11 @@ public class BeaconController {
         return beaconService.getRoomPoint();
     }
 
+    @RequestMapping(I_URI.API_BEACON_GET_BEACON_POINT)
+    public List<CoordinateModel> getBeaconPoint(){
+        return beaconService.getBeaconPoint();
+    }
+
     @RequestMapping(I_URI.API_BEACON_GET_POINT)
     public List<CoordinateModel> getPoint(){
         return beaconService.getPoint();

@@ -35,6 +35,15 @@ public class BeaconServiceImpl {
         }
     }
 
+    public List<CoordinateModel> getBeaconPoint() {
+        List<CoordinateEntity> list = coordinateRepo.findAllPointBeacon();
+        if (ValidateUtil.isEmpty(list)){
+            return null;
+        }else {
+            return list.stream().map(CoordinateModel::new).collect(Collectors.toList());
+        }
+    }
+
     public List<CoordinateModel> getPoint() {
         List<CoordinateEntity> list = coordinateRepo.findAll();
         if (ValidateUtil.isEmpty(list)){
