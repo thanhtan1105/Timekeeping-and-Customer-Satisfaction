@@ -7,6 +7,7 @@ import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.model.DepartmentModel;
+import com.timelinekeeping.model.DepartmentSelectModel;
 import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 
 /**
  * Created by TrungNN on 9/17/2016.
@@ -47,7 +50,8 @@ public class DepartmentControllerWeb {
         // side-bar
         model.addAttribute("SideBar", sideBar);
 
-        return "/views/admin/management_depart/management_depart";
+//        return "/views/admin/management_depart/management_depart";
+        return "/views/admin/management_depart/autocomplete";
     }
 
     @RequestMapping(value = "/addDepartment", method = RequestMethod.GET)
