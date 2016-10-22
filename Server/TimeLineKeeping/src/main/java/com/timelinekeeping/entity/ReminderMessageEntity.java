@@ -34,7 +34,7 @@ public class ReminderMessageEntity implements Serializable {
     private Timestamp time;
 
     @Basic
-    @Column(name = "location", nullable = false)
+    @Column(name = "location")
     private String location;
 
     @Basic
