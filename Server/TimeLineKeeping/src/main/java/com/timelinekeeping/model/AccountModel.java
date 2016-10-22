@@ -22,6 +22,7 @@ public class AccountModel {
     private Date timeDeactive;
     private Gender gender;
     private String token;
+    private AccountManager manager;
 
     public AccountModel() {
     }
@@ -38,6 +39,9 @@ public class AccountModel {
             this.department = new DepartmentModel(entity.getDepartment());
             this.timeDeactive = entity.getTimeDeactive();
             this.gender = entity.getGender();
+            if (entity.getManager() != null){
+                this.manager = new AccountManager(entity.getManager());
+            }
         }
     }
 
@@ -125,5 +129,13 @@ public class AccountModel {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public AccountManager getManager() {
+        return manager;
+    }
+
+    public void setManager(AccountManager manager) {
+        this.manager = manager;
     }
 }

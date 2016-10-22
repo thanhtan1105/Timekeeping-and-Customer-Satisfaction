@@ -16,6 +16,7 @@ public class AccountModifyModel {
     private Long roleId;
     private Long departmentId;
     private Gender gender;
+    private Long manager;
 
     public AccountModifyModel() {
     }
@@ -83,5 +84,13 @@ public class AccountModifyModel {
 
     public void setDepartmentId(Long departmentId) {
         this.departmentId = departmentId;
+    }
+
+    public Long getManager() {
+        return manager;
+    }
+
+    public void setManager(Long manager) {
+        this.manager = manager;
     }
 }

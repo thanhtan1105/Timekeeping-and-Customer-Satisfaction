@@ -40,9 +40,6 @@ public class DepartmentEntity implements Serializable {
     @Column(name = "status", nullable = false)
     private ETrainStatus status = ETrainStatus.NOT_STARTED;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "manager_id")
-    private AccountEntity manager;
 
     @OneToMany(mappedBy = "department", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<AccountEntity> accountEntitySet;
@@ -132,13 +129,5 @@ public class DepartmentEntity implements Serializable {
 
     public void setStatus(ETrainStatus status) {
         this.status = status;
-    }
-
-    public AccountEntity getManager() {
-        return manager;
-    }
-
-    public void setManager(AccountEntity manager) {
-        this.manager = manager;
     }
 }

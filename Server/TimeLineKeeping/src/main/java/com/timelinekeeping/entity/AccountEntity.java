@@ -77,11 +77,14 @@ public class AccountEntity implements Serializable {
     @JoinColumn(name = "department_id", nullable = false)
     private DepartmentEntity department;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id")
+    private AccountEntity manager;
+
     @OneToMany(mappedBy = "accountEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<FaceEntity> faces;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "manager")
-    private DepartmentEntity manager;
+
 
 
     public AccountEntity() {
@@ -211,14 +214,21 @@ public class AccountEntity implements Serializable {
         this.faces = faces;
     }
 
-    public DepartmentEntity getManager() {
+    public void setTimeDeactive(Timestamp timeDeactive) {
+        this.timeDeactive = timeDeactive;
+    }
+
+    public void setTimeCreate(Timestamp timeCreate) {
+        this.timeCreate = timeCreate;
+    }
+
+    public AccountEntity getManager() {
         return manager;
     }
 
-    public void setManager(DepartmentEntity manager) {
+    public void setManager(AccountEntity manager) {
         this.manager = manager;
     }
-
 
     @Override
     public String toString() {
