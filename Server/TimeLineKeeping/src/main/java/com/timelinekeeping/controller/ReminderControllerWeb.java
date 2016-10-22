@@ -98,15 +98,15 @@ public class ReminderControllerWeb {
                 // get all employees for assigning participants
                 List<AccountModel> accountModels = accountService.getEmployeesOfDepart(managerId);
                 logger.info("[Controller- Load Add Reminder View] size of list employees: " + accountModels.size());
-                //get all locations
+                //get all rooms
                 List<CoordinateModel> coordinateModels = coordinateService.getRoomPoint();
-                logger.info("[Controller- Load Add Reminder View] size of list locations: " + coordinateModels.size());
+                logger.info("[Controller- Load Add Reminder View] size of list rooms: " + coordinateModels.size());
 
                 // set side-bar
                 String sideBar = IContanst.SIDE_BAR_MANAGER_MANAGEMENT_REMINDER;
 
                 model.addAttribute("ListAccounts", accountModels);
-                model.addAttribute("ListLocations", coordinateModels);
+                model.addAttribute("ListRooms", coordinateModels);
                 // side-bar
                 model.addAttribute("SideBar", sideBar);
 
