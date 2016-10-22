@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout_admin">
+
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Management Departments</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1 class="text-success">
+            <i class="glyphicon glyphicon-send"></i> Management Departments
+        </h1>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-laptop active"></i> Management Departments</li>
+        </ol>
+        <hr style="border-color: green; margin-top: 4px; margin-bottom: 5px;"/>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Your Page Content Here -->
+        <!-- Form for search departments -->
+        <div class="input-group" style="margin-right:  25%; margin-left: 25%; margin-bottom: 5px;">
+            <input type="text" class="form-control" placeholder="Enter Department"/>
+            <span class="input-group-btn">
+                    <button class="btn btn-success btn-flat" type="button"/>
+                        <i class="glyphicon glyphicon-search"></i> Search
+                </span>
+        </div>
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <input id="demo4" type="text" class="col-md-12 form-control" placeholder="Search cities..."
+                       autocomplete="off"/>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+        <button id="btn-test">Test</button>
+    </section>
+    <!-- /.content -->
+</div>
+<div layout:fragment="js">
+    <script th:src="@{/js/admin/management_depart/autocomplete.js}"></script>
+</div>
+</body>
+</html>
