@@ -121,12 +121,14 @@ public class ReminderControllerWeb {
     @RequestMapping(value = "/addReminderProcessing", produces = "text/plain;charset=UTF-8", method = RequestMethod.POST)
     public String addReminder(@RequestParam("title") String title,
                               @RequestParam("time") String time,
+                              @RequestParam("roomId") String roomId,
                               @RequestParam("listEmployees") String[] listEmployees,
                               @RequestParam("message") String message,
                               HttpSession session) {
         logger.info("[Controller- Add Reminder] BEGIN");
         logger.info("[Controller- Add Reminder] title: " + title);
         logger.info("[Controller- Add Reminder] time: " + time);
+        logger.info("[Controller- Add Reminder] roomId: " + roomId);
         logger.info("[Controller- Add Reminder] size of list employees: " + listEmployees.length);
         logger.info("[Controller- Add Reminder] message: " + message);
         TimeUtil timeUtil = new TimeUtil();
@@ -153,6 +155,7 @@ public class ReminderControllerWeb {
                 reminderModifyModel.setTime(timeParser.getTime());
                 reminderModifyModel.setManagerId(managerId);
                 reminderModifyModel.setEmployeeSet(employeeSet);
+                reminderModifyModel.setRoomId(ValidateUtil.parseNumber(roomId));
                 // create reminder
                 BaseResponseG<ReminderModel> response = reminderService.create(reminderModifyModel);
 
