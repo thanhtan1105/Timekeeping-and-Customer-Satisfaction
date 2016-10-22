@@ -10,7 +10,7 @@ target 'StaffApp' do
   pod 'TanLT1Extensions'
   pod 'OneSignal'
   pod 'EstimoteSDK'
-  pod 'RealmSwift'
+  pod 'RealmSwift'  
   
   target 'StaffAppTests' do
     inherit! :search_paths

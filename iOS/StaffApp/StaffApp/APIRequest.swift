@@ -109,6 +109,10 @@ class APIRequest: NSObject {
     ]
     webservice_GET(url, params: [:], headersParams: header, completion: onCompletion)    
   }
+  
+  func getAllRoomPoint(onCompletion: ServiceResponse) {
+    
+  }
 }
 
 // MARK: - Private method

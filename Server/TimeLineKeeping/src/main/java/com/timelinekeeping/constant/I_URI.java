@@ -14,7 +14,6 @@ public interface I_URI {
     String API_UPDATE = "/update";
     String API_ACTIVE = "/active";
 
-
     /*** CONTROLLER*/
     String API = "/api";
     /**
@@ -59,6 +58,7 @@ public interface I_URI {
     String API_COORDINATE_LIST = "/list";
     String API_COORDINATE_GET_ROOM_POINT = "/list_room_point";
     String API_COORDINATE_GET_POINT = "/list_point";
+
     /**
      * Reminder
      */
@@ -110,8 +110,5 @@ public interface I_URI {
     String PARAMETER_EMOTION_ACCOUNT_ID = "accountId";
     String API_BEACON = "/api/beacon";
     String API_BEACON_GET_BEACON_POINT = "/list_beacon_point";
-    String API_BEACON_GET_POINT = "/list_point";
     String API_BEACON_FIND_PATH = "/find_path";
-
-
 }

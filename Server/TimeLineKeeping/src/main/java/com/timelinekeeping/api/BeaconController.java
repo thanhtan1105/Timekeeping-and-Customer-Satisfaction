@@ -25,19 +25,9 @@ public class BeaconController {
     @Autowired
     private BeaconAlgorithm algorithm;
 
-    @RequestMapping(I_URI.API_BEACON_GET_ROOM_POINT)
-    public List<CoordinateModel> getRoomPoint(){
-        return beaconService.getRoomPoint();
-    }
-
     @RequestMapping(I_URI.API_BEACON_GET_BEACON_POINT)
     public List<BeaconModel> getBeaconPoint(){
         return beaconService.getBeaconPoint();
-    }
-
-    @RequestMapping(I_URI.API_BEACON_GET_POINT)
-    public List<CoordinateModel> getPoint(){
-        return beaconService.getPoint();
     }
 
     @RequestMapping(I_URI.API_BEACON_FIND_PATH)

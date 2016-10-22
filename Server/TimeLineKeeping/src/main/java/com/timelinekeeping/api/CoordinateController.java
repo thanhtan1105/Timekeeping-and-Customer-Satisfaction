@@ -28,27 +28,18 @@ public class CoordinateController {
     @Autowired
     private CoordinateServiceImpl coordinateService;
 
-    @RequestMapping(value = I_URI.API_COORDINATE_LIST, method = RequestMethod.GET)
+    @RequestMapping(value = I_URI.API_COORDINATE_GET_ROOM_POINT, method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse findAll() {
-        try {
-            return new BaseResponse(true, coordinateService.listAll(0, 1000));
-        } catch (Exception e) {
-            logger.error(IContanst.LOGGER_ERROR, e);
-            return new BaseResponse(e);
-        } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
-        }
-    }
-
-    @RequestMapping(I_URI.API_COORDINATE_GET_ROOM_POINT)
     public List<CoordinateModel> getRoomPoint(){
         return coordinateService.getRoomPoint();
     }
 
-    @RequestMapping(I_URI.API_COORDINATE_GET_POINT )
+    @RequestMapping(value = I_URI.API_COORDINATE_GET_POINT, method = RequestMethod.GET)
+    @ResponseBody
     public List<CoordinateModel> getPoint(){
         return coordinateService.getPoint();
     }
+
+
 
 }

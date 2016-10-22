@@ -105,4 +105,12 @@ extension NotificationViewController {
       }
     }
   }
+  
+  private func callApiGetAllPoint() {
+    
+  }
+  
+  private func callApiGetAllCenter() {
+    
+  }
 }

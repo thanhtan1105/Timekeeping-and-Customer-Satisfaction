@@ -27,8 +27,7 @@ public class BeaconServiceImpl {
     private BeaconRepo beaconRepo;
 
 
-
-    public void findShortPath(CoordinateEntity beginPoint, CoordinateEntity entityPoint){
+    public void findShortPath(CoordinateEntity beginPoint, CoordinateEntity entityPoint) {
 
     }
 
@@ -36,9 +35,11 @@ public class BeaconServiceImpl {
         List<BeaconEntity> list = beaconRepo.findAll();
         if (ValidateUtil.isEmpty(list)){
             return null;
-        }else {
+        } else {
             return list.stream().map(BeaconModel::new).collect(Collectors.toList());
         }
     }
+
+
 
 }

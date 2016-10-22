@@ -31,6 +31,7 @@
 		A66FD99B1DBA1C57008E496E /* Edge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66FD99A1DBA1C57008E496E /* Edge.swift */; };
 		A66FD99D1DBA1F0D008E496E /* SwiftGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66FD99C1DBA1F0D008E496E /* SwiftGraph.swift */; };
 		A66FD99F1DBA2285008E496E /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66FD99E1DBA2285008E496E /* Path.swift */; };
+		A66FD9A11DBAFE29008E496E /* Points.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66FD9A01DBAFE29008E496E /* Points.swift */; };
 		A682FC471DA9EE730047CDBE /* CVAuxiliaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A682FC2B1DA9EE730047CDBE /* CVAuxiliaryView.swift */; };
 		A682FC481DA9EE730047CDBE /* CVCalendarContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A682FC2C1DA9EE730047CDBE /* CVCalendarContentViewController.swift */; };
 		A682FC491DA9EE730047CDBE /* CVCalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A682FC2D1DA9EE730047CDBE /* CVCalendarDayView.swift */; };
@@ -119,6 +120,7 @@
 		A66FD99A1DBA1C57008E496E /* Edge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Edge.swift; sourceTree = "<group>"; };
 		A66FD99C1DBA1F0D008E496E /* SwiftGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftGraph.swift; sourceTree = "<group>"; };
 		A66FD99E1DBA2285008E496E /* Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
+		A66FD9A01DBAFE29008E496E /* Points.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Points.swift; sourceTree = "<group>"; };
 		A682FC2B1DA9EE730047CDBE /* CVAuxiliaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVAuxiliaryView.swift; sourceTree = "<group>"; };
 		A682FC2C1DA9EE730047CDBE /* CVCalendarContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVCalendarContentViewController.swift; sourceTree = "<group>"; };
 		A682FC2D1DA9EE730047CDBE /* CVCalendarDayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVCalendarDayView.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 				A6EBEC3F1DA7441D00418D00 /* Notification.swift */,
 				A682FC641DAA31FA0047CDBE /* TodoList.swift */,
 				A6061A711DB8C6220097A7BA /* Beacon.swift */,
+				A66FD9A01DBAFE29008E496E /* Points.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -730,6 +733,7 @@
 				A66FD9981DBA1BA1008E496E /* Vertex.swift in Sources */,
 				A6090B9B1DA2E3DE0039B892 /* TimeKeepingViewController.swift in Sources */,
 				A6090BA71DA2F0640039B892 /* Account.swift in Sources */,
+				A66FD9A11DBAFE29008E496E /* Points.swift in Sources */,
 				A682FC571DA9EE730047CDBE /* CVCalendarViewPresentationMode.swift in Sources */,
 				A682FC5B1DA9EE730047CDBE /* CVDate.swift in Sources */,
 				A682FC531DA9EE730047CDBE /* CVCalendarViewAnimatorDelegate.swift in Sources */,

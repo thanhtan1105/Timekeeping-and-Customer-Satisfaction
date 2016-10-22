@@ -27,4 +27,7 @@ let urlGetReminder: String = "/account/get_reminder"
 let urlGetAttance: String = "/time/get_attendance"
 let urlGetToDoList: String = "/todo_list/get"
 let urlSelectTask : String = "/todo_list/select_task"
-let urlGetBeacon: String = "/coordinate/list"
+let urlGetBeacon: String = "/beacon/list_beacon_point"
+let urlGetRoomPoint: String = "/coordinate/list_room_point"
+let urlGetPoint: String = "/coordinate/list_point"
+

@@ -56,7 +56,6 @@ public class CoordinateServiceImpl {
         }
     }
 
-
     public List<CoordinateModel> getPoint() {
         List<CoordinateEntity> list = coordinateRepo.findAll();
         if (ValidateUtil.isEmpty(list)){
@@ -65,5 +64,4 @@ public class CoordinateServiceImpl {
             return list.stream().map(CoordinateModel::new).collect(Collectors.toList());
         }
     }
-
 }
