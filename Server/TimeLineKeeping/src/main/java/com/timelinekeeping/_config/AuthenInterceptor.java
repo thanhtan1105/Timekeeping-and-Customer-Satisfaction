@@ -55,7 +55,7 @@ public class AuthenInterceptor extends HandlerInterceptorAdapter {
             }
         }
         //TODO Authen api
-        if (isMatched(I_URI.API +"/**", url)){
+        if (isMatched(I_URI.API +"/**", url) ||isMatched("/api_mcs/**", url)){
             return true;
         }
         HttpSession session = request.getSession();

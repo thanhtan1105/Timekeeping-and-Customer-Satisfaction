@@ -20,7 +20,7 @@ public class StoreFileUtils {
             String fileName = PATH + File.separator + String.format("%s.%s", nameFile, IContanst.EXTENSION_FILE_IMAGE);
             File file = new File(fileName);
             if (!file.getParentFile().exists()){
-                file.getParentFile().mkdir();
+                file.getParentFile().mkdirs();
             }else{
                 if (file.exists()){
                     file.delete();

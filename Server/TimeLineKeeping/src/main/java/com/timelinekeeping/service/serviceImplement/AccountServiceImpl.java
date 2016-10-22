@@ -7,7 +7,9 @@ import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.common.BaseResponseG;
 import com.timelinekeeping.constant.*;
 import com.timelinekeeping.entity.*;
-import com.timelinekeeping.model.*;
+import com.timelinekeeping.model.AccountModel;
+import com.timelinekeeping.model.AccountModifyModel;
+import com.timelinekeeping.model.NotificationCheckInModel;
 import com.timelinekeeping.modelMCS.FaceDetectResponse;
 import com.timelinekeeping.modelMCS.FaceIdentifyConfidenceRespone;
 import com.timelinekeeping.modelMCS.FaceIdentityCandidate;
@@ -26,6 +28,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -246,16 +249,17 @@ public class AccountServiceImpl {
             Map<String, String> mapResult = (Map<String, String>) baseResponse.getData(); // get face
             if (mapResult != null && mapResult.size() > 0) {
                 String persistedFaceID = mapResult.get("persistedFaceId");
+                //STORE FILE
+                String nameFile = accountEntity.getDepartment().getId() + "_" + accountEntity.getDepartment().getCode()
+                        + File.separator + accountId + "_" + accountEntity.getUsername() + File.separator + new Date().getTime();
+                String outFileName = StoreFileUtils.storeFile(nameFile, streams[1]);
+                //return faceReturn.getId();
+
                 // save db
                 FaceEntity faceCreate = new FaceEntity(persistedFaceID, accountEntity);
+                faceCreate.setStoePath(outFileName);
                 FaceEntity faceReturn = faceRepo.saveAndFlush(faceCreate);
-                if (faceReturn != null) {
-
-                    //STORE FILE
-                    String nameFile = accountEntity.getDepartment().getCode() + "_" + accountId + "_" + faceReturn.getId();
-                    StoreFileUtils.storeFile(nameFile, imgStream);
-                    return faceReturn.getId();
-                }
+                return faceReturn.getId();
             }
             return null;
         } finally {
@@ -340,61 +344,61 @@ public class AccountServiceImpl {
     /**
      * push notification for device
      */
-     private void pushNotification(AccountEntity accountEntity) {
-         try {
-             String jsonResponse;
-             URL url = new URL("https://onesignal.com/api/v1/notifications");
-             HttpURLConnection con = (HttpURLConnection)url.openConnection();
-             con.setUseCaches(false);
-             con.setDoOutput(true);
-             con.setDoInput(true);
+    private void pushNotification(AccountEntity accountEntity) {
+        try {
+            String jsonResponse;
+            URL url = new URL("https://onesignal.com/api/v1/notifications");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setUseCaches(false);
+            con.setDoOutput(true);
+            con.setDoInput(true);
 
-             con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-             con.setRequestProperty("Authorization", "Basic ZjkwMjQ4MzQtNzM4Ny00NjRhLWFhZmItOGE5ZmEyZGIyMjBh");
-             con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            con.setRequestProperty("Authorization", "Basic ZjkwMjQ4MzQtNzM4Ny00NjRhLWFhZmItOGE5ZmEyZGIyMjBh");
+            con.setRequestMethod("POST");
 
-             // make data
-             Gender gender = accountEntity.getGender();
-             String welcomeMessage = "Xin chào ";
-             String prefix = gender == Gender.MALE ? "anh" : "chị";
-             welcomeMessage += prefix + " ";
-             welcomeMessage += accountEntity.getFullname() + " ";
-             welcomeMessage += ". Chúc " + prefix + " " + "một ngày làm việc tốt lành";
+            // make data
+            Gender gender = accountEntity.getGender();
+            String welcomeMessage = "Xin chào ";
+            String prefix = gender == Gender.MALE ? "anh" : "chị";
+            welcomeMessage += prefix + " ";
+            welcomeMessage += accountEntity.getFullname() + " ";
+            welcomeMessage += ". Chúc " + prefix + " " + "một ngày làm việc tốt lành";
 
-             String strJsonBody = "{"
-                     +   "\"app_id\": \"dbd7cdd6-9555-416b-bc08-21aa24164299\","
-                     +   "\"include_player_ids\" : [\"" + accountEntity.getToken() + "\"],"
-                     +   "\"data\": {\"id\": "+ accountEntity.getId() +"},"
-                     +   "\"headings\": {\"en\": \"Check in successfully\"},"
-                     +   "\"contents\": {\"en\": \"" + welcomeMessage + "\"}"
-                     + "}";
+            String strJsonBody = "{"
+                    + "\"app_id\": \"dbd7cdd6-9555-416b-bc08-21aa24164299\","
+                    + "\"include_player_ids\" : [\"" + accountEntity.getToken() + "\"],"
+                    + "\"data\": {\"id\": " + accountEntity.getId() + "},"
+                    + "\"headings\": {\"en\": \"Check in successfully\"},"
+                    + "\"contents\": {\"en\": \"" + welcomeMessage + "\"}"
+                    + "}";
 
-             System.out.println("strJsonBody:\n" + strJsonBody);
+            System.out.println("strJsonBody:\n" + strJsonBody);
 
-             byte[] sendBytes = strJsonBody.getBytes("UTF-8");
-             con.setFixedLengthStreamingMode(sendBytes.length);
+            byte[] sendBytes = strJsonBody.getBytes("UTF-8");
+            con.setFixedLengthStreamingMode(sendBytes.length);
 
-             OutputStream outputStream = con.getOutputStream();
-             outputStream.write(sendBytes);
+            OutputStream outputStream = con.getOutputStream();
+            outputStream.write(sendBytes);
 
-             int httpResponse = con.getResponseCode();
-             System.out.println("httpResponse: " + httpResponse);
+            int httpResponse = con.getResponseCode();
+            System.out.println("httpResponse: " + httpResponse);
 
-             if (httpResponse >= HttpURLConnection.HTTP_OK  && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST) {
-                 Scanner scanner = new Scanner(con.getInputStream(), "UTF-8");
-                 jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
-                 scanner.close();
-             } else {
-                 Scanner scanner = new Scanner(con.getErrorStream(), "UTF-8");
-                 jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
-                 scanner.close();
-             }
-             System.out.println("jsonResponse:\n" + jsonResponse);
+            if (httpResponse >= HttpURLConnection.HTTP_OK && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST) {
+                Scanner scanner = new Scanner(con.getInputStream(), "UTF-8");
+                jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                scanner.close();
+            } else {
+                Scanner scanner = new Scanner(con.getErrorStream(), "UTF-8");
+                jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+                scanner.close();
+            }
+            System.out.println("jsonResponse:\n" + jsonResponse);
 
-         } catch(Throwable t) {
-             t.printStackTrace();
-         }
-     }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
 
     /**
      *
@@ -420,6 +424,7 @@ public class AccountServiceImpl {
 
     /**
      * call API and detect img
+     *
      * @return faceId has rectangle maximun
      */
     private String detectImg(InputStream fileInputStream) throws IOException, URISyntaxException {
@@ -432,9 +437,9 @@ public class AccountServiceImpl {
             List<FaceDetectResponse> faceDetects = (List<FaceDetectResponse>) responseDetect.getData();
             if (faceDetects.size() > 0) {
                 Long area = 0l;
-                for (FaceDetectResponse face : faceDetects){
+                for (FaceDetectResponse face : faceDetects) {
                     Long areaFace = face.getFaceRectangle().area();
-                    if (area < areaFace){
+                    if (area < areaFace) {
                         area = areaFace;
                         faceId = face.getFaceId();
                     }
@@ -466,13 +471,13 @@ public class AccountServiceImpl {
                 //check success
                 // TODO check again check in
 //                if (ValidateUtil.isEmpty(faceIdentifies) && faceIdentifies.size() == 1) {
-                    List<FaceIdentityCandidate> candidateList = faceIdentifies.get(0).getCandidates();
-                    for (FaceIdentityCandidate candidate : candidateList) {
-                        if (candidate.getConfidence() > confidence) {
-                            confidence = candidate.getConfidence();
-                            personID = candidate.getPersonId();
-                        }
+                List<FaceIdentityCandidate> candidateList = faceIdentifies.get(0).getCandidates();
+                for (FaceIdentityCandidate candidate : candidateList) {
+                    if (candidate.getConfidence() > confidence) {
+                        confidence = candidate.getConfidence();
+                        personID = candidate.getPersonId();
                     }
+                }
 //                } else {
 //                    logger.error("When get face identify one image, has many value");
 //                }
