@@ -5,9 +5,11 @@ import com.timelinekeeping.constant.IViewConst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.common.BaseResponseG;
+import com.timelinekeeping.model.CoordinateModel;
 import com.timelinekeeping.model.ReminderModel;
 import com.timelinekeeping.model.ReminderModifyModel;
 import com.timelinekeeping.service.serviceImplement.AccountServiceImpl;
+import com.timelinekeeping.service.serviceImplement.CoordinateServiceImpl;
 import com.timelinekeeping.service.serviceImplement.ReminderServiceImpl;
 import com.timelinekeeping.util.TimeUtil;
 import com.timelinekeeping.util.ValidateUtil;
@@ -39,6 +41,9 @@ public class ReminderControllerWeb {
 
     @Autowired
     private AccountServiceImpl accountService;
+
+    @Autowired
+    private CoordinateServiceImpl coordinateService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String loadManagementReminderView(Model model, HttpSession session) {
@@ -93,11 +98,15 @@ public class ReminderControllerWeb {
                 // get all employees for assigning participants
                 List<AccountModel> accountModels = accountService.getEmployeesOfDepart(managerId);
                 logger.info("[Controller- Load Add Reminder View] size of list employees: " + accountModels.size());
+                //get all locations
+                List<CoordinateModel> coordinateModels = coordinateService.getRoomPoint();
+                logger.info("[Controller- Load Add Reminder View] size of list locations: " + coordinateModels.size());
 
                 // set side-bar
                 String sideBar = IContanst.SIDE_BAR_MANAGER_MANAGEMENT_REMINDER;
 
                 model.addAttribute("ListAccounts", accountModels);
+                model.addAttribute("ListLocations", coordinateModels);
                 // side-bar
                 model.addAttribute("SideBar", sideBar);
 
