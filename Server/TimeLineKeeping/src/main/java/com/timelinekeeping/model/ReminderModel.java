@@ -18,8 +18,10 @@ public class ReminderModel {
     private String message;
     private Date time;
     private Date createTime;
+    private String location;
     private EStatus active;
     private AccountNotificationModel manager;
+    private CoordinateModel room;
     private List<AccountNotificationModel> listEmployee;
 
     public ReminderModel() {
@@ -33,7 +35,7 @@ public class ReminderModel {
             this.time = entity.getTime();
             this.createTime = entity.getCreateDate();
             this.active = entity.getActive();
-            this.manager = new AccountNotificationModel(entity.getMenager());
+            this.manager = new AccountNotificationModel(entity.getManager());
             if (entity.getNotificationSet() != null) {
                 this.listEmployee = entity.getNotificationSet().stream().map(UtilApps::getAccountFromNotify).collect(Collectors.toList());
             }
@@ -115,5 +117,21 @@ public class ReminderModel {
 
     public void setListEmployee(List<AccountNotificationModel> listEmployee) {
         this.listEmployee = listEmployee;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public CoordinateModel getRoom() {
+        return room;
+    }
+
+    public void setRoom(CoordinateModel room) {
+        this.room = room;
     }
 }
