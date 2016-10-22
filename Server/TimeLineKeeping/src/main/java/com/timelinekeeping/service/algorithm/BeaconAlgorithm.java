@@ -1,7 +1,9 @@
 package com.timelinekeeping.service.algorithm;
 
 import com.timelinekeeping.common.Pair;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.ConnectionPointEntity;
+import com.timelinekeeping.model.BeaconFindPathResponse;
 import com.timelinekeeping.model.CoordinateModel;
 import com.timelinekeeping.repository.ConnectionRepo;
 import com.timelinekeeping.repository.CoordinateRepo;
@@ -28,24 +30,24 @@ public class BeaconAlgorithm {
     @Autowired
     private ConnectionRepo connectionRepo;
 
-    Map<Long, Set<CoordinateModel>> graph;
-    Map<Long, Double> distance;
-    Map<Long, Pair<Long, Boolean>> path;//key: path, value: traveled
+    private Map<Long, Set<CoordinateModel>> graph;
+    private Map<Long, Double> distance;
+    private Map<Long, Pair<CoordinateModel, Boolean>> path;//key: path, value: traveled
 
-    Queue<Long> queue;
+    private Queue<Long> queue;
 
 
     private Logger logger = LogManager.getLogger(BeaconAlgorithm.class);
 
-    public BeaconAlgorithm() {
+    private void init() {
         distance = new HashMap<>();
         queue = new ArrayDeque<>();
         path = new HashMap<>();
+        distance = new HashMap<>();
     }
 
     private void prepareGraph() {
         graph = new HashMap<>();
-        distance = new HashMap<>();
 
         //convert to graph
         List<ConnectionPointEntity> listConnection = connectionRepo.findAll();
@@ -73,54 +75,101 @@ public class BeaconAlgorithm {
         }
     }
 
-    public void findShortPath(Long beginVertex, Long endVertex) {
-
-        prepareGraph();
-        queue.add(beginVertex);
-        distance.put(beginVertex, 0d);
-
-        //add vertex to queue
-        while (queue.size() > 0) {
-
-            //get vertex in queue
-            Long vertexId = queue.remove();
-
-
-            //find min path in from vertex
-            travel(vertexId);
-
-
-            //set traveled in point
-            if (path.get(vertexId) == null){
-                path.put(vertexId, new Pair<>(-1l, true));
-            }else {
-                path.get(vertexId).setValue(true);
-            }
-            //break value
-            // find endPath to break;
-            if (vertexId == endVertex) {
-                break;
+    public BeaconFindPathResponse findShortPath(Long beginVertex, Long endVertex) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            init();
+            prepareGraph();
+            CoordinateModel beginPoint = new CoordinateModel(coordinateRepo.findOne(beginVertex));
+            CoordinateModel endPoint = new CoordinateModel(coordinateRepo.findOne(endVertex));
+            if (beginPoint == null || endPoint == null) {
+                return null;
             }
 
-        }
+            queue.add(beginVertex);
+            distance.put(beginVertex, 0d);
+            boolean found = false;
+            //add vertex to queue
+            while (queue.size() > 0 && !found) {
 
-        logger.info("Min Path value:" + distance.get(endVertex));
-        String pathString = "Path: " + endVertex;
-        boolean isFound = false;
-        Long currentVertex = endVertex;
-        while (currentVertex != null && currentVertex != beginVertex) {
-            Pair<Long, Boolean> pairValue = path.get(currentVertex);
-            pathString += " <-- " + pairValue.getKey();
-            currentVertex = pairValue.getKey();
+                //get vertex in queue
+                Long vertexId = queue.remove();
+
+
+                //find min path in from vertex
+                travel(vertexId);
+
+
+                //set traveled in point
+                if (path.get(vertexId) == null) {
+                    path.put(vertexId, new Pair<>(null, true));
+                } else {
+                    path.get(vertexId).setValue(true);
+                }
+                //break value
+                // find endPath to break;
+                if (vertexId.equals(endVertex)) {
+                    found = true;
+                    break;
+                } else {
+                    found = false;
+                }
+
+            }
+
+
+            // prepare result
+            //distance
+            Double distanceValue = distance.get(endVertex);
+
+            //path
+            List<CoordinateModel> listPath = new ArrayList<>();
+
+            logger.info("Min Path value:" + distanceValue);
+
+            String pathString = "Path: " + endVertex;
+            listPath.add(endPoint);
+            Long currentVertex = endVertex;
+            while (currentVertex != null && currentVertex != beginVertex) {
+                //travel path
+                Pair<CoordinateModel, Boolean> pairValue = path.get(currentVertex);
+                pathString += " <-- " + pairValue.getKey().getId();
+                currentVertex = pairValue.getKey().getId();
+                listPath.add(pairValue.getKey());
+            }
+            logger.info(pathString);
+
+            //reverse
+            Collections.reverse(listPath);
+
+            //create pathId
+            List<Long> pathIdList = new ArrayList<>();
+            for (CoordinateModel coordinateModel : listPath) {
+                pathIdList.add(coordinateModel.getId());
+            }
+
+            //create result
+            BeaconFindPathResponse result = new BeaconFindPathResponse();
+            result.setFromPoint(beginPoint);
+            result.setToPoint(endPoint);
+            result.setDistance(distanceValue);
+
+            result.setPath(listPath);
+            result.setPathId(pathIdList);
+
+            //return
+            return result;
+        } finally {
+            init();
+            logger.info(IContanst.END_METHOD_SERVICE);
         }
-        logger.info(pathString);
 
 
     }
 
 
     //find mind path from vertex to other vertex ha agde with vertex
-    private void travel(Long vertexId ){
+    private void travel(Long vertexId) {
         //get oneVertex
         CoordinateModel pointFrom = new CoordinateModel(coordinateRepo.findOne(vertexId));
         //get list vertex connect with this vertex
@@ -131,9 +180,9 @@ public class BeaconAlgorithm {
             for (CoordinateModel pointTo : listVertex) {
 
                 //check point is traveled? if never travel point, allow travel.
-                Pair<Long, Boolean> pathTravel = path.get(pointTo.getId());
+                Pair<CoordinateModel, Boolean> pathTravel = path.get(pointTo.getId());
 
-                if ( pathTravel== null || pathTravel.getValue() != true) {
+                if (pathTravel == null || !pathTravel.getValue()) {
                     //get DistanceMin
                     Double distanceMin = distance.get(pointTo.getId());
                     if (distanceMin == null) distanceMin = Double.MAX_VALUE;
@@ -142,11 +191,11 @@ public class BeaconAlgorithm {
                     Double distanceValue = distance(pointFrom, pointTo);
 
                     //get distanceMin between two distance
-                    if (distanceMin > distanceValue) {
+                    if (distanceMin > distanceValue + distance.get(vertexId)) {
                         //add point to in queue
                         queue.add(pointTo.getId());
-                        distance.put(pointTo.getId(), distanceValue);
-                        path.put(pointTo.getId(), new Pair<>(pointFrom.getId(), false));
+                        distance.put(pointTo.getId(), distanceValue + distance.get(vertexId));
+                        path.put(pointTo.getId(), new Pair<>(pointFrom, false));
                     }
                 }
             }

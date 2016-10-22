@@ -110,5 +110,7 @@ public interface I_URI {
     String PARAMETER_EMOTION_ACCOUNT_ID = "accountId";
     String API_BEACON = "/api/beacon";
     String API_BEACON_GET_BEACON_POINT = "/list_beacon_point";
+    String API_BEACON_GET_ROOM_POINT = "/list_room_point";
+    String API_BEACON_GET_POINT = "/list_point";
     String API_BEACON_FIND_PATH = "/find_path";
 }

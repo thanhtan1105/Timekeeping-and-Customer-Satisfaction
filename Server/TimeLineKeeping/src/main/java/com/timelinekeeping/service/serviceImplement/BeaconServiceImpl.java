@@ -31,15 +31,30 @@ public class BeaconServiceImpl {
 
     }
 
+    public List<CoordinateModel> getRoomPoint() {
+        List<CoordinateEntity> list = coordinateRepo.findAllPointRoom();
+        if (ValidateUtil.isEmpty(list)) {
+            return null;
+        } else {
+            return list.stream().map(CoordinateModel::new).collect(Collectors.toList());
+        }
+    }
+
     public List<BeaconModel> getBeaconPoint() {
         List<BeaconEntity> list = beaconRepo.findAll();
-        if (ValidateUtil.isEmpty(list)){
+        if (ValidateUtil.isEmpty(list)) {
             return null;
         } else {
             return list.stream().map(BeaconModel::new).collect(Collectors.toList());
         }
     }
 
-
-
+    public List<CoordinateModel> getPoint() {
+        List<CoordinateEntity> list = coordinateRepo.findAll();
+        if (ValidateUtil.isEmpty(list)) {
+            return null;
+        } else {
+            return list.stream().map(CoordinateModel::new).collect(Collectors.toList());
+        }
+    }
 }
