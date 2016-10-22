@@ -39,6 +39,7 @@ public class ReminderModel {
             if (entity.getNotificationSet() != null) {
                 this.listEmployee = entity.getNotificationSet().stream().map(UtilApps::getAccountFromNotify).collect(Collectors.toList());
             }
+            this.room = new CoordinateModel(entity.getRoom());
         }
     }
 
