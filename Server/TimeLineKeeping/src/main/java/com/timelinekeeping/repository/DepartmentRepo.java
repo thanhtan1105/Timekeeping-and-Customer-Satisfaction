@@ -25,8 +25,8 @@ public interface DepartmentRepo extends JpaRepository<DepartmentEntity, Long> {
     @Query("SELECT d FROM DepartmentEntity d")
     Page<DepartmentEntity> findAll(Pageable pageable);
 
-    @Query("SELECT d FROM DepartmentEntity d WHERE (:code != NULL  OR d.code = :code) " +
-            "AND (:name != NULL OR d.name like CONCAT('%', :name, '%') AND d.active <> 0)")
+    @Query("SELECT d FROM DepartmentEntity d WHERE (:code = NULL  OR d.code = :code) " +
+            "AND (:name = NULL OR d.name like CONCAT('%', :name, '%') AND d.active <> 0)")
     Page<DepartmentEntity> search(@Param("code") String code,
                                   @Param("name") String name,
                                   Pageable pageable);
