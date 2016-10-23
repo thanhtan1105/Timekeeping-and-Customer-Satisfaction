@@ -99,7 +99,7 @@ public class DepartmentController {
 
     @RequestMapping(value = {I_URI.API_SEARCH}, method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse search(@RequestParam(name = "code") String code,
+    public BaseResponse search(@RequestParam(name = "code", required = false) String code,
                                @RequestParam(name = "name", required = false) String name,
                                @RequestParam(name = "start", defaultValue = IContanst.PAGE_PAGE, required = false) Integer page,
                                @RequestParam(name = "top", defaultValue = IContanst.PAGE_SIZE, required = false) Integer size) {
@@ -107,6 +107,7 @@ public class DepartmentController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info(Thread.currentThread().getStackTrace()[1].getMethodName() + " Code: " + code);
+            logger.info(Thread.currentThread().getStackTrace()[1].getMethodName() + " Name: " + name);
             Page<DepartmentModel> departmentEntities = departmentService.searchDepartment(code, name, page, size);
             logger.info(JsonUtil.toJson(departmentEntities));
             return new BaseResponse(true, departmentEntities);
