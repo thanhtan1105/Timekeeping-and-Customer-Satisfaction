@@ -55,10 +55,9 @@ public class ValidateUtil implements Serializable {
 
     public static void main(String[] args) {
         String text = "Đào Tạo - dt";
-        String text2 = "Đào Tạo -";
-        if (isResultAutocomplete(text2)) {
+        if (isResultAutocomplete(text)) {
             System.out.println("Matching");
-            String[] groups = CommonUtil.parseSearchValue(text2);
+            String[] groups = CommonUtil.parseSearchValue(text);
             System.out.println("Length: " + groups.length);
             for (String group : groups) {
                 System.out.println("-" + group.trim() + ".");
