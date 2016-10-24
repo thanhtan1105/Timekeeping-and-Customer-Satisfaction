@@ -80,7 +80,7 @@
                                             <option th:each="account: ${ListAccounts}"
                                                     th:value="${account.id}"
                                                     th:text="${account.fullname} +' - ' + ${account.username}"
-                                                    th:selected="${#lists.contains(session.ReminderModel.listEmployee, account.id)}"></option>
+                                                    th:selected="${#lists.contains(ListEmployeeId, account.id)}"></option>
                                         </select>
                                     </div>
                                 </div>

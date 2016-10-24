@@ -3,11 +3,8 @@ package com.timelinekeeping.controller;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.IViewConst;
 import com.timelinekeeping.constant.I_URI;
-import com.timelinekeeping.model.AccountModel;
+import com.timelinekeeping.model.*;
 import com.timelinekeeping.common.BaseResponseG;
-import com.timelinekeeping.model.CoordinateModel;
-import com.timelinekeeping.model.ReminderModel;
-import com.timelinekeeping.model.ReminderModifyModel;
 import com.timelinekeeping.service.serviceImplement.AccountServiceImpl;
 import com.timelinekeeping.service.serviceImplement.CoordinateServiceImpl;
 import com.timelinekeeping.service.serviceImplement.ReminderServiceImpl;
@@ -26,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by TrungNN on 9/22/2016.
@@ -208,8 +206,13 @@ public class ReminderControllerWeb {
         // set side-bar
         String sideBar = IContanst.SIDE_BAR_MANAGER_MANAGEMENT_REMINDER;
 
+        //get list only employeeID thui, qua bên kia dể làm hơn
+        ReminderModel reminderModel = (ReminderModel) session.getAttribute("ReminderModel");
+        List<Long> employeeIds = reminderModel.getListEmployee().stream().map(AccountNotificationModel::getId).collect(Collectors.toList());
+
         model.addAttribute("ListAccounts", accountModels);
         model.addAttribute("ListRooms", coordinateModels);
+        model.addAttribute("ListEmployeeId", employeeIds);
         // side-bar
         model.addAttribute("SideBar", sideBar);
 
