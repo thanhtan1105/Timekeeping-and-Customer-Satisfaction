@@ -9,7 +9,8 @@ import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.CoordinateEntity;
 import com.timelinekeeping.entity.NotificationEntity;
 import com.timelinekeeping.entity.ReminderMessageEntity;
-import com.timelinekeeping.model.*;
+import com.timelinekeeping.model.ReminderModel;
+import com.timelinekeeping.model.ReminderModifyModel;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.CoordinateRepo;
 import com.timelinekeeping.repository.NotificationRepo;
@@ -24,6 +25,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -112,7 +114,7 @@ public class ReminderServiceImpl {
             reminderEntity.setRoom(coordinateEntity);
             ReminderMessageEntity entityResult = reminderRepo.saveAndFlush(reminderEntity);
 
-            if (reminder.getEmployeeSet() != null && reminder.getEmployeeSet().size() >0) {
+            if (reminder.getEmployeeSet() != null && reminder.getEmployeeSet().size() > 0) {
                 //create notification
                 for (Long employeeId : reminder.getEmployeeSet()) {
                     AccountEntity employee = accountRepo.findOne(employeeId);
@@ -128,6 +130,70 @@ public class ReminderServiceImpl {
                 return new BaseResponseG<ReminderModel>(true, new ReminderModel(reminderRepo.findOne(entityResult.getId())));
             }
             return new BaseResponseG<>(false, ERROR.OTHER);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    public BaseResponseG<ReminderModel> update(ReminderModifyModel reminder) {
+        BaseResponse baseResponse = new BaseResponse();
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info("reminder: " + JsonUtil.toJson(reminder));
+
+
+            //find reminder is
+            ReminderMessageEntity entity = reminderRepo.findOne(reminder.getId());
+
+            //edit Manager
+            if (entity.getManager() == null || (entity.getManager().getId() != reminder.getManagerId())) {
+
+                //edit manager
+                AccountEntity mangerEntity = accountRepo.findOne(reminder.getManagerId());
+                if (mangerEntity == null || mangerEntity.getActive() == EStatus.DEACTIVE) {
+                    return new BaseResponseG<>(false, String.format(ERROR.REMINDER_MANAGER_ID_NO_EXIST, reminder.getManagerId()));
+                }
+                entity.setManager(mangerEntity);
+            }
+
+            //edit coordinate
+            CoordinateEntity coordinateEntity = coordinateRepo.findOne(reminder.getRoomId());
+            if (coordinateEntity == null) {
+                return new BaseResponseG<>(false, String.format(ERROR.REMINDER_ROOM_ID_NO_EXIST, reminder.getRoomId()));
+            }
+            entity.setRoom(coordinateEntity);
+
+
+            // update reminder class
+            reminderRepo.saveAndFlush(entity);
+
+
+            //get Notification
+            Set<NotificationEntity> notificationSet = entity.getNotificationSet();
+            List<Long> notificationIds = notificationSet.stream().map(NotificationEntity::getId).collect(Collectors.toList());
+
+            // remove old notification
+            notificationSet.stream().filter(notificationEntity -> !notificationIds.contains(notificationEntity.getId()))
+                    .forEach(notificationEntity -> {
+                        notificationEntity.setActive(EStatus.DEACTIVE);
+                        notificationRepo.save(notificationEntity);
+                    });
+
+            // add new notfication
+            reminder.getEmployeeSet().stream().filter(employeeId -> !notificationIds.contains(employeeId)).forEach(
+                    employeeId -> {
+                        AccountEntity employee = accountRepo.findOne(employeeId);
+                        NotificationEntity notificationEntity = new NotificationEntity();
+                        notificationEntity.setReminderMessage(entity);
+                        notificationEntity.setAccountReceive(employee);
+                        notificationRepo.save(notificationEntity);
+                    }
+            );
+
+            notificationRepo.flush();
+
+
+            return new BaseResponseG<>(true, new ReminderModel(reminderRepo.findOne(reminder.getId())));
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }

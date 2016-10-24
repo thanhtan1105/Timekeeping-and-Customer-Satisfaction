@@ -24,7 +24,7 @@ public class NotificationEntity implements Serializable {
     private Timestamp timeNotify;
 
     @Basic
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private ENotification status = ENotification.NOSEND;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,6 +34,10 @@ public class NotificationEntity implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reminder_message_id", referencedColumnName = "id", nullable = false)
     private ReminderMessageEntity reminderMessage;
+
+    @Basic
+    @Column(name = "active")
+    private EStatus active = EStatus.ACTIVE;
 
     public NotificationEntity() {
     }
@@ -76,5 +80,13 @@ public class NotificationEntity implements Serializable {
 
     public void setAccountReceive(AccountEntity accountReceive) {
         this.accountReceive = accountReceive;
+    }
+
+    public EStatus getActive() {
+        return active;
+    }
+
+    public void setActive(EStatus active) {
+        this.active = active;
     }
 }

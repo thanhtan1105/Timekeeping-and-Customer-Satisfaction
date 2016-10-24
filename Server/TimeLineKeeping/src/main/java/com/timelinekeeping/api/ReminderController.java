@@ -45,4 +45,15 @@ public class ReminderController {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }
     }
+
+    @RequestMapping(value = {I_URI.API_UPDATE}, method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse update(@ModelAttribute ReminderModifyModel reminderModel) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            return reminderService.update(reminderModel).toBaseResponse();
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
 }
