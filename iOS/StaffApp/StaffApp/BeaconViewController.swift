@@ -86,7 +86,14 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
   
   @IBAction func onDirectTapped(sender: UIBarButtonItem) {
     // show find path
-    showFindPath(sourcePoint, destinatePoint: destinationPoint)
+    if let destinationPoint = destinationPoint {
+      showFindPath(sourcePoint, destinatePoint: destinationPoint)
+    } else {
+      // print 
+      print("You don't have destination point")
+    }
+    
+    
   }
   
 }
@@ -170,10 +177,9 @@ extension BeaconViewController {
                 print("I AM HERE dAB: ")
                 let location = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
                 sourcePoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
-                  return point.name == location
+                  return point.name == location.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
                 }).first
                 showSourcePoint(sourcePoint)
-                currentLocationLabel.text = location
               } else {
                 print("Khong xac dinh")
               }
@@ -184,10 +190,9 @@ extension BeaconViewController {
                 print("I AM HERE dAB: ")
                 let location = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
                 sourcePoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
-                  return point.name == location
+                  return point.name == location.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
                 }).first
                 showSourcePoint(sourcePoint)
-                currentLocationLabel.text = location
               } else {
                 print("Khong xac dinh")
               }
@@ -201,10 +206,9 @@ extension BeaconViewController {
                 print("I AM HERE dAC: ")
                 let location = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
                 sourcePoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
-                  return point.name == location
+                  return point.name == location.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
                 }).first
                 showSourcePoint(sourcePoint)
-                currentLocationLabel.text = location
 
               } else {
                 print("Khong xac dinh")
@@ -217,10 +221,9 @@ extension BeaconViewController {
                 print("I AM HERE dAC: ")
                 let location = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
                 sourcePoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
-                  return point.name == location
+                  return point.name == location.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
                 }).first
                 showSourcePoint(sourcePoint)
-                currentLocationLabel.text = location
 
               } else {
                 print("Khong xac dinh")
@@ -235,10 +238,9 @@ extension BeaconViewController {
                 print("I AM HERE dBC: ")
                 let location = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
                 sourcePoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
-                  return point.name == location
+                  return point.name == location.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
                 }).first
                 showSourcePoint(sourcePoint)
-                currentLocationLabel.text = location
               } else {
                 print("Khong xac dinh")
               }
@@ -249,10 +251,9 @@ extension BeaconViewController {
                 print("I AM HERE dBC: ")
                 let location = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
                 sourcePoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
-                  return point.name == location
+                  return point.name == location.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
                 }).first
                 showSourcePoint(sourcePoint)
-                currentLocationLabel.text = location
               } else {
                 print("Khong xac dinh")
               }
@@ -313,6 +314,7 @@ extension BeaconViewController {
     // hide loading animation
     dispatch_async(dispatch_get_main_queue()) { 
       LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
+      self.scrollView.hidden = false
     }
     
     let point = realm.objects(Point.self).filter { (point: Point) -> Bool in

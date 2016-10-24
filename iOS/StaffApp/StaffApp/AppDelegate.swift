@@ -47,13 +47,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       }
     }
     
-//    if !isLogin() {
-//      let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//      let loginViewController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController")
-//      navigation = UINavigationController(rootViewController: loginViewController)
-//      window?.rootViewController = navigation
-//      window?.makeKeyAndVisible()
-//    }
+    if !isLogin() {
+      let storyboard = UIStoryboard(name: "Main", bundle: nil)
+      let loginViewController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController")
+      navigation = UINavigationController(rootViewController: loginViewController)
+      window?.rootViewController = navigation
+      window?.makeKeyAndVisible()
+    }
     
     
     
