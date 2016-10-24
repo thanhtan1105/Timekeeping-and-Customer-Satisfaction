@@ -19,7 +19,7 @@ public class ValidateUtil implements Serializable {
         }
     }
 
-    public static boolean isImageFile(InputStream data){
+    public static boolean isImageFile(InputStream data) {
         try {
             ImageIO.read(data).toString();
             return true;
@@ -28,21 +28,43 @@ public class ValidateUtil implements Serializable {
         }
     }
 
-    public static boolean isNotEmpty(Collection collection){
-        return collection != null && collection.size() >0;
-    }
-    public static boolean isEmpty(Collection collection){
-        return collection == null || collection.size() <=0;
+    public static boolean isNotEmpty(Collection collection) {
+        return collection != null && collection.size() > 0;
     }
 
-    public static boolean isEmpty(String text){
-        return text == null || text.length() <=0;
+    public static boolean isEmpty(Collection collection) {
+        return collection == null || collection.size() <= 0;
     }
-    public static boolean isNotEmpty(String text){
-        return text != null && text.length() >0;
+
+    public static boolean isEmpty(String text) {
+        return text == null || text.length() <= 0;
+    }
+
+    public static boolean isNotEmpty(String text) {
+        return text != null && text.length() > 0;
     }
 
     public static boolean isNumeric(String s) {
         return s.matches("[-+]?\\d*\\.?\\d+");
+    }
+
+    public static boolean isResultAutocomplete(String text) {
+        String pattern = "^(.*)-(.*)$";
+        return text.matches(pattern);
+    }
+
+    public static void main(String[] args) {
+        String text = "Đào Tạo - dt";
+        String text2 = "Đào Tạo -";
+        if (isResultAutocomplete(text2)) {
+            System.out.println("Matching");
+            String[] groups = CommonUtil.parseSearchValue(text2);
+            System.out.println("Length: " + groups.length);
+            for (String group : groups) {
+                System.out.println("-" + group.trim() + ".");
+            }
+        } else {
+            System.out.println("Not matching");
+        }
     }
 }
