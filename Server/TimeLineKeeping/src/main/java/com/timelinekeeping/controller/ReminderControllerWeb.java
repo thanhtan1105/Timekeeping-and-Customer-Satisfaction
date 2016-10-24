@@ -173,9 +173,12 @@ public class ReminderControllerWeb {
     }
 
     @RequestMapping(value = "/view", method = RequestMethod.GET)
-    public String viewReminder(@RequestParam("reminderId") String reminderId) {
+    public String viewReminder(@RequestParam("reminderId") String reminderId,
+                               HttpSession session) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         logger.info(Thread.currentThread().getStackTrace()[1].getMethodName() + "[reminderId] " + reminderId);
+        ReminderModel reminderModel = reminderService.get(ValidateUtil.parseNumber(reminderId));
+        session.setAttribute("ReminderModel", reminderModel);
 
         logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         return IViewConst.VIEW_REMINDER_VIEW;
