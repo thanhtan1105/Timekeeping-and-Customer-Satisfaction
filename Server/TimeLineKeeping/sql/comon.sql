@@ -37,7 +37,7 @@ INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `min
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('0', '26', '3.8', '0', '0', '111','1');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('0', '30', '3.8', '0', '0', '113','1');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('0', '34', '3.8', '0', '0', '115','1');
-INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('0', '38', '3.8', '0', '0', '117','1');
+INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`,`type`) VALUES ('0', '38', '3.8', '0', '0', '0');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`,`type`) VALUES ('0', '2', '8.8', '0', '0', '0');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`,`type`) VALUES ('0', '6', '8.8', '0', '0', '0');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`,`type`) VALUES ('0', '10', '8.8', '0', '0', '0');
