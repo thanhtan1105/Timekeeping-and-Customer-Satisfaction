@@ -14,7 +14,6 @@ public class DepartmentModel {
     private String description;
     private EStatus active;
     private ETrainStatus status;
-    private AccountManager manager;
 
     public DepartmentModel() {
     }
@@ -33,9 +32,6 @@ public class DepartmentModel {
             this.description = entity.getDescription();
             this.active = entity.getActive();
             this.status = entity.getStatus();
-            if (entity.getManager() != null) {
-                this.manager = new AccountManager(entity.getManager());
-            }
         }
     }
 
@@ -85,14 +81,6 @@ public class DepartmentModel {
 
     public void setStatus(ETrainStatus status) {
         this.status = status;
-    }
-
-    public AccountManager getManager() {
-        return manager;
-    }
-
-    public void setManager(AccountManager manager) {
-        this.manager = manager;
     }
 
     @Override

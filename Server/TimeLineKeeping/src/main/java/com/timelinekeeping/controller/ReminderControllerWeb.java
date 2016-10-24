@@ -5,9 +5,11 @@ import com.timelinekeeping.constant.IViewConst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.common.BaseResponseG;
+import com.timelinekeeping.model.CoordinateModel;
 import com.timelinekeeping.model.ReminderModel;
 import com.timelinekeeping.model.ReminderModifyModel;
 import com.timelinekeeping.service.serviceImplement.AccountServiceImpl;
+import com.timelinekeeping.service.serviceImplement.CoordinateServiceImpl;
 import com.timelinekeeping.service.serviceImplement.ReminderServiceImpl;
 import com.timelinekeeping.util.TimeUtil;
 import com.timelinekeeping.util.ValidateUtil;
@@ -39,6 +41,9 @@ public class ReminderControllerWeb {
 
     @Autowired
     private AccountServiceImpl accountService;
+
+    @Autowired
+    private CoordinateServiceImpl coordinateService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String loadManagementReminderView(Model model, HttpSession session) {
@@ -93,11 +98,15 @@ public class ReminderControllerWeb {
                 // get all employees for assigning participants
                 List<AccountModel> accountModels = accountService.getEmployeesOfDepart(managerId);
                 logger.info("[Controller- Load Add Reminder View] size of list employees: " + accountModels.size());
+                //get all rooms
+                List<CoordinateModel> coordinateModels = coordinateService.getRoomPoint();
+                logger.info("[Controller- Load Add Reminder View] size of list rooms: " + coordinateModels.size());
 
                 // set side-bar
                 String sideBar = IContanst.SIDE_BAR_MANAGER_MANAGEMENT_REMINDER;
 
                 model.addAttribute("ListAccounts", accountModels);
+                model.addAttribute("ListRooms", coordinateModels);
                 // side-bar
                 model.addAttribute("SideBar", sideBar);
 
@@ -112,12 +121,14 @@ public class ReminderControllerWeb {
     @RequestMapping(value = "/addReminderProcessing", produces = "text/plain;charset=UTF-8", method = RequestMethod.POST)
     public String addReminder(@RequestParam("title") String title,
                               @RequestParam("time") String time,
+                              @RequestParam("roomId") String roomId,
                               @RequestParam("listEmployees") String[] listEmployees,
                               @RequestParam("message") String message,
                               HttpSession session) {
         logger.info("[Controller- Add Reminder] BEGIN");
         logger.info("[Controller- Add Reminder] title: " + title);
         logger.info("[Controller- Add Reminder] time: " + time);
+        logger.info("[Controller- Add Reminder] roomId: " + roomId);
         logger.info("[Controller- Add Reminder] size of list employees: " + listEmployees.length);
         logger.info("[Controller- Add Reminder] message: " + message);
         TimeUtil timeUtil = new TimeUtil();
@@ -144,6 +155,7 @@ public class ReminderControllerWeb {
                 reminderModifyModel.setTime(timeParser.getTime());
                 reminderModifyModel.setManagerId(managerId);
                 reminderModifyModel.setEmployeeSet(employeeSet);
+                reminderModifyModel.setRoomId(ValidateUtil.parseNumber(roomId));
                 // create reminder
                 BaseResponseG<ReminderModel> response = reminderService.create(reminderModifyModel);
 

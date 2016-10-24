@@ -6,10 +6,12 @@ import com.timelinekeeping.constant.ERROR;
 import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
+import com.timelinekeeping.entity.CoordinateEntity;
 import com.timelinekeeping.entity.NotificationEntity;
 import com.timelinekeeping.entity.ReminderMessageEntity;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.repository.AccountRepo;
+import com.timelinekeeping.repository.CoordinateRepo;
 import com.timelinekeeping.repository.NotificationRepo;
 import com.timelinekeeping.repository.ReminderRepo;
 import com.timelinekeeping.util.JsonUtil;
@@ -38,6 +40,9 @@ public class ReminderServiceImpl {
 
     @Autowired
     private NotificationRepo notificationRepo;
+
+    @Autowired
+    private CoordinateRepo coordinateRepo;
 
     private Logger logger = LogManager.getLogger(ReminderServiceImpl.class);
 
@@ -95,10 +100,16 @@ public class ReminderServiceImpl {
                 return new BaseResponseG<>(false, String.format(ERROR.REMINDER_MANAGER_ID_NO_EXIST, reminder.getManagerId()));
             }
 
+            //coordinate
+            CoordinateEntity coordinateEntity = coordinateRepo.findOne(reminder.getRoomId());
+            if (coordinateEntity == null) {
+                return new BaseResponseG<>(false, String.format(ERROR.REMINDER_ROOM_ID_NO_EXIST, reminder.getRoomId()));
+            }
 
             //saveDB
             ReminderMessageEntity reminderEntity = new ReminderMessageEntity(reminder);
-            reminderEntity.setMenager(mangerEntity);
+            reminderEntity.setManager(mangerEntity);
+            reminderEntity.setRoom(coordinateEntity);
             ReminderMessageEntity entityResult = reminderRepo.saveAndFlush(reminderEntity);
 
             if (reminder.getEmployeeSet() != null && reminder.getEmployeeSet().size() >0) {

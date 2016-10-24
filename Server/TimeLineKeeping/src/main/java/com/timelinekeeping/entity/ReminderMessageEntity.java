@@ -34,6 +34,10 @@ public class ReminderMessageEntity implements Serializable {
     private Timestamp time;
 
     @Basic
+    @Column(name = "location")
+    private String location;
+
+    @Basic
     @Column(name = "create_date", nullable = false)
     private Timestamp createDate = new Timestamp(new Date().getTime());
 
@@ -43,7 +47,11 @@ public class ReminderMessageEntity implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
-    private AccountEntity menager;
+    private AccountEntity manager;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "room_id", referencedColumnName = "id")
+    private CoordinateEntity room;
 
     @OneToMany(mappedBy = "reminderMessage", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<NotificationEntity> notificationSet;
@@ -113,13 +121,28 @@ public class ReminderMessageEntity implements Serializable {
         this.active = active;
     }
 
-    public AccountEntity getMenager() {
-        return menager;
+    public AccountEntity getManager() {
+        return manager;
     }
 
-    public void setMenager(AccountEntity account) {
-        this.menager = account;
+    public void setManager(AccountEntity account) {
+        this.manager = account;
     }
 
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public CoordinateEntity getRoom() {
+        return room;
+    }
+
+    public void setRoom(CoordinateEntity room) {
+        this.room = room;
+    }
 }

@@ -14,8 +14,10 @@ public class ReminderModifyModel {
     private String message;
 
     private Long time;
+    private String location;
     private EStatus active = EStatus.ACTIVE;
     private Long managerId;
+    private Long roomId;
     private List<Long> employeeSet;
 
     public ReminderModifyModel() {
@@ -77,5 +79,21 @@ public class ReminderModifyModel {
 
     public void setEmployeeSet(List<Long> employeeSet) {
         this.employeeSet = employeeSet;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
     }
 }

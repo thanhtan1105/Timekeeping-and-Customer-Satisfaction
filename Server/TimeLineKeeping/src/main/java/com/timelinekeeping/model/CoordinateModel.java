@@ -17,7 +17,6 @@ public class CoordinateModel {
     private Double longitude = 0d;
     private int minjor;
     private int major;
-    private String areaName;
     private EBeaconPoint type;
 
     public CoordinateModel() {
@@ -32,7 +31,6 @@ public class CoordinateModel {
         this.longitude = longitude;
         this.minjor = minjor;
         this.major = major;
-        this.areaName = areaName;
     }
 
     public CoordinateModel(Double latitude, Double longitude) {
@@ -107,14 +105,6 @@ public class CoordinateModel {
 
     public void setMajor(int major) {
         this.major = major;
-    }
-
-    public String getAreaName() {
-        return areaName;
-    }
-
-    public void setAreaName(String areaName) {
-        this.areaName = areaName;
     }
 
     public EBeaconPoint getType() {

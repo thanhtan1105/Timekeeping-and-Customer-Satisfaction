@@ -88,10 +88,10 @@ public class DepartmentController {
             Map<String, Boolean> map = new HashMap<>();
             map.put("exist", isExist);
             return new BaseResponse(true, map);
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
-        }finally {
+        } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER);
 
         }
@@ -106,18 +106,19 @@ public class DepartmentController {
 
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info(Thread.currentThread().getStackTrace()[1].getMethodName() + " Code: " + code);
+            logger.info(Thread.currentThread().getStackTrace()[1].getMethodName() + " Name: " + name);
             Page<DepartmentModel> departmentEntities = departmentService.searchDepartment(code, name, page, size);
             logger.info(JsonUtil.toJson(departmentEntities));
             return new BaseResponse(true, departmentEntities);
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
-        }finally {
+        } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER);
 
         }
     }
-
 
 
 }
