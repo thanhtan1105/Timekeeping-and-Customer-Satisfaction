@@ -15,6 +15,7 @@ public class NotificationCheckInModel {
     private String title;
     private String message;
     private Long time;
+    private String location;
 
     public NotificationCheckInModel(NotificationEntity entity) {
         if (entity != null) {
@@ -24,6 +25,9 @@ public class NotificationCheckInModel {
                 this.title = reminder.getTitle();
                 this.message = reminder.getMessage();
                 this.time = reminder.getTime().getTime();
+                String location = (reminder.getRoom() != null ? reminder.getRoom().getName(): "")
+                        + "" + (reminder.getLocation() != null ?  ", " + reminder.getLocation() : "");
+                this.location = location;
             }
         }
     }
@@ -58,5 +62,13 @@ public class NotificationCheckInModel {
 
     public void setTime(Long time) {
         this.time = time;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }
