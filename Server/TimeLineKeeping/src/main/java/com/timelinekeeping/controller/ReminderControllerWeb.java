@@ -180,4 +180,12 @@ public class ReminderControllerWeb {
         logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         return IViewConst.VIEW_REMINDER_VIEW;
     }
+
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String updateReminder() {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+        logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        return IViewConst.UPDATE_REMINDER_VIEW;
+    }
 }

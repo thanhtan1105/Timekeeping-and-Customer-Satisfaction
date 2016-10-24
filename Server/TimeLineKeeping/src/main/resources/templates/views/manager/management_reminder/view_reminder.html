@@ -55,7 +55,8 @@
                             <div class="form-group">
                                 <div class="col-sm-2"></div>
                                 <div class="col-sm-5">
-                                    <button type="submit" class="btn bg-aqua-gradient btn-flat">
+                                    <button type="button" th:id="'btn-edit-reminder'"
+                                            class="btn bg-aqua-gradient btn-flat">
                                         Edit
                                     </button>
                                 </div>
@@ -66,6 +67,11 @@
                 </div>
             </div>
         </div>
+        <!-- form edit reminder -->
+        <form th:action="@{/manager/reminders/update}"
+              th:id="'form-submit-edit-reminder'">
+        </form>
+        <!-- /.end form edit reminder -->
         <div class="row">
             <div class="col-sm-2">
                 <a th:href="@{/manager/reminders/}">
@@ -79,7 +85,7 @@
     <!-- /.content -->
 </div>
 <div layout:fragment="js">
-    <!--<script th:src="@{/js/admin/management_depart/management_depart.js}"></script>-->
+    <script th:src="@{/js/manager/reminder/view_reminder.js}"></script>
 </div>
 </body>
 </html>
