@@ -84,6 +84,12 @@ public class UtilApps {
         return sentence;
     }
 
+
+    public static String[] parseSearchValue(String searchValue) {
+        String regular = "[-]";
+        String[] groups = searchValue.split(regular);
+        return groups;
+    }
     public static void main(String[] args) {
         System.out.println(formatSentence(" còn đó  những  niềm  pass Capstone Project "));
     }
