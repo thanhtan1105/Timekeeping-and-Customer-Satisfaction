@@ -78,7 +78,8 @@
                         <td th:text="${reminder.room.name}"></td>
                         <td>
                             <div class="btn-group" style="width: 100%;">
-                                <button class="btn btn-success btn-flat btn-sm" type="button" style="width: 50%;"
+                                <button class="btn btn-success btn-flat btn-sm btn-edit-reminder" type="button"
+                                        style="width: 50%;" th:attr="data-id=${reminder.id}"
                                         title="Edit Class">
                                     <i class="glyphicon glyphicon-edit"></i> Edit
                                 </button>
@@ -93,12 +94,16 @@
             </div>
             <!-- /.box-body -->
             <!-- /.end data-table for list of accounts -->
+            <form th:action="@{/manager/reminders/view}"
+                  th:id="'form-submit-view-reminder'">
+                <input type="hidden" th:name="reminderId"/>
+            </form>
         </div>
     </section>
     <!-- /.content -->
 </div>
 <div layout:fragment="js">
-    <!--<script th:src="@{/js/admin/management_depart/management_depart.js}"></script>-->
+    <script th:src="@{/js/manager/reminder/management_reminder.js}"></script>
 </div>
 </body>
 </html>
