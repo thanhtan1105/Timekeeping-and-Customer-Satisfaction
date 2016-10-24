@@ -20,14 +20,15 @@
                         </div>
                     </div>
                     <div class="box-body">
-                        <form method="post"
+                        <form th:action="@{/manager/reminders/updating}" method="post"
                               class="form-horizontal" role="form">
                             <div class="form-group">
                                 <label class="control-label col-sm-2">
                                     Title: <font color="red">*</font></label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" th:if="${session} and ${session.ReminderModel}"
+                                    <input type="text" th:name="title"
+                                           th:if="${session} and ${session.ReminderModel}"
                                            th:value="${session.ReminderModel.title}"
                                            class="form-control"
                                            style="width: 50%;"/>
@@ -42,7 +43,8 @@
                                          data-date="2016-09-16T05:25:07Z"
                                          data-date-format="dd MM yyyy - HH:ii p"
                                          style="width: 50%">
-                                        <input type="text" th:if="${session} and ${session.ReminderModel}"
+                                        <input type="text" th:name="time"
+                                               th:if="${session} and ${session.ReminderModel}"
                                                th:value="${#dates.format(session.ReminderModel.time, 'dd MMMM yyyy - hh:mm a')}"
                                                class="form-control pull-left"/>
 
@@ -59,7 +61,7 @@
 
                                 <div class="col-sm-10">
                                     <div style="width: 50%">
-                                        <select
+                                        <select th:name="roomId"
                                                 class="form-control select2" style="width: 100%;">
                                             <option>Select Room</option>
                                             <option th:each="room: ${ListRooms}" th:value="${room.id}"
@@ -75,7 +77,8 @@
 
                                 <div class="col-sm-10">
                                     <div style="width: 50%">
-                                        <select class="form-control select2" multiple="multiple"
+                                        <select th:name="listEmployees"
+                                                class="form-control select2" multiple="multiple"
                                                 data-placeholder="Select Participants" style="width: 100%;">
                                             <option th:each="account: ${ListAccounts}"
                                                     th:value="${account.id}"
@@ -90,7 +93,8 @@
                                     Message: <font color="red">*</font></label>
 
                                 <div class="col-sm-10">
-                                <textarea class="form-control" placeholder="Enter Description"
+                                <textarea th:name="message"
+                                          class="form-control" placeholder="Enter Description"
                                           th:if="${session} and ${session.ReminderModel}"
                                           th:text="${session.ReminderModel.message}"
                                           style="width: 50%"></textarea>

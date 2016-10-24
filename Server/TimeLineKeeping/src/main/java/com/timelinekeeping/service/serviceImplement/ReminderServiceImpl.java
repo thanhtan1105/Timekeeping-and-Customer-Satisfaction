@@ -141,7 +141,6 @@ public class ReminderServiceImpl {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("reminder: " + JsonUtil.toJson(reminder));
 
-
             //find reminder is
             ReminderMessageEntity entity = reminderRepo.findOne(reminder.getId());
 

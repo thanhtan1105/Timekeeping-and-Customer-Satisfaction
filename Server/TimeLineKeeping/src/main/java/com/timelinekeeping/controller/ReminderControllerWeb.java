@@ -219,4 +219,42 @@ public class ReminderControllerWeb {
         logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         return IViewConst.UPDATE_REMINDER_VIEW;
     }
+
+    @RequestMapping(value = "/updating", method = RequestMethod.POST)
+    public String updating(@RequestParam("title") String title,
+                           @RequestParam("time") String time,
+                           @RequestParam("roomId") String roomId,
+                           @RequestParam("listEmployees") String[] listEmployees,
+                           @RequestParam("message") String message,
+                           HttpSession session) {
+        TimeUtil timeUtil = new TimeUtil();
+        Date timeParser = timeUtil.parseStringToDate(time);
+
+        List<Long> employeeSet = new ArrayList<Long>();
+        for (int i = 0; i < listEmployees.length; i++) {
+            employeeSet.add(ValidateUtil.parseNumber(listEmployees[i]));
+        }
+
+        // get session
+        AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
+        Long managerId = accountModel.getId();
+        ReminderModel reminderModel = (ReminderModel) session.getAttribute("ReminderModel");
+        Long reminderId = reminderModel.getId();
+
+        ReminderModifyModel reminderModifyModel = new ReminderModifyModel();
+        reminderModifyModel.setId(reminderId);
+        reminderModifyModel.setTitle(title);
+        reminderModifyModel.setMessage(message);
+        reminderModifyModel.setTime(timeParser.getTime());
+        reminderModifyModel.setManagerId(managerId);
+        reminderModifyModel.setEmployeeSet(employeeSet);
+        reminderModifyModel.setRoomId(ValidateUtil.parseNumber(roomId));
+
+        BaseResponseG<ReminderModel> response = reminderService.update(reminderModifyModel);
+        if (response.isSuccess()) {
+            return "redirect:/manager/reminders/view?reminderId=" + reminderId;
+        }
+
+        return IViewConst.VIEW_REMINDER_VIEW;
+    }
 }
