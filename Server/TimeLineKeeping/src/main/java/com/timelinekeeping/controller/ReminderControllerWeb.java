@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -152,7 +153,7 @@ public class ReminderControllerWeb {
                 reminderModifyModel.setMessage(message);
                 reminderModifyModel.setTime(timeParser.getTime());
                 reminderModifyModel.setManagerId(managerId);
-                reminderModifyModel.setEmployeeSet(employeeSet);
+                reminderModifyModel.setEmployeeSet(new HashSet<Long>(employeeSet));
                 reminderModifyModel.setRoomId(ValidateUtil.parseNumber(roomId));
                 // create reminder
                 BaseResponseG<ReminderModel> response = reminderService.create(reminderModifyModel);
@@ -247,7 +248,7 @@ public class ReminderControllerWeb {
         reminderModifyModel.setMessage(message);
         reminderModifyModel.setTime(timeParser.getTime());
         reminderModifyModel.setManagerId(managerId);
-        reminderModifyModel.setEmployeeSet(employeeSet);
+        reminderModifyModel.setEmployeeSet(new HashSet<Long>(employeeSet));
         reminderModifyModel.setRoomId(ValidateUtil.parseNumber(roomId));
 
         BaseResponseG<ReminderModel> response = reminderService.update(reminderModifyModel);

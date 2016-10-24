@@ -6,6 +6,7 @@ import com.timelinekeeping.util.UtilApps;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -22,7 +23,7 @@ public class ReminderModel {
     private EStatus active;
     private AccountNotificationModel manager;
     private CoordinateModel room;
-    private List<AccountNotificationModel> listEmployee;
+    private Set<AccountNotificationModel> listEmployee;
 
     public ReminderModel() {
     }
@@ -37,7 +38,7 @@ public class ReminderModel {
             this.active = entity.getActive();
             this.manager = new AccountNotificationModel(entity.getManager());
             if (entity.getNotificationSet() != null) {
-                this.listEmployee = entity.getNotificationSet().stream().map(UtilApps::getAccountFromNotify).collect(Collectors.toList());
+                this.listEmployee = entity.getNotificationSet().stream().map(UtilApps::getAccountFromNotify).collect(Collectors.toSet());
             }
             this.room = new CoordinateModel(entity.getRoom());
         }
@@ -112,11 +113,11 @@ public class ReminderModel {
         this.manager = manager;
     }
 
-    public List<AccountNotificationModel> getListEmployee() {
+    public Set<AccountNotificationModel> getListEmployee() {
         return listEmployee;
     }
 
-    public void setListEmployee(List<AccountNotificationModel> listEmployee) {
+    public void setListEmployee(Set<AccountNotificationModel> listEmployee) {
         this.listEmployee = listEmployee;
     }
 

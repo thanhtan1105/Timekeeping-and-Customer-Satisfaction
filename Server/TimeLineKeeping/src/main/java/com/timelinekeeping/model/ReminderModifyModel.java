@@ -3,7 +3,9 @@ package com.timelinekeeping.model;
 import com.timelinekeeping.constant.EStatus;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by HienTQSE60896 on 9/22/2016.
@@ -19,7 +21,7 @@ public class ReminderModifyModel {
     private EStatus active = EStatus.ACTIVE;
     private Long managerId;
     private Long roomId;
-    private List<Long> employeeSet;
+    private Set<Long> employeeSet;
 
     public ReminderModifyModel() {
     }
@@ -72,7 +74,7 @@ public class ReminderModifyModel {
         this.managerId = managerId;
     }
 
-    public List<Long> getEmployeeSet() {
+    public Set<Long> getEmployeeSet() {
         return employeeSet;
     }
 
@@ -82,10 +84,10 @@ public class ReminderModifyModel {
         for (String number : listNumber){
             list.add(Long.parseLong(number));
         }
-        this.employeeSet = list;
+        this.employeeSet = new HashSet<>(list);
     }
 
-    public void setEmployeeSet(List<Long> employeeSet) {
+    public void setEmployeeSet(Set<Long> employeeSet) {
         this.employeeSet = employeeSet;
     }
 

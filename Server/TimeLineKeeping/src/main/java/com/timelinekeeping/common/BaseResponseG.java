@@ -22,6 +22,9 @@ public class BaseResponseG<T> {
         this.message = message;
     }
 
+    public BaseResponseG(boolean success) {
+        this.success = success;
+    }
 
     public BaseResponseG(Exception e) {
         this.success = false;

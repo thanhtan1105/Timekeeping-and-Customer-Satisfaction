@@ -167,19 +167,22 @@ public class ReminderServiceImpl {
             reminderRepo.saveAndFlush(entity);
 
 
-            //get Notification
-            Set<NotificationEntity> notificationSet = entity.getNotificationSet();
-            List<Long> notificationIds = notificationSet.stream().map(NotificationEntity::getId).collect(Collectors.toList());
+            //get Old Employee
+            Set<NotificationEntity> notificationSet = notificationRepo.findReminder(reminder.getId());
+            Set<Long> employeeIDEntity = notificationSet.stream().map(NotificationEntity::getAccountReceive).map(AccountEntity::getId).collect(Collectors.toSet());
+
+            //get new Employee
+            Set<Long> employeeModel = reminder.getEmployeeSet();
 
             // remove old notification
-            notificationSet.stream().filter(notificationEntity -> !notificationIds.contains(notificationEntity.getId()))
+            notificationSet.stream().filter(notificationEntity -> !employeeModel.contains(notificationEntity.getAccountReceive().getId()))
                     .forEach(notificationEntity -> {
                         notificationEntity.setActive(EStatus.DEACTIVE);
                         notificationRepo.save(notificationEntity);
                     });
 
             // add new notfication
-            reminder.getEmployeeSet().stream().filter(employeeId -> !notificationIds.contains(employeeId)).forEach(
+            reminder.getEmployeeSet().stream().filter(employeeId -> !employeeIDEntity.contains(employeeId)).forEach(
                     employeeId -> {
                         AccountEntity employee = accountRepo.findOne(employeeId);
                         NotificationEntity notificationEntity = new NotificationEntity();
@@ -192,7 +195,7 @@ public class ReminderServiceImpl {
             notificationRepo.flush();
 
 
-            return new BaseResponseG<>(true, new ReminderModel(reminderRepo.findOne(reminder.getId())));
+            return new BaseResponseG<>(true);
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
@@ -203,6 +206,8 @@ public class ReminderServiceImpl {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             ReminderMessageEntity entity = reminderRepo.findOne(id);
             if (entity != null){
+                Set<NotificationEntity> notificationEntitySet = notificationRepo.findReminder(id);
+                entity.setNotificationSet(notificationEntitySet);
                 return new ReminderModel(entity);
             }else {
                 return null;
