@@ -198,4 +198,19 @@ public class ReminderServiceImpl {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
+
+    public ReminderModel get(Long id){
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            ReminderMessageEntity entity = reminderRepo.findOne(id);
+            if (entity != null){
+                return new ReminderModel(entity);
+            }else {
+                return null;
+            }
+        }finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
 }
