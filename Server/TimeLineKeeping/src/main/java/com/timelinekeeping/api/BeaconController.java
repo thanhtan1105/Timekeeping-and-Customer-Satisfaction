@@ -34,32 +34,25 @@ public class BeaconController {
     private BeaconAlgorithm algorithm;
 
     @RequestMapping(I_URI.API_BEACON_GET_BEACON_POINT)
-    public List<BeaconModel> getBeaconPoint() {
+    public BaseResponse getBeaconPoint() {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            return beaconService.getBeaconPoint();
-        } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
-        }
-    }
-
-    @RequestMapping(I_URI.API_BEACON_GET_POINT)
-    public List<CoordinateModel> getPoint() {
-        try {
-            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            return beaconService.getPoint();
+            BaseResponse baseResponse = new BaseResponse();
+            baseResponse.setData(beaconService.getBeaconPoint());
+            baseResponse.setSuccess(true);
+            return baseResponse;
         } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }
     }
 
     @RequestMapping(I_URI.API_BEACON_FIND_PATH)
-    public BaseResponse findMinPath(@RequestParam("from") Long beginVertex,
-                                    @RequestParam("to") Long endVertex) {
+    public BaseResponse findMinPath(@RequestParam("from") String beginVertex,
+                                    @RequestParam("to") String endVertex) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.debug(String.format("from = '%s', to= '%s' ", beginVertex, endVertex));
-            BeaconFindPathResponse response = algorithm.findShortPath(beginVertex, endVertex);
+            BeaconFindPathResponse response = algorithm.findShortPath(Long.parseLong(beginVertex), Long.parseLong(endVertex));
             if (response != null) {
                 return new BaseResponse(true, response);
             } else {

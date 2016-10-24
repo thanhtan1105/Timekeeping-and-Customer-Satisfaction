@@ -32,6 +32,7 @@
 		A66FD99D1DBA1F0D008E496E /* SwiftGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66FD99C1DBA1F0D008E496E /* SwiftGraph.swift */; };
 		A66FD99F1DBA2285008E496E /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66FD99E1DBA2285008E496E /* Path.swift */; };
 		A66FD9A11DBAFE29008E496E /* Points.swift in Sources */ = {isa = PBXBuildFile; fileRef = A66FD9A01DBAFE29008E496E /* Points.swift */; };
+		A67A04D01DBD16FD00D6799A /* LeThanhTanLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = A67A04CF1DBD16FD00D6799A /* LeThanhTanLoading.swift */; };
 		A682FC471DA9EE730047CDBE /* CVAuxiliaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A682FC2B1DA9EE730047CDBE /* CVAuxiliaryView.swift */; };
 		A682FC481DA9EE730047CDBE /* CVCalendarContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A682FC2C1DA9EE730047CDBE /* CVCalendarContentViewController.swift */; };
 		A682FC491DA9EE730047CDBE /* CVCalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A682FC2D1DA9EE730047CDBE /* CVCalendarDayView.swift */; };
@@ -63,10 +64,13 @@
 		A682FC651DAA31FA0047CDBE /* TodoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = A682FC641DAA31FA0047CDBE /* TodoList.swift */; };
 		A682FC671DAA72E40047CDBE /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A682FC661DAA72E40047CDBE /* AddTaskViewController.swift */; };
 		A682FC701DAB3E8D0047CDBE /* BeaconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A682FC6F1DAB3E8D0047CDBE /* BeaconViewController.swift */; };
+		A68CAD9B1DBBB66D00864052 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68CAD9A1DBBB66D00864052 /* SettingViewController.swift */; };
+		A68CAD9D1DBBC40400864052 /* NotificationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68CAD9C1DBBC40400864052 /* NotificationDetailViewController.swift */; };
 		A6AC86B61DA4CDE5002B4688 /* Attendances.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6AC86B51DA4CDE5002B4688 /* Attendances.swift */; };
 		A6AC86B91DA4CFE8002B4688 /* EDayStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6AC86B81DA4CFE8002B4688 /* EDayStatus.swift */; };
 		A6AC86BB1DA4D4FC002B4688 /* EPresent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6AC86BA1DA4D4FC002B4688 /* EPresent.swift */; };
 		A6EBEC401DA7441D00418D00 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6EBEC3F1DA7441D00418D00 /* Notification.swift */; };
+		A6F0FA7A1DBB8C38007328A3 /* DrawPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6F0FA791DBB8C38007328A3 /* DrawPath.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +125,7 @@
 		A66FD99C1DBA1F0D008E496E /* SwiftGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftGraph.swift; sourceTree = "<group>"; };
 		A66FD99E1DBA2285008E496E /* Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
 		A66FD9A01DBAFE29008E496E /* Points.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Points.swift; sourceTree = "<group>"; };
+		A67A04CF1DBD16FD00D6799A /* LeThanhTanLoading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeThanhTanLoading.swift; sourceTree = "<group>"; };
 		A682FC2B1DA9EE730047CDBE /* CVAuxiliaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVAuxiliaryView.swift; sourceTree = "<group>"; };
 		A682FC2C1DA9EE730047CDBE /* CVCalendarContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVCalendarContentViewController.swift; sourceTree = "<group>"; };
 		A682FC2D1DA9EE730047CDBE /* CVCalendarDayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVCalendarDayView.swift; sourceTree = "<group>"; };
@@ -153,10 +158,13 @@
 		A682FC661DAA72E40047CDBE /* AddTaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
 		A682FC6F1DAB3E8D0047CDBE /* BeaconViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconViewController.swift; sourceTree = "<group>"; };
 		A682FC711DAB3F5C0047CDBE /* StaffApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StaffApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		A68CAD9A1DBBB66D00864052 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		A68CAD9C1DBBC40400864052 /* NotificationDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationDetailViewController.swift; sourceTree = "<group>"; };
 		A6AC86B51DA4CDE5002B4688 /* Attendances.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attendances.swift; sourceTree = "<group>"; };
 		A6AC86B81DA4CFE8002B4688 /* EDayStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EDayStatus.swift; sourceTree = "<group>"; };
 		A6AC86BA1DA4D4FC002B4688 /* EPresent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPresent.swift; sourceTree = "<group>"; };
 		A6EBEC3F1DA7441D00418D00 /* Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		A6F0FA791DBB8C38007328A3 /* DrawPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawPath.swift; sourceTree = "<group>"; };
 		C12C4AE4DEAEBEB12C0F44D9 /* Pods_StaffAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StaffAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB64B38A6E147CA879BDAAB0 /* Pods-StaffApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StaffApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-StaffApp/Pods-StaffApp.release.xcconfig"; sourceTree = "<group>"; };
 		F6DF59E38B26FBD6873CDD29 /* Pods-StaffAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StaffAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StaffAppTests/Pods-StaffAppTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -278,6 +286,7 @@
 			children = (
 				A6090BA21DA2E6A40039B892 /* NotificationTableCell.swift */,
 				A682FC621DA9FA590047CDBE /* ToDoListTableCell.swift */,
+				A6F0FA791DBB8C38007328A3 /* DrawPath.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -291,7 +300,9 @@
 				A682FC661DAA72E40047CDBE /* AddTaskViewController.swift */,
 				A6090B9A1DA2E3DE0039B892 /* TimeKeepingViewController.swift */,
 				A6090BA01DA2E63F0039B892 /* NotificationViewController.swift */,
+				A68CAD9C1DBBC40400864052 /* NotificationDetailViewController.swift */,
 				A682FC6F1DAB3E8D0047CDBE /* BeaconViewController.swift */,
+				A68CAD9A1DBBB66D00864052 /* SettingViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -342,6 +353,7 @@
 		A6090BAA1DA34FCB0039B892 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A67A04CF1DBD16FD00D6799A /* LeThanhTanLoading.swift */,
 				A682FC2A1DA9EE680047CDBE /* Libraries */,
 				A6090BAB1DA34FDC0039B892 /* Extension */,
 			);
@@ -739,6 +751,7 @@
 				A682FC531DA9EE730047CDBE /* CVCalendarViewAnimatorDelegate.swift in Sources */,
 				A682FC501DA9EE730047CDBE /* CVCalendarTouchController.swift in Sources */,
 				A6061A721DB8C6220097A7BA /* Beacon.swift in Sources */,
+				A68CAD9D1DBBC40400864052 /* NotificationDetailViewController.swift in Sources */,
 				A6090BA91DA34F670039B892 /* HomeTabBarController.swift in Sources */,
 				A6090B981DA2DBCF0039B892 /* APIRequestProtocol.swift in Sources */,
 				A6EBEC401DA7441D00418D00 /* Notification.swift in Sources */,
@@ -747,7 +760,9 @@
 				A682FC611DA9EE730047CDBE /* CVWeekdaySymbolType.swift in Sources */,
 				A6AC86B91DA4CFE8002B4688 /* EDayStatus.swift in Sources */,
 				A682FC5A1DA9EE730047CDBE /* CVCalendarWeekView.swift in Sources */,
+				A67A04D01DBD16FD00D6799A /* LeThanhTanLoading.swift in Sources */,
 				A682FC4A1DA9EE730047CDBE /* CVCalendarDayViewControlCoordinator.swift in Sources */,
+				A68CAD9B1DBBB66D00864052 /* SettingViewController.swift in Sources */,
 				A682FC4C1DA9EE730047CDBE /* CVCalendarMenuView.swift in Sources */,
 				A682FC591DA9EE730047CDBE /* CVCalendarWeekday.swift in Sources */,
 				A682FC521DA9EE730047CDBE /* CVCalendarViewAnimator.swift in Sources */,
@@ -774,6 +789,7 @@
 				A66FD99D1DBA1F0D008E496E /* SwiftGraph.swift in Sources */,
 				A66FD99B1DBA1C57008E496E /* Edge.swift in Sources */,
 				A6AC86BB1DA4D4FC002B4688 /* EPresent.swift in Sources */,
+				A6F0FA7A1DBB8C38007328A3 /* DrawPath.swift in Sources */,
 				A682FC551DA9EE730047CDBE /* CVCalendarViewAppearanceDelegate.swift in Sources */,
 				A682FC5D1DA9EE730047CDBE /* CVScrollDirection.swift in Sources */,
 				A6090B9D1DA2E3E90039B892 /* BaseViewController.swift in Sources */,

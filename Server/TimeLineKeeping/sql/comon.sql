@@ -52,9 +52,9 @@ INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `min
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`,`type`) VALUES ('0', '6', '16.2', '0', '0', '0');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`,`type`) VALUES ('0', '20', '16.2', '0', '0', '0');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`,`type`) VALUES ('0', '38', '16.2', '0', '0', '0');
-INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('0', '6', '20', '0', '0', 'Y Tế','1');
+INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('0', '6', '20', '0', '0', 'Healthy','1');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('0', '2', '21.2', '0', '0', 'WC','1');
-INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('0', '20', '21.2', '0', '0', 'Thư Viện','1');
+INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('0', '20', '21.2', '0', '0', 'Library','1');
 
 /** VERTEX **/
 INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('1', '11');

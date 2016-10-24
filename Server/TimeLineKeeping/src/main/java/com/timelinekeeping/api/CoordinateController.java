@@ -30,16 +30,19 @@ public class CoordinateController {
 
     @RequestMapping(value = I_URI.API_COORDINATE_GET_ROOM_POINT, method = RequestMethod.GET)
     @ResponseBody
-    public List<CoordinateModel> getRoomPoint(){
-        return coordinateService.getRoomPoint();
+    public BaseResponse getRoomPoint(){
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse.setSuccess(true);
+        baseResponse.setData(coordinateService.getRoomPoint());
+        return baseResponse;
     }
 
     @RequestMapping(value = I_URI.API_COORDINATE_GET_POINT, method = RequestMethod.GET)
     @ResponseBody
-    public List<CoordinateModel> getPoint(){
-        return coordinateService.getPoint();
+    public BaseResponse getPoint(){
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse.setSuccess(true);
+        baseResponse.setData(coordinateService.getPoint());
+        return baseResponse;
     }
-
-
-
 }

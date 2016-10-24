@@ -49,7 +49,6 @@ public class CoordinateModel {
             this.longitude = entity.getLongitude();
             this.minjor = entity.getMinjor();
             this.major = entity.getMajor();
-            this.areaName = entity.getAreaName();
             this.type = entity.getType();
         }
     }

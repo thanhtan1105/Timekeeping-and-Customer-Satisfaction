@@ -55,7 +55,6 @@ public interface I_URI {
      * Coorinate
      */
     String API_COORDINATE = "/api/coordinate";
-    String API_COORDINATE_LIST = "/list";
     String API_COORDINATE_GET_ROOM_POINT = "/list_room_point";
     String API_COORDINATE_GET_POINT = "/list_point";
 

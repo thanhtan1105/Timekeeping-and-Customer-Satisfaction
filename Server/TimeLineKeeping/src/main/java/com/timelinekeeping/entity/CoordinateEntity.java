@@ -50,11 +50,6 @@ public class CoordinateEntity implements Serializable {
 
     @Basic
     @NotNull
-    @Column(name = "areaName")
-    private String areaName;
-
-    @Basic
-    @NotNull
     @Column(name = "type")
     private EBeaconPoint type = EBeaconPoint.CAN_MOVE;
 
@@ -66,7 +61,6 @@ public class CoordinateEntity implements Serializable {
         this.longitude = longitude;
         this.minjor = minjor;
         this.major = major;
-        this.areaName = areaName;
     }
 
     public Long getId() {
@@ -123,14 +117,6 @@ public class CoordinateEntity implements Serializable {
 
     public void setFloor(Integer floor) {
         this.floor = floor;
-    }
-
-    public String getAreaName() {
-        return areaName;
-    }
-
-    public void setAreaName(String areaName) {
-        this.areaName = areaName;
     }
 
     public EBeaconPoint getType() {

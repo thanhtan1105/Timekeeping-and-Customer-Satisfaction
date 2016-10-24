@@ -17,12 +17,16 @@ class NotificationViewController: BaseViewController {
   var notifications: [Notification] = []
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    let notifiDump = Notification(["id": "1", "message" : "Nho di hop dung gio", "time" : 1477240569, "title" : "hop tat nien", "location" : "103"])
+    notifications.append(notifiDump!)
   }
   
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
-    callApiGetAllBeacon()   // beacon
+    callApiGetAllBeacon()     // beacon
+    callApiGetAllPoint()      // get point
+    callApiGetRoomPoint()     // get room point
+    
     callApiGetReminder(String(5)) { (data, error) in
       dispatch_async(dispatch_get_main_queue(), {
         if let data = data {
@@ -55,6 +59,14 @@ extension NotificationViewController: UITableViewDelegate, UITableViewDataSource
     let cell = tableView.dequeueReusableCellWithIdentifier("NotificationTableCell") as! NotificationTableCell
     cell.dataSource = notifications[indexPath.row]
     return cell
+  }
+  
+  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    
+    let detailVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("NotificationDetailViewController") as! NotificationDetailViewController
+    detailVC.notification = notifications[indexPath.row]
+    navigationController?.pushViewController(detailVC, animated: true)
   }
 }
 
@@ -91,8 +103,7 @@ extension NotificationViewController {
       let responseData = response?.response as! [String : AnyObject]
       let success = responseData["success"] as! Int
       if success == 1 {
-        let data = responseData["data"] as! [String : AnyObject]
-        let content = data["content"] as! [[String : AnyObject]]
+        let content = responseData["data"] as! [[String : AnyObject]]
         let beaconList = Beacon.beaconList(array: content)
         
         // insert DB
@@ -107,10 +118,52 @@ extension NotificationViewController {
   }
   
   private func callApiGetAllPoint() {
-    
+    APIRequest.shareInstance.getAllPoint { (response: ResponsePackage?, error: ErrorWebservice?) in
+      guard error == nil else {
+        print("get beacon data fail")
+        return
+      }
+      
+      let responseData = response?.response as! [String : AnyObject]
+      let success = responseData["success"] as! Int
+      if success == 1 {
+        let data = responseData["data"] as! [[String : AnyObject]]
+        let points = Point.pointsList(array: data)
+        
+        // insert DB
+        let realm = try! Realm()
+        try! realm.write({
+          for point in points {
+            realm.add(point, update: true)
+          }
+        })
+      }
+
+    }
   }
   
-  private func callApiGetAllCenter() {
-    
+  private func callApiGetRoomPoint() {
+    APIRequest.shareInstance.getAllRoomPoint { (response: ResponsePackage?, error: ErrorWebservice?) in
+      guard error == nil else {
+        print("get beacon data fail")
+        return
+      }
+      
+      let responseData = response?.response as! [String : AnyObject]
+      let success = responseData["success"] as! Int
+      if success == 1 {
+        let data = responseData["data"] as! [[String : AnyObject]]
+        let points = Point.pointsList(array: data)
+        
+        // insert DB
+        let realm = try! Realm()
+        try! realm.write({
+          for point in points {
+            realm.add(point, update: true)
+          }
+        })
+      }
+      
+    }
   }
 }

@@ -14,7 +14,7 @@ class APIRequest: NSObject {
 
   var http : String {
     get {
-      let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.43.93"
+      let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.1.109"
       let http = prefixHttp + ip + surfixHttp
       return http
     }
@@ -111,7 +111,31 @@ class APIRequest: NSObject {
   }
   
   func getAllRoomPoint(onCompletion: ServiceResponse) {
-    
+    let url = http + urlGetRoomPoint
+    let header = [
+      "Content-Type" : "application/json",
+      ]
+    webservice_GET(url, params: [:], headersParams: header, completion: onCompletion)
+  }
+  
+  func getAllPoint(onCompletion: ServiceResponse) {
+    let url = http + urlGetPoint
+    let header = [
+      "Content-Type" : "application/json",
+      ]
+    webservice_GET(url, params: [:], headersParams: header, completion: onCompletion)
+  }
+  
+  func findShorestPart(sourceId: Int, destinateId: Int, onCompletion: ServiceResponse) {
+    let url = http + urlFindPath
+    let header = [
+      "Content-Type" : "application/json",
+    ]
+    var dataSent: [String: AnyObject] = [:]
+    dataSent["from"] = String(sourceId)
+    dataSent["to"] = String(destinateId)
+
+    webservice_GET(url, params: dataSent, headersParams: header, completion: onCompletion)
   }
 }
 

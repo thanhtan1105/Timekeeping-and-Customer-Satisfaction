@@ -9,18 +9,34 @@
 import Foundation
 import RealmSwift
 
-enum PointCategory {
-  case Room = 1
+enum PointCategory: String {
+  case Room
   case Outsite
+  
+  var descriptions: String {
+    switch self {
+    case .Room:
+      return "Room"
+    case .Outsite:
+      return "Outsite"
+    }
+  }
 }
-class Points: Object {
+
+class Point: Object {
   
   dynamic var id = 0
   dynamic var name = ""
   dynamic var floor = 0
   dynamic var latitude = 0.0
   dynamic var longitude = 0.0
-  dynamic var type = PointCategory.Room
+  dynamic var typeRaw = ""
+  
+  var type: PointCategory! {
+    didSet {
+      self.typeRaw = self.type.descriptions
+    }
+  }
   
   override static func primaryKey() -> String? {
     return "id"
@@ -33,26 +49,31 @@ class Points: Object {
     let floor = info["floor"] as? Int
     let latitude = info["latitude"] as? Double
     let longitude = info["longitude"] as? Double
-    let type = info["type"] as? Int
+    let type1 = info["type"] as! Int
     
     self.id = id!
-    self.name = name!
+    self.name = name ?? ""
     self.floor = floor!
     self.latitude = latitude!
     self.longitude = longitude!
-    switch type {
+    switch type1 {
     case 1:
-      self.type = PointCategory.Room
+      self.type = .Room
+      self.typeRaw = self.type.descriptions
+      break
+    case 0:
+      self.type = .Outsite
+      self.typeRaw = self.type.descriptions
       break
     default:
       break
     }
   }
 
-  static func pointsList(array array: [[String : AnyObject]]) -> [Points] {
-    var pointList = [Points]()
+  static func pointsList(array array: [[String : AnyObject]]) -> [Point] {
+    var pointList = [Point]()
     for dictionary in array {
-      let item = Points(info: dictionary)
+      let item = Point(info: dictionary)
       pointList.append(item)
     }
     return pointList

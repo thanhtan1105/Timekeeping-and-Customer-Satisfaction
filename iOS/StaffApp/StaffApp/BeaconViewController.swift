@@ -11,40 +11,45 @@ import CoreLocation
 import RealmSwift
 
 let top_margin = 150
-let max_distance = 20
+let var_distance = 20
 
 class BeaconViewController: BaseViewController, UIScrollViewDelegate {
   
+  // layout variable
   @IBOutlet weak var mapView: UIView!
   @IBOutlet weak var informationLabel: UILabel!
   @IBOutlet weak var scrollView: UIScrollView!
   @IBOutlet weak var textMapImageView: UIImageView!
   @IBOutlet weak var currentLocationLabel: UILabel!
-  
-  var beacon: CLBeacon? = nil
+
+  // beacon variable
   var beaconManager: ESTBeaconManager? = nil
-  var positionDot: UIImageView!
-  var utilityManager: ESTUtilityManager!
   var region: CLBeaconRegion!
-  let scale = 120.0
   var beacons: [CLBeacon] = [] {
     didSet {
       // update layout
       calculateDistance(beacons)
     }
   }
+  let ESTIMOTE_PROXIMITY_UUID = NSUUID(UUIDString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")
+  
+  // point
+  var sourcePoint: Point!
+  var destinationPoint: Point!
+  let scale = 120.0
+  var sourcePointName: String!
+  var destinationPointId: Int!
+  
+  // database
   let realm = try! Realm()
   
+  // map image
   let imageView = UIImageView(image: UIImage(named: "RoomFPTMap"))
   
-  let ESTIMOTE_PROXIMITY_UUID = NSUUID(UUIDString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    beaconManager = ESTBeaconManager()
-    self.region = CLBeaconRegion(proximityUUID: ESTIMOTE_PROXIMITY_UUID!, identifier: "EstimoteSampleRegion")
-    beaconManager!.delegate = self
-    beaconManager!.requestAlwaysAuthorization()
+    configureBeacon()
     
     imageView.translatesAutoresizingMaskIntoConstraints = true
     scrollView.addSubview(imageView)
@@ -53,13 +58,37 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
     self.scrollView.minimumZoomScale = 0.5
     self.scrollView.delegate = self
     self.scrollView.hidden = true
+    
+    // show loading
+    LeThanhTanLoading.sharedInstance.showLoadingAddedTo(self.view, title: "Loading...", animated: true)
+    
+    // hide loading
+//    let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
+//    dispatch_after(delayTime3, dispatch_get_main_queue()) {
+//      LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
+//      self.scrollView.hidden = false
+//    }
+
+    // init source Point
+//    sourcePoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
+//      return point.name == sourcePointName
+//    }).first
+//    showPoint(sourcePoint)
+    
+    // dumping
+    if let destinationPointId = destinationPointId {
+      destinationPoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
+        return point.id == destinationPointId
+      }).first
+      showDestinatePoint(destinationPoint)
+    }
   }
   
-
-  override func viewDidDisappear(animated: Bool) {
-    
+  @IBAction func onDirectTapped(sender: UIBarButtonItem) {
+    // show find path
+    showFindPath(sourcePoint, destinatePoint: destinationPoint)
   }
-
+  
 }
 
 extension BeaconViewController: ESTBeaconManagerDelegate {
@@ -76,48 +105,6 @@ extension BeaconViewController: ESTBeaconManagerDelegate {
 
 // MARK :- Private method
 extension BeaconViewController {
-  private func identifyArea(beacon1: Beacon, beacon2: Beacon, beacon3: Beacon) -> String {
-    self.scrollView.hidden = false
-    var areaName : [String : Int] = [:]
-    
-    let area1Array: [String] = beacon1.areaName.characters.split{$0 == ","}.map(String.init)
-    for key in area1Array {
-      if areaName[key] == nil {
-        areaName[key] = 0
-      } else {
-        areaName[key] = areaName[key]! + 1
-      }
-    }
-    
-    let area2Array: [String] = beacon2.areaName.characters.split{$0 == ","}.map(String.init)
-    for key in area2Array {
-      if areaName[key] == nil {
-        areaName[key] = 0
-      } else {
-        areaName[key] = areaName[key]! + 1
-      }
-    }
-    
-    let area3Array: [String] = beacon3.areaName.characters.split{$0 == ","}.map(String.init)
-    for key in area3Array {
-      if areaName[key] == nil {
-        areaName[key] = 0
-      } else {
-        areaName[key] = areaName[key]! + 1
-      }
-    }
-    
-    var maxCountBeacon: (areaName: String, count: Int) = ("", 0)
-    for (key, value) in areaName {
-      if value > maxCountBeacon.count {
-        maxCountBeacon.areaName = key
-        maxCountBeacon.count = value
-      }
-    }
-    
-    return maxCountBeacon.areaName
-  }
-  
   private func calculateDistance(beacons: [CLBeacon]) {
     var beaconFilter = beacons
     var i = 0
@@ -181,8 +168,12 @@ extension BeaconViewController {
               if min(C.y, A.y) - approximate < y && y < max(C.y, A.y) + approximate &&
                 min(B.x, C.x) + approximate < x && x < max(B.x, C.x) {
                 print("I AM HERE dAB: ")
-                currentLocationLabel.text = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
-                
+                let location = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
+                sourcePoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
+                  return point.name == location
+                }).first
+                showSourcePoint(sourcePoint)
+                currentLocationLabel.text = location
               } else {
                 print("Khong xac dinh")
               }
@@ -191,7 +182,12 @@ extension BeaconViewController {
               if min(C.y, B.y) - approximate < y && y < max(C.y, B.y) + approximate &&
                 min(A.x, C.x) - approximate < x && x < max(A.x, C.x) + approximate {
                 print("I AM HERE dAB: ")
-                currentLocationLabel.text = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
+                let location = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
+                sourcePoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
+                  return point.name == location
+                }).first
+                showSourcePoint(sourcePoint)
+                currentLocationLabel.text = location
               } else {
                 print("Khong xac dinh")
               }
@@ -203,7 +199,13 @@ extension BeaconViewController {
               if min(B.y, A.y) - approximate < y && y < max(B.y, A.y) + approximate &&
                 min(C.x, B.x) - approximate < x && x < max(C.x, B.x) + approximate {
                 print("I AM HERE dAC: ")
-                currentLocationLabel.text = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
+                let location = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
+                sourcePoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
+                  return point.name == location
+                }).first
+                showSourcePoint(sourcePoint)
+                currentLocationLabel.text = location
+
               } else {
                 print("Khong xac dinh")
               }
@@ -213,7 +215,12 @@ extension BeaconViewController {
               if min(B.y, C.y) - approximate < y && y < max(B.y, C.y) + approximate &&
                 min(B.x, A.x) - approximate < x && x < max(B.x, A.x) + approximate {
                 print("I AM HERE dAC: ")
-                currentLocationLabel.text = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
+                let location = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
+                sourcePoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
+                  return point.name == location
+                }).first
+                showSourcePoint(sourcePoint)
+                currentLocationLabel.text = location
 
               } else {
                 print("Khong xac dinh")
@@ -226,7 +233,12 @@ extension BeaconViewController {
               if min(A.y, B.y) - approximate < y && y < max(A.y, B.y) + approximate &&
                 min(A.x, C.x) - approximate < x && x < max(A.x, C.x) + approximate {
                 print("I AM HERE dBC: ")
-                currentLocationLabel.text = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
+                let location = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
+                sourcePoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
+                  return point.name == location
+                }).first
+                showSourcePoint(sourcePoint)
+                currentLocationLabel.text = location
               } else {
                 print("Khong xac dinh")
               }
@@ -235,7 +247,12 @@ extension BeaconViewController {
               if min(A.y, C.y) - approximate < y && y < max(A.y, C.y) + approximate &&
                 min(A.x, B.x) - approximate < x && x < max(A.x, B.x) + approximate {
                 print("I AM HERE dBC: ")
-                currentLocationLabel.text = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
+                let location = identifyArea(beacon1!, beacon2: beacon2!, beacon3: beacon3!)
+                sourcePoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
+                  return point.name == location
+                }).first
+                showSourcePoint(sourcePoint)
+                currentLocationLabel.text = location
               } else {
                 print("Khong xac dinh")
               }
@@ -249,6 +266,137 @@ extension BeaconViewController {
         }
       }
     }
+  }
+  
+  private func identifyArea(beacon1: Beacon, beacon2: Beacon, beacon3: Beacon) -> String {
+    var areaName : [String : Int] = [:]
     
+    let area1Array: [String] = beacon1.areaName.characters.split{$0 == ","}.map(String.init)
+    for key in area1Array {
+      if areaName[key] == nil {
+        areaName[key] = 0
+      } else {
+        areaName[key] = areaName[key]! + 1
+      }
+    }
+    
+    let area2Array: [String] = beacon2.areaName.characters.split{$0 == ","}.map(String.init)
+    for key in area2Array {
+      if areaName[key] == nil {
+        areaName[key] = 0
+      } else {
+        areaName[key] = areaName[key]! + 1
+      }
+    }
+    
+    let area3Array: [String] = beacon3.areaName.characters.split{$0 == ","}.map(String.init)
+    for key in area3Array {
+      if areaName[key] == nil {
+        areaName[key] = 0
+      } else {
+        areaName[key] = areaName[key]! + 1
+      }
+    }
+    
+    var maxCountBeacon: (areaName: String, count: Int) = ("", 0)
+    for (key, value) in areaName {
+      if value > maxCountBeacon.count {
+        maxCountBeacon.areaName = key
+        maxCountBeacon.count = value
+      }
+    }
+    
+    return maxCountBeacon.areaName
+  }
+  
+  private func showSourcePoint(sourcePoint: Point) {
+    // hide loading animation
+    dispatch_async(dispatch_get_main_queue()) { 
+      LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
+    }
+    
+    let point = realm.objects(Point.self).filter { (point: Point) -> Bool in
+      return point.name == sourcePoint.name && point.typeRaw == PointCategory.Room.descriptions
+    }.first
+    
+    if point != nil {
+      // show point on Map
+      let scale = 36.0
+      let templeView2 = view.viewWithTag(4)
+      if templeView2 != nil {
+        templeView2?.removeFromSuperview()
+      }
+      let pointInMap = UIView(frame: CGRect(x: (point?.latitude)! * scale - 10.0 , y: (point?.longitude)! * scale - 10.0, width: 20.0, height: 20.0))
+      pointInMap.layer.cornerRadius = 10.0
+      pointInMap.backgroundColor = UIColor.greenColor()
+      pointInMap.tag = 4
+      self.imageView.addSubview(pointInMap)
+    }
+  }
+  
+  private func showDestinatePoint(sourcePoint: Point) {
+    let point = realm.objects(Point.self).filter { (point: Point) -> Bool in
+      return point.name == sourcePoint.name && point.typeRaw == PointCategory.Room.descriptions
+      }.first
+    
+    if point != nil {
+      // show point on Map
+      let scale = 36.0
+      let templeView2 = view.viewWithTag(5)
+      if templeView2 != nil {
+        templeView2?.removeFromSuperview()
+      }
+      let pointInMap = UIView(frame: CGRect(x: (point?.latitude)! * scale - 10.0 , y: (point?.longitude)! * scale - 10.0, width: 20.0, height: 20.0))
+      pointInMap.layer.cornerRadius = 10.0
+      pointInMap.backgroundColor = UIColor.greenColor()
+      pointInMap.tag = 5
+      self.imageView.addSubview(pointInMap)
+    }
+  }
+  
+  private func showFindPath(sourcePoint: Point, destinatePoint: Point) {
+    APIRequest.shareInstance.findShorestPart(sourcePoint.id, destinateId: destinatePoint.id) { (response: ResponsePackage?, error: ErrorWebservice?) in
+      guard error == nil else {
+        print("show find path")
+        return
+      }
+      
+      let responseData = response?.response as! [String : AnyObject]
+      let success = responseData["success"] as! Int
+      if success == 1 {
+        let data = responseData["data"] as! [String : AnyObject]
+        let distance = data["distance"] as? Double
+        let pathIds: [Int] = data["pathId"] as! [Int]
+        self.drawPathToMap(pathIds)
+      }
+    }
+  }
+  
+  private func drawPathToMap(pathId: [Int]) {
+    // get data Source
+    var points: [(x: Float, y: Float)] = []
+    for id in pathId {
+      let point = realm.objects(Point.self).filter({ (point: Point) -> Bool in
+        return point.id == id
+      }).first
+      points.append((Float((point?.latitude)!), Float((point?.longitude)!)))
+    }
+
+    let viewPath = view.viewWithTag(3)
+    if viewPath != nil {
+      viewPath?.removeFromSuperview()
+    }
+    let drawPath: DrawPath = DrawPath(frame: imageView.frame)
+    drawPath.tag = 3
+    drawPath.backgroundColor = UIColor.clearColor()
+    drawPath.dataSource = points
+    imageView.insertSubview(drawPath, belowSubview: view.viewWithTag(4)!)
+  }
+  
+  private func configureBeacon() {
+    beaconManager = ESTBeaconManager()
+    self.region = CLBeaconRegion(proximityUUID: ESTIMOTE_PROXIMITY_UUID!, identifier: "EstimoteSampleRegion")
+    beaconManager!.delegate = self
+    beaconManager!.requestAlwaysAuthorization()
   }
 }
