@@ -174,19 +174,44 @@ public class ReminderControllerWeb {
 
     @RequestMapping(value = "/view", method = RequestMethod.GET)
     public String viewReminder(@RequestParam("reminderId") String reminderId,
-                               HttpSession session) {
+                               HttpSession session, Model model) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         logger.info(Thread.currentThread().getStackTrace()[1].getMethodName() + "[reminderId] " + reminderId);
         ReminderModel reminderModel = reminderService.get(ValidateUtil.parseNumber(reminderId));
         session.setAttribute("ReminderModel", reminderModel);
+
+        // set side-bar
+        String sideBar = IContanst.SIDE_BAR_MANAGER_MANAGEMENT_REMINDER;
+
+        // side-bar
+        model.addAttribute("SideBar", sideBar);
 
         logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         return IViewConst.VIEW_REMINDER_VIEW;
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public String updateReminder() {
+    public String updateReminder(Model model, HttpSession session) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+        // get session
+        AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
+        Long managerId = accountModel.getId();
+
+        // get all employees for assigning participants
+        List<AccountModel> accountModels = accountService.getEmployeesOfDepart(managerId);
+        //get all rooms
+        List<CoordinateModel> coordinateModels = coordinateService.getRoomPoint();
+        logger.info(Thread.currentThread().getStackTrace()[1].getMethodName() + "[size of list rooms] "
+                + coordinateModels.size());
+
+        // set side-bar
+        String sideBar = IContanst.SIDE_BAR_MANAGER_MANAGEMENT_REMINDER;
+
+        model.addAttribute("ListAccounts", accountModels);
+        model.addAttribute("ListRooms", coordinateModels);
+        // side-bar
+        model.addAttribute("SideBar", sideBar);
 
         logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         return IViewConst.UPDATE_REMINDER_VIEW;
