@@ -61,7 +61,7 @@ public class ReminderServiceImpl {
             //Convert data
             List<ReminderModel> departmentModels = pageEntity.getContent().stream().map(ReminderModel::new).collect(Collectors.toList());
             Page<ReminderModel> pageDepartment = new PageImpl<>(departmentModels, pageRequest, pageEntity.getTotalElements());
-            logger.info("[Find All] " + JsonUtil.toJson(pageEntity));
+            logger.info("[Find All] " + JsonUtil.toJson(pageDepartment));
 
             return pageDepartment;
         } finally {

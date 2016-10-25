@@ -50,8 +50,8 @@ public class DepartmentControllerWeb {
         // side-bar
         model.addAttribute("SideBar", sideBar);
 
-//        return "/views/admin/management_depart/management_depart";
-        return "/views/admin/management_depart/autocomplete";
+        return "/views/admin/management_depart/management_depart";
+//        return "/views/admin/management_depart/autocomplete";
     }
 
     @RequestMapping(value = "/addDepartment", method = RequestMethod.GET)

@@ -24,7 +24,9 @@
         <!-- Your Page Content Here -->
         <!-- Form for search departments -->
         <div class="input-group" style="margin-right:  25%; margin-left: 25%; margin-bottom: 5px;">
-            <input type="text" class="form-control" placeholder="Enter Department"/>
+            <input type="text" class="form-control" th:id="'input-search-department'"
+                   placeholder="Enter Name/Code Department"
+                   autocomplete="off"/>
                 <span class="input-group-btn">
                     <button class="btn btn-success btn-flat" type="button"/>
                         <i class="glyphicon glyphicon-search"></i> Search
