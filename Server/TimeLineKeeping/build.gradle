@@ -48,3 +48,7 @@ dependencies {
     compile group: 'net.sourceforge.nekohtml', name: 'nekohtml', version: '1.9.22'
 }
 
+dependencies {
+    compile("org.springframework.boot:spring-boot-devtools")
+}
+
