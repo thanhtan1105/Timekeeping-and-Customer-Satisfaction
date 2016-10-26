@@ -42,60 +42,65 @@
             </div>
         </div>
         <!-- /.end add new reminder -->
-        <div class="box box-success">
-            <div class="box-header">
-                <h3 class="box-title text-success"><i class="glyphicon glyphicon-list-alt"></i> Reminders List</h3>
-                <hr style="border-color: green; margin-top: 4px; margin-bottom: 5px; margin-right: 88%; border-width: 2px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <div class="box-title">
+                            List of Reminders
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <table class="table">
+                            <colgroup>
+                                <col span="1" style="width: 25%;">
+                                <col span="1" style="width: 25%;">
+                                <col span="1" style="width: 25%;">
+                                <col span="1" style="width: 15%;">
+                                <col span="1" style="width: 10%;">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Room</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="reminder: ${ListReminders}">
+                                <td th:text="${#dates.format(reminder.time, 'dd-MMM-yyyy (HH:mm)')}"></td>
+                                <input type="hidden" th:id="'text-time-reminder-' + ${reminder.id}"
+                                       th:value="${reminder.time}"/>
+                                <td th:text="${reminder.title}"></td>
+                                <td th:text="${reminder.message}"></td>
+                                <td th:text="${reminder.room.name}"></td>
+                                <td>
+                                    <button class="btn btn-success btn-flat btn-sm btn-edit-reminder" type="button"
+                                            th:attr="data-id=${reminder.id}"
+                                            title="View Reminder">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-flat btn-sm" type="button">
+                                        <i class="fa fa-remove"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer no-border text-right">
+                        <ul class="pagination pagination-sm no-margin">
+                            <li><a href="#">&laquo;</a></li>
+                            <li class="active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">&raquo;</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <!-- /.box-header -->
-            <!-- Data-table for list of accounts -->
-            <div class="box-body">
-                <table id="dataTable" class="table table-bordered table-hover" style="border-collapse: collapse;">
-                    <colgroup>
-                        <col span="1" style="width: 5%;">
-                        <col span="1" style="width: 20%;">
-                        <col span="1" style="width: 30%;">
-                        <col span="1" style="width: 20%;">
-                        <col span="1" style="width: 10%;">
-                        <col span="1" style="width: 15%;">
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Time</th>
-                        <th>Room</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="reminder,counter: ${ListReminders}">
-                        <td th:text="${counter.count} + '.'"></td>
-                        <td th:text="${reminder.title}"></td>
-                        <td th:text="${reminder.message}"></td>
-                        <td th:text="${#dates.format(reminder.time, 'dd-MMM-yyyy (HH:mm)')}"></td>
-                        <input type="hidden" th:id="'text-time-reminder-' + ${reminder.id}"
-                               th:value="${reminder.time}"/>
-                        <td th:text="${reminder.room.name}"></td>
-                        <td>
-                            <div class="btn-group" style="width: 100%;">
-                                <button class="btn btn-success btn-flat btn-sm btn-edit-reminder" type="button"
-                                        style="width: 50%;" th:attr="data-id=${reminder.id}"
-                                        title="Edit Class">
-                                    <i class="glyphicon glyphicon-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-danger btn-flat btn-sm" type="button" style="width: 50%;">
-                                    <i class="glyphicon glyphicon-remove"></i> Delete
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.box-body -->
-            <!-- /.end data-table for list of accounts -->
             <!-- form view reminder -->
             <form th:action="@{/manager/reminders/view}"
                   th:id="'form-submit-view-reminder'">
