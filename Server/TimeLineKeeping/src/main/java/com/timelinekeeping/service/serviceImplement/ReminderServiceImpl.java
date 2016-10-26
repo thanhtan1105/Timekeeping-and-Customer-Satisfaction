@@ -11,6 +11,7 @@ import com.timelinekeeping.entity.NotificationEntity;
 import com.timelinekeeping.entity.ReminderMessageEntity;
 import com.timelinekeeping.model.ReminderModel;
 import com.timelinekeeping.model.ReminderModifyModel;
+import com.timelinekeeping.model.ReminderQueryModel;
 import com.timelinekeeping.model.ReminderSearchModel;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.CoordinateRepo;
@@ -25,6 +26,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -254,5 +256,31 @@ public class ReminderServiceImpl {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
+
+    public Page<ReminderSearchModel> search(ReminderQueryModel reminderQuery, Long managerId, int page, int size) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info("Query: " + JsonUtil.toJson(reminderQuery));
+            //request
+            PageRequest pageRequest = new PageRequest(page, size);
+
+            //prepare Data
+            Date dateFrom = reminderQuery.getTimeFrom() != null? new Date(reminderQuery.getTimeFrom()) : null;
+            Date dateTo = reminderQuery.getTimeTo() != null? new Date(reminderQuery.getTimeTo()) : null;
+            //save DB
+            Page<ReminderMessageEntity> pageEntity = reminderRepo.search(reminderQuery.getTitle(),
+                    dateFrom, dateTo, reminderQuery.getRoomId(), reminderQuery.getEmployeeSet(),
+                    managerId, pageRequest);
+
+            //Convert data
+            List<ReminderSearchModel> departmentModels = pageEntity.getContent().stream().map(ReminderSearchModel::new).collect(Collectors.toList());
+            Page<ReminderSearchModel> pageDepartment = new PageImpl<>(departmentModels, pageRequest, pageEntity.getTotalElements());
+            logger.info("[Search] " + JsonUtil.toJson(pageDepartment));
+            return pageDepartment;
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
 
 }

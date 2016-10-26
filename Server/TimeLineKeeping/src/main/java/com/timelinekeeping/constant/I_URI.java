@@ -10,7 +10,9 @@ public interface I_URI {
      */
     String API_CREATE = "/create";
     String API_LIST = "/list";
+    String API_GET = "/get";
     String API_SEARCH = "/search";
+    String API_SEARCH_ADV = "/search_adv";
     String API_UPDATE = "/update";
     String API_DELETE = "/delete";
     String API_ACTIVE = "/active";
