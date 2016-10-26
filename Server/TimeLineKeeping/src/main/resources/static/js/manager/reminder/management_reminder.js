@@ -70,7 +70,7 @@ function load_list_reminders(index) {
                         '<button class="btn btn-success btn-flat btn-sm btn-edit-reminder" type="button" title="View Reminder">' +
                         '<i class="fa fa-eye"></i>' +
                         '</button>' +
-                        '<button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Reminder">' +
+                        ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Reminder">' +
                         '<i class="fa fa-remove"></i>' +
                         '</button>' +
                         '</td>' +
@@ -78,7 +78,12 @@ function load_list_reminders(index) {
                 }
                 //set pagination
                 for (var i = 0; i < total_pages; i++) {
-                    content_list_pages += '<li><a href="#" onclick="load_list_reminders(' + i + ')">' + (++count_page) + '</a></li>';
+                    if (current_index_page == i) {
+                        content_list_pages += '<li class="active">';
+                    } else {
+                        content_list_pages += '<li>';
+                    }
+                    content_list_pages += '<a href="#" onclick="load_list_reminders(' + i + ')">' + (++count_page) + '</a></li>';
                 }
                 content_pagination += '<ul class="pagination pagination-sm no-margin">' +
                     '<li><a href="#">&laquo;</a></li>' +
@@ -90,6 +95,10 @@ function load_list_reminders(index) {
             }
         }
     });
+}
+
+function load_next_page() {
+    
 }
 
 
