@@ -25,7 +25,7 @@
         <!-- Form for search reminders -->
         <div class="input-group" style="margin-right:  25%; margin-left: 25%; margin-bottom: 5px;">
             <input type="text" class="form-control" placeholder="Enter Title"/>
-                <span class="input-group-btn">
+            <span class="input-group-btn">
                     <button class="btn btn-success btn-flat" type="button"/>
                         <i class="glyphicon glyphicon-search"></i> Search
                 </span>
@@ -75,6 +75,8 @@
                         <td th:text="${reminder.title}"></td>
                         <td th:text="${reminder.message}"></td>
                         <td th:text="${#dates.format(reminder.time, 'dd-MMM-yyyy (HH:mm)')}"></td>
+                        <input type="hidden" th:id="'text-time-reminder-' + ${reminder.id}"
+                               th:value="${reminder.time}"/>
                         <td th:text="${reminder.room.name}"></td>
                         <td>
                             <div class="btn-group" style="width: 100%;">
@@ -105,6 +107,7 @@
     <!-- /.content -->
 </div>
 <div layout:fragment="js">
+    <script th:src="@{/js/common.js}"></script>
     <script th:src="@{/js/manager/reminder/management_reminder.js}"></script>
 </div>
 </body>
