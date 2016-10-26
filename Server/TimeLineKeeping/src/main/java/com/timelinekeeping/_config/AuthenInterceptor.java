@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 
 /**
@@ -21,13 +22,13 @@ import java.util.List;
 public class AuthenInterceptor extends HandlerInterceptorAdapter {
     private static final List<String> IGNORED_PATHS = Arrays
             .asList("/",
+                    "/error/**",
                     "/login",
                     "/js/**",
                     "/css/**",
                     "/img/**",
                     "/font/**",
-                    "/login/**",
-                    "/error/**");
+                    "/login/**");
 
     private static final PathMatcher pathMatcher = new AntPathMatcher();
 
@@ -47,8 +48,13 @@ public class AuthenInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("AuthenLogin");
         String url = request.getRequestURI();
+        System.out.println("AuthenLogin: " + url);
+        Enumeration enumeration= request.getAttributeNames();
+        //while (enumeration.hasMoreElements()){
+          //  System.out.println(" " + enumeration.nextElement());
+        //}
+        System.out.println(request.getAuthType());
         for (String parten : this.IGNORED_PATHS) {
             if (isMatched(parten, url)) {
                 return true;
@@ -62,7 +68,7 @@ public class AuthenInterceptor extends HandlerInterceptorAdapter {
         AccountModel accountModel = (AccountModel) session.getAttribute(I_URI.SESSION_AUTHEN);
         if (accountModel == null) {
             response.sendRedirect(I_URI.WEB_URI_LOGIN);
-            return false;
+            return true;
         } else {
             List<String> allows = ((RoleAuthen) accountModel.getRole()).getAllows();
             for (String allow : allows) {
@@ -71,7 +77,7 @@ public class AuthenInterceptor extends HandlerInterceptorAdapter {
                 }
             }
             response.sendRedirect(I_URI.WEB_ERROR_PERMISSION);
-            return false;
+            return true;
         }
     }
 }

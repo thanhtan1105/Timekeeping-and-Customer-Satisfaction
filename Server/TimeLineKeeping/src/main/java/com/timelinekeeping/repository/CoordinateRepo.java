@@ -1,7 +1,9 @@
 package com.timelinekeeping.repository;
 import com.timelinekeeping.entity.CoordinateEntity;
+import com.timelinekeeping.model.CoordinateModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -22,4 +24,7 @@ public interface CoordinateRepo extends JpaRepository<CoordinateEntity, Long> {
 
     @Query("SELECT a FROM CoordinateEntity a")
     List<CoordinateEntity> findAll();
+
+    @Query("SELECT a FROM CoordinateEntity a WHERE a.floor = :floor AND a.type = 3")
+    CoordinateModel findStairsPoint(@Param("floor") Integer floor);
 }

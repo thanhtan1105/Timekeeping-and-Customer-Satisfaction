@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -86,77 +87,59 @@ public class BeaconAlgorithm {
                 return null;
             }
 
-            queue.add(beginVertex);
-            distance.put(beginVertex, 0d);
-            boolean found = false;
-            //add vertex to queue
-            while (queue.size() > 0 && !found) {
 
-                //get vertex in queue
-                Long vertexId = queue.remove();
+            //find difference floor
 
-
-                //find min path in from vertex
-                travel(vertexId);
-
-
-                //set traveled in point
-                if (path.get(vertexId) == null) {
-                    path.put(vertexId, new Pair<>(null, true));
-                } else {
-                    path.get(vertexId).setValue(true);
-                }
-                //break value
-                // find endPath to break;
-                if (vertexId.equals(endVertex)) {
-                    found = true;
-                    break;
-                } else {
-                    found = false;
-                }
-
-            }
-
-
-            // prepare result
-            //distance
-            Double distanceValue = distance.get(endVertex);
-
-            //path
-            List<CoordinateModel> listPath = new ArrayList<>();
-
-            logger.info("Min Path value:" + distanceValue);
-
-            String pathString = "Path: " + endVertex;
-            listPath.add(endPoint);
-            Long currentVertex = endVertex;
-            while (currentVertex != null && currentVertex != beginVertex) {
-                //travel path
-                Pair<CoordinateModel, Boolean> pairValue = path.get(currentVertex);
-                pathString += " <-- " + pairValue.getKey().getId();
-                currentVertex = pairValue.getKey().getId();
-                listPath.add(pairValue.getKey());
-            }
-            logger.info(pathString);
-
-            //reverse
-            Collections.reverse(listPath);
-
-            //create pathId
-            List<Long> pathIdList = new ArrayList<>();
-            for (CoordinateModel coordinateModel : listPath) {
-                pathIdList.add(coordinateModel.getId());
-            }
-
-            //create result
+            //prepare result
             BeaconFindPathResponse result = new BeaconFindPathResponse();
             result.setFromPoint(beginPoint);
             result.setToPoint(endPoint);
-            result.setDistance(distanceValue);
 
-            result.setPath(listPath);
-            result.setPathId(pathIdList);
+            Double distanceFinal = 0d;
 
+            if (beginPoint.getFloor() == endPoint.getFloor()) {
+                //find Short Path =
+                Pair<List<CoordinateModel>, Double> pairValue = findShortPath2Distance(beginVertex, endVertex);
+                List<CoordinateModel> listPath = pairValue.getKey();
+                distanceFinal += pairValue.getValue();
+
+                //add path
+                result.addPath(listPath);
+            }else{
+
+                /** 1. find beginVertex to stairs */
+
+                //find stairs beginVertex
+                CoordinateModel beginStairs = coordinateRepo.findStairsPoint(beginPoint.getFloor());
+                if (beginStairs == null){
+                    return null;
+                }
+                //find path
+                Pair<List<CoordinateModel>, Double> pairValue = findShortPath2Distance(beginVertex, beginStairs.getId());
+                List<CoordinateModel> listPath = pairValue.getKey();
+                distanceFinal += pairValue.getValue();
+
+                //add path
+                result.addPath(listPath);
+
+                /** 2. find stairs to endVertex */
+
+                //find stairs beginVertex
+                CoordinateModel endStairs = coordinateRepo.findStairsPoint(beginPoint.getFloor());
+                if (endStairs == null){
+                    return null;
+                }
+                //find path
+                pairValue = findShortPath2Distance(endStairs.getId(), endVertex);
+                listPath = pairValue.getKey();
+                distanceFinal += pairValue.getValue();
+
+                //add path
+                result.addPath(listPath);
+            }
+
+            //set distance final
+            result.setDistance(distanceFinal);
             //return
             return result;
         } finally {
@@ -165,6 +148,67 @@ public class BeaconAlgorithm {
         }
 
 
+    }
+
+    private Pair<List<CoordinateModel>, Double> findShortPath2Distance(Long beginVertex, Long endVertex){
+        queue.add(beginVertex);
+        distance.put(beginVertex, 0d);
+        boolean found = false;
+        //add vertex to queue
+        while (queue.size() > 0 && !found) {
+
+            //get vertex in queue
+            Long vertexId = queue.remove();
+
+
+            //find min path in from vertex
+            travel(vertexId);
+
+
+            //set traveled in point
+            if (path.get(vertexId) == null) {
+                path.put(vertexId, new Pair<>(null, true));
+            } else {
+                path.get(vertexId).setValue(true);
+            }
+            //break value
+            // find endPath to break;
+            if (vertexId.equals(endVertex)) {
+                found = true;
+                break;
+            } else {
+                found = false;
+            }
+
+        }
+
+
+        // prepare result
+        //distance
+        Double distanceValue = distance.get(endVertex);
+
+        //path
+        List<CoordinateModel> listPath = new ArrayList<>();
+
+        logger.info("Min Path value:" + distanceValue);
+
+        String pathString = "Path: " + endVertex;
+        CoordinateModel endPoint = new CoordinateModel(coordinateRepo.findOne(endVertex));
+        listPath.add(endPoint);
+        Long currentVertex = endVertex;
+        while (currentVertex != null && currentVertex != beginVertex) {
+            //travel path
+            Pair<CoordinateModel, Boolean> pairValue = path.get(currentVertex);
+            pathString += " <-- " + pairValue.getKey().getId();
+            currentVertex = pairValue.getKey().getId();
+            listPath.add(pairValue.getKey());
+        }
+        logger.info(pathString);
+
+        //reverse
+        Collections.reverse(listPath);
+
+        return new Pair<>(listPath, distanceValue);
     }
 
 

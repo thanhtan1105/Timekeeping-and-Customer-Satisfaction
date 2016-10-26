@@ -1,6 +1,8 @@
 package com.timelinekeeping.model;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by HienTQSE60896 on 10/22/2016.
@@ -9,8 +11,8 @@ public class BeaconFindPathResponse {
     private CoordinateModel fromPoint;
     private CoordinateModel toPoint;
     private Double distance;
-    private List<CoordinateModel> path;
-    private List<Long> pathId;
+    private List<List<CoordinateModel>> paths;
+    private List<List<Long>> pathIds;
 
     public BeaconFindPathResponse() {
     }
@@ -39,19 +41,24 @@ public class BeaconFindPathResponse {
         this.distance = distance;
     }
 
-    public List<CoordinateModel> getPath() {
-        return path;
+    public List<List<CoordinateModel>> getPaths() {
+        return paths;
     }
 
-    public void setPath(List<CoordinateModel> path) {
-        this.path = path;
+
+    public List<List<Long>> getPathIds() {
+        return pathIds;
     }
 
-    public List<Long> getPathId() {
-        return pathId;
-    }
-
-    public void setPathId(List<Long> pathId) {
-        this.pathId = pathId;
+    public void addPath(List<CoordinateModel> listPath){
+        if (paths == null){
+            paths = new ArrayList<>();
+        }
+        if (pathIds == null){
+            pathIds = new ArrayList<>();
+        }
+        List<Long> pathId = listPath.stream().map(CoordinateModel::getId).collect(Collectors.toList());
+        paths.add(listPath);
+        pathIds.add(pathId);
     }
 }
