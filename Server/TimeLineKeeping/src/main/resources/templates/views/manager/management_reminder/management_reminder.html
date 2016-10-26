@@ -7,7 +7,7 @@
     <meta charset="UTF-8"/>
     <title>Management Reminders</title>
 </head>
-<body>
+<body onload="load_list_reminders()">
 <div layout:fragment="content">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -42,6 +42,9 @@
             </div>
         </div>
         <!-- /.end add new reminder -->
+        <input type="hidden" th:id="'text-managerId'"
+               th:if="${session} and ${session.UserSession}"
+               th:value="${session.UserSession.id}"/>
         <div class="row">
             <div class="col-sm-12">
                 <div class="box box-success">
@@ -68,29 +71,29 @@
                                 <th>Action</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr th:each="reminder: ${ListReminders}">
-                                <td th:text="${#dates.format(reminder.time, 'dd-MMM-yyyy (HH:mm)')}"></td>
-                                <input type="hidden" th:id="'text-time-reminder-' + ${reminder.id}"
-                                       th:value="${reminder.time}"/>
-                                <td th:text="${reminder.title}"></td>
-                                <td th:text="${reminder.message}"></td>
-                                <td th:text="${reminder.room.name}"></td>
-                                <td>
-                                    <button class="btn btn-success btn-flat btn-sm btn-edit-reminder" type="button"
-                                            th:attr="data-id=${reminder.id}"
-                                            title="View Reminder">
-                                        <i class="fa fa-eye"></i>
-                                    </button>
-                                    <button class="btn btn-danger btn-flat btn-sm" type="button">
-                                        <i class="fa fa-remove"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            <tbody th:id="'tbody-list-reminders'">
+                            <!--<tr th:each="reminder: ${ListReminders}">-->
+                            <!--<td th:text="${#dates.format(reminder.time, 'dd-MMM-yyyy (HH:mm)')}"></td>-->
+                            <!--<input type="hidden" th:id="'text-time-reminder-' + ${reminder.id}"-->
+                            <!--th:value="${reminder.time}"/>-->
+                            <!--<td th:text="${reminder.title}"></td>-->
+                            <!--<td th:text="${reminder.message}"></td>-->
+                            <!--<td th:text="${reminder.room.name}"></td>-->
+                            <!--<td>-->
+                            <!--<button class="btn btn-success btn-flat btn-sm btn-edit-reminder" type="button"-->
+                            <!--th:attr="data-id=${reminder.id}"-->
+                            <!--title="View Reminder">-->
+                            <!--<i class="fa fa-eye"></i>-->
+                            <!--</button>-->
+                            <!--<button class="btn btn-danger btn-flat btn-sm" type="button">-->
+                            <!--<i class="fa fa-remove"></i>-->
+                            <!--</button>-->
+                            <!--</td>-->
+                            <!--</tr>-->
                             </tbody>
                         </table>
                     </div>
-                    <div class="box-footer no-border text-right">
+                    <div th:id="'footer-pagination'" class="box-footer no-border text-right">
                         <ul class="pagination pagination-sm no-margin">
                             <li><a href="#">&laquo;</a></li>
                             <li class="active"><a href="#">1</a></li>
