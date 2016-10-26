@@ -27,4 +27,40 @@ $('.btn-edit-reminder').on('click', function () {
         //submit form
         $form_submit_view_reminder.submit();
     }
-})
+});
+
+function load_list_reminders() {
+    var managerId = $('#text-managerId').val(),
+        urlString = "/api/reminder/list_by_manager?managerId=" + managerId,
+        $tbody_list_reminders = $('#tbody-list-reminders'),
+        content = '';
+    $.ajax({
+        type: "GET",
+        url: urlString,
+        success: function (response) {
+            var success = response.success;
+            console.info('[success] ' + success);
+            if (success) {
+                var data = response.data,
+                    list_reminders = data.content;
+                for (var i = 0; i < list_reminders.length; i++) {
+                    content += '<tr>' +
+                        '<td>' + list_reminders[i].time + '</td>' +
+                        '<td>' + list_reminders[i].title + '</td>' +
+                        '<td>' + list_reminders[i].message + '</td>' +
+                        '<td>' + list_reminders[i].room.name + '</td>' +
+                        '<td>' +
+                        '<button class="btn btn-success btn-flat btn-sm btn-edit-reminder" type="button" title="View Reminder">' +
+                        '<i class="fa fa-eye"></i>' +
+                        '</button>' +
+                        '<button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Reminder">' +
+                        '<i class="fa fa-remove"></i>' +
+                        '</button>' +
+                        '</td>' +
+                        '</tr>';
+                }
+                $tbody_list_reminders.html(content);
+            }
+        }
+    });
+}
