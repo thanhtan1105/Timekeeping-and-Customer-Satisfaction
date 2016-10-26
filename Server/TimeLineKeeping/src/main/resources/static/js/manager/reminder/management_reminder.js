@@ -3,6 +3,7 @@
  */
 
 var total_pages = 0;
+var current_index_page;
 
 /**
  * Event: click button edit
@@ -31,9 +32,11 @@ $('.btn-edit-reminder').on('click', function () {
     }
 });
 
-function load_list_reminders() {
+function load_list_reminders(index) {
     var managerId = $('#text-managerId').val(),
-        urlString = "/api/reminder/list_by_manager?managerId=" + managerId,
+        urlString = "/api/reminder/list_by_manager?managerId=" + managerId +
+            '&start=' + index +
+            '&top=' + 2,
         $tbody_list_reminders = $('#tbody-list-reminders'),
         content_list_reminders = '';
     $.ajax({
@@ -47,8 +50,13 @@ function load_list_reminders() {
                     list_reminders = data.content,
                     time_reminder,
                     content_pagination = '',
+                    content_list_pages = '',
+                    count_page = 0,
                     $footer_pagination = $('#footer-pagination');
                 total_pages = data.totalPages;
+                console.info('[total pages] ' + total_pages);
+                //set current index page: first page
+                current_index_page = index;
                 //set list reminders
                 for (var i = 0; i < list_reminders.length; i++) {
                     time_reminder = new Date(list_reminders[i].time);
@@ -62,16 +70,35 @@ function load_list_reminders() {
                         '<button class="btn btn-success btn-flat btn-sm btn-edit-reminder" type="button" title="View Reminder">' +
                         '<i class="fa fa-eye"></i>' +
                         '</button>' +
-                        '<button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Reminder">' +
+                        ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Reminder">' +
                         '<i class="fa fa-remove"></i>' +
                         '</button>' +
                         '</td>' +
                         '</tr>';
                 }
                 //set pagination
-                // for
+                for (var i = 0; i < total_pages; i++) {
+                    if (current_index_page == i) {
+                        content_list_pages += '<li class="active">';
+                    } else {
+                        content_list_pages += '<li>';
+                    }
+                    content_list_pages += '<a href="#" onclick="load_list_reminders(' + i + ')">' + (++count_page) + '</a></li>';
+                }
+                content_pagination += '<ul class="pagination pagination-sm no-margin">' +
+                    '<li><a href="#">&laquo;</a></li>' +
+                    content_list_pages +
+                    '<li><a href="#">&raquo;</a></li>' +
+                    '</ul>';
                 $tbody_list_reminders.html(content_list_reminders);
+                $footer_pagination.html(content_pagination);
             }
         }
     });
 }
+
+function load_next_page() {
+    
+}
+
+
