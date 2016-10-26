@@ -2,6 +2,8 @@
  * Created by ASUS on 10/24/2016.
  */
 
+var total_pages = 0;
+
 /**
  * Event: click button edit
  * Description: submit form
@@ -33,7 +35,7 @@ function load_list_reminders() {
     var managerId = $('#text-managerId').val(),
         urlString = "/api/reminder/list_by_manager?managerId=" + managerId,
         $tbody_list_reminders = $('#tbody-list-reminders'),
-        content = '';
+        content_list_reminders = '';
     $.ajax({
         type: "GET",
         url: urlString,
@@ -42,9 +44,16 @@ function load_list_reminders() {
             console.info('[success] ' + success);
             if (success) {
                 var data = response.data,
-                    list_reminders = data.content;
+                    list_reminders = data.content,
+                    time_reminder,
+                    content_pagination = '',
+                    $footer_pagination = $('#footer-pagination');
+                total_pages = data.totalPages;
+                //set list reminders
                 for (var i = 0; i < list_reminders.length; i++) {
-                    content += '<tr>' +
+                    time_reminder = new Date(list_reminders[i].time);
+                    console.info(time_reminder);
+                    content_list_reminders += '<tr>' +
                         '<td>' + list_reminders[i].time + '</td>' +
                         '<td>' + list_reminders[i].title + '</td>' +
                         '<td>' + list_reminders[i].message + '</td>' +
@@ -59,7 +68,9 @@ function load_list_reminders() {
                         '</td>' +
                         '</tr>';
                 }
-                $tbody_list_reminders.html(content);
+                //set pagination
+                // for
+                $tbody_list_reminders.html(content_list_reminders);
             }
         }
     });
