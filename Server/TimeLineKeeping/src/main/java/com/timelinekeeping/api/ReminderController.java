@@ -4,6 +4,7 @@ import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.ReminderModifyModel;
+import com.timelinekeeping.model.ReminderQueryModel;
 import com.timelinekeeping.service.serviceImplement.ReminderServiceImpl;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -24,9 +25,9 @@ public class ReminderController {
 
     @RequestMapping(value = {I_URI.API_REMINDER_LIST_MANAGER}, method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse findAll(@RequestParam(value = "start", required = false, defaultValue = IContanst.PAGE_PAGE) int start,
-                                @RequestParam(value = "top", required = false, defaultValue = IContanst.PAGE_SIZE) int top,
-                                @RequestParam(value = "managerId") Long managerId) {
+    public BaseResponse listByManager(@RequestParam(value = "start", required = false, defaultValue = IContanst.PAGE_PAGE) int start,
+                                      @RequestParam(value = "top", required = false, defaultValue = IContanst.PAGE_SIZE) int top,
+                                      @RequestParam(value = "managerId") Long managerId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             return new BaseResponse(true, reminderService.listByEmployee(managerId, start, top));
@@ -38,9 +39,24 @@ public class ReminderController {
         }
     }
 
+    @RequestMapping(value = {I_URI.API_GET}, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse get(@RequestParam(value = "id") Long reminderId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info("Id: " + reminderId);
+            return new BaseResponse(true, reminderService.get(reminderId));
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(false, e.getMessage());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
+
     @RequestMapping(value = {I_URI.API_CREATE}, method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponse add(@ModelAttribute ReminderModifyModel reminderModel) {
+    public BaseResponse create(@ModelAttribute ReminderModifyModel reminderModel) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             return reminderService.create(reminderModel).toBaseResponse();
@@ -99,5 +115,21 @@ public class ReminderController {
         }
     }
 
+    @RequestMapping(value = {I_URI.API_SEARCH_ADV}, method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse search(@RequestParam(value = "start", required = false, defaultValue = IContanst.PAGE_PAGE) int start,
+                               @RequestParam(value = "top", required = false, defaultValue = IContanst.PAGE_SIZE) int top,
+                               @ModelAttribute ReminderQueryModel reminderQueryModel,
+                               @RequestParam(value = "managerId") Long managerId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            return new BaseResponse(true, reminderService.search(reminderQueryModel, managerId, start, top));
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(false, e.getMessage());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
 
 }

@@ -1,12 +1,8 @@
 package com.timelinekeeping.model;
 
-import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.entity.ReminderMessageEntity;
-import com.timelinekeeping.util.UtilApps;
 
 import java.util.Date;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Created by HienTQSE60896 on 9/22/2016.
@@ -17,7 +13,7 @@ public class ReminderSearchModel {
     private String title;
     private String message;
     private Date time;
-    private AccountNotificationModel manager;
+    private String room;
 
     public ReminderSearchModel() {
     }
@@ -28,7 +24,7 @@ public class ReminderSearchModel {
             this.title = entity.getTitle();
             this.message = entity.getMessage();
             this.time = entity.getTime();
-            this.manager = new AccountNotificationModel(entity.getManager());
+            this.room = entity.getRoom() != null ? entity.getRoom().getName() : null;
         }
     }
 
@@ -65,11 +61,11 @@ public class ReminderSearchModel {
         this.time = time;
     }
 
-    public AccountNotificationModel getManager() {
-        return manager;
+    public String getRoom() {
+        return room;
     }
 
-    public void setManager(AccountNotificationModel manager) {
-        this.manager = manager;
+    public void setRoom(String room) {
+        this.room = room;
     }
 }
