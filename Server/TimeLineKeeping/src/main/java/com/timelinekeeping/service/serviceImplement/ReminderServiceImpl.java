@@ -282,5 +282,23 @@ public class ReminderServiceImpl {
         }
     }
 
+    public List<ReminderSearchModel> autoCompleTitle(String title, Long managerId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info("title: " + title);
+            //request
+            PageRequest pageRequest = new PageRequest(IContanst.PAGE_PAGE_I, IContanst.PAGE_SIZE_AUTO_COMPLETE);
+
+            //save DB
+            Page<ReminderMessageEntity> pageEntity = reminderRepo.search(title, managerId, pageRequest);
+
+            //Convert data
+            List<ReminderSearchModel> departmentModels = pageEntity.getContent().stream().map(ReminderSearchModel::new).collect(Collectors.toList());
+            logger.info("[autoCompleTitle] " + JsonUtil.toJson(departmentModels));
+            return departmentModels;
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
 
 }
