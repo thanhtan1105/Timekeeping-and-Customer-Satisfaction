@@ -69,6 +69,22 @@ public class ReminderServiceImpl {
         }
     }
 
+    public ReminderModel get(Long id){
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            ReminderMessageEntity entity = reminderRepo.findOne(id);
+            if (entity != null){
+                Set<NotificationEntity> notificationEntitySet = notificationRepo.findReminder(id);
+                entity.setNotificationSet(notificationEntitySet);
+                return new ReminderModel(entity);
+            }else {
+                return null;
+            }
+        }finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
     public Page<ReminderModel> listByEmployee(Long managerId, int page, int size) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -201,17 +217,11 @@ public class ReminderServiceImpl {
         }
     }
 
-    public ReminderModel get(Long id){
+    public void delete(Long reminderId){
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            ReminderMessageEntity entity = reminderRepo.findOne(id);
-            if (entity != null){
-                Set<NotificationEntity> notificationEntitySet = notificationRepo.findReminder(id);
-                entity.setNotificationSet(notificationEntitySet);
-                return new ReminderModel(entity);
-            }else {
-                return null;
-            }
+            logger.info("reminderIds: " + JsonUtil.toJson(reminderId));
+            ReminderMessageEntity entity = reminderRepo.findOne(reminderId);
         }finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }

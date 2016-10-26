@@ -12,8 +12,7 @@ public class BeaconFindPathResponse {
     private CoordinateModel fromPoint;
     private CoordinateModel toPoint;
     private Double distance;
-    private List<List<CoordinateModel>> paths;
-    private List<List<Long>> pathIds;
+    private List<FloorPathReminderModel> paths;
 
     public BeaconFindPathResponse() {
     }
@@ -42,25 +41,14 @@ public class BeaconFindPathResponse {
         this.distance = distance;
     }
 
-    public List<List<CoordinateModel>> getPaths() {
-        return paths;
-    }
 
-
-    public List<List<Long>> getPathIds() {
-        return pathIds;
-    }
-
-    public void addPath(List<CoordinateModel> listPath){
+    public void addPath(Integer floorId, List<CoordinateModel> listPath){
         if (paths == null){
             paths = new ArrayList<>();
         }
-        if (pathIds == null){
-            pathIds = new ArrayList<>();
-        }
         List<Long> pathId = listPath.stream().map(CoordinateModel::getId).collect(Collectors.toList());
-        paths.add(listPath);
-        pathIds.add(pathId);
+        FloorPathReminderModel floor = new FloorPathReminderModel(floorId, listPath, pathId);
+        paths.add(floor);
     }
 
     public Boolean getFound() {
@@ -71,11 +59,11 @@ public class BeaconFindPathResponse {
         this.found = found;
     }
 
-    public void setPaths(List<List<CoordinateModel>> paths) {
-        this.paths = paths;
+    public List<FloorPathReminderModel> getPaths() {
+        return paths;
     }
 
-    public void setPathIds(List<List<Long>> pathIds) {
-        this.pathIds = pathIds;
+    public void setPaths(List<FloorPathReminderModel> paths) {
+        this.paths = paths;
     }
 }

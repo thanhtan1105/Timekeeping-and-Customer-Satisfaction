@@ -94,8 +94,6 @@ public class BeaconAlgorithm {
             BeaconFindPathResponse result = new BeaconFindPathResponse();
 
 
-
-
             if (beginPoint.getFloor() == endPoint.getFloor()) {
                 //find Short Path
                 Pair<List<CoordinateModel>, Double> pairValue = findShortPath2Distance(beginVertex, endVertex);
@@ -107,7 +105,7 @@ public class BeaconAlgorithm {
                     result.setDistance(pairValue.getValue());
 
                     //add path
-                    result.addPath(listPath);
+                    result.addPath(beginPoint.getFloor(), listPath);
                 }
 
             } else {
@@ -149,10 +147,10 @@ public class BeaconAlgorithm {
                     result.setFromPoint(beginPoint);
                     result.setToPoint(endPoint);
                     //add path
-                    result.addPath(listPathBegin);
+                    result.addPath(beginPoint.getFloor(), listPathBegin);
 
                     //add path
-                    result.addPath(listPathEnd);
+                    result.addPath(endPoint.getFloor(), listPathEnd);
 
                     //set distance final
                     result.setDistance(distanceFinal);
