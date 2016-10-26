@@ -69,7 +69,7 @@ public class DepartmentServiceImpl {
             //Convert data
             List<DepartmentModel> departmentModels = pageEntity.getContent().stream().map(DepartmentModel::new).collect(Collectors.toList());
             Page<DepartmentModel> pageDepartment = new PageImpl<DepartmentModel>(departmentModels, pageRequest, pageEntity.getTotalElements());
-            logger.info("[Find All] " + JsonUtil.toJson(pageEntity));
+            logger.info("[Find All] " + JsonUtil.toJson(pageDepartment));
 
             return pageDepartment;
         } finally {

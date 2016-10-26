@@ -80,7 +80,7 @@ public class AccountServiceImpl {
             if (accountEntity == null) {
                 return null;
             } else {
-                logger.info("[Service- Login] account: " + JsonUtil.toJson(accountEntity));
+                logger.info("[Service- Login] account: " + JsonUtil.toJson(accountEntity.getId()));
                 AccountModel accountModel = new AccountModel(accountEntity);
                 accountModel.replaceRele(accountEntity.getRole());
                 return accountModel;
