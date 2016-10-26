@@ -30,6 +30,9 @@ public class ReminderController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             return new BaseResponse(true, reminderService.listByEmployee(managerId, start, top));
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(false, e.getMessage());
         } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }
@@ -41,6 +44,9 @@ public class ReminderController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             return reminderService.create(reminderModel).toBaseResponse();
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(false, e.getMessage());
         } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }
@@ -52,8 +58,28 @@ public class ReminderController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             return reminderService.update(reminderModel).toBaseResponse();
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(false, e.getMessage());
         } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }
     }
+
+
+    @RequestMapping(value = {I_URI.API_DELETE}, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse delete(@RequestParam("reminderId") Long reminderId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            Boolean result = reminderService.delete(reminderId);
+            return new BaseResponse(result);
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(false, e.getMessage());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
+
 }

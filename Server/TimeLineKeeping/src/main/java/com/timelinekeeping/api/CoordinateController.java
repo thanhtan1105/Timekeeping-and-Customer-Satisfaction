@@ -30,19 +30,40 @@ public class CoordinateController {
 
     @RequestMapping(value = I_URI.API_COORDINATE_GET_ROOM_POINT, method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse getRoomPoint(){
-        BaseResponse baseResponse = new BaseResponse();
-        baseResponse.setSuccess(true);
-        baseResponse.setData(coordinateService.getRoomPoint());
-        return baseResponse;
+    public BaseResponse getRoomPoint() {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        try {
+            List<CoordinateModel> listRoom = coordinateService.getRoomPoint();
+            if (listRoom != null) {
+                return new BaseResponse(true, listRoom);
+            } else {
+                return new BaseResponse(false);
+            }
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(false, e.getMessage());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+
     }
 
     @RequestMapping(value = I_URI.API_COORDINATE_GET_POINT, method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse getPoint(){
-        BaseResponse baseResponse = new BaseResponse();
-        baseResponse.setSuccess(true);
-        baseResponse.setData(coordinateService.getPoint());
-        return baseResponse;
+    public BaseResponse getPoint() {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        try {
+            List<CoordinateModel> listRoom = coordinateService.getPoint();
+            if (listRoom != null) {
+                return new BaseResponse(true, listRoom);
+            } else {
+                return new BaseResponse(false);
+            }
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(false, e.getMessage());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
     }
 }

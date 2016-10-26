@@ -217,11 +217,18 @@ public class ReminderServiceImpl {
         }
     }
 
-    public void delete(Long reminderId){
+    public Boolean delete(Long reminderId){
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("reminderIds: " + JsonUtil.toJson(reminderId));
             ReminderMessageEntity entity = reminderRepo.findOne(reminderId);
+            if (entity == null){
+                return false;
+            }
+
+            entity.setActive(EStatus.DEACTIVE);
+            reminderRepo.saveAndFlush(entity);
+            return true;
         }finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }

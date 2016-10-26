@@ -146,9 +146,9 @@ public class EmotionController {
                                       @RequestParam("month") Integer month,
                                       @RequestParam(value = "day", defaultValue = IContanst.DEFAULT_INT) Integer day,
                                       @RequestParam("managerId") Long managerId) {
-        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         BaseResponse response = null;
         try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             CustomerServiceReport customerServiceReport = emotionService.reportCustomerService(year, month, day, managerId);
             if (customerServiceReport != null) {
                 return new BaseResponse(true, customerServiceReport);
