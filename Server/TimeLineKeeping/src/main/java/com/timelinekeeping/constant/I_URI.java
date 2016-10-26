@@ -66,6 +66,7 @@ public interface I_URI {
      */
     String API_REMINDER = "/api/reminder";
     String API_REMINDER_LIST_MANAGER = "/list_by_manager";
+    String API_REMINDER_AUTO_COMPLETE = "/auto_complete";
 
     /**
      * Timekeeping
