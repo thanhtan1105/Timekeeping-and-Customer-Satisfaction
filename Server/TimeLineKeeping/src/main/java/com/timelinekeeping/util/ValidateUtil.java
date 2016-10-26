@@ -4,7 +4,10 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created by TrungNN on 9/18/2016.
@@ -53,17 +56,39 @@ public class ValidateUtil implements Serializable {
         return text.matches(pattern);
     }
 
+//    public static boolean isEnableEdit(Date currentTime, Date timeReminder, Long) {
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(Calendar.MINUTE, 15);
+//        currentTime.getTime();
+//        return false;
+//    }
+
     public static void main(String[] args) {
-        String text = "Đào Tạo - dt";
-        if (isResultAutocomplete(text)) {
-            System.out.println("Matching");
-            String[] groups = UtilApps.parseSearchValue(text);
-            System.out.println("Length: " + groups.length);
-            for (String group : groups) {
-                System.out.println("-" + group.trim() + ".");
-            }
-        } else {
-            System.out.println("Not matching");
-        }
+//        String text = "Đào Tạo - dt";
+//        if (isResultAutocomplete(text)) {
+//            System.out.println("Matching");
+//            String[] groups = UtilApps.parseSearchValue(text);
+//            System.out.println("Length: " + groups.length);
+//            for (String group : groups) {
+//                System.out.println("-" + group.trim() + ".");
+//            }
+//        } else {
+//            System.out.println("Not matching");
+//        }
+        String currentT = "10-11-2016 10:00";
+        String timeR = "10-11-2016 10:30";
+        Date currentTime = TimeUtil.parseToDate(currentT, "dd-MM-yyyy hh:mm");
+        Date timeReminder = TimeUtil.parseToDate(timeR, "dd-MM-yyyy hh:mm");
+        String text = "17 September 2016 - 09:30 pm";
+        DateFormat format = new SimpleDateFormat("dd MMMM yyyy - HH:mm a", Locale.ENGLISH);
+        int minutes = 30;
+        long mills = minutes * 60 * 1000;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentTime);
+        System.out.println("date: " + calendar.DAY_OF_MONTH);
+        System.out.println("month: " + calendar.MONTH);
+        System.out.println("year: " + calendar.YEAR);
+        System.out.println("hour: " + calendar.HOUR_OF_DAY);
+        System.out.println("minute: " + calendar.MINUTE);
     }
 }

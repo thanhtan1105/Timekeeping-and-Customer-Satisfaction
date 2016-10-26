@@ -177,6 +177,8 @@ public class ReminderControllerWeb {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         logger.info(Thread.currentThread().getStackTrace()[1].getMethodName() + "[reminderId] " + reminderId);
         ReminderModel reminderModel = reminderService.get(ValidateUtil.parseNumber(reminderId));
+
+        //check time > (current time + 30 minutes)
         session.setAttribute("ReminderModel", reminderModel);
 
         // set side-bar

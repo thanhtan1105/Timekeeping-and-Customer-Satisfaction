@@ -1,10 +1,7 @@
 package com.timelinekeeping.controller;
 
 import com.timelinekeeping.api.DepartmentController;
-import com.timelinekeeping.constant.EStatus;
-import com.timelinekeeping.constant.ETrainStatus;
-import com.timelinekeeping.constant.IContanst;
-import com.timelinekeeping.constant.I_URI;
+import com.timelinekeeping.constant.*;
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.model.DepartmentModel;
 import com.timelinekeeping.model.DepartmentSelectModel;
@@ -100,5 +97,15 @@ public class DepartmentControllerWeb {
         }
         logger.info("[Add Department] END");
         return url;
+    }
+
+    @RequestMapping(value = "/search2", method = RequestMethod.POST)
+    public String search(@RequestParam(value = "searchValue") String searchValue) {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        logger.info(Thread.currentThread().getStackTrace()[1].getMethodName() + "[searchValue] " + searchValue);
+
+        logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        return IViewConst.MANAGEMENT_DEPARTMENT_VIEW;
+//        return "/views/admin/management_depart/add_depart";
     }
 }

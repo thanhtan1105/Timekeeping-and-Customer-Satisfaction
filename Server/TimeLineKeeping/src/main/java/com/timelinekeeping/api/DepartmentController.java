@@ -108,9 +108,9 @@ public class DepartmentController {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info(Thread.currentThread().getStackTrace()[1].getMethodName() + " Code: " + code);
             logger.info(Thread.currentThread().getStackTrace()[1].getMethodName() + " Name: " + name);
-            Page<DepartmentModel> departmentEntities = departmentService.searchDepartment(code, name, page, size);
-            logger.info(JsonUtil.toJson(departmentEntities));
-            return new BaseResponse(true, departmentEntities);
+            Page<DepartmentModel> departmentModel = departmentService.searchDepartment(code, name, page, size);
+            logger.info(JsonUtil.toJson(departmentModel));
+            return new BaseResponse(true, departmentModel);
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
