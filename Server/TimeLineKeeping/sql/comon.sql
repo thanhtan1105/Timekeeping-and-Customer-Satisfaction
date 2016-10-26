@@ -28,7 +28,7 @@ INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('employee','/emplo
 
 
 /** COORDINATE*/
-INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`,`type`) VALUES ('0', '2', '3.8', '0', '0', '0');
+INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`,`type`) VALUES ('0', '2', '3.8', '0', '0', '3');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('0', '6', '3.8', '0', '0', '101','1');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('0', '10', '3.8', '0', '0', '103','1');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('0', '14', '3.8', '0', '0', '105','1');
