@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
  * Created by HienTQSE60896 on 10/22/2016.
  */
 public class BeaconFindPathResponse {
+    private Boolean found = false;
     private CoordinateModel fromPoint;
     private CoordinateModel toPoint;
     private Double distance;
@@ -60,5 +61,21 @@ public class BeaconFindPathResponse {
         List<Long> pathId = listPath.stream().map(CoordinateModel::getId).collect(Collectors.toList());
         paths.add(listPath);
         pathIds.add(pathId);
+    }
+
+    public Boolean getFound() {
+        return found;
+    }
+
+    public void setFound(Boolean found) {
+        this.found = found;
+    }
+
+    public void setPaths(List<List<CoordinateModel>> paths) {
+        this.paths = paths;
+    }
+
+    public void setPathIds(List<List<Long>> pathIds) {
+        this.pathIds = pathIds;
     }
 }

@@ -3,6 +3,7 @@ package com.timelinekeeping.service.algorithm;
 import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.ConnectionPointEntity;
+import com.timelinekeeping.entity.CoordinateEntity;
 import com.timelinekeeping.model.BeaconFindPathResponse;
 import com.timelinekeeping.model.CoordinateModel;
 import com.timelinekeeping.repository.ConnectionRepo;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 /**
@@ -92,54 +92,74 @@ public class BeaconAlgorithm {
 
             //prepare result
             BeaconFindPathResponse result = new BeaconFindPathResponse();
-            result.setFromPoint(beginPoint);
-            result.setToPoint(endPoint);
 
-            Double distanceFinal = 0d;
+
+
 
             if (beginPoint.getFloor() == endPoint.getFloor()) {
-                //find Short Path =
+                //find Short Path
                 Pair<List<CoordinateModel>, Double> pairValue = findShortPath2Distance(beginVertex, endVertex);
-                List<CoordinateModel> listPath = pairValue.getKey();
-                distanceFinal += pairValue.getValue();
+                if (pairValue != null) {
+                    result.setFound(true);
+                    result.setFromPoint(beginPoint);
+                    result.setToPoint(endPoint);
+                    List<CoordinateModel> listPath = pairValue.getKey();
+                    result.setDistance(pairValue.getValue());
 
-                //add path
-                result.addPath(listPath);
-            }else{
+                    //add path
+                    result.addPath(listPath);
+                }
 
+            } else {
+                Double distanceFinal = 0d;
                 /** 1. find beginVertex to stairs */
 
+                List<CoordinateModel> listPathBegin = null;
+                List<CoordinateModel> listPathEnd = null;
+
                 //find stairs beginVertex
-                CoordinateModel beginStairs = coordinateRepo.findStairsPoint(beginPoint.getFloor());
-                if (beginStairs == null){
+                CoordinateEntity beginStairs = coordinateRepo.findStairsPoint(beginPoint.getFloor());
+                if (beginStairs == null) {
                     return null;
                 }
                 //find path
                 Pair<List<CoordinateModel>, Double> pairValue = findShortPath2Distance(beginVertex, beginStairs.getId());
-                List<CoordinateModel> listPath = pairValue.getKey();
-                distanceFinal += pairValue.getValue();
+                if (pairValue != null) {
+                    listPathBegin = pairValue.getKey();
+                    distanceFinal += pairValue.getValue();
+                }
 
-                //add path
-                result.addPath(listPath);
 
                 /** 2. find stairs to endVertex */
 
                 //find stairs beginVertex
-                CoordinateModel endStairs = coordinateRepo.findStairsPoint(beginPoint.getFloor());
-                if (endStairs == null){
+                CoordinateEntity endStairs = coordinateRepo.findStairsPoint(endPoint.getFloor());
+                if (endStairs == null) {
                     return null;
                 }
                 //find path
                 pairValue = findShortPath2Distance(endStairs.getId(), endVertex);
-                listPath = pairValue.getKey();
-                distanceFinal += pairValue.getValue();
+                if (pairValue != null) {
+                    listPathEnd = pairValue.getKey();
+                    distanceFinal += pairValue.getValue();
+                }
 
-                //add path
-                result.addPath(listPath);
+                if (listPathBegin != null && listPathEnd != null) {
+                    result.setFound(true);
+                    result.setFromPoint(beginPoint);
+                    result.setToPoint(endPoint);
+                    //add path
+                    result.addPath(listPathBegin);
+
+                    //add path
+                    result.addPath(listPathEnd);
+
+                    //set distance final
+                    result.setDistance(distanceFinal);
+                }
             }
 
-            //set distance final
-            result.setDistance(distanceFinal);
+
             //return
             return result;
         } finally {
@@ -150,7 +170,8 @@ public class BeaconAlgorithm {
 
     }
 
-    private Pair<List<CoordinateModel>, Double> findShortPath2Distance(Long beginVertex, Long endVertex){
+    private Pair<List<CoordinateModel>, Double> findShortPath2Distance(Long beginVertex, Long endVertex) {
+        init();
         queue.add(beginVertex);
         distance.put(beginVertex, 0d);
         boolean found = false;
@@ -182,6 +203,9 @@ public class BeaconAlgorithm {
 
         }
 
+        if (found == false) {
+            return null;
+        }
 
         // prepare result
         //distance
