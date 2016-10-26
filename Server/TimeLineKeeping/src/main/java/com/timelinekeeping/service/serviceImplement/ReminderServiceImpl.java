@@ -11,6 +11,7 @@ import com.timelinekeeping.entity.NotificationEntity;
 import com.timelinekeeping.entity.ReminderMessageEntity;
 import com.timelinekeeping.model.ReminderModel;
 import com.timelinekeeping.model.ReminderModifyModel;
+import com.timelinekeeping.model.ReminderSearchModel;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.CoordinateRepo;
 import com.timelinekeeping.repository.NotificationRepo;
@@ -69,18 +70,18 @@ public class ReminderServiceImpl {
         }
     }
 
-    public ReminderModel get(Long id){
+    public ReminderModel get(Long id) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             ReminderMessageEntity entity = reminderRepo.findOne(id);
-            if (entity != null){
+            if (entity != null) {
                 Set<NotificationEntity> notificationEntitySet = notificationRepo.findReminder(id);
                 entity.setNotificationSet(notificationEntitySet);
                 return new ReminderModel(entity);
-            }else {
+            } else {
                 return null;
             }
-        }finally {
+        } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
@@ -217,19 +218,39 @@ public class ReminderServiceImpl {
         }
     }
 
-    public Boolean delete(Long reminderId){
+    public Boolean delete(Long reminderId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("reminderIds: " + JsonUtil.toJson(reminderId));
             ReminderMessageEntity entity = reminderRepo.findOne(reminderId);
-            if (entity == null){
+            if (entity == null) {
                 return false;
             }
 
             entity.setActive(EStatus.DEACTIVE);
             reminderRepo.saveAndFlush(entity);
             return true;
-        }finally {
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    public Page<ReminderSearchModel> search(String title, Long managerId, int page, int size) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info("title: " + title);
+            //request
+            PageRequest pageRequest = new PageRequest(page, size);
+
+            //save DB
+            Page<ReminderMessageEntity> pageEntity = reminderRepo.search(title, managerId, pageRequest);
+
+            //Convert data
+            List<ReminderSearchModel> departmentModels = pageEntity.getContent().stream().map(ReminderSearchModel::new).collect(Collectors.toList());
+            Page<ReminderSearchModel> pageDepartment = new PageImpl<>(departmentModels, pageRequest, pageEntity.getTotalElements());
+            logger.info("[Search] " + JsonUtil.toJson(pageDepartment));
+            return pageDepartment;
+        } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }

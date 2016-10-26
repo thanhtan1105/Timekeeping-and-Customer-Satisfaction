@@ -18,5 +18,9 @@ public interface ReminderRepo extends JpaRepository<ReminderMessageEntity, Long>
     @Query("SELECT re FROM ReminderMessageEntity re INNER JOIN re.manager a WHERE a.id = :manager_id AND re.active <> 0 ORDER BY re.createDate desc ")
     Page<ReminderMessageEntity> list(@Param("manager_id") Long managerId, Pageable pageable);
 
+    @Query("SELECT re FROM ReminderMessageEntity re INNER JOIN re.manager a " +
+            "WHERE a.id = :manager_id AND re.title like CONCAT('%', :title, '%') AND re.active <> 0 ORDER BY re.createDate desc")
+    Page<ReminderMessageEntity> search(@Param("title") String title,
+                                       @Param("manager_id") Long managerId, Pageable pageable);
 
 }
