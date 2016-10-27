@@ -29,7 +29,7 @@ INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('employee','/emplo
 
 /** COORDINATE*/
 /** FLOOR 1*/
-INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`,`type`) VALUES ('1', '3', '3.8', '0', '0', '3');
+INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`,`type`) VALUES ('1', '3', '3.8', '0', '0', '4');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('1', '6', '3.8', '0', '0', '101','1');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('1', '10', '3.8', '0', '0', '103','1');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('1', '14', '3.8', '0', '0', '105','1');
@@ -57,9 +57,11 @@ INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `min
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('1', '2', '21.2', '0', '0', 'WC','1');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('1', '20', '21.2', '0', '0', 'Library','1');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`,`type`) VALUES ('1', '3', '8.8', '0', '0', '0');
+INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`,`type`) VALUES ('1', '1', '3.8', '0', '0', '3');
+INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`,`type`) VALUES ('1', '1', '8.8', '0', '0', '0');
 
 /** FLOOR 2*/
-INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`,`type`) VALUES ('2', '3', '3.8', '0', '0', '3');
+INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`,`type`) VALUES ('2', '3', '3.8', '0', '0', '4');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('2', '6', '3.8', '0', '0', '201','1');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('2', '10', '3.8', '0', '0', '203','1');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('2', '14', '3.8', '0', '0', '205','1');
@@ -93,8 +95,11 @@ INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `min
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('2', '20', '21.2', '0', '0', '206','1');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('2', '28', '21.2', '0', '0', '208','1');
 INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`, `name`,`type`) VALUES ('2', '36', '21.2', '0', '0', '210','1');
+INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`,`type`) VALUES ('2', '1', '3.8', '0', '0', '3');
+INSERT INTO `mydb`.`coordinate` (`floor`, `latitude`, `longitude`, `major`, `minjor`,`type`) VALUES ('2', '1', '8.8', '0', '0', '0');
 
 /** VERTEX **/
+/** FLOOR 1*/
 INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('1', '28');
 INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('2', '12');
 INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('3', '13');
@@ -123,6 +128,8 @@ INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('22',
 INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('23', '27');
 INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('11', '28');
 INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('12', '28');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('29', '30');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('11', '30');
 
 /** FLOOR 2*/
 INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('29', '39');
@@ -159,5 +166,7 @@ INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('51',
 INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('52', '60');
 INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('53', '61');
 INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('54', '62');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('63', '64');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('38', '64');
 
 

@@ -110,16 +110,33 @@ public class BeaconAlgorithm {
 
             } else {
                 Double distanceFinal = 0d;
-                /** 1. find beginVertex to stairs */
+
 
                 List<CoordinateModel> listPathBegin = null;
                 List<CoordinateModel> listPathEnd = null;
 
-                //find stairs beginVertex
-                CoordinateEntity beginStairs = coordinateRepo.findStairsPoint(beginPoint.getFloor());
-                if (beginStairs == null) {
+                /** 1. choose stairs Up, stairs down*/
+                CoordinateEntity beginStairs = null;
+                CoordinateEntity endStairs = null;
+                if (beginPoint.getFloor() > endPoint.getFloor()) {
+                    //find stairs beginVertex
+                    beginStairs = coordinateRepo.findStairsPointDown(beginPoint.getFloor());
+                    //find stairs beginVertex
+                    endStairs = coordinateRepo.findStairsPointUp(endPoint.getFloor());
+                }else{
+                    //find stairs beginVertex
+                    beginStairs = coordinateRepo.findStairsPointUp(beginPoint.getFloor());
+                    //find stairs beginVertex
+                    endStairs = coordinateRepo.findStairsPointDown(endPoint.getFloor());
+                }
+
+                //validate
+                if (beginStairs == null || endStairs == null) {
                     return null;
                 }
+
+
+                /** 2. find beginVertex to stairs */
                 //find path
                 Pair<List<CoordinateModel>, Double> pairValue = findShortPath2Distance(beginVertex, beginStairs.getId());
                 if (pairValue != null) {
@@ -128,19 +145,18 @@ public class BeaconAlgorithm {
                 }
 
 
-                /** 2. find stairs to endVertex */
+                /** 3. find stairs to endVertex */
 
-                //find stairs beginVertex
-                CoordinateEntity endStairs = coordinateRepo.findStairsPoint(endPoint.getFloor());
-                if (endStairs == null) {
-                    return null;
-                }
+
                 //find path
                 pairValue = findShortPath2Distance(endStairs.getId(), endVertex);
                 if (pairValue != null) {
                     listPathEnd = pairValue.getKey();
                     distanceFinal += pairValue.getValue();
                 }
+
+
+                /** 4. prepare result*/
 
                 if (listPathBegin != null && listPathEnd != null) {
                     result.setFound(true);

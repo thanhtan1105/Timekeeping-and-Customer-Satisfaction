@@ -88,7 +88,7 @@ public class ReminderServiceImpl {
         }
     }
 
-    public Page<ReminderModel> listByEmployee(Long managerId, int page, int size) {
+    public Page<ReminderSearchModel> listByEmployee(Long managerId, int page, int size) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -99,8 +99,8 @@ public class ReminderServiceImpl {
             Page<ReminderMessageEntity> pageEntity = reminderRepo.list(managerId, pageRequest);
 
             //Convert data
-            List<ReminderModel> departmentModels = pageEntity.getContent().stream().map(ReminderModel::new).collect(Collectors.toList());
-            Page<ReminderModel> pageDepartment = new PageImpl<>(departmentModels, pageRequest, pageEntity.getTotalElements());
+            List<ReminderSearchModel> departmentModels = pageEntity.getContent().stream().map(ReminderSearchModel::new).collect(Collectors.toList());
+            Page<ReminderSearchModel> pageDepartment = new PageImpl<>(departmentModels, pageRequest, pageEntity.getTotalElements());
             logger.info("[Find All] " + JsonUtil.toJson(pageDepartment));
 
             return pageDepartment;

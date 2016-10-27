@@ -24,11 +24,11 @@
         <!-- Your Page Content Here -->
         <!-- Form for search reminders -->
         <div class="input-group" style="margin-right:  25%; margin-left: 25%; margin-bottom: 5px;">
-            <input type="text" class="form-control" placeholder="Enter Title"/>
+            <input type="text" th:id="'text-search-value'" class="form-control" placeholder="Enter Title"/>
             <span class="input-group-btn">
-                    <button class="btn btn-success btn-flat" type="button"/>
-                        <i class="glyphicon glyphicon-search"></i> Search
-                </span>
+                <button type="button" class="btn btn-success btn-flat"
+                        th:id="'btn-search-reminder'"/>
+                <i class="glyphicon glyphicon-search"></i> Search</span>
         </div>
         <!-- ./form for search reminders -->
         <!-- Add new reminder -->
@@ -72,24 +72,6 @@
                             </tr>
                             </thead>
                             <tbody th:id="'tbody-list-reminders'">
-                            <!--<tr th:each="reminder: ${ListReminders}">-->
-                            <!--<td th:text="${#dates.format(reminder.time, 'dd-MMM-yyyy (HH:mm)')}"></td>-->
-                            <!--<input type="hidden" th:id="'text-time-reminder-' + ${reminder.id}"-->
-                            <!--th:value="${reminder.time}"/>-->
-                            <!--<td th:text="${reminder.title}"></td>-->
-                            <!--<td th:text="${reminder.message}"></td>-->
-                            <!--<td th:text="${reminder.room.name}"></td>-->
-                            <!--<td>-->
-                            <!--<button class="btn btn-success btn-flat btn-sm btn-edit-reminder" type="button"-->
-                            <!--th:attr="data-id=${reminder.id}"-->
-                            <!--title="View Reminder">-->
-                            <!--<i class="fa fa-eye"></i>-->
-                            <!--</button>-->
-                            <!--<button class="btn btn-danger btn-flat btn-sm" type="button">-->
-                            <!--<i class="fa fa-remove"></i>-->
-                            <!--</button>-->
-                            <!--</td>-->
-                            <!--</tr>-->
                             </tbody>
                         </table>
                     </div>
