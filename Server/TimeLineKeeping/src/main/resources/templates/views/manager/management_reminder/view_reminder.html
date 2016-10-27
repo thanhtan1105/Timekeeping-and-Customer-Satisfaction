@@ -7,7 +7,7 @@
     <meta charset="UTF-8"/>
     <title>Management Reminders</title>
 </head>
-<body>
+<body onload="check_time()">
 <div layout:fragment="content">
     <!-- Main content -->
     <section class="content">
@@ -62,7 +62,7 @@
                                 <div class="col-sm-2"></div>
                                 <div class="col-sm-5">
                                     <button type="button" th:id="'btn-edit-reminder'"
-                                            class="btn bg-aqua-gradient btn-flat">
+                                            class="btn bg-aqua-gradient btn-flat" style="display: none">
                                         Edit
                                     </button>
                                 </div>
@@ -93,6 +93,7 @@
     <!-- /.content -->
 </div>
 <div layout:fragment="js">
+    <script th:src="@{/js/common.js}"></script>
     <script th:src="@{/js/manager/reminder/view_reminder.js}"></script>
 </div>
 </body>
