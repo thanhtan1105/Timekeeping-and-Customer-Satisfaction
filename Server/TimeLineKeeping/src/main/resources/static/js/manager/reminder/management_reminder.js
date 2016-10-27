@@ -194,11 +194,17 @@ $('.btn-edit-reminder').on('click', function () {
  */
 $('#btn-search-reminder').on('click', function () {
     var managerId = $('#text-managerId').val(),
-        title = '',
+        title = $('#text-search-value').val(),
+        index = 0,
         urlString = '/api/reminder/search?managerId=' + managerId +
             '&title=' + title +
-            '&start=' +
-            '&top=';
+            '&start=' + index +
+            '&top=' + page_size,
+        $tbody_list_reminders = $('#tbody-list-reminders');
+    console.info('[title] ' + title);
+
+    //call ajax getting list reminders
+    ajax_get_list_reminders(urlString, 'GET', index, $tbody_list_reminders);
 });
 
 
