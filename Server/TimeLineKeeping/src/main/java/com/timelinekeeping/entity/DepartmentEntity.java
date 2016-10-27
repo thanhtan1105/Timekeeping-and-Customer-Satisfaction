@@ -64,6 +64,13 @@ public class DepartmentEntity implements Serializable {
         this.active = active;
     }
 
+    public void update(DepartmentModel model) {
+        if (model != null) {
+            this.name = model.getName();
+            this.description = model.getDescription();
+            this.status = model.getStatus();
+        }
+    }
 
     @Override
     public String toString() {

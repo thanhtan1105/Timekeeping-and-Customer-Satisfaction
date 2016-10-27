@@ -1,10 +1,10 @@
 package com.timelinekeeping.api;
 
+import com.timelinekeeping.common.BaseResponse;
+import com.timelinekeeping.common.BaseResponseG;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.controller.PersonGroupControllerWeb;
-import com.timelinekeeping.common.BaseResponse;
-import com.timelinekeeping.common.BaseResponseG;
 import com.timelinekeeping.model.DepartmentModel;
 import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
 import com.timelinekeeping.util.JsonUtil;
@@ -31,40 +31,7 @@ public class DepartmentController {
     @Autowired
     private DepartmentServiceImpl departmentService;
 
-    @RequestMapping(value = {I_URI.API_CREATE}, method = RequestMethod.POST)
-    @ResponseBody
-    public BaseResponse create(@ModelAttribute DepartmentModel department) {
-        try {
-            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            BaseResponseG<DepartmentModel> response = departmentService.create(department);
-            logger.info("RESPONSE: " + JsonUtil.toJson(response));
-            return response.toBaseResponse();
 
-        } catch (Exception e) {
-            logger.error(e);
-            return new BaseResponse(e);
-        } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
-        }
-    }
-
-    @RequestMapping(value = {I_URI.API_DEPARTMENT_TRAINING}, method = RequestMethod.GET)
-    @ResponseBody
-    public BaseResponse training(@RequestParam("departmentId") String departmentId) {
-        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-        try {
-            BaseResponse response = departmentService.training(departmentId);
-            return response;
-        } catch (IOException e) {
-            logger.error(e);
-            return new BaseResponse(e);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return new BaseResponse(e);
-        } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
-        }
-    }
 
     @RequestMapping(value = {I_URI.API_LIST}, method = RequestMethod.GET)
     @ResponseBody
@@ -78,24 +45,7 @@ public class DepartmentController {
         }
     }
 
-    @RequestMapping(value = {I_URI.API_DEPARTMENT_EXIST}, method = RequestMethod.GET)
-    @ResponseBody
-    public BaseResponse checkExistCode(@RequestParam("code") String code) {
-        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
 
-        try {
-            Boolean isExist = departmentService.isExist(code);
-            Map<String, Boolean> map = new HashMap<>();
-            map.put("exist", isExist);
-            return new BaseResponse(true, map);
-        } catch (Exception e) {
-            logger.error(IContanst.LOGGER_ERROR, e);
-            return new BaseResponse(e);
-        } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
-
-        }
-    }
 
     @RequestMapping(value = {I_URI.API_SEARCH}, method = RequestMethod.GET)
     @ResponseBody
@@ -121,4 +71,114 @@ public class DepartmentController {
     }
 
 
+    @RequestMapping(value = {I_URI.API_GET}, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse get(@RequestParam(value = "id") Long departmentId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info("Id: " + departmentId);
+            DepartmentModel result = departmentService.get(departmentId);
+            if (result != null) {
+                return new BaseResponse(true, result);
+            } else {
+                return new BaseResponse(false);
+            }
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(false, e.getMessage());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
+
+    @RequestMapping(value = {I_URI.API_CREATE}, method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse create(@ModelAttribute DepartmentModel department) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            BaseResponseG<DepartmentModel> response = departmentService.create(department);
+            logger.info("RESPONSE: " + JsonUtil.toJson(response));
+            return response.toBaseResponse();
+
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
+
+    @RequestMapping(value = {I_URI.API_UPDATE}, method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse update(@ModelAttribute DepartmentModel department) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info("Department: " + JsonUtil.toJson(department));
+            BaseResponseG<DepartmentModel> response = departmentService.update(department);
+            logger.info("RESPONSE: " + JsonUtil.toJson(response));
+            return response.toBaseResponse();
+
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
+
+    @RequestMapping(value = {I_URI.API_DELETE}, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse delete(@RequestParam("id") Long departmentId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info("Id: " + departmentId);
+            Boolean result = departmentService.delete(departmentId);
+            return new BaseResponse(result);
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(false, e.getMessage());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
+
+
+    /** OTHER*/
+
+    @RequestMapping(value = {I_URI.API_DEPARTMENT_TRAINING}, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse training(@RequestParam("departmentId") String departmentId) {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        try {
+            BaseResponse response = departmentService.training(departmentId);
+            return response;
+        } catch (IOException e) {
+            logger.error(e);
+            return new BaseResponse(e);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
+
+    @RequestMapping(value = {I_URI.API_DEPARTMENT_EXIST}, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse checkExistCode(@RequestParam("code") String code) {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+        try {
+            Boolean isExist = departmentService.isExist(code);
+            Map<String, Boolean> map = new HashMap<>();
+            map.put("exist", isExist);
+            return new BaseResponse(true, map);
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+
+        }
+    }
 }

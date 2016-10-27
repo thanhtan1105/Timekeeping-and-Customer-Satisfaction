@@ -163,6 +163,9 @@ public class ReminderServiceImpl {
             //find reminder is
             ReminderMessageEntity entity = reminderRepo.findOne(reminder.getId());
 
+            //entity update
+            entity.update(reminder);
+
             //edit Manager
             if (entity.getManager() == null || (entity.getManager().getId() != reminder.getManagerId())) {
 

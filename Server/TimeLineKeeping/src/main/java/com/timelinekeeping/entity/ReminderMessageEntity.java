@@ -63,6 +63,13 @@ public class ReminderMessageEntity implements Serializable {
         this.title = modifyModel.getTitle();
         this.message = modifyModel.getMessage();
         this.time = new Timestamp(modifyModel.getTime());
+        this.location = modifyModel.getLocation();
+    }
+
+    public void update(ReminderModifyModel modifyModel) {
+        this.title = modifyModel.getTitle();
+        this.message = modifyModel.getMessage();
+        this.time = new Timestamp(modifyModel.getTime());
     }
 
     public String getTitle() {
