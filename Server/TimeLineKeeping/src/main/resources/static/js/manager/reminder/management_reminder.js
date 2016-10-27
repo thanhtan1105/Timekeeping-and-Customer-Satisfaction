@@ -239,8 +239,7 @@ function show_modal(id, enabled) {
  */
 function view_reminder(id) {
     var $form_submit_view_reminder = $('#form-submit-view-reminder'),
-        reminderId = $form_submit_view_reminder.find('[name="reminderId"]'),
-        $text_time_reminder = $('#text-time-reminder-' + id).val();
+        reminderId = $form_submit_view_reminder.find('[name="reminderId"]');
     console.info('[id] ' + id);
     console.info('[text time reminder] ' + $text_time_reminder);
 
