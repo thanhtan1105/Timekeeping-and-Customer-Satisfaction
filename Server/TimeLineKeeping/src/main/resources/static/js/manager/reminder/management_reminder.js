@@ -7,22 +7,24 @@ var current_index_page;
 var first_page = false;
 var last_page = false;
 var deleted_reminder_id;
-var page_size = 10;
+var current_page_size = 10;
 
 /**
  * Fc: load list reminders by index page
  * @param index
  */
-function load_list_reminders(index, entries) {
+function load_list_reminders(index, page_size) {
     var managerId = $('#text-managerId').val(),
         title = $('#text-search-value').val(),
         urlString = '/api/reminder/search?managerId=' + managerId +
             '&title=' + title +
             '&start=' + index +
-            '&top=' + entries,
+            '&top=' + page_size,
         $tbody_list_reminders = $('#tbody-list-reminders');
-    page_size = entries;
     console.info('[title] ' + title);
+
+    //set current page size
+    current_page_size = page_size;
 
     //call ajax getting list reminders
     ajax_get_list_reminders(urlString, 'GET', index, $tbody_list_reminders);
@@ -39,7 +41,7 @@ function load_next_page() {
         //current index page + 1
         ++current_index_page;
         //reload list reminders
-        load_list_reminders(current_index_page, page_size);
+        load_list_reminders(current_index_page, current_page_size);
     }
 }
 
@@ -54,7 +56,7 @@ function load_previous_page() {
         //current index page - 1
         --current_index_page;
         //reload list reminders
-        load_list_reminders(current_index_page, page_size);
+        load_list_reminders(current_index_page, current_page_size);
     }
 }
 
@@ -70,7 +72,7 @@ function set_list_reminders(list_reminders, $tbody_list_reminders) {
         time_reminder = new Date(list_reminders[i].time);
         console.info(time_reminder);
         content_list_reminders += '<tr>' +
-            '<td>' + list_reminders[i].time + '</td>' +
+            '<td>' + formatDate(time_reminder) + '</td>' +
             '<td id="td-title-' + list_reminders[i].id + '">' + list_reminders[i].title + '</td>' +
             '<td>' + list_reminders[i].message + '</td>' +
             '<td>' + list_reminders[i].room + '</td>' +
@@ -106,7 +108,7 @@ function set_pagination(total_pages, $footer_pagination) {
         } else {
             content_list_pages += '<li>';
         }
-        content_list_pages += '<a href="#" onclick="load_list_reminders(' + i + ', ' + page_size + ')">' + (++count_page) + '</a></li>';
+        content_list_pages += '<a href="#" onclick="load_list_reminders(' + i + ', ' + current_page_size + ')">' + (++count_page) + '</a></li>';
     }
     //check if is first page
     if (first_page) {
@@ -198,7 +200,7 @@ function delete_reminder() {
             console.info('[success] ' + success);
             if (success) {
                 //reload list reminders
-                load_list_reminders(current_index_page, page_size);
+                load_list_reminders(current_index_page, current_page_size);
                 //show modal result success
                 show_modal('#modal-result-success', 'true');
             }
@@ -244,12 +246,34 @@ function view_reminder(id) {
 }
 
 /**
+ * Fc: format date
+ * @param date
+ * @returns {string}
+ */
+function formatDate(date) {
+    var year = date.getFullYear(),
+        month = date.getMonth() + 1, // months are zero indexed
+        day = date.getDate(),
+        hour = date.getHours(),
+        minute = date.getMinutes(),
+        second = date.getSeconds(),
+        hourFormatted = hour % 24 || 24, // hour returned in 24 hour format
+        minuteFormatted = minute < 10 ? "0" + minute : minute;
+
+
+    return day + "/" + month + "/" + year + " (" + hourFormatted + ":" + minuteFormatted + ")";
+}
+
+/**
  * Event: click button search
  */
 $('#btn-search-reminder').on('click', function () {
-    load_list_reminders(0, page_size);
+    load_list_reminders(0, current_page_size);
 });
 
+/**
+ * Event: click show entries
+ */
 $('#select-entries').on('click', function () {
     var entries = $(this).val();
     load_list_reminders(0, entries);
