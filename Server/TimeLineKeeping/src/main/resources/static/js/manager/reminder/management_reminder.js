@@ -4,6 +4,8 @@
 
 var total_pages = 0;
 var current_index_page;
+var first_page = false;
+var last_page = false;
 
 /**
  * Event: click button edit
@@ -51,10 +53,16 @@ function load_list_reminders(index) {
                     time_reminder,
                     content_pagination = '',
                     content_list_pages = '',
+                    content_next_page,
+                    content_previous_page,
                     count_page = 0,
                     $footer_pagination = $('#footer-pagination');
                 total_pages = data.totalPages;
+                first_page = data.first;
+                last_page = data.last;
                 console.info('[total pages] ' + total_pages);
+                console.info('[first pages] ' + first_page);
+                console.info('[last pages] ' + last_page);
                 //set current index page: first page
                 current_index_page = index;
                 //set list reminders
@@ -85,10 +93,22 @@ function load_list_reminders(index) {
                     }
                     content_list_pages += '<a href="#" onclick="load_list_reminders(' + i + ')">' + (++count_page) + '</a></li>';
                 }
+                //check if is first page
+                if (first_page) {
+                    content_next_page = '<li class="disabled"><a href="#">&laquo;</a></li>';
+                } else {
+                    content_next_page = '<li><a href="#">&laquo;</a></li>';
+                }
+                //check if is last page
+                if (last_page) {
+                    content_previous_page = '<li class="disabled"><a href="#">&raquo;</a></li>';
+                } else {
+                    content_previous_page = '<li><a href="#">&raquo;</a></li>';
+                }
                 content_pagination += '<ul class="pagination pagination-sm no-margin">' +
-                    '<li><a href="#">&laquo;</a></li>' +
+                    content_next_page +
                     content_list_pages +
-                    '<li><a href="#">&raquo;</a></li>' +
+                    content_previous_page +
                     '</ul>';
                 $tbody_list_reminders.html(content_list_reminders);
                 $footer_pagination.html(content_pagination);
@@ -98,7 +118,7 @@ function load_list_reminders(index) {
 }
 
 function load_next_page() {
-    
+    //check is
 }
 
 
