@@ -79,5 +79,7 @@ class Point: Object {
     return pointList
   }
 
-  
+  func toString() -> String {
+    return name + ", lầu " + String(floor)
+  }
 }

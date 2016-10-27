@@ -42,7 +42,7 @@ public interface IContanst {
     double MCS_PERSON_DETECT_CONFIDINCE_CORRECT = AppConfigKeys.getInstance().getApiPropertyDouble("detect.person.indetify.confidence");
 
     int AGE_AMOUNT = 2;
-    int SEND_SMS = 1;
+    int SEND_SMS = 0;
 
 
     /**
