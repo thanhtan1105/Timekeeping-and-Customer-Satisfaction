@@ -17,36 +17,8 @@ function load_list_reminders(index) {
             '&start=' + index +
             '&top=' + page_size,
         $tbody_list_reminders = $('#tbody-list-reminders');
+
     //call ajax getting list reminders
-    // $.ajax({
-    //     type: "GET",
-    //     url: urlString,
-    //     success: function (response) {
-    //         var success = response.success;
-    //         console.info('[success] ' + success);
-    //         if (success) {
-    //             var data = response.data,
-    //                 list_reminders = data.content,
-    //                 $footer_pagination = $('#footer-pagination');
-    //
-    //             total_pages = data.totalPages;
-    //             first_page = data.first;
-    //             last_page = data.last;
-    //             console.info('[total pages] ' + total_pages);
-    //             console.info('[first pages] ' + first_page);
-    //             console.info('[last pages] ' + last_page);
-    //
-    //             //set current index page: first page
-    //             current_index_page = index;
-    //
-    //             //set list reminders
-    //             set_list_reminders(list_reminders, $tbody_list_reminders);
-    //
-    //             //set pagination
-    //             set_pagination(total_pages, $footer_pagination);
-    //         }
-    //     }
-    // });
     ajax_get_list_reminders(urlString, 'GET', index, $tbody_list_reminders);
 }
 
