@@ -45,7 +45,7 @@
                                          style="width: 50%">
                                         <input type="text" th:name="time"
                                                th:if="${session} and ${session.ReminderModel}"
-                                               th:value="${#dates.format(session.ReminderModel.time, 'dd MMMM yyyy - hh:mm a')}"
+                                               th:value="${#dates.format(session.ReminderModel.time, 'yyyy-MM-dd  hh:mm')}"
                                                class="form-control pull-left"/>
 
                                         <div class="input-group-addon">
