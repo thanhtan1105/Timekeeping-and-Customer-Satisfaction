@@ -134,7 +134,7 @@ public class ReminderController {
 
     @RequestMapping(value = {I_URI.API_REMINDER_AUTO_COMPLETE}, method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse search(@RequestParam(value = "title")String title,
+    public BaseResponse autoComplete(@RequestParam(value = "title")String title,
                                @RequestParam(value = "managerId") Long managerId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
