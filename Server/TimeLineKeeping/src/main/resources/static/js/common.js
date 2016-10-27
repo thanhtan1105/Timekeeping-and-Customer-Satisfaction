@@ -8,3 +8,8 @@ var time_out = 2500;
  * @type {number}
  */
 var time_out_reminder = 1000 * 60 * 15;
+/**
+ * Number of elements per page
+ * @type {number}
+ */
+var page_size = 2;

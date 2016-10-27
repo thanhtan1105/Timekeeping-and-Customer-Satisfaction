@@ -126,6 +126,8 @@ INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('23',
 INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('21', '26');
 INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('22', '25');
 INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('23', '27');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('11', '28');
+INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('12', '28');
 
 /** FLOOR 2*/
 INSERT INTO `mydb`.`connection_point` (`vertex1_id`, `vertex2_id`) VALUES ('29', '39');
