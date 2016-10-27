@@ -239,24 +239,12 @@ function show_modal(id, enabled) {
  */
 function view_reminder(id) {
     var $form_submit_view_reminder = $('#form-submit-view-reminder'),
-        reminderId = $form_submit_view_reminder.find('[name="reminderId"]'),
-        $text_time_reminder = $('#text-time-reminder-' + id).val();
+        reminderId = $form_submit_view_reminder.find('[name="reminderId"]');
     console.info('[id] ' + id);
-    console.info('[text time reminder] ' + $text_time_reminder);
+    reminderId.val(id);
 
-    //check (time_reminder - current_time) >= 15 minutes
-    var time_reminder = new Date(parseInt($text_time_reminder));
-    var current_time = new Date();
-    console.info('[time reminder] ' + time_reminder);
-    console.info('[current time] ' + current_time);
-    var difference_time = time_reminder - current_time;
-    console.info('[difference time] ' + difference_time);
-    if (difference_time >= time_out_reminder) {
-        reminderId.val(id);
-
-        //submit form
-        $form_submit_view_reminder.submit();
-    }
+    //submit form
+    $form_submit_view_reminder.submit();
 }
 
 /**
