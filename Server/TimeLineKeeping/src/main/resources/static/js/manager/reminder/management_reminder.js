@@ -91,19 +91,19 @@ function load_list_reminders(index) {
                     } else {
                         content_list_pages += '<li>';
                     }
-                    content_list_pages += '<a onclick="load_list_reminders(' + i + ')">' + (++count_page) + '</a></li>';
+                    content_list_pages += '<a href="#" onclick="load_list_reminders(' + i + ')">' + (++count_page) + '</a></li>';
                 }
                 //check if is first page
                 if (first_page) {
-                    content_previous_page = '<li class="disabled"><a>&laquo;</a></li>';
+                    content_previous_page = '<li class="disabled"><a onclick="load_previous_page()">&laquo;</a></li>';
                 } else {
-                    content_previous_page = '<li><a>&laquo;</a></li>';
+                    content_previous_page = '<li><a href="#" onclick="load_previous_page()">&laquo;</a></li>';
                 }
                 //check if is last page
                 if (last_page) {
                     content_next_page = '<li class="disabled"><a onclick="load_next_page()">&raquo;</a></li>';
                 } else {
-                    content_next_page = '<li><a onclick="load_next_page()">&raquo;</a></li>';
+                    content_next_page = '<li><a href="#" onclick="load_next_page()">&raquo;</a></li>';
                 }
                 content_pagination += '<ul class="pagination pagination-sm no-margin">' +
                     content_previous_page +
@@ -124,6 +124,18 @@ function load_next_page() {
     } else {
         //current index page + 1
         ++current_index_page;
+        //reload list reminders
+        load_list_reminders(current_index_page);
+    }
+}
+
+function load_previous_page() {
+    //check if is first page
+    if (first_page) {
+        //do nothing
+    } else {
+        //current index page - 1
+        --current_index_page;
         //reload list reminders
         load_list_reminders(current_index_page);
     }
