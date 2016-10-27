@@ -264,6 +264,10 @@ function formatDate(date) {
     return day + "/" + month + "/" + year + " (" + hourFormatted + ":" + minuteFormatted + ")";
 }
 
+function difference_date() {
+    //
+}
+
 /**
  * Event: click button search
  */
@@ -274,7 +278,7 @@ $('#btn-search-reminder').on('click', function () {
 /**
  * Event: click show entries
  */
-$('#select-entries').on('click', function () {
+$('#select-entries').on('change', function () {
     var entries = $(this).val();
     load_list_reminders(0, entries);
 });
