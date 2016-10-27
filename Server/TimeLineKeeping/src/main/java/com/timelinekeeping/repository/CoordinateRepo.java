@@ -26,5 +26,8 @@ public interface CoordinateRepo extends JpaRepository<CoordinateEntity, Long> {
     List<CoordinateEntity> findAll();
 
     @Query("SELECT a FROM CoordinateEntity a WHERE a.floor = :floor AND a.type = 3")
-    CoordinateEntity findStairsPoint(@Param("floor") Integer floor);
+    CoordinateEntity findStairsPointUp(@Param("floor") Integer floor);
+
+    @Query("SELECT a FROM CoordinateEntity a WHERE a.floor = :floor AND a.type = 4")
+    CoordinateEntity findStairsPointDown(@Param("floor") Integer floor);
 }
