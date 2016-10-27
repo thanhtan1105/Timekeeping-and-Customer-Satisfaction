@@ -67,15 +67,26 @@ function load_previous_page() {
  */
 function set_list_reminders(list_reminders, $tbody_list_reminders) {
     var time_reminder,
-        content_list_reminders = '';
+        content_list_reminders = '',
+        content_btn_delete;
     for (var i = 0; i < list_reminders.length; i++) {
         time_reminder = new Date(list_reminders[i].time);
         console.info(time_reminder);
         //check (time_reminder - current_time) <= 0 (disabled)
         if (difference_date(time_reminder) <= 0) {
+            //set row
             content_list_reminders += '<tr style="background-color: #dddddd">';
+            //set btn delete
+            content_btn_delete = ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Reminder" onclick="confirm_delete(' + list_reminders[i].id + ')" disabled>' +
+                '<i class="fa fa-remove"></i>' +
+                '</button>';
         } else {
+            //set row
             content_list_reminders += '<tr>';
+            //set btn delete
+            content_btn_delete = ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Reminder" onclick="confirm_delete(' + list_reminders[i].id + ')">' +
+                '<i class="fa fa-remove"></i>' +
+                '</button>';
         }
         content_list_reminders += '<td>' + formatDate(time_reminder) + '</td>' +
             '<td id="td-title-' + list_reminders[i].id + '">' + list_reminders[i].title + '</td>' +
@@ -85,9 +96,7 @@ function set_list_reminders(list_reminders, $tbody_list_reminders) {
             '<button class="btn btn-success btn-flat btn-sm" type="button" title="View Reminder" onclick="view_reminder(' + list_reminders[i].id + ')">' +
             '<i class="fa fa-eye"></i>' +
             '</button>' +
-            ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Reminder" onclick="confirm_delete(' + list_reminders[i].id + ')">' +
-            '<i class="fa fa-remove"></i>' +
-            '</button>' +
+            content_btn_delete +
             '</td>' +
             '</tr>' +
             '<input type="hidden" id="text-time-reminder-' + list_reminders[i].id + '" value="' + list_reminders[i].time + '"/>';
@@ -248,25 +257,6 @@ function view_reminder(id) {
         //submit form
         $form_submit_view_reminder.submit();
     }
-}
-
-/**
- * Fc: format date
- * @param date
- * @returns {string}
- */
-function formatDate(date) {
-    var year = date.getFullYear(),
-        month = date.getMonth() + 1, // months are zero indexed
-        day = date.getDate(),
-        hour = date.getHours(),
-        minute = date.getMinutes(),
-        second = date.getSeconds(),
-        hourFormatted = hour % 24 || 24, // hour returned in 24 hour format
-        minuteFormatted = minute < 10 ? "0" + minute : minute;
-
-
-    return day + "/" + month + "/" + year + " (" + hourFormatted + ":" + minuteFormatted + ")";
 }
 
 /**
