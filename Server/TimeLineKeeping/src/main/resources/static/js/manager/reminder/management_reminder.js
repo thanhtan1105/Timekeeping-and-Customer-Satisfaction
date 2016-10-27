@@ -67,7 +67,7 @@ function set_list_reminders(list_reminders, $tbody_list_reminders) {
             '<td>' + list_reminders[i].time + '</td>' +
             '<td>' + list_reminders[i].title + '</td>' +
             '<td>' + list_reminders[i].message + '</td>' +
-            '<td>' + list_reminders[i].room.name + '</td>' +
+            '<td>' + list_reminders[i].room + '</td>' +
             '<td>' +
             '<button class="btn btn-success btn-flat btn-sm btn-edit-reminder" type="button" title="View Reminder">' +
             '<i class="fa fa-eye"></i>' +
