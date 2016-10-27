@@ -1,6 +1,7 @@
 package com.timelinekeeping.controller;
 
 import com.timelinekeeping.api.DepartmentController;
+import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.*;
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.model.DepartmentModel;
@@ -77,10 +78,12 @@ public class DepartmentControllerWeb {
         departmentEntity.setStatus(ETrainStatus.NOT_STARTED);
 
         boolean success = false;
+        String message = "";
         String url = "/views/admin/management_depart/add_depart";
         try {
-            BaseResponse response = departmentService.create(departmentEntity).toBaseResponse();
-            success = response.isSuccess();
+                    Pair<Boolean, String> pair = departmentService.create(departmentEntity);
+            success = pair.getKey();
+            message = pair.getValue();
         } catch (IOException e) {
             logger.info("[Add Department] IOException: " + e.getMessage());
         } catch (URISyntaxException e) {

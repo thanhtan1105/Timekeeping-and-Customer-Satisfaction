@@ -28,6 +28,7 @@ public interface ERROR {
 
     /**DEPARTMENT*/
     String DEPARTMENT_API_CREATE_DEPARTMENT_DOES_EXIST = "Person group '%s' already exists.";
+    String DEPARTMENT_API_DEPARTMENT_DOES_NOT_EXIST = "Department id = '%s' does not exists.";
 
 
 
