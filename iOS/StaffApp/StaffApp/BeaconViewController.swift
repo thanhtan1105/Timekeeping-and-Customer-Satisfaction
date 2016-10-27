@@ -21,6 +21,8 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
   @IBOutlet weak var scrollView: UIScrollView!
   @IBOutlet weak var textMapImageView: UIImageView!
   @IBOutlet weak var currentLocationLabel: UILabel!
+  @IBOutlet weak var topView: UIView!
+  @IBOutlet weak var nextButton: UIButton!
 
   // beacon variable
   var beaconManager: ESTBeaconManager? = nil
@@ -44,8 +46,9 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
   let realm = try! Realm()
   
   // map image
-  let imageView = UIImageView(image: UIImage(named: "RoomFPTMap"))
-  
+  var imageView = UIImageView(image: UIImage(named: "floor1"))
+  var currentFloor = 0
+  var pathOnFloor: [PathOnFloor] = []
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -58,6 +61,8 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
     self.scrollView.minimumZoomScale = 0.5
     self.scrollView.delegate = self
     self.scrollView.hidden = true
+    nextButton.hidden = true
+    topView.hidden = true
     
     // show loading
     LeThanhTanLoading.sharedInstance.showLoadingAddedTo(self.view, title: "Loading...", animated: true)
@@ -92,8 +97,24 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
       // print 
       print("You don't have destination point")
     }
+  }
+  
+  @IBAction func onNextFloorTapped(sender: UIButton) {
+    // remove path
+    let viewPath = imageView.viewWithTag(3)
+    if viewPath != nil {
+      viewPath?.removeFromSuperview()
+    }
+
+    currentFloor = pathOnFloor[0].floor == currentFloor ? pathOnFloor[1].floor : pathOnFloor[0].floor
+    let floorName = "floor" + String(currentFloor)
+    imageView.image = UIImage(named: floorName)
     
-    
+    let index = pathOnFloor.indexOf { (pathOnFloor: PathOnFloor) -> Bool in
+      return currentFloor == pathOnFloor.floor
+    }
+    let pathIds: [Int] = self.pathOnFloor[index!].pathId
+    drawPathToMap(pathIds)
   }
   
 }
@@ -315,24 +336,33 @@ extension BeaconViewController {
     dispatch_async(dispatch_get_main_queue()) { 
       LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
       self.scrollView.hidden = false
+      self.topView.hidden = false
+      self.nextButton.hidden = false
     }
     
     let point = realm.objects(Point.self).filter { (point: Point) -> Bool in
       return point.name == sourcePoint.name && point.typeRaw == PointCategory.Room.descriptions
     }.first
     
-    if point != nil {
+    if let point = point {
       // show point on Map
       let scale = 36.0
       let templeView2 = view.viewWithTag(4)
       if templeView2 != nil {
         templeView2?.removeFromSuperview()
       }
-      let pointInMap = UIView(frame: CGRect(x: (point?.latitude)! * scale - 10.0 , y: (point?.longitude)! * scale - 10.0, width: 20.0, height: 20.0))
+      let pointInMap = UIView(frame: CGRect(x: point.latitude * scale - 10.0 , y: point.longitude * scale - 10.0, width: 20.0, height: 20.0))
       pointInMap.layer.cornerRadius = 10.0
       pointInMap.backgroundColor = UIColor.greenColor()
       pointInMap.tag = 4
       self.imageView.addSubview(pointInMap)
+      
+      // change map
+      let floorName = "floor" + String(point.floor)
+      self.imageView.image = UIImage(named: floorName)
+
+      // update topView
+      currentLocationLabel.text = point.toString()
     }
   }
   
@@ -367,8 +397,12 @@ extension BeaconViewController {
       let success = responseData["success"] as! Int
       if success == 1 {
         let data = responseData["data"] as! [String : AnyObject]
-        let distance = data["distance"] as? Double
-        let pathIds: [Int] = data["pathId"] as! [Int]
+        let paths = data["paths"] as! [[String : AnyObject]]
+        self.pathOnFloor = PathOnFloor.pathOnFloorArray(array: paths)
+        self.nextButton.enabled = self.pathOnFloor.count > 1 ? true : false
+//        let distance = data["distance"] as? Double
+        let pathIds: [Int] = self.pathOnFloor[0].pathId
+        self.currentFloor = self.pathOnFloor[0].floor
         self.drawPathToMap(pathIds)
       }
     }

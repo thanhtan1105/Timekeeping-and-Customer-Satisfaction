@@ -66,6 +66,7 @@
 		A682FC701DAB3E8D0047CDBE /* BeaconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A682FC6F1DAB3E8D0047CDBE /* BeaconViewController.swift */; };
 		A68CAD9B1DBBB66D00864052 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68CAD9A1DBBB66D00864052 /* SettingViewController.swift */; };
 		A68CAD9D1DBBC40400864052 /* NotificationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68CAD9C1DBBC40400864052 /* NotificationDetailViewController.swift */; };
+		A699C7091DC1DE6C0002FB91 /* PathOnFloor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A699C7081DC1DE6C0002FB91 /* PathOnFloor.swift */; };
 		A6AC86B61DA4CDE5002B4688 /* Attendances.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6AC86B51DA4CDE5002B4688 /* Attendances.swift */; };
 		A6AC86B91DA4CFE8002B4688 /* EDayStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6AC86B81DA4CFE8002B4688 /* EDayStatus.swift */; };
 		A6AC86BB1DA4D4FC002B4688 /* EPresent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6AC86BA1DA4D4FC002B4688 /* EPresent.swift */; };
@@ -160,6 +161,7 @@
 		A682FC711DAB3F5C0047CDBE /* StaffApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StaffApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		A68CAD9A1DBBB66D00864052 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		A68CAD9C1DBBC40400864052 /* NotificationDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationDetailViewController.swift; sourceTree = "<group>"; };
+		A699C7081DC1DE6C0002FB91 /* PathOnFloor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathOnFloor.swift; sourceTree = "<group>"; };
 		A6AC86B51DA4CDE5002B4688 /* Attendances.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attendances.swift; sourceTree = "<group>"; };
 		A6AC86B81DA4CFE8002B4688 /* EDayStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EDayStatus.swift; sourceTree = "<group>"; };
 		A6AC86BA1DA4D4FC002B4688 /* EPresent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPresent.swift; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 				A66FD99A1DBA1C57008E496E /* Edge.swift */,
 				A66FD99C1DBA1F0D008E496E /* SwiftGraph.swift */,
 				A66FD99E1DBA2285008E496E /* Path.swift */,
+				A699C7081DC1DE6C0002FB91 /* PathOnFloor.swift */,
 			);
 			name = Graphs;
 			sourceTree = "<group>";
@@ -788,6 +791,7 @@
 				A6090BA51DA2E7630039B892 /* LoginViewController.swift in Sources */,
 				A66FD99D1DBA1F0D008E496E /* SwiftGraph.swift in Sources */,
 				A66FD99B1DBA1C57008E496E /* Edge.swift in Sources */,
+				A699C7091DC1DE6C0002FB91 /* PathOnFloor.swift in Sources */,
 				A6AC86BB1DA4D4FC002B4688 /* EPresent.swift in Sources */,
 				A6F0FA7A1DBB8C38007328A3 /* DrawPath.swift in Sources */,
 				A682FC551DA9EE730047CDBE /* CVCalendarViewAppearanceDelegate.swift in Sources */,

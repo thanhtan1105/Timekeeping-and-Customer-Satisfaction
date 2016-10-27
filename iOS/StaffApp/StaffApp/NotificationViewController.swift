@@ -17,8 +17,6 @@ class NotificationViewController: BaseViewController {
   var notifications: [Notification] = []
   override func viewDidLoad() {
     super.viewDidLoad()
-    let notifiDump = Notification(["id": "1", "message" : "Nho di hop dung gio", "time" : 1477240569, "title" : "hop tat nien", "location" : "103"])
-    notifications.append(notifiDump!)
   }
   
   override func viewWillAppear(animated: Bool) {
