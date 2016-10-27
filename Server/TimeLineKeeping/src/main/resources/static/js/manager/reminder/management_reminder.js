@@ -71,8 +71,13 @@ function set_list_reminders(list_reminders, $tbody_list_reminders) {
     for (var i = 0; i < list_reminders.length; i++) {
         time_reminder = new Date(list_reminders[i].time);
         console.info(time_reminder);
-        content_list_reminders += '<tr>' +
-            '<td>' + formatDate(time_reminder) + '</td>' +
+        //check (time_reminder - current_time) <= 0 (disabled)
+        if (difference_date(time_reminder) <= 0) {
+            content_list_reminders += '<tr style="background-color: #dddddd">';
+        } else {
+            content_list_reminders += '<tr>';
+        }
+        content_list_reminders += '<td>' + formatDate(time_reminder) + '</td>' +
             '<td id="td-title-' + list_reminders[i].id + '">' + list_reminders[i].title + '</td>' +
             '<td>' + list_reminders[i].message + '</td>' +
             '<td>' + list_reminders[i].room + '</td>' +
@@ -264,8 +269,13 @@ function formatDate(date) {
     return day + "/" + month + "/" + year + " (" + hourFormatted + ":" + minuteFormatted + ")";
 }
 
-function difference_date() {
-    //
+/**
+ * Fc: time_reminder - current_time
+ * @param time_reminder
+ * @returns {number}
+ */
+function difference_date(time_reminder) {
+    return time_reminder - new Date();
 }
 
 /**
