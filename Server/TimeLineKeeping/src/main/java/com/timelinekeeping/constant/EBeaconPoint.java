@@ -9,11 +9,12 @@ public enum EBeaconPoint {
     CAN_MOVE(0, "CAN_MOVE"),
     ROOM(1, "ROOM"),
     ENTRANCE(2, "ENTRANCE"),
-    STAIRS(3, "STAIRS"),
-    EXIT(4, "EXIT"),
-    CANNOT_MOVE(5, "CANNOT_MOVE"),
-    OTHER(6, "OTHER"),
-    BEACON(7, "Beacon");
+    STAIRS_UP(3, "STAIRS_UP"),
+    STAIRS_DOWN(4, "STAIRS_DOWN"),
+    EXIT(5, "EXIT"),
+    CANNOT_MOVE(6, "CANNOT_MOVE"),
+    OTHER(7, "OTHER"),
+    BEACON(8, "Beacon");
 
     private int index;
     private String name;
