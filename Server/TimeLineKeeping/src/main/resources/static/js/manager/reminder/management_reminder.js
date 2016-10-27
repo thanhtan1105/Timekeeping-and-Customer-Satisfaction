@@ -1,5 +1,5 @@
 /**
- * Created by ASUS on 10/24/2016.
+ * Created by TrungNN on 10/24/2016.
  */
 
 var total_pages = 0;
@@ -7,19 +7,21 @@ var current_index_page;
 var first_page = false;
 var last_page = false;
 var deleted_reminder_id;
+var page_size = 10;
 
 /**
  * Fc: load list reminders by index page
  * @param index
  */
-function load_list_reminders(index) {
+function load_list_reminders(index, entries) {
     var managerId = $('#text-managerId').val(),
         title = $('#text-search-value').val(),
         urlString = '/api/reminder/search?managerId=' + managerId +
             '&title=' + title +
             '&start=' + index +
-            '&top=' + page_size,
+            '&top=' + entries,
         $tbody_list_reminders = $('#tbody-list-reminders');
+    page_size = entries;
     console.info('[title] ' + title);
 
     //call ajax getting list reminders
@@ -37,7 +39,7 @@ function load_next_page() {
         //current index page + 1
         ++current_index_page;
         //reload list reminders
-        load_list_reminders(current_index_page);
+        load_list_reminders(current_index_page, page_size);
     }
 }
 
@@ -52,7 +54,7 @@ function load_previous_page() {
         //current index page - 1
         --current_index_page;
         //reload list reminders
-        load_list_reminders(current_index_page);
+        load_list_reminders(current_index_page, page_size);
     }
 }
 
@@ -73,14 +75,15 @@ function set_list_reminders(list_reminders, $tbody_list_reminders) {
             '<td>' + list_reminders[i].message + '</td>' +
             '<td>' + list_reminders[i].room + '</td>' +
             '<td>' +
-            '<button class="btn btn-success btn-flat btn-sm btn-edit-reminder" type="button" title="View Reminder">' +
+            '<button class="btn btn-success btn-flat btn-sm" type="button" title="View Reminder" onclick="view_reminder(' + list_reminders[i].id + ')">' +
             '<i class="fa fa-eye"></i>' +
             '</button>' +
             ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Reminder" onclick="confirm_delete(' + list_reminders[i].id + ')">' +
             '<i class="fa fa-remove"></i>' +
             '</button>' +
             '</td>' +
-            '</tr>';
+            '</tr>' +
+            '<input type="hidden" id="text-time-reminder-' + list_reminders[i].id + '" value="' + list_reminders[i].time + '"/>';
     }
     //set content html
     $tbody_list_reminders.html(content_list_reminders);
@@ -103,7 +106,7 @@ function set_pagination(total_pages, $footer_pagination) {
         } else {
             content_list_pages += '<li>';
         }
-        content_list_pages += '<a href="#" onclick="load_list_reminders(' + i + ')">' + (++count_page) + '</a></li>';
+        content_list_pages += '<a href="#" onclick="load_list_reminders(' + i + ', ' + page_size + ')">' + (++count_page) + '</a></li>';
     }
     //check if is first page
     if (first_page) {
@@ -182,6 +185,9 @@ function confirm_delete(id) {
     show_modal('#modal-confirm-delete', 'true');
 }
 
+/**
+ * Fc: delete reminder
+ */
 function delete_reminder() {
     var urlString = '/api/reminder/delete?reminderId=' + deleted_reminder_id;
     $.ajax({
@@ -192,7 +198,7 @@ function delete_reminder() {
             console.info('[success] ' + success);
             if (success) {
                 //reload list reminders
-                load_list_reminders(current_index_page);
+                load_list_reminders(current_index_page, page_size);
                 //show modal result success
                 show_modal('#modal-result-success', 'true');
             }
@@ -212,19 +218,18 @@ function show_modal(id, enabled) {
 }
 
 /**
- * Event: click button edit
- * Description: submit form
+ * Fc: view reminder
+ * @param id
  */
-$('.btn-edit-reminder').on('click', function () {
-    var id = $(this).attr('data-id'),
-        $form_submit_view_reminder = $('#form-submit-view-reminder'),
+function view_reminder(id) {
+    var $form_submit_view_reminder = $('#form-submit-view-reminder'),
         reminderId = $form_submit_view_reminder.find('[name="reminderId"]'),
         $text_time_reminder = $('#text-time-reminder-' + id).val();
     console.info('[id] ' + id);
     console.info('[text time reminder] ' + $text_time_reminder);
 
     //check (time_reminder - current_time) >= 15 minutes
-    var time_reminder = new Date($text_time_reminder);
+    var time_reminder = new Date(parseInt($text_time_reminder));
     var current_time = new Date();
     console.info('[time reminder] ' + time_reminder);
     console.info('[current time] ' + current_time);
@@ -236,13 +241,18 @@ $('.btn-edit-reminder').on('click', function () {
         //submit form
         $form_submit_view_reminder.submit();
     }
-});
+}
 
 /**
  * Event: click button search
  */
 $('#btn-search-reminder').on('click', function () {
-    load_list_reminders(0);
+    load_list_reminders(0, page_size);
+});
+
+$('#select-entries').on('click', function () {
+    var entries = $(this).val();
+    load_list_reminders(0, entries);
 });
 
 
