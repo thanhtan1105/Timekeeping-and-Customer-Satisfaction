@@ -18,7 +18,8 @@ import java.util.Set;
 public interface ReminderRepo extends JpaRepository<ReminderMessageEntity, Long> {
 
 
-    @Query("SELECT re FROM ReminderMessageEntity re INNER JOIN re.manager a WHERE a.id = :manager_id AND re.active <> 0 ORDER BY re.createDate desc ")
+    @Query("SELECT re FROM ReminderMessageEntity re INNER JOIN re.manager a " +
+            "WHERE a.id = :manager_id AND re.active <> 0 ORDER BY re.createDate desc ")
     Page<ReminderMessageEntity> list(@Param("manager_id") Long managerId, Pageable pageable);
 
     @Query("SELECT distinct re FROM ReminderMessageEntity re INNER JOIN re.manager a " +
