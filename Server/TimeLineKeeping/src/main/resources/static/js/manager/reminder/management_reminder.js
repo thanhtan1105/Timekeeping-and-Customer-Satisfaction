@@ -13,10 +13,13 @@ var last_page = false;
  */
 function load_list_reminders(index) {
     var managerId = $('#text-managerId').val(),
-        urlString = "/api/reminder/list_by_manager?managerId=" + managerId +
+        title = $('#text-search-value').val(),
+        urlString = '/api/reminder/search?managerId=' + managerId +
+            '&title=' + title +
             '&start=' + index +
             '&top=' + page_size,
         $tbody_list_reminders = $('#tbody-list-reminders');
+    console.info('[title] ' + title);
 
     //call ajax getting list reminders
     ajax_get_list_reminders(urlString, 'GET', index, $tbody_list_reminders);
@@ -193,18 +196,7 @@ $('.btn-edit-reminder').on('click', function () {
  * Event: click button search
  */
 $('#btn-search-reminder').on('click', function () {
-    var managerId = $('#text-managerId').val(),
-        title = $('#text-search-value').val(),
-        index = 0,
-        urlString = '/api/reminder/search?managerId=' + managerId +
-            '&title=' + title +
-            '&start=' + index +
-            '&top=' + page_size,
-        $tbody_list_reminders = $('#tbody-list-reminders');
-    console.info('[title] ' + title);
-
-    //call ajax getting list reminders
-    ajax_get_list_reminders(urlString, 'GET', index, $tbody_list_reminders);
+    load_list_reminders(0);
 });
 
 
