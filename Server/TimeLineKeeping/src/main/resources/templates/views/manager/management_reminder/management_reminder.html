@@ -24,11 +24,11 @@
         <!-- Your Page Content Here -->
         <!-- Form for search reminders -->
         <div class="input-group" style="margin-right:  25%; margin-left: 25%; margin-bottom: 5px;">
-            <input type="text" class="form-control" placeholder="Enter Title"/>
+            <input type="text" th:id="'text-search-value'" class="form-control" placeholder="Enter Title"/>
             <span class="input-group-btn">
-                    <button class="btn btn-success btn-flat" type="button"/>
-                        <i class="glyphicon glyphicon-search"></i> Search
-                </span>
+                <button type="button" class="btn btn-success btn-flat"
+                        th:id="'btn-search-reminder'"/>
+                <i class="glyphicon glyphicon-search"></i> Search</span>
         </div>
         <!-- ./form for search reminders -->
         <!-- Add new reminder -->
