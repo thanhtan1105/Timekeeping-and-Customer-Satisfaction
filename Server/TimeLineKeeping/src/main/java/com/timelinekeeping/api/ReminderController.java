@@ -102,7 +102,7 @@ public class ReminderController {
     @ResponseBody
     public BaseResponse search(@RequestParam(value = "start", required = false, defaultValue = IContanst.PAGE_PAGE) int start,
                                @RequestParam(value = "top", required = false, defaultValue = IContanst.PAGE_SIZE) int top,
-                               @RequestParam(value = "title") String title,
+                               @RequestParam(value = "title", required = false) String title,
                                @RequestParam(value = "managerId") Long managerId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
