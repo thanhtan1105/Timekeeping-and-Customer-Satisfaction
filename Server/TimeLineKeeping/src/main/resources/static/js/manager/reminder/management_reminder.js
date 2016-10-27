@@ -6,6 +6,7 @@ var total_pages = 0;
 var current_index_page;
 var first_page = false;
 var last_page = false;
+var deleted_reminder_id;
 
 /**
  * Fc: load list reminders by index page
@@ -68,14 +69,14 @@ function set_list_reminders(list_reminders, $tbody_list_reminders) {
         console.info(time_reminder);
         content_list_reminders += '<tr>' +
             '<td>' + list_reminders[i].time + '</td>' +
-            '<td>' + list_reminders[i].title + '</td>' +
+            '<td id="td-title-' + list_reminders[i].id + '">' + list_reminders[i].title + '</td>' +
             '<td>' + list_reminders[i].message + '</td>' +
             '<td>' + list_reminders[i].room + '</td>' +
             '<td>' +
             '<button class="btn btn-success btn-flat btn-sm btn-edit-reminder" type="button" title="View Reminder">' +
             '<i class="fa fa-eye"></i>' +
             '</button>' +
-            ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Reminder">' +
+            ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Reminder" onclick="confirm_delete(' + list_reminders[i].id + ')">' +
             '<i class="fa fa-remove"></i>' +
             '</button>' +
             '</td>' +
@@ -162,6 +163,51 @@ function ajax_get_list_reminders(urlString, method, index, $tbody_list_reminders
                 set_pagination(total_pages, $footer_pagination);
             }
         }
+    });
+}
+
+/**
+ * Fc: confirm delete
+ * @param id
+ */
+function confirm_delete(id) {
+    var reminder_title = $('#td-title-' + id).text(),
+        $b_reminder_title = $('#b-reminder-title');
+    console.info('[reminder title] ' + reminder_title);
+
+    deleted_reminder_id = id;
+    console.info('[deleted reminder id] ' + deleted_reminder_id);
+
+    $b_reminder_title.html('"' + reminder_title + '"');
+    show_modal('#modal-confirm-delete', 'true');
+}
+
+function delete_reminder() {
+    var urlString = '/api/reminder/delete?reminderId=' + deleted_reminder_id;
+    $.ajax({
+        type: 'GET',
+        url: urlString,
+        success: function (response) {
+            var success = response.success;
+            console.info('[success] ' + success);
+            if (success) {
+                //reload list reminders
+                load_list_reminders(current_index_page);
+                //show modal result success
+                show_modal('#modal-result-success', 'true');
+            }
+        }
+    });
+}
+
+/**
+ * Fc: enable to show modal
+ * @param id
+ * @param enabled ('true', 'false')
+ */
+function show_modal(id, enabled) {
+    $(id).modal({
+        show: enabled
     });
 }
 

@@ -71,19 +71,10 @@
                                 <th>Action</th>
                             </tr>
                             </thead>
-                            <tbody th:id="'tbody-list-reminders'">
-                            </tbody>
+                            <tbody th:id="'tbody-list-reminders'"></tbody>
                         </table>
                     </div>
-                    <div th:id="'footer-pagination'" class="box-footer no-border text-right">
-                        <ul class="pagination pagination-sm no-margin">
-                            <li><a href="#">&laquo;</a></li>
-                            <li class="active"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">&raquo;</a></li>
-                        </ul>
-                    </div>
+                    <div th:id="'footer-pagination'" class="box-footer no-border text-right"></div>
                 </div>
             </div>
             <!-- form view reminder -->
@@ -93,6 +84,48 @@
             </form>
             <!-- /.end form view reminder -->
         </div>
+        <!-- modal confirm delete -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="modal fade" th:id="'modal-confirm-delete'">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Delete Reminder</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure to delete <b th:id="'b-reminder-title'"></b>?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-warning btn-flat" data-dismiss="modal"
+                                        onclick="delete_reminder()">Yes
+                                </button>
+                                <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">No</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.end modal confirm delete -->
+        <!-- modal result success -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="modal modal-success fade" th:id="'modal-result-success'">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title" th:id="'h-message-result-success'">Delete Successfully</h4>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.end modal message result -->
     </section>
     <!-- /.content -->
 </div>
