@@ -14,10 +14,10 @@ import java.util.Locale;
 public class TimeUtil {
 
     private static Logger logger = Logger.getLogger(TimeUtil.class);
-    private static final String pattern = "dd MMMM yyyy - hh:mm a";
+    private static final String pattern = "yyyy-MM-dd  HH:mm";
 
     public static Date parseStringToDate(String text) {
-        DateFormat format = new SimpleDateFormat(pattern, Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat(pattern);
         Date date = null;
         try {
             date = format.parse(text);
@@ -28,7 +28,7 @@ public class TimeUtil {
     }
 
     public static Date parseToDate(String text, String pattern) {
-        DateFormat format = new SimpleDateFormat(pattern, Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat(pattern);
         try {
             Date date = format.parse(text);
             return date;
