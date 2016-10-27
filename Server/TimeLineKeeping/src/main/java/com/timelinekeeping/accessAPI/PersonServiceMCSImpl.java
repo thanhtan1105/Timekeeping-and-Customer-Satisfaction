@@ -26,7 +26,7 @@ import java.util.Map;
  */
 @Service
 @Component
-public class PersonServiceMCSImpl extends BaseService {
+public class PersonServiceMCSImpl {
 
     private Logger logger = LogManager.getLogger(PersonServiceMCSImpl.class);
 
@@ -40,7 +40,6 @@ public class PersonServiceMCSImpl extends BaseService {
     /**
      * create person in MCS
      *
-     * @param departmentId     group to add person
      * @param name             person
      * @param description
      * @return @{@link BaseResponse}

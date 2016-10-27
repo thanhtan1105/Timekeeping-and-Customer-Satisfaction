@@ -2,6 +2,7 @@ package com.timelinekeeping.api;
 
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.common.BaseResponseG;
+import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.controller.PersonGroupControllerWeb;
@@ -32,7 +33,6 @@ public class DepartmentController {
     private DepartmentServiceImpl departmentService;
 
 
-
     @RequestMapping(value = {I_URI.API_LIST}, method = RequestMethod.GET)
     @ResponseBody
     public BaseResponse findAll(@RequestParam("start") int start,
@@ -44,7 +44,6 @@ public class DepartmentController {
             logger.info(IContanst.END_METHOD_CONTROLLER);
         }
     }
-
 
 
     @RequestMapping(value = {I_URI.API_SEARCH}, method = RequestMethod.GET)
@@ -96,9 +95,9 @@ public class DepartmentController {
     public BaseResponse create(@ModelAttribute DepartmentModel department) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            BaseResponseG<DepartmentModel> response = departmentService.create(department);
+            Pair<Boolean, String> response = departmentService.create(department);
             logger.info("RESPONSE: " + JsonUtil.toJson(response));
-            return response.toBaseResponse();
+            return new BaseResponse(response.getKey(), response.getValue());
 
         } catch (Exception e) {
             logger.error(e);
@@ -114,9 +113,9 @@ public class DepartmentController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("Department: " + JsonUtil.toJson(department));
-            BaseResponseG<DepartmentModel> response = departmentService.update(department);
+            Pair<Boolean, String> response = departmentService.create(department);
             logger.info("RESPONSE: " + JsonUtil.toJson(response));
-            return response.toBaseResponse();
+            return new BaseResponse(response.getKey(), response.getValue());
 
         } catch (Exception e) {
             logger.error(e);
@@ -143,7 +142,9 @@ public class DepartmentController {
     }
 
 
-    /** OTHER*/
+    /**
+     * OTHER
+     */
 
     @RequestMapping(value = {I_URI.API_DEPARTMENT_TRAINING}, method = RequestMethod.GET)
     @ResponseBody
