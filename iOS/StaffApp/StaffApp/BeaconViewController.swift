@@ -63,6 +63,8 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
     self.scrollView.hidden = true
     nextButton.hidden = true
     topView.hidden = true
+    topView.layer.borderColor = UIColor(hex: 0xff0202).CGColor
+    nextButton.layer.borderColor = UIColor(hex: 0xff0202).CGColor
     
     // show loading
     LeThanhTanLoading.sharedInstance.showLoadingAddedTo(self.view, title: "Loading...", animated: true)
@@ -353,7 +355,15 @@ extension BeaconViewController {
       }
       let pointInMap = UIView(frame: CGRect(x: point.latitude * scale - 10.0 , y: point.longitude * scale - 10.0, width: 20.0, height: 20.0))
       pointInMap.layer.cornerRadius = 10.0
-      pointInMap.backgroundColor = UIColor.greenColor()
+      pointInMap.backgroundColor = UIColor.clearColor()
+      
+      // add image to pointInMap View
+      let imagePoint = UIImageView(frame: pointInMap.frame)
+      imagePoint.image = UIImage(named: "points")
+      imagePoint.center = pointInMap.center
+      pointInMap.addSubview(imagePoint)
+      
+      // create the image inside current point
       pointInMap.tag = 4
       self.imageView.addSubview(pointInMap)
       
@@ -363,6 +373,7 @@ extension BeaconViewController {
 
       // update topView
       currentLocationLabel.text = point.toString()
+      
     }
   }
   
@@ -435,4 +446,9 @@ extension BeaconViewController {
     beaconManager!.delegate = self
     beaconManager!.requestAlwaysAuthorization()
   }
+}
+
+// MARK: - Animation
+extension BeaconViewController {
+  
 }

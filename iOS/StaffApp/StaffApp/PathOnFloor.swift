@@ -13,7 +13,7 @@ class PathOnFloor {
   var pathId: [Int] = []
   
   init?(_ info: [String: AnyObject]) {
-    let floor = info["active"] as! Int
+    let floor = info["floor"] as! Int
     let pathId = info["pathId"] as! [Int]
     
     self.floor = floor

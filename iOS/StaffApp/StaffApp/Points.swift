@@ -80,6 +80,11 @@ class Point: Object {
   }
 
   func toString() -> String {
-    return name + ", lầu " + String(floor)
+    if name.characters.count > 0 {
+      return name + ", lầu " + String(floor)
+    } else {
+      return "lầu " + String(floor)
+    }
+    
   }
 }

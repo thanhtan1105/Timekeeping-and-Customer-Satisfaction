@@ -75,7 +75,7 @@ function set_list_reminders(list_reminders, $tbody_list_reminders) {
         //check (time_reminder - current_time) <= 0 (disabled)
         if (difference_date(time_reminder) <= 0) {
             //set row
-            content_list_reminders += '<tr style="background-color: #dddddd">';
+            content_list_reminders += '<tr style="background-color: #f8f8f8">';
             //set btn delete
             content_btn_delete = ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Reminder" onclick="confirm_delete(' + list_reminders[i].id + ')" disabled>' +
                 '<i class="fa fa-remove"></i>' +
