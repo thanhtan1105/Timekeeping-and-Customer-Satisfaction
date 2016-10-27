@@ -13,10 +13,10 @@ import java.util.Locale;
  */
 public class TimeUtil {
 
-    private Logger logger = Logger.getLogger(TimeUtil.class);
-    private final String pattern = "dd MMMM yyyy - hh:mm a";
+    private static Logger logger = Logger.getLogger(TimeUtil.class);
+    private static final String pattern = "dd MMMM yyyy - hh:mm a";
 
-    public Date parseStringToDate(String text) {
+    public static Date parseStringToDate(String text) {
         DateFormat format = new SimpleDateFormat(pattern, Locale.ENGLISH);
         Date date = null;
         try {
