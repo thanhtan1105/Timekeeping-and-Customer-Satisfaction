@@ -1,17 +1,19 @@
 /**
- * Created by ASUS on 10/24/2016.
+ * Created by TrungNN on 10/24/2016.
  */
 
 var total_pages = 0;
 var current_index_page;
 var first_page = false;
 var last_page = false;
+var deleted_reminder_id;
+var current_page_size = 10;
 
 /**
  * Fc: load list reminders by index page
  * @param index
  */
-function load_list_reminders(index) {
+function load_list_reminders(index, page_size) {
     var managerId = $('#text-managerId').val(),
         title = $('#text-search-value').val(),
         urlString = '/api/reminder/search?managerId=' + managerId +
@@ -20,6 +22,9 @@ function load_list_reminders(index) {
             '&top=' + page_size,
         $tbody_list_reminders = $('#tbody-list-reminders');
     console.info('[title] ' + title);
+
+    //set current page size
+    current_page_size = page_size;
 
     //call ajax getting list reminders
     ajax_get_list_reminders(urlString, 'GET', index, $tbody_list_reminders);
@@ -36,7 +41,7 @@ function load_next_page() {
         //current index page + 1
         ++current_index_page;
         //reload list reminders
-        load_list_reminders(current_index_page);
+        load_list_reminders(current_index_page, current_page_size);
     }
 }
 
@@ -51,7 +56,7 @@ function load_previous_page() {
         //current index page - 1
         --current_index_page;
         //reload list reminders
-        load_list_reminders(current_index_page);
+        load_list_reminders(current_index_page, current_page_size);
     }
 }
 
@@ -62,24 +67,39 @@ function load_previous_page() {
  */
 function set_list_reminders(list_reminders, $tbody_list_reminders) {
     var time_reminder,
-        content_list_reminders = '';
+        content_list_reminders = '',
+        content_btn_delete;
     for (var i = 0; i < list_reminders.length; i++) {
         time_reminder = new Date(list_reminders[i].time);
         console.info(time_reminder);
-        content_list_reminders += '<tr>' +
-            '<td>' + list_reminders[i].time + '</td>' +
-            '<td>' + list_reminders[i].title + '</td>' +
+        //check (time_reminder - current_time) <= 0 (disabled)
+        if (difference_date(time_reminder) <= 0) {
+            //set row
+            content_list_reminders += '<tr style="background-color: #dddddd">';
+            //set btn delete
+            content_btn_delete = ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Reminder" onclick="confirm_delete(' + list_reminders[i].id + ')" disabled>' +
+                '<i class="fa fa-remove"></i>' +
+                '</button>';
+        } else {
+            //set row
+            content_list_reminders += '<tr>';
+            //set btn delete
+            content_btn_delete = ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Reminder" onclick="confirm_delete(' + list_reminders[i].id + ')">' +
+                '<i class="fa fa-remove"></i>' +
+                '</button>';
+        }
+        content_list_reminders += '<td>' + formatDate(time_reminder) + '</td>' +
+            '<td id="td-title-' + list_reminders[i].id + '">' + list_reminders[i].title + '</td>' +
             '<td>' + list_reminders[i].message + '</td>' +
             '<td>' + list_reminders[i].room + '</td>' +
             '<td>' +
-            '<button class="btn btn-success btn-flat btn-sm btn-edit-reminder" type="button" title="View Reminder">' +
+            '<button class="btn btn-success btn-flat btn-sm" type="button" title="View Reminder" onclick="view_reminder(' + list_reminders[i].id + ')">' +
             '<i class="fa fa-eye"></i>' +
             '</button>' +
-            ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Reminder">' +
-            '<i class="fa fa-remove"></i>' +
-            '</button>' +
+            content_btn_delete +
             '</td>' +
-            '</tr>';
+            '</tr>' +
+            '<input type="hidden" id="text-time-reminder-' + list_reminders[i].id + '" value="' + list_reminders[i].time + '"/>';
     }
     //set content html
     $tbody_list_reminders.html(content_list_reminders);
@@ -102,7 +122,7 @@ function set_pagination(total_pages, $footer_pagination) {
         } else {
             content_list_pages += '<li>';
         }
-        content_list_pages += '<a href="#" onclick="load_list_reminders(' + i + ')">' + (++count_page) + '</a></li>';
+        content_list_pages += '<a href="#" onclick="load_list_reminders(' + i + ', ' + current_page_size + ')">' + (++count_page) + '</a></li>';
     }
     //check if is first page
     if (first_page) {
@@ -166,37 +186,89 @@ function ajax_get_list_reminders(urlString, method, index, $tbody_list_reminders
 }
 
 /**
- * Event: click button edit
- * Description: submit form
+ * Fc: confirm delete
+ * @param id
  */
-$('.btn-edit-reminder').on('click', function () {
-    var id = $(this).attr('data-id'),
-        $form_submit_view_reminder = $('#form-submit-view-reminder'),
-        reminderId = $form_submit_view_reminder.find('[name="reminderId"]'),
-        $text_time_reminder = $('#text-time-reminder-' + id).val();
+function confirm_delete(id) {
+    var reminder_title = $('#td-title-' + id).text(),
+        $b_reminder_title = $('#b-reminder-title');
+    console.info('[reminder title] ' + reminder_title);
+
+    deleted_reminder_id = id;
+    console.info('[deleted reminder id] ' + deleted_reminder_id);
+
+    $b_reminder_title.html('"' + reminder_title + '"');
+    show_modal('#modal-confirm-delete', 'true');
+}
+
+/**
+ * Fc: delete reminder
+ */
+function delete_reminder() {
+    var urlString = '/api/reminder/delete?reminderId=' + deleted_reminder_id;
+    $.ajax({
+        type: 'GET',
+        url: urlString,
+        success: function (response) {
+            var success = response.success;
+            console.info('[success] ' + success);
+            if (success) {
+                //reload list reminders
+                load_list_reminders(current_index_page, current_page_size);
+                //show modal result success
+                show_modal('#modal-result-success', 'true');
+            }
+        }
+    });
+}
+
+/**
+ * Fc: enable to show modal
+ * @param id
+ * @param enabled ('true', 'false')
+ */
+function show_modal(id, enabled) {
+    $(id).modal({
+        show: enabled
+    });
+}
+
+/**
+ * Fc: view reminder
+ * @param id
+ */
+function view_reminder(id) {
+    var $form_submit_view_reminder = $('#form-submit-view-reminder'),
+        reminderId = $form_submit_view_reminder.find('[name="reminderId"]');
     console.info('[id] ' + id);
-    console.info('[text time reminder] ' + $text_time_reminder);
+    reminderId.val(id);
 
-    //check (time_reminder - current_time) >= 15 minutes
-    var time_reminder = new Date($text_time_reminder);
-    var current_time = new Date();
-    console.info('[time reminder] ' + time_reminder);
-    console.info('[current time] ' + current_time);
-    var difference_time = time_reminder - current_time;
-    console.info('[difference time] ' + difference_time);
-    if (difference_time >= time_out_reminder) {
-        reminderId.val(id);
+    //submit form
+    $form_submit_view_reminder.submit();
+}
 
-        //submit form
-        $form_submit_view_reminder.submit();
-    }
-});
+/**
+ * Fc: time_reminder - current_time
+ * @param time_reminder
+ * @returns {number}
+ */
+function difference_date(time_reminder) {
+    return time_reminder - new Date();
+}
 
 /**
  * Event: click button search
  */
 $('#btn-search-reminder').on('click', function () {
-    load_list_reminders(0);
+    load_list_reminders(0, current_page_size);
+});
+
+/**
+ * Event: click show entries
+ */
+$('#select-entries').on('change', function () {
+    var entries = $(this).val();
+    load_list_reminders(0, entries);
 });
 
 
