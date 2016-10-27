@@ -131,8 +131,7 @@ public class ReminderControllerWeb {
         logger.info("[Controller- Add Reminder] roomId: " + roomId);
         logger.info("[Controller- Add Reminder] size of list employees: " + listEmployees.length);
         logger.info("[Controller- Add Reminder] message: " + message);
-        TimeUtil timeUtil = new TimeUtil();
-        Date timeParser = timeUtil.parseStringToDate(time);
+        Date timeParser = TimeUtil.parseStringToDate(time);
         logger.info("[Controller- Add Reminder] parse to Date: " + timeParser);
         List<Long> employeeSet = new ArrayList<Long>();
         for (int i = 0; i < listEmployees.length; i++) {
