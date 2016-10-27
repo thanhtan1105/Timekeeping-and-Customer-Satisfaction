@@ -37,6 +37,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile("org.springframework.boot:spring-boot-starter-security")
+    compile("org.springframework.boot:spring-boot-devtools")
     runtime('mysql:mysql-connector-java')
     testCompile("junit:junit")
     compile group: 'org.hibernate', name: 'hibernate-validator', version: '4.2.0.Final'
@@ -46,9 +47,5 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.5'
     compile group: 'net.sourceforge.nekohtml', name: 'nekohtml', version: '1.9.22'
-}
-
-dependencies {
-    compile("org.springframework.boot:spring-boot-devtools")
 }
 
