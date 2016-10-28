@@ -35,21 +35,13 @@ public class DepartmentControllerWeb {
 
     @RequestMapping("/")
     public String loadManagementDepartmentView(Model model) {
-        int page = 0;
-        int size = 1000;
-
-        Page<DepartmentModel> pageDepartment = departmentService.findAll(page, size);
-
         // set side-bar
         String sideBar = IContanst.SIDE_BAR_ADMIN_MANAGEMENT_DEPART;
 
-        // list of departments
-        model.addAttribute("ListDepartments", pageDepartment.getContent());
         // side-bar
         model.addAttribute("SideBar", sideBar);
 
         return "/views/admin/management_depart/management_depart";
-//        return "/views/admin/management_depart/autocomplete";
     }
 
     @RequestMapping(value = "/addDepartment", method = RequestMethod.GET)

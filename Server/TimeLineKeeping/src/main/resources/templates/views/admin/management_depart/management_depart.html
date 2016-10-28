@@ -7,7 +7,7 @@
     <meta charset="UTF-8"/>
     <title>Management Departments</title>
 </head>
-<body>
+<body onload="load_list_departments('', 0, 10)">
 <div layout:fragment="content">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -22,20 +22,17 @@
     <!-- Main content -->
     <section class="content">
         <!-- Your Page Content Here -->
-        <!-- Form for search departments -->
-        <form th:action="@{/manager/departments/search2}" method="post">
-            <div class="input-group" style="margin-right:  25%; margin-left: 25%; margin-bottom: 5px;">
-                <input type="text" th:name="'searchValue'"
-                       class="form-control" th:id="'input-search-department'"
-                       placeholder="Enter Name/Code Department"
-                       autocomplete="off"/>
-                <span class="input-group-btn">
-                    <button class="btn btn-success btn-flat" type="submit"/>
-                        <i class="glyphicon glyphicon-search"></i> Search
-                </span>
-            </div>
-        </form>
-        <!-- ./form for search departments -->
+        <!-- search departments -->
+        <div class="input-group" style="margin-right:  25%; margin-left: 25%; margin-bottom: 5px;">
+            <input type="text" class="form-control" th:id="'input-search-department'"
+                   placeholder="Enter Name/Code Department"
+                   autocomplete="off"/>
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-success btn-flat"
+                        th:id="'btn-search-department'"/>
+                <i class="glyphicon glyphicon-search"></i> Search</span>
+        </div>
+        <!-- /.search departments -->
         <!-- Add new department -->
         <div class="row" style="margin-bottom: 8px;">
             <div class="col-sm-2">
@@ -47,60 +44,93 @@
             </div>
         </div>
         <!-- /.end add new department -->
-        <div class="box box-success">
-            <div class="box-header">
-                <h3 class="box-title text-success"><i class="glyphicon glyphicon-list-alt"></i> Departments List</h3>
-                <hr style="border-color: green; margin-top: 4px; margin-bottom: 5px; margin-right: 86%; border-width: 2px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <div class="box-title">
+                            List of Departments
+                        </div>
+                        <div class="pull-right">
+                            Show
+                            <select th:id="'select-entries'">
+                                <option value="10" selected>10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select> entries
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <table class="table">
+                            <colgroup>
+                                <col span="1" style="width: 30%;">
+                                <col span="1" style="width: 25%;">
+                                <col span="1" style="width: 35%;">
+                                <col span="1" style="width: 10%;">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Code</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody th:id="'tbody-list-departments'"></tbody>
+                        </table>
+                    </div>
+                    <div th:id="'footer-pagination'" class="box-footer no-border text-right"></div>
+                </div>
             </div>
-            <!-- /.box-header -->
-            <!-- Data-table for list of departments -->
-            <div class="box-body">
-                <table id="dataTable" class="table table-bordered table-hover" style="border-collapse: collapse;">
-                    <colgroup>
-                        <col span="1" style="width: 5%;">
-                        <col span="1" style="width: 25%;">
-                        <col span="1" style="width: 25%;">
-                        <col span="1" style="width: 5%;">
-                        <col span="1" style="width: 20%;">
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Department Name</th>
-                        <th>Description</th>
-                        <th>Active</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="department,counter: ${ListDepartments}">
-                        <td th:text="${counter.count} + '.'"></td>
-                        <td th:text="${department.name}"></td>
-                        <td th:text="${department.description}"></td>
-                        <td>
-                        </td>
-                        <td>
-                            <div class="btn-group" style="width: 70%;">
-                                <button class="btn btn-success btn-flat btn-sm" type="button" style="width: 50%;"
-                                        title="Edit Class">
-                                    <i class="glyphicon glyphicon-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-danger btn-flat btn-sm" type="button" style="width: 50%;">
-                                    <i class="glyphicon glyphicon-remove"></i> Delete
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.box-body -->
-            <!-- /.end data-table for list of departments -->
         </div>
+        <!-- modal confirm delete -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="modal fade" th:id="'modal-confirm-delete'">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Delete Department</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure to delete <b th:id="'b-department-name-code'"></b>?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-warning btn-flat" data-dismiss="modal"
+                                        onclick="delete_department()">Yes
+                                </button>
+                                <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">No</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.end modal confirm delete -->
+        <!-- modal result success -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="modal modal-success fade" th:id="'modal-result-success'">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title" th:id="'h-message-result-success'">Delete Successfully</h4>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.end modal message result -->
     </section>
     <!-- /.content -->
 </div>
 <div layout:fragment="js">
+    <script th:src="@{/js/common.js}"></script>
     <script th:src="@{/js/admin/management_depart/management_depart.js}"></script>
 </div>
 </body>
