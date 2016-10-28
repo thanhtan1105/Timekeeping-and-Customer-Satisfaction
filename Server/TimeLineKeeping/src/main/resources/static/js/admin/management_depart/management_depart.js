@@ -231,3 +231,13 @@ $('#btn-search-department').on('click', function () {
     //reload list departments
     load_list_departments(search_value, 0, current_page_size);
 });
+
+/**
+ * Event: click show entries
+ */
+$('#select-entries').on('change', function () {
+    var entries = $(this).val();
+
+    //reload list departments
+    load_list_departments(current_search_value, 0, entries);
+});

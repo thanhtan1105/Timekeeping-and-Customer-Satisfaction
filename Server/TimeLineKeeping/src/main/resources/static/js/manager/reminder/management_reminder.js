@@ -268,6 +268,8 @@ $('#btn-search-reminder').on('click', function () {
  */
 $('#select-entries').on('change', function () {
     var entries = $(this).val();
+
+    //reload list reminders
     load_list_reminders(0, entries);
 });
 
