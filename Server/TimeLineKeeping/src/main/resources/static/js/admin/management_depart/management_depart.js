@@ -56,12 +56,12 @@ $('#input-search-department').typeahead({
 function load_list_departments(search_value, index, page_size) {
     //parser search value
     var groups = search_value.split('-'),
-        code,
-        name;
+        name,
+        code;
     if (groups != null) {
         if (groups.length != 1) {
-            code = groups[0].trim();
-            name = groups[1].trim();
+            // name = groups[0].trim();
+            code = groups[1].trim();
         } else {
             code = groups;
             name = groups;
