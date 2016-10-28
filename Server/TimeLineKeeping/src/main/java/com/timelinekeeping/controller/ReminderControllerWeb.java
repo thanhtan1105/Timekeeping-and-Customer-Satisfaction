@@ -45,39 +45,13 @@ public class ReminderControllerWeb {
     private CoordinateServiceImpl coordinateService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String loadManagementReminderView(Model model, HttpSession session) {
-        logger.info("[Controller- Load Management Reminder View] BEGIN");
+    public String loadManagementReminderView(Model model) {
+        // set side-bar
+        String sideBar = IContanst.SIDE_BAR_MANAGER_MANAGEMENT_REMINDER;
 
-//        int page = 0;
-//        int size = 1000;
-//        String url = IViewConst.LOGIN_VIEW;
-//        // get session
-//        AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
-//        if (accountModel != null) {
-//            url = IViewConst.LOGIN_VIEW;
-//            String role = accountModel.getRole().getName().toUpperCase();
-//            // check is manager
-//            if ("MANAGER".equals(role)) {
-//                Long mangerId = accountModel.getId();
-//
-//                // get all reminders by managerId
-//                Page<ReminderModel> pageReminder = reminderService.listByEmployee(mangerId, page, size);
-//                List<ReminderModel> reminderModels = pageReminder.getContent();
-//                logger.info("[Controller- Load Management Reminder View] [Size] list of reminders: " + reminderModels.size());
-//
-//                // set side-bar
-//                String sideBar = IContanst.SIDE_BAR_MANAGER_MANAGEMENT_REMINDER;
-//
-//                model.addAttribute("ListReminders", reminderModels);
-//                // side-bar
-//                model.addAttribute("SideBar", sideBar);
-//
-//                url = IViewConst.MANAGEMENT_REMINDER_VIEW;
-//            }
-//        }
-//
-//        logger.info("[Controller- Load Management Reminder View] END");
-//        return url;
+        // side-bar
+        model.addAttribute("SideBar", sideBar);
+
         return IViewConst.MANAGEMENT_REMINDER_VIEW;
     }
 
