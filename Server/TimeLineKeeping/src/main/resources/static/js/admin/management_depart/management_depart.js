@@ -221,3 +221,13 @@ function set_pagination(total_pages, $footer_pagination) {
     //set content html
     $footer_pagination.html(content_pagination);
 }
+
+/**
+ * Event: click button search
+ */
+$('#btn-search-department').on('click', function () {
+    var search_value = $('#input-search-department').val();
+
+    //reload list departments
+    load_list_departments(search_value, 0, current_page_size);
+});
