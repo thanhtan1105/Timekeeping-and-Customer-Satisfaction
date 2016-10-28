@@ -9,7 +9,7 @@ var first_page = false;
 var last_page = false;
 var current_page_size = 10;
 var current_search_value;
-var deleted_reminder_id;
+var deleted_department_id;
 
 $.mockjax({
     url: '/departments/list',
@@ -164,14 +164,14 @@ function set_list_departments(list_departments, $tbody_list_departments) {
     var content_list_departments = '';
     for (var i = 0; i < list_departments.length; i++) {
         content_list_departments += '<tr>' +
-            '<td>' + list_departments[i].name + '</td>' +
-            '<td>' + list_departments[i].code + '</td>' +
+            '<td id="td-name-' + list_departments[i].id + '">' + list_departments[i].name + '</td>' +
+            '<td id="td-code-' + list_departments[i].id + '">' + list_departments[i].code + '</td>' +
             '<td>' + list_departments[i].description + '</td>' +
             '<td>' +
-            '<button class="btn btn-success btn-flat btn-sm" type="button" title="View Reminder">' +
+            '<button class="btn btn-success btn-flat btn-sm" type="button" title="View Department">' +
             '<i class="fa fa-eye"></i>' +
             '</button>' +
-            ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Reminder">' +
+            ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Department" onclick="confirm_delete(' + list_departments[i].id + ')">' +
             '<i class="fa fa-remove"></i>' +
             '</button>' +
             '</td>' +
@@ -220,6 +220,56 @@ function set_pagination(total_pages, $footer_pagination) {
         '</ul>';
     //set content html
     $footer_pagination.html(content_pagination);
+}
+
+/**
+ * Fc: confirm delete
+ * @param id
+ */
+function confirm_delete(id) {
+    var department_name = $('#td-name-' + id).text(),
+        department_code = $('#td-code-' + id).text(),
+        $b_department_name_code = $('#b-department-name-code');
+    console.info('[department name] ' + department_name);
+    console.info('[department code] ' + department_code);
+
+    deleted_department_id = id;
+    console.info('[deleted department id] ' + deleted_department_id);
+
+    $b_department_name_code.html('"' + department_name + ' - ' + department_code + '"');
+    show_modal('#modal-confirm-delete', 'true');
+}
+
+/**
+ * Fc: delete department
+ */
+function delete_department() {
+    var urlString = '/api/department/delete?id=' + deleted_department_id;
+    $.ajax({
+        type: 'GET',
+        url: urlString,
+        success: function (response) {
+            var success = response.success;
+            console.info('[success] ' + success);
+            if (success) {
+                //reload list departments
+                load_list_departments(current_search_value, current_index_page, current_page_size);
+                //show modal result success
+                show_modal('#modal-result-success', 'true');
+            }
+        }
+    });
+}
+
+/**
+ * Fc: enable to show modal
+ * @param id
+ * @param enabled ('true', 'false')
+ */
+function show_modal(id, enabled) {
+    $(id).modal({
+        show: enabled
+    });
 }
 
 /**
