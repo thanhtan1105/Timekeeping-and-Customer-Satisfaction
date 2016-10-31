@@ -61,13 +61,6 @@ public class EmotionServiceImpl {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("CustomerCode:" + JsonUtil.toJson(customerEmotionSession));
 
-            //get Customer Service with customerCode
-//            CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
-//            if (customerResultEntity != null
-//                    && (customerResultEntity.getStatus() == ETransaction.BEGIN
-//                    || customerResultEntity.getStatus() == ETransaction.PROCESS)) {
-//                Long customerId = customerResultEntity.getId();
-
             //getEmotion from db
             EmotionCustomerEntity emotionCamera1 = customerEmotionSession.getEmotionCamera1() != null ? emotionRepo.findOne(customerEmotionSession.getEmotionCamera1()) : null;
             EmotionCustomerEntity emotionCamera2 = customerEmotionSession.getEmotionCamera2() != null ? emotionRepo.findOne(customerEmotionSession.getEmotionCamera2()) : null;
@@ -79,18 +72,11 @@ public class EmotionServiceImpl {
             if (emotionCamera1 != null) {
                 if (emotionCamera2 != null) {
                     emotionCamera1.merge(emotionCamera2);
-                    EmotionCustomerResponse result = emotionAnalyzis(emotionCamera1);
-                    result.setFinal(true);
-                    return result;
-                } else {
-                    return emotionAnalyzis(emotionCamera1);
                 }
+                return emotionAnalyzis(emotionCamera1);
             } else {
                 return null;
             }
-//            } else {
-//                return null;
-//            }
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }

@@ -55,6 +55,7 @@ public class EmotionController {
 
 
             if (emotionCustomer != null) {
+                emotionCustomer.setFinal(customerValue.getFinal());
                 return new BaseResponse(true, emotionCustomer);
             } else {
                 return new BaseResponse(false);
