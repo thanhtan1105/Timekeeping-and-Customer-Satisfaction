@@ -178,10 +178,10 @@ public class EmotionRecognizeScores {
         return emotion;
     }
 
-    public static void main(String[] args) {
-        EmotionRecognizeScores emotionRecognizeScores = new EmotionRecognizeScores(0d, 0d, 6d, 5d, 4d, 3d, 2d, 1d);
-        emotionRecognizeScores.clearData(1);
-        System.out.println(emotionRecognizeScores.getEmotionExist());
-        return;
-    }
+//    public static void main(String[] args) {
+//        EmotionRecognizeScores emotionRecognizeScores = new EmotionRecognizeScores(0d, 0d, 6d, 5d, 4d, 3d, 2d, 1d);
+//        emotionRecognizeScores.clearData(1);
+//        System.out.println(emotionRecognizeScores.getEmotionExist());
+//        return;
+//    }
 }

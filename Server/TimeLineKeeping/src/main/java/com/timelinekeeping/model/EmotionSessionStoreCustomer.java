@@ -9,6 +9,7 @@ public class EmotionSessionStoreCustomer {
     private Long emotionCamera1;
     private Long emotionCamera2;
     private String urlImage;
+    private String awsUrl;
     private Boolean isFinal = false;
 
     public EmotionSessionStoreCustomer(String customerCode) {
@@ -54,6 +55,14 @@ public class EmotionSessionStoreCustomer {
 
     public void setUrlImage(String urlImage) {
         this.urlImage = urlImage;
+    }
+
+    public String getAwsUrl() {
+        return awsUrl;
+    }
+
+    public void setAwsUrl(String awsUrl) {
+        this.awsUrl = awsUrl;
     }
 
     public Boolean getFinal() {

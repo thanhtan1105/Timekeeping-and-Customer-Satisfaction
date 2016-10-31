@@ -7,6 +7,7 @@ public class EmotionCustomerResponse {
     private String customerCode;
     private EmotionAnalysisModel analyzes;
     private MessageModel messages;
+    private String awsUrl;
     private Boolean isFinal = false;
 
     public EmotionCustomerResponse() {
@@ -61,6 +62,18 @@ public class EmotionCustomerResponse {
     }
 
     public void setFinal(boolean aFinal) {
+        isFinal = aFinal;
+    }
+
+    public String getAwsUrl() {
+        return awsUrl;
+    }
+
+    public void setAwsUrl(String awsUrl) {
+        this.awsUrl = awsUrl;
+    }
+
+    public void setFinal(Boolean aFinal) {
         isFinal = aFinal;
     }
 }

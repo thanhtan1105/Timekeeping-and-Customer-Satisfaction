@@ -93,11 +93,11 @@ public class AppConfigKeys {
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println(AppConfigKeys.getInstance().getMessagePropertyValue("message.test"));
-        System.out.println(AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.person"));
-        System.out.println(AppConfigKeys.getInstance().getAmazonPropertyValue("amazon.s3.link"));
-    }
+//    public static void main(String[] args) {
+//        System.out.println(AppConfigKeys.getInstance().getMessagePropertyValue("message.test"));
+//        System.out.println(AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.person"));
+//        System.out.println(AppConfigKeys.getInstance().getAmazonPropertyValue("amazon.s3.link"));
+//    }
 
 
 

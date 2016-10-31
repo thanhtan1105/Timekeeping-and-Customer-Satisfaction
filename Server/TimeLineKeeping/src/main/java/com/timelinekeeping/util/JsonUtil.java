@@ -73,7 +73,7 @@ public class JsonUtil {
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println(JsonUtil.toJson(new Pair<Integer, String>(1, "b")));
-    }
+//    public static void main(String[] args) {
+//        System.out.println(JsonUtil.toJson(new Pair<Integer, String>(1, "b")));
+//    }
 }

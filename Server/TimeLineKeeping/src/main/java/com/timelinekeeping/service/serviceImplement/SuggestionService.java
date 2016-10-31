@@ -150,17 +150,17 @@ public class SuggestionService {
     }
 
 
-    public static void main(String[] args) {
-        EmotionAnalysisModel analysisModel = new EmotionAnalysisModel();
-//        System.out.println(suggestionService.getSubject(24d, Gender.MALE).getName());
-        analysisModel.setAge(24d);
-        analysisModel.setGender(Gender.FEMALE);
-        EmotionRecognizeScores emotionRecognizeScores = new EmotionRecognizeScores();
-        emotionRecognizeScores.setHappiness(0.9d);
-        emotionRecognizeScores.setSadness(0.1d);
-        emotionRecognizeScores.setAnger(0.2d);
-        analysisModel.setEmotion(emotionRecognizeScores);
-        SuggestionService suggestionService = new SuggestionService();
-        System.out.println(suggestionService.getEmotionMessage(analysisModel));
-    }
+//    public static void main(String[] args) {
+//        EmotionAnalysisModel analysisModel = new EmotionAnalysisModel();
+////        System.out.println(suggestionService.getSubject(24d, Gender.MALE).getName());
+//        analysisModel.setAge(24d);
+//        analysisModel.setGender(Gender.FEMALE);
+//        EmotionRecognizeScores emotionRecognizeScores = new EmotionRecognizeScores();
+//        emotionRecognizeScores.setHappiness(0.9d);
+//        emotionRecognizeScores.setSadness(0.1d);
+//        emotionRecognizeScores.setAnger(0.2d);
+//        analysisModel.setEmotion(emotionRecognizeScores);
+//        SuggestionService suggestionService = new SuggestionService();
+//        System.out.println(suggestionService.getEmotionMessage(analysisModel));
+//    }
 }

@@ -76,13 +76,14 @@ public class SMSNotification {
         welcomeMessage += ". Chuc " + prefix + " " + "mot ngay lam viec tot lanh";
         return sendSms("0936714994", welcomeMessage);
     }
-    public static void main(String[] args) {
-        try {
-            System.out.println(JsonUtil.toJson(new SMSNotification().sendSms("0936714994", "Xin chao a Tan Xau trai.")));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
+//    public static void main(String[] args) {
+//        try {
+//            System.out.println(JsonUtil.toJson(new SMSNotification().sendSms("0936714994", "Xin chao a Tan Xau trai.")));
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

@@ -288,9 +288,9 @@ public class BeaconAlgorithm {
         return Math.sqrt(Math.pow(point1.getLatitude() - point2.getLatitude(), 2) + Math.pow(point1.getLongitude() - point2.getLongitude(), 2));
     }
 
-    public static void main(String[] args) {
-
-        System.out.println(new BeaconAlgorithm().distance(new CoordinateModel(2d, 2d), new CoordinateModel(3d, 3d)));
-    }
+//    public static void main(String[] args) {
+//
+//        System.out.println(new BeaconAlgorithm().distance(new CoordinateModel(2d, 2d), new CoordinateModel(3d, 3d)));
+//    }
 
 }

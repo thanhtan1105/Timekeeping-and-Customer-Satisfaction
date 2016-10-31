@@ -53,17 +53,17 @@ public class ValidateUtil implements Serializable {
         return text.matches(pattern);
     }
 
-    public static void main(String[] args) {
-        String text = "Đào Tạo - dt";
-        if (isResultAutocomplete(text)) {
-            System.out.println("Matching");
-            String[] groups = UtilApps.parseSearchValue(text);
-            System.out.println("Length: " + groups.length);
-            for (String group : groups) {
-                System.out.println("-" + group.trim() + ".");
-            }
-        } else {
-            System.out.println("Not matching");
-        }
-    }
+//    public static void main(String[] args) {
+//        String text = "Đào Tạo - dt";
+//        if (isResultAutocomplete(text)) {
+//            System.out.println("Matching");
+//            String[] groups = UtilApps.parseSearchValue(text);
+//            System.out.println("Length: " + groups.length);
+//            for (String group : groups) {
+//                System.out.println("-" + group.trim() + ".");
+//            }
+//        } else {
+//            System.out.println("Not matching");
+//        }
+//    }
 }

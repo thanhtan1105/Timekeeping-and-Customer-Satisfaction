@@ -1,8 +1,5 @@
 package com.timelinekeeping.service.algorithm;
 
-import java.io.*;
-import java.util.UUID;
-
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
@@ -12,18 +9,20 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
 import com.timelinekeeping._config.AppConfigKeys;
 
+import java.io.File;
+
 /**
  * Created by lethanhtan on 10/31/16.
  */
 public class AWSStorage {
-
-    public static void main(String args[]) {
-        File file = new File("/Users/lethanhtan/Desktop/LeThanhTan.jpg");
-        if (file != null) {
-            System.out.println("Link ne:" + uploadFile(file, "LeThanhTan"));
-        }
-
-    }
+//
+//    public static void main(String args[]) {
+//        File file = new File("/Users/lethanhtan/Desktop/LeThanhTan.jpg");
+//        if (file != null) {
+//            System.out.println("Link ne:" + uploadFile(file, "LeThanhTan"));
+//        }
+//
+//    }
 
     public static String uploadFile(File file, String fileName) {
         AWSCredentials credentials = null;

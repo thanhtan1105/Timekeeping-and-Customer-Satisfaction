@@ -6,6 +6,7 @@ import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.*;
+import com.timelinekeeping.service.algorithm.AWSStorage;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.StoreFileUtils;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
@@ -56,6 +58,7 @@ public class EmotionController {
 
             if (emotionCustomer != null) {
                 emotionCustomer.setFinal(customerValue.getFinal());
+                emotionCustomer.setAwsUrl(customerValue.getAwsUrl());
                 return new BaseResponse(true, emotionCustomer);
             } else {
                 return new BaseResponse(false);
@@ -141,8 +144,12 @@ public class EmotionController {
                 String fileName = I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + customerCode;
                 String urlFile = StoreFileUtils.storeFile(fileName, new ByteArrayInputStream(byteImage));
 
+                //Store aws
+                String awsUrl = AWSStorage.uploadFile(new File(urlFile), fileName);
+
                 //set session
                 customerValue.setUrlImage(urlFile);
+                customerValue.setAwsUrl(awsUrl);
 
                 //return
                 return new BaseResponse(true, new Pair<>("uploadSuccess", true));

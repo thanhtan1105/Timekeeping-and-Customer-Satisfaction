@@ -170,16 +170,16 @@ public class PersonServiceMCSImpl {
         }
     }
 
-    public static void main(String[] args) {
-        try {
-            PersonServiceMCSImpl personServiceMCS = new PersonServiceMCSImpl();
-            System.out.println(JsonUtil.toJson(personServiceMCS.listPersonInGroup("humanresource")));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//        try {
+//            PersonServiceMCSImpl personServiceMCS = new PersonServiceMCSImpl();
+//            System.out.println(JsonUtil.toJson(personServiceMCS.listPersonInGroup("humanresource")));
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 }

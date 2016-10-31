@@ -76,7 +76,7 @@ public enum EGradeReport {
         this.to = to;
     }
 
-    public static void main(String[] args) {
-        System.out.println(EGradeReport.fromGrade(9).getName());
-    }
+//    public static void main(String[] args) {
+//        System.out.println(EGradeReport.fromGrade(9).getName());
+//    }
 }
