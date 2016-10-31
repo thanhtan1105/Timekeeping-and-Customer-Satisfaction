@@ -72,6 +72,36 @@ public class EmotionController {
         }
     }
 
+    @RequestMapping(value = I_URI.API_EMOTION_GET_IMAGE)
+    @ResponseBody
+    public BaseResponse getImage(@RequestParam(I_URI.PARAMETER_EMOTION_ACCOUNT_ID) Long accountId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.debug(String.format("accountId = '%s' ", accountId));
+
+            //get emotion from session
+            EmotionSessionStoreCustomer customerValue = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
+            if (customerValue == null || ValidateUtil.isEmpty(customerValue.getCustomerCode())) {
+                return new BaseResponse(false);
+            }
+
+
+            //get url image
+            if (customerValue.getUrlImage() != null) {
+                String url = customerValue.getUrlImage();
+                byte[] data = Files.readAllBytes(Paths.get(url));
+                return new BaseResponse(true, new Pair<String, Object>("image", data));
+            } else {
+                return new BaseResponse(false);
+            }
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(false, e.getMessage());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
+
 
     @RequestMapping(value = I_URI.API_EMOTION_UPLOAD_IMAGE, method = RequestMethod.POST)
     @ResponseBody
@@ -104,9 +134,9 @@ public class EmotionController {
             if (resultEmotion != null) {
 
                 //store in session
-                if (cameraId == 1){
+                if (cameraId == 1) {
                     customerValue.setEmotionCamera1(resultEmotion);
-                }else if (cameraId == 2){
+                } else if (cameraId == 2) {
                     customerValue.setEmotionCamera2(resultEmotion);
                 }
 
