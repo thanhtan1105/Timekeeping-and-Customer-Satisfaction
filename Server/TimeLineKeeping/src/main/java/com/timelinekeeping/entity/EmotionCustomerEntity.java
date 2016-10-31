@@ -88,7 +88,7 @@ public class EmotionCustomerEntity implements Serializable {
     public EmotionCustomerEntity(EmotionAnalysisModel analysisModel, CustomerServiceEntity customer) {
         if (analysisModel != null) {
             if (analysisModel.getEmotion() != null) {
-                EmotionRecognizeScores emotion =analysisModel.getEmotion();
+                EmotionRecognizeScores emotion = analysisModel.getEmotion();
                 this.anger = emotion.getAnger();
                 this.contempt = emotion.getContempt();
                 this.disgust = emotion.getDisgust();
@@ -224,5 +224,44 @@ public class EmotionCustomerEntity implements Serializable {
 
     public void setCustomerService(CustomerServiceEntity customerService) {
         this.customerService = customerService;
+    }
+
+
+    public void merge(EmotionCustomerEntity entity) {
+        if (entity != null) {
+            if (entity.getAnger() != null && this.anger != null) {
+                this.anger = (this.anger + entity.getAnger()) / 2;
+            }
+            if (entity.getContempt() != null && this.contempt != null) {
+                this.contempt = (this.contempt + entity.getContempt()) / 2;
+            }
+            if (entity.getDisgust() != null && this.disgust != null) {
+                this.disgust = (this.disgust + entity.getDisgust()) / 2;
+            }
+            if (entity.getFear() != null && this.fear != null) {
+                this.fear = (this.fear + entity.getFear()) / 2;
+            }
+            if (entity.getHappiness() != null && this.happiness != null) {
+                this.happiness = (this.happiness + entity.getHappiness()) / 2;
+            }
+            if (entity.getNeutral() != null && this.neutral != null) {
+                this.neutral = (this.neutral + entity.getNeutral()) / 2;
+            }
+            if (entity.getSadness() != null && this.sadness != null) {
+                this.sadness = (this.sadness + entity.getSadness()) / 2;
+            }
+            if (entity.getSurprise() != null && this.surprise != null) {
+                this.surprise = (this.surprise + entity.getSurprise()) / 2;
+            }
+            if (entity.getAge() != null && this.age != null) {
+                this.age = (this.age + entity.getAge()) / 2;
+            }
+            this.gender = entity.getGender();
+            if (entity.getSmile() != null && this.smile != null) {
+                this.smile = (this.smile + entity.getSmile()) / 2;
+            }
+            this.emotionMost = entity.getEmotionMost();
+            this.customerService = entity.getCustomerService();
+        }
     }
 }

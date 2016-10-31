@@ -40,19 +40,25 @@ public class EmotionController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.debug(String.format("accountId = '%s' ", accountId));
-            Pair<String, String> customerValue = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
-            if (customerValue == null || ValidateUtil.isEmpty(customerValue.getKey())) {
+
+            //get emotion from session
+            EmotionSessionStoreCustomer customerValue = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
+            if (customerValue == null || ValidateUtil.isEmpty(customerValue.getCustomerCode())) {
                 return new BaseResponse(false);
             }
-            String customerCode = customerValue.getKey();
-            EmotionCustomerResponse emotionCustomer = emotionService.getEmotionCustomer(customerCode);
+
+
+            //call service
+            EmotionCustomerResponse emotionCustomer = emotionService.getEmotionCustomer(customerValue);
+
             //get url image
-            if (customerValue.getValue() != null) {
-                String url = customerValue.getValue();
+            if (customerValue.getUrlImage() != null) {
+                String url = customerValue.getUrlImage();
                 byte[] data = Files.readAllBytes(Paths.get(url));
                 emotionCustomer.getMessages().setUrl(url);
                 emotionCustomer.getMessages().setImage(data);
             }
+
             if (emotionCustomer != null) {
                 return new BaseResponse(true, emotionCustomer);
             } else {
@@ -70,15 +76,21 @@ public class EmotionController {
     @RequestMapping(value = I_URI.API_EMOTION_UPLOAD_IMAGE, method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse uploadImage(@RequestParam(I_URI.PARAMETER_EMOTION_ACCOUNT_ID) Long accountId,
-                                    @RequestParam("image") MultipartFile imageFile) {
+                                    @RequestParam("image") MultipartFile imageFile,
+                                    @RequestParam("camera") Integer cameraId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.debug(String.format("accountId = '%s' ", accountId));
-            Pair<String, String> customerValue = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
-            if (customerValue == null || ValidateUtil.isEmpty(customerValue.getKey())) {
+
+
+            //get emotion from session
+            EmotionSessionStoreCustomer customerValue = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
+            if (customerValue == null || ValidateUtil.isEmpty(customerValue.getCustomerCode())) {
                 return new BaseResponse(false);
             }
-            String customerCode = customerValue.getKey();
+            String customerCode = customerValue.getCustomerCode();
+
+            // split image
             byte[] byteImage = IOUtils.toByteArray(imageFile.getInputStream());
 
             /** TEST store file before*/
@@ -86,12 +98,27 @@ public class EmotionController {
             StoreFileUtils.storeFile(fileNameBefore, new ByteArrayInputStream(byteImage));
             /** TEST store file before*/
 
-            Boolean result = emotionService.uploadImage(new ByteArrayInputStream(byteImage), customerCode);
-            if (result != null && result) {
+
+            //call service
+            Long resultEmotion = emotionService.uploadImage(new ByteArrayInputStream(byteImage), customerCode);
+            if (resultEmotion != null) {
+
+                //store in session
+                if (cameraId == 1){
+                    customerValue.setEmotionCamera1(resultEmotion);
+                }else if (cameraId == 2){
+                    customerValue.setEmotionCamera2(resultEmotion);
+                }
+
+                //store Image
                 String fileName = I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId;
                 String urlFile = StoreFileUtils.storeFile(fileName, new ByteArrayInputStream(byteImage));
-                customerValue.setValue(urlFile);
-                return new BaseResponse(true, new Pair<>("uploadSuccess", result));
+
+                //set session
+                customerValue.setUrlImage(urlFile);
+
+                //return
+                return new BaseResponse(true, new Pair<>("uploadSuccess", true));
             } else {
                 return new BaseResponse(false);
             }
@@ -112,11 +139,11 @@ public class EmotionController {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.debug(String.format("accountId = '%s' ", accountId));
 
-            Pair<String, String> customerValue = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
-            if (customerValue == null || ValidateUtil.isEmpty(customerValue.getKey())) {
+            EmotionSessionStoreCustomer customerValue = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
+            if (customerValue == null || ValidateUtil.isEmpty(customerValue.getCustomerCode())) {
                 return new BaseResponse(false);
             }
-            String customerCode = customerValue.getKey();
+            String customerCode = customerValue.getCustomerCode();
 
             CustomerServiceModel result = emotionService.nextTransaction(customerCode, isSkip);
             if (result != null && ValidateUtil.isNotEmpty(result.getCustomerCode())) {
@@ -124,7 +151,7 @@ public class EmotionController {
 
                 //replace newCustomer to session
                 EmotionSession.remove(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
-                EmotionSession.setValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId, new Pair<String, String>(newCustomer));
+                EmotionSession.setValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId, new EmotionSessionStoreCustomer(newCustomer));
 
                 return new BaseResponse(true, new Pair<String, String>("customerCode", result.getCustomerCode()));
             } else {

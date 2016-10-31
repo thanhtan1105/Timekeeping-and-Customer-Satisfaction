@@ -3,6 +3,7 @@ package com.timelinekeeping._config;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.CustomerServiceModel;
 import com.timelinekeeping.common.Pair;
+import com.timelinekeeping.model.EmotionSessionStoreCustomer;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
 import com.timelinekeeping.util.ValidateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,11 @@ public class Interceptor extends HandlerInterceptorAdapter{
         if (url != null && url.contains(I_URI.API_EMOTION)){
             String accountID = request.getParameter(I_URI.PARAMETER_EMOTION_ACCOUNT_ID);
             if (ValidateUtil.isNotEmpty(accountID) && ValidateUtil.isNumeric(accountID)){
-                Pair<String, String> customerSession = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountID);
-                if (customerSession == null || ValidateUtil.isEmpty(customerSession.getKey())) {
+                EmotionSessionStoreCustomer customerSession = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountID);
+                if (customerSession == null || ValidateUtil.isEmpty(customerSession.getCustomerCode())) {
                     Long accountIdNum = ValidateUtil.parseNumber(accountID);
                     CustomerServiceModel customerServiceModel = emotionService.beginTransaction(accountIdNum);
-                    EmotionSession.setValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountID , new Pair(customerServiceModel.getCustomerCode()));
+                    EmotionSession.setValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountID , new EmotionSessionStoreCustomer(customerServiceModel.getCustomerCode()));
                 }
             }
         }
