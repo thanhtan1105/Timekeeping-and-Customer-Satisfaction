@@ -19,7 +19,9 @@ INSERT INTO `mydb`.`emotion_content` (`emotion_first`, `emotion_second`, `emotio
 INSERT INTO `mydb`.`emotion_content` (`emotion_first`, `emotion_second`, `emotion_third`, `message`, `status`, `vote`) VALUES ('5', '8', '8', 'Bạn nên nói chuyện với %s bình thường.', '0', '0');
 INSERT INTO `mydb`.`emotion_content` (`emotion_first`, `emotion_second`, `emotion_third`, `message`, `status`, `vote`) VALUES ('6', '8', '8', 'Bạn nên nói chuyện với %s nhẹ nhàng.', '0', '0');
 INSERT INTO `mydb`.`emotion_content` (`emotion_first`, `emotion_second`, `emotion_third`, `message`, `status`, `vote`) VALUES ('7', '8', '8', 'Bạn nên bình tỉnh nói chuyện với %s.', '0', '0');
-
+INSERT INTO `mydb`.`emotion_content` (`emotion_first`, `emotion_second`, `emotion_third`, `message`, `status`, `vote`) VALUES ('4', '8', '8', 'Bạn nên chào tạm biệt khi giao dịch kết thúc với %s.', '0', '0');
+INSERT INTO `mydb`.`emotion_content` (`emotion_first`, `emotion_second`, `emotion_third`, `message`, `status`, `vote`) VALUES ('4', '8', '8', 'Bạn nên giới thiệu các dịch vụ mới cho %s.', '0', '0');
+INSERT INTO `mydb`.`emotion_content` (`emotion_first`, `emotion_second`, `emotion_third`, `message`, `status`, `vote`) VALUES ('4', '8', '8', 'Nếu chưa có Visa thì hãy giới thiệu cho %s.', '0', '0');
 
 /** ROLE*/
 INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('admin','/admin/**;/account/**;/department/**','redirect:/admin/departments/');
