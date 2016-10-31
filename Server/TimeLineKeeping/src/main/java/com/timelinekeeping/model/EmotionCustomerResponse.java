@@ -7,6 +7,7 @@ public class EmotionCustomerResponse {
     private String customerCode;
     private EmotionAnalysisModel analyzes;
     private MessageModel messages;
+    private boolean isFinal;
 
     public EmotionCustomerResponse() {
     }
@@ -20,9 +21,6 @@ public class EmotionCustomerResponse {
     public EmotionCustomerResponse(String customerCode) {
         this.customerCode = customerCode;
     }
-
-
-
 
     public String getCustomerCode() {
         return customerCode;
@@ -46,5 +44,13 @@ public class EmotionCustomerResponse {
 
     public void setMessages(MessageModel messages) {
         this.messages = messages;
+    }
+
+    public boolean isFinal() {
+        return isFinal;
+    }
+
+    public void setFinal(boolean aFinal) {
+        isFinal = aFinal;
     }
 }
