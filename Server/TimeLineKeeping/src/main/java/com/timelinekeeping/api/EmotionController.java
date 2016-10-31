@@ -138,7 +138,7 @@ public class EmotionController {
                 }
 
                 //store Image
-                String fileName = I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId;
+                String fileName = I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + customerCode;
                 String urlFile = StoreFileUtils.storeFile(fileName, new ByteArrayInputStream(byteImage));
 
                 //set session
@@ -175,6 +175,9 @@ public class EmotionController {
             CustomerServiceModel result = emotionService.nextTransaction(customerCode, isSkip);
             if (result != null && ValidateUtil.isNotEmpty(result.getCustomerCode())) {
                 String newCustomer = result.getCustomerCode();
+
+                //delete image
+                StoreFileUtils.delete(customerValue.getUrlImage());
 
                 //replace newCustomer to session
                 EmotionSession.remove(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);

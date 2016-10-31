@@ -36,4 +36,13 @@ public class StoreFileUtils {
         }
     }
 
+    public static void delete(String url){
+        if (url != null){
+            File file = new File(url);
+            if (file.exists()){
+                file.delete();
+            }
+        }
+    }
+
 }
