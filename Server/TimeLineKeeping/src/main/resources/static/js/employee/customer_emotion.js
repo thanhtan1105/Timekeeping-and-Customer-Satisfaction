@@ -5,6 +5,7 @@
 var accountId = $('#accountId').val();
 var customerCode;
 var timer_get_emotion;
+var timer_get_image;
 var nextAngle = 0;
 
 /**
@@ -66,13 +67,11 @@ function worker_get_emotion() {
             if (response.success) {
                 var data = response.data,
                     messages = data.messages,
-                    isFinal = data.isFinal,
+                    isFinal = data.final,
                     customer_emotion_msg = messages.message,
                     suggestions = messages.sugguest,
                     age_predict = messages.predict,
-                    gender = messages.gender,
-                    urlImage = messages.url,
-                    imageByte = messages.image;
+                    gender = messages.gender;
 
                 //hide div loader
                 event_hide('#div-loader');
@@ -84,7 +83,7 @@ function worker_get_emotion() {
                 event_disabled('#btn-skip-transaction', false);
 
                 //set overview customer emotion
-                set_content_overview_customer_emotion(age_predict, gender, imageByte, customer_emotion_msg, suggestions);
+                set_content_overview_customer_emotion(age_predict, gender, customer_emotion_msg, suggestions);
 
                 if (isFinal) {
                     //stop request: get first emotion
@@ -110,7 +109,7 @@ function worker_next_transaction(isSkip) {
             if (response.success) {
                 customerCode = response.data;
                 if (customerCode != null) {
-                    //call request: get first emotion
+                    //call request: load page
                     worker_get_emotion();
                 }
             } else {
@@ -119,6 +118,34 @@ function worker_next_transaction(isSkip) {
         }
     });
 };
+
+/**
+ * Worker: get image
+ * @param accountId
+ */
+function worker_get_image() {
+    var urlString = '/api/emotion/get_image?accountId=' + accountId;
+    console.info('[worker_get_image] accountId: ' + accountId);
+    $.ajax({
+        type: "GET",
+        url: urlString,
+        success: function (response) {
+            console.info('success: ' + response.success);
+            if (response.success) {
+                var data = response.data,
+                    urlImage = data.image;
+                console.info('[urlImage] ' + urlImage);
+                if (urlImage != null) {
+                    // setSrcImage('#image-customer', urlImage);
+                    setSrcImage('#image-customer', "data:image/png;base64," + urlImage);
+                    //stop request: get image
+                    clearTimeout(timer_get_image);
+                }
+            }
+        }
+    });
+    timer_get_image = setTimeout(worker_get_image, time_out);
+}
 
 /**
  * Event: disabled/enabled
@@ -241,9 +268,9 @@ function set_gender(gender) {
 function set_image_customer(imageByte) {
     if (imageByte != null) {
         // setSrcImage('#image-customer', urlImage)
-        setSrcImage('#image-customer', "data:image/png;base64," + imageByte)
+        setSrcImage('#image-customer', "data:image/png;base64," + imageByte);
     } else {
-        setSrcImage('#image-customer', '/libs/dist/img/avatar_customer.png')
+        setSrcImage('#image-customer', '/libs/dist/img/avatar_customer.png');
     }
 }
 
@@ -313,15 +340,15 @@ function set_suggest_behaviour(suggestions) {
  * @param customer_emotion_msg
  * @param suggestions
  */
-function set_content_overview_customer_emotion(age_predict, gender, imageByte, customer_emotion_msg, suggestions) {
+function set_content_overview_customer_emotion(age_predict, gender, customer_emotion_msg, suggestions) {
     //set age predict
     set_age_predict(age_predict);
 
     //set gender
     set_gender(gender);
 
-    //set image customer
-    set_image_customer(imageByte);
+    //call request: get image
+    worker_get_image();
 
     //reset next angle
     // resetNextAngle('#image-customer');
