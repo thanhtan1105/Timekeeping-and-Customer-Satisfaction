@@ -28,7 +28,6 @@ public class EmotionCustomerResponse {
         this.customerCode = customerCode;
     }
 
-
     public String getCustomerCode() {
         return customerCode;
     }
@@ -58,6 +57,13 @@ public class EmotionCustomerResponse {
     }
 
     public void setFinal(Boolean aFinal) {
+=======
+    public boolean isFinal() {
+        return isFinal;
+    }
+
+    public void setFinal(boolean aFinal) {
+>>>>>>> 22932d2c64e5ed7e47bf8dd1509ec8a88f389d07
         isFinal = aFinal;
     }
 }
