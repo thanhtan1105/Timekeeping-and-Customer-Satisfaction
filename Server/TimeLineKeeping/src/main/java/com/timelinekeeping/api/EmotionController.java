@@ -7,6 +7,7 @@ import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
+import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.commons.io.IOUtils;
@@ -39,7 +40,7 @@ public class EmotionController {
     public BaseResponse getEmotion(@RequestParam(I_URI.PARAMETER_EMOTION_ACCOUNT_ID) Long accountId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            logger.debug(String.format("accountId = '%s' ", accountId));
+
 
             //get emotion from session
             EmotionSessionStoreCustomer customerValue = EmotionSession.getValue(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);
@@ -47,17 +48,11 @@ public class EmotionController {
                 return new BaseResponse(false);
             }
 
+            logger.info(String.format("Session = '%s' ", JsonUtil.toJson(customerValue)));
 
             //call service
             EmotionCustomerResponse emotionCustomer = emotionService.getEmotionCustomer(customerValue);
 
-            //get url image
-            if (customerValue.getUrlImage() != null) {
-                String url = customerValue.getUrlImage();
-                byte[] data = Files.readAllBytes(Paths.get(url));
-                emotionCustomer.getMessages().setUrl(url);
-                emotionCustomer.getMessages().setImage(data);
-            }
 
             if (emotionCustomer != null) {
                 return new BaseResponse(true, emotionCustomer);
@@ -85,6 +80,7 @@ public class EmotionController {
                 return new BaseResponse(false);
             }
 
+            logger.info(String.format("Session = '%s' ", JsonUtil.toJson(customerValue)));
 
             //get url image
             if (customerValue.getUrlImage() != null) {
@@ -119,7 +115,7 @@ public class EmotionController {
                 return new BaseResponse(false);
             }
             String customerCode = customerValue.getCustomerCode();
-
+            logger.info(String.format("Session = '%s' ", JsonUtil.toJson(customerValue)));
             // split image
             byte[] byteImage = IOUtils.toByteArray(imageFile.getInputStream());
 
@@ -174,7 +170,7 @@ public class EmotionController {
                 return new BaseResponse(false);
             }
             String customerCode = customerValue.getCustomerCode();
-
+            logger.info(String.format("Session = '%s' ", JsonUtil.toJson(customerValue)));
             CustomerServiceModel result = emotionService.nextTransaction(customerCode, isSkip);
             if (result != null && ValidateUtil.isNotEmpty(result.getCustomerCode())) {
                 String newCustomer = result.getCustomerCode();
