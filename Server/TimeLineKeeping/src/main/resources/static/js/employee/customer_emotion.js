@@ -66,6 +66,7 @@ function worker_get_emotion() {
             if (response.success) {
                 var data = response.data,
                     messages = data.messages,
+                    isFinal = data.isFinal,
                     customer_emotion_msg = messages.message,
                     suggestions = messages.sugguest,
                     age_predict = messages.predict,
@@ -82,29 +83,13 @@ function worker_get_emotion() {
                 //enable button skip
                 event_disabled('#btn-skip-transaction', false);
 
-                //set age predict
-                set_age_predict(age_predict);
+                //set overview customer emotion
+                set_content_overview_customer_emotion(age_predict, gender, imageByte, customer_emotion_msg, suggestions);
 
-                //set gender
-                set_gender(gender);
-
-                //set image customer
-                set_image_customer(imageByte);
-
-                //reset next angle
-                // resetNextAngle('#image-customer');
-                resetNextAngle('#image-customer');
-                //rotate image right 90
-                rotateRight('#image-customer', 90);
-
-                //set customer emotion message
-                set_customer_emotion_message(customer_emotion_msg);
-
-                //set suggestion behavior
-                set_suggest_behaviour(suggestions);
-
-                //stop request: get first emotion
-                clearTimeout(timer_get_emotion);
+                if (isFinal) {
+                    //stop request: get first emotion
+                    clearTimeout(timer_get_emotion);
+                }
             }
         }
     });
@@ -318,6 +303,37 @@ function set_suggest_behaviour(suggestions) {
         ul_content_suggestion_behavior += '<li>N/A</li>';
     }
     $suggestion_behavior_msg.html(ul_content_suggestion_behavior);
+}
+
+/**
+ * Fc: set content overview_customer_emotion
+ * @param age_predict
+ * @param gender
+ * @param imageByte
+ * @param customer_emotion_msg
+ * @param suggestions
+ */
+function set_content_overview_customer_emotion(age_predict, gender, imageByte, customer_emotion_msg, suggestions) {
+    //set age predict
+    set_age_predict(age_predict);
+
+    //set gender
+    set_gender(gender);
+
+    //set image customer
+    set_image_customer(imageByte);
+
+    //reset next angle
+    // resetNextAngle('#image-customer');
+    resetNextAngle('#image-customer');
+    //rotate image right 90
+    rotateRight('#image-customer', 90);
+
+    //set customer emotion message
+    set_customer_emotion_message(customer_emotion_msg);
+
+    //set suggestion behavior
+    set_suggest_behaviour(suggestions);
 }
 
 /**
