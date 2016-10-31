@@ -18,11 +18,8 @@ public class AWSStorage {
 
     public static void main(String args[]) {
         File file = new File("/Users/lethanhtan/Desktop/LeThanhTan.jpg");
-        try {
-            InputStream inputStream = new FileInputStream(file);
-            uploadFile(file, "LeThanhTan");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if (file != null) {
+            System.out.println("Link ne:" + uploadFile(file, "LeThanhTan"));
         }
 
     }
@@ -47,7 +44,7 @@ public class AWSStorage {
         System.out.println("===========================================\n");
         try {
             s3.putObject(new PutObjectRequest(bucketName, fileName, file).withCannedAcl(CannedAccessControlList.PublicRead));
-            System.out.println("Link: " + "https://s3-ap-southeast-1.amazonaws.com/customersatisfaction/" + fileName);
+            return "https://s3-ap-southeast-1.amazonaws.com/customersatisfaction/" + fileName;
         } catch (AmazonServiceException ase) {
             System.out.println("Caught an AmazonServiceException, which means your request made it "
                     + "to Amazon S3, but was rejected with an error response for some reason.");
