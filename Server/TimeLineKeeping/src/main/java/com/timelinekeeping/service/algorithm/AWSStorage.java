@@ -10,6 +10,7 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
+import com.timelinekeeping._config.AppConfigKeys;
 
 /**
  * Created by lethanhtan on 10/31/16.
@@ -27,7 +28,8 @@ public class AWSStorage {
     public static String uploadFile(File file, String fileName) {
         AWSCredentials credentials = null;
         try {
-            credentials = new BasicAWSCredentials("AKIAIXAXWBASW4MLKFZQ", "Qltke6qcSrflolW3qyHWKHy0KCtAiXbN554U50ys");
+            credentials = new BasicAWSCredentials(AppConfigKeys.getInstance().getAmazonPropertyValue("amazon.s3.accesskey"),
+                    AppConfigKeys.getInstance().getAmazonPropertyValue("amazon.s3.passwordkey"));
         } catch (Exception e) {
             throw new AmazonClientException(
                     "Cannot load the credentials from the credential profiles file. " +
@@ -44,7 +46,7 @@ public class AWSStorage {
         System.out.println("===========================================\n");
         try {
             s3.putObject(new PutObjectRequest(bucketName, fileName, file).withCannedAcl(CannedAccessControlList.PublicRead));
-            return "https://s3-ap-southeast-1.amazonaws.com/customersatisfaction/" + fileName;
+            return AppConfigKeys.getInstance().getAmazonPropertyValue("amazon.s3.link") + fileName;
         } catch (AmazonServiceException ase) {
             System.out.println("Caught an AmazonServiceException, which means your request made it "
                     + "to Amazon S3, but was rejected with an error response for some reason.");
