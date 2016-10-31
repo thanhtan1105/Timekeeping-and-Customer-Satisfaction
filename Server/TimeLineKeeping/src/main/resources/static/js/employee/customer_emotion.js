@@ -71,13 +71,7 @@ function worker_get_emotion() {
                     age_predict = messages.predict,
                     gender = messages.gender,
                     urlImage = messages.url,
-                    imageByte = messages.image,
-                    $font_age_predict = $('#font-age-predict'),
-                    $font_gender = $('#font-gender'),
-                    $customer_emotion_msg = $('#customer-emotion-message'),
-                    $suggestion_behavior_msg = $('#suggestion-behavior-message'),
-                    ul_content_customer_emotion = '',
-                    ul_content_suggestion_behavior = '';
+                    imageByte = messages.image;
 
                 //hide div loader
                 event_hide('#div-loader');
@@ -89,26 +83,14 @@ function worker_get_emotion() {
                 event_disabled('#btn-skip-transaction', false);
 
                 //set age predict
-                if (age_predict != null) {
-                    $font_age_predict.html(age_predict);
-                } else {
-                    $font_age_predict.html('N/A');
-                }
+                set_age_predict(age_predict);
 
                 //set gender
-                if (gender == 0) {
-                    $font_gender.html('Nam');
-                } else {
-                    $font_gender.html('Nữ');
-                }
+                set_gender(gender);
 
                 //set image customer
-                if (urlImage != null) {
-                    // setSrcImage('#image-customer', urlImage)
-                    setSrcImage('#image-customer', "data:image/png;base64," + imageByte)
-                } else {
-                    setSrcImage('#image-customer', '/libs/dist/img/avatar_customer.png')
-                }
+                set_image_customer(imageByte);
+
                 //reset next angle
                 // resetNextAngle('#image-customer');
                 resetNextAngle('#image-customer');
@@ -116,48 +98,10 @@ function worker_get_emotion() {
                 rotateRight('#image-customer', 90);
 
                 //set customer emotion message
-                if (customer_emotion_msg != null && customer_emotion_msg.length > 0) {
-                    for (var i = 0; i < customer_emotion_msg.length; i++) {
-                        ul_content_customer_emotion += '<li>' +
-                            customer_emotion_msg[i] +
-                            '</li>';
-                    }
-                } else {
-                    ul_content_customer_emotion += '<li>N/A</li>';
-                }
-                $customer_emotion_msg.html(ul_content_customer_emotion);
+                set_customer_emotion_message(customer_emotion_msg);
 
                 //set suggestion behavior
-                if (suggestions != null && suggestions.length > 0) {
-                    for (var i = 0; i < suggestions.length; i++) {
-                        ul_content_suggestion_behavior += '<li>' +
-                            suggestions[i].message +
-                            '</li>';
-                        ul_content_suggestion_behavior += '<ul class="list-inline">' +
-                            '<li>' +
-                            '<button type="button" class="btn btn-default btn-xs btn-vote" ' +
-                            'id="btn-vote-' +
-                            suggestions[i].id +
-                            '" ' +
-                            'onclick="voteSuggestion(' +
-                            suggestions[i].id +
-                            ')">' +
-                            '<i class="fa fa-thumbs-o-up margin-r-5"></i> Vote</button>' +
-                            '</li>' +
-                            '<li><span class="badge bg-aqua-gradient" id="span-vote-' +
-                            suggestions[i].id +
-                            '">' +
-                            suggestions[i].vote +
-                            '</span></li>' +
-                            '</ul>';
-                        if (i < suggestions.length - 1) {
-                            ul_content_suggestion_behavior += '<hr/>';
-                        }
-                    }
-                } else {
-                    ul_content_suggestion_behavior += '<li>N/A</li>';
-                }
-                $suggestion_behavior_msg.html(ul_content_suggestion_behavior);
+                set_suggest_behaviour(suggestions);
 
                 //stop request: get first emotion
                 clearTimeout(timer_get_emotion);
@@ -261,7 +205,7 @@ function resetNextAngle(id_image) {
  * function: vote suggestion
  * @param id contentId
  */
-function voteSuggestion(id) {
+function vote_suggestion(id) {
     var urlString = '/api/emotion/vote?content_id=' + id;
     console.info('[Function voteSuggestion] contentId: ' + id);
     $.ajax({
@@ -271,7 +215,7 @@ function voteSuggestion(id) {
             var success = response.success;
             console.info('[Function voteSuggestion] success: ' + success);
             if (success) {
-                setVote(id);
+                set_vote(id);
             } else {
                 console.info('[Function voteSuggestion] error: ' + response.data);
             }
@@ -280,10 +224,107 @@ function voteSuggestion(id) {
 }
 
 /**
+ * Fc: set content age_predict
+ * @param age_predict
+ */
+function set_age_predict(age_predict) {
+    var $font_age_predict = $('#font-age-predict');
+    if (age_predict != null) {
+        $font_age_predict.html(age_predict);
+    } else {
+        $font_age_predict.html('N/A');
+    }
+}
+
+/**
+ * Fc: set content gender
+ * @param gender
+ */
+function set_gender(gender) {
+    var $font_gender = $('#font-gender');
+    if (gender == 0) {
+        $font_gender.html('Nam');
+    } else {
+        $font_gender.html('Nữ');
+    }
+}
+
+/**
+ * Fc: set content image customer
+ * @param imageByte
+ */
+function set_image_customer(imageByte) {
+    if (imageByte != null) {
+        // setSrcImage('#image-customer', urlImage)
+        setSrcImage('#image-customer', "data:image/png;base64," + imageByte)
+    } else {
+        setSrcImage('#image-customer', '/libs/dist/img/avatar_customer.png')
+    }
+}
+
+/**
+ * Fc: set content customer_emotion_message
+ * @param customer_emotion_msg
+ */
+function set_customer_emotion_message(customer_emotion_msg) {
+    var ul_content_customer_emotion = '',
+        $customer_emotion_msg = $('#customer-emotion-message');
+    if (customer_emotion_msg != null && customer_emotion_msg.length > 0) {
+        for (var i = 0; i < customer_emotion_msg.length; i++) {
+            ul_content_customer_emotion += '<li>' +
+                customer_emotion_msg[i] +
+                '</li>';
+        }
+    } else {
+        ul_content_customer_emotion += '<li>N/A</li>';
+    }
+    $customer_emotion_msg.html(ul_content_customer_emotion);
+}
+
+/**
+ * Fc: set content suggest_behaviour
+ * @param suggestions
+ */
+function set_suggest_behaviour(suggestions) {
+    var ul_content_suggestion_behavior = '',
+        $suggestion_behavior_msg = $('#suggestion-behavior-message');
+    if (suggestions != null && suggestions.length > 0) {
+        for (var i = 0; i < suggestions.length; i++) {
+            ul_content_suggestion_behavior += '<li>' +
+                suggestions[i].message +
+                '</li>';
+            ul_content_suggestion_behavior += '<ul class="list-inline">' +
+                '<li>' +
+                '<button type="button" class="btn btn-default btn-xs btn-vote" ' +
+                'id="btn-vote-' +
+                suggestions[i].id +
+                '" ' +
+                'onclick="vote_suggestion(' +
+                suggestions[i].id +
+                ')">' +
+                '<i class="fa fa-thumbs-o-up margin-r-5"></i> Vote</button>' +
+                '</li>' +
+                '<li><span class="badge bg-aqua-gradient" id="span-vote-' +
+                suggestions[i].id +
+                '">' +
+                suggestions[i].vote +
+                '</span></li>' +
+                '</ul>';
+            if (i < suggestions.length - 1) {
+                ul_content_suggestion_behavior += '<hr/>';
+            }
+        }
+    } else {
+        ul_content_suggestion_behavior += '<li>N/A</li>';
+    }
+    $suggestion_behavior_msg.html(ul_content_suggestion_behavior);
+}
+
+/**
  * function: set content span_vote
  * @param id
  */
-function setVote(id) {
+function set_vote(id) {
     var $span_vote = $('#span-vote-' + id),
         $btn_vote = $('#btn-vote-' + id),
         vote = parseInt($span_vote.text());
