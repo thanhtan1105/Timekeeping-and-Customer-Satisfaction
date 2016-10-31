@@ -56,14 +56,14 @@ public class EmotionCustomerResponse {
         return isFinal;
     }
 
-    public void setFinal(Boolean aFinal) {
-=======
     public boolean isFinal() {
         return isFinal;
     }
 
     public void setFinal(boolean aFinal) {
 >>>>>>> 22932d2c64e5ed7e47bf8dd1509ec8a88f389d07
+=======
+>>>>>>> origin/w9-hien-api-2-camera
         isFinal = aFinal;
     }
 }
