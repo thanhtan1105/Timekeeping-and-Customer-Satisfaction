@@ -28,7 +28,6 @@ public class EmotionCustomerResponse {
         this.customerCode = customerCode;
     }
 
-
     public String getCustomerCode() {
         return customerCode;
     }
