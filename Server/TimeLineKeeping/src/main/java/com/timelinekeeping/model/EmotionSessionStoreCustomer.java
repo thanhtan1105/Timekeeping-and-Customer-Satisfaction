@@ -6,9 +6,10 @@ package com.timelinekeeping.model;
 public class EmotionSessionStoreCustomer {
 
     private String customerCode;
-    private Long EmotionCamera1;
-    private Long EmotionCamera2;
+    private Long emotionCamera1;
+    private Long emotionCamera2;
     private String urlImage;
+    private Boolean isFinal = false;
 
     public EmotionSessionStoreCustomer(String customerCode) {
         this.customerCode = customerCode;
@@ -23,19 +24,28 @@ public class EmotionSessionStoreCustomer {
     }
 
     public Long getEmotionCamera1() {
-        return EmotionCamera1;
+        return emotionCamera1;
     }
 
     public void setEmotionCamera1(Long emotionCamera1) {
-        EmotionCamera1 = emotionCamera1;
+        if (this.emotionCamera1 == null) {
+            this.emotionCamera1 = emotionCamera1;
+        } else {
+            this.isFinal = true;
+        }
     }
 
     public Long getEmotionCamera2() {
-        return EmotionCamera2;
+        return emotionCamera2;
     }
 
     public void setEmotionCamera2(Long emotionCamera2) {
-        EmotionCamera2 = emotionCamera2;
+        if (this.emotionCamera2 == null) {
+            this.emotionCamera2 = emotionCamera2;
+        } else {
+            this.isFinal = true;
+        }
+
     }
 
     public String getUrlImage() {
@@ -44,5 +54,13 @@ public class EmotionSessionStoreCustomer {
 
     public void setUrlImage(String urlImage) {
         this.urlImage = urlImage;
+    }
+
+    public Boolean getFinal() {
+        return isFinal;
+    }
+
+    public void setFinal(Boolean aFinal) {
+        isFinal = aFinal;
     }
 }
