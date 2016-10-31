@@ -44,6 +44,7 @@ public interface I_URI {
     String API_EMOTION_RECOGNIZE = "/recognize_img";
     String API_EMOTION_ANALYZE = "/analyse_emotion";
     String API_EMOTION_GET_EMOTION = "/get_emotion";
+    String API_EMOTION_GET_IMAGE = "/get_image";
     String API_EMOTION_UPLOAD_IMAGE = "/upload";
     String API_EMOTION_NEXT_TRANSACTION = "/next";
     String API_EMOTION_VOTE = "/vote";
