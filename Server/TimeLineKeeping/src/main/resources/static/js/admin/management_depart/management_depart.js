@@ -308,6 +308,11 @@ function update() {
     });
 }
 
+function back_to_view() {
+    //reload view
+    view(viewed_department_id);
+}
+
 /**
  * Fc: confirm delete
  * @param id
