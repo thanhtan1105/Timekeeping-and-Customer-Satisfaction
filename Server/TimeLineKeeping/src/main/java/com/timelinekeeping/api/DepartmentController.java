@@ -113,7 +113,7 @@ public class DepartmentController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("Department: " + JsonUtil.toJson(department));
-            Pair<Boolean, String> response = departmentService.create(department);
+            Pair<Boolean, String> response = departmentService.update(department);
             logger.info("RESPONSE: " + JsonUtil.toJson(response));
             return new BaseResponse(response.getKey(), response.getValue());
 
