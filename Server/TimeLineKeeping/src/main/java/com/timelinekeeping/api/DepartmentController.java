@@ -6,6 +6,7 @@ import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.controller.PersonGroupControllerWeb;
 import com.timelinekeeping.model.DepartmentModel;
+import com.timelinekeeping.model.DepartmentModifyModel;
 import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.log4j.Logger;
@@ -91,7 +92,7 @@ public class DepartmentController {
 
     @RequestMapping(value = {I_URI.API_CREATE}, method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponse create(@ModelAttribute DepartmentModel department) {
+    public BaseResponse create(@ModelAttribute DepartmentModifyModel department) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             Pair<Boolean, String> response = departmentService.create(department);
@@ -108,7 +109,7 @@ public class DepartmentController {
 
     @RequestMapping(value = {I_URI.API_UPDATE}, method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponse update(@ModelAttribute DepartmentModel department) {
+    public BaseResponse update(@ModelAttribute DepartmentModifyModel department) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("Department: " + JsonUtil.toJson(department));

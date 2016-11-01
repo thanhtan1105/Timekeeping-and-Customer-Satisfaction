@@ -8,17 +8,17 @@ import java.util.Date;
 /**
  * Created by HienTQSE60896 on 10/5/2016.
  */
-public class AccountManager {
+public class AccountManagerModel {
     private Long id;
     private String username;
     private Gender gender;
     private String token;
     private String fullname;
 
-    public AccountManager() {
+    public AccountManagerModel() {
     }
 
-    public AccountManager(AccountEntity entity) {
+    public AccountManagerModel(AccountEntity entity) {
         if (entity != null) {
             this.id = entity.getId();
             this.fullname = entity.getFullname();

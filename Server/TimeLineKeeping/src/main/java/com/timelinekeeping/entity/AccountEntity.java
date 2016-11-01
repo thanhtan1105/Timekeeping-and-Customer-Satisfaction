@@ -106,7 +106,7 @@ public class AccountEntity implements Serializable {
             this.username = StringUtils.isNotEmpty(model.getUsername()) ? model.getUsername() : this.username;
             this.fullname = StringUtils.isNotEmpty(model.getFullname()) ? model.getFullname() : this.fullname;
             this.password = StringUtils.isNotEmpty(model.getPassword()) ? model.getPassword() : this.password;
-            this.active = model.getActive() != null ? EStatus.fromIndex(model.getActive()) : this.active;
+            this.gender = model.getGender() != null ? model.getGender() : this.gender;
         }
     }
 

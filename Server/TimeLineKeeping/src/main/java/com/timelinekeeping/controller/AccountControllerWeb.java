@@ -1,6 +1,7 @@
 package com.timelinekeeping.controller;
 
 import com.timelinekeeping.common.BaseResponseG;
+import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.*;
@@ -103,8 +104,8 @@ public class AccountControllerWeb {
             account.setRoleId(ValidateUtil.parseNumber(roleId));
             account.setDepartmentId(ValidateUtil.parseNumber(departmentId));
 
-            BaseResponseG<AccountModel> response = accountService.create(account);
-            boolean success = response.isSuccess();
+            Pair<Boolean, String> response = accountService.create(account);
+            boolean success = response.getKey();
 
             logger.info("[Controller- Add Account] success: " + success);
             if (success) {
