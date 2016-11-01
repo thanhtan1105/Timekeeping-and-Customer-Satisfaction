@@ -12,6 +12,7 @@ import RealmSwift
 
 let top_margin = 150
 let var_distance = 20
+let scale = 20.0
 
 class BeaconViewController: BaseViewController, UIScrollViewDelegate {
   
@@ -38,7 +39,6 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
   // point
   var sourcePoint: Point!
   var destinationPoint: Point!
-  let scale = 120.0
   var sourcePointName: String!
   var destinationPointId: Int!
   
@@ -52,7 +52,7 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    configureBeacon()
+//    configureBeacon()
     
     imageView.translatesAutoresizingMaskIntoConstraints = true
     scrollView.addSubview(imageView)
@@ -70,25 +70,24 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
     LeThanhTanLoading.sharedInstance.showLoadingAddedTo(self.view, title: "Loading...", animated: true)
     
     // hide loading
-//    let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-//    dispatch_after(delayTime3, dispatch_get_main_queue()) {
-//      LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
-//      self.scrollView.hidden = false
-//    }
+    let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
+    dispatch_after(delayTime3, dispatch_get_main_queue()) {
+      LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
+      self.scrollView.hidden = false
+    }
 
-    // init source Point
-//    sourcePoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
-//      return point.name == sourcePointName
-//    }).first
-//    showPoint(sourcePoint)
+//     init source Point
+    sourcePoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
+      return point.name == "107"
+    }).first
+    showSourcePoint(sourcePoint)
     
     // dumping
-    if let destinationPointId = destinationPointId {
-      destinationPoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
-        return point.id == destinationPointId
-      }).first
-      showDestinatePoint(destinationPoint)
-    }
+    destinationPoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
+      return point.id == 35
+    }).first
+    showDestinatePoint(destinationPoint)
+    
   }
   
   @IBAction func onDirectTapped(sender: UIBarButtonItem) {
@@ -347,8 +346,7 @@ extension BeaconViewController {
     }.first
     
     if let point = point {
-      // show point on Map
-      let scale = 36.0
+      // show point on Map      
       let templeView2 = view.viewWithTag(4)
       if templeView2 != nil {
         templeView2?.removeFromSuperview()
@@ -384,7 +382,7 @@ extension BeaconViewController {
     
     if point != nil {
       // show point on Map
-      let scale = 36.0
+      
       let templeView2 = view.viewWithTag(5)
       if templeView2 != nil {
         templeView2?.removeFromSuperview()

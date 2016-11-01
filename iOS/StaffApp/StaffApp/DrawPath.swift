@@ -11,7 +11,7 @@ import UIKit
 
 class DrawPath: UIView {
   
-  let scale: Double = 36.0
+  let scale: Double = 20.0
   var dataSource: [(x: Float, y: Float)] = []
   
   override func drawRect(rect: CGRect) {
