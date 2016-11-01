@@ -20,14 +20,11 @@ class SettingViewController: BaseViewController {
     super.viewDidLoad()
     let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.43.93"
     ipTextField.text = ip
-    
     let accoundId = NSUserDefaults.standardUserDefaults().objectForKey("accoundID") as? String ?? "4"
     accountIdTextField.text = accoundId
-    
     let camera = NSUserDefaults.standardUserDefaults().objectForKey("camera") as? String
     cameraTextField.text = camera
     let timeout = NSUserDefaults.standardUserDefaults().objectForKey("timeout") as? String ?? "15"
-    
     timeoutTextField.text = timeout
   }
 
@@ -37,18 +34,14 @@ class SettingViewController: BaseViewController {
     
     let accoundId = accountIdTextField.text
     NSUserDefaults.standardUserDefaults().setObject(accoundId, forKey: "accoundID")
-    
     let timeout = timeoutTextField.text
     NSUserDefaults.standardUserDefaults().setObject(timeout, forKey: "timeout")
-    
     let camera = cameraTextField.text
     NSUserDefaults.standardUserDefaults().setObject(camera, forKey: "camera")
-    
     NSUserDefaults.standardUserDefaults().synchronize()
     ipTextField.resignFirstResponder()
     accountIdTextField.resignFirstResponder()
     timeoutTextField.resignFirstResponder()
+    cameraTextField.resignFirstResponder()
   }
-  
-  
 }

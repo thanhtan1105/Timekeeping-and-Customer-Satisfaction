@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '549370BEB3DE87961D720A790CB1B107'
+               BlueprintIdentifier = '0E6FB0FE053C301943C27789C2B188EA'
                BlueprintName = 'TanLT1Extensions'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'TanLT1Extensions.framework'>

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2297AE2C5B836274E6B37317AE7C304F"
+               BlueprintIdentifier = "F07240055BF7EF6DB7BF7680B1F1AF9A"
                BuildableName = "Pods_CustomerEmotion.framework"
                BlueprintName = "Pods-CustomerEmotion"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2297AE2C5B836274E6B37317AE7C304F"
+            BlueprintIdentifier = "F07240055BF7EF6DB7BF7680B1F1AF9A"
             BuildableName = "Pods_CustomerEmotion.framework"
             BlueprintName = "Pods-CustomerEmotion"
             ReferencedContainer = "container:Pods.xcodeproj">

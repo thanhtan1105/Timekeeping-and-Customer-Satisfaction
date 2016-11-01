@@ -14,7 +14,8 @@ class APIRequest: NSObject {
 
   var http : String {
     get {
-      let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.43.93"
+      let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip")
+        as? String ?? "192.168.43.93"
       let http = prefixHttp + ip + surfixHttp
       return http
     }
@@ -22,18 +23,17 @@ class APIRequest: NSObject {
   
   static let shareInstance = APIRequest()
 
-  func processingTransaction(image: UIImage, accountID: String, onCompletion: ServiceResponse) {
+  func processingTransaction(image: UIImage, accountID: String, camera: String, onCompletion: ServiceResponse) {
     let url = http + urlEmotionUpload
     let request = NSMutableURLRequest(URL: NSURL(string: url)!)
     request.HTTPMethod = "POST"
-    
     Alamofire.upload(request, multipartFormData: { (multipartFormData: MultipartFormData) in
       let imageData = UIImageJPEGRepresentation(image, 0.1)
       print("Image data: \(imageData?.length)")
       let data = NSData()
       multipartFormData.appendBodyPart(data: imageData!, name: "image", fileName: "\(data)", mimeType: "image/png")
       multipartFormData.appendBodyPart(data: String(accountID).dataUsingEncoding(NSUTF8StringEncoding)!, name: "accountId")
-      
+      multipartFormData.appendBodyPart(data: String(camera).dataUsingEncoding(NSUTF8StringEncoding)!, name: "camera")
     }) { (encodingResult: Manager.MultipartFormDataEncodingResult) in
       switch encodingResult {
       case .Success(let upload, _, _):

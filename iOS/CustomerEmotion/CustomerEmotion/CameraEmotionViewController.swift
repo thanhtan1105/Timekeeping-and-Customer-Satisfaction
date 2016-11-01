@@ -194,20 +194,24 @@ extension CameraEmotionViewController {
   
   private func detectEmotion(image: UIImage) {
     let accountId = NSUserDefaults.standardUserDefaults().objectForKey("accoundID") as? String ?? "4"
-    APIRequest.shareInstance.processingTransaction(image, accountID: accountId) { (response: ResponsePackage?, error: ErrorWebservice?) in
+    let camera = NSUserDefaults.standardUserDefaults().objectForKey("camera") as? String ?? "2"
+    APIRequest.shareInstance.processingTransaction(image, accountID: accountId, camera: camera) { (response: ResponsePackage?, error: ErrorWebservice?) in
       if let response = response?.response {
-        let dataResponse = response as! [String : AnyObject]
-        let success = dataResponse["success"] as? Int
-        if success == 1 {
-          // delay
-          let timeoutString = NSUserDefaults.standardUserDefaults().objectForKey("timeout") as? String
-          let timeout = Double(timeoutString!) ?? 15.0
-          let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(timeout * Double(NSEC_PER_SEC)))
-          dispatch_after(delayTime3, dispatch_get_main_queue()) {
+        let dataResponse = response as? [String : AnyObject]
+        if let dataResponse = dataResponse {
+          let success = dataResponse["success"] as? Int
+          if success == 1 {
+            // delay
+            let timeoutString = NSUserDefaults.standardUserDefaults().objectForKey("timeout") as? String
+            let timeout = Double(timeoutString!) ?? 15.0
+            let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(timeout * Double(NSEC_PER_SEC)))
+            dispatch_after(delayTime3, dispatch_get_main_queue()) {
+              self.isCameraTaken = false
+            }
+          } else {
             self.isCameraTaken = false
           }
-        } else {
-          self.isCameraTaken = false
+  
         }
       } else {
         self.isCameraTaken = false
