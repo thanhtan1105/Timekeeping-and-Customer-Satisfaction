@@ -240,6 +240,18 @@ function set_content_modal_view(code, name, description) {
     $viewing_description.html(description);
 }
 
+function set_content_modal_update(code, name, description) {
+    var $form_edit_department = $('#form-edit-department'),
+        $code = $form_edit_department.find('[name="code"]'),
+        $name = $form_edit_department.find('[name="name"]'),
+        $description = $form_edit_department.find('[name="description"]');
+
+    //set content
+    $code.val(code);
+    $name.val(name);
+    $description.html(description);
+}
+
 /**
  * Fc: view department information
  * @param id
@@ -265,6 +277,32 @@ function view(id) {
                 set_content_modal_view(code, name, description);
                 //show modal view department
                 show_modal('#modal-view-department', true, false);
+            }
+        }
+    });
+}
+
+function update() {
+    console.info('[update]');
+    console.info('[viewed department id] ' + viewed_department_id);
+
+    var urlString = '/api/department/get?id=' + viewed_department_id;
+    $.ajax({
+        type: 'GET',
+        url: urlString,
+        success: function (response) {
+            var success = response.success;
+            console.info('[success] ' + success);
+            if (success) {
+                var data = response.data,
+                    code = data.code,
+                    name = data.name,
+                    description = data.description;
+
+                //set content modal update
+                set_content_modal_update(code, name, description);
+                //show modal update department
+                show_modal('#modal-update-department', true, false);
             }
         }
     });

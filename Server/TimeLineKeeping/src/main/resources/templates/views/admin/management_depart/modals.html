@@ -63,7 +63,7 @@
                         <h4 class="modal-title">Update Department</h4>
                     </div>
                     <div class="modal-body">
-                        <form class="form-horizontal">
+                        <form th:id="'form-edit-department'" class="form-horizontal">
                             <div class="form-group ">
                                 <div class="col-sm-1"></div>
                                 <div class="col-sm-3 text-left">
@@ -71,7 +71,7 @@
                                         Department Code: <font color="red">*</font></label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" readonly
+                                    <input type="text" class="form-control" readonly th:name="'code'"
                                            placeholder="Enter Department Code" style="width: 100%;"/>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                                         Department Name: <font color="red">*</font></label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control"
+                                    <input type="text" class="form-control" th:name="'name'"
                                            placeholder="Enter Department Name" style="width: 100%;"/>
                                 </div>
                             </div>
@@ -92,8 +92,9 @@
                                     <label class="control-label">Description:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                                <textarea class="form-control" placeholder="Enter Description"
-                                                          style="width: 100%"></textarea>
+                                    <textarea class="form-control" placeholder="Enter Description"
+                                              th:name="'description'"
+                                              style="width: 100%"></textarea>
                                 </div>
                             </div>
                         </form>
