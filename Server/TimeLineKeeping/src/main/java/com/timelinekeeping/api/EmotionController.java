@@ -145,7 +145,11 @@ public class EmotionController {
                 String urlFile = StoreFileUtils.storeFile(fileName, new ByteArrayInputStream(byteImage));
 
                 //Store aws
-                String awsUrl = AWSStorage.uploadFile(new File(urlFile), fileName);
+                String awsUrl = null;
+                if (urlFile != null) {
+                    File fileOutput = new File(urlFile);
+                    awsUrl = AWSStorage.uploadFile(fileOutput, fileOutput.getName());
+                }
 
                 //set session
                 customerValue.setUrlImage(urlFile);
