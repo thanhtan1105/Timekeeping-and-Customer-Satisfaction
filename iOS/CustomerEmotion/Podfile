@@ -7,8 +7,7 @@ target 'CustomerEmotion' do
 
   # Pods for CustomerEmotion
   pod 'Alamofire', '~> 3.4'
-  pod 'TanLT1Extensions'  
-  pod 'Charts'
+  pod 'TanLT1Extensions'    
 
   target 'CustomerEmotionTests' do
     inherit! :search_paths

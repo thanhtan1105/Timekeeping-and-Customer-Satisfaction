@@ -33,6 +33,7 @@ class APIRequest: NSObject {
       let data = NSData()
       multipartFormData.appendBodyPart(data: imageData!, name: "image", fileName: "\(data)", mimeType: "image/png")
       multipartFormData.appendBodyPart(data: String(accountID).dataUsingEncoding(NSUTF8StringEncoding)!, name: "accountId")
+      
     }) { (encodingResult: Manager.MultipartFormDataEncodingResult) in
       switch encodingResult {
       case .Success(let upload, _, _):
@@ -86,8 +87,7 @@ extension APIRequest {
 				errorPackage.error_description = response.result.description
 				completion(response: responsePackage, error: errorPackage)
 				return
-			}
-			
+			}			
 			let JSON = response.result.value
 			responsePackage.success = true
 			responsePackage.response = JSON
