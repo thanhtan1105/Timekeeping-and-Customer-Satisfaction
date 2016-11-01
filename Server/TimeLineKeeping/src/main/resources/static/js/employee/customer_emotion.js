@@ -7,6 +7,7 @@ var customerCode;
 var timer_get_emotion;
 var timer_get_image;
 var nextAngle = 0;
+var isFirst = true;
 
 /**
  * Event: next transaction
@@ -86,10 +87,29 @@ function worker_get_emotion() {
 
                 //set overview customer emotion
                 set_content_overview_customer_emotion(age_predict, gender, awsUrl, customer_emotion_msg, suggestions);
+                if (isFirst) {
+                    //set content
+                    //set isFirst = false;
 
-                if (isFinal) {
-                    //stop request: get first emotion
-                    clearTimeout(timer_get_emotion);
+                    //set overview customer emotion
+                    set_content_overview_customer_emotion(age_predict, gender, awsUrl, customer_emotion_msg, suggestions);
+                    //set isFirst = false
+                    isFirst = false;
+                } else {
+                    //if isFinal --> set content, stop worker, set isFirst = true;
+                    //else do nothing
+                    if (isFinal) {
+                        //set overview customer emotion
+                        set_content_overview_customer_emotion(age_predict, gender, awsUrl, customer_emotion_msg, suggestions);
+
+                        //set isFirst = true;
+                        isFirst = true;
+
+                        //stop request: get first emotion
+                        clearTimeout(timer_get_emotion);
+                    } else {
+                        //do nothing
+                    }
                 }
             }
         }
