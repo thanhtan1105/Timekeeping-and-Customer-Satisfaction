@@ -333,15 +333,11 @@ function update_processing() {
         code = $form_edit_department.find('[name="code"]').val(),
         name = $form_edit_department.find('[name="name"]').val(),
         description = $form_edit_department.find('[name="description"]').val(),
-        active = $form_edit_department.find('[name="active"]').val(),
-        status = $form_edit_department.find('[name="status"]').val(),
         department = {
             'id': viewed_department_id,
             'code': code,
             'name': name,
-            'description': description,
-            'active': active,
-            'status': status
+            'description': description
         };
     $.ajax({
         type: 'POST',
