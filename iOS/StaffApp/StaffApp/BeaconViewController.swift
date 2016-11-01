@@ -47,12 +47,12 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
   
   // map image
   var imageView = UIImageView(image: UIImage(named: "floor1"))
-  var currentFloor = 0
+  var currentFloor = -1
   var pathOnFloor: [PathOnFloor] = []
   
   override func viewDidLoad() {
     super.viewDidLoad()
-//    configureBeacon()
+    configureBeacon()
     
     imageView.translatesAutoresizingMaskIntoConstraints = true
     scrollView.addSubview(imageView)
@@ -70,21 +70,22 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
     LeThanhTanLoading.sharedInstance.showLoadingAddedTo(self.view, title: "Loading...", animated: true)
     
     // hide loading
-    let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-    dispatch_after(delayTime3, dispatch_get_main_queue()) {
-      LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
-      self.scrollView.hidden = false
-    }
+//    let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
+//    dispatch_after(delayTime3, dispatch_get_main_queue()) {
+//      LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
+//      self.scrollView.hidden = false
+//    }
 
-//     init source Point
-    sourcePoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
-      return point.name == "107"
-    }).first
-    currentFloor = sourcePoint.floor
-    showSourcePoint(sourcePoint)
+////     init source Point
+//    sourcePoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
+//      return point.name == "107"
+//    }).first
+//    currentFloor = sourcePoint.floor
+//    showSourcePoint(sourcePoint)
+
     // dumping
     destinationPoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
-      return point.id == 37
+      return point.id == destinationPointId
     }).first
     showDestinatePoint(destinationPoint)
     
@@ -359,7 +360,8 @@ extension BeaconViewController {
     }.first
     
     if let point = point {
-      if point.floor == currentFloor {
+      if currentFloor == -1 || point.floor == currentFloor {
+        currentFloor == point.floor
         // show point on Map
         let templeView2 = view.viewWithTag(4)
         if templeView2 != nil {
