@@ -137,6 +137,13 @@ function worker_get_image() {
                     urlImage = data.image;
                 console.info('[urlImage] ' + urlImage);
                 if (urlImage != null) {
+                    //hide div preloader image
+                    event_hide('#div-preloader-image');
+                    //show div image customer
+                    event_show('#div-image-customer');
+                    //show div rotate image
+                    event_show('#div-rotate-image');
+
                     // setSrcImage('#image-customer', urlImage);
                     setSrcImage('#image-customer', "data:image/png;base64," + urlImage);
                     //stop request: get image
@@ -271,6 +278,13 @@ function set_image_customer(awsUrl) {
         //set link image
         setSrcImage('#image-customer', awsUrl);
     } else {
+        //hide div image customer
+        event_hide('#div-image-customer');
+        //hide div rotate image
+        event_hide('#div-rotate-image');
+        //show div preloader image
+        event_show('#div-preloader-image');
+
         //call request: get image (byte)
         worker_get_image();
     }
