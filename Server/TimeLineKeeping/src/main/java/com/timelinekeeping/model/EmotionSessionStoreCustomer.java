@@ -66,7 +66,13 @@ public class EmotionSessionStoreCustomer {
     }
 
     public Boolean getFinal() {
+        if (!isFinal) {
+            if (this.emotionCamera1 != null && this.emotionCamera2 != null) {
+                isFinal = true;
+            }
+        }
         return isFinal;
+
     }
 
     public void setFinal(Boolean aFinal) {

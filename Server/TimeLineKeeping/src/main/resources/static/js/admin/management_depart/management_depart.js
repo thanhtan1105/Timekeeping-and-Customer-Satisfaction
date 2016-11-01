@@ -10,6 +10,7 @@ var last_page = false;
 var current_page_size = 10;
 var current_search_value;
 var deleted_department_id;
+var viewed_department_id;
 
 $.mockjax({
     url: '/departments/list',
@@ -223,6 +224,15 @@ function set_pagination(total_pages, $footer_pagination) {
 }
 
 /**
+ * Fc: view department information
+ * @param id
+ */
+function view(id) {
+    viewed_department_id = id;
+    console.info('[viewed department id] ' + viewed_department_id);
+}
+
+/**
  * Fc: confirm delete
  * @param id
  */
@@ -237,7 +247,7 @@ function confirm_delete(id) {
     console.info('[deleted department id] ' + deleted_department_id);
 
     $b_department_name_code.html('"' + department_name + ' - ' + department_code + '"');
-    show_modal('#modal-confirm-delete', 'true');
+    show_modal('#modal-confirm-delete', true, '');
 }
 
 /**
@@ -266,10 +276,24 @@ function delete_department() {
  * @param id
  * @param enabled ('true', 'false')
  */
-function show_modal(id, enabled) {
-    $(id).modal({
-        show: enabled
-    });
+function show_modal(id, enabled_show, keyboard) {
+    if (enabled_show) {
+        if (!keyboard) {//prevent closing
+            $(id).modal({
+                backdrop: 'static',
+                keyboard: keyboard, //(false) prevent closing with Esc button
+                show: enabled_show //true
+            });
+        } else {//allow closing
+            $(id).modal({
+                show: enabled_show //true
+            });
+        }
+    } else {
+        $(id).modal({
+            show: enabled_show //false
+        });
+    }
 }
 
 /**
