@@ -71,7 +71,7 @@ public class DepartmentServiceImpl {
 
             //update model
             entity.update(model);
-            DepartmentEntity entityReturn = repo.saveAndFlush(new DepartmentEntity(model));
+            DepartmentEntity entityReturn = repo.saveAndFlush(entity);
 
             return new Pair<>(true);
 
