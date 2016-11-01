@@ -10,8 +10,7 @@ import Foundation
 import UIKit
 
 class DrawPath: UIView {
-  
-  let scale: Double = 20.0
+    
   var dataSource: [(x: Float, y: Float)] = []
   
   override func drawRect(rect: CGRect) {
@@ -23,6 +22,7 @@ class DrawPath: UIView {
     for i in 1..<dataSource.count {
       CGContextAddLineToPoint(context, CGFloat(Double(dataSource[i].x) * scale) , CGFloat(Double(dataSource[i].y) * scale))
     }
+    
     CGContextStrokePath(context)
   }
   

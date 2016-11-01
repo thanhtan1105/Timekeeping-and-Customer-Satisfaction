@@ -12,7 +12,7 @@ import RealmSwift
 
 let top_margin = 150
 let var_distance = 20
-let scale = 20.0
+let scale = 25.0
 
 class BeaconViewController: BaseViewController, UIScrollViewDelegate {
   
@@ -57,8 +57,8 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
     imageView.translatesAutoresizingMaskIntoConstraints = true
     scrollView.addSubview(imageView)
     scrollView.contentSize = imageView.frame.size    
-    self.scrollView.maximumZoomScale = 5.0
-    self.scrollView.minimumZoomScale = 0.5
+//    self.scrollView.maximumZoomScale = 5.0
+//    self.scrollView.minimumZoomScale = 0.5
     self.scrollView.delegate = self
     self.scrollView.hidden = true
     nextButton.hidden = true
@@ -80,11 +80,11 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
     sourcePoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
       return point.name == "107"
     }).first
+    currentFloor = sourcePoint.floor
     showSourcePoint(sourcePoint)
-    
     // dumping
     destinationPoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
-      return point.id == 35
+      return point.id == 37
     }).first
     showDestinatePoint(destinationPoint)
     
@@ -107,10 +107,23 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
       viewPath?.removeFromSuperview()
     }
 
+    let viewPath2 = imageView.viewWithTag(4)
+    if viewPath2 != nil {
+      viewPath2?.removeFromSuperview()
+    }
+    
+    let viewPath3 = imageView.viewWithTag(5)
+    if viewPath3 != nil {
+      viewPath3?.removeFromSuperview()
+    }
+    
     currentFloor = pathOnFloor[0].floor == currentFloor ? pathOnFloor[1].floor : pathOnFloor[0].floor
     let floorName = "floor" + String(currentFloor)
     imageView.image = UIImage(named: floorName)
-    
+
+    showSourcePoint(sourcePoint)
+    showDestinatePoint(destinationPoint)
+
     let index = pathOnFloor.indexOf { (pathOnFloor: PathOnFloor) -> Bool in
       return currentFloor == pathOnFloor.floor
     }
@@ -346,32 +359,35 @@ extension BeaconViewController {
     }.first
     
     if let point = point {
-      // show point on Map      
-      let templeView2 = view.viewWithTag(4)
-      if templeView2 != nil {
-        templeView2?.removeFromSuperview()
-      }
-      let pointInMap = UIView(frame: CGRect(x: point.latitude * scale - 10.0 , y: point.longitude * scale - 10.0, width: 20.0, height: 20.0))
-      pointInMap.layer.cornerRadius = 10.0
-      pointInMap.backgroundColor = UIColor.clearColor()
-      
-      // add image to pointInMap View
-      let imagePoint = UIImageView(frame: pointInMap.frame)
-      imagePoint.image = UIImage(named: "points")
-      imagePoint.center = pointInMap.center
-      pointInMap.addSubview(imagePoint)
-      
-      // create the image inside current point
-      pointInMap.tag = 4
-      self.imageView.addSubview(pointInMap)
-      
-      // change map
-      let floorName = "floor" + String(point.floor)
-      self.imageView.image = UIImage(named: floorName)
-
-      // update topView
-      currentLocationLabel.text = point.toString()
-      
+      if point.floor == currentFloor {
+        // show point on Map
+        let templeView2 = view.viewWithTag(4)
+        if templeView2 != nil {
+          templeView2?.removeFromSuperview()
+        }
+        let pointInMap = UIView(frame: CGRect(x: point.latitude * scale - 10.0 , y: point.longitude * scale - 10.0, width: 20.0, height: 20.0))
+        pointInMap.layer.cornerRadius = 10.0
+        pointInMap.backgroundColor = UIColor.blueColor()
+        
+        // add image to pointInMap View
+        let imagePoint = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+        imagePoint.image = UIImage(named: "points")
+        pointInMap.addSubview(imagePoint)
+        
+        // create the image inside current point
+        pointInMap.tag = 4
+        self.imageView.addSubview(pointInMap)
+        
+        // change map
+        let floorName = "floor" + String(point.floor)
+        self.imageView.image = UIImage(named: floorName)
+        
+        // update topView
+        currentLocationLabel.text = point.toString()
+        
+        // animation 
+        resizeAnimation(pointInMap)
+      }      
     }
   }
   
@@ -381,17 +397,19 @@ extension BeaconViewController {
       }.first
     
     if point != nil {
-      // show point on Map
-      
-      let templeView2 = view.viewWithTag(5)
-      if templeView2 != nil {
-        templeView2?.removeFromSuperview()
+      if point?.floor == currentFloor {
+        // show point on Map
+        let templeView2 = view.viewWithTag(5)
+        if templeView2 != nil {
+          templeView2?.removeFromSuperview()
+        }
+        let pointInMap = UIView(frame: CGRect(x: (point?.latitude)! * scale - 10.0 , y: (point?.longitude)! * scale - 10.0, width: 20.0, height: 20.0))
+        pointInMap.layer.cornerRadius = 10.0
+        pointInMap.backgroundColor = UIColor.greenColor()
+        pointInMap.tag = 5
+        self.imageView.addSubview(pointInMap)
+        
       }
-      let pointInMap = UIView(frame: CGRect(x: (point?.latitude)! * scale - 10.0 , y: (point?.longitude)! * scale - 10.0, width: 20.0, height: 20.0))
-      pointInMap.layer.cornerRadius = 10.0
-      pointInMap.backgroundColor = UIColor.greenColor()
-      pointInMap.tag = 5
-      self.imageView.addSubview(pointInMap)
     }
   }
   
@@ -435,7 +453,15 @@ extension BeaconViewController {
     drawPath.tag = 3
     drawPath.backgroundColor = UIColor.clearColor()
     drawPath.dataSource = points
-    imageView.insertSubview(drawPath, belowSubview: view.viewWithTag(4)!)
+    drawPath.layer.cornerRadius = 5
+    drawPath.layer.masksToBounds = true
+    
+    if view.viewWithTag(4) != nil {
+      imageView.insertSubview(drawPath, belowSubview: view.viewWithTag(4)!)
+    } else {
+      imageView.addSubview(drawPath)
+    }
+    
   }
   
   private func configureBeacon() {
@@ -448,5 +474,15 @@ extension BeaconViewController {
 
 // MARK: - Animation
 extension BeaconViewController {
-  
+  private func resizeAnimation(component: UIView) {
+    UIView.animateWithDuration(0.6, animations: {
+      component.transform = CGAffineTransformMakeScale(1.5, 1.5)
+      }, completion: { finish in
+        UIView.animateWithDuration(0.6, animations: {
+          component.transform = CGAffineTransformIdentity
+          }, completion: { (finish: Bool) in
+            self.resizeAnimation(component)
+        })
+    })
+  }
 }
