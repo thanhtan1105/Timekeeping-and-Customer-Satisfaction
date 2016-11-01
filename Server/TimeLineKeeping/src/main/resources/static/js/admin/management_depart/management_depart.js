@@ -224,12 +224,50 @@ function set_pagination(total_pages, $footer_pagination) {
 }
 
 /**
+ * Fc: set content modal view
+ * @param code
+ * @param name
+ * @param description
+ */
+function set_content_modal_view(code, name, description) {
+    var $viewing_code = $('#viewing_code'),
+        $viewing_name = $('#viewing_name'),
+        $viewing_description = $('#viewing_description');
+
+    //set content
+    $viewing_code.html(code);
+    $viewing_name.html(name);
+    $viewing_description.html(description);
+}
+
+/**
  * Fc: view department information
  * @param id
  */
 function view(id) {
     viewed_department_id = id;
     console.info('[viewed department id] ' + viewed_department_id);
+
+    var urlString = '/api/department/get?id=' + viewed_department_id;
+    $.ajax({
+        type: 'GET',
+        url: urlString,
+        success: function (response) {
+            var success = response.success;
+            console.info('[success] ' + success);
+            if (success) {
+                var data = response.data,
+                    code = data.code,
+                    name = data.name,
+                    description = data.description;
+
+                //set content modal view
+                set_content_modal_view(code)
+                //show modal view department
+                show_modal('#modal-view-department', true, false);
+            }
+        }
+    });
 }
 
 /**
@@ -247,7 +285,7 @@ function confirm_delete(id) {
     console.info('[deleted department id] ' + deleted_department_id);
 
     $b_department_name_code.html('"' + department_name + ' - ' + department_code + '"');
-    show_modal('#modal-confirm-delete', true, '');
+    show_modal('#modal-confirm-delete', true, false);
 }
 
 /**
@@ -265,7 +303,7 @@ function delete_department() {
                 //reload list departments
                 load_list_departments(current_search_value, current_index_page, current_page_size);
                 //show modal result success
-                show_modal('#modal-result-success', 'true');
+                show_modal('#modal-result-success', true, true);
             }
         }
     });
