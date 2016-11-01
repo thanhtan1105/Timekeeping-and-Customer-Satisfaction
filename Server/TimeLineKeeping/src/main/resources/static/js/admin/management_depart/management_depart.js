@@ -169,7 +169,7 @@ function set_list_departments(list_departments, $tbody_list_departments) {
             '<td id="td-code-' + list_departments[i].id + '">' + list_departments[i].code + '</td>' +
             '<td>' + list_departments[i].description + '</td>' +
             '<td>' +
-            '<button class="btn btn-success btn-flat btn-sm" type="button" title="View Department">' +
+            '<button class="btn btn-success btn-flat btn-sm" type="button" title="View Department" onclick="view(' + list_departments[i].id + ')">' +
             '<i class="fa fa-eye"></i>' +
             '</button>' +
             ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Department" onclick="confirm_delete(' + list_departments[i].id + ')">' +
@@ -224,12 +224,93 @@ function set_pagination(total_pages, $footer_pagination) {
 }
 
 /**
+ * Fc: set content modal view
+ * @param code
+ * @param name
+ * @param description
+ */
+function set_content_modal_view(code, name, description) {
+    var $viewing_code = $('#viewing_code'),
+        $viewing_name = $('#viewing_name'),
+        $viewing_description = $('#viewing_description');
+
+    //set content
+    $viewing_code.html(code);
+    $viewing_name.html(name);
+    $viewing_description.html(description);
+}
+
+function set_content_modal_update(code, name, description) {
+    var $form_edit_department = $('#form-edit-department'),
+        $code = $form_edit_department.find('[name="code"]'),
+        $name = $form_edit_department.find('[name="name"]'),
+        $description = $form_edit_department.find('[name="description"]');
+
+    //set content
+    $code.val(code);
+    $name.val(name);
+    $description.html(description);
+}
+
+/**
  * Fc: view department information
  * @param id
  */
 function view(id) {
     viewed_department_id = id;
     console.info('[viewed department id] ' + viewed_department_id);
+
+    var urlString = '/api/department/get?id=' + viewed_department_id;
+    $.ajax({
+        type: 'GET',
+        url: urlString,
+        success: function (response) {
+            var success = response.success;
+            console.info('[success] ' + success);
+            if (success) {
+                var data = response.data,
+                    code = data.code,
+                    name = data.name,
+                    description = data.description;
+
+                //set content modal view
+                set_content_modal_view(code, name, description);
+                //show modal view department
+                show_modal('#modal-view-department', true, false);
+            }
+        }
+    });
+}
+
+function update() {
+    console.info('[update]');
+    console.info('[viewed department id] ' + viewed_department_id);
+
+    var urlString = '/api/department/get?id=' + viewed_department_id;
+    $.ajax({
+        type: 'GET',
+        url: urlString,
+        success: function (response) {
+            var success = response.success;
+            console.info('[success] ' + success);
+            if (success) {
+                var data = response.data,
+                    code = data.code,
+                    name = data.name,
+                    description = data.description;
+
+                //set content modal update
+                set_content_modal_update(code, name, description);
+                //show modal update department
+                show_modal('#modal-update-department', true, false);
+            }
+        }
+    });
+}
+
+function back_to_view() {
+    //reload view
+    view(viewed_department_id);
 }
 
 /**
@@ -247,7 +328,7 @@ function confirm_delete(id) {
     console.info('[deleted department id] ' + deleted_department_id);
 
     $b_department_name_code.html('"' + department_name + ' - ' + department_code + '"');
-    show_modal('#modal-confirm-delete', true, '');
+    show_modal('#modal-confirm-delete', true, false);
 }
 
 /**
@@ -265,7 +346,7 @@ function delete_department() {
                 //reload list departments
                 load_list_departments(current_search_value, current_index_page, current_page_size);
                 //show modal result success
-                show_modal('#modal-result-success', 'true');
+                show_modal('#modal-result-success', true, true);
             }
         }
     });

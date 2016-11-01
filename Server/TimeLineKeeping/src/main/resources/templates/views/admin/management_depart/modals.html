@@ -18,7 +18,7 @@
                                 <label class="col-sm-4 text-left">
                                     Department Code:</label>
                                 <div class="col-sm-7">
-                                    <font>DT</font>
+                                    <font th:id="'viewing_code'">DT</font>
                                 </div>
                             </div>
                             <div class="row">
@@ -26,7 +26,7 @@
                                 <label class="col-sm-4 text-left">
                                     Department Name:</label>
                                 <div class="col-sm-7">
-                                    <font>ĐÀO TẠO</font>
+                                    <font th:id="'viewing_name'">ĐÀO TẠO</font>
                                 </div>
                             </div>
                             <div class="row">
@@ -34,7 +34,7 @@
                                 <label class="col-sm-4 text-left">
                                     Description:</label>
                                 <div class="col-sm-7">
-                                    <font>Phòng Đào Tạo</font>
+                                    <font th:id="'viewing_description'">Phòng Đào Tạo</font>
                                 </div>
                             </div>
                         </form>
@@ -63,7 +63,7 @@
                         <h4 class="modal-title">Update Department</h4>
                     </div>
                     <div class="modal-body">
-                        <form class="form-horizontal">
+                        <form th:id="'form-edit-department'" class="form-horizontal">
                             <div class="form-group ">
                                 <div class="col-sm-1"></div>
                                 <div class="col-sm-3 text-left">
@@ -71,7 +71,7 @@
                                         Department Code: <font color="red">*</font></label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" readonly
+                                    <input type="text" class="form-control" readonly th:name="'code'"
                                            placeholder="Enter Department Code" style="width: 100%;"/>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                                         Department Name: <font color="red">*</font></label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control"
+                                    <input type="text" class="form-control" th:name="'name'"
                                            placeholder="Enter Department Name" style="width: 100%;"/>
                                 </div>
                             </div>
@@ -92,8 +92,9 @@
                                     <label class="control-label">Description:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                                <textarea class="form-control" placeholder="Enter Description"
-                                                          style="width: 100%"></textarea>
+                                    <textarea class="form-control" placeholder="Enter Description"
+                                              th:name="'description'"
+                                              style="width: 100%"></textarea>
                                 </div>
                             </div>
                         </form>
@@ -103,11 +104,10 @@
                                 onclick="show_result_modal()">Save
                         </button>
                         <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"
-                                onclick="view()">Cancel
+                                onclick="back_to_view()">Cancel
                         </button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
