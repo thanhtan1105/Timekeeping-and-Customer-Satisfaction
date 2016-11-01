@@ -68,7 +68,6 @@ public class DepartmentEntity implements Serializable {
         if (model != null) {
             this.name = model.getName();
             this.description = model.getDescription();
-            this.status = model.getStatus();
         }
     }
 

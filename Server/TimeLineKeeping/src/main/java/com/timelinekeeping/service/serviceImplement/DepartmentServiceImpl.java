@@ -63,14 +63,13 @@ public class DepartmentServiceImpl {
 
             //entity
             DepartmentEntity entity = repo.findOne(model.getId());
-            entity.update(model);
             if (entity == null) {
                 return new Pair<>(false, String.format(ERROR.DEPARTMENT_API_DEPARTMENT_DOES_NOT_EXIST, model.getId()));
             }
 
             //update model
             entity.update(model);
-            DepartmentEntity entityReturn = repo.saveAndFlush(new DepartmentEntity(model));
+            DepartmentEntity entityReturn = repo.saveAndFlush(entity);
 
             return new Pair<>(true);
 

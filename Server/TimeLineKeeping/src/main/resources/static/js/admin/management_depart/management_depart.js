@@ -240,16 +240,28 @@ function set_content_modal_view(code, name, description) {
     $viewing_description.html(description);
 }
 
-function set_content_modal_update(code, name, description) {
+/**
+ * Fc: set content modal update
+ * @param code
+ * @param name
+ * @param description
+ * @param active
+ * @param status
+ */
+function set_content_modal_update(code, name, description, active, status) {
     var $form_edit_department = $('#form-edit-department'),
         $code = $form_edit_department.find('[name="code"]'),
         $name = $form_edit_department.find('[name="name"]'),
-        $description = $form_edit_department.find('[name="description"]');
+        $description = $form_edit_department.find('[name="description"]'),
+        $active = $form_edit_department.find('[name="active"]'),
+        $status = $form_edit_department.find('[name="status"]');
 
     //set content
     $code.val(code);
     $name.val(name);
     $description.html(description);
+    $active.html(active);
+    $status.html(status);
 }
 
 /**
@@ -276,12 +288,15 @@ function view(id) {
                 //set content modal view
                 set_content_modal_view(code, name, description);
                 //show modal view department
-                show_modal('#modal-view-department', true, false);
+                show_modal('#modal-view-department', false);
             }
         }
     });
 }
 
+/**
+ * Fc: load update view
+ */
 function update() {
     console.info('[update]');
     console.info('[viewed department id] ' + viewed_department_id);
@@ -297,17 +312,62 @@ function update() {
                 var data = response.data,
                     code = data.code,
                     name = data.name,
-                    description = data.description;
+                    description = data.description,
+                    active = data.active,
+                    status = data.status;
 
                 //set content modal update
-                set_content_modal_update(code, name, description);
+                set_content_modal_update(code, name, description, active, status);
                 //show modal update department
-                show_modal('#modal-update-department', true, false);
+                show_modal('#modal-update-department', false);
             }
         }
     });
 }
 
+/**
+ * Fc: process updating
+ */
+function update_processing() {
+    var $form_edit_department = $('#form-edit-department'),
+        code = $form_edit_department.find('[name="code"]').val(),
+        name = $form_edit_department.find('[name="name"]').val(),
+        description = $form_edit_department.find('[name="description"]').val(),
+        active = $form_edit_department.find('[name="active"]').val(),
+        status = $form_edit_department.find('[name="status"]').val(),
+        department = {
+            'id': viewed_department_id,
+            'code': code,
+            'name': name,
+            'description': description,
+            'active': active,
+            'status': status
+        };
+    $.ajax({
+        type: 'POST',
+        url: '/api/department/update',
+        data: department,
+        success: function (response) {
+            var success = response.success;
+            console.info('[success] ' + success);
+            if (success) {
+                //hide modal update department
+                close_modal('#modal-update-department');
+
+                //reload view
+                back_to_view();
+                //reload list departments
+                load_list_departments(current_search_value, current_index_page, current_page_size);
+            } else {
+                //do nothing
+            }
+        }
+    });
+}
+
+/**
+ * Fc: back to view modal
+ */
 function back_to_view() {
     //reload view
     view(viewed_department_id);
@@ -328,7 +388,7 @@ function confirm_delete(id) {
     console.info('[deleted department id] ' + deleted_department_id);
 
     $b_department_name_code.html('"' + department_name + ' - ' + department_code + '"');
-    show_modal('#modal-confirm-delete', true, false);
+    show_modal('#modal-confirm-delete', false);
 }
 
 /**
@@ -346,35 +406,38 @@ function delete_department() {
                 //reload list departments
                 load_list_departments(current_search_value, current_index_page, current_page_size);
                 //show modal result success
-                show_modal('#modal-result-success', true, true);
+                show_modal('#modal-result-success', true);
             }
         }
     });
 }
 
 /**
- * Fc: enable to show modal
+ * Fc: show modal
  * @param id
  * @param enabled ('true', 'false')
  */
-function show_modal(id, enabled_show, keyboard) {
-    if (enabled_show) {
-        if (!keyboard) {//prevent closing
-            $(id).modal({
-                backdrop: 'static',
-                keyboard: keyboard, //(false) prevent closing with Esc button
-                show: enabled_show //true
-            });
-        } else {//allow closing
-            $(id).modal({
-                show: enabled_show //true
-            });
-        }
-    } else {
+function show_modal(id, keyboard) {
+    if (!keyboard) {//prevent closing
         $(id).modal({
-            show: enabled_show //false
+            backdrop: 'static',
+            keyboard: keyboard, //(false) prevent closing with Esc button
+            show: true
+        });
+    } else {//allow closing
+        $(id).modal({
+            show: true
         });
     }
+
+}
+
+/**
+ * Fc: close modal
+ * @param id
+ */
+function close_modal(id) {
+    $(id).modal('toggle');
 }
 
 /**

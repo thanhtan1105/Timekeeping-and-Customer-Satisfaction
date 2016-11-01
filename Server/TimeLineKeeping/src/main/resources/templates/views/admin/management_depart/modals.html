@@ -97,11 +97,13 @@
                                               style="width: 100%"></textarea>
                                 </div>
                             </div>
+                            <input type="hidden" th:name="'active'"/>
+                            <input type="hidden" th:name="'status'"/>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-warning btn-flat" data-dismiss="modal"
-                                onclick="show_result_modal()">Save
+                        <button type="button" class="btn btn-warning btn-flat"
+                                onclick="update_processing()">Save
                         </button>
                         <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"
                                 onclick="back_to_view()">Cancel
