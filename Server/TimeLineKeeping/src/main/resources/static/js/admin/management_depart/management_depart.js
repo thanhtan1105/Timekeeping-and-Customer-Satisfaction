@@ -169,7 +169,7 @@ function set_list_departments(list_departments, $tbody_list_departments) {
             '<td id="td-code-' + list_departments[i].id + '">' + list_departments[i].code + '</td>' +
             '<td>' + list_departments[i].description + '</td>' +
             '<td>' +
-            '<button class="btn btn-success btn-flat btn-sm" type="button" title="View Department">' +
+            '<button class="btn btn-success btn-flat btn-sm" type="button" title="View Department" onclick="view(' + list_departments[i].id + ')">' +
             '<i class="fa fa-eye"></i>' +
             '</button>' +
             ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Department" onclick="confirm_delete(' + list_departments[i].id + ')">' +
@@ -262,7 +262,7 @@ function view(id) {
                     description = data.description;
 
                 //set content modal view
-                set_content_modal_view(code)
+                set_content_modal_view(code, name, description);
                 //show modal view department
                 show_modal('#modal-view-department', true, false);
             }
