@@ -5,6 +5,7 @@ import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.*;
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.model.DepartmentModel;
+import com.timelinekeeping.model.DepartmentModifyModel;
 import com.timelinekeeping.model.DepartmentSelectModel;
 import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
 import org.apache.log4j.Logger;
@@ -64,10 +65,10 @@ public class DepartmentControllerWeb {
         logger.info("[Add Department] department code: " + departmentCode);
         logger.info("[Add Department] department name: " + departmentName);
         logger.info("[Add Department] description: " + description);
-        DepartmentModel departmentEntity
-                = new DepartmentModel(departmentCode, departmentName, description);
-        departmentEntity.setActive(EStatus.ACTIVE);
-        departmentEntity.setStatus(ETrainStatus.NOT_STARTED);
+        DepartmentModifyModel departmentEntity
+                = new DepartmentModifyModel(departmentCode, departmentName, description);
+//        departmentEntity.setActive(EStatus.ACTIVE);
+//        departmentEntity.setStatus(ETrainStatus.NOT_STARTED);
 
         boolean success = false;
         String message = "";
