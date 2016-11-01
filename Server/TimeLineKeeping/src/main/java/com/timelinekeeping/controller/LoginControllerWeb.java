@@ -1,5 +1,6 @@
 package com.timelinekeeping.controller;
 
+import com.timelinekeeping._config.EmotionSession;
 import com.timelinekeeping.constant.IViewConst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.AccountModel;
@@ -57,10 +58,12 @@ public class LoginControllerWeb {
 
     @RequestMapping(value = {"/logout", "/login/logout"}, method = RequestMethod.GET)
     public String logout(HttpSession session) {
+
         AccountModel accountModel = (AccountModel) session.getAttribute(I_URI.SESSION_AUTHEN);
         if (accountModel != null) {
             session.removeAttribute(I_URI.SESSION_AUTHEN);
         }
+        EmotionSession.clean();
         return "redirect:/";
     }
     @RequestMapping(value = {"/login/permissionDenied"}, method = RequestMethod.GET)

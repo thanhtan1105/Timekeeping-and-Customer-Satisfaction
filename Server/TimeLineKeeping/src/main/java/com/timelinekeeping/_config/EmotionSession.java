@@ -32,5 +32,7 @@ public class EmotionSession implements Serializable{
         map.put(key, value);
     }
 
-
+    public static void clean(){
+        map = new HashMap<>();
+    }
 }
