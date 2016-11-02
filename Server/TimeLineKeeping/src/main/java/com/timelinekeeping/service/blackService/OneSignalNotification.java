@@ -48,8 +48,8 @@ public class OneSignalNotification {
 
 
             String strJsonBody = "{"
-                    + "\"app_id\": \"7c01cb54-6bca-4ff2-8f12-b2a2e5248b9a\","
-                    + "\"include_player_ids\" : [\"" + account.getToken() + "\"],"
+                    + "\"app_id\": \"dbd7cdd6-9555-416b-bc08-21aa24164299\","
+                    + "\"include_player_ids\" : [\"" + account.getKeyOneSignal() + "\"],"
                     + "\"data\": {\"id\": " + account.getId() + "},"
                     + "\"headings\": {\"en\": \"" + header + "\"},"
                     + "\"contents\": {\"en\": \"" + message + "\"}"
@@ -86,7 +86,7 @@ public class OneSignalNotification {
         AccountModel accountModel = new AccountModel();
         accountModel.setGender(Gender.MALE);
         accountModel.setId(1l);
-        accountModel.setToken("4a6b934d-beb7-458c-b5b0-b76ec95b86eb");
+        accountModel.setKeyOneSignal("76e1cf31-e007-4fac-b1ee-d3870a0e210f");
 
         OneSignalNotification.instance().pushNotification(accountModel, "Test", "dang test gi day");
     }

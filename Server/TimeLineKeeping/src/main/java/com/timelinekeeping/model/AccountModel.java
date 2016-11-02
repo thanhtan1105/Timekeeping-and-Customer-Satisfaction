@@ -24,6 +24,7 @@ public class AccountModel {
     private Gender gender;
     private EStatus active;
     private RoleModel role;
+    private String keyOneSignal;
     private DepartmentModel department;
     private Date timeDeactive;
     private String token;
@@ -48,6 +49,7 @@ public class AccountModel {
             this.role = new RoleModel(entity.getRole());
             this.department = new DepartmentModel(entity.getDepartment());
             this.timeDeactive = entity.getTimeDeactive();
+            this.keyOneSignal = entity.getKeyOneSignal();
             if (entity.getManager() != null){
                 this.manager = new AccountManagerModel(entity.getManager());
             }
@@ -178,5 +180,13 @@ public class AccountModel {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getKeyOneSignal() {
+        return keyOneSignal;
+    }
+
+    public void setKeyOneSignal(String keyOneSignal) {
+        this.keyOneSignal = keyOneSignal;
     }
 }
