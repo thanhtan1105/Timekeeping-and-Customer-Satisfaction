@@ -138,8 +138,8 @@ public class AccountServiceImpl {
             entity.setDepartment(departmentEntity);
 
             //add manager
-            if (account.getManager() != null) {
-                AccountEntity manager = accountRepo.findOne(account.getManager());
+            if (account.getManagerId() != null) {
+                AccountEntity manager = accountRepo.findOne(account.getManagerId());
                 entity.setManager(manager);
             }
             //save db
@@ -192,8 +192,8 @@ public class AccountServiceImpl {
             }
 
             //2.3 mananegr
-            if (model.getManager() != null) {
-                AccountEntity managerEntity = accountRepo.findOne(model.getManager());
+            if (model.getManagerId() != null) {
+                AccountEntity managerEntity = accountRepo.findOne(model.getManagerId());
                 if (managerEntity != null) {
                     entity.setManager(managerEntity);
                 }

@@ -62,8 +62,8 @@ public class AccountEntity implements Serializable {
     private Gender gender;
 
     @Basic
-    @Column(name = "addition", length = Integer.MAX_VALUE)
-    private String addition;
+    @Column(name = "note", length = Integer.MAX_VALUE)
+    private String note;
 
     @Basic
     @Column(name = "active")
@@ -110,7 +110,7 @@ public class AccountEntity implements Serializable {
             this.email = model.getEmail();
             this.address = model.getAddress();
             this.gender = model.getGender();
-            this.addition = model.getAddition();
+            this.note = model.getNote();
         }
     }
 
@@ -122,7 +122,7 @@ public class AccountEntity implements Serializable {
             this.email = StringUtils.isNotEmpty(model.getEmail()) ? model.getEmail() : this.email;
             this.address = StringUtils.isNotEmpty(model.getAddress()) ?model.getAddress() : this.address;
             this.gender = model.getGender() != null ? model.getGender() : this.gender;
-            this.addition = StringUtils.isNotEmpty(model.getAddition()) ? model.getAddition() : this.addition;
+            this.note = StringUtils.isNotEmpty(model.getNote()) ? model.getNote() : this.note;
 
         }
     }
@@ -271,12 +271,12 @@ public class AccountEntity implements Serializable {
         this.address = address;
     }
 
-    public String getAddition() {
-        return addition;
+    public String getNote() {
+        return note;
     }
 
-    public void setAddition(String addition) {
-        this.addition = addition;
+    public void setNote(String addition) {
+        this.note = addition;
     }
 
     @Override

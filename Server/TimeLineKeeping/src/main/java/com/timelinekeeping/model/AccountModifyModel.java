@@ -15,12 +15,12 @@ public class AccountModifyModel {
     private String email;
     private String phone;
     private String address;
-    private String addition;
+    private String note;
     private Integer active;
     private Long roleId;
     private Long departmentId;
     private Gender gender;
-    private Long manager;
+    private Long managerId;
 
     public AccountModifyModel() {
     }
@@ -90,12 +90,12 @@ public class AccountModifyModel {
         this.departmentId = departmentId;
     }
 
-    public Long getManager() {
-        return manager;
+    public Long getManagerId() {
+        return managerId;
     }
 
-    public void setManager(Long manager) {
-        this.manager = manager;
+    public void setManagerId(Long managerId) {
+        this.managerId = managerId;
     }
 
     public String getEmail() {
@@ -122,11 +122,11 @@ public class AccountModifyModel {
         this.address = address;
     }
 
-    public String getAddition() {
-        return addition;
+    public String getNote() {
+        return note;
     }
 
-    public void setAddition(String addition) {
-        this.addition = addition;
+    public void setNote(String note) {
+        this.note = note;
     }
 }
