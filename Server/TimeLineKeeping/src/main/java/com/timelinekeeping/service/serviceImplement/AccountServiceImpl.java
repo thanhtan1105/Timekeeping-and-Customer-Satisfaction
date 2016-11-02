@@ -578,11 +578,11 @@ public class AccountServiceImpl {
         if (list.size() != 0 && list != null) {
             // update null to id
             AccountEntity accountEntity = list.get(0);
-            accountEntity.setToken(tokenID);
+            accountEntity.setKeyOneSignal(tokenID);
             accountRepo.saveAndFlush(accountEntity);
         } else {
             AccountEntity accountEntity = accountRepo.findOne(Long.parseLong(accountID));
-            accountEntity.setToken(tokenID);
+            accountEntity.setKeyOneSignal(tokenID);
             accountRepo.saveAndFlush(accountEntity);
         }
         return true;

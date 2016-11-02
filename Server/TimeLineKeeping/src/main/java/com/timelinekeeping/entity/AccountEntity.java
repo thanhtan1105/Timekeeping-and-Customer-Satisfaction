@@ -283,6 +283,14 @@ public class AccountEntity implements Serializable {
         this.note = addition;
     }
 
+    public String getKeyOneSignal() {
+        return keyOneSignal;
+    }
+
+    public void setKeyOneSignal(String keyOneSignal) {
+        this.keyOneSignal = keyOneSignal;
+    }
+
     @Override
     public String toString() {
         return "AccountEntity{" +

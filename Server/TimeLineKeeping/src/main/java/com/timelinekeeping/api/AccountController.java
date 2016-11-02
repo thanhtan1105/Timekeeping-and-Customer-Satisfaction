@@ -219,7 +219,7 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_ACCOUNT_UPDATE_TOKEN_ID_MOBILE, method = RequestMethod.POST)
+    @RequestMapping(value = I_URI.API_ACCOUNT_UPDATE_TOKEN_ONE_SIGNAL_ID_MOBILE, method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse updateTokenMobile(@RequestParam(value = "accountID") String accountID,
                                           @RequestParam(value = "tokenID") String tokenID) {
