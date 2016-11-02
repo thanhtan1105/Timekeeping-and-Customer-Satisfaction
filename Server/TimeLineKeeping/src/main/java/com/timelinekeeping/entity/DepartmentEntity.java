@@ -60,7 +60,6 @@ public class DepartmentEntity implements Serializable {
 
     public DepartmentEntity(DepartmentModifyModel model) {
         if (model != null) {
-            this.id = model.getId();
             this.code = model.getCode();
             this.name = model.getName();
             this.description = model.getDescription();
