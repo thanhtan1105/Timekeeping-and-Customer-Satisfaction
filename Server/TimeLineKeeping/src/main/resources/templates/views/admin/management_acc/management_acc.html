@@ -75,7 +75,7 @@
                     <tr th:each="account,counter: ${ListAccounts}">
                         <td th:text="${counter.count} + '.'"></td>
                         <td th:text="${account.username}"></td>
-                        <td th:text="${account.fullname}"></td>
+                        <td th:text="${account.fullName}"></td>
                         <td th:text="${account.role.name}"></td>
                         <td th:text="${account.department.name}"></td>
                         <td>

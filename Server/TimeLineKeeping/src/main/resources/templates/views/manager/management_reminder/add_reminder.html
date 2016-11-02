@@ -86,7 +86,7 @@
                                         class="form-control select2" multiple="multiple"
                                         data-placeholder="Select Participants" style="width: 100%;">
                                     <option th:each="account: ${ListAccounts}" th:value="${account.id}"
-                                            th:text="${account.fullname} +' - ' + ${account.username}"></option>
+                                            th:text="${account.fullName} +' - ' + ${account.username}"></option>
                                 </select>
                             </div>
                         </div>

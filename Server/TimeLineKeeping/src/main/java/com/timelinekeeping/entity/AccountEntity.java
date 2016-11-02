@@ -1,9 +1,7 @@
 package com.timelinekeeping.entity;
 
-import ch.qos.logback.classic.pattern.Util;
 import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.Gender;
-import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.AccountModifyModel;
 import com.timelinekeeping.util.UtilApps;
 import org.apache.commons.lang3.StringUtils;
@@ -13,7 +11,6 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -45,15 +42,15 @@ public class AccountEntity implements Serializable {
     private String password;
 
     @Basic
-    @Column(name = "full_name", length = Integer.MAX_VALUE)
+    @Column(name = "full_name", length = Integer.MAX_VALUE, nullable = false)
     private String fullname;
 
     @Basic
-    @Column(name = "email", length = 100)
+    @Column(name = "email", length = 100, nullable = false)
     private String email;
 
     @Basic
-    @Column(name = "phone", length = 20)
+    @Column(name = "phone", length = 20, nullable = false)
     private String phone;
 
     @Basic
@@ -111,7 +108,7 @@ public class AccountEntity implements Serializable {
     public AccountEntity(AccountModifyModel model) {
         if (model != null) {
             this.username = StringUtils.isNotEmpty(model.getUsername()) ? model.getUsername() : this.username;
-            this.fullname = StringUtils.isNotEmpty(model.getFullname()) ? model.getFullname() : this.fullname;
+            this.fullname = StringUtils.isNotEmpty(model.getFullName()) ? model.getFullName() : this.fullname;
             this.password = StringUtils.isNotEmpty(model.getPassword()) ? model.getPassword() : this.password;
             this.active = model.getActive() != null ? EStatus.fromIndex(model.getActive()) : this.active;
             this.gender = model.getGender();
@@ -121,7 +118,7 @@ public class AccountEntity implements Serializable {
     public void update(AccountModifyModel model){
         if (model != null) {
             this.username = StringUtils.isNotEmpty(model.getUsername()) ? model.getUsername() : this.username;
-            this.fullname = StringUtils.isNotEmpty(model.getFullname()) ? model.getFullname() : this.fullname;
+            this.fullname = StringUtils.isNotEmpty(model.getFullName()) ? model.getFullName() : this.fullname;
             this.password = StringUtils.isNotEmpty(model.getPassword()) ? model.getPassword() : this.password;
             this.gender = model.getGender() != null ? model.getGender() : this.gender;
         }

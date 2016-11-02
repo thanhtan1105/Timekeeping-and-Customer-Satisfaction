@@ -68,11 +68,11 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_DELETE, method = RequestMethod.GET)
+    @RequestMapping(value = I_URI.API_DEACTIVE, method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse delete(@RequestParam("accountId") Long accountId) {
+    public BaseResponse deactive(@RequestParam("accountId") Long accountId) {
         try {
-            Pair<Boolean, String> response = accountService.delete(accountId);
+            Pair<Boolean, String> response = accountService.deactive(accountId);
             if (response.getKey() == true) {
                 return new BaseResponse(false, response.getValue());
             }else{

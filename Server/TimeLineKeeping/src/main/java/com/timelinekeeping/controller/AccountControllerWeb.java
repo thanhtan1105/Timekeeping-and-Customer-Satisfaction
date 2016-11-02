@@ -1,6 +1,5 @@
 package com.timelinekeeping.controller;
 
-import com.timelinekeeping.common.BaseResponseG;
 import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
@@ -100,7 +99,7 @@ public class AccountControllerWeb {
             logger.info("[Controller- Add Account] departmentId: " + departmentId);
             AccountModifyModel account = new AccountModifyModel();
             account.setUsername(username);
-            account.setFullname(fullName);
+            account.setFullName(fullName);
             account.setRoleId(ValidateUtil.parseNumber(roleId));
             account.setDepartmentId(ValidateUtil.parseNumber(departmentId));
 

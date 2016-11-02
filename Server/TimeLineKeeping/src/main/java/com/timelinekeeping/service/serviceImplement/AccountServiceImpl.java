@@ -133,7 +133,7 @@ public class AccountServiceImpl {
             entity.setUsername(account.getUsername());
             entity.setUserCode(personCode);
             entity.setPassword(UtilApps.generatePassword());
-            entity.setFullname(account.getFullname());
+            entity.setFullname(account.getFullName());
             entity.setRole(roleEntity);
             entity.setDepartment(departmentEntity);
 
@@ -208,7 +208,7 @@ public class AccountServiceImpl {
         }
     }
 
-    public Pair<Boolean, String> delete(Long accountId) {
+    public Pair<Boolean, String> deactive(Long accountId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -642,7 +642,7 @@ public class AccountServiceImpl {
             return new Pair<>(false, ERROR.ACCOUNT_API_PASSWORD_IS_NOT_EMPTY);
         }
 
-        if (ValidateUtil.isEmpty(model.getFullname())) {
+        if (ValidateUtil.isEmpty(model.getFullName())) {
             return new Pair<>(false, "Fullname is Empty.");
         }
 

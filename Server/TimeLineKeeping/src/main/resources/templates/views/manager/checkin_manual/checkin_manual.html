@@ -81,7 +81,7 @@
                     <tbody>
                     <tr th:each="account,counter: ${AccountCheckInModels}">
                         <td th:text="${counter.count} + '.'"></td>
-                        <td th:text="${account.fullname}"></td>
+                        <td th:text="${account.fullName}"></td>
                         <td>
                             <input th:name="accountIds" th:value="${account.id}"
                                    type="checkbox" class="minimal-red"

@@ -27,7 +27,7 @@
                         <!-- hidden-xs hides the username on small devices so only the image appears. -->
                         <span class="hidden-xs">
                             <font th:if="${session} and ${session.UserSession}"
-                                  th:text="${session.UserSession.fullname}"></font>
+                                  th:text="${session.UserSession.fullName}"></font>
                         </span>
                     </a>
                     <ul class="dropdown-menu">
@@ -37,7 +37,7 @@
 
                             <p>
                                 <font th:if="${session} and ${session.UserSession}"
-                                      th:text="${session.UserSession.fullname}"></font>
+                                      th:text="${session.UserSession.fullName}"></font>
                                 <font>- Web Developer</font>
                                 <small>Member since Nov. 2012</small>
                             </p>
