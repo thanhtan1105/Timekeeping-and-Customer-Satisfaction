@@ -72,7 +72,7 @@ public class SMSNotification {
         String welcomeMessage = "Xin chao ";
         String prefix = gender == Gender.MALE ? "anh " : "chi ";
         welcomeMessage += prefix + " ";
-        welcomeMessage += accountModel.getFullname() + " ";
+        welcomeMessage += accountModel.getFullName() + " ";
         welcomeMessage += ". Chuc " + prefix + " " + "mot ngay lam viec tot lanh";
         return sendSms("0936714994", welcomeMessage);
     }
