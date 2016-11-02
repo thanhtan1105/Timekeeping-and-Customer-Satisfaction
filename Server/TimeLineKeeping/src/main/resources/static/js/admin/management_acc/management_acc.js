@@ -13,6 +13,9 @@ var deleted_department_id;
 var viewed_department_id;
 
 /**
+ * For load
+ */
+/**
  * Fc: load list accounts by index page
  * @param search_value
  * @param index
@@ -80,6 +83,9 @@ function load_previous_page() {
 }
 
 /**
+ * For call ajax
+ */
+/**
  * Fc: ajax get list of account
  * @param urlString
  * @param method
@@ -118,6 +124,9 @@ function ajax_get_list_accounts(urlString, method, index, $tbody_list_accounts) 
     });
 }
 
+/**
+ * For set
+ */
 /**
  * Fc: set content for table list of account
  * @param list_accounts
@@ -208,3 +217,16 @@ function set_status(status) {
         return 'Deactivated';
     }
 }
+
+/**
+ * For Event
+ */
+/**
+ * Event: click show entries
+ */
+$('#select-entries').on('change', function () {
+    var entries = $(this).val();
+
+    //reload list accounts
+    load_list_accounts(current_search_value, 0, entries);
+});
