@@ -1,7 +1,6 @@
 package com.timelinekeeping.api;
 
 import com.timelinekeeping.common.BaseResponse;
-import com.timelinekeeping.common.BaseResponseG;
 import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.ERROR;
 import com.timelinekeeping.constant.IContanst;
@@ -34,9 +33,70 @@ public class AccountController {
     @ResponseBody
     public BaseResponse create(@ModelAttribute("account") AccountModifyModel account) {
         try {
-            BaseResponseG<AccountModel> response = accountService.create(account);
+           Pair<Boolean, String> response = accountService.create(account);
             logger.info("AccountModel: " + JsonUtil.toJson(response));
-            return response.toBaseResponse();
+            if (response.getKey() == true) {
+                return new BaseResponse(false, response.getValue());
+            }else{
+                return new BaseResponse(true, new Pair<String, String>("accountId", response.getValue()));
+            }
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+
+        }
+    }
+
+    @RequestMapping(value = I_URI.API_UPDATE, method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse update(@ModelAttribute("account") AccountModifyModel account) {
+        try {
+            Pair<Boolean, String> response = accountService.update(account);
+            if (response.getKey() == true) {
+                return new BaseResponse(false, response.getValue());
+            }else{
+                return new BaseResponse(true);
+            }
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+
+        }
+    }
+
+    @RequestMapping(value = I_URI.API_DELETE, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse delete(@RequestParam("accountId") Long accountId) {
+        try {
+            Pair<Boolean, String> response = accountService.delete(accountId);
+            if (response.getKey() == true) {
+                return new BaseResponse(false, response.getValue());
+            }else{
+                return new BaseResponse(true);
+            }
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+
+        }
+    }
+
+    @RequestMapping(value = I_URI.API_GET, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse get(@RequestParam("accountId") Long accountId) {
+        try {
+            AccountModel result = accountService.get(accountId);
+            if (result != null) {
+                return new BaseResponse(false, result);
+            }else{
+                return new BaseResponse(true);
+            }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);

@@ -4,9 +4,10 @@ import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.accessAPI.SMSNotification;
 import com.timelinekeeping.common.BaseResponse;
-import com.timelinekeeping.common.BaseResponseG;
+import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.*;
 import com.timelinekeeping.entity.*;
+import com.timelinekeeping.model.AccountManagerModel;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.AccountModifyModel;
 import com.timelinekeeping.model.NotificationCheckInModel;
@@ -90,33 +91,37 @@ public class AccountServiceImpl {
         }
     }
 
-    public BaseResponseG<AccountModel> create(AccountModifyModel account) throws IOException, URISyntaxException {
+    public Pair<Boolean, String> create(AccountModifyModel account) throws IOException, URISyntaxException {
         BaseResponse baseResponse = new BaseResponse();
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("Account: " + JsonUtil.toJson(account));
+
+            //validateAccount
+            validateCreate(account);
+
             Integer count = accountRepo.checkExistUsername(account.getUsername());
             if (count > 0) {
-                return new BaseResponseG<>(false, String.format(ERROR.ACCOUNT_API_CRATE_CUSTOMER_ALREADY_EXIST, account.getUsername()));
+                return new Pair<>(false, String.format(ERROR.ACCOUNT_API_CRATE_CUSTOMER_ALREADY_EXIST, account.getUsername()));
             }
             // get department code
             DepartmentEntity departmentEntity = departmentRepo.findOne(account.getDepartmentId());
             if (departmentEntity == null) {
-                return new BaseResponseG<>(false, String.format(ERROR.ACCOUNT_API_CRATE_DEPARTMENT_DOES_NOT_EXIST, account.getDepartmentId()));
+                return new Pair<>(false, String.format(ERROR.ACCOUNT_API_CRATE_DEPARTMENT_DOES_NOT_EXIST, account.getDepartmentId()));
             }
 
             // get role code
             RoleEntity roleEntity = roleRepo.findOne(account.getRoleId());
             if (roleEntity == null) {
-                return new BaseResponseG<>(false, String.format(ERROR.ACCOUNT_API_CRATE_ROLE_DOES_NOT_EXIST, account.getRoleId()));
+                return new Pair<>(false, String.format(ERROR.ACCOUNT_API_CRATE_ROLE_DOES_NOT_EXIST, account.getRoleId()));
             }
 
-            //get DepartmentCode
+            //create person in MCS
             String departmentCode = departmentEntity.getCode();
             logger.info("departmentCode: " + departmentCode);
             BaseResponse response = personServiceMCS.createPerson(departmentCode, account.getUsername(), JsonUtil.toJson(account));
             if (!response.isSuccess()) {
-                return new BaseResponseG<>(false, ERROR.ERROR_IN_MCS + response.getMessage());
+                return new Pair<>(false, ERROR.ERROR_IN_MCS + response.getMessage());
             }
             Map<String, String> map = (Map<String, String>) response.getData();
             String personCode = map.get("personId");
@@ -132,12 +137,114 @@ public class AccountServiceImpl {
             entity.setRole(roleEntity);
             entity.setDepartment(departmentEntity);
 
+            //add manager
+            if (account.getManager() != null) {
+                AccountEntity manager = accountRepo.findOne(account.getManager());
+                entity.setManager(manager);
+            }
             //save db
             AccountEntity result = accountRepo.saveAndFlush(entity);
             if (result != null) {
-                return new BaseResponseG<>(true, new AccountModel(result));
+                return new Pair<>(true, result.getId() + "");
             }
-            return new BaseResponseG<>(false, ERROR.OTHER);
+            return new Pair<>(false, ERROR.OTHER);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    //update account
+    public Pair<Boolean, String> update(AccountModifyModel model) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            //validate model
+            if (model.getId() == null) {
+                return new Pair<>(false, "AccountId is empty.");
+            }
+
+            //get account
+            AccountEntity entity = accountRepo.findOne(model.getId());
+
+            //check exist in db
+            if (entity == null) {
+                return new Pair<>(false, "AccountId does not exist in system.");
+            }
+
+            //update model to account
+            entity.update(model);
+            //2. update field entity, if not null
+
+            //2.1 role
+            if (model.getRoleId() != null) {
+                RoleEntity roleEntity = roleRepo.findOne(model.getRoleId());
+                if (roleEntity != null) {
+                    entity.setRole(roleEntity);
+                }
+
+            }
+
+            //2.2 department
+            if (model.getDepartmentId() != null) {
+                DepartmentEntity departmentEntity = departmentRepo.findOne(model.getDepartmentId());
+                if (departmentEntity != null) {
+                    entity.setDepartment(departmentEntity);
+                }
+            }
+
+            //2.3 mananegr
+            if (model.getManager() != null) {
+                AccountEntity managerEntity = accountRepo.findOne(model.getManager());
+                if (managerEntity != null) {
+                    entity.setManager(managerEntity);
+                }
+            }
+
+            //store db
+            accountRepo.saveAndFlush(entity);
+
+            return new Pair<>(false, ERROR.OTHER);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    public Pair<Boolean, String> delete(Long accountId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+            //get account
+            AccountEntity entity = accountRepo.findOne(accountId);
+
+            //check exist in db
+            if (entity == null) {
+                return new Pair<>(false, "AccountId does not exist in system.");
+            }
+
+            entity.setActive(EStatus.DEACTIVE);
+            entity.setTimeDeactive(new Date().getTime());
+            accountRepo.saveAndFlush(entity);
+            return new Pair<>(false, ERROR.OTHER);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    public AccountModel get(Long accountId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+            //get account
+            AccountEntity entity = accountRepo.findOne(accountId);
+
+            //check exist in db
+            if (entity == null) {
+                return null;
+            }
+
+            //return
+            if (entity.get)
+            return new AccountModel(entity);
+
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
@@ -159,6 +266,23 @@ public class AccountServiceImpl {
             logger.info("Entity result:" + JsonUtil.toJson(returnPage));
 
             return returnPage;
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+
+    public List<AccountManagerModel> listMananger() {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+            //validate model
+            List<AccountEntity> listEntity = accountRepo.listAllManger();
+            if (listEntity == null) {
+                return null;
+            }
+            return listEntity.stream().map(AccountManagerModel::new).collect(Collectors.toList());
+
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
@@ -507,6 +631,32 @@ public class AccountServiceImpl {
             accountRepo.saveAndFlush(accountEntity);
         }
         return true;
+    }
+
+    private Pair<Boolean, String> validateCreate(AccountModifyModel model) {
+        if (ValidateUtil.isEmpty(model.getUsername())) {
+            return new Pair<>(false, ERROR.ACCOUNT_API_USERNAME_IS_NOT_EMPTY);
+        }
+
+        if (ValidateUtil.isEmpty(model.getPassword())) {
+            return new Pair<>(false, ERROR.ACCOUNT_API_PASSWORD_IS_NOT_EMPTY);
+        }
+
+        if (ValidateUtil.isEmpty(model.getFullname())) {
+            return new Pair<>(false, "Fullname is Empty.");
+        }
+
+        if (model.getRoleId() == null) {
+            return new Pair<>(false, "Role is Empty.");
+        }
+
+        if (model.getDepartmentId() == null) {
+            return new Pair<>(false, "Department is Empty.");
+        }
+        if (model.getGender() == null) {
+            return new Pair<>(false, "Gender is Empty.");
+        }
+        return new Pair<>(true);
     }
 
 

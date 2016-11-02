@@ -58,4 +58,6 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
     @Query("SELECT a FROM  AccountEntity a WHERE a.manager.id = :managerId")
     List<AccountEntity> findByManagerNoActive(@Param("managerId") Long managerId);
 
+    @Query("SELECT a FROM  AccountEntity a WHERE a.active <> 0 and a.role = 2")
+    List<AccountEntity> listAllManger();
 }

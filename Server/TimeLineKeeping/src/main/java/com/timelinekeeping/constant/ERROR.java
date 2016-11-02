@@ -18,11 +18,14 @@ public interface ERROR {
     String ACCOUNT_CHECKIN_NOT_FOUND_PERSONID = "Cannot found the Account with PersonID.";
     String ACCOUNT_CHECKIN_MSDS = "Error from Database";
 
+
     String ACCOUNT_API_SEARCH_DEPARTMENT_EMPTY = "DepartmentID is empty.";
     String ACCOUNT_API_CRATE_CUSTOMER_ALREADY_EXIST = "User name %s already exists.";
     String ACCOUNT_API_CRATE_DEPARTMENT_DOES_NOT_EXIST = "DepartmentID '%s' does not exist.";
     String ACCOUNT_API_CRATE_ROLE_DOES_NOT_EXIST = "RoleId '%s' does not exist.";
 
+    String ACCOUNT_API_USERNAME_IS_NOT_EMPTY = "Username is Empty.";
+    String ACCOUNT_API_PASSWORD_IS_NOT_EMPTY = "Password is Empty.";
     /** EMOTION*/
     String EMOTION_API_GET_CUSTOMER_EMOTION_EMPTY_DETECT = "Image cannot detect.";
 

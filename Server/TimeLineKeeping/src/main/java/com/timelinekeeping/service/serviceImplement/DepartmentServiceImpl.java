@@ -8,6 +8,7 @@ import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.model.DepartmentModel;
+import com.timelinekeeping.model.DepartmentModifyModel;
 import com.timelinekeeping.model.DepartmentSelectModel;
 import com.timelinekeeping.repository.DepartmentRepo;
 import com.timelinekeeping.util.JsonUtil;
@@ -39,7 +40,7 @@ public class DepartmentServiceImpl {
 
     private Logger logger = LogManager.getLogger(DepartmentServiceImpl.class);
 
-    public Pair<Boolean, String> create(DepartmentModel model) throws IOException, URISyntaxException {
+    public Pair<Boolean, String> create(DepartmentModifyModel model) throws IOException, URISyntaxException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             Integer record = repo.isExist(model.getCode());
@@ -57,7 +58,7 @@ public class DepartmentServiceImpl {
         }
     }
 
-    public Pair<Boolean, String> update(DepartmentModel model) throws IOException, URISyntaxException {
+    public Pair<Boolean, String> update(DepartmentModifyModel model) throws IOException, URISyntaxException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
 
