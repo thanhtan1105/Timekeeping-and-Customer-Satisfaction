@@ -1,6 +1,7 @@
 package com.timelinekeeping.service.blackService;
 
 import com.timelinekeeping._config.AppConfigKeys;
+import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.model.AccountModel;
 
 import java.io.OutputStream;
@@ -47,7 +48,7 @@ public class OneSignalNotification {
 
 
             String strJsonBody = "{"
-                    + "\"app_id\": \"dbd7cdd6-9555-416b-bc08-21aa24164299\","
+                    + "\"app_id\": \"7c01cb54-6bca-4ff2-8f12-b2a2e5248b9a\","
                     + "\"include_player_ids\" : [\"" + account.getToken() + "\"],"
                     + "\"data\": {\"id\": " + account.getId() + "},"
                     + "\"headings\": {\"en\": \"" + header + "\"},"
@@ -79,5 +80,14 @@ public class OneSignalNotification {
         } catch (Throwable t) {
             t.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        AccountModel accountModel = new AccountModel();
+        accountModel.setGender(Gender.MALE);
+        accountModel.setId(1l);
+        accountModel.setToken("4a6b934d-beb7-458c-b5b0-b76ec95b86eb");
+
+        OneSignalNotification.instance().pushNotification(accountModel, "Test", "dang test gi day");
     }
 }

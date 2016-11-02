@@ -75,6 +75,10 @@ public class AccountEntity implements Serializable {
     private String token;
 
     @Basic
+    @Column(name = "key_one_signal")
+    private String keyOneSignal;
+
+    @Basic
     @Column(name = "time_deactive")
     private Timestamp timeDeactive;
 

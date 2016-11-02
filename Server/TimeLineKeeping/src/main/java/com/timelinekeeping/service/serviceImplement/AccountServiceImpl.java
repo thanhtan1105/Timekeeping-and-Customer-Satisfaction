@@ -345,10 +345,7 @@ public class AccountServiceImpl {
             List<AccountEntity> accountEntities = accountRepo.findByManager(managerId);
 
             // convert list
-            List<AccountModel> accountModels
-                    = accountEntities.stream().map(AccountModel::new).collect(Collectors.toList());
-
-            return accountModels;
+            return accountEntities.stream().map(AccountModel::new).collect(Collectors.toList());
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
