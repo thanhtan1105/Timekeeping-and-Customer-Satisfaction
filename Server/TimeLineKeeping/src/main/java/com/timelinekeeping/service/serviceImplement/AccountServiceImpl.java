@@ -2,6 +2,7 @@ package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
+import com.timelinekeeping.service.blackService.OneSignalNotification;
 import com.timelinekeeping.service.blackService.SMSNotification;
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.common.Pair;
@@ -92,7 +93,6 @@ public class AccountServiceImpl {
     }
 
     public Pair<Boolean, String> create(AccountModifyModel account) throws IOException, URISyntaxException {
-        BaseResponse baseResponse = new BaseResponse();
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("Account: " + JsonUtil.toJson(account));
@@ -457,7 +457,7 @@ public class AccountServiceImpl {
             pushNotification(accountEntity);
 
             // push sms
-            new SMSNotification().sendSms(new AccountModel(accountEntity));
+            SMSNotification.getInstance().sendSms(new AccountModel(accountEntity));
 
             //Response to Server
             response.setSuccess(true);
@@ -467,64 +467,20 @@ public class AccountServiceImpl {
         }
     }
 
-    /**
-     * push notification for device
-     */
-    private void pushNotification(AccountEntity accountEntity) {
-        try {
-            String jsonResponse;
-            URL url = new URL("https://onesignal.com/api/v1/notifications");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setUseCaches(false);
-            con.setDoOutput(true);
-            con.setDoInput(true);
+    public void pushNotification(AccountEntity accountEntity){
+        // make data
+        Gender gender = accountEntity.getGender();
+        String welcomeMessage = "Xin chào ";
+        String prefix = gender == Gender.MALE ? "anh" : "chị";
+        welcomeMessage += prefix + " ";
+        welcomeMessage += accountEntity.getFullname() + " ";
+        welcomeMessage += ". Chúc " + prefix + " " + "một ngày làm việc tốt lành";
 
-            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            con.setRequestProperty("Authorization", "Basic ZjkwMjQ4MzQtNzM4Ny00NjRhLWFhZmItOGE5ZmEyZGIyMjBh");
-            con.setRequestMethod("POST");
-
-            // make data
-            Gender gender = accountEntity.getGender();
-            String welcomeMessage = "Xin chào ";
-            String prefix = gender == Gender.MALE ? "anh" : "chị";
-            welcomeMessage += prefix + " ";
-            welcomeMessage += accountEntity.getFullname() + " ";
-            welcomeMessage += ". Chúc " + prefix + " " + "một ngày làm việc tốt lành";
-
-            String strJsonBody = "{"
-                    + "\"app_id\": \"dbd7cdd6-9555-416b-bc08-21aa24164299\","
-                    + "\"include_player_ids\" : [\"" + accountEntity.getToken() + "\"],"
-                    + "\"data\": {\"id\": " + accountEntity.getId() + "},"
-                    + "\"headings\": {\"en\": \"Check in successfully\"},"
-                    + "\"contents\": {\"en\": \"" + welcomeMessage + "\"}"
-                    + "}";
-
-            System.out.println("strJsonBody:\n" + strJsonBody);
-
-            byte[] sendBytes = strJsonBody.getBytes("UTF-8");
-            con.setFixedLengthStreamingMode(sendBytes.length);
-
-            OutputStream outputStream = con.getOutputStream();
-            outputStream.write(sendBytes);
-
-            int httpResponse = con.getResponseCode();
-            System.out.println("httpResponse: " + httpResponse);
-
-            if (httpResponse >= HttpURLConnection.HTTP_OK && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST) {
-                Scanner scanner = new Scanner(con.getInputStream(), "UTF-8");
-                jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
-                scanner.close();
-            } else {
-                Scanner scanner = new Scanner(con.getErrorStream(), "UTF-8");
-                jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
-                scanner.close();
-            }
-            System.out.println("jsonResponse:\n" + jsonResponse);
-
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
+        String header = "Check in successfully";
+        OneSignalNotification.instance().pushNotification(new AccountModel(accountEntity),  header, welcomeMessage);
     }
+
+
 
     /**
      *
