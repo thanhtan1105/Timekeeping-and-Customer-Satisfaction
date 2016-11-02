@@ -2,7 +2,7 @@ package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
-import com.timelinekeeping.accessAPI.SMSNotification;
+import com.timelinekeeping.service.blackService.SMSNotification;
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.*;
@@ -271,8 +271,10 @@ public class AccountServiceImpl {
         }
     }
 
+    /**
+     * list all manager in system*/
 
-    public List<AccountManagerModel> listMananger() {
+    public List<AccountManagerModel> listManager() {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -638,10 +640,6 @@ public class AccountServiceImpl {
             return new Pair<>(false, ERROR.ACCOUNT_API_USERNAME_IS_NOT_EMPTY);
         }
 
-        if (ValidateUtil.isEmpty(model.getPassword())) {
-            return new Pair<>(false, ERROR.ACCOUNT_API_PASSWORD_IS_NOT_EMPTY);
-        }
-
         if (ValidateUtil.isEmpty(model.getFullName())) {
             return new Pair<>(false, "Fullname is Empty.");
         }
@@ -655,6 +653,14 @@ public class AccountServiceImpl {
         }
         if (model.getGender() == null) {
             return new Pair<>(false, "Gender is Empty.");
+        }
+
+        if (model.getPhone() == null) {
+            return new Pair<>(false, "Phone is Empty.");
+        }
+
+        if (model.getEmail() == null) {
+            return new Pair<>(false, "Email is Empty.");
         }
         return new Pair<>(true);
     }

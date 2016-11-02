@@ -168,13 +168,18 @@ public class DepartmentServiceImpl {
         }
     }
 
-    public Boolean delete(Long departmentId) {
+    public Pair<Boolean, String> delete(Long departmentId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             DepartmentEntity departmentEntity = repo.findOne(departmentId);
-            departmentEntity.setActive(EStatus.DEACTIVE);
+            if (departmentEntity.getAccountEntitySet() == null || departmentEntity.getAccountEntitySet().size() <= 0) {
+                departmentEntity.setActive(EStatus.DEACTIVE);
 
-            return repo.saveAndFlush(departmentEntity) != null;
+                repo.saveAndFlush(departmentEntity);
+                return new Pair<>(true);
+            }else{
+                return new Pair<>(false, "Department does not empty.");
+            }
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }

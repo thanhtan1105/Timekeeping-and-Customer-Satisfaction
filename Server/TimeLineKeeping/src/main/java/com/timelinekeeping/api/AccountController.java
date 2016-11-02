@@ -87,6 +87,25 @@ public class AccountController {
         }
     }
 
+    @RequestMapping(value = I_URI.API_ACCOUNT_LIST_MANAGER, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse listManager() {
+        try {
+            List<AccountManagerModel> managers = accountService.listManager();
+            if (managers != null) {
+                return new BaseResponse(true, managers);
+            }else{
+                return new BaseResponse(false);
+            }
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+
+        }
+    }
+
     @RequestMapping(value = I_URI.API_GET, method = RequestMethod.GET)
     @ResponseBody
     public BaseResponse get(@RequestParam("accountId") Long accountId) {

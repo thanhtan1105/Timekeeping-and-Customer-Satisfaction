@@ -3,7 +3,6 @@ package com.timelinekeeping.entity;
 import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.model.AccountModifyModel;
-import com.timelinekeeping.util.UtilApps;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
@@ -99,28 +98,32 @@ public class AccountEntity implements Serializable {
     private Set<FaceEntity> faces;
 
 
-
-
     public AccountEntity() {
-        this.token = UtilApps.generateToken();
+
     }
 
     public AccountEntity(AccountModifyModel model) {
         if (model != null) {
             this.username = StringUtils.isNotEmpty(model.getUsername()) ? model.getUsername() : this.username;
             this.fullname = StringUtils.isNotEmpty(model.getFullName()) ? model.getFullName() : this.fullname;
-            this.password = StringUtils.isNotEmpty(model.getPassword()) ? model.getPassword() : this.password;
-            this.active = model.getActive() != null ? EStatus.fromIndex(model.getActive()) : this.active;
+            this.phone = model.getPhone();
+            this.email = model.getEmail();
+            this.address = model.getAddress();
             this.gender = model.getGender();
+            this.addition = model.getAddition();
         }
     }
 
-    public void update(AccountModifyModel model){
+    public void update(AccountModifyModel model) {
         if (model != null) {
             this.username = StringUtils.isNotEmpty(model.getUsername()) ? model.getUsername() : this.username;
             this.fullname = StringUtils.isNotEmpty(model.getFullName()) ? model.getFullName() : this.fullname;
-            this.password = StringUtils.isNotEmpty(model.getPassword()) ? model.getPassword() : this.password;
+            this.phone = StringUtils.isNotEmpty(model.getPhone()) ? model.getPhone() : this.phone;
+            this.email = StringUtils.isNotEmpty(model.getEmail()) ? model.getEmail() : this.email;
+            this.address = StringUtils.isNotEmpty(model.getAddress()) ?model.getAddress() : this.address;
             this.gender = model.getGender() != null ? model.getGender() : this.gender;
+            this.addition = StringUtils.isNotEmpty(model.getAddition()) ? model.getAddition() : this.addition;
+
         }
     }
 

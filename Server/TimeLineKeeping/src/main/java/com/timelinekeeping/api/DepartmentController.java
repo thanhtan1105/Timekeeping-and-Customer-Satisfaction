@@ -131,7 +131,7 @@ public class DepartmentController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("Id: " + departmentId);
-            Boolean result = departmentService.delete(departmentId);
+            Pair<Boolean, String> result = departmentService.delete(departmentId);
             return new BaseResponse(result);
         } catch (Exception e) {
             logger.error(e);

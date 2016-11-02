@@ -1,7 +1,6 @@
 package com.timelinekeeping.repository;
 
 import com.timelinekeeping.entity.AccountEntity;
-import com.timelinekeeping.entity.ToDoListEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -51,13 +50,13 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
     List<AccountEntity> findByManager(@Param("managerId") Long managerId);
 
 
-    @Query("SELECT a FROM AccountEntity a WHERE a.username = ?1 and a.active <>0 and a.password = ?2")
+    @Query("SELECT a FROM AccountEntity a WHERE a.username = :username and a.password = :password and a.active <>0")
     AccountEntity findByUserNameAndPassword(@Param("username") String username,
                                             @Param("password") String password);
 
     @Query("SELECT a FROM  AccountEntity a WHERE a.manager.id = :managerId")
     List<AccountEntity> findByManagerNoActive(@Param("managerId") Long managerId);
 
-    @Query("SELECT a FROM  AccountEntity a WHERE a.active <> 0 and a.role = 2")
+    @Query("SELECT a FROM  AccountEntity a INNER JOIN a.role r WHERE a.active <> 0 and r.id = 2")
     List<AccountEntity> listAllManger();
 }
