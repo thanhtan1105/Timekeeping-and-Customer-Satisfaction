@@ -242,7 +242,7 @@ public class AccountServiceImpl {
             }
 
             //return
-            if (entity.get)
+//            if (entity.get)
             return new AccountModel(entity);
 
         } finally {

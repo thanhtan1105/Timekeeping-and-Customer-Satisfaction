@@ -94,21 +94,30 @@ function ajax_get_list_accounts(urlString, method, index, $tbody_list_accounts) 
  * @param $tbody_list_accounts
  */
 function set_list_accounts(list_accounts, $tbody_list_accounts) {
-    var content_list_accounts = '';
+    var content_list_accounts = '',
+        status,
+        tr_status,
+        btn_activate;
     for (var i = 0; i < list_accounts.length; i++) {
-        content_list_accounts += '<tr>' +
+        status = list_accounts[i].active;
+        if (status == 1) {
+            tr_status = '<tr>';
+            btn_activate = ' <button class="btn btn-default btn-flat btn-sm" type="button" title="Deactivate Account">Deactivate</button>';
+        } else {
+            tr_status = '<tr class="text-muted">';
+            btn_activate = ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Activate Account">Activate</button>';
+        }
+        content_list_accounts += tr_status +
             '<td>' + list_accounts[i].fullname + '</td>' +
             '<td>' + list_accounts[i].username + '</td>' +
             '<td>' + list_accounts[i].role.name + '</td>' +
             '<td>' + list_accounts[i].department.name + '</td>' +
-            '<td>' + set_status(list_accounts[i].active) + '</td>' +
+            '<td>' + set_status(status) + '</td>' +
             '<td>' +
-            '<button class="btn btn-success btn-flat btn-sm" type="button" title="View Account" onclick="view(' + list_accounts[i].id + ')">' +
+            '<button class="btn btn-success btn-flat btn-sm" type="button" title="View Account">' +
             '<i class="fa fa-eye"></i>' +
             '</button>' +
-            ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Delete Account" onclick="confirm_delete(' + list_accounts[i].id + ')">' +
-            '<i class="fa fa-remove"></i>' +
-            '</button>' +
+            btn_activate +
             '</td>' +
             '</tr>';
     }
