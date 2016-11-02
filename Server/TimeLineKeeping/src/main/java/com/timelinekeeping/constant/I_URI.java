@@ -14,7 +14,8 @@ public interface I_URI {
     String API_SEARCH = "/search";
     String API_SEARCH_ADV = "/search_adv";
     String API_UPDATE = "/update";
-    String API_DELETE = "/delete";
+    String API_DELETE = "/deactive";
+    String API_DEACTIVE = "/disable";
     String API_ACTIVE = "/active";
 
     /*** CONTROLLER*/

@@ -45,17 +45,34 @@ public class AccountEntity implements Serializable {
     private String password;
 
     @Basic
+    @Column(name = "full_name", length = Integer.MAX_VALUE)
+    private String fullname;
+
+    @Basic
+    @Column(name = "email", length = 100)
+    private String email;
+
+    @Basic
+    @Column(name = "phone", length = 20)
+    private String phone;
+
+    @Basic
+    @Column(name = "address", length = 500)
+    private String address;
+
+    @Basic
     @NotNull
     @Column(name = "gender", nullable = false)
     private Gender gender;
 
     @Basic
+    @Column(name = "addition", length = Integer.MAX_VALUE)
+    private String addition;
+
+    @Basic
     @Column(name = "active")
     private EStatus active = EStatus.ACTIVE;
 
-    @Basic
-    @Column(name = "full_name", length = Integer.MAX_VALUE)
-    private String fullname;
 
     @Basic
     @Column(name = "token")
@@ -228,6 +245,38 @@ public class AccountEntity implements Serializable {
 
     public void setManager(AccountEntity manager) {
         this.manager = manager;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAddition() {
+        return addition;
+    }
+
+    public void setAddition(String addition) {
+        this.addition = addition;
     }
 
     @Override
