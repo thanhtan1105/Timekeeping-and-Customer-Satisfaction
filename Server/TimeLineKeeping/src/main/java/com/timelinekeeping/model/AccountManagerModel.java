@@ -3,17 +3,15 @@ package com.timelinekeeping.model;
 import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.entity.AccountEntity;
 
-import java.util.Date;
-
 /**
  * Created by HienTQSE60896 on 10/5/2016.
  */
 public class AccountManagerModel {
     private Long id;
     private String username;
+    private String email;
     private Gender gender;
-    private String token;
-    private String fullname;
+    private String fullName;
 
     public AccountManagerModel() {
     }
@@ -21,10 +19,10 @@ public class AccountManagerModel {
     public AccountManagerModel(AccountEntity entity) {
         if (entity != null) {
             this.id = entity.getId();
-            this.fullname = entity.getFullname();
+            this.fullName = entity.getFullname();
             this.username = entity.getUsername();
             this.gender = entity.getGender();
-            this.token = entity.getToken();
+            this.email = entity.getEmail();
         }
     }
 
@@ -36,12 +34,12 @@ public class AccountManagerModel {
         this.id = id;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getUsername() {
@@ -60,11 +58,11 @@ public class AccountManagerModel {
         this.gender = gender;
     }
 
-    public String getToken() {
-        return token;
+    public String getEmail() {
+        return email;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

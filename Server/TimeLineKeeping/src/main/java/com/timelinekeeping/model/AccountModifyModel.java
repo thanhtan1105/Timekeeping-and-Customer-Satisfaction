@@ -121,4 +121,12 @@ public class AccountModifyModel {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public String getAddition() {
+        return addition;
+    }
+
+    public void setAddition(String addition) {
+        this.addition = addition;
+    }
 }

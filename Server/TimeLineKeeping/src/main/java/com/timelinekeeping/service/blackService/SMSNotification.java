@@ -1,4 +1,4 @@
-package com.timelinekeeping.accessAPI;
+package com.timelinekeeping.service.blackService;
 
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.constant.Gender;
