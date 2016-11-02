@@ -50,6 +50,21 @@ function load_list_accounts(search_value, index, page_size) {
 }
 
 /**
+ * Fc: load next page when click next
+ */
+function load_next_page() {
+    //check if is last page
+    if (last_page) {
+        //do nothing
+    } else {
+        //current index page + 1
+        ++current_index_page;
+        //reload list accounts
+        load_list_accounts(current_search_value, current_index_page, current_page_size);
+    }
+}
+
+/**
  * Fc: ajax get list of account
  * @param urlString
  * @param method
