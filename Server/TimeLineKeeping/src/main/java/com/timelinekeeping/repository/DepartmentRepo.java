@@ -30,7 +30,7 @@ public interface DepartmentRepo extends JpaRepository<DepartmentEntity, Long> {
                                   @Param("name") String name,
                                   Pageable pageable);
 
-    @Query("SELECT d.accountEntitySet FROM DepartmentEntity d WHERE d.id = :department_id")
+    @Query("SELECT d.accountEntitySet FROM DepartmentEntity d WHERE d.id = :department_id and d.active <> 0")
     List<AccountEntity> findByDepartment(@Param("department_id") Long departmentId);
 
     @Query("SELECT d FROM DepartmentEntity d WHERE d.id = ?1 AND d.active <> 0")

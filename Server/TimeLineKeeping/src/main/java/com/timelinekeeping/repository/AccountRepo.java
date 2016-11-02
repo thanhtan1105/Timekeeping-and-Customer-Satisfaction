@@ -25,7 +25,7 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
     AccountEntity findByUsername(String username);
 
     @Query("SELECT a FROM AccountEntity a WHERE a.userCode = ?1 and a.active <>0")
-    AccountEntity findByUsercode(String code);
+    AccountEntity findByUserCode(String code);
 
 //    @Query(value = "SELECT * FROM account a WHERE a.id = ?1 and a.active <>0", nativeQuery = true)
 //    AccountEntity findById(Long id);
@@ -43,8 +43,8 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
 //    int updateMobileTokenID(@Param("accountID") Long accountID,
 //                            @Param("tokenID") String tokenID);
 
-    @Query("SELECT a FROM AccountEntity a WHERE a.token = :token")
-    List<AccountEntity> findByToken(@Param("token") String token);
+    @Query("SELECT a FROM AccountEntity a WHERE a.keyOneSignal = :keyOne and a.active <>0")
+    List<AccountEntity> findByOneSignal(@Param("keyOne") String key);
 
     @Query("SELECT a FROM AccountEntity a WHERE a.manager.id = :managerId AND a.active <> 0")
     List<AccountEntity> findByManager(@Param("managerId") Long managerId);
@@ -57,6 +57,6 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
     @Query("SELECT a FROM  AccountEntity a WHERE a.manager.id = :managerId")
     List<AccountEntity> findByManagerNoActive(@Param("managerId") Long managerId);
 
-    @Query("SELECT a FROM  AccountEntity a INNER JOIN a.role r WHERE a.active <> 0 and r.id = 2")
+    @Query("SELECT a FROM  AccountEntity a INNER JOIN a.role r WHERE  r.id = 2 and a.active <> 0")
     List<AccountEntity> listAllManger();
 }

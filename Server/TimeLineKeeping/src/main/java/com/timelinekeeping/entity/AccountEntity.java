@@ -2,6 +2,7 @@ package com.timelinekeeping.entity;
 
 import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.Gender;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.AccountModifyModel;
 import org.apache.commons.lang3.StringUtils;
 
@@ -103,7 +104,7 @@ public class AccountEntity implements Serializable {
 
 
     public AccountEntity() {
-
+        this.setPassword(IContanst.PASSWORD_DEFAULT);
     }
 
     public AccountEntity(AccountModifyModel model) {
@@ -116,6 +117,7 @@ public class AccountEntity implements Serializable {
             this.gender = model.getGender();
             this.note = model.getNote();
         }
+        this.setPassword(IContanst.PASSWORD_DEFAULT);
     }
 
     public void update(AccountModifyModel model) {
