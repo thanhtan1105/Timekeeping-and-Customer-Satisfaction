@@ -126,6 +126,47 @@ function set_list_accounts(list_accounts, $tbody_list_accounts) {
 }
 
 /**
+ * Fc: set content for pagination
+ * @param total_pages
+ * @param $footer_pagination
+ */
+function set_pagination(total_pages, $footer_pagination) {
+    var content_pagination = '',
+        content_list_pages = '',
+        content_previous_page,
+        content_next_page,
+        count_page = 0;
+    for (var i = 0; i < total_pages; i++) {
+        if (current_index_page == i) {
+            content_list_pages += '<li class="active">';
+        } else {
+            content_list_pages += '<li>';
+        }
+        content_list_pages += '<a href="#" onclick="load_list_accounts(current_search_value,' + i + ', ' + current_page_size + ')">' + (++count_page) + '</a></li>';
+    }
+    //check if is first page
+    if (first_page) {
+        content_previous_page = '<li class="disabled"><a onclick="load_previous_page()">&laquo;</a></li>';
+    } else {
+        content_previous_page = '<li><a href="#" onclick="load_previous_page()">&laquo;</a></li>';
+    }
+    //check if is last page
+    if (last_page) {
+        content_next_page = '<li class="disabled"><a onclick="load_next_page()">&raquo;</a></li>';
+    } else {
+        content_next_page = '<li><a href="#" onclick="load_next_page()">&raquo;</a></li>';
+    }
+    //set content pagination
+    content_pagination += '<ul class="pagination pagination-sm no-margin">' +
+        content_previous_page +
+        content_list_pages +
+        content_next_page +
+        '</ul>';
+    //set content html
+    $footer_pagination.html(content_pagination);
+}
+
+/**
  * Fc: set status
  * @param status
  * @returns {*}
