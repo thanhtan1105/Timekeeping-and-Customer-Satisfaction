@@ -218,7 +218,7 @@ public class EmotionServiceImpl {
             List<EmployeeReportDate> dayReports = new ArrayList<>();
 
             //get employee
-            AccountEntity employee = accountRepo.findById(eployeeId);
+            AccountEntity employee = accountRepo.findOne(eployeeId);
             if (employee == null) {
                 return null;
             }
@@ -272,7 +272,7 @@ public class EmotionServiceImpl {
     public CustomerServiceReport reportCustomerService(Integer year, Integer month, Integer day, Long managerId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            AccountEntity manager = accountRepo.findById(managerId);
+            AccountEntity manager = accountRepo.findOne(managerId);
             if (manager == null) {
                 return null;
             }
