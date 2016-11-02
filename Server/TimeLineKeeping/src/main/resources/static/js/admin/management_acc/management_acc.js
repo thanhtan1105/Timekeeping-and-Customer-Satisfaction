@@ -151,7 +151,6 @@ function set_list_accounts(list_accounts, $tbody_list_accounts) {
             '<td>' + list_accounts[i].username + '</td>' +
             '<td>' + list_accounts[i].role.name + '</td>' +
             '<td>' + list_accounts[i].department.name + '</td>' +
-            '<td>' + set_status(status) + '</td>' +
             '<td>' +
             '<button class="btn btn-success btn-flat btn-sm" type="button" title="View Account" onclick="view(' + list_accounts[i].id + ')">' +
             '<i class="fa fa-eye"></i>' +
