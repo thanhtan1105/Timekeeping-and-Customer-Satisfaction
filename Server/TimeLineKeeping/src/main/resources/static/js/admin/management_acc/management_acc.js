@@ -336,6 +336,37 @@ function view(id) {
 }
 
 /**
+ * Fc: load update view
+ */
+function update() {
+    console.info('[update]');
+    console.info('[viewed account id] ' + viewed_account_id);
+
+    var urlString = '/api/account/get?accountId=' + viewed_account_id;
+    $.ajax({
+        type: 'GET',
+        url: urlString,
+        success: function (response) {
+            var success = response.success;
+            console.info('[success] ' + success);
+            if (success) {
+                var data = response.data,
+                    code = data.code,
+                    name = data.name,
+                    description = data.description,
+                    active = data.active,
+                    status = data.status;
+
+                //set content modal update
+                set_content_modal_update(code, name, description, active, status);
+                //show modal update department
+                show_modal('#modal-update-department', false);
+            }
+        }
+    });
+}
+
+/**
  * For util fc
  */
 /**
