@@ -230,7 +230,8 @@ public class ReminderServiceImpl {
     }
 
     private void notification(ReminderMessageEntity entity){
-        String message = String.format("Message: %s \n Room: %s \n Time: %s\n", entity.getMessage(), entity.getRoom().getName(), TimeUtil.timeToString(entity.getTime()));
+        String message = String.format("Thông báo cuộc họp: \nChủ đề: %s \nPhòng họp: %s \nThời gian: %s\n",
+                entity.getTitle(), entity.getRoom().getName(), TimeUtil.timeToString(entity.getTime()));
         String header = entity.getTitle();
         Set<NotificationEntity> notificationSet = notificationRepo.findReminder(entity.getId());
         for (NotificationEntity notificationEntity : notificationSet){

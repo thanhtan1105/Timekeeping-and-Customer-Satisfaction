@@ -49,6 +49,7 @@ public class AccountModel {
             this.role = new RoleModel(entity.getRole());
             this.department = new DepartmentModel(entity.getDepartment());
             this.timeDeactive = entity.getTimeDeactive();
+            this.keyOneSignal = entity.getKeyOneSignal();
             if (entity.getManager() != null){
                 this.manager = new AccountManagerModel(entity.getManager());
             }
