@@ -3,6 +3,7 @@ package com.timelinekeeping.api;
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
+import com.timelinekeeping.model.ReminderModel;
 import com.timelinekeeping.model.ReminderModifyModel;
 import com.timelinekeeping.model.ReminderQueryModel;
 import com.timelinekeeping.service.serviceImplement.ReminderServiceImpl;
@@ -45,7 +46,12 @@ public class ReminderController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("Id: " + reminderId);
-            return new BaseResponse(true, reminderService.get(reminderId));
+            ReminderModel model = reminderService.get(reminderId);
+            if (model != null) {
+                return new BaseResponse(true, model);
+            } else {
+                return new BaseResponse(false);
+            }
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
@@ -134,8 +140,8 @@ public class ReminderController {
 
     @RequestMapping(value = {I_URI.API_REMINDER_AUTO_COMPLETE}, method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse autoComplete(@RequestParam(value = "title")String title,
-                               @RequestParam(value = "managerId") Long managerId) {
+    public BaseResponse autoComplete(@RequestParam(value = "title") String title,
+                                     @RequestParam(value = "managerId") Long managerId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             return new BaseResponse(true, reminderService.autoCompleTitle(title, managerId));
