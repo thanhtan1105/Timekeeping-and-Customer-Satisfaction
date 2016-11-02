@@ -172,13 +172,16 @@ public class DepartmentServiceImpl {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             DepartmentEntity departmentEntity = repo.findOne(departmentId);
+            if (departmentEntity == null){
+                return new Pair<>(false, "Department does not exist.");
+            }
             if (departmentEntity.getAccountEntitySet() == null || departmentEntity.getAccountEntitySet().size() <= 0) {
                 departmentEntity.setActive(EStatus.DEACTIVE);
 
                 repo.saveAndFlush(departmentEntity);
                 return new Pair<>(true);
             }else{
-                return new Pair<>(false, "Department does not empty.");
+                return new Pair<>(false, "Department does not empty employee.");
             }
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);

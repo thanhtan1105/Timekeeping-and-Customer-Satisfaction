@@ -2,7 +2,6 @@ package com.timelinekeeping.repository;
 
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.DepartmentEntity;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,8 +24,8 @@ public interface DepartmentRepo extends JpaRepository<DepartmentEntity, Long> {
     @Query("SELECT d FROM DepartmentEntity d where d.active <>0")
     Page<DepartmentEntity> findAll(Pageable pageable);
 
-    @Query("SELECT d FROM DepartmentEntity d WHERE (:code = NULL  OR d.code = :code) " +
-            "OR (:name = NULL OR d.name like CONCAT('%', :name, '%')) AND d.active <> 0")
+    @Query("SELECT d FROM DepartmentEntity d WHERE ((:code IS NULL  OR d.code = :code) " +
+            "OR (:name IS NULL OR d.name like CONCAT('%', :name, '%'))) AND d.active <> 0")
     Page<DepartmentEntity> search(@Param("code") String code,
                                   @Param("name") String name,
                                   Pageable pageable);
@@ -34,4 +33,6 @@ public interface DepartmentRepo extends JpaRepository<DepartmentEntity, Long> {
     @Query("SELECT d.accountEntitySet FROM DepartmentEntity d WHERE d.id = :department_id")
     List<AccountEntity> findByDepartment(@Param("department_id") Long departmentId);
 
+    @Query("SELECT d FROM DepartmentEntity d WHERE d.id = ?1 AND d.active <> 0")
+    DepartmentEntity findOne(Long aLong);
 }
