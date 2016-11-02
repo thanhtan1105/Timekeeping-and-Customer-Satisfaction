@@ -1,4 +1,4 @@
-package com.timelinekeeping.service.algorithm;
+package com.timelinekeeping.service.blackService;
 
 import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.IContanst;

@@ -4,9 +4,7 @@ import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.BeaconFindPathResponse;
-import com.timelinekeeping.model.BeaconModel;
-import com.timelinekeeping.model.CoordinateModel;
-import com.timelinekeeping.service.algorithm.BeaconAlgorithm;
+import com.timelinekeeping.service.blackService.BeaconAlgorithm;
 import com.timelinekeeping.service.serviceImplement.BeaconServiceImpl;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -14,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * Created by HienTQSE60896 on 10/21/2016.

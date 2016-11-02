@@ -1,4 +1,4 @@
-package com.timelinekeeping.service.algorithm;
+package com.timelinekeeping.service.blackService;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
@@ -6,8 +6,10 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.*;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.timelinekeeping._config.AppConfigKeys;
+import com.timelinekeeping.util.CryptoUtils;
 
 import java.io.File;
 
@@ -15,20 +17,21 @@ import java.io.File;
  * Created by lethanhtan on 10/31/16.
  */
 public class AWSStorage {
-//
-//    public static void main(String args[]) {
-//        File file = new File("/Users/lethanhtan/Desktop/LeThanhTan.jpg");
-//        if (file != null) {
-//            System.out.println("Link ne:" + uploadFile(file, "LeThanhTan"));
-//        }
-//
-//    }
+
+    public static void main(String args[]) {
+        File file = new File("D:\\CP\\FILE\\customerCode4.jpg");
+        if (file != null) {
+            System.out.println("Link ne:" + uploadFile(file, "customerCode4.jpg"));
+        }
+
+    }
 
     public static String uploadFile(File file, String fileName) {
         AWSCredentials credentials = null;
         try {
-            credentials = new BasicAWSCredentials(AppConfigKeys.getInstance().getAmazonPropertyValue("amazon.s3.accesskey"),
-                    AppConfigKeys.getInstance().getAmazonPropertyValue("amazon.s3.passwordkey"));
+            String accessKey = CryptoUtils.doDecrypt(AppConfigKeys.getInstance().getAmazonPropertyValue("amazon.s3.accesskey"));
+            String passwordKey = CryptoUtils.doDecrypt(AppConfigKeys.getInstance().getAmazonPropertyValue("amazon.s3.passwordkey"));
+            credentials = new BasicAWSCredentials(accessKey, passwordKey);
         } catch (Exception e) {
             throw new AmazonClientException(
                     "Cannot load the credentials from the credential profiles file. " +

@@ -8,6 +8,7 @@ import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.DepartmentEntity;
 import com.timelinekeeping.model.DepartmentModel;
+import com.timelinekeeping.model.DepartmentModifyModel;
 import com.timelinekeeping.model.DepartmentSelectModel;
 import com.timelinekeeping.repository.DepartmentRepo;
 import com.timelinekeeping.util.JsonUtil;
@@ -39,7 +40,7 @@ public class DepartmentServiceImpl {
 
     private Logger logger = LogManager.getLogger(DepartmentServiceImpl.class);
 
-    public Pair<Boolean, String> create(DepartmentModel model) throws IOException, URISyntaxException {
+    public Pair<Boolean, String> create(DepartmentModifyModel model) throws IOException, URISyntaxException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             Integer record = repo.isExist(model.getCode());
@@ -57,20 +58,19 @@ public class DepartmentServiceImpl {
         }
     }
 
-    public Pair<Boolean, String> update(DepartmentModel model) throws IOException, URISyntaxException {
+    public Pair<Boolean, String> update(DepartmentModifyModel model) throws IOException, URISyntaxException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
 
             //entity
             DepartmentEntity entity = repo.findOne(model.getId());
-            entity.update(model);
             if (entity == null) {
                 return new Pair<>(false, String.format(ERROR.DEPARTMENT_API_DEPARTMENT_DOES_NOT_EXIST, model.getId()));
             }
 
             //update model
             entity.update(model);
-            DepartmentEntity entityReturn = repo.saveAndFlush(new DepartmentEntity(model));
+            DepartmentEntity entityReturn = repo.saveAndFlush(entity);
 
             return new Pair<>(true);
 
@@ -168,13 +168,21 @@ public class DepartmentServiceImpl {
         }
     }
 
-    public Boolean delete(Long departmentId) {
+    public Pair<Boolean, String> delete(Long departmentId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             DepartmentEntity departmentEntity = repo.findOne(departmentId);
-            departmentEntity.setActive(EStatus.DEACTIVE);
+            if (departmentEntity == null){
+                return new Pair<>(false, "Department does not exist.");
+            }
+            if (departmentEntity.getAccountEntitySet() == null || departmentEntity.getAccountEntitySet().size() <= 0) {
+                departmentEntity.setActive(EStatus.DEACTIVE);
 
-            return repo.saveAndFlush(departmentEntity) != null;
+                repo.saveAndFlush(departmentEntity);
+                return new Pair<>(true);
+            }else{
+                return new Pair<>(false, "Department does not empty employee.");
+            }
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }

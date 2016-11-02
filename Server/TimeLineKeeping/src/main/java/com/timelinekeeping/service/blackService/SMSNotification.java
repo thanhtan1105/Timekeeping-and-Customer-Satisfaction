@@ -1,4 +1,4 @@
-package com.timelinekeeping.accessAPI;
+package com.timelinekeeping.service.blackService;
 
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.constant.Gender;
@@ -29,6 +29,24 @@ public class SMSNotification {
 
     private String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.130 Chrome/52.3.2743.130 Safari/537.36";
 
+    private static SMSNotification sms;
+
+    private SMSNotification() {
+    }
+    public static SMSNotification getInstance(){
+        if (sms == null){
+            sms = new SMSNotification();
+        }
+        return sms;
+    }
+
+    /**
+     * send sms to account with phone and message
+     * @param phone receive messgae
+     * @param message to send
+     * @return com.timelinekeeping.common.BaseResponse
+     *
+     * */
     public BaseResponse sendSms(String phone, String message) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
@@ -72,7 +90,7 @@ public class SMSNotification {
         String welcomeMessage = "Xin chao ";
         String prefix = gender == Gender.MALE ? "anh " : "chi ";
         welcomeMessage += prefix + " ";
-        welcomeMessage += accountModel.getFullname() + " ";
+        welcomeMessage += accountModel.getFullName() + " ";
         welcomeMessage += ". Chuc " + prefix + " " + "mot ngay lam viec tot lanh";
         return sendSms("0936714994", welcomeMessage);
     }

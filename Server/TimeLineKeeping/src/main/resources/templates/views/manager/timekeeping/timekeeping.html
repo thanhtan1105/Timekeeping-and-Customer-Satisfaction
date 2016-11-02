@@ -96,7 +96,7 @@
                     <tbody>
                     <tr th:each="employee,counter: ${TimekeepingResponseModel.listEmployee}">
                         <td th:text="${counter.count} + '.'"></td>
-                        <td th:text="${employee.fullname}"></td>
+                        <td th:text="${employee.fullName}"></td>
                         <td th:text="(${employee.dayCheckin != null} ? ${employee.dayCheckin}: 0 ) + '/' + ${employee.dayWork}"></td>
                         <td>-</td>
                         <td>

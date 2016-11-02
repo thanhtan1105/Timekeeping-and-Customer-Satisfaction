@@ -6,7 +6,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by HienTQSE60896 on 9/9/2016.
@@ -35,6 +34,11 @@ public class TimeUtil {
         } catch (ParseException e) {
             return null;
         }
+    }
+
+    public static String timeToString(Date time) {
+        DateFormat format = new SimpleDateFormat(pattern);
+        return format.format(time);
     }
 
 //    public static void main(String[] args) {

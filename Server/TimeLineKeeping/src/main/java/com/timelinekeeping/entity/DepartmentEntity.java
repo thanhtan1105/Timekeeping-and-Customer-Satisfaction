@@ -3,6 +3,7 @@ package com.timelinekeeping.entity;
 import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.ETrainStatus;
 import com.timelinekeeping.model.DepartmentModel;
+import com.timelinekeeping.model.DepartmentModifyModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -57,6 +58,15 @@ public class DepartmentEntity implements Serializable {
         }
     }
 
+    public DepartmentEntity(DepartmentModifyModel model) {
+        if (model != null) {
+            this.code = model.getCode();
+            this.name = model.getName();
+            this.description = model.getDescription();
+        }
+    }
+
+
     public DepartmentEntity(String code, String name, String description, EStatus active) {
         this.code = code;
         this.name = name;
@@ -64,11 +74,10 @@ public class DepartmentEntity implements Serializable {
         this.active = active;
     }
 
-    public void update(DepartmentModel model) {
+    public void update(DepartmentModifyModel model) {
         if (model != null) {
-            this.name = model.getName();
-            this.description = model.getDescription();
-            this.status = model.getStatus();
+            if (model.getName() != null) this.name = model.getName();
+            if (model.getDescription() != null) this.description = model.getDescription();
         }
     }
 

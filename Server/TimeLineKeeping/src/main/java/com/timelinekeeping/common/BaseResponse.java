@@ -36,6 +36,11 @@ public class BaseResponse {
         this.errorCode = errorCode;
     }
 
+    public BaseResponse(Pair<Boolean, String> result) {
+        this.success = result.getKey();
+        this.message = result.getValue();
+    }
+
     public BaseResponse(Exception e) {
         this.success = false;
         this.message = e.getMessage();

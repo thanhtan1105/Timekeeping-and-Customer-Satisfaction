@@ -1,11 +1,8 @@
 package com.timelinekeeping.entity;
 
-import ch.qos.logback.classic.pattern.Util;
 import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.Gender;
-import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.AccountModifyModel;
-import com.timelinekeeping.util.UtilApps;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
@@ -13,7 +10,6 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -45,21 +41,42 @@ public class AccountEntity implements Serializable {
     private String password;
 
     @Basic
+    @Column(name = "full_name", length = Integer.MAX_VALUE, nullable = false)
+    private String fullName;
+
+    @Basic
+    @Column(name = "email", length = 100, nullable = false)
+    private String email;
+
+    @Basic
+    @Column(name = "phone", length = 20, nullable = false)
+    private String phone;
+
+    @Basic
+    @Column(name = "address", length = 500)
+    private String address;
+
+    @Basic
     @NotNull
     @Column(name = "gender", nullable = false)
     private Gender gender;
 
     @Basic
+    @Column(name = "note", length = Integer.MAX_VALUE)
+    private String note;
+
+    @Basic
     @Column(name = "active")
     private EStatus active = EStatus.ACTIVE;
 
-    @Basic
-    @Column(name = "full_name", length = Integer.MAX_VALUE)
-    private String fullname;
 
     @Basic
     @Column(name = "token")
     private String token;
+
+    @Basic
+    @Column(name = "key_one_signal")
+    private String keyOneSignal;
 
     @Basic
     @Column(name = "time_deactive")
@@ -85,28 +102,32 @@ public class AccountEntity implements Serializable {
     private Set<FaceEntity> faces;
 
 
-
-
     public AccountEntity() {
-        this.token = UtilApps.generateToken();
+
     }
 
     public AccountEntity(AccountModifyModel model) {
         if (model != null) {
             this.username = StringUtils.isNotEmpty(model.getUsername()) ? model.getUsername() : this.username;
-            this.fullname = StringUtils.isNotEmpty(model.getFullname()) ? model.getFullname() : this.fullname;
-            this.password = StringUtils.isNotEmpty(model.getPassword()) ? model.getPassword() : this.password;
-            this.active = model.getActive() != null ? EStatus.fromIndex(model.getActive()) : this.active;
+            this.fullName = StringUtils.isNotEmpty(model.getFullName()) ? model.getFullName() : this.fullName;
+            this.phone = model.getPhone();
+            this.email = model.getEmail();
+            this.address = model.getAddress();
             this.gender = model.getGender();
+            this.note = model.getNote();
         }
     }
 
-    public void update(AccountModifyModel model){
+    public void update(AccountModifyModel model) {
         if (model != null) {
             this.username = StringUtils.isNotEmpty(model.getUsername()) ? model.getUsername() : this.username;
-            this.fullname = StringUtils.isNotEmpty(model.getFullname()) ? model.getFullname() : this.fullname;
-            this.password = StringUtils.isNotEmpty(model.getPassword()) ? model.getPassword() : this.password;
-            this.active = model.getActive() != null ? EStatus.fromIndex(model.getActive()) : this.active;
+            this.fullName = StringUtils.isNotEmpty(model.getFullName()) ? model.getFullName() : this.fullName;
+            this.phone = StringUtils.isNotEmpty(model.getPhone()) ? model.getPhone() : this.phone;
+            this.email = StringUtils.isNotEmpty(model.getEmail()) ? model.getEmail() : this.email;
+            this.address = StringUtils.isNotEmpty(model.getAddress()) ?model.getAddress() : this.address;
+            this.gender = model.getGender() != null ? model.getGender() : this.gender;
+            this.note = StringUtils.isNotEmpty(model.getNote()) ? model.getNote() : this.note;
+
         }
     }
 
@@ -150,12 +171,12 @@ public class AccountEntity implements Serializable {
         this.active = active;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getToken() {
@@ -230,6 +251,46 @@ public class AccountEntity implements Serializable {
         this.manager = manager;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String addition) {
+        this.note = addition;
+    }
+
+    public String getKeyOneSignal() {
+        return keyOneSignal;
+    }
+
+    public void setKeyOneSignal(String keyOneSignal) {
+        this.keyOneSignal = keyOneSignal;
+    }
+
     @Override
     public String toString() {
         return "AccountEntity{" +
@@ -238,7 +299,7 @@ public class AccountEntity implements Serializable {
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 ", active=" + active +
-                ", fullname='" + fullname + '\'' +
+                ", fullName='" + fullName + '\'' +
                 ", token='" + token + '\'' +
                 ", role=" + role +
                 '}';

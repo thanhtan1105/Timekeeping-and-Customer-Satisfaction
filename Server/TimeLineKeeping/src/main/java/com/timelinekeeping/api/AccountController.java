@@ -1,7 +1,6 @@
 package com.timelinekeeping.api;
 
 import com.timelinekeeping.common.BaseResponse;
-import com.timelinekeeping.common.BaseResponseG;
 import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.ERROR;
 import com.timelinekeeping.constant.IContanst;
@@ -34,9 +33,89 @@ public class AccountController {
     @ResponseBody
     public BaseResponse create(@ModelAttribute("account") AccountModifyModel account) {
         try {
-            BaseResponseG<AccountModel> response = accountService.create(account);
+           Pair<Boolean, String> response = accountService.create(account);
             logger.info("AccountModel: " + JsonUtil.toJson(response));
-            return response.toBaseResponse();
+            if (response.getKey() == true) {
+                return new BaseResponse(true, new Pair<String, String>("accountId", response.getValue()));
+            }else{
+                return new BaseResponse(false, response.getValue());
+            }
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+
+        }
+    }
+
+    @RequestMapping(value = I_URI.API_UPDATE, method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse update(@ModelAttribute("account") AccountModifyModel account) {
+        try {
+            Pair<Boolean, String> response = accountService.update(account);
+            if (response.getKey() == true) {
+                return new BaseResponse(true, response.getValue());
+            }else{
+                return new BaseResponse(false);
+            }
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+
+        }
+    }
+
+    @RequestMapping(value = I_URI.API_DEACTIVE, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse deactive(@RequestParam("accountId") Long accountId) {
+        try {
+            Pair<Boolean, String> response = accountService.deactive(accountId);
+            if (response.getKey() == true) {
+                return new BaseResponse(true, response.getValue());
+            }else{
+                return new BaseResponse(false);
+            }
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+
+        }
+    }
+
+    @RequestMapping(value = I_URI.API_ACCOUNT_LIST_MANAGER, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse listManager() {
+        try {
+            List<AccountManagerModel> managers = accountService.listManager();
+            if (managers != null) {
+                return new BaseResponse(true, managers);
+            }else{
+                return new BaseResponse(false);
+            }
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+
+        }
+    }
+
+    @RequestMapping(value = I_URI.API_GET, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse get(@RequestParam("accountId") Long accountId) {
+        try {
+            AccountModel result = accountService.get(accountId);
+            if (result != null) {
+                return new BaseResponse(true, result);
+            }else{
+                return new BaseResponse(false);
+            }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
@@ -140,7 +219,7 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_ACCOUNT_UPDATE_TOKEN_ID_MOBILE, method = RequestMethod.POST)
+    @RequestMapping(value = I_URI.API_ACCOUNT_UPDATE_TOKEN_ONE_SIGNAL_ID_MOBILE, method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse updateTokenMobile(@RequestParam(value = "accountID") String accountID,
                                           @RequestParam(value = "tokenID") String tokenID) {

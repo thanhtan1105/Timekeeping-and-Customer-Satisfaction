@@ -1,10 +1,8 @@
 package com.timelinekeeping.model;
 
 import com.timelinekeeping.constant.ETransaction;
-import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.CustomerServiceEntity;
 
-import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -18,7 +16,7 @@ public class CustomerServiceModel {
     private String customerCode;
     private Double grade = 0d;
     private ETransaction status = ETransaction.BEGIN;
-    private AccountManager createBy;
+    private AccountManagerModel createBy;
 
     public CustomerServiceModel() {
     }
@@ -30,7 +28,7 @@ public class CustomerServiceModel {
             this.customerCode = customerServiceEntity.getCustomerCode();
             this.grade = customerServiceEntity.getGrade();
             this.status = customerServiceEntity.getStatus();
-            this.createBy = new AccountManager(customerServiceEntity.getCreateBy());
+            this.createBy = new AccountManagerModel(customerServiceEntity.getCreateBy());
         }
     }
 
@@ -74,11 +72,11 @@ public class CustomerServiceModel {
         this.status = status;
     }
 
-    public AccountManager getCreateBy() {
+    public AccountManagerModel getCreateBy() {
         return createBy;
     }
 
-    public void setCreateBy(AccountManager createBy) {
+    public void setCreateBy(AccountManagerModel createBy) {
         this.createBy = createBy;
     }
 }

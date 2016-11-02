@@ -13,7 +13,7 @@ import java.util.List;
 public class AccountAttendanceModel {
     private Long id;
     private String username;
-    private String fullname;
+    private String fullName;
     private EStatus active;
     private Date dateDeactive;
     private String timeSystem = IContanst.TIME_CHECK_IN_SYSTEM; // time to compare employee absent or present
@@ -32,7 +32,7 @@ public class AccountAttendanceModel {
         if (entity != null) {
             this.id = entity.getId();
             this.username = entity.getUsername();
-            this.fullname = entity.getFullname();
+            this.fullName = entity.getFullName();
             this.active = entity.getActive();
             this.dateDeactive = entity.getTimeDeactive();
         }
@@ -56,12 +56,12 @@ public class AccountAttendanceModel {
         this.username = username;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public EStatus getActive() {

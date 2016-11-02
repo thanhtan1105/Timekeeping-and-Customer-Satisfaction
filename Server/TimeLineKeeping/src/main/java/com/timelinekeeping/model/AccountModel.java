@@ -1,5 +1,6 @@
 package com.timelinekeeping.model;
 
+import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.RoleEntity;
@@ -14,15 +15,19 @@ public class AccountModel {
 
     private Long id;
     private String username;
-    private RoleModel role;
     private String userCode;
-    private Integer active;
-    private String fullname;
+    private String fullName;
+    private String email;
+    private String phone;
+    private String address;
+    private String note;
+    private Gender gender;
+    private EStatus active;
+    private RoleModel role;
     private DepartmentModel department;
     private Date timeDeactive;
-    private Gender gender;
     private String token;
-    private AccountManager manager;
+    private AccountManagerModel manager;
 
     public AccountModel() {
     }
@@ -31,16 +36,20 @@ public class AccountModel {
         if (entity != null) {
             this.id = entity.getId();
             this.username = entity.getUsername();
-            this.role = new RoleModel(entity.getRole());
-            this.active = entity.getActive().getIndex();
-            this.fullname = entity.getFullname();
             this.userCode = entity.getUserCode();
+            this.fullName = entity.getFullName();
+            this.email = entity.getEmail();
+            this.phone = entity.getPhone();
+            this.address = entity.getAddress();
+            this.note = entity.getNote();
+            this.gender = entity.getGender();
+            this.active = entity.getActive();
             this.token = entity.getToken();
+            this.role = new RoleModel(entity.getRole());
             this.department = new DepartmentModel(entity.getDepartment());
             this.timeDeactive = entity.getTimeDeactive();
-            this.gender = entity.getGender();
             if (entity.getManager() != null){
-                this.manager = new AccountManager(entity.getManager());
+                this.manager = new AccountManagerModel(entity.getManager());
             }
         }
     }
@@ -71,20 +80,20 @@ public class AccountModel {
         this.role = role;
     }
 
-    public Integer getActive() {
+    public EStatus getActive() {
         return active;
     }
 
-    public void setActive(Integer active) {
+    public void setActive(EStatus active) {
         this.active = active;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public RoleModel getRole() {
@@ -131,11 +140,43 @@ public class AccountModel {
         this.token = token;
     }
 
-    public AccountManager getManager() {
+    public AccountManagerModel getManager() {
         return manager;
     }
 
-    public void setManager(AccountManager manager) {
+    public void setManager(AccountManagerModel manager) {
         this.manager = manager;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

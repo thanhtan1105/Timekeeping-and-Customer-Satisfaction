@@ -74,7 +74,8 @@ function worker_get_emotion() {
                     suggestions = messages.sugguest,
                     age_predict = messages.predict,
                     gender = messages.gender;
-                console.info('final' + isFinal);
+                console.info('[isFirst] ' + isFirst);
+                console.info('[isFinal] ' + isFinal);
 
                 //hide div loader
                 event_hide('#div-loader');

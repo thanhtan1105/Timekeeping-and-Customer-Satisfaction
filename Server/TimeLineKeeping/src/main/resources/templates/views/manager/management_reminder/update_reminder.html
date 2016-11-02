@@ -82,7 +82,7 @@
                                                 data-placeholder="Select Participants" style="width: 100%;">
                                             <option th:each="account: ${ListAccounts}"
                                                     th:value="${account.id}"
-                                                    th:text="${account.fullname} +' - ' + ${account.username}"
+                                                    th:text="${account.fullName} +' - ' + ${account.username}"
                                                     th:selected="${#lists.contains(ListEmployeeId, account.id)}"></option>
                                         </select>
                                     </div>

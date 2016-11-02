@@ -2,11 +2,13 @@ package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
-import com.timelinekeeping.accessAPI.SMSNotification;
+import com.timelinekeeping.service.blackService.OneSignalNotification;
+import com.timelinekeeping.service.blackService.SMSNotification;
 import com.timelinekeeping.common.BaseResponse;
-import com.timelinekeeping.common.BaseResponseG;
+import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.*;
 import com.timelinekeeping.entity.*;
+import com.timelinekeeping.model.AccountManagerModel;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.AccountModifyModel;
 import com.timelinekeeping.model.NotificationCheckInModel;
@@ -31,10 +33,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -90,33 +89,36 @@ public class AccountServiceImpl {
         }
     }
 
-    public BaseResponseG<AccountModel> create(AccountModifyModel account) throws IOException, URISyntaxException {
-        BaseResponse baseResponse = new BaseResponse();
+    public Pair<Boolean, String> create(AccountModifyModel account) throws IOException, URISyntaxException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("Account: " + JsonUtil.toJson(account));
+
+            //validateAccount
+            validateCreate(account);
+
             Integer count = accountRepo.checkExistUsername(account.getUsername());
             if (count > 0) {
-                return new BaseResponseG<>(false, String.format(ERROR.ACCOUNT_API_CRATE_CUSTOMER_ALREADY_EXIST, account.getUsername()));
+                return new Pair<>(false, String.format(ERROR.ACCOUNT_API_CRATE_CUSTOMER_ALREADY_EXIST, account.getUsername()));
             }
             // get department code
             DepartmentEntity departmentEntity = departmentRepo.findOne(account.getDepartmentId());
             if (departmentEntity == null) {
-                return new BaseResponseG<>(false, String.format(ERROR.ACCOUNT_API_CRATE_DEPARTMENT_DOES_NOT_EXIST, account.getDepartmentId()));
+                return new Pair<>(false, String.format(ERROR.ACCOUNT_API_CRATE_DEPARTMENT_DOES_NOT_EXIST, account.getDepartmentId()));
             }
 
             // get role code
             RoleEntity roleEntity = roleRepo.findOne(account.getRoleId());
             if (roleEntity == null) {
-                return new BaseResponseG<>(false, String.format(ERROR.ACCOUNT_API_CRATE_ROLE_DOES_NOT_EXIST, account.getRoleId()));
+                return new Pair<>(false, String.format(ERROR.ACCOUNT_API_CRATE_ROLE_DOES_NOT_EXIST, account.getRoleId()));
             }
 
-            //get DepartmentCode
+            //create person in MCS
             String departmentCode = departmentEntity.getCode();
             logger.info("departmentCode: " + departmentCode);
             BaseResponse response = personServiceMCS.createPerson(departmentCode, account.getUsername(), JsonUtil.toJson(account));
             if (!response.isSuccess()) {
-                return new BaseResponseG<>(false, ERROR.ERROR_IN_MCS + response.getMessage());
+                return new Pair<>(false, ERROR.ERROR_IN_MCS + response.getMessage());
             }
             Map<String, String> map = (Map<String, String>) response.getData();
             String personCode = map.get("personId");
@@ -128,16 +130,118 @@ public class AccountServiceImpl {
             entity.setUsername(account.getUsername());
             entity.setUserCode(personCode);
             entity.setPassword(UtilApps.generatePassword());
-            entity.setFullname(account.getFullname());
+            entity.setFullName(account.getFullName());
             entity.setRole(roleEntity);
             entity.setDepartment(departmentEntity);
 
+            //add manager
+            if (account.getManagerId() != null) {
+                AccountEntity manager = accountRepo.findOne(account.getManagerId());
+                entity.setManager(manager);
+            }
             //save db
             AccountEntity result = accountRepo.saveAndFlush(entity);
             if (result != null) {
-                return new BaseResponseG<>(true, new AccountModel(result));
+                return new Pair<>(true, result.getId() + "");
             }
-            return new BaseResponseG<>(false, ERROR.OTHER);
+            return new Pair<>(false, ERROR.OTHER);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    //update account
+    public Pair<Boolean, String> update(AccountModifyModel model) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            //validate model
+            if (model.getId() == null) {
+                return new Pair<>(false, "AccountId is empty.");
+            }
+
+            //get account
+            AccountEntity entity = accountRepo.findOne(model.getId());
+
+            //check exist in db
+            if (entity == null) {
+                return new Pair<>(false, "AccountId does not exist in system.");
+            }
+
+            //update model to account
+            entity.update(model);
+            //2. update field entity, if not null
+
+            //2.1 role
+            if (model.getRoleId() != null) {
+                RoleEntity roleEntity = roleRepo.findOne(model.getRoleId());
+                if (roleEntity != null) {
+                    entity.setRole(roleEntity);
+                }
+
+            }
+
+            //2.2 department
+            if (model.getDepartmentId() != null) {
+                DepartmentEntity departmentEntity = departmentRepo.findOne(model.getDepartmentId());
+                if (departmentEntity != null) {
+                    entity.setDepartment(departmentEntity);
+                }
+            }
+
+            //2.3 mananegr
+            if (model.getManagerId() != null) {
+                AccountEntity managerEntity = accountRepo.findOne(model.getManagerId());
+                if (managerEntity != null) {
+                    entity.setManager(managerEntity);
+                }
+            }
+
+            //store db
+            accountRepo.saveAndFlush(entity);
+
+            return new Pair<>(false, ERROR.OTHER);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    public Pair<Boolean, String> deactive(Long accountId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+            //get account
+            AccountEntity entity = accountRepo.findOne(accountId);
+
+            //check exist in db
+            if (entity == null) {
+                return new Pair<>(false, "AccountId does not exist in system.");
+            }
+
+            entity.setActive(EStatus.DEACTIVE);
+            entity.setTimeDeactive(new Date().getTime());
+            accountRepo.saveAndFlush(entity);
+            return new Pair<>(false, ERROR.OTHER);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    public AccountModel get(Long accountId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+            //get account
+            AccountEntity entity = accountRepo.findOne(accountId);
+
+            //check exist in db
+            if (entity == null) {
+                return null;
+            }
+
+            //return
+            //if (entity.get)
+            return new AccountModel(entity);
+
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
@@ -159,6 +263,25 @@ public class AccountServiceImpl {
             logger.info("Entity result:" + JsonUtil.toJson(returnPage));
 
             return returnPage;
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    /**
+     * list all manager in system*/
+
+    public List<AccountManagerModel> listManager() {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+            //validate model
+            List<AccountEntity> listEntity = accountRepo.listAllManger();
+            if (listEntity == null) {
+                return null;
+            }
+            return listEntity.stream().map(AccountManagerModel::new).collect(Collectors.toList());
+
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
@@ -219,10 +342,7 @@ public class AccountServiceImpl {
             List<AccountEntity> accountEntities = accountRepo.findByManager(managerId);
 
             // convert list
-            List<AccountModel> accountModels
-                    = accountEntities.stream().map(AccountModel::new).collect(Collectors.toList());
-
-            return accountModels;
+            return accountEntities.stream().map(AccountModel::new).collect(Collectors.toList());
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
@@ -331,7 +451,7 @@ public class AccountServiceImpl {
             pushNotification(accountEntity);
 
             // push sms
-            new SMSNotification().sendSms(new AccountModel(accountEntity));
+            SMSNotification.getInstance().sendSms(new AccountModel(accountEntity));
 
             //Response to Server
             response.setSuccess(true);
@@ -341,64 +461,20 @@ public class AccountServiceImpl {
         }
     }
 
-    /**
-     * push notification for device
-     */
-    private void pushNotification(AccountEntity accountEntity) {
-        try {
-            String jsonResponse;
-            URL url = new URL("https://onesignal.com/api/v1/notifications");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setUseCaches(false);
-            con.setDoOutput(true);
-            con.setDoInput(true);
+    public void pushNotification(AccountEntity accountEntity){
+        // make data
+        Gender gender = accountEntity.getGender();
+        String welcomeMessage = "Xin chào ";
+        String prefix = gender == Gender.MALE ? "anh" : "chị";
+        welcomeMessage += prefix + " ";
+        welcomeMessage += accountEntity.getFullName() + " ";
+        welcomeMessage += ". Chúc " + prefix + " " + "một ngày làm việc tốt lành";
 
-            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            con.setRequestProperty("Authorization", "Basic ZjkwMjQ4MzQtNzM4Ny00NjRhLWFhZmItOGE5ZmEyZGIyMjBh");
-            con.setRequestMethod("POST");
-
-            // make data
-            Gender gender = accountEntity.getGender();
-            String welcomeMessage = "Xin chào ";
-            String prefix = gender == Gender.MALE ? "anh" : "chị";
-            welcomeMessage += prefix + " ";
-            welcomeMessage += accountEntity.getFullname() + " ";
-            welcomeMessage += ". Chúc " + prefix + " " + "một ngày làm việc tốt lành";
-
-            String strJsonBody = "{"
-                    + "\"app_id\": \"dbd7cdd6-9555-416b-bc08-21aa24164299\","
-                    + "\"include_player_ids\" : [\"" + accountEntity.getToken() + "\"],"
-                    + "\"data\": {\"id\": " + accountEntity.getId() + "},"
-                    + "\"headings\": {\"en\": \"Check in successfully\"},"
-                    + "\"contents\": {\"en\": \"" + welcomeMessage + "\"}"
-                    + "}";
-
-            System.out.println("strJsonBody:\n" + strJsonBody);
-
-            byte[] sendBytes = strJsonBody.getBytes("UTF-8");
-            con.setFixedLengthStreamingMode(sendBytes.length);
-
-            OutputStream outputStream = con.getOutputStream();
-            outputStream.write(sendBytes);
-
-            int httpResponse = con.getResponseCode();
-            System.out.println("httpResponse: " + httpResponse);
-
-            if (httpResponse >= HttpURLConnection.HTTP_OK && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST) {
-                Scanner scanner = new Scanner(con.getInputStream(), "UTF-8");
-                jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
-                scanner.close();
-            } else {
-                Scanner scanner = new Scanner(con.getErrorStream(), "UTF-8");
-                jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
-                scanner.close();
-            }
-            System.out.println("jsonResponse:\n" + jsonResponse);
-
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
+        String header = "Check in successfully";
+        OneSignalNotification.instance().pushNotification(new AccountModel(accountEntity),  header, welcomeMessage);
     }
+
+
 
     /**
      *
@@ -499,14 +575,44 @@ public class AccountServiceImpl {
         if (list.size() != 0 && list != null) {
             // update null to id
             AccountEntity accountEntity = list.get(0);
-            accountEntity.setToken(tokenID);
+            accountEntity.setKeyOneSignal(tokenID);
             accountRepo.saveAndFlush(accountEntity);
         } else {
             AccountEntity accountEntity = accountRepo.findOne(Long.parseLong(accountID));
-            accountEntity.setToken(tokenID);
+            accountEntity.setKeyOneSignal(tokenID);
             accountRepo.saveAndFlush(accountEntity);
         }
         return true;
+    }
+
+    private Pair<Boolean, String> validateCreate(AccountModifyModel model) {
+        if (ValidateUtil.isEmpty(model.getUsername())) {
+            return new Pair<>(false, ERROR.ACCOUNT_API_USERNAME_IS_NOT_EMPTY);
+        }
+
+        if (ValidateUtil.isEmpty(model.getFullName())) {
+            return new Pair<>(false, "Fullname is Empty.");
+        }
+
+        if (model.getRoleId() == null) {
+            return new Pair<>(false, "Role is Empty.");
+        }
+
+        if (model.getDepartmentId() == null) {
+            return new Pair<>(false, "Department is Empty.");
+        }
+        if (model.getGender() == null) {
+            return new Pair<>(false, "Gender is Empty.");
+        }
+
+        if (model.getPhone() == null) {
+            return new Pair<>(false, "Phone is Empty.");
+        }
+
+        if (model.getEmail() == null) {
+            return new Pair<>(false, "Email is Empty.");
+        }
+        return new Pair<>(true);
     }
 
 

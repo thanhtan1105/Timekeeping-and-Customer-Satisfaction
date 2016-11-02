@@ -41,4 +41,6 @@ public interface ReminderRepo extends JpaRepository<ReminderMessageEntity, Long>
                                        @Param("employee") Set<Long> employees,
                                        @Param("manager_id") Long managerId, Pageable pageable);
 
+    @Query("SELECT re FROM ReminderMessageEntity  re WHERE re.id = ?1 AND re.active <> 0")
+    ReminderMessageEntity findOne(Long id);
 }

@@ -9,15 +9,14 @@ import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.CoordinateEntity;
 import com.timelinekeeping.entity.NotificationEntity;
 import com.timelinekeeping.entity.ReminderMessageEntity;
-import com.timelinekeeping.model.ReminderModel;
-import com.timelinekeeping.model.ReminderModifyModel;
-import com.timelinekeeping.model.ReminderQueryModel;
-import com.timelinekeeping.model.ReminderSearchModel;
+import com.timelinekeeping.model.*;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.CoordinateRepo;
 import com.timelinekeeping.repository.NotificationRepo;
 import com.timelinekeeping.repository.ReminderRepo;
+import com.timelinekeeping.service.blackService.OneSignalNotification;
 import com.timelinekeeping.util.JsonUtil;
+import com.timelinekeeping.util.TimeUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,6 +144,9 @@ public class ReminderServiceImpl {
                 notificationRepo.flush();
             }
 
+            /** notification*/
+            notification(entityResult);
+
             if (entityResult != null) {
                 return new BaseResponseG<ReminderModel>(true, new ReminderModel(reminderRepo.findOne(entityResult.getId())));
             }
@@ -216,12 +218,27 @@ public class ReminderServiceImpl {
 
             notificationRepo.flush();
 
+            /** notification*/
+            notification(entity);
 
+
+            //return
             return new BaseResponseG<>(true);
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
+
+    private void notification(ReminderMessageEntity entity){
+        String message = String.format("Message: %s \n Room: %s \n Time: %s\n", entity.getMessage(), entity.getRoom().getName(), TimeUtil.timeToString(entity.getTime()));
+        String header = entity.getTitle();
+        Set<NotificationEntity> notificationSet = notificationRepo.findReminder(entity.getId());
+        for (NotificationEntity notificationEntity : notificationSet){
+            OneSignalNotification.instance().pushNotification(new AccountModel(notificationEntity.getAccountReceive()), header, message);
+        }
+    }
+
+
 
     public Boolean delete(Long reminderId) {
         try {

@@ -1,0 +1,231 @@
+<head lang="en">
+    <meta charset="UTF-8"/>
+</head>
+
+<!--- modal view -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="modal fade" id="modal-view-account">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Account Information</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <label class="col-sm-4 text-left">Username:</label>
+                                <div class="col-sm-7">
+                                    <font th:id="'viewing_username'"></font>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <label class="col-sm-4 text-left">Full name:</label>
+                                <div class="col-sm-7">
+                                    <font th:id="'viewing_fullName'"></font>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <label class="col-sm-4 text-left">Role:</label>
+                                <div class="col-sm-7">
+                                    <font th:id="'viewing_role'"></font>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <label class="col-sm-4 text-left">Department:</label>
+                                <div class="col-sm-7">
+                                    <font th:id="'viewing_department'"></font>
+                                </div>
+                            </div>
+                            <div th:id="'div-viewing-manager'" class="row">
+                                <div class="col-sm-1"></div>
+                                <label class="col-sm-4 text-left">Manager:</label>
+                                <div class="col-sm-7">
+                                    <font th:id="'viewing_manager'"></font>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <label class="col-sm-4 text-left">Email:</label>
+                                <div class="col-sm-7">
+                                    <font th:id="'viewing_email'"></font>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <label class="col-sm-4 text-left">Gender:</label>
+                                <div class="col-sm-7">
+                                    <font th:id="'viewing_gender'"></font>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <label class="col-sm-4 text-left">Phone:</label>
+                                <div class="col-sm-7">
+                                    <font th:id="'viewing_phone'"></font>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <label class="col-sm-4 text-left">Address:</label>
+                                <div class="col-sm-7">
+                                    <font th:id="'viewing_address'"></font>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <label class="col-sm-4 text-left">Addition:</label>
+                                <div class="col-sm-7">
+                                    <font th:id="'viewing_description'"></font>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning btn-flat" data-dismiss="modal"
+                                onclick="update()">Edit
+                        </button>
+                        <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal update -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="modal fade" id="modal-update-account">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Update Account</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form th:id="'form-edit-account'" class="form-horizontal">
+                            <div class="form-group ">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3 text-left">
+                                    <label class="control-label">Username:</label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" readonly style="width: 100%;"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3 text-left">
+                                    <label class="control-label">
+                                        Full name: <font color="red">*</font></label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" style="width: 100%;"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3 text-left">
+                                    <label class="control-label">Role:</label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <button type="button" class="btn btn-default btn-flat">Admin
+                                        <span class="fa fa-caret-down"></span></button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3 text-left">
+                                    <label class="control-label">Department:</label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <button type="button" class="btn btn-default btn-flat">Technology
+                                        Information
+                                        <span class="fa fa-caret-down"></span></button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3 text-left">
+                                    <label class="control-label">
+                                        Manager: <font color="red">*</font></label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <select class="form-control select2" style="width: 100%;">
+                                        <option>-- Select Manager --</option>
+                                        <option selected>TrungNN2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3 text-left">
+                                    <label class="control-label">
+                                        Email: <font color="red">*</font></label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" style="width: 100%;"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3 text-left">
+                                    <label class="control-label">
+                                        Gender: <font color="red">*</font></label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="btn-group" data-toggle="btn-toggle">
+                                        <button type="button" class="btn btn-default active">Male</button>
+                                        <button type="button" class="btn btn-default">Female</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3 text-left">
+                                    <label class="control-label">
+                                        Phone: <font color="red">*</font></label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" style="width: 100%;"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3 text-left">
+                                    <label class="control-label">Address:</label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" style="width: 100%"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3 text-left">
+                                    <label class="control-label">Addition:</label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" style="width: 100%"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning btn-flat"
+                                onclick="update_processing()">Save
+                        </button>
+                        <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"
+                                onclick="back_to_view()">Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

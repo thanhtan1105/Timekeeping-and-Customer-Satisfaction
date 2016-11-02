@@ -13,7 +13,7 @@ public class AccountCheckInModel {
 
     private Long id;
     private String username;
-    private String fullname;
+    private String fullName;
     private ETimeKeeping statusCheckin = ETimeKeeping.ABSENT;
     private Date timeCheckin; //if check successful has timeCheckin
     private Date currentDate = new Date();
@@ -26,7 +26,7 @@ public class AccountCheckInModel {
         if (accountEntity != null) {
             this.id = accountEntity.getId();
             this.username = accountEntity.getUsername();
-            this.fullname = accountEntity.getFullname();
+            this.fullName = accountEntity.getFullName();
             if (timeEntity != null) {
                 this.statusCheckin = timeEntity.getStatus();
                 this.timeCheckin = timeEntity.getTimeCheck();
@@ -51,12 +51,12 @@ public class AccountCheckInModel {
         this.username = username;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public ETimeKeeping getStatusCheckin() {

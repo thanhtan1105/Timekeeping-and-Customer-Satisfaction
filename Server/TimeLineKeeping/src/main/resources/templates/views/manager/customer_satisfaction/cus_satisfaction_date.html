@@ -105,7 +105,7 @@
                                         <tbody>
                                         <tr th:each="employee,counter: ${CustomerServiceReport.employeeReport}">
                                             <td th:text="${counter.count} + '.'"></td>
-                                            <td th:text="${employee.fullname}"></td>
+                                            <td th:text="${employee.fullName}"></td>
                                             <td th:text="${employee.totalCustomer != null}? ${employee.totalCustomer}: 0"
                                                 class="text-center"></td>
                                             <td th:text="${employee.totalCustomer != 0}? ${employee.evaluation}: 'N/A'"></td>
