@@ -19,7 +19,7 @@ public class AccountManagerModel {
     public AccountManagerModel(AccountEntity entity) {
         if (entity != null) {
             this.id = entity.getId();
-            this.fullName = entity.getFullname();
+            this.fullName = entity.getFullName();
             this.username = entity.getUsername();
             this.gender = entity.getGender();
             this.email = entity.getEmail();

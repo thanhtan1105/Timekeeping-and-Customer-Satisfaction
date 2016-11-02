@@ -232,7 +232,8 @@ public class ReminderServiceImpl {
     private void notification(ReminderMessageEntity entity){
         String message = String.format("Message: %s \n Room: %s \n Time: %s\n", entity.getMessage(), entity.getRoom().getName(), TimeUtil.timeToString(entity.getTime()));
         String header = entity.getTitle();
-        for (NotificationEntity notificationEntity : entity.getNotificationSet()){
+        Set<NotificationEntity> notificationSet = notificationRepo.findReminder(entity.getId());
+        for (NotificationEntity notificationEntity : notificationSet){
             OneSignalNotification.instance().pushNotification(new AccountModel(notificationEntity.getAccountReceive()), header, message);
         }
     }

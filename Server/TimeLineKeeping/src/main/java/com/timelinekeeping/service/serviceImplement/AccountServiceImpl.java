@@ -33,10 +33,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -133,7 +130,7 @@ public class AccountServiceImpl {
             entity.setUsername(account.getUsername());
             entity.setUserCode(personCode);
             entity.setPassword(UtilApps.generatePassword());
-            entity.setFullname(account.getFullName());
+            entity.setFullName(account.getFullName());
             entity.setRole(roleEntity);
             entity.setDepartment(departmentEntity);
 
@@ -470,7 +467,7 @@ public class AccountServiceImpl {
         String welcomeMessage = "Xin chào ";
         String prefix = gender == Gender.MALE ? "anh" : "chị";
         welcomeMessage += prefix + " ";
-        welcomeMessage += accountEntity.getFullname() + " ";
+        welcomeMessage += accountEntity.getFullName() + " ";
         welcomeMessage += ". Chúc " + prefix + " " + "một ngày làm việc tốt lành";
 
         String header = "Check in successfully";

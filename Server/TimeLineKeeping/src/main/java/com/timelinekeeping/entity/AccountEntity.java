@@ -42,7 +42,7 @@ public class AccountEntity implements Serializable {
 
     @Basic
     @Column(name = "full_name", length = Integer.MAX_VALUE, nullable = false)
-    private String fullname;
+    private String fullName;
 
     @Basic
     @Column(name = "email", length = 100, nullable = false)
@@ -109,7 +109,7 @@ public class AccountEntity implements Serializable {
     public AccountEntity(AccountModifyModel model) {
         if (model != null) {
             this.username = StringUtils.isNotEmpty(model.getUsername()) ? model.getUsername() : this.username;
-            this.fullname = StringUtils.isNotEmpty(model.getFullName()) ? model.getFullName() : this.fullname;
+            this.fullName = StringUtils.isNotEmpty(model.getFullName()) ? model.getFullName() : this.fullName;
             this.phone = model.getPhone();
             this.email = model.getEmail();
             this.address = model.getAddress();
@@ -121,7 +121,7 @@ public class AccountEntity implements Serializable {
     public void update(AccountModifyModel model) {
         if (model != null) {
             this.username = StringUtils.isNotEmpty(model.getUsername()) ? model.getUsername() : this.username;
-            this.fullname = StringUtils.isNotEmpty(model.getFullName()) ? model.getFullName() : this.fullname;
+            this.fullName = StringUtils.isNotEmpty(model.getFullName()) ? model.getFullName() : this.fullName;
             this.phone = StringUtils.isNotEmpty(model.getPhone()) ? model.getPhone() : this.phone;
             this.email = StringUtils.isNotEmpty(model.getEmail()) ? model.getEmail() : this.email;
             this.address = StringUtils.isNotEmpty(model.getAddress()) ?model.getAddress() : this.address;
@@ -171,12 +171,12 @@ public class AccountEntity implements Serializable {
         this.active = active;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getToken() {
@@ -299,7 +299,7 @@ public class AccountEntity implements Serializable {
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 ", active=" + active +
-                ", fullname='" + fullname + '\'' +
+                ", fullName='" + fullName + '\'' +
                 ", token='" + token + '\'' +
                 ", role=" + role +
                 '}';

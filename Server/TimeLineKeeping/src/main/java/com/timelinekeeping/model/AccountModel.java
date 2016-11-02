@@ -37,7 +37,7 @@ public class AccountModel {
             this.id = entity.getId();
             this.username = entity.getUsername();
             this.userCode = entity.getUserCode();
-            this.fullName = entity.getFullname();
+            this.fullName = entity.getFullName();
             this.email = entity.getEmail();
             this.phone = entity.getPhone();
             this.address = entity.getAddress();

@@ -27,7 +27,7 @@ public class TimekeepingResponseModel {
         if (entity != null) {
             this.managerId = entity.getId();
             this.departmentName = entity.getDepartment().getName();
-            this.managerName = entity.getFullname();
+            this.managerName = entity.getFullName();
         }
         this.year = year;
         this.month = month;

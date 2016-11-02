@@ -8,7 +8,7 @@ import com.timelinekeeping.entity.AccountEntity;
 public class AccountNotificationModel {
     private Long id;
     private String username;
-    private String fullname;
+    private String fullName;
 
     public AccountNotificationModel() {
     }
@@ -18,7 +18,7 @@ public class AccountNotificationModel {
         if (entity != null) {
             this.id = entity.getId();
             this.username = entity.getUsername();
-            this.fullname = entity.getFullname();
+            this.fullName = entity.getFullName();
         }
     }
 
@@ -38,11 +38,11 @@ public class AccountNotificationModel {
         this.username = username;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }

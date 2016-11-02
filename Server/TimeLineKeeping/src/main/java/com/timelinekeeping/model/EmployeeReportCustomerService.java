@@ -16,7 +16,7 @@ public class EmployeeReportCustomerService {
     private Long id;
     private String username;
     private RoleModel role;
-    private String fullname;
+    private String fullName;
     private DepartmentModel department;
     private Long totalCustomer;
     private Double gradeAvg;
@@ -33,7 +33,7 @@ public class EmployeeReportCustomerService {
             this.id = entity.getId();
             this.username = entity.getUsername();
             this.role = new RoleModel(entity.getRole());
-            this.fullname = entity.getFullname();
+            this.fullName = entity.getFullName();
             this.department = new DepartmentModel(entity.getDepartment());
         }
     }
@@ -98,12 +98,12 @@ public class EmployeeReportCustomerService {
         this.role = role;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public DepartmentModel getDepartment() {
@@ -147,7 +147,7 @@ public class EmployeeReportCustomerService {
                 ", id=" + id +
                 ", username='" + username + '\'' +
                 ", role=" + role +
-                ", fullname='" + fullname + '\'' +
+                ", fullName='" + fullName + '\'' +
                 ", department=" + department +
                 ", totalCustomer=" + totalCustomer +
                 ", gradeAvg=" + gradeAvg +

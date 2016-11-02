@@ -13,7 +13,7 @@ public class AccountReportCustomerService {
     private Long id;
     private String username;
     private RoleModel role;
-    private String fullname;
+    private String fullName;
     private long totalCustomer = 0;
     private Double grade = 0d;
     private String evaluation;
@@ -25,7 +25,7 @@ public class AccountReportCustomerService {
         if (entity != null) {
             this.id = entity.getId();
             this.username = entity.getUsername();
-            this.fullname = entity.getFullname();
+            this.fullName = entity.getFullName();
             this.role = new RoleModel(entity.getRole());
         }
     }
@@ -63,12 +63,12 @@ public class AccountReportCustomerService {
         this.role = role;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public Long getTotalCustomer() {

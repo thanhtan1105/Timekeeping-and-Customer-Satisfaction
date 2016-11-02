@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class AccountTKReportModel {
     private Long id;
-    private String fullname;
+    private String fullName;
     private Integer dayCheckin;
     private Integer dayWork;
     private EStatus active;
@@ -20,7 +20,7 @@ public class AccountTKReportModel {
     public AccountTKReportModel(AccountEntity entity) {
         if (entity != null) {
             this.id = entity.getId();
-            this.fullname = entity.getFullname();
+            this.fullName = entity.getFullName();
             this.active = entity.getActive();
             this.dateDeactive = entity.getTimeDeactive();
         }
@@ -44,12 +44,12 @@ public class AccountTKReportModel {
         this.dayCheckin = dayCheckin;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public Integer getDayWork() {
