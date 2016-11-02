@@ -112,7 +112,7 @@ function load_previous_page() {
     } else {
         //current index page - 1
         --current_index_page;
-        //reload list reminders
+        //reload list departments
         load_list_departments(current_search_value, current_index_page, current_page_size);
     }
 }
