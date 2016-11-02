@@ -89,7 +89,7 @@ public class FaceController {
 
     @RequestMapping(value = {"/identifyImage"}, method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponse identifyImage(@RequestParam("image") MultipartFile image) {
+    public List<BaseResponse> identifyImage(@RequestParam("image") MultipartFile image) {
         try {
             // call function detect image
             BaseResponse detectFaceResponse = detectimg(image);
@@ -101,14 +101,15 @@ public class FaceController {
             // call personGroup list
             BaseResponse personGroupListResponse = personGroupsServiceMCS.listAll(0, 1000);
             List<PersonGroup> personGroupList = (ArrayList<PersonGroup>) personGroupListResponse.getData();
-
+            List<BaseResponse> identifyResponseList = new ArrayList<>();
             for (PersonGroup personGroup: personGroupList) {
                 List<String> face = new ArrayList();
                 face.add(faceId);
                 BaseResponse identifyResponse = identify(personGroup.getPersonGroupId(), face);
+                identifyResponseList.add(identifyResponse);
                 logger.info("identifyResponse " + identifyResponse);
             }
-
+            return identifyResponseList;
 
         } catch (Exception e) {
             logger.error(e);
