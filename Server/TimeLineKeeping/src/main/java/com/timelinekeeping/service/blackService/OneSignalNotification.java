@@ -49,7 +49,7 @@ public class OneSignalNotification {
 
             String strJsonBody = "{"
                     + "\"app_id\": \"7c01cb54-6bca-4ff2-8f12-b2a2e5248b9a\","
-                    + "\"include_player_ids\" : [\"" + account.getToken() + "\"],"
+                    + "\"include_player_ids\" : [\"" + account.getKeyOneSignal() + "\"],"
                     + "\"data\": {\"id\": " + account.getId() + "},"
                     + "\"headings\": {\"en\": \"" + header + "\"},"
                     + "\"contents\": {\"en\": \"" + message + "\"}"

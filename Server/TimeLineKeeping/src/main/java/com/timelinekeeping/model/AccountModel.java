@@ -24,6 +24,7 @@ public class AccountModel {
     private Gender gender;
     private EStatus active;
     private RoleModel role;
+    private String keyOneSignal;
     private DepartmentModel department;
     private Date timeDeactive;
     private String token;
@@ -178,5 +179,13 @@ public class AccountModel {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getKeyOneSignal() {
+        return keyOneSignal;
+    }
+
+    public void setKeyOneSignal(String keyOneSignal) {
+        this.keyOneSignal = keyOneSignal;
     }
 }
