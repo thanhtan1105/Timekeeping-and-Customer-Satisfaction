@@ -36,9 +36,9 @@ public class AccountController {
            Pair<Boolean, String> response = accountService.create(account);
             logger.info("AccountModel: " + JsonUtil.toJson(response));
             if (response.getKey() == true) {
-                return new BaseResponse(false, response.getValue());
-            }else{
                 return new BaseResponse(true, new Pair<String, String>("accountId", response.getValue()));
+            }else{
+                return new BaseResponse(false, response.getValue());
             }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
@@ -55,9 +55,9 @@ public class AccountController {
         try {
             Pair<Boolean, String> response = accountService.update(account);
             if (response.getKey() == true) {
-                return new BaseResponse(false, response.getValue());
+                return new BaseResponse(true, response.getValue());
             }else{
-                return new BaseResponse(true);
+                return new BaseResponse(false);
             }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
@@ -74,9 +74,9 @@ public class AccountController {
         try {
             Pair<Boolean, String> response = accountService.deactive(accountId);
             if (response.getKey() == true) {
-                return new BaseResponse(false, response.getValue());
+                return new BaseResponse(true, response.getValue());
             }else{
-                return new BaseResponse(true);
+                return new BaseResponse(false);
             }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
@@ -112,9 +112,9 @@ public class AccountController {
         try {
             AccountModel result = accountService.get(accountId);
             if (result != null) {
-                return new BaseResponse(false, result);
+                return new BaseResponse(true, result);
             }else{
-                return new BaseResponse(true);
+                return new BaseResponse(false);
             }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);

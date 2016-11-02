@@ -10,7 +10,7 @@ var last_page = false;
 var current_page_size = 10;
 var current_search_value;
 var deleted_department_id;
-var viewed_department_id;
+var viewed_account_id;
 
 /**
  * For load
@@ -147,13 +147,13 @@ function set_list_accounts(list_accounts, $tbody_list_accounts) {
             btn_activate = ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Activate Account">Activate</button>';
         }
         content_list_accounts += tr_status +
-            '<td>' + list_accounts[i].fullname + '</td>' +
+            '<td>' + list_accounts[i].fullName + '</td>' +
             '<td>' + list_accounts[i].username + '</td>' +
             '<td>' + list_accounts[i].role.name + '</td>' +
             '<td>' + list_accounts[i].department.name + '</td>' +
             '<td>' + set_status(status) + '</td>' +
             '<td>' +
-            '<button class="btn btn-success btn-flat btn-sm" type="button" title="View Account">' +
+            '<button class="btn btn-success btn-flat btn-sm" type="button" title="View Account" onclick="view(' + list_accounts[i].id + ')">' +
             '<i class="fa fa-eye"></i>' +
             '</button>' +
             btn_activate +
@@ -216,6 +216,162 @@ function set_status(status) {
     } else {
         return 'Deactivated';
     }
+}
+
+/**
+ * Fc: set content modal view
+ * @param username
+ * @param fullName
+ * @param role
+ * @param department
+ * @param manager
+ * @param email
+ * @param gender
+ * @param phone
+ * @param address
+ * @param description
+ */
+function set_content_modal_view(username, fullName, role, department, manager, email, gender, phone, address, description) {
+    var $viewing_username = $('#viewing_username'),
+        $viewing_fullName = $('#viewing_fullName'),
+        $viewing_role = $('#viewing_role'),
+        $viewing_department = $('#viewing_department'),
+        $viewing_email = $('#viewing_email'),
+        $viewing_gender = $('#viewing_gender'),
+        $viewing_phone = $('#viewing_phone'),
+        $viewing_address = $('#viewing_address'),
+        $viewing_description = $('#viewing_description');
+
+    //set content
+    $viewing_username.html(username);
+    $viewing_fullName.html(fullName);
+    $viewing_role.html(role);
+    $viewing_department.html(department);
+    set_manager(manager);
+    $viewing_email.html(set_not_available(email));
+    $viewing_gender.html(set_gender(gender));
+    $viewing_phone.html(set_not_available(phone));
+    $viewing_address.html(set_not_available(address));
+    $viewing_description.html(set_not_available(description));
+}
+
+/**
+ * Fc: set gender
+ * @param gender
+ * @returns {*}
+ */
+function set_gender(gender) {
+    if (gender == 1) {
+        return 'Female';
+    } else {
+        return 'Male';
+    }
+}
+
+function set_manager(manager) {
+    if (manager == null) {
+        //hide div viewing manager
+        event_hide('#div-viewing-manager');
+    } else {
+        var $viewing_manager = $('#viewing_manager');
+        //set content
+        $viewing_manager.html(manager.fullName);
+
+        //show div viewing manager
+        event_show('#div-viewing-manager');
+    }
+}
+
+/**
+ * Fc: set not available
+ * @param value
+ * @returns {*}
+ */
+function set_not_available(value) {
+    if (value == null || value.trim() == '') {
+        return 'N/A';
+    } else {
+        return value;
+    }
+}
+
+/**
+ * For Fc
+ */
+/**
+ * Fc: view department information
+ * @param id
+ */
+function view(id) {
+    viewed_account_id = id;
+    console.info('[viewed account id] ' + viewed_account_id);
+
+    var urlString = '/api/account/get?accountId=' + viewed_account_id;
+    $.ajax({
+        type: 'GET',
+        url: urlString,
+        success: function (response) {
+            var success = response.success;
+            console.info('[success] ' + success);
+            if (success) {
+                var data = response.data,
+                    username = data.username,
+                    fullName = data.fullName,
+                    role = data.role.name,
+                    department = data.department.name,
+                    manager = data.manager,
+                    email = data.email,
+                    gender = data.gender,
+                    phone = data.phone,
+                    address = data.address,
+                    description = data.description;
+
+                //set content modal view
+                set_content_modal_view(username, fullName, role, department, manager, email, gender, phone, address, description);
+                //show modal view account
+                show_modal('#modal-view-account', false);
+            }
+        }
+    });
+}
+
+/**
+ * For util fc
+ */
+/**
+ * Fc: hide
+ * @param id
+ */
+function event_hide(id) {
+    $(id).hide();
+}
+
+/**
+ * Fc: show
+ * @param id
+ */
+function event_show(id) {
+    $(id).show();
+}
+
+/**
+ * Fc: show modal
+ * @param id
+ * @param enabled ('true', 'false')
+ */
+function show_modal(id, keyboard) {
+    if (!keyboard) {//prevent closing
+        $(id).modal({
+            backdrop: 'static',
+            keyboard: keyboard, //(false) prevent closing with Esc button
+            show: true
+        });
+    } else {//allow closing
+        $(id).modal({
+            show: true
+        });
+    }
+
 }
 
 /**
