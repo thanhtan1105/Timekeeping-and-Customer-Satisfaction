@@ -7,7 +7,7 @@
     <meta charset="UTF-8"/>
     <title>Management Departments</title>
 </head>
-<body>
+<body onload="load_list_accounts('', 0, 10)">
 <div layout:fragment="content">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -24,7 +24,7 @@
         <!-- Your Page Content Here -->
         <!-- Form for search accounts -->
         <div class="input-group" style="margin-right:  25%; margin-left: 25%; margin-bottom: 5px;">
-            <input type="text" class="form-control" placeholder="Enter Account"/>
+            <input type="text" class="form-control" placeholder="Enter account"/>
                 <span class="input-group-btn">
                     <button class="btn btn-success btn-flat" type="button"/>
                         <i class="glyphicon glyphicon-search"></i> Search
@@ -42,10 +42,49 @@
             </div>
         </div>
         <!-- /.end add new account -->
-        <div class="box box-success">
-            <div class="box-header">
-                <h3 class="box-title text-success"><i class="glyphicon glyphicon-list-alt"></i> Accounts List</h3>
-                <hr style="border-color: green; margin-top: 4px; margin-bottom: 5px; margin-right: 89%; border-width: 2px;">
+        <!-- list of accounts -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <div class="box-title">
+                            List of Accounts
+                        </div>
+                        <div class="pull-right">
+                            Show
+                            <select th:id="'select-entries'">
+                                <option value="10" selected>10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select> entries
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <table class="table">
+                            <colgroup>
+                                <col span="1" style="width: 20%;">
+                                <col span="1" style="width: 20%;">
+                                <col span="1" style="width: 10%;">
+                                <col span="1" style="width: 20%;">
+                                <col span="1" style="width: 15%;">
+                                <col span="1" style="width: 15%;">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>Full Name</th>
+                                <th>User Name</th>
+                                <th>Role</th>
+                                <th>Department</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody th:id="'tbody-list-accounts'"></tbody>
+                        </table>
+                    </div>
+                    <div th:id="'footer-pagination'" class="box-footer no-border text-right"></div>
+                </div>
             </div>
             <!-- /.box-header -->
             <!-- Data-table for list of accounts -->
@@ -101,11 +140,15 @@
             <!-- /.box-body -->
             <!-- /.end data-table for list of accounts -->
         </div>
+        <!-- /.list of accounts -->
+        <!-- modals here -->
+        <div th:replace="views/admin/management_acc/modals"></div>
     </section>
     <!-- /.content -->
 </div>
 <div layout:fragment="js">
-    <!--<script th:src="@{/js/admin/management_depart/management_depart.js}"></script>-->
+    <script th:src="@{/js/common.js}"></script>
+    <script th:src="@{/js/admin/management_acc/management_acc.js}"></script>
 </div>
 </body>
 </html>
