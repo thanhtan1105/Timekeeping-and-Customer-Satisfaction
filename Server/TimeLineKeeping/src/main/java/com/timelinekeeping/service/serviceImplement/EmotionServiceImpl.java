@@ -83,7 +83,7 @@ public class EmotionServiceImpl {
     }
 
 
-    private EmotionCustomerResponse emotionAnalyzis(EmotionCustomerEntity emotionCustomerEntity) {
+    public EmotionCustomerResponse emotionAnalyzis(EmotionCustomerEntity emotionCustomerEntity) {
         //get analysis
         EmotionAnalysisModel analysisModel = new EmotionAnalysisModel(emotionCustomerEntity);
         String messageEmotion = suggestionService.getEmotionMessage(analysisModel);
@@ -304,7 +304,7 @@ public class EmotionServiceImpl {
     }
 
 
-    private EmotionAnalysisModel getCustomerEmotion(InputStream inputStreamImg)
+    public EmotionAnalysisModel getCustomerEmotion(InputStream inputStreamImg)
             throws IOException, URISyntaxException {
         logger.info("[Get Customer Emotion] BEGIN SERVICE");
 

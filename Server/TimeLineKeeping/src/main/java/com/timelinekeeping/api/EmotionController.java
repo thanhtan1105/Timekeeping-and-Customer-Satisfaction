@@ -8,6 +8,7 @@ import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.service.blackService.AWSStorage;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
+import com.timelinekeeping.service.serviceImplement.SuggestionService;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.ValidateUtil;
@@ -20,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
@@ -36,6 +39,8 @@ public class EmotionController {
     @Autowired
     private EmotionServiceImpl emotionService;
 
+    @Autowired
+    private SuggestionService suggestionService;
 
     @RequestMapping(value = I_URI.API_EMOTION_GET_EMOTION)
     @ResponseBody
@@ -102,6 +107,28 @@ public class EmotionController {
         }
     }
 
+    @RequestMapping(value = "testSuggestEmotion", method = RequestMethod.POST)
+    public BaseResponse testGetSuggestEmotion(@RequestParam("image") MultipartFile imageFile) {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        try {
+            byte[] byteImage = IOUtils.toByteArray(imageFile.getInputStream());
+            EmotionAnalysisModel emotionAnalysis = null;
+            emotionAnalysis = emotionService.getCustomerEmotion(new ByteArrayInputStream(byteImage));
+            String messageEmotion = suggestionService.getEmotionMessage(emotionAnalysis);
+            logger.info("Suggest message: " + messageEmotion);
+            BaseResponse baseResponse = new BaseResponse();
+            baseResponse.setSuccess(true);
+            baseResponse.setData(emotionAnalysis);
+            baseResponse.setMessage(messageEmotion);
+            return baseResponse;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
 
     @RequestMapping(value = I_URI.API_EMOTION_UPLOAD_IMAGE, method = RequestMethod.POST)
     @ResponseBody

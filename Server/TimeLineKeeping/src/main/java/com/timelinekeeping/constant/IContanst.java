@@ -61,16 +61,14 @@ public interface IContanst {
     /** CHECKIN*/
     String TIME_CHECK_IN_SYSTEM = AppConfigKeys.getInstance().getApiPropertyValue("checkin.time.system");
 
-
-
     /** suggestion model**/
     String QUANLITY_EMOTION_DEFAULT = "một ít";
     double EXCEPTION_VALUE = 0.05;
-    String SUGGESTION_1_EMOTION = "%s cảm thấy %s.";
-    String SUGGESTION_2_EMOTION = "%s cảm thấy %s và %s.";
-    String SUGGESTION_3_EMOTION = "%s cảm thấy %s, %s và %s.";
-    String SUGGESTION_BOTH_2_1_EMOTION = "%s cảm thấy %s và %s nhưng %s.";
-    String SUGGESTION_BOTH_1_2_EMOTION = "%s cảm thấy %s nhưng %s và %s.";
+    String SUGGESTION_1_EMOTION = "%s có vẻ %s.";
+    String SUGGESTION_2_EMOTION = "%s có vẻ %s và %s.";
+    String SUGGESTION_3_EMOTION = "%s có vẻ %s, %s và %s.";
+    String SUGGESTION_BOTH_2_1_EMOTION = "%s có vẻ %s và %s nhưng %s.";
+    String SUGGESTION_BOTH_1_2_EMOTION = "%s có vẻ %s nhưng %s và %s.";
 
     /** Message Competition*/
     List<Pair<EEmotion, EEmotion>> COMPETITION_EMOTION = Arrays.asList(new Pair<>(EEmotion.ANGER, EEmotion.HAPPINESS),
