@@ -41,15 +41,15 @@ public class TimeUtil {
         return format.format(time);
     }
 
-//    public static void main(String[] args) {
-//        String text = "17 September 2016 - 09:30 pm";
-//        DateFormat format = new SimpleDateFormat("dd MMMM yyyy - HH:mm a", Locale.ENGLISH);
-//        Date date = null;
-//        try {
-//            date = format.parse(text);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println("Date: " + date);
-//    }
+    public static void main(String[] args) {
+        String text = "2016-11-08 09:30 AM";
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+        Date date = null;
+        try {
+            date = format.parse(text);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Date: " + date);
+    }
 }
