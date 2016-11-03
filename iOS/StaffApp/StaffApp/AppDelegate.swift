@@ -30,10 +30,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (viewController as? HomeTabBarController) != nil {
           let homeTabbar = viewController as! HomeTabBarController
           let listVC: [UIViewController] = homeTabbar.viewControllers!
-          let navigation = listVC[0] as! UINavigationController
-          let timelineVC = navigation.childViewControllers[0] as! TimeKeepingViewController
-          timelineVC.initLoadData()
-
+          let navigation = listVC[1] as! UINavigationController   // notificaionViewController
+          let notificationVC = navigation.childViewControllers[0] as! NotificationViewController
+          notificationVC.reloadNotification()
         }
       })
       

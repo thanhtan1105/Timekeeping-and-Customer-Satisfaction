@@ -87,11 +87,14 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
     destinationPoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
       return point.id == destinationPointId
     }).first
-    showDestinatePoint(destinationPoint)
     
   }
   
   @IBAction func onDirectTapped(sender: UIBarButtonItem) {
+    // compaire
+    if sourcePoint.floor != destinationPoint.floor {
+      nextButton.hidden = false
+    }
     // show find path
     if let destinationPoint = destinationPoint {
       showFindPath(sourcePoint, destinatePoint: destinationPoint)
@@ -352,7 +355,10 @@ extension BeaconViewController {
       LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
       self.scrollView.hidden = false
       self.topView.hidden = false
-      self.nextButton.hidden = false
+      // disable next floor
+      if sourcePoint.floor == self.destinationPoint.floor {
+        self.nextButton.hidden = true
+      }
     }
     
     let point = realm.objects(Point.self).filter { (point: Point) -> Bool in
@@ -361,7 +367,7 @@ extension BeaconViewController {
     
     if let point = point {
       if currentFloor == -1 || point.floor == currentFloor {
-        currentFloor == point.floor
+        currentFloor = point.floor
         // show point on Map
         let templeView2 = view.viewWithTag(4)
         if templeView2 != nil {
@@ -389,6 +395,9 @@ extension BeaconViewController {
         
         // animation 
         resizeAnimation(pointInMap)
+        
+        // show destination point
+        showDestinatePoint(destinationPoint)
       }      
     }
   }

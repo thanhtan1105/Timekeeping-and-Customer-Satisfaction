@@ -24,7 +24,10 @@ class NotificationViewController: BaseViewController {
     callApiGetAllBeacon()     // beacon
     callApiGetAllPoint()      // get point
     callApiGetRoomPoint()     // get room point
-    
+    reloadNotification()      // get notification
+  }
+  
+  func reloadNotification() {
     callApiGetReminder(String(5)) { (data, error) in
       dispatch_async(dispatch_get_main_queue(), {
         if let data = data {
@@ -40,6 +43,10 @@ class NotificationViewController: BaseViewController {
         }
       })
     }
+  }
+  
+  override func viewDidAppear(animated: Bool) {
+    super.viewDidAppear(animated)
   }
 }
 
