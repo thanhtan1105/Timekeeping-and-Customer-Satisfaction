@@ -1,5 +1,6 @@
 package com.timelinekeeping.api;
 
+import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.IContanst;
@@ -151,7 +152,8 @@ public class DepartmentController {
     public BaseResponse training(@RequestParam("departmentId") String departmentId) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         try {
-            BaseResponse response = departmentService.training(departmentId);
+            String department = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.department");
+            BaseResponse response = departmentService.training(department);
             return response;
         } catch (IOException e) {
             logger.error(e);

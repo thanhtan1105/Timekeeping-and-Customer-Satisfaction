@@ -1,5 +1,6 @@
 package com.timelinekeeping.service.serviceImplement;
 
+import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.service.blackService.OneSignalNotification;
@@ -114,7 +115,8 @@ public class AccountServiceImpl {
             }
 
             //create person in MCS
-            String departmentCode = departmentEntity.getCode();
+            String departmentCode = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.department");
+                    // departmentEntity.getCode();
             logger.info("departmentCode: " + departmentCode);
             BaseResponse response = personServiceMCS.createPerson(departmentCode, account.getUsername(), JsonUtil.toJson(account));
             if (!response.isSuccess()) {
@@ -129,7 +131,7 @@ public class AccountServiceImpl {
             AccountEntity entity = new AccountEntity(account);
             entity.setUsername(account.getUsername());
             entity.setUserCode(personCode);
-            entity.setPassword(UtilApps.generatePassword());
+            entity.setPassword(IContanst.PASSWORD_DEFAULT);
             entity.setFullName(account.getFullName());
             entity.setRole(roleEntity);
             entity.setDepartment(departmentEntity);
@@ -358,12 +360,13 @@ public class AccountServiceImpl {
             if (accountEntity == null) {
                 return null;
             }
-            BaseResponse baseResponse = personServiceMCS.addFaceImg(accountEntity.getDepartment().getCode(), accountEntity.getUserCode(), streams[0]);
+
+            String departmentCode = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.department");
+            BaseResponse baseResponse = personServiceMCS.addFaceImg(departmentCode, accountEntity.getUserCode(), streams[0]);
             logger.info("RESPONSE" + baseResponse);
             if (!baseResponse.isSuccess()) {
                 return null;
             }
-
 
             // encoding data
             Map<String, String> mapResult = (Map<String, String>) baseResponse.getData(); // get face
@@ -413,7 +416,8 @@ public class AccountServiceImpl {
             if (departmentEntities == null || departmentEntities.size() == 0) {
                 return new BaseResponse(false, ERROR.ACCOUNT_CHECKIN_MSDS, null);
             }
-            List<String> departmentCode = departmentEntities.stream().map(DepartmentEntity::getCode).collect(Collectors.toList());
+            List<String> departmentCode = Arrays.asList(AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.department"));
+                    //departmentEntities.stream().map(DepartmentEntity::getCode).collect(Collectors.toList());
             logger.info("-- List department: " + JsonUtil.toJson(departmentCode));
 
             /** get PersonID from */

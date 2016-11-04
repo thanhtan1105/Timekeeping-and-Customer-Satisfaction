@@ -244,7 +244,7 @@ extension CameraViewController {
       if success == true {
         onCompletionHandler!(isSuccess: true, error: nil)
       } else {
-        let failMessage = data["message"] as! String
+        let failMessage = data["message"] as? String ?? ""
         onCompletionHandler!(isSuccess: false, error: NSError(domain: "com.trainingImage", code: 100, userInfo: ["info" : failMessage]))
       }
       

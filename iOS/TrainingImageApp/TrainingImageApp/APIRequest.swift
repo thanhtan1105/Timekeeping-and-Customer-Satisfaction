@@ -33,7 +33,7 @@ class APIRequest: NSObject {
   }
   
   func sendTrainingStatus(departmentId: String, onCompletion: ServiceResponse) {
-    let url = urlSendTrainingStatus
+    let url = http + urlSendTrainingStatus
     let params: [String : AnyObject] = [
       "departmentId" : departmentId
     ]
@@ -42,7 +42,7 @@ class APIRequest: NSObject {
   }
   
   func getAccountList(departmentId departmentId: Int, start: Int, top: Int, onCompletion: ServiceResponse) {
-    let url = urlGetAccountList
+    let url = http + urlGetAccountList
     let params: [String : AnyObject] = [
       "departmentID" : departmentId,
       "start" : start,
@@ -52,7 +52,7 @@ class APIRequest: NSObject {
   }
   
   func addFaceToPerson(personGroupId: String, personId: Int, imageFace: UIImage, onCompletion: ServiceResponse) {
-    let url = urlAddFaceToPerson
+    let url = http + urlAddFaceToPerson
     let request = NSMutableURLRequest(URL: NSURL(string: url)!)
     request.HTTPMethod = "POST"
     

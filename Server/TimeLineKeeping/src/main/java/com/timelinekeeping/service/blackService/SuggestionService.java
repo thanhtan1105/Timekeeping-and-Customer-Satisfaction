@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import java.util.List;
  * Created by HienTQSE60896 on 10/7/2016.
  */
 @Service
+@Component
 public class SuggestionService {
 
     @Autowired
