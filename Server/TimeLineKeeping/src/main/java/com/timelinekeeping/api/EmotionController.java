@@ -171,6 +171,7 @@ public class EmotionController {
 
                 //store Image
                 String fileName = I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + customerCode;
+                /**store image*/
                 String urlFile = StoreFileUtils.storeFile(fileName, new ByteArrayInputStream(byteImage));
 
                 //Store aws

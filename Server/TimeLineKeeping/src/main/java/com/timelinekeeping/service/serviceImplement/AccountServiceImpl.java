@@ -2,6 +2,7 @@ package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
+import com.timelinekeeping.service.blackService.AWSStorage;
 import com.timelinekeeping.service.blackService.OneSignalNotification;
 import com.timelinekeeping.service.blackService.SMSNotification;
 import com.timelinekeeping.common.BaseResponse;
@@ -372,12 +373,20 @@ public class AccountServiceImpl {
                 //STORE FILE
                 String nameFile = accountEntity.getDepartment().getId() + "_" + accountEntity.getDepartment().getCode()
                         + File.separator + accountId + "_" + accountEntity.getUsername() + File.separator + new Date().getTime();
+
                 String outFileName = StoreFileUtils.storeFile(nameFile, streams[1]);
                 //return faceReturn.getId();
 
+                //store file AWS
+                String outAWSFileName = null;
+                if (outFileName != null) {
+                    File file = new File(outFileName);
+                    outAWSFileName = AWSStorage.uploadFile(file, file.getName());
+                }
+
                 // save db
                 FaceEntity faceCreate = new FaceEntity(persistedFaceID, accountEntity);
-                faceCreate.setStoePath(outFileName);
+                faceCreate.setStoePath(outAWSFileName);
                 FaceEntity faceReturn = faceRepo.saveAndFlush(faceCreate);
                 return faceReturn.getId();
             }
