@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <!-- global stylesheets -->
+    <link th:href="@{/libs/plugins/login/css/font_family.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/libs/plugins/login/css/icons/icomoon/styles.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/libs/plugins/login/css/bootstrap.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/libs/plugins/login/css/core.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/libs/plugins/login/css/components.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/libs/plugins/login/css/colors.css}" rel="stylesheet" type="text/css">
+    <!-- /global stylesheets -->
+
+    <!-- Core JS files -->
+    <script type="text/javascript" th:src="@{/libs/plugins/login/js/core/libraries/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/libs/plugins/login/js/core/libraries/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/libs/plugins/login/js/plugins/loaders/blockui.min.js}"></script>
+    <!-- /core JS files -->
+
+    <!-- Theme JS files -->
+    <script type="text/javascript" th:src="@{/libs/plugins/login/js/plugins/forms/styling/uniform.min.js}"></script>
+
+    <script type="text/javascript" th:src="@{/libs/plugins/login/js/pages/login_validation.js}"></script>
+    <!-- /theme JS files -->
+
+    <style>
+        body {
+            font-size: 17px;
+        }
+    </style>
+</head>
+<body class="login-cover">
+<div class="page-container login-container">
+    <div class="page-content">
+        <div class="content-wrapper">
+            <div class="content">
+                <form class="form-horizontal">
+                    <div class="panel panel-body login-form width-450">
+                        <div class="text-center">
+                            <div class="icon-object border-warning-400 text-warning-400"><i class="icon-reading"></i>
+                            </div>
+                            <h3 class="content-group text-semibold">TIMEKEEPING & <br/>CUSTOMER SATISFACTION</h3>
+                        </div>
+                        <div class="form-group has-feedback has-feedback-left">
+                            <label class="col-lg-3 control-label">Username:</label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control"/>
+                                <div class="form-control-feedback">
+                                    <i class="icon-user text-muted"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback has-feedback-left">
+                            <label class="col-lg-3 control-label">Password:</label>
+                            <div class="col-lg-9">
+                                <input type="password" class="form-control input-"/>
+                                <div class="form-control-feedback">
+                                    <i class="icon-lock2 text-muted"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group login-options">
+                            <div class="col-lg-3"></div>
+                            <div class="col-sm-6">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" class="styled" checked="checked">
+                                    Remember
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-10 col-md-offset-1">
+                                <button type="submit" class="btn bg-blue btn-block btn-lg">Login
+                                    <i class="icon-arrow-right14 position-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
