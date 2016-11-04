@@ -1,6 +1,7 @@
 package com.timelinekeeping.controller;
 
 import com.timelinekeeping.common.Pair;
+import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.*;
@@ -80,6 +81,10 @@ public class AccountControllerWeb {
                              @RequestParam("fullName") String fullName,
                              @RequestParam("roleId") String roleId,
                              @RequestParam("departmentId") String departmentId,
+                             @RequestParam("gender") String gender,
+                             @RequestParam("email") String email,
+                             @RequestParam("phone") String phone,
+                             @RequestParam("address") String address,
                              Model model) {
         String url = "/views/admin/management_acc/add_acc";
         try {
@@ -88,11 +93,19 @@ public class AccountControllerWeb {
             logger.info("[Controller- Add Account] fullName: " + fullName);
             logger.info("[Controller- Add Account] roleId: " + roleId);
             logger.info("[Controller- Add Account] departmentId: " + departmentId);
+            logger.info("[Controller- Add Account] gender: " + gender);
+            logger.info("[Controller- Add Account] email: " + email);
+            logger.info("[Controller- Add Account] phone: " + phone);
+            logger.info("[Controller- Add Account] address: " + address);
             AccountModifyModel account = new AccountModifyModel();
             account.setUsername(username);
             account.setFullName(fullName);
             account.setRoleId(ValidateUtil.parseNumber(roleId));
             account.setDepartmentId(ValidateUtil.parseNumber(departmentId));
+            account.setGender(Gender.fromIndex(Integer.parseInt(gender)));
+            account.setEmail(email);
+            account.setPhone(phone);
+            account.setAddress(address);
 
             Pair<Boolean, String> response = accountService.create(account);
             boolean success = response.getKey();
@@ -110,6 +123,10 @@ public class AccountControllerWeb {
         model.addAttribute("fullName", fullName);
         model.addAttribute("roleId", roleId);
         model.addAttribute("departmentId", departmentId);
+        model.addAttribute("gender", gender);
+        model.addAttribute("email", email);
+        model.addAttribute("phone", phone);
+        model.addAttribute("address", address);
 
         // Get all roles for selection
         List<RoleModel> roleEntities = roleService.listAll();

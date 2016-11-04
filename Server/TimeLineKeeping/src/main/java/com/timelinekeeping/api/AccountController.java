@@ -8,6 +8,7 @@ import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.service.serviceImplement.AccountServiceImpl;
 import com.timelinekeeping.util.JsonUtil;
+import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,6 +178,26 @@ public class AccountController {
             Long faceId = accountService.addFaceImg(Long.valueOf(accountId), imageFile.getInputStream());
             if (faceId != null) {
                 return new BaseResponse(true, new Pair<>("faceId", faceId));
+            }else{
+                return new BaseResponse(false);
+            }
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER);
+        }
+    }
+
+    @RequestMapping(value = I_URI.API_ACCOUNT_LIST_FACE, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse listFace(@RequestParam(value = "accountId") Long accountId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info("accountId: " + accountId);
+            List<FaceModel> faces = accountService.listFace(accountId);
+            if (ValidateUtil.isNotEmpty(faces)) {
+                return new BaseResponse(true,faces);
             }else{
                 return new BaseResponse(false);
             }

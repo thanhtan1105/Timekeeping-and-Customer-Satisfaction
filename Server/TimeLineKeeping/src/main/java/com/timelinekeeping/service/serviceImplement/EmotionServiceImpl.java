@@ -68,6 +68,7 @@ public class EmotionServiceImpl {
 
             if (emotionCamera1 == null) {
                 emotionCamera1 = emotionCamera2;
+                emotionCamera2 = null;
             }
 
             //choose db

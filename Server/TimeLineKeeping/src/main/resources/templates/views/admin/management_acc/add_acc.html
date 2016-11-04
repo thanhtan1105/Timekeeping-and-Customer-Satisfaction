@@ -79,6 +79,45 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="control-label col-sm-2">
+                            Gender: <font color="red">*</font></label>
+
+                        <div class="col-sm-10">
+                            <select th:name="gender"
+                                    class="form-control select2" style="width: 50%;">
+                                <option th:value="0" th:selected="${gender == 0}">Male</option>
+                                <option th:value="1" th:selected="${gender == 1}">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">
+                            Email: <font color="red">*</font></label>
+
+                        <div class="col-sm-10">
+                            <input type="text" th:name="email" th:value="${email}"
+                                   class="form-control" placeholder="Enter Email" style="width: 50%;"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">
+                            Phone: <font color="red">*</font></label>
+
+                        <div class="col-sm-10">
+                            <input type="text" th:name="phone" th:value="${phone}"
+                                   class="form-control" placeholder="Enter Phone" style="width: 50%;"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">
+                            Address: <font color="red">*</font></label>
+
+                        <div class="col-sm-10">
+                            <textarea th:name="address" th:text="${address}"
+                                      class="form-control" style="width: 50%"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-sm-2"></div>
                         <div class="col-sm-5">
                             <button type="submit" class="btn btn-success btn-flat btn-sm" style="width: 25%;">

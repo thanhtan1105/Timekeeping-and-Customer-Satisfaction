@@ -3,16 +3,14 @@ package com.timelinekeeping.service.serviceImplement;
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
+import com.timelinekeeping.model.*;
+import com.timelinekeeping.service.blackService.AWSStorage;
 import com.timelinekeeping.service.blackService.OneSignalNotification;
 import com.timelinekeeping.service.blackService.SMSNotification;
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.*;
 import com.timelinekeeping.entity.*;
-import com.timelinekeeping.model.AccountManagerModel;
-import com.timelinekeeping.model.AccountModel;
-import com.timelinekeeping.model.AccountModifyModel;
-import com.timelinekeeping.model.NotificationCheckInModel;
 import com.timelinekeeping.modelMCS.FaceDetectResponse;
 import com.timelinekeeping.modelMCS.FaceIdentifyConfidenceRespone;
 import com.timelinekeeping.modelMCS.FaceIdentityCandidate;
@@ -375,12 +373,20 @@ public class AccountServiceImpl {
                 //STORE FILE
                 String nameFile = accountEntity.getDepartment().getId() + "_" + accountEntity.getDepartment().getCode()
                         + File.separator + accountId + "_" + accountEntity.getUsername() + File.separator + new Date().getTime();
+
                 String outFileName = StoreFileUtils.storeFile(nameFile, streams[1]);
                 //return faceReturn.getId();
 
+                //store file AWS
+                String outAWSFileName = null;
+                if (outFileName != null) {
+                    File file = new File(outFileName);
+                    outAWSFileName = AWSStorage.uploadFile(file, file.getName());
+                }
+
                 // save db
                 FaceEntity faceCreate = new FaceEntity(persistedFaceID, accountEntity);
-                faceCreate.setStoePath(outFileName);
+                faceCreate.setStorePath(outAWSFileName);
                 FaceEntity faceReturn = faceRepo.saveAndFlush(faceCreate);
                 return faceReturn.getId();
             }
@@ -389,6 +395,21 @@ public class AccountServiceImpl {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
 
+    }
+
+    /** list all face in account*/
+    public List<FaceModel> listFace(Long accountID){
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            List<FaceEntity> entities = faceRepo.findByAccount(accountID);
+            if (ValidateUtil.isEmpty(entities)){
+                return null;
+            }
+            return entities.stream().map(FaceModel::new).collect(Collectors.toList());
+
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
     }
 
     /**

@@ -22,7 +22,7 @@ public class FaceEntity  implements Serializable {
 
     @Basic
     @Column(name = "store_path", length = 500)
-    private String stoePath;
+    private String storePath;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", nullable = false)
@@ -62,12 +62,12 @@ public class FaceEntity  implements Serializable {
         this.accountEntity = accountEntity;
     }
 
-    public String getStoePath() {
-        return stoePath;
+    public String getStorePath() {
+        return storePath;
     }
 
-    public void setStoePath(String stoePath) {
-        this.stoePath = stoePath;
+    public void setStorePath(String storePath) {
+        this.storePath = storePath;
     }
 }
 

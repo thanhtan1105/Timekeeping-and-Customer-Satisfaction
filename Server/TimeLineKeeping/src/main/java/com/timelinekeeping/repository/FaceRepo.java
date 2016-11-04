@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public interface FaceRepo extends JpaRepository<FaceEntity, Long> {
 
-    @Query("select f from FaceEntity f")
+    @Query("select f from FaceEntity f inner join f.accountEntity a where a.id = :account_id")
     public List<FaceEntity> findByAccount(@Param("account_id") Long accountiD);
     
 }
