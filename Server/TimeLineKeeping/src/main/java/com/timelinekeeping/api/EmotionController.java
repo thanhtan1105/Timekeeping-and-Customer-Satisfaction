@@ -64,6 +64,7 @@ public class EmotionController {
                 return new BaseResponse(false);
             }
         } catch (Exception e) {
+            System.out.println(e.getStackTrace());
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
         } finally {
@@ -95,6 +96,7 @@ public class EmotionController {
                 return new BaseResponse(false);
             }
         } catch (Exception e) {
+            System.out.println(e.getStackTrace());
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
         } finally {
@@ -162,6 +164,7 @@ public class EmotionController {
             }
 
         } catch (Exception e) {
+            System.out.println(e.getStackTrace());
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
         } finally {
@@ -200,6 +203,7 @@ public class EmotionController {
             }
 
         } catch (Exception e) {
+            System.out.println(e.getStackTrace());
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
         } finally {
@@ -224,6 +228,7 @@ public class EmotionController {
                 return new BaseResponse(false);
             }
         } catch (Exception e) {
+            System.out.println(e.getStackTrace());
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
         } finally {
@@ -246,6 +251,7 @@ public class EmotionController {
                 return new BaseResponse(false);
             }
         } catch (Exception e) {
+            System.out.println(e.getStackTrace());
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
         } finally {
@@ -262,6 +268,7 @@ public class EmotionController {
             emotionService.vote(contentId);
             return new BaseResponse(true);
         } catch (Exception e) {
+            System.out.println(e.getStackTrace());
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
         } finally {

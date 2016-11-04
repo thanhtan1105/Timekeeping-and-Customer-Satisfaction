@@ -16,6 +16,7 @@ import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.CustomerServiceRepo;
 import com.timelinekeeping.repository.EmotionContentRepo;
 import com.timelinekeeping.repository.EmotionRepo;
+import com.timelinekeeping.service.blackService.SuggestionService;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ServiceUtils;
 import com.timelinekeeping.util.UtilApps;
@@ -64,6 +65,7 @@ public class EmotionServiceImpl {
             //getEmotion from db
             EmotionCustomerEntity emotionCamera1 = customerEmotionSession.getEmotionCamera1() != null ? emotionRepo.findOne(customerEmotionSession.getEmotionCamera1()) : null;
             EmotionCustomerEntity emotionCamera2 = customerEmotionSession.getEmotionCamera2() != null ? emotionRepo.findOne(customerEmotionSession.getEmotionCamera2()) : null;
+
             if (emotionCamera1 == null) {
                 emotionCamera1 = emotionCamera2;
             }
@@ -84,15 +86,21 @@ public class EmotionServiceImpl {
 
 
     private EmotionCustomerResponse emotionAnalyzis(EmotionCustomerEntity emotionCustomerEntity) {
-        //get analysis
-        EmotionAnalysisModel analysisModel = new EmotionAnalysisModel(emotionCustomerEntity);
-        String messageEmotion = suggestionService.getEmotionMessage(analysisModel);
-        List<EmotionContentModel> suggestion = suggestionService.getSuggestion(emotionCustomerEntity.getEmotionMost(), emotionCustomerEntity.getAge(), emotionCustomerEntity.getGender());
-        //create message
-        MessageModel messageModel = new MessageModel(emotionCustomerEntity);
-        messageModel.setMessage(Collections.singletonList(UtilApps.formatSentence(messageEmotion)));
-        messageModel.setSugguest(suggestion);
-        return new EmotionCustomerResponse(analysisModel, messageModel);
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            //get analysis
+            EmotionAnalysisModel analysisModel = new EmotionAnalysisModel(emotionCustomerEntity);
+            String messageEmotion = suggestionService.getEmotionMessage(analysisModel);
+            List<EmotionContentModel> suggestion = suggestionService.getSuggestion(emotionCustomerEntity.getEmotionMost(), emotionCustomerEntity.getAge(), emotionCustomerEntity.getGender());
+
+            //create message
+            MessageModel messageModel = new MessageModel(emotionCustomerEntity);
+            messageModel.setMessage(Collections.singletonList(UtilApps.formatSentence(messageEmotion)));
+            messageModel.setSugguest(suggestion);
+            return new EmotionCustomerResponse(analysisModel, messageModel);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
     }
 
     public CustomerServiceModel beginTransaction(Long employeeId) {
