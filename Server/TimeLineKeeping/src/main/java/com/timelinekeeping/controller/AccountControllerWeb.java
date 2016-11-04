@@ -112,7 +112,14 @@ public class AccountControllerWeb {
 
             logger.info("[Controller- Add Account] success: " + success);
             if (success) {
-                url = "redirect:/admin/accounts/";
+//                url = "redirect:/admin/accounts/";
+                // set side-bar
+                String sideBar = IContanst.SIDE_BAR_ADMIN_MANAGEMENT_ACC;
+
+                // side-bar
+                model.addAttribute("SideBar", sideBar);
+
+                return "/views/admin/management_acc/management_acc";
             }
         } catch (Exception e) {
             //TODO redirect error
