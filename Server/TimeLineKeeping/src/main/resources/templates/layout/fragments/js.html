@@ -9,6 +9,8 @@
 <script th:src="@{/libs/plugins/datetimepicker/bootstrap-datetimepicker.fr.js}" charset="UTF-8"></script>
 <!-- bootstrap datepicker -->
 <script th:src="@{/libs/plugins/datepicker/bootstrap-datepicker.js}"></script>
+<!-- bootstrap time picker -->
+<script th:src="@{/libs/plugins/timepicker/bootstrap-timepicker.min.js}"></script>
 <!-- Select2 -->
 <script th:src="@{/libs/plugins/select2/select2.full.min.js}"></script>
 <!-- DataTables -->
@@ -48,14 +50,6 @@
             startView: 2,
             forceParse: 0,
             startDate: new Date()
-        });
-
-        //Date picker
-        $('#datepicker').datepicker({
-            format: "MM-yyyy",
-            viewMode: "months",
-            minViewMode: "months",
-            autoclose: true
         });
 
         //Date picker
