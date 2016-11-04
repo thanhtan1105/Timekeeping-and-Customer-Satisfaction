@@ -7,8 +7,8 @@ import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.service.blackService.AWSStorage;
+import com.timelinekeeping.service.blackService.SuggestionService;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
-import com.timelinekeeping.service.serviceImplement.SuggestionService;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.ValidateUtil;
@@ -171,6 +171,7 @@ public class EmotionController {
 
                 //store Image
                 String fileName = I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + customerCode;
+                /**store image*/
                 String urlFile = StoreFileUtils.storeFile(fileName, new ByteArrayInputStream(byteImage));
 
                 //Store aws

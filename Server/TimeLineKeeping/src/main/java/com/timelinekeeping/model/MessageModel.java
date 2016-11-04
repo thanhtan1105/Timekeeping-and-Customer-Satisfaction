@@ -1,5 +1,6 @@
 package com.timelinekeeping.model;
 
+import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.constant.IContanst;
@@ -16,6 +17,7 @@ public class MessageModel {
     private Long id;
     private List<String> message;
     private List<EmotionContentModel> sugguest;
+    private List<Pair<String, Double>> emotionPercent;
     private Double ageOfFace;
     private Gender gender;
     private EEmotion emotion;
@@ -88,4 +90,11 @@ public class MessageModel {
         this.predict = predict;
     }
 
+    public List<Pair<String, Double>> getEmotionPercent() {
+        return emotionPercent;
+    }
+
+    public void setEmotionPercent(List<Pair<String, Double>> emotionPercent) {
+        this.emotionPercent = emotionPercent;
+    }
 }

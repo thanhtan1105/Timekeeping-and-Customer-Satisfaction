@@ -40,6 +40,14 @@ public class TimeKeepingEntity implements Serializable {
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
     private AccountEntity account;
 
+    @Basic
+    @Column(name = "rp_manager_id")
+    private Long rpManagerId;
+
+    @Basic
+    @Column(name = "rp_department_id")
+    private Long rpDepartmentId;
+
 
     public TimeKeepingEntity() { }
 
@@ -90,5 +98,21 @@ public class TimeKeepingEntity implements Serializable {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public Long getRpManagerId() {
+        return rpManagerId;
+    }
+
+    public void setRpManagerId(Long rpManagerId) {
+        this.rpManagerId = rpManagerId;
+    }
+
+    public Long getRpDepartmentId() {
+        return rpDepartmentId;
+    }
+
+    public void setRpDepartmentId(Long rpDepartmentId) {
+        this.rpDepartmentId = rpDepartmentId;
     }
 }

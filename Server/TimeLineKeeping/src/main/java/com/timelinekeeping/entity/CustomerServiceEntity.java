@@ -41,6 +41,13 @@ public class CustomerServiceEntity {
     @JoinColumn(name = "create_by")
     private AccountEntity createBy;
 
+    @Basic
+    @Column(name = "rp_manager_id")
+    private Long rpManagerId;
+
+    @Basic
+    @Column(name = "rp_department_id")
+    private Long rpDepartmentId;
 
     @OneToMany(mappedBy = "customerService", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<EmotionCustomerEntity> emotion;
@@ -108,6 +115,22 @@ public class CustomerServiceEntity {
 
     public void setStatus(ETransaction status) {
         this.status = status;
+    }
+
+    public Long getRpManagerId() {
+        return rpManagerId;
+    }
+
+    public void setRpManagerId(Long rpManagerId) {
+        this.rpManagerId = rpManagerId;
+    }
+
+    public Long getRpDepartmentId() {
+        return rpDepartmentId;
+    }
+
+    public void setRpDepartmentId(Long rpDepartmentId) {
+        this.rpDepartmentId = rpDepartmentId;
     }
 
     public void calculateGrade() {
