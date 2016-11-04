@@ -1,8 +1,8 @@
 package com.timelinekeeping.api.mcs;
 
 import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
-import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.common.BaseResponse;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.modelMCS.RectangleImage;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
@@ -27,14 +27,14 @@ public class EmotionMCSController {
     @ResponseBody
     public BaseResponse recognize(@RequestParam("url") String urlImg) {
         try {
-            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info(IContanst.BEGIN_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response = emotionServiceMCS.recognize(urlImg);
             return response;
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -45,7 +45,7 @@ public class EmotionMCSController {
                                   @RequestParam("employeeId") long employeeId,
                                   @RequestParam("isFirstTime") boolean isFirstTime) {
         try {
-            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info(IContanst.BEGIN_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response;
             if (ValidateUtil.isImageFile(imgFile.getInputStream())) {
 //                response = emotionService.save(imgFile.getInputStream(), employeeId, isFirstTime);
@@ -60,23 +60,23 @@ public class EmotionMCSController {
             logger.error(e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
     @RequestMapping(value = {"/recognize_rectangle"}, method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse recognize(@RequestParam("img") MultipartFile imgFile,
-                                  @ModelAttribute("rectangle")RectangleImage rectangle) {
+                                  @ModelAttribute("rectangle") RectangleImage rectangle) {
         try {
-            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info(IContanst.BEGIN_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response = emotionServiceMCS.recognize(imgFile.getInputStream(), rectangle);
             return response;
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 

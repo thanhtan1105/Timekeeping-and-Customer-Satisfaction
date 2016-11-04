@@ -38,7 +38,7 @@ public class BeaconController {
             baseResponse.setSuccess(true);
             return baseResponse;
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -58,7 +58,7 @@ public class BeaconController {
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 

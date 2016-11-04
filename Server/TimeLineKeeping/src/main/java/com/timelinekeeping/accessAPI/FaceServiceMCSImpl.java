@@ -1,8 +1,8 @@
 package com.timelinekeeping.accessAPI;
 
 import com.timelinekeeping._config.AppConfigKeys;
-import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.common.BaseResponse;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.modelMCS.FaceDetectResponse;
 import com.timelinekeeping.modelMCS.FaceIdentifyConfidenceRespone;
 import com.timelinekeeping.modelMCS.FaceIdentifyRequest;
@@ -38,9 +38,9 @@ public class FaceServiceMCSImpl {
 
     public BaseResponse detect(InputStream imgStream) throws URISyntaxException, IOException {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
-        String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detect");
-        String url = rootPath + urlAddition;
+            logger.info(IContanst.BEGIN_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
+            String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detect");
+            String url = rootPath + urlAddition;
 
             /*** url*/
             URIBuilder builder = new URIBuilder(url)
@@ -59,35 +59,37 @@ public class FaceServiceMCSImpl {
             return HTTPClientUtil.getInstanceFace().toPostOct(builder.build(),
                     new ByteArrayEntity(bytes), JsonUtil.LIST_PARSER, FaceDetectResponse.class);
         } finally {
-            logger.info(IContanst.END_METHOD_SERVICE);
+            logger.info(IContanst.END_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
 
     public BaseResponse detect(String urlImg) throws URISyntaxException, IOException {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
-        String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detect");
-        String url = rootPath + urlAddition;
+            logger.info(IContanst.BEGIN_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
+            String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.face.detect");
+            String url = rootPath + urlAddition;
 
-        /*** url*/
-        URIBuilder builder = new URIBuilder(url)
-                .addParameter("returnFaceId", "true")
-                .addParameter("returnFaceLandmarks", "false")
-                .addParameter("returnFaceAttributes", "age,gender");
+            /*** url*/
+            URIBuilder builder = new URIBuilder(url)
+                    .addParameter("returnFaceId", "true")
+                    .addParameter("returnFaceLandmarks", "false")
+                    .addParameter("returnFaceAttributes", "age,gender");
 
-        /** entity*/
-        Map<String, String> mapEntity = new HashMap<>();
-        mapEntity.put("url", urlImg);
-        String jsonEntity = JsonUtil.toJson(mapEntity);
+            /** entity*/
+            Map<String, String> mapEntity = new HashMap<>();
+            mapEntity.put("url", urlImg);
+            String jsonEntity = JsonUtil.toJson(mapEntity);
 
-        return HTTPClientUtil.getInstanceFace().toPost(builder.build(), new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.LIST_PARSER, FaceDetectResponse.class);
+            return HTTPClientUtil.getInstanceFace().toPost(builder.build(), new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.LIST_PARSER, FaceDetectResponse.class);
         } finally {
-            logger.info(IContanst.END_METHOD_SERVICE);
+            logger.info(IContanst.END_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
-    /** sub function from identify*/
+    /**
+     * sub function from identify
+     */
     public BaseResponse identify(String groupId, String faceId) throws URISyntaxException, IOException {
         return identify(groupId, new ArrayList(Arrays.asList(faceId)));
     }
@@ -110,7 +112,7 @@ public class FaceServiceMCSImpl {
      */
     public BaseResponse identify(String groupId, List<String> faceIds) throws URISyntaxException, IOException {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info(IContanst.BEGIN_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
             String urlIdentity = AppConfigKeys.getInstance().getApiPropertyValue("api.face.identity");
             String url = rootPath + urlIdentity;
 
@@ -128,7 +130,7 @@ public class FaceServiceMCSImpl {
             return HTTPClientUtil.getInstanceFace().toPost(url, new StringEntity(jsonEntity, StandardCharsets.UTF_8),
                     JsonUtil.LIST_PARSER, FaceIdentifyConfidenceRespone.class);
         } finally {
-            logger.info(IContanst.END_METHOD_SERVICE);
+            logger.info(IContanst.END_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 }

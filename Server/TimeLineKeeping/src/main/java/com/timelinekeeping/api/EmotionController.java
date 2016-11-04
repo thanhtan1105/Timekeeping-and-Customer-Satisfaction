@@ -73,7 +73,7 @@ public class EmotionController {
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -105,7 +105,7 @@ public class EmotionController {
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -123,11 +123,13 @@ public class EmotionController {
             baseResponse.setData(emotionAnalysis);
             baseResponse.setMessage(messageEmotion);
             return baseResponse;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+            logger.error(e);
+        }finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
+
         return null;
 
     }
@@ -196,7 +198,7 @@ public class EmotionController {
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -235,7 +237,7 @@ public class EmotionController {
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -260,7 +262,7 @@ public class EmotionController {
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -283,7 +285,7 @@ public class EmotionController {
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -300,7 +302,7 @@ public class EmotionController {
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 }

@@ -67,7 +67,7 @@ public class FaceController {
             logger.error(e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -76,14 +76,14 @@ public class FaceController {
     public BaseResponse identify(@RequestParam("groupId") String groupId,
                                  @RequestParam("faceId") List<String> faceIds) {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response = faceService.identify(groupId, faceIds);
             return response;
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_SERVICE);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -91,6 +91,7 @@ public class FaceController {
     @ResponseBody
     public List<BaseResponse> identifyImage(@RequestParam("image") MultipartFile image) {
         try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             // call function detect image
             BaseResponse detectFaceResponse = detectimg(image);
             List<FaceDetectResponse> faceDetectResponse = (ArrayList<FaceDetectResponse>) detectFaceResponse.getData();
@@ -113,6 +114,8 @@ public class FaceController {
 
         } catch (Exception e) {
             logger.error(e);
+        }finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
 
         return null;

@@ -73,7 +73,7 @@ public class EmotionServiceMCSImpl {
 
             return HTTPClientUtil.getInstanceEmotion().toPostOct(builder.build(), new ByteArrayEntity(byteEntity), JsonUtil.LIST_PARSER, EmotionRecognizeResponse.class);
         } finally {
-            logger.info(IContanst.END_METHOD_MCS);
+            logger.info(IContanst.END_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
