@@ -426,7 +426,7 @@ public class AccountServiceImpl {
             logger.info("-- PersonID: " + personID);
 
             // PersonID -> AccountEntity
-            AccountEntity accountEntity = accountRepo.findByUsercode(personID.trim());
+            AccountEntity accountEntity = accountRepo.findByUserCode(personID.trim());
             if (accountEntity == null) {
                 return new BaseResponse(false, ERROR.ACCOUNT_CHECKIN_NOT_FOUND_PERSONID, null);
             }
@@ -571,7 +571,7 @@ public class AccountServiceImpl {
 
     public boolean addMobileTokenID(String accountID, String tokenID) {
         logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-        List<AccountEntity> list = accountRepo.findByToken(tokenID);
+        List<AccountEntity> list = accountRepo.findByOneSignal(tokenID);
         if (list.size() != 0 && list != null) {
             // update null to id
             AccountEntity accountEntity = list.get(0);

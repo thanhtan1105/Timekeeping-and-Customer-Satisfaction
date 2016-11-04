@@ -7,10 +7,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by HienTQSE60896 on 9/10/2016.
@@ -90,7 +87,12 @@ public class UtilApps {
         String[] groups = searchValue.split(regular);
         return groups;
     }
-//    public static void main(String[] args) {
-//        System.out.println(formatSentence(" còn đó  những  niềm  pass Capstone Project "));
-//    }
+
+    public static void main(String[] args) {
+        List<String> list = Collections.singletonList("12345");
+        int index = UtilApps.random(0, list.size() -1);
+        System.out.println(index);
+        System.out.println(list.get(index));
+    }
+
 }

@@ -94,6 +94,7 @@ public class ReminderControllerWeb {
 
     @RequestMapping(value = "/addReminderProcessing", produces = "text/plain;charset=UTF-8", method = RequestMethod.POST)
     public String addReminder(@RequestParam("title") String title,
+                              @RequestParam("date") String date,
                               @RequestParam("time") String time,
                               @RequestParam("roomId") String roomId,
                               @RequestParam("listEmployees") String[] listEmployees,
@@ -105,7 +106,9 @@ public class ReminderControllerWeb {
         logger.info("[Controller- Add Reminder] roomId: " + roomId);
         logger.info("[Controller- Add Reminder] size of list employees: " + listEmployees.length);
         logger.info("[Controller- Add Reminder] message: " + message);
-        Date timeParser = TimeUtil.parseStringToDate(time);
+        String dateTime = date + " " + time;
+        logger.info("[Controller- Add Reminder] date time: " + dateTime);
+        Date timeParser = TimeUtil.parseToDate(dateTime, "yyyy-MM-dd hh:mm a");
         logger.info("[Controller- Add Reminder] parse to Date: " + timeParser);
         List<Long> employeeSet = new ArrayList<Long>();
         for (int i = 0; i < listEmployees.length; i++) {

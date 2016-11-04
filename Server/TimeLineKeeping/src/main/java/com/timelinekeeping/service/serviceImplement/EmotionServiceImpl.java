@@ -16,6 +16,7 @@ import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.CustomerServiceRepo;
 import com.timelinekeeping.repository.EmotionContentRepo;
 import com.timelinekeeping.repository.EmotionRepo;
+import com.timelinekeeping.service.blackService.SuggestionService;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ServiceUtils;
 import com.timelinekeeping.util.UtilApps;
@@ -64,6 +65,7 @@ public class EmotionServiceImpl {
             //getEmotion from db
             EmotionCustomerEntity emotionCamera1 = customerEmotionSession.getEmotionCamera1() != null ? emotionRepo.findOne(customerEmotionSession.getEmotionCamera1()) : null;
             EmotionCustomerEntity emotionCamera2 = customerEmotionSession.getEmotionCamera2() != null ? emotionRepo.findOne(customerEmotionSession.getEmotionCamera2()) : null;
+
             if (emotionCamera1 == null) {
                 emotionCamera1 = emotionCamera2;
             }

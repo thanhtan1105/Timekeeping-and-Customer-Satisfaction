@@ -44,23 +44,49 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-2">
+                            Date: <font color="red">*</font></label>
+
+                        <div class="col-sm-10">
+                            <div class="input-group date" style="width: 50%" id="datepicker-reminder">
+                                <input type="text" th:name="date" class="form-control pull-left" />
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">
                             Time: <font color="red">*</font></label>
 
                         <div class="col-sm-10">
-                            <div class="input-group date form_datetime"
-                                 data-date="2016-09-16T05:25:07Z"
-                                 data-date-format="yyyy-mm-dd  hh:ii"
-                                 style="width: 50%">
-                                <input type="text" th:name="time" th:value="${time}"
-                                       class="form-control pull-left">
-
+                            <div class="input-group bootstrap-timepicker" style="width: 50%">
+                                <input type="text" th:name="time" class="form-control pull-left timepicker-reminder">
                                 <div class="input-group-addon">
                                     <i class="fa fa-clock-o"></i>
                                 </div>
                             </div>
-                            <!-- /.input group -->
                         </div>
                     </div>
+                    <!--<div class="form-group">-->
+                        <!--<label class="control-label col-sm-2">-->
+                            <!--Time: <font color="red">*</font></label>-->
+
+                        <!--<div class="col-sm-10">-->
+                            <!--<div class="input-group date form_datetime"-->
+                                 <!--data-date="2016-09-16T05:25:07Z"-->
+                                 <!--data-date-format="yyyy-mm-dd  hh:ii"-->
+                                 <!--style="width: 50%">-->
+                                <!--<input type="text" th:name="time" th:value="${time}"-->
+                                       <!--class="form-control pull-left">-->
+
+                                <!--<div class="input-group-addon">-->
+                                    <!--<i class="fa fa-clock-o"></i>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash; /.input group &ndash;&gt;-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <div class="form-group">
                         <label class="control-label col-sm-2">
                             Room: <font color="red">*</font></label>
@@ -130,7 +156,7 @@
     <!-- /.content -->
 </div>
 <div layout:fragment="js">
-    <!--<script th:src="@{/js/admin/management_depart/management_depart.js}"></script>-->
+    <script th:src="@{/js/manager/reminder/add_reminder.js}"></script>
 </div>
 </body>
 </html>

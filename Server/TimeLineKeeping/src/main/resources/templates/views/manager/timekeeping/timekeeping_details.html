@@ -65,7 +65,7 @@
                         </h3>
                         <font th:text="'(' + ${AccountAttendanceModel.totalTimeKeeping}
                         + '/' + ${AccountAttendanceModel.dayWork} + ')'"
-                                th:class="'text-success'"></font>
+                              th:class="'text-success'"></font>
                     </div>
                 </div>
             </div>
@@ -114,10 +114,12 @@
         </div>
         <div class="row">
             <div class="col-sm-2">
-                <button type="button" class="btn btn-primary btn-flat btn-sm" style="width: 45%"
-                        th:id="'btn-back-to-previous'">
-                    <i class="glyphicon glyphicon-arrow-left"></i> BACK
-                </button>
+                <a th:href="@{/manager/timekeeping/}">
+                    <button type="button" class="btn btn-primary btn-flat btn-sm" style="width: 45%"
+                            th:id="'btn-back-to-previous'">
+                        <i class="glyphicon glyphicon-arrow-left"></i> BACK
+                    </button>
+                </a>
             </div>
         </div>
     </section>

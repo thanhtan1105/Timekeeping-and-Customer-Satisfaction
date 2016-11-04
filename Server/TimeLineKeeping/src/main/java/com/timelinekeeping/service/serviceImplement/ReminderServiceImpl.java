@@ -252,6 +252,15 @@ public class ReminderServiceImpl {
 
             entity.setActive(EStatus.DEACTIVE);
             reminderRepo.saveAndFlush(entity);
+
+            /** change notification delete*/
+            Set<NotificationEntity> notificationSet = notificationRepo.findReminder(entity.getId());
+            notificationSet.stream().forEach(notificationEntity -> {
+                notificationEntity.setActive(EStatus.DEACTIVE);
+                notificationRepo.save(notificationEntity);
+            });
+            notificationRepo.flush();
+
             return true;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
