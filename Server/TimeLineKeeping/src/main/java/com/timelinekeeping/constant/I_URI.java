@@ -101,7 +101,7 @@ public interface I_URI {
     String WEB_EMPLOYEE_ATTENDANCE = "/employee/attendance";
     String WEB_LOGIN = "/login";
 
-    String WEB_URI_LOGIN = "";
+    String WEB_URI_LOGIN = "/";
     String WEB_ERROR_PERMISSION = "/error/permission";
     String WEB_ERROR_INVALID = "/error/invalid";
 
