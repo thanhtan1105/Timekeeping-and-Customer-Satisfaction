@@ -38,7 +38,8 @@
     <div class="page-content">
         <div class="content-wrapper">
             <div class="content">
-                <form class="form-horizontal">
+                <form th:action="@{/login/processing}" method="post"
+                      class="form-horizontal">
                     <div class="panel panel-body login-form width-450">
                         <div class="text-center">
                             <div class="icon-object border-warning-400 text-warning-400"><i class="icon-reading"></i>
@@ -48,7 +49,7 @@
                         <div class="form-group has-feedback has-feedback-left">
                             <label class="col-lg-3 control-label">Username:</label>
                             <div class="col-lg-9">
-                                <input type="text" class="form-control"/>
+                                <input type="text" th:name="username" class="form-control"/>
                                 <div class="form-control-feedback">
                                     <i class="icon-user text-muted"></i>
                                 </div>
@@ -57,7 +58,7 @@
                         <div class="form-group has-feedback has-feedback-left">
                             <label class="col-lg-3 control-label">Password:</label>
                             <div class="col-lg-9">
-                                <input type="password" class="form-control input-"/>
+                                <input type="password" th:name="password" class="form-control input-"/>
                                 <div class="form-control-feedback">
                                     <i class="icon-lock2 text-muted"></i>
                                 </div>
