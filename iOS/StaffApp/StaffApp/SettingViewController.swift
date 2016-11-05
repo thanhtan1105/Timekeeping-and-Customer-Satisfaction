@@ -14,8 +14,8 @@ class SettingViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    ipTextField.text = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? ""
-    
+    navigationController?.setNavigationBarHidden(false, animated: true)
+    ipTextField.text = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? ""    
   }
 
   @IBAction func onSaveTapped(sender: UIBarButtonItem) {
@@ -25,5 +25,14 @@ class SettingViewController: BaseViewController {
     ipTextField.resignFirstResponder()
   }
 
-  
+  @IBAction func onLogoutTapped(sender: UIButton) {
+    let userDefault = NSUserDefaults.standardUserDefaults()
+    userDefault.setObject(0, forKey: "didLogin")
+    
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let loginViewController = storyboard.instantiateViewControllerWithIdentifier("LoginViewController")
+    let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+    appDelegate?.changeRootView(loginViewController)
+    appDelegate?.window?.makeKeyAndVisible()
+  }
 }

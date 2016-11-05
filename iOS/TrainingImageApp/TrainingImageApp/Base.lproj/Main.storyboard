@@ -64,7 +64,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="77"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ASk-VE-KTT" id="2as-F4-4ki">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="76.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="76"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1DF-6J-zug">
@@ -245,7 +245,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="haZ-c7-khU" id="qzV-7B-6Bq">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="74.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7rY-rx-Msm">
@@ -313,13 +313,13 @@
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="NQi-1Z-ftY">
                                     <size key="itemSize" width="128" height="126"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="headerReferenceSize" width="50" height="50"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="5" minY="5" maxX="5" maxY="5"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="AddNewFaceCollectionCell" reuseIdentifier="AddNewFaceCollectionCell" id="Xhu-AV-4aZ" userLabel="Collection View Cell First" customClass="AddNewFaceCollectionCell" customModule="TrainingImageApp" customModuleProvider="target">
-                                        <rect key="frame" x="5" y="5" width="128" height="126"/>
+                                        <rect key="frame" x="5" y="55" width="128" height="126"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="126"/>
@@ -345,7 +345,7 @@
                                         </constraints>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="FaceCollectionCell" reuseIdentifier="FaceCollectionCell" id="HSr-r0-bDR" userLabel="Collection View Cell Second" customClass="FaceCollectionCell" customModule="TrainingImageApp" customModuleProvider="target">
-                                        <rect key="frame" x="187" y="5" width="128" height="126"/>
+                                        <rect key="frame" x="187" y="55" width="128" height="126"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="126"/>
@@ -368,6 +368,25 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="HeaderCollectionReusableView" reuseIdentifier="HeaderCollectionReusableView" id="XIv-aC-zLd" customClass="HeaderCollectionReusableView" customModule="TrainingImageApp" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j3c-8F-rzh">
+                                            <rect key="frame" x="8" y="14" width="42" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="j3c-8F-rzh" firstAttribute="centerY" secondItem="XIv-aC-zLd" secondAttribute="centerY" id="WtE-lq-neP"/>
+                                        <constraint firstItem="j3c-8F-rzh" firstAttribute="leading" secondItem="XIv-aC-zLd" secondAttribute="leading" constant="10" id="zNy-4V-xZf"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="titleLabel" destination="j3c-8F-rzh" id="4iu-BW-sN4"/>
+                                    </connections>
+                                </collectionReusableView>
                                 <connections>
                                     <outlet property="dataSource" destination="KM3-fr-A6Q" id="etP-f1-RAa"/>
                                     <outlet property="delegate" destination="KM3-fr-A6Q" id="DAg-7E-jrt"/>

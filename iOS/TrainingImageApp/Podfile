@@ -8,6 +8,7 @@ target 'TrainingImageApp' do
   # Pods for TrainingImageApp
   pod 'Alamofire', '~> 3.4'
   pod 'TanLT1Extensions'
+  pod 'AlamofireImage', '~> 2.0'
 
   target 'TrainingImageAppTests' do
     inherit! :search_paths

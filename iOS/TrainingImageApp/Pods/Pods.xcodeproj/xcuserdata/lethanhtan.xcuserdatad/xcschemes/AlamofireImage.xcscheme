@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '58709BCD8030AB068A775CE37FFC3E20'
-               BlueprintName = 'TanLT1Extensions'
+               BlueprintIdentifier = '05094CC4A047119F7ADC14EE74C4881C'
+               BlueprintName = 'AlamofireImage'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'TanLT1Extensions.framework'>
+               BuildableName = 'AlamofireImage.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

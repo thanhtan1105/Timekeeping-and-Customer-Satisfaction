@@ -52,9 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       navigation = UINavigationController(rootViewController: loginViewController)
       window?.rootViewController = navigation
       window?.makeKeyAndVisible()
-    }
-    
-    
+    }      
     
     return true
   }
@@ -71,6 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func changeRootView(vc: UIViewController) {
     navigation?.setViewControllers([vc], animated: true)
+    window?.rootViewController = navigation
   }
   
   

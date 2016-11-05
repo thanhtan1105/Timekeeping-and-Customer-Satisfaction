@@ -16,10 +16,9 @@ import java.util.Set;
 public interface NotificationRepo extends JpaRepository<NotificationEntity, Long> {
 
     @Query(value = "SELECT distinct n.*  FROM notification n, reminder_message rm " +
-            "WHERE n.reminder_message_id = rm.id and n.account_id = 4 and date(rm.time) = curdate() " +
+            "WHERE n.reminder_message_id = rm.id and n.account_id = :accountid and date(rm.time) = curdate() " +
             "and rm.active <> 0 and n.active <> 0 ;", nativeQuery = true)
-    public List<NotificationEntity> findByAccountReceiveByDate(Long accountid);
-
+    public List<NotificationEntity> findByAccountReceiveByDate(@Param("accountid") Long accountid);
 
     @Query(value = "SELECT n FROM NotificationEntity n WHERE n.reminderMessage.id = :reminderId and n.active <>0")
     public Set<NotificationEntity> findReminder(@Param("reminderId") Long reminderId);

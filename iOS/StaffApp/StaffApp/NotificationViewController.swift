@@ -28,7 +28,8 @@ class NotificationViewController: BaseViewController {
   }
   
   func reloadNotification() {
-    callApiGetReminder(String(5)) { (data, error) in
+    let userId = Account.getAccount()?.id
+    callApiGetReminder(String(userId! ?? 0)) { (data, error) in
       dispatch_async(dispatch_get_main_queue(), {
         if let data = data {
           self.notifications = data

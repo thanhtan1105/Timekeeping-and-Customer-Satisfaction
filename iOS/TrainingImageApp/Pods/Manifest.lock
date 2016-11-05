@@ -1,15 +1,19 @@
 PODS:
-  - Alamofire (3.5.0)
+  - Alamofire (3.5.1)
+  - AlamofireImage (2.5.0):
+    - Alamofire (~> 3.5)
   - TanLT1Extensions (0.1.0)
 
 DEPENDENCIES:
   - Alamofire (~> 3.4)
+  - AlamofireImage (~> 2.0)
   - TanLT1Extensions
 
 SPEC CHECKSUMS:
-  Alamofire: b70a7352335f8ea5babd0a923eb7e8eacc67b877
+  Alamofire: 0dfba1184a543e2aa160f4e39cac4e8aba48d223
+  AlamofireImage: 2d34936e5201270bb17a316a786e90e83b4a249d
   TanLT1Extensions: 8a53ac053164e7c4b35efe204dc0b711d6b1c60c
 
-PODFILE CHECKSUM: 0c45b7509158589cdf0a3ac2ccc1c31c96c25bb0
+PODFILE CHECKSUM: 8b97b83317fee42cd567ff8d2b20f42200747f35
 
 COCOAPODS: 1.1.0.beta.1

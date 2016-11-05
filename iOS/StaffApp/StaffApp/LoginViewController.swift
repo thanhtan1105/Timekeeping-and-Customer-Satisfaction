@@ -19,7 +19,15 @@ class LoginViewController: BaseViewController {
     super.viewDidLoad()
     self.navigationController?.setNavigationBarHidden(true, animated: false)
     
-    
+//    myTextField.attributedPlaceholder = NSAttributedString(string:"placeholder text",
+//                                                           attributes:[NSForegroundColorAttributeName: UIColor.yellowColor()])
+    usernameLabel.attributedPlaceholder = NSAttributedString(string: "username", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+    passwordLabel.attributedPlaceholder = NSAttributedString(string: "password", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+  }
+  
+  override func viewWillAppear(animated: Bool) {
+    super.viewWillAppear(animated)
+    navigationController?.setNavigationBarHidden(true, animated: true)
   }
 
   @IBAction func onSignInTapped(sender: UIButton) {
@@ -47,6 +55,11 @@ class LoginViewController: BaseViewController {
         self.loginFailLabel.hidden = false
       }
     }
+  }
+  
+  @IBAction func onSettingTapped(sender: UIButton) {
+    let settingVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("SettingViewController") as! SettingViewController
+    navigationController?.pushViewController(settingVC, animated: true)
   }
 }
 

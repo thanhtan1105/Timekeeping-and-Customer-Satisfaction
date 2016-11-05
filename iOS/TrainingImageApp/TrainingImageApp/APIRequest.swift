@@ -15,7 +15,7 @@ class APIRequest: NSObject {
   var http : String {
     get {
       let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.43.93"
-      let http = prefixHttp + ip + surfixHttp
+      let http = prefixHttp + ip + surfixHttp      
       return http
     }
   }
@@ -27,6 +27,14 @@ class APIRequest: NSObject {
     let params: [String : AnyObject] = [
       "start" : start,
       "top" : top
+    ]
+    webservice_GET(url, params: params, headersParams: nil, completion: onCompletion)
+  }
+  
+  func getListFace(userId: String, onCompletion: ServiceResponse) {
+    let url = http + urlGetFace
+    let params: [String : AnyObject] = [
+      "accountId" : userId
     ]
     
     webservice_GET(url, params: params, headersParams: nil, completion: onCompletion)

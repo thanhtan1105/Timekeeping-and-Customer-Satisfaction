@@ -134,11 +134,11 @@ public class DepartmentServiceImpl {
         }
     }
 
-    public BaseResponse training(String departmentId) throws IOException, URISyntaxException {
+    public BaseResponse training(String departmentCode) throws IOException, URISyntaxException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            DepartmentEntity departmentEntity = repo.findOne(Long.parseLong(departmentId));
-            return groupServiceMCS.trainGroup(departmentEntity.getCode());
+//            DepartmentEntity departmentEntity = repo.findOne(Long.parseLong(departmentId));
+            return groupServiceMCS.trainGroup(departmentCode);
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
