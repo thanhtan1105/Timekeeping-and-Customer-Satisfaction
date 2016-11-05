@@ -42,7 +42,7 @@ public class DepartmentController {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             return new BaseResponse(true, departmentService.findAll(start, top));
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -65,7 +65,7 @@ public class DepartmentController {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
 
         }
     }
@@ -87,7 +87,7 @@ public class DepartmentController {
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -104,7 +104,7 @@ public class DepartmentController {
             logger.error(e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -122,7 +122,7 @@ public class DepartmentController {
             logger.error(e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -138,7 +138,7 @@ public class DepartmentController {
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -162,7 +162,7 @@ public class DepartmentController {
             e.printStackTrace();
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -180,7 +180,7 @@ public class DepartmentController {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
 
         }
     }

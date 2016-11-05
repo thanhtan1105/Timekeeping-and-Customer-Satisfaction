@@ -43,7 +43,7 @@ public class CoordinateController {
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
 
     }
@@ -63,7 +63,7 @@ public class CoordinateController {
             logger.error(e);
             return new BaseResponse(false, e.getMessage());
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 }

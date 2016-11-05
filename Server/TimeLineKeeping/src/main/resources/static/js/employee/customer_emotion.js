@@ -68,6 +68,7 @@ function worker_get_emotion() {
             if (response.success) {
                 var data = response.data,
                     messages = data.messages,
+                    emotionExist = data.analyzes.emotion.emotionExist,
                     isFinal = data.final,
                     awsUrl = data.awsUrl,
                     customer_emotion_msg = messages.message,
@@ -87,13 +88,13 @@ function worker_get_emotion() {
                 event_disabled('#btn-skip-transaction', false);
 
                 //set overview customer emotion
-                set_content_overview_customer_emotion(age_predict, gender, awsUrl, customer_emotion_msg, suggestions);
+                set_content_overview_customer_emotion(age_predict, gender, awsUrl, emotionExist, customer_emotion_msg, suggestions);
                 if (isFirst) {
                     //set content
                     //set isFirst = false;
 
                     //set overview customer emotion
-                    set_content_overview_customer_emotion(age_predict, gender, awsUrl, customer_emotion_msg, suggestions);
+                    set_content_overview_customer_emotion(age_predict, gender, awsUrl, emotionExist, customer_emotion_msg, suggestions);
                     //set isFirst = false
                     isFirst = false;
                 } else {
@@ -101,7 +102,7 @@ function worker_get_emotion() {
                     //else do nothing
                     if (isFinal) {
                         //set overview customer emotion
-                        set_content_overview_customer_emotion(age_predict, gender, awsUrl, customer_emotion_msg, suggestions);
+                        set_content_overview_customer_emotion(age_predict, gender, awsUrl, emotionExist, customer_emotion_msg, suggestions);
 
                         //set isFirst = true;
                         isFirst = true;
@@ -313,6 +314,28 @@ function set_image_customer(awsUrl) {
 }
 
 /**
+ * Fc: set content ratios emotion
+ * @param emotionExist
+ */
+function set_ratios_emotion(emotionExist) {
+    var $font_ratios_emotion = $('#font-ratios-emotion'),
+        content_ratios_emotion = '';
+    //set content
+    if (emotionExist != null && emotionExist.length > 0) {
+        content_ratios_emotion += '(';
+        for (var i = 0; i < emotionExist.length; i++) {
+            content_ratios_emotion += emotionExist[i].percent + '% ' +
+                emotionExist[i].emotionName;
+            if (i != (emotionExist.length - 1)) {
+                content_ratios_emotion += ', ';
+            }
+        }
+        content_ratios_emotion += ')';
+    }
+    $font_ratios_emotion.html(content_ratios_emotion);
+}
+
+/**
  * Fc: set content customer_emotion_message
  * @param customer_emotion_msg
  */
@@ -378,7 +401,7 @@ function set_suggest_behaviour(suggestions) {
  * @param customer_emotion_msg
  * @param suggestions
  */
-function set_content_overview_customer_emotion(age_predict, gender, awsUrl, customer_emotion_msg, suggestions) {
+function set_content_overview_customer_emotion(age_predict, gender, awsUrl, emotionExist, customer_emotion_msg, suggestions) {
     //set age predict
     set_age_predict(age_predict);
 
@@ -393,6 +416,9 @@ function set_content_overview_customer_emotion(age_predict, gender, awsUrl, cust
     resetNextAngle('#image-customer');
     //rotate image right 90
     rotateRight('#image-customer', 90);
+
+    //set ratios emotion
+    set_ratios_emotion(emotionExist);
 
     //set customer emotion message
     set_customer_emotion_message(customer_emotion_msg);

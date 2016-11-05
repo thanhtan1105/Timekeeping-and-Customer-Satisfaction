@@ -46,7 +46,7 @@ public class TodoListController {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -63,7 +63,7 @@ public class TodoListController {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 }

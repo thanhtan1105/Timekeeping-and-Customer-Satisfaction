@@ -117,7 +117,7 @@ public class PersonServiceMCSImpl {
 
     public BaseResponse addFaceImg(String persongroupId, String personId, InputStream imgStream) throws URISyntaxException, IOException {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info(IContanst.BEGIN_METHOD_MCS+ Thread.currentThread().getStackTrace()[1].getMethodName());
             //STORE FILE
             String urlPerson = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
             String urlPersistence = AppConfigKeys.getInstance().getApiPropertyValue("api.person.add.face.addition");
@@ -135,7 +135,7 @@ public class PersonServiceMCSImpl {
 
             return HTTPClientUtil.getInstanceFace().toPostOct(url, new ByteArrayEntity(byteImg), JsonUtil.MAP_PARSER, String.class);
         } finally {
-            logger.info(IContanst.END_METHOD_SERVICE);
+            logger.info(IContanst.END_METHOD_MCS+ Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -156,7 +156,7 @@ public class PersonServiceMCSImpl {
      */
     public BaseResponse listPersonInGroup(String groupId) throws URISyntaxException, IOException {
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info(IContanst.BEGIN_METHOD_MCS+ Thread.currentThread().getStackTrace()[1].getMethodName());
             String urlChild = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
             String url = rootPath + String.format("/%s", groupId) + urlChild;
 
@@ -166,7 +166,7 @@ public class PersonServiceMCSImpl {
 
             return HTTPClientUtil.getInstanceFace().toGet(url, JsonUtil.LIST_PARSER, PersonInformation.class);
         } finally {
-            logger.info(IContanst.END_METHOD_SERVICE);
+            logger.info(IContanst.END_METHOD_MCS+ Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 

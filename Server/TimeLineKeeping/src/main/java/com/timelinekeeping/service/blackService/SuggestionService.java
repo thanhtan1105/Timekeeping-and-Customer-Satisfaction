@@ -11,6 +11,7 @@ import com.timelinekeeping.model.EmotionContentModel;
 import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
 import com.timelinekeeping.repository.EmotionContentRepo;
 import com.timelinekeeping.repository.QuantityRepo;
+import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.UtilApps;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
@@ -94,12 +95,18 @@ public class SuggestionService {
     public String getEmotionMessage(EmotionAnalysisModel analysisModel) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info("EmotionAnalysisModel: " + JsonUtil.toJson(analysisModel));
+
             ESuggestionSubject subject = getSubject(analysisModel.getAge(), analysisModel.getGender());
             String result = "";
             EmotionRecognizeScores emotionScores = analysisModel.getEmotion();
             emotionScores.clearData(IContanst.EXCEPTION_VALUE);
+
             //get emotionCompar
             List<EmotionCompare> emotionCompares = emotionScores.getEmotionExist();
+            logger.info("emotionCompares: " + JsonUtil.toJson(emotionCompares));
+
+            // create message
             if (emotionCompares.size() <= 0) {
                 result = "";
             } else if (emotionCompares.size() == 1) {
@@ -135,13 +142,21 @@ public class SuggestionService {
                 } else {
                     //Bolt
                     negative.sort((EmotionCompare e1, EmotionCompare e2) -> Math.abs(e1.getValue()) > Math.abs(e2.getValue()) ? -1 : 1);
-                    if (positive.size() > negative.size()) {
+
+                    //size bold =1, positive = 1
+                    if (positive.size() == 1 && negative.size() == 1) {
+                        result = String.format(IContanst.SUGGESTION_BOTH_1_1_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(negative.get(0)));
+                    } else if (positive.size() > 1 && positive.size() > negative.size()) {
                         result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(positive.get(1)), getEmotion(negative.get(0)));
-                    } else {
+                    } else if (negative.size() >1 ){
                         result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(negative.get(0)), getEmotion(negative.get(1)));
+                    }else {
+                        logger.error("--%%%%% -- It out our parttern.");
+                        logger.info("Positive: " + JsonUtil.toJson(positive));
+                        logger.info("Negative: " + JsonUtil.toJson(negative));
                     }
                 }
-
+                logger.info("Result message: " + result);
             }
 
             return result;

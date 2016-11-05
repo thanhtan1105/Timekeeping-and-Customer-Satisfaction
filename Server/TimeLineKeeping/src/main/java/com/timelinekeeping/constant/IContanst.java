@@ -67,7 +67,8 @@ public interface IContanst {
     String SUGGESTION_1_EMOTION = "%s có vẻ %s.";
     String SUGGESTION_2_EMOTION = "%s có vẻ %s và %s.";
     String SUGGESTION_3_EMOTION = "%s có vẻ %s, %s và %s.";
-    String SUGGESTION_BOTH_2_1_EMOTION = "%s có vẻ %s và %s nhưng %s.";
+    String SUGGESTION_BOTH_1_1_EMOTION = "%s có vẻ %s nhưng  %s.";
+    String SUGGESTION_BOTH_2_1_EMOTION = "%s có vẻ %s và %s nhưng  %s.";
     String SUGGESTION_BOTH_1_2_EMOTION = "%s có vẻ %s nhưng %s và %s.";
 
     /** Message Competition*/

@@ -34,18 +34,19 @@ public class AccountController {
     @ResponseBody
     public BaseResponse create(@ModelAttribute("account") AccountModifyModel account) {
         try {
-           Pair<Boolean, String> response = accountService.create(account);
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            Pair<Boolean, String> response = accountService.create(account);
             logger.info("AccountModel: " + JsonUtil.toJson(response));
             if (response.getKey() == true) {
                 return new BaseResponse(true, new Pair<String, String>("accountId", response.getValue()));
-            }else{
+            } else {
                 return new BaseResponse(false, response.getValue());
             }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
 
         }
     }
@@ -54,17 +55,18 @@ public class AccountController {
     @ResponseBody
     public BaseResponse update(@ModelAttribute("account") AccountModifyModel account) {
         try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             Pair<Boolean, String> response = accountService.update(account);
             if (response.getKey() == true) {
                 return new BaseResponse(true, response.getValue());
-            }else{
+            } else {
                 return new BaseResponse(false);
             }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
 
         }
     }
@@ -73,18 +75,18 @@ public class AccountController {
     @ResponseBody
     public BaseResponse deactive(@RequestParam("accountId") Long accountId) {
         try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             Pair<Boolean, String> response = accountService.deactive(accountId);
             if (response.getKey() == true) {
                 return new BaseResponse(true, response.getValue());
-            }else{
+            } else {
                 return new BaseResponse(false);
             }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
-
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -92,17 +94,18 @@ public class AccountController {
     @ResponseBody
     public BaseResponse listManager() {
         try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             List<AccountManagerModel> managers = accountService.listManager();
             if (managers != null) {
                 return new BaseResponse(true, managers);
-            }else{
+            } else {
                 return new BaseResponse(false);
             }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
 
         }
     }
@@ -114,14 +117,14 @@ public class AccountController {
             AccountModel result = accountService.get(accountId);
             if (result != null) {
                 return new BaseResponse(true, result);
-            }else{
+            } else {
                 return new BaseResponse(false);
             }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
 
         }
     }
@@ -139,7 +142,7 @@ public class AccountController {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
 
         }
     }
@@ -163,7 +166,7 @@ public class AccountController {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
 
         }
     }
@@ -178,14 +181,14 @@ public class AccountController {
             Long faceId = accountService.addFaceImg(Long.valueOf(accountId), imageFile.getInputStream());
             if (faceId != null) {
                 return new BaseResponse(true, new Pair<>("faceId", faceId));
-            }else{
+            } else {
                 return new BaseResponse(false);
             }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -197,15 +200,15 @@ public class AccountController {
             logger.info("accountId: " + accountId);
             List<FaceModel> faces = accountService.listFace(accountId);
             if (ValidateUtil.isNotEmpty(faces)) {
-                return new BaseResponse(true,faces);
-            }else{
+                return new BaseResponse(true, faces);
+            } else {
                 return new BaseResponse(false);
             }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -219,7 +222,7 @@ public class AccountController {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -236,7 +239,7 @@ public class AccountController {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -254,7 +257,7 @@ public class AccountController {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
         } finally {
-            logger.info(IContanst.END_METHOD_CONTROLLER);
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -262,18 +265,27 @@ public class AccountController {
     @ResponseBody
     public BaseResponse login(@RequestParam(value = "username") String username,
                               @RequestParam(value = "password") String password) {
-        BaseResponse baseResponse = new BaseResponse();
-        AccountModel accountModel = accountService.login(username, password);
-        if (accountModel == null) {
-            baseResponse.setSuccess(false);
-            baseResponse.setMessage("Incorrect username or password");
-        } else {
-            baseResponse.setSuccess(true);
-            baseResponse.setData(accountModel);
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            BaseResponse baseResponse = new BaseResponse();
+            AccountModel accountModel = accountService.login(username, password);
+            if (accountModel == null) {
+                baseResponse.setSuccess(false);
+                baseResponse.setMessage("Incorrect username or password");
+            } else {
+                baseResponse.setSuccess(true);
+                baseResponse.setData(accountModel);
+            }
+            return baseResponse;
+        } catch (Exception e) {
+            logger.error(e);
+            System.out.println(e.getStackTrace());
+            return new BaseResponse(false, e.getMessage());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
-        return baseResponse;
-    }
 
+    }
 
 
 }
