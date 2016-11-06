@@ -348,6 +348,23 @@ public class AccountServiceImpl {
         }
     }
 
+    /**
+     * @author TrungNN
+     * Using for selection employee
+     */
+    public List<AccountModel> findByDepartmentAndRole(Long departmentId, Long roleId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+            List<AccountEntity> accountEntities = accountRepo.findByDepartmentAndRole(departmentId, roleId);
+
+            // convert list
+            return accountEntities.stream().map(AccountModel::new).collect(Collectors.toList());
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
     public Long addFaceImg(Long accountId, InputStream imgStream) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
