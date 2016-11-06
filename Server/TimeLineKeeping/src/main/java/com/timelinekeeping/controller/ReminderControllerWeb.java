@@ -67,10 +67,13 @@ public class ReminderControllerWeb {
             String role = accountModel.getRole().getName().toUpperCase();
             // check is manager
             if ("MANAGER".equals(role)) {
-                Long managerId = accountModel.getId();
+//                Long managerId = accountModel.getId();
+                Long departmentId = accountModel.getDepartment().getId();
+                Long roleId = accountModel.getRole().getId();
 
                 // get all employees for assigning participants
-                List<AccountModel> accountModels = accountService.getEmployeesOfDepart(managerId);
+//                List<AccountModel> accountModels = accountService.getEmployeesOfDepart(managerId);
+                List<AccountModel> accountModels = accountService.findByDepartmentAndRole(departmentId, roleId);
                 logger.info("[Controller- Load Add Reminder View] size of list employees: " + accountModels.size());
                 //get all rooms
                 List<CoordinateModel> coordinateModels = coordinateService.getRoomPoint();
