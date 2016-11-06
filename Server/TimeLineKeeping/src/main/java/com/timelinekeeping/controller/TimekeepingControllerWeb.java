@@ -95,7 +95,7 @@ public class TimekeepingControllerWeb {
             Integer year = calendar.get(Calendar.YEAR);
 
             AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month);
-
+            logger.info(JsonUtil.toJson(accountAttendanceModel));
             model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
             model.addAttribute("SelectedDate", selectedDate);
         }
