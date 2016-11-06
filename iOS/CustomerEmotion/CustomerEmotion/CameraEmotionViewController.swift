@@ -97,7 +97,7 @@ class CameraEmotionViewController: UIViewController {
   }
   
   @IBAction func onCaptureTapped(sender: UIButton) {
-    
+    capture()
   }
 
 }
@@ -117,7 +117,6 @@ extension CameraEmotionViewController: CameraDelegate {
   func cameraSessionDidStop() {
     UIView.animateWithDuration(0.225, animations: { () -> Void in
       self.cameraPreview.alpha = 0.0
-      
     })
   }
   
