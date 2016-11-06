@@ -59,9 +59,15 @@ public class AccountControllerWeb {
 
         // Get all departments for selection
         List<DepartmentSelectModel> departmentSelectModels = departmentService.findAll();
-        if (roleEntities != null) {
+        if (departmentSelectModels != null) {
             logger.info("[Controller- Load Add Account View] Size of list departments: "
                     + departmentSelectModels.size());
+        }
+        //Get all manager for selection
+        List<AccountManagerModel> managerSelectModels = accountService.listManager();
+        if (managerSelectModels != null) {
+            logger.info("[Controller- Load Add Account View] Size of list managers: "
+                    + managerSelectModels.size());
         }
 
         // set side-bar
@@ -69,6 +75,7 @@ public class AccountControllerWeb {
 
         model.addAttribute("ListRoles", roleEntities);
         model.addAttribute("ListDepartments", departmentSelectModels);
+        model.addAttribute("ListManagers", managerSelectModels);
         // side-bar
         model.addAttribute("SideBar", sideBar);
 
@@ -81,6 +88,7 @@ public class AccountControllerWeb {
                              @RequestParam("fullName") String fullName,
                              @RequestParam("roleId") String roleId,
                              @RequestParam("departmentId") String departmentId,
+                             @RequestParam("managerId") String managerId,
                              @RequestParam("gender") String gender,
                              @RequestParam("email") String email,
                              @RequestParam("phone") String phone,
@@ -93,6 +101,7 @@ public class AccountControllerWeb {
             logger.info("[Controller- Add Account] fullName: " + fullName);
             logger.info("[Controller- Add Account] roleId: " + roleId);
             logger.info("[Controller- Add Account] departmentId: " + departmentId);
+            logger.info("[Controller- Add Account] managerId: " + managerId);
             logger.info("[Controller- Add Account] gender: " + gender);
             logger.info("[Controller- Add Account] email: " + email);
             logger.info("[Controller- Add Account] phone: " + phone);
@@ -102,6 +111,7 @@ public class AccountControllerWeb {
             account.setFullName(fullName);
             account.setRoleId(ValidateUtil.parseNumber(roleId));
             account.setDepartmentId(ValidateUtil.parseNumber(departmentId));
+            account.setManagerId(ValidateUtil.parseNumber(managerId));
             account.setGender(Gender.fromIndex(Integer.parseInt(gender)));
             account.setEmail(email);
             account.setPhone(phone);

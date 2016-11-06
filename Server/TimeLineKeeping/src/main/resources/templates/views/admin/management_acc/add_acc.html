@@ -80,6 +80,20 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-2">
+                            Manager: <font color="red">*</font></label>
+
+                        <div class="col-sm-10">
+                            <select th:name="managerId"
+                                    class="form-control select2" style="width: 50%;">
+                                <option>-- Select Manager --</option>
+                                <option th:each="manager: ${ListManagers}" th:value="${manager.id}"
+                                        th:text="${manager.fullName} + ' - ' + ${manager.username}"
+                                        th:selected="${manager.id} == ${managerId}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">
                             Gender: <font color="red">*</font></label>
 
                         <div class="col-sm-10">
