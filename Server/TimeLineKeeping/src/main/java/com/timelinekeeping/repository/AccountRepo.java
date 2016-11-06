@@ -39,6 +39,11 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
     @Query("SELECT a FROM AccountEntity a INNER JOIN a.department d WHERE d.id = :department_id AND a.active <> 0")
     List<AccountEntity> findByDepartment(@Param("department_id") Long departmentId);
 
+    @Query("SELECT a FROM AccountEntity a INNER JOIN a.department d INNER JOIN a.role r " +
+            "WHERE d.id = :department_id AND r.id <> :role_id AND a.active <> 0")
+    List<AccountEntity> findByDepartmentAndRole(@Param("department_id") Long departmentId,
+                                                @Param("role_id") Long roleId);
+
 //    @Query("UPDATE account SET token = :tokenID WHERE id = :accountID", nativeQuery = true)
 //    int updateMobileTokenID(@Param("accountID") Long accountID,
 //                            @Param("tokenID") String tokenID);
