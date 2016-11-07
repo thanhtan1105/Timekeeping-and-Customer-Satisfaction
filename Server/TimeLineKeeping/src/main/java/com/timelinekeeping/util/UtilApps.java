@@ -7,7 +7,9 @@ import org.apache.commons.io.IOUtils;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.Normalizer;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Created by HienTQSE60896 on 9/10/2016.
@@ -48,6 +50,7 @@ public class UtilApps {
         }
         return password;
     }
+
     public static String generateToken() {
         String token = "";
         Random r = new Random();
@@ -81,6 +84,11 @@ public class UtilApps {
         return sentence;
     }
 
+    public static String parseNoneAccent(String value) {
+        String text = Normalizer.normalize(value, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(text).replaceAll("");
+    }
 
     public static String[] parseSearchValue(String searchValue) {
         String regular = "[-]";
@@ -89,10 +97,13 @@ public class UtilApps {
     }
 
     public static void main(String[] args) {
-        List<String> list = Collections.singletonList("12345");
-        int index = UtilApps.random(0, list.size() -1);
-        System.out.println(index);
-        System.out.println(list.get(index));
+        System.out.println(parseNoneAccent("Normalizer: Class này cung cấp các phương thức để tiêu chuẩn hóa văn bản Unicode thành văn bản tương đương. Nhằm mục đích thuận tiện cho việc sắp xếp và tìm kiếm chuỗi.\n" +
+                "\n" +
+                "String temp = Normalizer.normalize(s, Normalizer.Form.NFD): Tiêu chuẩn hóa chuỗi s được truyền vào theo định dạng NFD. Kết quả trả về là chuỗi đã được tiêu chuẩn hóa. \n" +
+                "\n" +
+                "Lớp Pattern:  Dùng để nhận Regexp (Cấu trúc đại diện hay Regular Expression) vào và kiểm tra những String cho vào dựa trên Regexp đã tạo ra. Thông thường để nhận một Regexp, thì dùng phương thức compile.\n" +
+                "\n" +
+                "matcher: Dùng để so sánh, tìm kiếm những chữ đưa vào dựa trên Regexp đã tạo ra."));
     }
 
 }

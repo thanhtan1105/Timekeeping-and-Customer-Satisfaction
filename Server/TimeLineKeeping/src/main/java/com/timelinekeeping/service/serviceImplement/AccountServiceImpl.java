@@ -658,4 +658,25 @@ public class AccountServiceImpl {
     }
 
 
+    public boolean checkExistUsername(String username){
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info("Username: " + username);
+            return accountRepo.checkExistUsername(username) > 0;
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+        }
+    }
+
+    public String createEmail(String username){
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info("Username: " + username);
+            
+//            return accountRepo.checkExistUsername(username) > 0;
+            return null;
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+        }
+    }
 }

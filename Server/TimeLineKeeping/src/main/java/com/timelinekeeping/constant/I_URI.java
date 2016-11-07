@@ -32,6 +32,8 @@ public interface I_URI {
     String API_ACCOUNT_SEARCH_DEPARTMENT = "/search_department";
     String API_ACCOUNT_UPDATE_TOKEN_ONE_SIGNAL_ID_MOBILE = "/update_token_id_mobile";
     String API_ACCOUNT_LOGIN = "/login";
+    String API_ACCOUNT_CHECK_EXIST_USERNAME = "/exits_username";
+    String API_ACCOUNT_CREATE_EMAIL = "/create_email";
     String API_ACCOUNT_GET_REMINDER = "/get_reminder";
 
     /**

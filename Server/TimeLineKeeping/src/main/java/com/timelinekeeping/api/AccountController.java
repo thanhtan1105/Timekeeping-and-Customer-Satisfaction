@@ -309,4 +309,44 @@ public class AccountController {
     }
 
 
+    @RequestMapping(value = I_URI.API_ACCOUNT_CHECK_EXIST_USERNAME, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse checkExistUsername(@RequestParam(value = "username") String username) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            return new BaseResponse(accountService.checkExistUsername(username));
+        } catch (Exception e) {
+            logger.error(e);
+            System.out.println(e.getStackTrace());
+            return new BaseResponse(false, e.getMessage());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        }
+
+    }
+
+    @RequestMapping(value = I_URI.API_ACCOUNT_CREATE_EMAIL, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse createEmail(@RequestParam(value = "fullName") String fullName) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info("fullName : " + fullName);
+            String email = accountService.createEmail(fullName);
+            if (email != null) {
+                return new BaseResponse(true, email);
+            } else {
+                return new BaseResponse(false);
+            }
+
+        } catch (Exception e) {
+            logger.error(e);
+            System.out.println(e.getStackTrace());
+            return new BaseResponse(false, e.getMessage());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        }
+
+    }
+
+
 }
