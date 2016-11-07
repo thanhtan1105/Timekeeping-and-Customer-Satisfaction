@@ -17,9 +17,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hbD-wp-qFq">
-                                <rect key="frame" x="135" y="269" width="51" height="30"/>
-                                <state key="normal" title="START "/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hbD-wp-qFq">
+                                <rect key="frame" x="96" y="220" width="128" height="128"/>
+                                <state key="normal" image="start"/>
                                 <connections>
                                     <segue destination="PJM-UA-FLl" kind="show" id="rMP-Pd-jZe"/>
                                 </connections>
@@ -437,4 +437,7 @@
             <point key="canvasLocation" x="505" y="762"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="start" width="128" height="128"/>
+    </resources>
 </document>
