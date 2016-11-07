@@ -2,6 +2,7 @@ package com.timelinekeeping.entity;
 
 import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.EStatus;
+import com.timelinekeeping.constant.Gender;
 
 import javax.persistence.*;
 
@@ -24,6 +25,15 @@ public class EmotionContentEntity {
 
     @Column(name = "emotion_third")
     private EEmotion emotionThird = EEmotion.NONE;
+
+    @Column(name = "from_age")
+    private Double fromAge;
+
+    @Column(name = "to_age")
+    private Double toAge;
+
+    @Column(name = "gender")
+    private Gender gender;
 
     @Column(name = "message")
     private String message;
@@ -88,5 +98,29 @@ public class EmotionContentEntity {
 
     public void setVote(Long vote) {
         this.vote = vote;
+    }
+
+    public Double getFromAge() {
+        return fromAge;
+    }
+
+    public void setFromAge(Double fromAge) {
+        this.fromAge = fromAge;
+    }
+
+    public Double getToAge() {
+        return toAge;
+    }
+
+    public void setToAge(Double toAge) {
+        this.toAge = toAge;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 }
