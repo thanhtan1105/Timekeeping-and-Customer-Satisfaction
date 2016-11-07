@@ -192,6 +192,27 @@ public class AccountController {
         }
     }
 
+    @RequestMapping(value = I_URI.API_ACCOUNT_REMOVE_FACE, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse removeFaceFromAccount(@RequestParam(value = "accountId") Long accountId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+//            Long faceId = accountService.addFaceImg(Long.valueOf(accountId), imageFile.getInputStream());
+//            if (faceId != null) {
+//                return new BaseResponse(true, new Pair<>("faceId", faceId));
+//            } else {
+//                return new BaseResponse(false);
+//            }
+
+            return new BaseResponse(true);
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        }
+    }
+
     @RequestMapping(value = I_URI.API_ACCOUNT_LIST_FACE, method = RequestMethod.GET)
     @ResponseBody
     public BaseResponse listFace(@RequestParam(value = "accountId") Long accountId) {
