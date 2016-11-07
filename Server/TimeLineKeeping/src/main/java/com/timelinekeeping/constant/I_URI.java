@@ -123,4 +123,6 @@ public interface I_URI {
     String API_BEACON_GET_ROOM_POINT = "/list_room_point";
     String API_BEACON_GET_POINT = "/list_point";
     String API_BEACON_FIND_PATH = "/find_path";
+
+    String API_HANDLER = "/api/handler";
 }
