@@ -9,23 +9,16 @@
 </head>
 <body onload="load_list_accounts('', 0, 10)">
 <div layout:fragment="content">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1 class="text-success">
-            <i class="glyphicon glyphicon-send"></i> Management Accounts
-        </h1>
-        <ol class="breadcrumb">
-            <li><i class="fa fa-laptop active"></i> Management Accounts</li>
-        </ol>
-        <hr style="border-color: green; margin-top: 4px; margin-bottom: 5px;"/>
-    </section>
-    <!-- Main content -->
-    <section class="content">
-        <!-- Your Page Content Here -->
-        <!-- Form for search accounts -->
-        <div class="input-group" style="margin-right:  25%; margin-left: 25%; margin-bottom: 5px;">
+    <section class="content font-17">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <label><font class="font-24"><i class="fa fa-users"></i> Management Accounts</font></label>
+            </div>
+        </div>
+        <!-- form for search accounts -->
+        <div class="input-group" style="margin-right: 25%; margin-left: 25%; margin-bottom: 5px; margin-top: 10px;">
             <input type="text" class="form-control" placeholder="Enter account"/>
-                <span class="input-group-btn">
+            <span class="input-group-btn">
                     <button class="btn btn-success btn-flat" type="button"/>
                         <i class="glyphicon glyphicon-search"></i> Search
                 </span>
@@ -34,11 +27,9 @@
         <!-- Add new account -->
         <div class="row" style="margin-bottom: 8px;">
             <div class="col-sm-2">
-                <a th:href="@{/admin/accounts/addAccount}">
-                    <button type="submit" id="add-new-class-button" class="btn btn-success btn-flat btn-sm">
-                        <i class="glyphicon glyphicon-plus"></i> New Account
-                    </button>
-                </a>
+                <button type="submit" class="btn btn-success btn-flat btn-sm" onclick="add_new()">
+                    <i class="glyphicon glyphicon-plus"></i> New Account
+                </button>
             </div>
         </div>
         <!-- /.end add new account -->
@@ -65,16 +56,16 @@
                             <colgroup>
                                 <col span="1" style="width: 25%;">
                                 <col span="1" style="width: 20%;">
-                                <col span="1" style="width: 15%;">
                                 <col span="1" style="width: 25%;">
+                                <col span="1" style="width: 15%;">
                                 <col span="1" style="width: 15%;">
                             </colgroup>
                             <thead>
                             <tr>
                                 <th>Full Name</th>
                                 <th>User Name</th>
-                                <th>Role</th>
                                 <th>Department</th>
+                                <th>Role</th>
                                 <th>Action</th>
                             </tr>
                             </thead>

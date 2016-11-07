@@ -10,6 +10,7 @@ public interface I_URI {
      */
     String API_CREATE = "/create";
     String API_LIST = "/list";
+    String API_LIST_DEPARTMENT = "/list_department";
     String API_GET = "/get";
     String API_SEARCH = "/search";
     String API_SEARCH_ADV = "/search_adv";
@@ -42,6 +43,12 @@ public interface I_URI {
     String API_DEPARTMENT = "/api/department";
     String API_DEPARTMENT_TRAINING = "/training";
     String API_DEPARTMENT_EXIST = "/exist_code";
+
+    /**
+     * Role
+     */
+    String API_ROLE = "/api/role";
+    String API_LIST_ROLE = "/list_role";
 
     /**
      * Emotion
