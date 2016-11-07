@@ -77,4 +77,7 @@ public interface IContanst {
 
     String COMPANY_EMAIL = "tkcs.vn";
     String PASSWORD_DEFAULT = "abcd@123";
+
+
+    String DEPARTMENT_MICROSOFT = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.department");
 }

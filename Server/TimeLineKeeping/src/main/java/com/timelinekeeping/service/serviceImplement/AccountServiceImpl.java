@@ -425,7 +425,7 @@ public class AccountServiceImpl {
             if (ValidateUtil.isEmpty(entities)) {
                 return null;
             }
-            return entities.stream().map(FaceModel::new).collect(Collectors.toList());
+            return entities.stream().filter(faceEntity -> faceEntity.getStorePath() != null).map(FaceModel::new).collect(Collectors.toList());
 
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
