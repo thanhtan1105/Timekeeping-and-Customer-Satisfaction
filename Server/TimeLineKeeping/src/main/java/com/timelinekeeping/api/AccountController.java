@@ -199,13 +199,18 @@ public class AccountController {
 
     @RequestMapping(value = I_URI.API_ACCOUNT_REMOVE_FACE, method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse removeFaceFromAccount(@RequestParam(value = "accountCode") String accountCode,
-                                              @RequestParam(value = "persistedFaceId") String persistedFaceId) {
+    public BaseResponse removeFaceFromAccount(@RequestParam(value = "accountId") Long accountId,
+                                              @RequestParam(value = "faceId") Long faceId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             String personGroupId = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.department");
-            BaseResponse baseResponse = faceService.deleteFace(personGroupId, accountCode, persistedFaceId);
-            return baseResponse;
+            Boolean result = faceService.removeFace(personGroupId, accountId, faceId);
+            if (result != null){
+                return new BaseResponse(result);
+            }else{
+                return new BaseResponse(false);
+
+            }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);

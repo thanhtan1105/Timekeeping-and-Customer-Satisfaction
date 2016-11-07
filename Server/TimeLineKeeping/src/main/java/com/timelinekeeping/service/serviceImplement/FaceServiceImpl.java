@@ -2,6 +2,7 @@ package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.common.BaseResponse;
+import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.FaceEntity;
@@ -65,27 +66,38 @@ public class FaceServiceImpl {
         }
     }
 
-    public BaseResponse deleteFace(String personGroupId, String personCode, String persistedFaceId) throws URISyntaxException, IOException {
+    public Boolean removeFace(String personGroupId, Long accountId, Long faceId) throws URISyntaxException, IOException {
         logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-        BaseResponse baseResponse = new BaseResponse();
+
+        AccountEntity accountEntity = accountRepo.findOne(accountId);
+        if (accountEntity == null){
+            return null;
+        }
+        FaceEntity faceEntity = faceRepo.findOne(faceId);
+        if (faceEntity == null){
+            return null;
+        }
+        BaseResponse baseResponse = callAPIremoveMCS(personGroupId, accountEntity.getUserCode(), faceEntity.getPersistedFaceId());
+
+        if (baseResponse.isSuccess() == true) {
+            // remove on db
+            faceEntity.setActive(EStatus.DEACTIVE);
+            faceRepo.save(faceEntity);
+            return true;
+        }else {
+
+            return false;
+        }
+    }
+
+    public BaseResponse callAPIremoveMCS(String personGroupId, String personID, String persistedFaceId) throws URISyntaxException, IOException {
         String urlDeleteFace = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group") + "/" + personGroupId;
-        urlDeleteFace += "/" + AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.delete.person.face.1.addition") + "/" + personCode;
+        urlDeleteFace += "/" + AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.delete.person.face.1.addition") + "/" + personID;
         urlDeleteFace += "/" + AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.delete.person.face.2.addition") + "/" + persistedFaceId;
         String url = rootPath  + urlDeleteFace;
 
         BaseResponse faceResponse = HTTPClientUtil.getInstanceFace().toGet(new URI(url), String.class);
-        if (faceResponse.isSuccess() == true) {
-            // remove on db
-            FaceEntity entity = faceRepo.findByPersistentId(persistedFaceId);
-            faceRepo.delete(entity);
-            faceRepo.flush();
-            baseResponse.setSuccess(true);
-            return baseResponse;
-        }
-
-
-        baseResponse.setSuccess(false);
-        return baseResponse;
+        return faceResponse;
     }
 }
 
