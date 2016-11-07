@@ -1,5 +1,7 @@
 package com.timelinekeeping.entity;
 
+import com.timelinekeeping.constant.EStatus;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -23,6 +25,11 @@ public class FaceEntity  implements Serializable {
     @Basic
     @Column(name = "store_path", length = 500)
     private String storePath;
+
+
+    @Basic
+    @Column(name = "active")
+    private EStatus active = EStatus.ACTIVE;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", nullable = false)
@@ -68,6 +75,14 @@ public class FaceEntity  implements Serializable {
 
     public void setStorePath(String storePath) {
         this.storePath = storePath;
+    }
+
+    public EStatus getActive() {
+        return active;
+    }
+
+    public void setActive(EStatus active) {
+        this.active = active;
     }
 }
 
