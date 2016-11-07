@@ -75,5 +75,6 @@ public interface IContanst {
     List<Pair<EEmotion, EEmotion>> COMPETITION_EMOTION = Arrays.asList(new Pair<>(EEmotion.ANGER, EEmotion.HAPPINESS),
             new Pair<>(EEmotion.ANGER, EEmotion.HAPPINESS));
 
+    String COMPANY_EMAIL = "tkcs.vn";
     String PASSWORD_DEFAULT = "abcd@123";
 }
