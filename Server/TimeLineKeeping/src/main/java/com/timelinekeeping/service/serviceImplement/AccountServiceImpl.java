@@ -296,15 +296,10 @@ public class AccountServiceImpl {
             Pageable pageable = new PageRequest(start, top);
 
             //repo db
-            List<AccountEntity> entityPage = departmentRepo.findByDepartment(departmentId);
+            List<AccountEntity> entityPage = accountRepo.findByDepartment(departmentId);
 
             //covert list
             List<AccountModel> accountModels = entityPage.stream().map(AccountModel::new).collect(Collectors.toList());
-//            Page<AccountModel> returnPage = new PageImpl<>(accountModels, pageable, entityPage.getTotalElements());
-
-//            logger.info("Entity result:" + JsonUtil.toJson(returnPage));
-
-//            return returnPage;
             return accountModels;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);

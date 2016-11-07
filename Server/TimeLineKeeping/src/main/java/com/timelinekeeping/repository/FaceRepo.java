@@ -18,5 +18,7 @@ public interface FaceRepo extends JpaRepository<FaceEntity, Long> {
 
     @Query("select f from FaceEntity f inner join f.accountEntity a where a.id = :account_id")
     public List<FaceEntity> findByAccount(@Param("account_id") Long accountiD);
-    
+
+    @Query("SELECT f FROM FaceEntity f WHERE f.persistedFaceId = :persisted_face_id")
+    public FaceEntity findByPersistentId(@Param("persisted_face_id") String persistedFaceId);
 }

@@ -28,6 +28,6 @@ let urlGetAccountList: String = "/account/search_department"
 let urlAddFaceToPerson: String = "/account/add_face"
 let urlSendTrainingStatus: String = "/department/training"
 let urlGetFace: String = "/account/list_face"
-
+let urlDelteFace: String = "/account/remove_face"
 
 

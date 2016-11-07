@@ -1,5 +1,6 @@
 package com.timelinekeeping.api;
 
+import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.ERROR;
@@ -7,6 +8,7 @@ import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.service.serviceImplement.AccountServiceImpl;
+import com.timelinekeeping.service.serviceImplement.FaceServiceImpl;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
@@ -29,6 +31,9 @@ public class AccountController {
 
     @Autowired
     private AccountServiceImpl accountService;
+
+    @Autowired
+    private FaceServiceImpl faceService;
 
     @RequestMapping(value = I_URI.API_CREATE, method = RequestMethod.POST)
     @ResponseBody
@@ -194,17 +199,13 @@ public class AccountController {
 
     @RequestMapping(value = I_URI.API_ACCOUNT_REMOVE_FACE, method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse removeFaceFromAccount(@RequestParam(value = "accountId") Long accountId) {
+    public BaseResponse removeFaceFromAccount(@RequestParam(value = "accountCode") String accountCode,
+                                              @RequestParam(value = "persistedFaceId") String persistedFaceId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-//            Long faceId = accountService.addFaceImg(Long.valueOf(accountId), imageFile.getInputStream());
-//            if (faceId != null) {
-//                return new BaseResponse(true, new Pair<>("faceId", faceId));
-//            } else {
-//                return new BaseResponse(false);
-//            }
-
-            return new BaseResponse(true);
+            String personGroupId = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.department");
+            BaseResponse baseResponse = faceService.deleteFace(personGroupId, accountCode, persistedFaceId);
+            return baseResponse;
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
