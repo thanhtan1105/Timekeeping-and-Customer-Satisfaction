@@ -98,6 +98,7 @@ public class FaceServiceImpl {
 
         BaseResponse faceResponse = HTTPClientUtil.getInstanceFace().toGet(new URI(url), String.class);
         return faceResponse;
+
     }
 }
 
