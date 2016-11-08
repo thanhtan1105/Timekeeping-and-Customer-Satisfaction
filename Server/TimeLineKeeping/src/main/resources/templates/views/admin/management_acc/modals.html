@@ -248,8 +248,8 @@
                                         Username: <font color="red">*</font></label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="input-username"
-                                           style="width: 90%;"
+                                    <input type="text" class="form-control" th:id="'input-username'"
+                                           th:name="username" style="width: 90%;"
                                            onfocusout="ajax_check_username_exist()"/>
                                     <span class="help-block" id="span-message-username"
                                           style="display: none">
@@ -263,7 +263,8 @@
                                         Full name: <font color="red">*</font></label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" style="width: 90%;"/>
+                                    <input type="text" class="form-control" th:name="fullname"
+                                           style="width: 90%;"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -291,7 +292,8 @@
                                         Phone: <font color="red">*</font></label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" style="width: 30%;"/>
+                                    <input type="text" class="form-control" th:name="phone"
+                                           style="width: 30%;"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -300,7 +302,7 @@
                                     <label class="control-label">Address:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <textarea class="form-control" style="width: 90%"></textarea>
+                                    <textarea class="form-control" th:name="address" style="width: 90%"></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -310,7 +312,7 @@
                                         Department: <font color="red">*</font></label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <select class="form-control select-department" style="width: 50%;"></select>
+                                    <select class="form-control select-department" th:name="department" style="width: 50%;"></select>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -320,7 +322,7 @@
                                         Role: <font color="red">*</font></label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <select class="form-control select-role" style="width: 20%;"></select>
+                                    <select class="form-control select-role" th:name="role" style="width: 20%;"></select>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -329,14 +331,13 @@
                                     <label class="control-label">Note:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <textarea class="form-control" style="width: 90%"></textarea>
+                                    <textarea class="form-control" th:name="note" style="width: 90%"></textarea>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-warning btn-flat" data-dismiss="modal"
-                                onclick="show_result_modal()">Save
+                        <button type="button" class="btn btn-warning btn-flat" onclick="add_new_processing()">Save
                         </button>
                         <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cancel
                         </button>

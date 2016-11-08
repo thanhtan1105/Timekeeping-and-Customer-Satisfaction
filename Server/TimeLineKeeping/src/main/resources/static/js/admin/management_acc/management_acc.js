@@ -12,6 +12,7 @@ var current_search_value;
 var deleted_department_id;
 var viewed_account_id;
 var current_gender;
+var error_username_exist = false;
 
 /**
  * For load
@@ -185,6 +186,34 @@ function ajax_check_username_exist() {
 
             //set checking username exist
             set_checking_username_exist(success);
+            //set error username exist
+            error_username_exist = success;
+        }
+    });
+}
+
+function ajax_add_new_processing(account) {
+    console.info('[add new processing][account] ' + account);
+    $.ajax({
+        type: 'POST',
+        url: '/api/account/create',
+        data: account,
+        success: function (response) {
+            var success = response.success;
+            console.info('[add new processing][success] ' + success);
+            if (success) {
+                //hide modal add new
+                close_modal('#modal-add-new');
+
+                //reload list accounts
+                load_list_accounts(current_search_value, current_index_page, current_page_size);
+            } else {
+                //do nothing
+            }
+        },
+        error: function (response, exception) {
+            console.log(response);
+            console.log(exception);
         }
     });
 }
@@ -423,6 +452,20 @@ function set_checking_username_exist(isExisted) {
 }
 
 /**
+ * Fc: get errors
+ */
+function get_errors() {
+    var errors = false;
+
+    if (error_username_exist) {
+        errors = true;
+    }
+
+    console.info('[get errors] ' + errors);
+    return errors;
+}
+
+/**
  * For Fc
  */
 /**
@@ -508,6 +551,39 @@ function add_new() {
     show_modal('#modal-add-new', false);
 }
 
+function add_new_processing() {
+    if (get_errors()) {//has errors
+        //do nothing
+    } else {//has not errors
+        var $form_add_new = $('#form-add-new'),
+            username = $form_add_new.find('[name="username"]').val(),
+            fullname = $form_add_new.find('[name="fullname"]').val(),
+            phone = $form_add_new.find('[name="phone"]').val(),
+            address = $form_add_new.find('[name="address"]').val(),
+            department = $form_add_new.find('[name="department"]').val(),
+            role = $form_add_new.find('[name="role"]').val(),
+            note = $form_add_new.find('[name="note"]').val(),
+            account = {
+                'id': '',
+                'username': username,
+                'password': '',
+                'fullName': fullname,
+                'email': '',
+                'phone': phone,
+                'address': address,
+                'note': note,
+                'active': '',
+                'roleId': role,
+                'departmentId': department,
+                'gender': current_gender,
+                'managerId': '',
+            };
+
+        //call ajax add new processing
+        ajax_add_new_processing(account);
+    }
+}
+
 /**
  * For util fc
  */
@@ -548,6 +624,14 @@ function show_modal(id, keyboard) {
 }
 
 /**
+ * Fc: close modal
+ * @param id
+ */
+function close_modal(id) {
+    $(id).modal('toggle');
+}
+
+/**
  * Fc: select gender
  * @param gender
  */
@@ -557,12 +641,16 @@ function select_gender(gender) {
     if (gender == 1) {//female
         $btn_gender_female.attr('class', 'btn bg-aqua-gradient');
         $btn_gender_male.attr('class', 'btn btn-default');
+
+        //set current gender
+        current_gender = 1;
     } else {//male
         $btn_gender_male.attr('class', 'btn bg-aqua-gradient');
         $btn_gender_female.attr('class', 'btn btn-default');
+
+        //set current gender
+        current_gender = 0;
     }
-    //set current gender
-    current_gender = gender;
 }
 
 /**
