@@ -1,5 +1,6 @@
 package com.timelinekeeping.util;
 
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.NotificationEntity;
 import com.timelinekeeping.model.AccountNotificationModel;
 import org.apache.commons.io.IOUtils;
@@ -8,16 +9,14 @@ import javax.imageio.ImageIO;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * Created by HienTQSE60896 on 9/10/2016.
@@ -104,33 +103,8 @@ public class UtilApps {
         return groups;
     }
 
-    public static void rotateImage(String url) {
-        File file = new File(url);
-        try {
-            BufferedImage bufferedImage = ImageIO.read(file);
-            double rotationRequired = Math.toRadians(90);
-            double locationX = bufferedImage.getHeight() / 2;
-            double locationY = bufferedImage.getWidth() / 2;
-            AffineTransform transform = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
-
-            AffineTransformOp affineTransformOp = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
-            int maximun = (int) (Math.max(bufferedImage.getHeight(), bufferedImage.getWidth()) * 1.20);
-            BufferedImage newImage = new BufferedImage(maximun, maximun, bufferedImage.getType());
-            affineTransformOp.filter(bufferedImage, newImage);
-//            g2d.drawImage(op.filter(image, null), drawLocationX, drawLocationY, null);
 
 
-            String fileoutName = file.getParent() + "\\" + "147849309073-1.jpg";
-            File fileOut = new File(fileoutName);
-            file.mkdirs();
-            ImageIO.write(newImage, "jpg", fileOut);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public static void main(String[] args) {
-        rotateImage("D:\\CP\\FILE\\1478493090734.jpg");
-    }
 
 }

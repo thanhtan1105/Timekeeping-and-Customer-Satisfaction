@@ -29,6 +29,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -365,15 +366,16 @@ public class AccountServiceImpl {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
 
-            InputStream[] streams = UtilApps.muitleStream(imgStream, 2);
-
+//            InputStream[] streams = UtilApps.muitleStream(imgStream, 2);
+            //rotate image
+            byte[] byteImage = StoreFileUtils.rotateImage(imgStream);
             AccountEntity accountEntity = accountRepo.findOne(accountId);
             if (accountEntity == null) {
                 return null;
             }
 
             String departmentCode = IContanst.DEPARTMENT_MICROSOFT;
-            BaseResponse baseResponse = personServiceMCS.addFaceImg(departmentCode, accountEntity.getUserCode(), streams[0]);
+            BaseResponse baseResponse = personServiceMCS.addFaceImg(departmentCode, accountEntity.getUserCode(), new ByteArrayInputStream(byteImage));
             logger.info("RESPONSE" + baseResponse);
             if (!baseResponse.isSuccess()) {
                 return null;
@@ -382,12 +384,16 @@ public class AccountServiceImpl {
             // encoding data
             Map<String, String> mapResult = (Map<String, String>) baseResponse.getData(); // get face
             if (mapResult != null && mapResult.size() > 0) {
+
                 String persistedFaceID = mapResult.get("persistedFaceId");
+
+
                 //STORE FILE
                 String nameFile = accountEntity.getDepartment().getId() + "_" + accountEntity.getDepartment().getCode()
                         + File.separator + accountId + "_" + accountEntity.getUsername() + File.separator + new Date().getTime();
 
-                String outFileName = StoreFileUtils.storeFile(nameFile, streams[1]);
+
+                String outFileName = StoreFileUtils.storeFile(nameFile, new ByteArrayInputStream(byteImage));
                 //return faceReturn.getId();
 
                 //store file AWS
@@ -395,6 +401,7 @@ public class AccountServiceImpl {
                 if (outFileName != null) {
                     File file = new File(outFileName);
                     outAWSFileName = AWSStorage.uploadFile(file, file.getName());
+                    logger.info("aws link: " + outAWSFileName);
                 }
 
                 // save db
