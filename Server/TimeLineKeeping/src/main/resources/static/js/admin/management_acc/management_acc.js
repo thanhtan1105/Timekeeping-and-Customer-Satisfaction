@@ -272,7 +272,8 @@ function set_list_accounts(list_accounts, $tbody_list_accounts) {
         status = list_accounts[i].active;
         if (status == 1) {
             tr_status = '<tr>';
-            btn_activate = ' <button class="btn btn-default btn-flat btn-sm" type="button" title="Deactivate Account">Deactivate</button>';
+            btn_activate = ' <button class="btn btn-default btn-flat btn-sm" type="button" ' +
+                'title="Deactivate Account" onclick="deactivate(' + list_accounts[i].id + ')">Deactivate</button>';
         } else {
             tr_status = '<tr class="text-muted">';
             btn_activate = ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Activate Account">Activate</button>';
@@ -709,6 +710,27 @@ function add_new_processing() {
         //call ajax add new processing
         ajax_add_new_processing(account);
     }
+}
+
+/**
+ * Fc: deactivate account
+ * @param id
+ */
+function deactivate(id) {
+    var urlString = '/api/account/disable?accountId=' + id;
+    console.info('[deactivate account][id] ' + id);
+    $.ajax({
+        type: 'GET',
+        url: urlString,
+        success: function (response) {
+            var success = response.success;
+            console.info('[deactivate account][success] ' + success);
+            if (success) {
+                //reload list accounts
+                load_list_accounts(current_search_value, current_index_page, current_page_size);
+            }
+        }
+    });
 }
 
 /**
