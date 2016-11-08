@@ -54,7 +54,7 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
     @Query("SELECT a FROM AccountEntity a WHERE a.keyOneSignal = :keyOne and a.active <>0")
     List<AccountEntity> findByOneSignal(@Param("keyOne") String key);
 
-    @Query("SELECT a FROM AccountEntity a WHERE a.manager.id = :managerId AND a.active <> 0")
+    @Query("SELECT a FROM AccountEntity a WHERE a.manager.id = :managerId AND a.role.id = 3 AND a.active <> 0 ")
     List<AccountEntity> findByManager(@Param("managerId") Long managerId);
 
 
@@ -62,7 +62,7 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
     AccountEntity findByUserNameAndPassword(@Param("username") String username,
                                             @Param("password") String password);
 
-    @Query("SELECT a FROM  AccountEntity a WHERE a.manager.id = :managerId")
+    @Query("SELECT a FROM  AccountEntity a WHERE a.manager.id = :managerId and a.role.id = 3")
     List<AccountEntity> findByManagerNoActive(@Param("managerId") Long managerId);
 
     @Query("SELECT a FROM  AccountEntity a INNER JOIN a.role r WHERE  r.id = 2 and a.active <> 0")

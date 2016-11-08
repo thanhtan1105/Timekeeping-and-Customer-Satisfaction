@@ -30,8 +30,6 @@ public class AppConfigKeys {
         return instance;
     }
 
-    //TODO log in file
-
     public AppConfigKeys() {
         propertiesApi = new Properties();
         propertiesMessage = new Properties();

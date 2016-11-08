@@ -5,6 +5,8 @@ import org.apache.log4j.Logger;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.YearMonth;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -41,6 +43,16 @@ public class TimeUtil {
         return format.format(time);
     }
 
+
+    public static YearMonth parseYearMonth(Long time){
+        return parseYearMonth(new Date(time));
+    }
+
+    public static YearMonth parseYearMonth(Date time){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(time);
+        return YearMonth.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH));
+    }
     public static void main(String[] args) {
         String text = "2016-11-08 09:30 AM";
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
