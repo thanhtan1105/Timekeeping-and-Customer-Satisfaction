@@ -372,7 +372,7 @@ public class AccountServiceImpl {
                 return null;
             }
 
-            String departmentCode = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.department");
+            String departmentCode = IContanst.DEPARTMENT_MICROSOFT;
             BaseResponse baseResponse = personServiceMCS.addFaceImg(departmentCode, accountEntity.getUserCode(), streams[0]);
             logger.info("RESPONSE" + baseResponse);
             if (!baseResponse.isSuccess()) {

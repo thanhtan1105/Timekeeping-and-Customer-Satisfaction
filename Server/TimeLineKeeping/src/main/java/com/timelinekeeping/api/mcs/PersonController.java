@@ -1,8 +1,8 @@
 package com.timelinekeeping.api.mcs;
 
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
-import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.common.BaseResponse;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.Logger;
@@ -73,7 +73,7 @@ public class PersonController {
             if (ValidateUtil.isImageFile(img.getInputStream())) {
                 response = personService.addFaceImg(groupId, personId, img.getInputStream());
                 logger.info("RESPONSE: " + JsonUtil.toJson(response));
-            }else {
+            } else {
                 response = new BaseResponse();
                 response.setSuccess(false);
                 response.setMessage("File not image format.");
@@ -95,6 +95,44 @@ public class PersonController {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response = personService.listPersonInGroup(groupId);
             return response;
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+
+    @RequestMapping(value = {"/remove_face"}, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse removeFace(@RequestParam("groupId") String groupId,
+                                   @RequestParam("personId") String personId,
+                                   @RequestParam("persistedId") String persistedId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            BaseResponse response = personService.removePersonFace(groupId, personId, persistedId);
+            logger.info("RESPONSE: " + JsonUtil.toJson(response));
+            return response;
+
+        } catch (Exception e) {
+            logger.error(e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    @RequestMapping(value = {"/delete_person"}, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse deletePerson(@RequestParam("groupId") String groupId,
+                                     @RequestParam("personId") String personId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            BaseResponse response = personService.deletePerson(groupId, personId);
+            logger.info("RESPONSE: " + JsonUtil.toJson(response));
+            return response;
+
         } catch (Exception e) {
             logger.error(e);
             return new BaseResponse(e);

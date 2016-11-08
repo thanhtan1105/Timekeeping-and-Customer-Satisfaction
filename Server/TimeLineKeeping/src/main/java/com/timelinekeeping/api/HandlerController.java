@@ -21,13 +21,17 @@ public class HandlerController {
     @Autowired
     HandlerServiceImpl handlerService;
 
+    @RequestMapping(I_URI.API_HANDLER_SYNCHONRINZE)
     public BaseResponse synchronize() {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
 
             Boolean result = handlerService.synchonize();
-
-            return new BaseResponse(result);
+            if (result == null) {
+                return new BaseResponse(false);
+            } else {
+                return new BaseResponse(result);
+            }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);

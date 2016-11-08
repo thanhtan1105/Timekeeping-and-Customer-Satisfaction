@@ -178,7 +178,6 @@ public class HTTPClientUtil {
     }
 
 
-
     private void setHeaderJson() {
         request.setHeader("Content-Type", "application/json");
         request.setHeader("Ocp-Apim-Subscription-Key", key);
@@ -237,7 +236,6 @@ public class HTTPClientUtil {
         }
         return null;
     }
-
 
 
 }
