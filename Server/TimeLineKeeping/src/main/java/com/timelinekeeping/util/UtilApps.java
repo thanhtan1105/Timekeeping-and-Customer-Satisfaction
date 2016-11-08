@@ -4,11 +4,19 @@ import com.timelinekeeping.entity.NotificationEntity;
 import com.timelinekeeping.model.AccountNotificationModel;
 import org.apache.commons.io.IOUtils;
 
+import javax.imageio.ImageIO;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.Normalizer;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 /**
@@ -96,14 +104,33 @@ public class UtilApps {
         return groups;
     }
 
+    public static void rotateImage(String url) {
+        File file = new File(url);
+        try {
+            BufferedImage bufferedImage = ImageIO.read(file);
+            double rotationRequired = Math.toRadians(90);
+            double locationX = bufferedImage.getHeight() / 2;
+            double locationY = bufferedImage.getWidth() / 2;
+            AffineTransform transform = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+
+            AffineTransformOp affineTransformOp = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
+            int maximun = (int) (Math.max(bufferedImage.getHeight(), bufferedImage.getWidth()) * 1.20);
+            BufferedImage newImage = new BufferedImage(maximun, maximun, bufferedImage.getType());
+            affineTransformOp.filter(bufferedImage, newImage);
+//            g2d.drawImage(op.filter(image, null), drawLocationX, drawLocationY, null);
+
+
+            String fileoutName = file.getParent() + "\\" + "147849309073-1.jpg";
+            File fileOut = new File(fileoutName);
+            file.mkdirs();
+            ImageIO.write(newImage, "jpg", fileOut);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println(parseNoneAccent("Normalizer: Class này cung cấp các phương thức để tiêu chuẩn hóa văn bản Unicode thành văn bản tương đương. Nhằm mục đích thuận tiện cho việc sắp xếp và tìm kiếm chuỗi.\n" +
-                "\n" +
-                "String temp = Normalizer.normalize(s, Normalizer.Form.NFD): Tiêu chuẩn hóa chuỗi s được truyền vào theo định dạng NFD. Kết quả trả về là chuỗi đã được tiêu chuẩn hóa. \n" +
-                "\n" +
-                "Lớp Pattern:  Dùng để nhận Regexp (Cấu trúc đại diện hay Regular Expression) vào và kiểm tra những String cho vào dựa trên Regexp đã tạo ra. Thông thường để nhận một Regexp, thì dùng phương thức compile.\n" +
-                "\n" +
-                "matcher: Dùng để so sánh, tìm kiếm những chữ đưa vào dựa trên Regexp đã tạo ra."));
+        rotateImage("D:\\CP\\FILE\\1478493090734.jpg");
     }
 
 }

@@ -3,18 +3,24 @@ package com.timelinekeeping.service.serviceImplement;
 import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.common.BaseResponse;
+import com.timelinekeeping.constant.EHistory;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.FaceEntity;
+import com.timelinekeeping.entity.HistoryEntity;
 import com.timelinekeeping.model.FaceModel;
+import com.timelinekeeping.model.HistoryModel;
 import com.timelinekeeping.modelMCS.PersonInformation;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.FaceRepo;
+import com.timelinekeeping.repository.HistoryRepo;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +51,9 @@ public class HandlerServiceImpl {
 
     @Autowired
     FaceRepo faceRepo;
+
+    @Autowired
+    HistoryRepo historyRepo;
 
     public Boolean synchonize() throws IOException, URISyntaxException {
 
@@ -154,7 +163,31 @@ public class HandlerServiceImpl {
                 faceRepo.flush();
             }
         }
+
+        //training
         personGroupServiceMCS.trainGroup(IContanst.DEPARTMENT_MICROSOFT);
+
+        // history
+        HistoryEntity historyEntity = new HistoryEntity();
+        historyEntity.setType(EHistory.SYNCHRONIZED);
+        historyRepo.saveAndFlush(historyEntity);
         return true;
+    }
+
+
+    public List<HistoryModel> listHistory() {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            Page<HistoryEntity> page = historyRepo.findBySynchronize(new PageRequest(IContanst.PAGE_PAGE_I, IContanst.PAGE_SIZE_HISTORY));
+
+            if (page.getNumberOfElements() == 0) {
+                return null;
+            }
+            //convert and return
+            return page.getContent().stream().map(HistoryModel::new).collect(Collectors.toList());
+
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+        }
     }
 }
