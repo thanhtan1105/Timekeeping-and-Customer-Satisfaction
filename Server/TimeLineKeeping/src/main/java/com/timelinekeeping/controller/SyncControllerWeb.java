@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created by TrungNN on 11/8/2016.
  */
 @Controller
-@RequestMapping(I_URI.WEB_ADMIN_ACCOUNT)
+@RequestMapping(I_URI.WEB_ADMIN_SYNC_DATA)
 public class SyncControllerWeb {
 
     private Logger logger = Logger.getLogger(SyncControllerWeb.class);

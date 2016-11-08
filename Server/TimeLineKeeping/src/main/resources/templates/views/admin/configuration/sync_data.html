@@ -1,10 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout_admin">
+
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Sync Data</title>
 </head>
 <body>
-
+<div layout:fragment="content">
+    <section class="content font-17">
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-sm-6 col-md-offset-3">
+                <div class="box box-success">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-sm-12 text-center text-light-blue">
+                                <font class="font-200"><i class="fa fa-refresh"></i></font>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 15px">
+                            <div class="col-sm-12 text-center">
+                                <button type="button" class="btn btn-warning btn-lg btn-flat">Sync Now</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <font class="text-muted"><i class="fa fa-history"></i> Last time sync: 2016-11-08
+                                    14:15</font>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-sm-6 col-md-offset-3">
+                <div class="box box-danger">
+                    <div class="box-header with-border">
+                        <div class="box-title">
+                            History Sync
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <table class="table">
+                            <colgroup>
+                                <col span="1" style="width: 55%;">
+                                <col span="1" style="width: 45%;">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Time</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="text-yellow">
+                                <td>2016-11-08</td>
+                                <td>14:15</td>
+                            </tr>
+                            <tr>
+                                <td>2016-11-01</td>
+                                <td>14:15</td>
+                            </tr>
+                            <tr>
+                                <td>2016-10-25</td>
+                                <td>14:15</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<div layout:fragment="js">
+    <!--<script th:src="@{/js/common.js}"></script>-->
+    <!--<script th:src="@{/js/admin/management_acc/management_acc.js}"></script>-->
+</div>
 </body>
 </html>

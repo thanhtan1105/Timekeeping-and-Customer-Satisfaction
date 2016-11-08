@@ -103,7 +103,7 @@ public interface I_URI {
      */
     String WEB_ADMIN_ACCOUNT = "/admin/accounts";
     String WEB_ADMIN_DEPARTMENT = "/admin/departments";
-    String WEB_ADMIN_SYNC = "/admin/sync";
+    String WEB_ADMIN_SYNC_DATA = "/admin/sync_data";
     String WEB_MANAGER_CHECK_IN = "/manager/check_in";
     String WEB_MANAGER_CUS_SATISFACTION = "/manager/cus_satisfaction";
     String WEB_MANAGER_REMINDER = "/manager/reminders";
