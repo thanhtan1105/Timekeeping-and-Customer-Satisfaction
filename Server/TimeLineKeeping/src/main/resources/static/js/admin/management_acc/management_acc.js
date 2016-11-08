@@ -170,6 +170,26 @@ function ajax_get_list_role() {
 }
 
 /**
+ * Fc: ajax check username exist
+ */
+function ajax_check_username_exist() {
+    var username = $('#input-username').val(),
+        urlString = '/api/account/exits_username?username=' + username;
+    console.info('[check username exist][username] ' + username);
+    $.ajax({
+        type: 'GET',
+        url: urlString,
+        success: function (response) {
+            var success = response.success;
+            console.info('[check username exist][success] ' + success);
+
+            //set checking username exist
+            set_checking_username_exist(success);
+        }
+    });
+}
+
+/**
  * For set
  */
 /**
@@ -383,6 +403,23 @@ function set_list_roles(roles) {
 
     //default select employee
     set_value_select('.select-role', 3);
+}
+
+/**
+ * Fc: set checking username exist
+ * @param isExisted
+ */
+function set_checking_username_exist(isExisted) {
+    var $div_username = $('#div-username'),
+        $span_message_username = $('#span-message-username');
+
+    if (isExisted) {
+        $div_username.attr('class', 'form-group has-error');
+        $span_message_username.show();
+    } else {
+        $div_username.attr('class', 'form-group');
+        $span_message_username.hide();
+    }
 }
 
 /**
