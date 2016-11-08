@@ -11,7 +11,8 @@ var current_page_size = 10;
 var current_search_value;
 var deleted_department_id;
 var viewed_account_id;
-var current_gender;
+var current_gender_adding;
+var current_gender_updating;
 var error_username_exist = false;
 
 /**
@@ -353,6 +354,48 @@ function set_content_modal_view(username, fullName, role, department, manager, e
 }
 
 /**
+ * Fc: set content modal update
+ * @param username
+ * @param fullName
+ * @param phone
+ * @param address
+ * @param note
+ * @param gender
+ * @param role
+ * @param department
+ */
+function set_content_modal_update(username, fullName, phone, address, note, gender, role, department) {
+    var $form_edit = $('#form-edit'),
+        $font_update_department = $('#font-update-department'),
+        $font_update_role = $('#font-update-role'),
+        $btn_gender_male = $('#btn-update-gender-male'),
+        $btn_gender_female = $('#btn-update-gender-female');
+
+    //set value for form
+    $form_edit.find('[name="username"]').val(username)
+        .find('[name="fullname"]').val(fullName)
+        .find('[name="phone"]').val(phone)
+        .find('[name="address"]').val(address)
+        .find('[name="department"]').val(department.id)
+        .find('[name="role"]').val(role.id)
+        .find('[name="note"]').val(note).end();
+    $font_update_department.html(department.name);
+    $font_update_role.html(role.name);
+
+    //set gender
+    if (gender == 1) {//female
+        $btn_gender_female.attr('class', 'btn bg-aqua-gradient');
+        $btn_gender_male.attr('class', 'btn btn-default');
+    } else {//male
+        $btn_gender_male.attr('class', 'btn bg-aqua-gradient');
+        $btn_gender_female.attr('class', 'btn btn-default');
+    }
+
+    //set current gender updating
+    current_gender_updating = gender;
+}
+
+/**
  * Fc: set gender
  * @param gender
  * @returns {*}
@@ -513,8 +556,7 @@ function view(id) {
  * Fc: load update view
  */
 function update() {
-    console.info('[update]');
-    console.info('[viewed account id] ' + viewed_account_id);
+    console.info('[view update][viewed account id] ' + viewed_account_id);
 
     var urlString = '/api/account/get?accountId=' + viewed_account_id;
     $.ajax({
@@ -525,19 +567,30 @@ function update() {
             console.info('[success] ' + success);
             if (success) {
                 var data = response.data,
-                    code = data.code,
-                    name = data.name,
-                    description = data.description,
-                    active = data.active,
-                    status = data.status;
+                    username = data.username,
+                    fullName = data.fullName,
+                    phone = data.phone,
+                    address = data.address,
+                    note = data.note,
+                    gender = data.gender,
+                    role = data.role,
+                    department = data.department;
 
                 //set content modal update
-                set_content_modal_update(code, name, description, active, status);
-                //show modal update department
-                show_modal('#modal-update-department', false);
+                set_content_modal_update(username, fullName, phone, address, note, gender, role, department);
+                //show modal update
+                show_modal('#modal-update', false);
             }
         }
     });
+}
+
+/**
+ * Fc: back to view modal
+ */
+function back_to_view() {
+    //reload view
+    view(viewed_account_id);
 }
 
 /**
@@ -585,7 +638,7 @@ function add_new_processing() {
                 'active': '',
                 'roleId': role,
                 'departmentId': department,
-                'gender': current_gender,
+                'gender': current_gender_adding,
                 'managerId': '',
             };
 
@@ -653,13 +706,35 @@ function select_gender(gender) {
         $btn_gender_male.attr('class', 'btn btn-default');
 
         //set current gender
-        current_gender = 1;
+        current_gender_adding = 1;
     } else {//male
         $btn_gender_male.attr('class', 'btn bg-aqua-gradient');
         $btn_gender_female.attr('class', 'btn btn-default');
 
         //set current gender
-        current_gender = 0;
+        current_gender_adding = 0;
+    }
+}
+
+/**
+ * Fc: select gender updating
+ * @param gender
+ */
+function select_gender_updating(gender) {
+    var $btn_gender_male = $('#btn-update-gender-male'),
+        $btn_gender_female = $('#btn-update-gender-female');
+    if (gender == 1) {//female
+        $btn_gender_female.attr('class', 'btn bg-aqua-gradient');
+        $btn_gender_male.attr('class', 'btn btn-default');
+
+        //set current gender updating
+        current_gender_updating = 1;
+    } else {//male
+        $btn_gender_male.attr('class', 'btn bg-aqua-gradient');
+        $btn_gender_female.attr('class', 'btn btn-default');
+
+        //set current gender updating
+        current_gender_updating = 0;
     }
 }
 
