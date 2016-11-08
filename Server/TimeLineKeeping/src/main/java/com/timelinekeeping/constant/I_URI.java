@@ -133,4 +133,5 @@ public interface I_URI {
 
     String API_HANDLER = "/api/handler";
     String API_HANDLER_SYNCHONRINZE = "/sync";
+    String API_HANDLER_LIST_HISTORY = "/list_history";
 }

@@ -3,17 +3,23 @@ package com.timelinekeeping.service.serviceImplement;
 import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.common.BaseResponse;
+import com.timelinekeeping.constant.EHistory;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.FaceEntity;
+import com.timelinekeeping.entity.HistoryEntity;
+import com.timelinekeeping.model.HistoryModel;
 import com.timelinekeeping.modelMCS.PersonInformation;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.FaceRepo;
+import com.timelinekeeping.repository.HistoryRepo;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -45,117 +51,149 @@ public class HandlerServiceImpl {
     @Autowired
     FaceRepo faceRepo;
 
+    @Autowired
+    HistoryRepo historyRepo;
+
     public Boolean synchonize() throws IOException, URISyntaxException {
 
-        /** Account*/
-        List<AccountEntity> accountEntities = accountRepo.findAll();
-        BaseResponse baseResponse = personServiceMCS.listPersonInGroup(IContanst.DEPARTMENT_MICROSOFT);
-        if (!baseResponse.isSuccess()) {
-            //call api error
-            return false;
-        }
-        List<PersonInformation> personInformationList = (List<PersonInformation>) baseResponse.getData();
-        Map<String, PersonInformation> personMap = personInformationList.stream().collect(Collectors.toMap(PersonInformation::getPersonId, personInformation -> personInformation));
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
 
-        logger.info(String.format("AccountEntities.size() = %s, personInformationList.size() = %s", accountEntities.size(), personInformationList.size()));
+            /** Account*/
+            List<AccountEntity> accountEntities = accountRepo.findAll();
+            BaseResponse baseResponse = personServiceMCS.listPersonInGroup(IContanst.DEPARTMENT_MICROSOFT);
+            if (!baseResponse.isSuccess()) {
+                //call api error
+                return false;
+            }
+            List<PersonInformation> personInformationList = (List<PersonInformation>) baseResponse.getData();
+            Map<String, PersonInformation> personMap = personInformationList.stream().collect(Collectors.toMap(PersonInformation::getPersonId, personInformation -> personInformation));
 
-        // check userCode exist in list Persisted
-        for (AccountEntity accountEntity : accountEntities) {
-            PersonInformation personSelect = personMap.get(accountEntity.getUserCode());
-            if (personSelect == null) {
+            logger.info(String.format("AccountEntities.size() = %s, personInformationList.size() = %s", accountEntities.size(), personInformationList.size()));
 
-                logger.info(String.format("Create account: id = [%s], username = [%s] ", accountEntity.getId(), accountEntity.getUsername()));
-                //create person
-                BaseResponse responseAccount = personServiceMCS.createPerson(IContanst.DEPARTMENT_MICROSOFT, accountEntity.getUserCode(), accountEntity.getFullName());
-                if (responseAccount.isSuccess()) {
+            // check userCode exist in list Persisted
+            for (AccountEntity accountEntity : accountEntities) {
+                PersonInformation personSelect = personMap.get(accountEntity.getUserCode());
+                if (personSelect == null) {
 
-                    /*** replace person in person group*/
+                    logger.info(String.format("Create account: id = [%s], username = [%s] ", accountEntity.getId(), accountEntity.getUsername()));
+                    //create person
+                    BaseResponse responseAccount = personServiceMCS.createPerson(IContanst.DEPARTMENT_MICROSOFT, accountEntity.getUserCode(), accountEntity.getFullName());
+                    if (responseAccount.isSuccess()) {
 
-                    //get personCode
-                    Map<String, String> mapValue = (Map<String, String>) responseAccount.getData();
-                    String personCode = mapValue.get("personId");
-                    logger.info("personCode: " + personCode);
+                        /*** replace person in person group*/
 
-                    // store db
-                    accountEntity.setUserCode(personCode);
-                    accountRepo.save(accountEntity);
+                        //get personCode
+                        Map<String, String> mapValue = (Map<String, String>) responseAccount.getData();
+                        String personCode = mapValue.get("personId");
+                        logger.info("personCode: " + personCode);
+
+                        // store db
+                        accountEntity.setUserCode(personCode);
+                        accountRepo.save(accountEntity);
 
 
-                    for (FaceEntity faceEntity : accountEntity.getFaces()) {
+                        for (FaceEntity faceEntity : accountEntity.getFaces()) {
 
-                        logger.info(String.format("Create face: id = [%s], path = [%s] ", faceEntity.getId(), faceEntity.getStorePath()));
-
-                        BaseResponse response = personServiceMCS.addFaceUrl(IContanst.DEPARTMENT_MICROSOFT, personCode, faceEntity.getStorePath());
-                        if (response.isSuccess() == true) {
-                            Map<String, String> mapResult = (Map<String, String>) response.getData();
-                            if (mapResult != null && mapResult.size() > 0) {
-                                String persistedFaceID = mapResult.get("persistedFaceId");
-                                faceEntity.setPersistedFaceId(persistedFaceID);
-                                faceRepo.save(faceEntity);
-                            }
-
-                        }
-                    }
-
-                    accountRepo.flush();
-                    faceRepo.flush();
-                }
-            } else {
-                List<String> persistedFaces = personSelect.getPersistedFaceIds();
-                List<String> listFace = accountEntity.getFaces().stream().map(FaceEntity::getPersistedFaceId).collect(Collectors.toList());
-
-                logger.info("ListFace: " + JsonUtil.toJson(listFace));
-                logger.info("ListFace Size(): " + listFace.size());
-                logger.info("ListPersisted: " + JsonUtil.toJson(persistedFaces));
-                logger.info("ListPersisted size: " + persistedFaces.size());
-
-                if (ValidateUtil.isNotEmpty(accountEntity.getFaces())) {
-                    for (FaceEntity faceEntity : accountEntity.getFaces()) {
-                        if (persistedFaces != null && !persistedFaces.contains(faceEntity.getPersistedFaceId())) {
                             logger.info(String.format("Create face: id = [%s], path = [%s] ", faceEntity.getId(), faceEntity.getStorePath()));
-                            BaseResponse responseFace = personServiceMCS.addFaceUrl(IContanst.DEPARTMENT_MICROSOFT, accountEntity.getUserCode(), faceEntity.getStorePath());
-                            if (responseFace.isSuccess() == true) {
-                                Map<String, String> mapResult = (Map<String, String>) responseFace.getData();
+
+                            BaseResponse response = personServiceMCS.addFaceUrl(IContanst.DEPARTMENT_MICROSOFT, personCode, faceEntity.getStorePath());
+                            if (response.isSuccess() == true) {
+                                Map<String, String> mapResult = (Map<String, String>) response.getData();
                                 if (mapResult != null && mapResult.size() > 0) {
                                     String persistedFaceID = mapResult.get("persistedFaceId");
                                     faceEntity.setPersistedFaceId(persistedFaceID);
                                     faceRepo.save(faceEntity);
                                 }
-                            } else {
-                                logger.info("FaceId: detectFail");
+
+                            }
+                        }
+
+                        accountRepo.flush();
+                        faceRepo.flush();
+                    }
+                } else {
+                    List<String> persistedFaces = personSelect.getPersistedFaceIds();
+                    List<String> listFace = accountEntity.getFaces().stream().map(FaceEntity::getPersistedFaceId).collect(Collectors.toList());
+
+                    logger.info("ListFace: " + JsonUtil.toJson(listFace));
+                    logger.info("ListFace Size(): " + listFace.size());
+                    logger.info("ListPersisted: " + JsonUtil.toJson(persistedFaces));
+                    logger.info("ListPersisted size: " + persistedFaces.size());
+
+                    if (ValidateUtil.isNotEmpty(accountEntity.getFaces())) {
+                        for (FaceEntity faceEntity : accountEntity.getFaces()) {
+                            if (persistedFaces != null && !persistedFaces.contains(faceEntity.getPersistedFaceId())) {
+                                logger.info(String.format("Create face: id = [%s], path = [%s] ", faceEntity.getId(), faceEntity.getStorePath()));
+                                BaseResponse responseFace = personServiceMCS.addFaceUrl(IContanst.DEPARTMENT_MICROSOFT, accountEntity.getUserCode(), faceEntity.getStorePath());
+                                if (responseFace.isSuccess() == true) {
+                                    Map<String, String> mapResult = (Map<String, String>) responseFace.getData();
+                                    if (mapResult != null && mapResult.size() > 0) {
+                                        String persistedFaceID = mapResult.get("persistedFaceId");
+                                        faceEntity.setPersistedFaceId(persistedFaceID);
+                                        faceRepo.save(faceEntity);
+                                    }
+                                } else {
+                                    logger.info("FaceId: detectFail");
+                                }
                             }
                         }
                     }
-                }
 
-                if (ValidateUtil.isNotEmpty(persistedFaces)) {
-                    // delete list face
-                    persistedFaces.removeAll(listFace);
-                    logger.info("Remove list: " + JsonUtil.toJson(persistedFaces));
-                    for (String persiste : persistedFaces) {
-                        logger.info("Remove FaceCode: " + persiste);
-                        BaseResponse responseRemoveFace = personServiceMCS.removePersonFace(IContanst.DEPARTMENT_MICROSOFT, accountEntity.getUserCode(), persiste);
-                        if (responseRemoveFace.isSuccess()) {
-                            logger.info(String.format("persiste = [%s] remove success", persiste));
-                        } else {
-                            logger.info(String.format("persiste = [%s] remove fail", persiste));
+                    if (ValidateUtil.isNotEmpty(persistedFaces)) {
+                        // delete list face
+                        persistedFaces.removeAll(listFace);
+                        logger.info("Remove list: " + JsonUtil.toJson(persistedFaces));
+                        for (String persiste : persistedFaces) {
+                            logger.info("Remove FaceCode: " + persiste);
+                            BaseResponse responseRemoveFace = personServiceMCS.removePersonFace(IContanst.DEPARTMENT_MICROSOFT, accountEntity.getUserCode(), persiste);
+                            if (responseRemoveFace.isSuccess()) {
+                                logger.info(String.format("persiste = [%s] remove success", persiste));
+                            } else {
+                                logger.info(String.format("persiste = [%s] remove fail", persiste));
+                            }
+
+
                         }
-
-
                     }
-                }
-//                /**delete face*/
-//                if ()
 
-                faceRepo.flush();
+                    faceRepo.flush();
+
+                }
 
             }
 
+            //training department
+            personGroupServiceMCS.trainGroup(IContanst.DEPARTMENT_MICROSOFT);
+
+            //store history
+            HistoryEntity historyEntity = new HistoryEntity();
+            historyEntity.setType(EHistory.SYNCHRONIZED);
+            historyRepo.save(historyEntity);
+
+
+            return true;
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
 
-        personGroupServiceMCS.trainGroup(IContanst.DEPARTMENT_MICROSOFT);
+    }
 
+    public List<HistoryModel> listHistory() {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
 
-        return null;
+            //get list form db
+            Page<HistoryEntity> page = historyRepo.findBySynchronize(new PageRequest(IContanst.PAGE_PAGE_I, IContanst.PAGE_SIZE_CONTENT));
+            if (page == null){
+                return null;
+            }
+
+            //convert and return
+            return page.getContent().stream().map(HistoryModel::new).collect(Collectors.toList());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        }
+
     }
 }

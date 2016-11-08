@@ -3,12 +3,15 @@ package com.timelinekeeping.api;
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
+import com.timelinekeeping.model.HistoryModel;
 import com.timelinekeeping.service.serviceImplement.HandlerServiceImpl;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * Created by HienTQSE60896 on 11/7/2016.
@@ -31,6 +34,25 @@ public class HandlerController {
                 return new BaseResponse(false);
             } else {
                 return new BaseResponse(result);
+            }
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        }
+    }
+
+    @RequestMapping(I_URI.API_HANDLER_LIST_HISTORY)
+    public BaseResponse listHistory() {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+            List<HistoryModel> result = handlerService.listHistory();
+            if (result == null) {
+                return new BaseResponse(false);
+            } else {
+                return new BaseResponse(true, result);
             }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
