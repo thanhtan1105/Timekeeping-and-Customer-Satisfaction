@@ -69,8 +69,13 @@ extension FaceListViewController {
     }
   }
   
+<<<<<<< HEAD
   private func deleteFace(userId: String, faceId: String, onCompletion: (isSuccess: Bool) -> Void ) {
     APIRequest.shareInstance.deleteFace(userId, faceId: faceId) { (response: ResponsePackage?, error: ErrorWebservice?) in
+=======
+  private func deleteFace(userId: String, persistentedId: String, onCompletion: (isSuccess: Bool) -> Void ) {
+    APIRequest.shareInstance.deleteFace(userId, persistentedId: persistentedId) { (response: ResponsePackage?, error: ErrorWebservice?) in
+>>>>>>> w10-hien-fix-bug
       guard error == nil else {
         print("Fail to delete face")
         onCompletion(isSuccess: false)

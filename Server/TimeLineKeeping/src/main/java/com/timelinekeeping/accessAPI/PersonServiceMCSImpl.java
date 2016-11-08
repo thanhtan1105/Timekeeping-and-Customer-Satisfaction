@@ -1,8 +1,8 @@
 package com.timelinekeeping.accessAPI;
 
 import com.timelinekeeping._config.AppConfigKeys;
-import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.common.BaseResponse;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.modelMCS.PersonInformation;
 import com.timelinekeeping.util.HTTPClientUtil;
 import com.timelinekeeping.util.JsonUtil;
@@ -40,7 +40,7 @@ public class PersonServiceMCSImpl {
     /**
      * create person in MCS
      *
-     * @param name             person
+     * @param name        person
      * @param description
      * @return @{@link BaseResponse}
      * @apiNote https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523c
@@ -93,12 +93,13 @@ public class PersonServiceMCSImpl {
     public BaseResponse addFaceUrl(String persongroupId, String personId, String urlImg) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info(String.format("AddFaceUrl: persongroupId = [%s], personId = [%s], urlImg = [%s]", persongroupId, personId, urlImg));
             String urlPerson = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
             String urlPersistence = AppConfigKeys.getInstance().getApiPropertyValue("api.person.add.face.addition");
             String url = rootPath + String.format("/%s", persongroupId) + urlPerson + String.format("/%s", personId) + urlPersistence;
 
             /*** url -> {url}*/
-
+            logger.info("url:" + url);
             /** entity*/
             Map<String, String> mapEntity = new HashMap<>();
             mapEntity.put("url", urlImg);
@@ -117,7 +118,7 @@ public class PersonServiceMCSImpl {
 
     public BaseResponse addFaceImg(String persongroupId, String personId, InputStream imgStream) throws URISyntaxException, IOException {
         try {
-            logger.info(IContanst.BEGIN_METHOD_MCS+ Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info(IContanst.BEGIN_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
             //STORE FILE
             String urlPerson = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
             String urlPersistence = AppConfigKeys.getInstance().getApiPropertyValue("api.person.add.face.addition");
@@ -135,7 +136,7 @@ public class PersonServiceMCSImpl {
 
             return HTTPClientUtil.getInstanceFace().toPostOct(url, new ByteArrayEntity(byteImg), JsonUtil.MAP_PARSER, String.class);
         } finally {
-            logger.info(IContanst.END_METHOD_MCS+ Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info(IContanst.END_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
@@ -156,7 +157,7 @@ public class PersonServiceMCSImpl {
      */
     public BaseResponse listPersonInGroup(String groupId) throws URISyntaxException, IOException {
         try {
-            logger.info(IContanst.BEGIN_METHOD_MCS+ Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info(IContanst.BEGIN_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
             String urlChild = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
             String url = rootPath + String.format("/%s", groupId) + urlChild;
 
@@ -166,16 +167,17 @@ public class PersonServiceMCSImpl {
 
             return HTTPClientUtil.getInstanceFace().toGet(url, JsonUtil.LIST_PARSER, PersonInformation.class);
         } finally {
-            logger.info(IContanst.END_METHOD_MCS+ Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info(IContanst.END_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
     /**
      * list Person in Person Groups
      *
-     * @param personId person to delete
+     * @param personId    person to delete
+     * @param persistFace faceId in mcs
      * @return @{@link BaseResponse}
-     * @apiNote https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395241
+     * @apiNote https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523e
      * <p>
      * url: https://api.projectoxford.ai/face/v1.0/persongroups/{personGroupId}/persons
      * entity: (name, description)
@@ -185,22 +187,53 @@ public class PersonServiceMCSImpl {
      * 9-11-2016
      * @author hientq
      */
-    public BaseResponse deletePerson(String groupId, String personId) throws URISyntaxException, IOException {
+    public BaseResponse removePersonFace(String persongroupId, String personId, String persistFace) throws URISyntaxException, IOException {
         try {
-            logger.info(IContanst.BEGIN_METHOD_MCS+ Thread.currentThread().getStackTrace()[1].getMethodName());
-            String urlChild = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
-            String url = rootPath + String.format("/%s", groupId) + urlChild;
+            logger.info(IContanst.BEGIN_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
+            String urlPerson = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
+            String urlPersistence = AppConfigKeys.getInstance().getApiPropertyValue("api.person.add.face.addition");
+            String url = rootPath + String.format("/%s", persongroupId) + urlPerson + String.format("/%s", personId) + urlPersistence + String.format("/%s", persistFace);
 
             /*** url*/
             logger.info("-- url: " + url);
             /** entity*/
 
-            return HTTPClientUtil.getInstanceFace().toGet(url, JsonUtil.LIST_PARSER, PersonInformation.class);
+            return HTTPClientUtil.getInstanceFace().toDelete(url);
         } finally {
-            logger.info(IContanst.END_METHOD_MCS+ Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info(IContanst.END_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
 
+    /**
+     * list Person in Person Groups
+     *
+     * @param personId person to delete
+     * @return @{@link BaseResponse}
+     * @apiNote https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523e
+     * <p>
+     * url: https://api.projectoxford.ai/face/v1.0/persongroups/{personGroupId}/persons
+     * entity: (name, description)
+     * typeJsonReturn @{@link com.timelinekeeping.util.JsonUtil}
+     * return Class: @{@link com.fasterxml.jackson.core.type.TypeReference}
+     * <p>
+     * 9-11-2016
+     * @author hientq
+     */
+    public BaseResponse deletePerson(String persongroupId, String personId) throws URISyntaxException, IOException {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
+            String urlPerson = AppConfigKeys.getInstance().getApiPropertyValue("api.person.addition");
+            String url = rootPath + String.format("/%s", persongroupId) + urlPerson + String.format("/%s", personId);
+
+            /*** url*/
+            logger.info("-- url: " + url);
+            /** entity*/
+
+            return HTTPClientUtil.getInstanceFace().toDelete(url);
+        } finally {
+            logger.info(IContanst.END_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
+        }
+    }
 
 
 //    public static void main(String[] args) {

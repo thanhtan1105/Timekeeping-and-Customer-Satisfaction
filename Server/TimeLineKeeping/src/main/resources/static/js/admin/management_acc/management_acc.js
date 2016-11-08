@@ -11,6 +11,7 @@ var current_page_size = 10;
 var current_search_value;
 var deleted_department_id;
 var viewed_account_id;
+var current_gender;
 
 /**
  * For load
@@ -98,7 +99,7 @@ function ajax_get_list_accounts(urlString, method, index, $tbody_list_accounts) 
         url: urlString,
         success: function (response) {
             var success = response.success;
-            console.info('[success] ' + success);
+            console.info('[get list account][success] ' + success);
             if (success) {
                 var data = response.data,
                     list_accounts = data.content,
@@ -120,6 +121,50 @@ function ajax_get_list_accounts(urlString, method, index, $tbody_list_accounts) 
                 //set pagination
                 set_pagination(total_pages, $footer_pagination);
             }
+        }
+    });
+}
+
+/**
+ * Fc: ajax get list all departments
+ */
+function ajax_get_list_department() {
+    var urlString = '/api/department/list_department';
+    $.ajax({
+        type: 'GET',
+        url: urlString,
+        success: function (response) {
+            var success = response.success,
+                data = null;
+            console.info('[get list departments][success] ' + success);
+            if (success) {
+                data = response.data;
+            }
+
+            //set list departments
+            set_list_departments(data);
+        }
+    });
+}
+
+/**
+ * Fc: ajax get list all roles
+ */
+function ajax_get_list_role() {
+    var urlString = '/api/role/list_role';
+    $.ajax({
+        type: 'GET',
+        url: urlString,
+        success: function (response) {
+            var success = response.success,
+                data = null;
+            console.info('[get list roles][success] ' + success);
+            if (success) {
+                data = response.data;
+            }
+
+            //set list roles
+            set_list_roles(data);
         }
     });
 }
@@ -149,8 +194,8 @@ function set_list_accounts(list_accounts, $tbody_list_accounts) {
         content_list_accounts += tr_status +
             '<td>' + list_accounts[i].fullName + '</td>' +
             '<td>' + list_accounts[i].username + '</td>' +
-            '<td>' + list_accounts[i].role.name + '</td>' +
             '<td>' + list_accounts[i].department.name + '</td>' +
+            '<td>' + list_accounts[i].role.name + '</td>' +
             '<td>' +
             '<button class="btn btn-success btn-flat btn-sm" type="button" title="View Account" onclick="view(' + list_accounts[i].id + ')">' +
             '<i class="fa fa-eye"></i>' +
@@ -295,6 +340,52 @@ function set_not_available(value) {
 }
 
 /**
+ * Fc: set list departments
+ * @param departments
+ */
+function set_list_departments(departments) {
+    var $select_department = $('.select-department'),
+        data = new Array();
+    data.push({id: -1, text: '-- Select department --'})
+
+    $('.select-department').select2();
+    if (departments != null && departments.length > 0) {
+        for (var i = 0; i < departments.length; i++) {
+            data.push({id: departments[i].id, text: departments[i].name + ' - ' + departments[i].code});
+        }
+    }
+
+    //initialize select for department
+    $select_department.select2({
+        data: data
+    });
+}
+
+/**
+ * Fc: set list roles
+ * @param roles
+ */
+function set_list_roles(roles) {
+    var $select_role = $('.select-role'),
+        data = new Array();
+
+    $('.select-role').select2();
+    if (roles != null && roles.length > 0) {
+        for (var i = 0; i < roles.length; i++) {
+            data.push({id: roles[i].id, text: roles[i].name});
+        }
+    }
+
+    //initialize select for role
+    $select_role.select2({
+        data: data
+    });
+
+    //default select employee
+    set_value_select('.select-role', 3);
+}
+
+/**
  * For Fc
  */
 /**
@@ -365,6 +456,21 @@ function update() {
     });
 }
 
+function add_new() {
+    //reset form
+    reset_form_add_new();
+
+    //set default gender is male
+    select_gender(0);
+    //call ajax get list departments
+    ajax_get_list_department();
+    //call ajax get list roles
+    ajax_get_list_role();
+
+    //show modal add new
+    show_modal('#modal-add-new', false);
+}
+
 /**
  * For util fc
  */
@@ -405,6 +511,48 @@ function show_modal(id, keyboard) {
 }
 
 /**
+ * Fc: select gender
+ * @param gender
+ */
+function select_gender(gender) {
+    var $btn_gender_male = $('#btn-gender-male'),
+        $btn_gender_female = $('#btn-gender-female');
+    if (gender == 1) {//female
+        $btn_gender_female.attr('class', 'btn bg-aqua-gradient');
+        $btn_gender_male.attr('class', 'btn btn-default');
+    } else {//male
+        $btn_gender_male.attr('class', 'btn bg-aqua-gradient');
+        $btn_gender_female.attr('class', 'btn btn-default');
+    }
+    //set current gender
+    current_gender = gender;
+}
+
+/**
+ * Fc: set value for select
+ * @param id
+ * @param value
+ */
+function set_value_select(id, value) {
+    $(id).val(value).trigger("change");
+}
+
+/**
+ * Fc: reset form add new
+ */
+function reset_form_add_new() {
+    reset_form('#form-add-new');
+}
+
+/**
+ * Fc: reset form
+ * @param id
+ */
+function reset_form(id) {
+    $(id).trigger('reset');
+}
+
+/**
  * For Event
  */
 /**
@@ -416,3 +564,4 @@ $('#select-entries').on('change', function () {
     //reload list accounts
     load_list_accounts(current_search_value, 0, entries);
 });
+

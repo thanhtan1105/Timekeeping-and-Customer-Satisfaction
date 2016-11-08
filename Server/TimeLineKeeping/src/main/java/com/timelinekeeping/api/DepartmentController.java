@@ -8,6 +8,7 @@ import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.controller.PersonGroupControllerWeb;
 import com.timelinekeeping.model.DepartmentModel;
 import com.timelinekeeping.model.DepartmentModifyModel;
+import com.timelinekeeping.model.DepartmentSelectModel;
 import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
 import com.timelinekeeping.util.JsonUtil;
 import org.apache.log4j.Logger;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -46,6 +48,25 @@ public class DepartmentController {
         }
     }
 
+    @RequestMapping(value = {I_URI.API_LIST_DEPARTMENT}, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse listDepartment() {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            List<DepartmentSelectModel> departments = departmentService.findAll();
+            if (departments != null) {
+                return new BaseResponse(true, departments);
+            } else {
+                return new BaseResponse(false);
+            }
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+        }
+    }
 
     @RequestMapping(value = {I_URI.API_SEARCH}, method = RequestMethod.GET)
     @ResponseBody
