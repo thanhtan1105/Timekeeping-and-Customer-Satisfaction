@@ -224,6 +224,38 @@ function ajax_add_new_processing(account) {
 }
 
 /**
+ * Fc: ajax update processing
+ * @param account
+ */
+function ajax_update_processing(account) {
+    console.info('[update processing][account] ' + account);
+    $.ajax({
+        type: 'POST',
+        url: '/api/account/update',
+        data: account,
+        success: function (response) {
+            var success = response.success;
+            console.info('[update processing][success] ' + success);
+            if (success) {
+                //hide modal update
+                close_modal('#modal-update');
+
+                //reload list accounts
+                load_list_accounts(current_search_value, current_index_page, current_page_size);
+                //reload view
+                back_to_view();
+            } else {
+                //do nothing
+            }
+        },
+        error: function (response, exception) {
+            console.log(response);
+            console.log(exception);
+        }
+    });
+}
+
+/**
  * For set
  */
 /**
@@ -329,16 +361,15 @@ function set_status(status) {
  * @param address
  * @param description
  */
-function set_content_modal_view(username, fullName, role, department, manager, email, gender, phone, address, description) {
+function set_content_modal_view(username, fullName, role, department, manager, gender, phone, address, note) {
     var $viewing_username = $('#viewing_username'),
         $viewing_fullName = $('#viewing_fullName'),
         $viewing_role = $('#viewing_role'),
         $viewing_department = $('#viewing_department'),
-        $viewing_email = $('#viewing_email'),
         $viewing_gender = $('#viewing_gender'),
         $viewing_phone = $('#viewing_phone'),
         $viewing_address = $('#viewing_address'),
-        $viewing_description = $('#viewing_description');
+        $viewing_note = $('#viewing_note');
 
     //set content
     $viewing_username.html(username);
@@ -346,11 +377,10 @@ function set_content_modal_view(username, fullName, role, department, manager, e
     $viewing_role.html(role);
     $viewing_department.html(department);
     set_manager(manager);
-    $viewing_email.html(set_not_available(email));
     $viewing_gender.html(set_gender(gender));
     $viewing_phone.html(set_not_available(phone));
     $viewing_address.html(set_not_available(address));
-    $viewing_description.html(set_not_available(description));
+    $viewing_note.html(set_not_available(note));
 }
 
 /**
@@ -364,7 +394,7 @@ function set_content_modal_view(username, fullName, role, department, manager, e
  * @param role
  * @param department
  */
-function set_content_modal_update(username, fullName, phone, address, note, gender, role, department) {
+function set_content_modal_update(id, username, fullName, phone, address, note, gender, role, department) {
     var $form_edit = $('#form-edit'),
         $font_update_department = $('#font-update-department'),
         $font_update_role = $('#font-update-role'),
@@ -372,13 +402,14 @@ function set_content_modal_update(username, fullName, phone, address, note, gend
         $btn_gender_female = $('#btn-update-gender-female');
 
     //set value for form
-    $form_edit.find('[name="username"]').val(username)
-        .find('[name="fullname"]').val(fullName)
-        .find('[name="phone"]').val(phone)
-        .find('[name="address"]').val(address)
-        .find('[name="department"]').val(department.id)
-        .find('[name="role"]').val(role.id)
-        .find('[name="note"]').val(note).end();
+    $form_edit.find('[name="id"]').val(id);
+    $form_edit.find('[name="username"]').val(username);
+    $form_edit.find('[name="fullname"]').val(fullName);
+    $form_edit.find('[name="phone"]').val(phone);
+    $form_edit.find('[name="address"]').val(address);
+    $form_edit.find('[name="department"]').val(department.id);
+    $form_edit.find('[name="role"]').val(role.id);
+    $form_edit.find('[name="note"]').val(note);
     $font_update_department.html(department.name);
     $font_update_role.html(role.name);
 
@@ -537,14 +568,13 @@ function view(id) {
                     role = data.role.name,
                     department = data.department.name,
                     manager = data.manager,
-                    email = data.email,
                     gender = data.gender,
                     phone = data.phone,
                     address = data.address,
-                    description = data.description;
+                    description = data.note;
 
                 //set content modal view
-                set_content_modal_view(username, fullName, role, department, manager, email, gender, phone, address, description);
+                set_content_modal_view(username, fullName, role, department, manager, gender, phone, address, description);
                 //show modal view account
                 show_modal('#modal-view-account', false);
             }
@@ -567,6 +597,7 @@ function update() {
             console.info('[success] ' + success);
             if (success) {
                 var data = response.data,
+                    id = data.id,
                     username = data.username,
                     fullName = data.fullName,
                     phone = data.phone,
@@ -577,12 +608,45 @@ function update() {
                     department = data.department;
 
                 //set content modal update
-                set_content_modal_update(username, fullName, phone, address, note, gender, role, department);
+                set_content_modal_update(id, username, fullName, phone, address, note, gender, role, department);
                 //show modal update
                 show_modal('#modal-update', false);
             }
         }
     });
+}
+
+/**
+ * Fc: process updating
+ */
+function update_processing() {
+    var $form_edit = $('#form-edit'),
+        id = $form_edit.find('[name="id"]').val(),
+        username = $form_edit.find('[name="username"]').val(),
+        fullname = $form_edit.find('[name="fullname"]').val(),
+        phone = $form_edit.find('[name="phone"]').val(),
+        address = $form_edit.find('[name="address"]').val(),
+        department = $form_edit.find('[name="department"]').val(),
+        role = $form_edit.find('[name="role"]').val(),
+        note = $form_edit.find('[name="note"]').val(),
+        account = {
+            'id': id,
+            'username': username,
+            'password': '',
+            'fullName': fullname,
+            'email': '',
+            'phone': phone,
+            'address': address,
+            'note': note,
+            'active': '',
+            'roleId': role,
+            'departmentId': department,
+            'gender': current_gender_updating,
+            'managerId': '',
+        };
+
+    //call ajax update processing
+    ajax_update_processing(account);
 }
 
 /**

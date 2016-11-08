@@ -59,7 +59,7 @@ public class AccountController {
 
     @RequestMapping(value = I_URI.API_UPDATE, method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponse update(@ModelAttribute("account") AccountModifyModel account) {
+    public BaseResponse update(@ModelAttribute AccountModifyModel account) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             Pair<Boolean, String> response = accountService.update(account);
