@@ -12,15 +12,14 @@ import AlamofireImage
 class FaceListViewController: BaseViewController {
 
   @IBOutlet weak var collectionView: UICollectionView!
-  
-  var faceImage: [UIImage] = []
-  var oldImageLink: [String] = []
+  var faceList: [Face] = []
+  var faceCount = 0
+  let employee = Employee.getEmployeeFromUserDefault()
   
   override func viewDidLoad() {
     super.viewDidLoad()
     collectionView.delegate = self
     collectionView.dataSource = self
-    let employee = Employee.getEmployeeFromUserDefault()
     getFace(String(employee.id!))
   }
   
@@ -33,15 +32,15 @@ class FaceListViewController: BaseViewController {
     let alertVC = UIAlertController(title: "Finish", message: "Do you want to finish training image", preferredStyle: .Alert)
     alertVC.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction) in
       
-      if self.faceImage.count == 0 {
-        self.navigationController?.popToRootViewControllerAnimated(true)
-      } else {
+//      if self.faceImage.count == 0 {
+//        self.navigationController?.popToRootViewControllerAnimated(true)
+//      } else {
         let personGroupId = String(Department.getDepartmentFromUserDefault().id!)
         APIRequest.shareInstance.sendTrainingStatus(personGroupId, onCompletion: { (response: ResponsePackage?, error: ErrorWebservice?) in
           print(response?.response)
           self.navigationController?.popToRootViewControllerAnimated(true)
         })
-      }
+//      }
       
     }))
     alertVC.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action: UIAlertAction) in
@@ -64,11 +63,25 @@ extension FaceListViewController {
       let success = dict["success"] as? Int
       if success == 1 {
         let data = dict["data"] as! [[String : AnyObject]]
-        let faceList = Face.faceList(data)
-        for face in faceList {
-          self.oldImageLink.append(face.storePath)
-        }
-        self.collectionView.reloadSections(NSIndexSet(index: 1))
+        self.faceList = Face.faceList(data)
+        self.collectionView.reloadData()
+      }
+    }
+  }
+  
+
+  private func deleteFace(userId: String, faceId: String, onCompletion: (isSuccess: Bool) -> Void ) {
+    APIRequest.shareInstance.deleteFace(userId, faceId: faceId) { (response: ResponsePackage?, error: ErrorWebservice?) in
+      guard error == nil else {
+        print("Fail to delete face")
+        onCompletion(isSuccess: false)
+        return
+      }
+      
+      let dict = response?.response as! [String: AnyObject]
+      let success = dict["success"] as? Int
+      if success == 1 {
+        onCompletion(isSuccess: true)
       }
     }
   }
@@ -81,13 +94,8 @@ extension FaceListViewController: UICollectionViewDelegate, UICollectionViewData
     var reuseableView = UICollectionReusableView()
     if kind == UICollectionElementKindSectionHeader {
       let headerView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "HeaderCollectionReusableView", forIndexPath: indexPath) as! HeaderCollectionReusableView
-      if indexPath.section == 0 {
-        let title = "New"
-        headerView.titleLabel.text = title
-      } else {
-        let title = "Added"
-        headerView.titleLabel.text = title
-      }
+      let title = "Added"
+      headerView.titleLabel.text = title
       reuseableView = headerView
     }
     
@@ -95,50 +103,62 @@ extension FaceListViewController: UICollectionViewDelegate, UICollectionViewData
   }
   
   func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-    return 2
+    return 1
   }
   
   func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    if section == 0 {
-      return faceImage.count + 1
-    } else {
-      return oldImageLink.count
-    }
-    
+    return faceList.count + 1
   }
   
   func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-    if indexPath.item == 0 && indexPath.section == 0 {
+    if indexPath.item == 0 {
       // new
       let item = collectionView.dequeueReusableCellWithReuseIdentifier(AddNewFaceCollectionCell.ClassName, forIndexPath: indexPath) as! AddNewFaceCollectionCell
       item.delegate = self
       return item
-    } else if indexPath.section == 0 {
+    } else {
       let item = collectionView.dequeueReusableCellWithReuseIdentifier(FaceCollectionCell.ClassName, forIndexPath: indexPath) as! FaceCollectionCell
-      item.faceImage.transform = CGAffineTransformMakeRotation((0 * CGFloat(M_PI)) / 180.0)
-      item.faceImage.image = faceImage[indexPath.item - 1]
-      return item
-    } else if indexPath.section == 1 {
-      let item = collectionView.dequeueReusableCellWithReuseIdentifier(FaceCollectionCell.ClassName, forIndexPath: indexPath) as! FaceCollectionCell
-      
-      let URL = NSURL(string: oldImageLink[indexPath.row])
+      let URL = NSURL(string: faceList[indexPath.item - 1].storePath)
       item.faceImage.downloadedFrom(URL!)
-      
       return item
-    }
-    
-    return UICollectionViewCell()
+    }      
   }
   
   func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
     return CGSize(width: screenSize.width / 2 - 10, height: screenSize.height / 3.5 )
+  }
+  
+  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    
+    let actionSheet = UIAlertController(title: "Do you want to delete face", message: "", preferredStyle: .ActionSheet)
+    let deleteButton = UIAlertAction(title: "Delete", style: .Destructive) { (action: UIAlertAction) in
+      LeThanhTanLoading.sharedInstance.showLoadingAddedTo(self.view, animated: true)
+      let id = String(self.employee.id!)   // send person code
+      let faceId = String(self.faceList[indexPath.item - 1].id)
+      
+      self.deleteFace(id, faceId: faceId, onCompletion: { (isSuccess) in
+        LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
+        if isSuccess == true {
+          self.faceList.removeAtIndex(indexPath.item - 1)
+          self.collectionView.reloadData()
+        }
+      })
+    }
+    
+    let cancelButton = UIAlertAction(title: "Cancel", style: .Cancel) { (action: UIAlertAction) in
+      
+    }
+    actionSheet.addAction(deleteButton)
+    actionSheet.addAction(cancelButton)
+    presentViewController(actionSheet, animated: true, completion: nil)
+    
   }
 }
 
 extension FaceListViewController: CameraViewControllerDelegate, AddNewFaceCollectionCellDelegate {
   
   func cameraViewController(cameraViewController: CameraViewController, didFinishUploadFace image: UIImage) {
-    faceImage.insert(image, atIndex: 0)
+    getFace(String(employee.id!))
   }
   
   func didAddNewFaceTapped() {

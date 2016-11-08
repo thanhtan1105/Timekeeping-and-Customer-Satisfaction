@@ -133,4 +133,5 @@ public interface I_URI {
     String API_BEACON_FIND_PATH = "/find_path";
 
     String API_HANDLER = "/api/handler";
+    String API_HANDLER_SYNCHONRINZE = "/sync";
 }

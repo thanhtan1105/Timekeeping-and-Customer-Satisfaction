@@ -40,6 +40,16 @@ class APIRequest: NSObject {
     webservice_GET(url, params: params, headersParams: nil, completion: onCompletion)
   }
   
+  func deleteFace(userId: String, faceId: String, onCompletion: ServiceResponse) {
+    let url = http + urlDelteFace
+    let params: [String : AnyObject] = [
+      "accountId": userId,
+      "faceId" : faceId
+    ]
+    
+    webservice_GET(url, params: params, headersParams: nil, completion: onCompletion)
+  }
+  
   func sendTrainingStatus(departmentId: String, onCompletion: ServiceResponse) {
     let url = http + urlSendTrainingStatus
     let params: [String : AnyObject] = [
@@ -58,6 +68,8 @@ class APIRequest: NSObject {
     ]
     webservice_GET(url, params: params, headersParams: nil, completion: onCompletion)
   }
+  
+  
   
   func addFaceToPerson(personGroupId: String, personId: Int, imageFace: UIImage, onCompletion: ServiceResponse) {
     let url = http + urlAddFaceToPerson

@@ -94,6 +94,7 @@ class CameraViewController: BaseViewController {
       })
       
       self.camera?.captureStillImage({ (image) -> Void in
+        print("Size: \(image?.size.width) : \(image?.size.height)")
         if image != nil {
           self.cameraStill.image = image
           self.status = .Preview
@@ -162,7 +163,6 @@ extension CameraViewController: CameraDelegate {
           if let adjusted = adjusted {
             self.faceView?.frame = adjusted.bounds
           }
-          
         })
         
         let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
@@ -237,18 +237,22 @@ extension CameraViewController {
       // error of network
       guard error == nil else {
         print("Fail")
+        onCompletionHandler!(isSuccess: false, error: NSError(domain: "com.trainingImage", code: 100, userInfo: ["info" : error?.error_description ?? ""]))
         return
       }
-      let data = response?.response as! [String : AnyObject]
-      let success = data["success"] as! Bool
-      if success == true {
-        onCompletionHandler!(isSuccess: true, error: nil)
+      let data = response?.response as? [String : AnyObject] ?? nil
+      if let data = data {
+        let success = data["success"] as! Bool
+        if success == true {
+          onCompletionHandler!(isSuccess: true, error: nil)
+        } else {
+          let failMessage = data["message"] as? String ?? ""
+          onCompletionHandler!(isSuccess: false, error: NSError(domain: "com.trainingImage", code: 100, userInfo: ["info" : failMessage]))
+        }
+        print(response?.response)
       } else {
-        let failMessage = data["message"] as? String ?? ""
-        onCompletionHandler!(isSuccess: false, error: NSError(domain: "com.trainingImage", code: 100, userInfo: ["info" : failMessage]))
+        onCompletionHandler!(isSuccess: false, error: NSError(domain: "com.trainingImage", code: 100, userInfo: ["info" : "The request timed out"]))
       }
-      
-      print(response?.response)
     }
   }
 }

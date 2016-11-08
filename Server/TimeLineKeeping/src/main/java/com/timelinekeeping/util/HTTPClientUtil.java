@@ -1,17 +1,14 @@
 package com.timelinekeeping.util;
 
 import com.timelinekeeping._config.AppConfigKeys;
-import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.common.BaseResponse;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.modelMCS.ResponseErrorWrap;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.*;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.log4j.LogManager;
@@ -27,7 +24,9 @@ import java.net.URISyntaxException;
 public class HTTPClientUtil {
 
     private Logger logger = LogManager.getLogger(HTTPClientUtil.class);
-    /** key */
+    /**
+     * key
+     */
     private String key;
     private String keyFace = AppConfigKeys.getInstance().getApiPropertyValue("ocp.apim.subscription.key");
     private String keyEmotion = AppConfigKeys.getInstance().getApiPropertyValue("ocp.apim.subscription.key.emotion");
@@ -35,16 +34,20 @@ public class HTTPClientUtil {
     private static HTTPClientUtil clientUtil;
 
 
-    /** HTTP Standstand */
+    /**
+     * HTTP Standstand
+     */
     private HttpRequestBase request;
 
-    /** type parser**/
+    /**
+     * type parser
+     **/
     private int typeJson = JsonUtil.NORMAl_PARSER;
 
     /*** class return*/
     private Class<?> classReturn;
 
-    private HTTPClientUtil(){
+    private HTTPClientUtil() {
 
     }
 
@@ -70,6 +73,7 @@ public class HTTPClientUtil {
         clientUtil.setKeyFace();
         return clientUtil;
     }
+
     public static HTTPClientUtil getInstanceEmotion() {
         if (clientUtil == null) {
             clientUtil = new HTTPClientUtil();
@@ -78,11 +82,11 @@ public class HTTPClientUtil {
         return clientUtil;
     }
 
-    public void setKeyFace(){
+    public void setKeyFace() {
         key = keyFace;
     }
 
-    public void setKeyEmotion(){
+    public void setKeyEmotion() {
         key = keyEmotion;
     }
 
@@ -93,6 +97,7 @@ public class HTTPClientUtil {
     public BaseResponse toGet(String uri, int typeJson, Class<?> classReturn) throws IOException, URISyntaxException {
         return toGet(new URIBuilder(uri).build(), typeJson, classReturn);
     }
+
     public BaseResponse toGet(URI uri, int typeJson, Class<?> classReturn) throws IOException {
         this.typeJson = typeJson;
         this.classReturn = classReturn;
@@ -102,13 +107,14 @@ public class HTTPClientUtil {
     }
 
     public BaseResponse toPost(String url) throws URISyntaxException, IOException {
-        return toPost(new URIBuilder(url).build(), null, JsonUtil.NORMAl_PARSER,null);
+        return toPost(new URIBuilder(url).build(), null, JsonUtil.NORMAl_PARSER, null);
     }
 
-    public BaseResponse toPost(String url, int typeParser, Class<?> classReturn) throws URISyntaxException, IOException{
+    public BaseResponse toPost(String url, int typeParser, Class<?> classReturn) throws URISyntaxException, IOException {
         return toPost(new URIBuilder(url).build(), null, typeParser, classReturn);
     }
-    public BaseResponse toPost(String url, HttpEntity entity, int typeParser, Class<?> classReturn) throws URISyntaxException, IOException{
+
+    public BaseResponse toPost(String url, HttpEntity entity, int typeParser, Class<?> classReturn) throws URISyntaxException, IOException {
         return toPost(new URIBuilder(url).build(), entity, typeParser, classReturn);
     }
 
@@ -139,7 +145,6 @@ public class HTTPClientUtil {
     }
 
 
-
     public BaseResponse toPut(String url, HttpEntity entity) throws IOException, URISyntaxException {
 
         return toPut(new URIBuilder(url).build(), entity, JsonUtil.NORMAl_PARSER, null);
@@ -150,19 +155,35 @@ public class HTTPClientUtil {
         this.classReturn = classReturn;
         request = new HttpPut(uri);
         setHeaderJson();
-        if (entity!= null) {
+        if (entity != null) {
+            ((HttpPut) request).setEntity(entity);
+        }
+        return toProcess();
+    }
+
+    public BaseResponse toDelete(String url) throws URISyntaxException, IOException {
+        return toDelete(new URIBuilder(url).build(), null, JsonUtil.NORMAl_PARSER, null);
+    }
+
+    public BaseResponse toDelete(URI uri, HttpEntity entity, int typeJson, Class<?> classReturn) throws IOException {
+        this.typeJson = typeJson;
+        this.classReturn = classReturn;
+        request = new HttpDelete(uri);
+
+        setHeaderJson();
+        if (entity != null) {
             ((HttpPut) request).setEntity(entity);
         }
         return toProcess();
     }
 
 
-    private void  setHeaderJson(){
+    private void setHeaderJson() {
         request.setHeader("Content-Type", "application/json");
         request.setHeader("Ocp-Apim-Subscription-Key", key);
     }
 
-    private void  setHeaderOct(){
+    private void setHeaderOct() {
         request.setHeader("Content-Type", "application/octet-stream");
         request.setHeader("Ocp-Apim-Subscription-Key", key);
     }
@@ -186,13 +207,13 @@ public class HTTPClientUtil {
             if (classReturn != null) {
                 responseResult.setData(convertObject(dataResponse, classReturn));
             }
-        }else {
+        } else {
             ResponseErrorWrap responseErrorWrap = JsonUtil.convertObject(dataResponse, ResponseErrorWrap.class);
             responseResult.setSuccess(false);
-            if (responseErrorWrap!= null && responseErrorWrap.getError() != null) {
+            if (responseErrorWrap != null && responseErrorWrap.getError() != null) {
                 responseResult.setErrorCode(responseErrorWrap.getError().getCode());
                 responseResult.setMessage(responseErrorWrap.getError().getMessage());
-            }else{
+            } else {
                 responseResult.setMessage(dataResponse);
             }
         }
@@ -202,7 +223,7 @@ public class HTTPClientUtil {
         return responseResult;
     }
 
-    private<T> Object convertObject(String dataResponse, Class<T> classReturn){
+    private <T> Object convertObject(String dataResponse, Class<T> classReturn) {
         switch (typeJson) {
             case JsonUtil.NORMAl_PARSER:
                 return JsonUtil.convertObject(dataResponse, classReturn);
@@ -215,7 +236,6 @@ public class HTTPClientUtil {
         }
         return null;
     }
-
 
 
 }

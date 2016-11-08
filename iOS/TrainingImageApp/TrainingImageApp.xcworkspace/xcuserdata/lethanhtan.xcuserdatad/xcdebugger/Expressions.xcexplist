@@ -10,5 +10,16 @@
             </PersistentString>
          </PersistentStrings>
       </ContextState>
+      <ContextState
+         contextName = "CameraViewController.(callApiAddFaceToPerson in _F185638BBBF714D64FE2241D1BF10215)(completion : (isSuccess : Bool, error : NSError?) -&gt; ()?) -&gt; ():CameraViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "cameraStill.image!">
+            </PersistentString>
+            <PersistentString
+               value = "newFrame.image">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
    </ContextStates>
 </VariablesViewState>
