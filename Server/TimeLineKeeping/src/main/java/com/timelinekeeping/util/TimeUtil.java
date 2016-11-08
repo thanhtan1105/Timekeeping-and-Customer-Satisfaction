@@ -44,15 +44,16 @@ public class TimeUtil {
     }
 
 
-    public static YearMonth parseYearMonth(Long time){
+    public static YearMonth parseYearMonth(Long time) {
         return parseYearMonth(new Date(time));
     }
 
-    public static YearMonth parseYearMonth(Date time){
+    public static YearMonth parseYearMonth(Date time) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(time);
-        return YearMonth.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH));
+        return YearMonth.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);
     }
+
     public static void main(String[] args) {
         String text = "2016-11-08 09:30 AM";
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
