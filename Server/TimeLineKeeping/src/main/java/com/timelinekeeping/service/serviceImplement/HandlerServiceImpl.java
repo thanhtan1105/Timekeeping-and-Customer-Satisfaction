@@ -6,6 +6,7 @@ import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.FaceEntity;
+import com.timelinekeeping.model.FaceModel;
 import com.timelinekeeping.modelMCS.PersonInformation;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.FaceRepo;
@@ -79,17 +80,19 @@ public class HandlerServiceImpl {
                     // store db
                     accountEntity.setUserCode(personCode);
                     accountRepo.save(accountEntity);
+                    List<FaceModel> faceModelList = faceRepo.findByAccount(accountEntity.getId()).stream().map(FaceModel::new).collect(Collectors.toList());
 
+                    for (FaceModel faceModel : faceModelList) {
 
-                    for (FaceEntity faceEntity : accountEntity.getFaces()) {
+                        logger.info(String.format("Create face: id = [%s], path = [%s] ", faceModel.getId(), faceModel.getStorePath()));
 
-                        logger.info(String.format("Create face: id = [%s], path = [%s] ", faceEntity.getId(), faceEntity.getStorePath()));
-
-                        BaseResponse response = personServiceMCS.addFaceUrl(IContanst.DEPARTMENT_MICROSOFT, personCode, faceEntity.getStorePath());
+                        BaseResponse response = personServiceMCS.addFaceUrl(IContanst.DEPARTMENT_MICROSOFT, personCode, faceModel.getStorePath());
                         if (response.isSuccess() == true) {
                             Map<String, String> mapResult = (Map<String, String>) response.getData();
                             if (mapResult != null && mapResult.size() > 0) {
                                 String persistedFaceID = mapResult.get("persistedFaceId");
+                                // find one
+                                FaceEntity faceEntity = faceRepo.findOne(faceModel.getId());
                                 faceEntity.setPersistedFaceId(persistedFaceID);
                                 faceRepo.save(faceEntity);
                             }
@@ -110,14 +113,18 @@ public class HandlerServiceImpl {
                 logger.info("ListPersisted size: " + persistedFaces.size());
 
                 if (ValidateUtil.isNotEmpty(accountEntity.getFaces())) {
-                    for (FaceEntity faceEntity : accountEntity.getFaces()) {
-                        if (persistedFaces != null && !persistedFaces.contains(faceEntity.getPersistedFaceId())) {
-                            logger.info(String.format("Create face: id = [%s], path = [%s] ", faceEntity.getId(), faceEntity.getStorePath()));
-                            BaseResponse responseFace = personServiceMCS.addFaceUrl(IContanst.DEPARTMENT_MICROSOFT, accountEntity.getUserCode(), faceEntity.getStorePath());
+                    List<FaceModel> faceModelList = faceRepo.findByAccount(accountEntity.getId()).stream().map(FaceModel::new).collect(Collectors.toList());
+
+                    for (FaceModel faceModel : faceModelList) {
+                        if (persistedFaces != null && !persistedFaces.contains(faceModel.getPersistedFaceId())) {
+                            logger.info(String.format("Create face: id = [%s], path = [%s] ", faceModel.getId(), faceModel.getStorePath()));
+                            BaseResponse responseFace = personServiceMCS.addFaceUrl(IContanst.DEPARTMENT_MICROSOFT, accountEntity.getUserCode(), faceModel.getStorePath());
                             if (responseFace.isSuccess() == true) {
                                 Map<String, String> mapResult = (Map<String, String>) responseFace.getData();
                                 if (mapResult != null && mapResult.size() > 0) {
                                     String persistedFaceID = mapResult.get("persistedFaceId");
+                                    // find one
+                                    FaceEntity faceEntity = faceRepo.findOne(faceModel.getId());
                                     faceEntity.setPersistedFaceId(persistedFaceID);
                                     faceRepo.save(faceEntity);
                                 }
@@ -144,18 +151,10 @@ public class HandlerServiceImpl {
 
                     }
                 }
-//                /**delete face*/
-//                if ()
-
                 faceRepo.flush();
-
             }
-
         }
-
         personGroupServiceMCS.trainGroup(IContanst.DEPARTMENT_MICROSOFT);
-
-
-        return null;
+        return true;
     }
 }

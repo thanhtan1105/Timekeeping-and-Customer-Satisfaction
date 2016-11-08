@@ -233,23 +233,26 @@ extension CameraViewController {
     let personGroupId = String(Department.getDepartmentFromUserDefault().code!)
     let personId = Employee.getEmployeeFromUserDefault().id!
     
-//    let image = UIImage(CGImage: cameraStill.image!.CGImage!, scale: cameraStill.image!.scale, orientation: .Up)
     APIRequest.shareInstance.addFaceToPerson(personGroupId, personId: personId, imageFace: cameraStill.image!) { (response: ResponsePackage?, error: ErrorWebservice?) in
       // error of network
       guard error == nil else {
         print("Fail")
+        onCompletionHandler!(isSuccess: false, error: NSError(domain: "com.trainingImage", code: 100, userInfo: ["info" : error?.error_description ?? ""]))
         return
       }
-      let data = response?.response as! [String : AnyObject]
-      let success = data["success"] as! Bool
-      if success == true {
-        onCompletionHandler!(isSuccess: true, error: nil)
+      let data = response?.response as? [String : AnyObject] ?? nil
+      if let data = data {
+        let success = data["success"] as! Bool
+        if success == true {
+          onCompletionHandler!(isSuccess: true, error: nil)
+        } else {
+          let failMessage = data["message"] as? String ?? ""
+          onCompletionHandler!(isSuccess: false, error: NSError(domain: "com.trainingImage", code: 100, userInfo: ["info" : failMessage]))
+        }
+        print(response?.response)
       } else {
-        let failMessage = data["message"] as? String ?? ""
-        onCompletionHandler!(isSuccess: false, error: NSError(domain: "com.trainingImage", code: 100, userInfo: ["info" : failMessage]))
+        onCompletionHandler!(isSuccess: false, error: NSError(domain: "com.trainingImage", code: 100, userInfo: ["info" : "The request timed out"]))
       }
-      
-      print(response?.response)
     }
   }
 }

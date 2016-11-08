@@ -221,11 +221,11 @@ public class AccountController {
 
     @RequestMapping(value = I_URI.API_ACCOUNT_LIST_FACE, method = RequestMethod.GET)
     @ResponseBody
-    public BaseResponse listFace(@RequestParam(value = "accountId") Long accountId) {
+    public BaseResponse listFace(@RequestParam(value = "accountId") String accountId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("accountId: " + accountId);
-            List<FaceModel> faces = accountService.listFace(accountId);
+            List<FaceModel> faces = accountService.listFace(Long.parseLong(accountId));
             if (ValidateUtil.isNotEmpty(faces)) {
                 return new BaseResponse(true, faces);
             } else {
