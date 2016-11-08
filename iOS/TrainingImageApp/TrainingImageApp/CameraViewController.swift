@@ -233,8 +233,8 @@ extension CameraViewController {
     let personGroupId = String(Department.getDepartmentFromUserDefault().code!)
     let personId = Employee.getEmployeeFromUserDefault().id!
     
-    let image = UIImage(CGImage: cameraStill.image!.CGImage!, scale: cameraStill.image!.scale, orientation: .Up)
-    APIRequest.shareInstance.addFaceToPerson(personGroupId, personId: personId, imageFace: image) { (response: ResponsePackage?, error: ErrorWebservice?) in
+//    let image = UIImage(CGImage: cameraStill.image!.CGImage!, scale: cameraStill.image!.scale, orientation: .Up)
+    APIRequest.shareInstance.addFaceToPerson(personGroupId, personId: personId, imageFace: cameraStill.image!) { (response: ResponsePackage?, error: ErrorWebservice?) in
       // error of network
       guard error == nil else {
         print("Fail")
