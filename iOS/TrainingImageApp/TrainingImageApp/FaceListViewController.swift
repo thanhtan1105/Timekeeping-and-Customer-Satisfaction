@@ -69,8 +69,8 @@ extension FaceListViewController {
     }
   }
   
-  private func deleteFace(userId: String, persistentedId: String, onCompletion: (isSuccess: Bool) -> Void ) {
-    APIRequest.shareInstance.deleteFace(userId, persistentedId: persistentedId) { (response: ResponsePackage?, error: ErrorWebservice?) in
+  private func deleteFace(userId: String, faceId: String, onCompletion: (isSuccess: Bool) -> Void ) {
+    APIRequest.shareInstance.deleteFace(userId, faceId: faceId) { (response: ResponsePackage?, error: ErrorWebservice?) in
       guard error == nil else {
         print("Fail to delete face")
         onCompletion(isSuccess: false)
@@ -131,12 +131,15 @@ extension FaceListViewController: UICollectionViewDelegate, UICollectionViewData
     
     let actionSheet = UIAlertController(title: "Do you want to delete face", message: "", preferredStyle: .ActionSheet)
     let deleteButton = UIAlertAction(title: "Delete", style: .Destructive) { (action: UIAlertAction) in
-      let id = String(self.employee.employeeCode!)   // send person code
-      let persistentId = self.faceList[indexPath.item - 1].persistedFaceId
+      LeThanhTanLoading.sharedInstance.showLoadingAddedTo(self.view, animated: true)
+      let id = String(self.employee.id!)   // send person code
+      let faceId = String(self.faceList[indexPath.item - 1].id)
       
-      self.deleteFace(id, persistentedId: persistentId, onCompletion: { (isSuccess) in
+      self.deleteFace(id, faceId: faceId, onCompletion: { (isSuccess) in
+        LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
         if isSuccess == true {
           self.faceList.removeAtIndex(indexPath.item - 1)
+          self.collectionView.reloadData()
         }
       })
     }

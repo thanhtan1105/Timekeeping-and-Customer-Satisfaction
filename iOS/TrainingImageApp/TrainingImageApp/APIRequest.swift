@@ -40,11 +40,11 @@ class APIRequest: NSObject {
     webservice_GET(url, params: params, headersParams: nil, completion: onCompletion)
   }
   
-  func deleteFace(userId: String, persistentedId: String, onCompletion: ServiceResponse) {
+  func deleteFace(userId: String, faceId: String, onCompletion: ServiceResponse) {
     let url = http + urlDelteFace
     let params: [String : AnyObject] = [
-      "accountCode": userId,
-      "persistedFaceId" : persistentedId
+      "accountId": userId,
+      "faceId" : faceId
     ]
     
     webservice_GET(url, params: params, headersParams: nil, completion: onCompletion)

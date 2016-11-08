@@ -22,7 +22,7 @@ extension UIImageView {
       dispatch_async(dispatch_get_main_queue(), {
         // should be return image
         self.transform = CGAffineTransformMakeRotation((90.0 * CGFloat(M_PI)) / 180.0)
-        self.image = image
+        self.image = image        
       })
       
       }.resume()

@@ -94,6 +94,7 @@ class CameraViewController: BaseViewController {
       })
       
       self.camera?.captureStillImage({ (image) -> Void in
+        print("Size: \(image?.size.width) : \(image?.size.height)")
         if image != nil {
           self.cameraStill.image = image
           self.status = .Preview
@@ -162,7 +163,6 @@ extension CameraViewController: CameraDelegate {
           if let adjusted = adjusted {
             self.faceView?.frame = adjusted.bounds
           }
-          
         })
         
         let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
@@ -233,7 +233,8 @@ extension CameraViewController {
     let personGroupId = String(Department.getDepartmentFromUserDefault().code!)
     let personId = Employee.getEmployeeFromUserDefault().id!
     
-    APIRequest.shareInstance.addFaceToPerson(personGroupId, personId: personId, imageFace: cameraStill.image!) { (response: ResponsePackage?, error: ErrorWebservice?) in
+    let image = UIImage(CGImage: cameraStill.image!.CGImage!, scale: cameraStill.image!.scale, orientation: .Up)
+    APIRequest.shareInstance.addFaceToPerson(personGroupId, personId: personId, imageFace: image) { (response: ResponsePackage?, error: ErrorWebservice?) in
       // error of network
       guard error == nil else {
         print("Fail")
