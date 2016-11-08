@@ -29,6 +29,7 @@ public interface IViewConst {
      * Views for admin
      */
     String MANAGEMENT_DEPARTMENT_VIEW = "/views/admin/management_depart/management_depart";
+    String SYNC_DATA_VIEW = "/views/admin/configuration/sync_data";
 
     /**
      * Views for login
