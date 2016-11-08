@@ -26,7 +26,7 @@ public interface IContanst {
 
     String ERROR_LOGGER = "-- ERROR: ";
 
-    String API_COGN_MICROSOFT_PER_GROUP_FORMAT_TIME = "MM/DD/YYYY h:mm:ss a";
+
 
     int HTTP_CLIENT_KEY_FACE = 0;
     int HTTP_CLIENT_KEY_EMOTION = 1;

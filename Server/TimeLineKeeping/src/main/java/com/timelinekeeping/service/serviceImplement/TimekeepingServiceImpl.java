@@ -122,13 +122,16 @@ public class TimekeepingServiceImpl {
                     Timestamp deactiveTime = accountEntity.getActive() == EStatus.DEACTIVE ? accountEntity.getTimeDeactive() : null;
                     int workDay = ServiceUtils.countWorkDay(year, month, accountEntity.getTimeCreate(), deactiveTime);
 
-                    AccountTKReportModel accountTK = new AccountTKReportModel(accountEntity);
-                    if (dayCheckIn != null) {
-                        accountTK.setDayCheckin(dayCheckIn.intValue());
-                    }
-                    accountTK.setDayWork(workDay);
+                    // it must workDay >0, it cannot accept timekeeping 0/0
+                    if (workDay > 0) {
+                        AccountTKReportModel accountTK = new AccountTKReportModel(accountEntity);
+                        if (dayCheckIn != null) {
+                            accountTK.setDayCheckin(dayCheckIn.intValue());
+                        }
+                        accountTK.setDayWork(workDay);
 
-                    accountTKReportModels.add(accountTK);
+                        accountTKReportModels.add(accountTK);
+                    }
                 }
             }
 
