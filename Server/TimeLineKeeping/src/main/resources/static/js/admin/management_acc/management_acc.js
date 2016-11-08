@@ -192,6 +192,10 @@ function ajax_check_username_exist() {
     });
 }
 
+/**
+ * Fc: ajax add new processing
+ * @param account
+ */
 function ajax_add_new_processing(account) {
     console.info('[add new processing][account] ' + account);
     $.ajax({
@@ -536,6 +540,9 @@ function update() {
     });
 }
 
+/**
+ * Fc: show modal adding new
+ */
 function add_new() {
     //reset form
     reset_form_add_new();
@@ -551,6 +558,9 @@ function add_new() {
     show_modal('#modal-add-new', false);
 }
 
+/**
+ * Fc: add new processing
+ */
 function add_new_processing() {
     if (get_errors()) {//has errors
         //do nothing
