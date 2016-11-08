@@ -21,6 +21,9 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
     @Query("SELECT count(a.id) FROM AccountEntity a WHERE a.username = :username and a.active <>0")
     Integer checkExistUsername(@Param("username") String username);
 
+    @Query("SELECT count(a.id) FROM AccountEntity a WHERE a.email = :email and a.active <>0")
+    Integer checkExistEmail(@Param("email") String email);
+
     @Query("SELECT a FROM AccountEntity a WHERE a.username = ?1 and a.active <>0")
     AccountEntity findByUsername(String username);
 

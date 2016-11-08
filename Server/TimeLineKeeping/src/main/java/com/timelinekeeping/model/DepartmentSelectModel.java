@@ -11,6 +11,7 @@ public class DepartmentSelectModel implements Serializable {
 
     private Long id;
     private String name;
+    private String code;
 
     public DepartmentSelectModel() {
     }
@@ -19,6 +20,7 @@ public class DepartmentSelectModel implements Serializable {
         if (entity != null) {
             this.id = entity.getId();
             this.name = entity.getName();
+            this.code = entity.getCode();
         }
     }
 
@@ -38,6 +40,14 @@ public class DepartmentSelectModel implements Serializable {
         this.name = name;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -46,7 +56,8 @@ public class DepartmentSelectModel implements Serializable {
         DepartmentSelectModel that = (DepartmentSelectModel) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        return !(name != null ? !name.equals(that.name) : that.name != null);
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        return code != null ? code.equals(that.code) : that.code == null;
 
     }
 
@@ -54,6 +65,7 @@ public class DepartmentSelectModel implements Serializable {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (code != null ? code.hashCode() : 0);
         return result;
     }
 }

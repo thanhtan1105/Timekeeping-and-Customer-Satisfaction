@@ -3,18 +3,18 @@ package com.timelinekeeping.service.serviceImplement;
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
-import com.timelinekeeping.model.*;
-import com.timelinekeeping.service.blackService.AWSStorage;
-import com.timelinekeeping.service.blackService.OneSignalNotification;
-import com.timelinekeeping.service.blackService.SMSNotification;
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.*;
 import com.timelinekeeping.entity.*;
+import com.timelinekeeping.model.*;
 import com.timelinekeeping.modelMCS.FaceDetectResponse;
 import com.timelinekeeping.modelMCS.FaceIdentifyConfidenceRespone;
 import com.timelinekeeping.modelMCS.FaceIdentityCandidate;
 import com.timelinekeeping.repository.*;
+import com.timelinekeeping.service.blackService.AWSStorage;
+import com.timelinekeeping.service.blackService.OneSignalNotification;
+import com.timelinekeeping.service.blackService.SMSNotification;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.UtilApps;
@@ -114,7 +114,7 @@ public class AccountServiceImpl {
 
             //create person in MCS
             String departmentCode = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.department");
-                    // departmentEntity.getCode();
+            // departmentEntity.getCode();
             logger.info("departmentCode: " + departmentCode);
             BaseResponse response = personServiceMCS.createPerson(departmentCode, account.getUsername(), JsonUtil.toJson(account));
             if (!response.isSuccess()) {
@@ -269,7 +269,8 @@ public class AccountServiceImpl {
     }
 
     /**
-     * list all manager in system*/
+     * list all manager in system
+     */
 
     public List<AccountManagerModel> listManager() {
         try {
@@ -409,15 +410,17 @@ public class AccountServiceImpl {
 
     }
 
-    /** list all face in account*/
-    public List<FaceModel> listFace(Long accountID){
+    /**
+     * list all face in account
+     */
+    public List<FaceModel> listFace(Long accountID) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             List<FaceEntity> entities = faceRepo.findByAccount(accountID);
-            if (ValidateUtil.isEmpty(entities)){
+            if (ValidateUtil.isEmpty(entities)) {
                 return null;
             }
-            return entities.stream().map(FaceModel::new).collect(Collectors.toList());
+            return entities.stream().filter(faceEntity -> faceEntity.getStorePath() != null).map(FaceModel::new).collect(Collectors.toList());
 
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
@@ -450,7 +453,7 @@ public class AccountServiceImpl {
                 return new BaseResponse(false, ERROR.ACCOUNT_CHECKIN_MSDS, null);
             }
             List<String> departmentCode = Arrays.asList(AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.department"));
-                    //departmentEntities.stream().map(DepartmentEntity::getCode).collect(Collectors.toList());
+            //departmentEntities.stream().map(DepartmentEntity::getCode).collect(Collectors.toList());
             logger.info("-- List department: " + JsonUtil.toJson(departmentCode));
 
             /** get PersonID from */
@@ -498,7 +501,7 @@ public class AccountServiceImpl {
         }
     }
 
-    public void pushNotification(AccountEntity accountEntity){
+    public void pushNotification(AccountEntity accountEntity) {
         // make data
         Gender gender = accountEntity.getGender();
         String welcomeMessage = "Xin chào ";
@@ -508,9 +511,8 @@ public class AccountServiceImpl {
         welcomeMessage += ". Chúc " + prefix + " " + "một ngày làm việc tốt lành";
 
         String header = "Check in successfully";
-        OneSignalNotification.instance().pushNotification(new AccountModel(accountEntity),  header, welcomeMessage);
+        OneSignalNotification.instance().pushNotification(new AccountModel(accountEntity), header, welcomeMessage);
     }
-
 
 
     /**
@@ -653,7 +655,7 @@ public class AccountServiceImpl {
     }
 
 
-    public boolean checkExistUsername(String username){
+    public boolean checkExistUsername(String username) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("Username: " + username);
@@ -663,13 +665,37 @@ public class AccountServiceImpl {
         }
     }
 
-    public String createEmail(String username){
+    public String createEmail(String fullName) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            logger.info("Username: " + username);
-            
-//            return accountRepo.checkExistUsername(username) > 0;
-            return null;
+            logger.info("Username: " + fullName);
+            if (ValidateUtil.isEmpty(fullName)) {
+                return null;
+            }
+            String valueParse = UtilApps.parseNoneAccent(fullName).toLowerCase();
+            String nameEmail = null;
+            if (valueParse.indexOf(" ") > 0) {
+                String[] tmp = nameEmail.split(" ");
+                nameEmail = String.format("%s.%s", tmp[0], tmp[tmp.length - 1]);
+            } else {
+                nameEmail = valueParse;
+            }
+            String email = null;
+            int i = 0;
+            do {
+                i++;
+                String emailPre;
+                if (i == 1) {
+                    emailPre = nameEmail + "@" + IContanst.COMPANY_EMAIL;
+                } else {
+                    emailPre = String.format("%s.%s@%s", nameEmail, i, IContanst.COMPANY_EMAIL);
+                }
+                if (accountRepo.checkExistEmail(emailPre) > 0) {
+                    email = emailPre;
+                }
+            } while (ValidateUtil.isEmpty(email));
+            return email;
+
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
         }

@@ -3,27 +3,22 @@
 </head>
 
 <aside class="main-sidebar">
-
-    <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-        <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
-            <li class="header" style="color: white;">MAIN MENU</li>
-            <!-- Optionally, you can add icons to the links -->
-            <li th:attr="class=${SideBar == 'ManagementDepart'}? 'active' : ''">
+            <li class="header text-black">
+                <font class="font-16">MANAGEMENT</font></li>
+            <li th:attr="class=${SideBar == 'ManagementDepart'}? 'bg-aqua-gradient' : ''">
                 <a th:href="@{/admin/departments/}">
-                    <i class="fa fa-object-ungroup"></i>
-                    <span><font style="font-size: 16px;">Management Departments</font></span>
+                    <small class="label bg-yellow-active font-13"><i class="fa fa-object-ungroup"></i></small>
+                    <font class="font-16">Departments</font>
                 </a>
             </li>
-            <li th:attr="class=${SideBar == 'ManagementAcc'}? 'active' : ''">
+            <li th:attr="class=${SideBar == 'ManagementAcc'}? 'bg-aqua-gradient' : ''">
                 <a th:href="@{/admin/accounts/}">
-                    <i class="fa fa-users"></i>
-                    <span><font style="font-size: 16px;">Management Accounts</font></span>
+                    <small class="label bg-green-active font-13"><i class="fa fa-users"></i></small>
+                    <font class="font-16">Accounts</font>
                 </a>
             </li>
         </ul>
-        <!-- /.sidebar-menu -->
     </section>
-    <!-- /.sidebar -->
 </aside>
