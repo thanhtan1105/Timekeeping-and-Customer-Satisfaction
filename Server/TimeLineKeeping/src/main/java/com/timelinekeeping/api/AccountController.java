@@ -30,11 +30,12 @@ public class AccountController {
     @Autowired
     private AccountServiceImpl accountService;
 
-    @RequestMapping(value = I_URI.API_CREATE, method = RequestMethod.POST)
+    @RequestMapping(value = {I_URI.API_CREATE}, method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponse create(@ModelAttribute("account") AccountModifyModel account) {
+    public BaseResponse create(@ModelAttribute AccountModifyModel account) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info("Account: " + JsonUtil.toJson(account));
             Pair<Boolean, String> response = accountService.create(account);
             logger.info("AccountModel: " + JsonUtil.toJson(response));
             if (response.getKey() == true) {

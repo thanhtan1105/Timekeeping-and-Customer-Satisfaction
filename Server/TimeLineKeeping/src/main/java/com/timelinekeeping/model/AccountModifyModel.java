@@ -30,8 +30,8 @@ public class AccountModifyModel {
         return gender;
     }
 
-    public void setGender(Gender gender) {
-        this.gender = gender;
+    public void setGender(Integer gender) {
+        this.gender = Gender.fromIndex(gender);
     }
 
     public Long getId() {

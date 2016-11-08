@@ -112,7 +112,7 @@ public class AccountControllerWeb {
             account.setRoleId(ValidateUtil.parseNumber(roleId));
             account.setDepartmentId(ValidateUtil.parseNumber(departmentId));
             account.setManagerId(ValidateUtil.parseNumber(managerId));
-            account.setGender(Gender.fromIndex(Integer.parseInt(gender)));
+            account.setGender(Integer.parseInt(gender));
             account.setEmail(email);
             account.setPhone(phone);
             account.setAddress(address);
