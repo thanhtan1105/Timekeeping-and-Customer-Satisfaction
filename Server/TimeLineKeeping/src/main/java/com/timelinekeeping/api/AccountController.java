@@ -63,11 +63,7 @@ public class AccountController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             Pair<Boolean, String> response = accountService.update(account);
-            if (response.getKey() == true) {
-                return new BaseResponse(true, response.getValue());
-            } else {
-                return new BaseResponse(false, response.getValue());
-            }
+            return new BaseResponse(response.getKey(), response.getValue());
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
@@ -83,11 +79,7 @@ public class AccountController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             Pair<Boolean, String> response = accountService.deactive(accountId);
-            if (response.getKey() == true) {
-                return new BaseResponse(true, response.getValue());
-            } else {
-                return new BaseResponse(false);
-            }
+            return new BaseResponse(response.getKey(), response.getValue());
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
@@ -206,9 +198,9 @@ public class AccountController {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             String personGroupId = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.department");
             Boolean result = faceService.removeFace(personGroupId, Long.parseLong(accountId), Long.parseLong(faceId));
-            if (result != null){
+            if (result != null) {
                 return new BaseResponse(result);
-            }else{
+            } else {
                 return new BaseResponse(false);
 
             }
