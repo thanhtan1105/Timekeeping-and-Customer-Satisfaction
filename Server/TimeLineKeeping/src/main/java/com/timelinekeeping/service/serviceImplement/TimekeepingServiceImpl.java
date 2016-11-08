@@ -1,6 +1,9 @@
 package com.timelinekeeping.service.serviceImplement;
 
-import com.timelinekeeping.constant.*;
+import com.timelinekeeping.constant.ERROR;
+import com.timelinekeeping.constant.ETimeKeeping;
+import com.timelinekeeping.constant.ETypeCheckin;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.TimeKeepingEntity;
 import com.timelinekeeping.model.*;
@@ -8,6 +11,7 @@ import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.TimekeepingRepo;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ServiceUtils;
+import com.timelinekeeping.util.TimeUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,8 +103,6 @@ public class TimekeepingServiceImpl {
 
             List<AccountEntity> listAccount = accountRepo.findByManagerNoActive(managerId);
 
-            //filter account not in month
-            //TODO filter account desiable in moth
 
             List<Object[]> listCountTime = timekeepingRepo.countEmployeeTime(year, month);
             Map<Long, Long> mapChekin = new HashMap<>();
@@ -111,19 +113,24 @@ public class TimekeepingServiceImpl {
             //create list accountResponse
             for (AccountEntity accountEntity : listAccount) {
 
-                //getDayCheckIn
-                Long accountId = accountEntity.getId();
-                Long dayCheckIn = mapChekin.get(accountId);
+                boolean isRun = checkMonthBetweenMonth(year, month, accountEntity.getTimeCreate(), accountEntity.getTimeDeactive());
+                if (isRun) {
 
-                //Count Work day
-                int workDay = ServiceUtils.countWorkDay(year, month, accountEntity.getTimeCreate(), accountEntity.getTimeDeactive());
+                    //getDayCheckIn
+                    Long accountId = accountEntity.getId();
+                    Long dayCheckIn = mapChekin.get(accountId);
 
-                AccountTKReportModel accountTK = new AccountTKReportModel(accountEntity);
-                if (dayCheckIn != null) {
-                    accountTK.setDayCheckin(dayCheckIn.intValue());
+                    //Count Work day
+                    int workDay = ServiceUtils.countWorkDay(year, month, accountEntity.getTimeCreate(), accountEntity.getTimeDeactive());
+
+                    AccountTKReportModel accountTK = new AccountTKReportModel(accountEntity);
+                    if (dayCheckIn != null) {
+                        accountTK.setDayCheckin(dayCheckIn.intValue());
+                    }
+                    accountTK.setDayWork(workDay);
+
+                    accountTKReportModels.add(accountTK);
                 }
-                accountTK.setDayWork(workDay);
-                accountTKReportModels.add(accountTK);
             }
 
             //prepare mode response
@@ -193,6 +200,19 @@ public class TimekeepingServiceImpl {
         return accountAttendance;
     }
 
+    private boolean checkMonthBetweenMonth(int year, int month, Timestamp fromMonth, Timestamp toMonth) {
+        YearMonth monthSelect = YearMonth.of(year, month);
+        YearMonth monthCreate = TimeUtil.parseYearMonth(fromMonth);
+        YearMonth monthDeactive = null;
+        if (toMonth == null) {
+            monthDeactive = YearMonth.now();
+        } else {
+            monthDeactive = TimeUtil.parseYearMonth(toMonth);
+        }
+
+        // check condition monthCreate <= monthSelect <= monthDeactive
+        return (monthSelect.compareTo(monthCreate) >= 0 && monthSelect.compareTo(monthDeactive) <= 0);
+    }
 
 
 }
