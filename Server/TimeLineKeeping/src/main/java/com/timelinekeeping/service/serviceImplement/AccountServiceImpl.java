@@ -200,7 +200,7 @@ public class AccountServiceImpl {
             //store db
             accountRepo.saveAndFlush(entity);
 
-            return new Pair<>(false, ERROR.OTHER);
+            return new Pair<>(true);
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
