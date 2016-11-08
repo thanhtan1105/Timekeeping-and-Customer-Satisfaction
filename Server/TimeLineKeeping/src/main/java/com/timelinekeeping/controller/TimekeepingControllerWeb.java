@@ -82,7 +82,7 @@ public class TimekeepingControllerWeb {
                                              Model model) {
         logger.info("[Controller- Load Timekeeping Details View] BEGIN");
         logger.info("[Controller- Load Timekeeping Details View] accountTKDetailsModelJson: " + accountTKDetailsModelJson);
-        String pattern = "MMMM-yyyy";
+        String pattern = "yyyy-MM";
         // parse string-json to object
         AccountTKDetailsModel accountTKDetailsModel
                 = JsonUtil.convertObject(accountTKDetailsModelJson, AccountTKDetailsModel.class, pattern);
@@ -115,7 +115,7 @@ public class TimekeepingControllerWeb {
                                              Model model, HttpSession session) {
         logger.info("[Controller- Change Month Timekeeping View] BEGIN");
         logger.info("[Controller- Change Month Timekeeping View] selected month: " + selectedMonth);
-        String pattern = "MMMM-yyyy";
+        String pattern = "yyyy-MM";
         // parse to date
         Date selectedDate = TimeUtil.parseToDate(selectedMonth, pattern);
         logger.info("[Controller- Change Month Timekeeping View] selected date: " + selectedDate);
@@ -163,7 +163,7 @@ public class TimekeepingControllerWeb {
         logger.info("[Controller- Change Month Timekeeping Details View] BEGIN");
         logger.info("[Controller- Change Month Timekeeping Details View] selected month: " + selectedMonth);
         logger.info("[Controller- Change Month Timekeeping Details View] accountId: " + accountId);
-        String pattern = "MMMM-yyyy";
+        String pattern = "MM-yyyy";
         // parse to date
         Date selectedDate = TimeUtil.parseToDate(selectedMonth, pattern);
         logger.info("[Controller- Change Month Timekeeping View] selected date: " + selectedDate);
