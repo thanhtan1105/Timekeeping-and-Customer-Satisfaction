@@ -15,6 +15,6 @@ import java.util.List;
 @Repository
 public interface HistoryRepo extends JpaRepository<HistoryEntity, Long>{
 
-    @Query("SELECT h FROM HistoryEntity  h WHERE h.type = 0 order by h.time")
+    @Query("SELECT h FROM HistoryEntity  h WHERE h.type = 0 order by h.time desc")
     Page<HistoryEntity> findBySynchronize(Pageable pageable);
 }
