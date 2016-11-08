@@ -1,9 +1,6 @@
 package com.timelinekeeping.service.serviceImplement;
 
-import com.timelinekeeping.constant.ERROR;
-import com.timelinekeeping.constant.ETimeKeeping;
-import com.timelinekeeping.constant.ETypeCheckin;
-import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.constant.*;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.TimeKeepingEntity;
 import com.timelinekeeping.model.*;
@@ -113,7 +110,7 @@ public class TimekeepingServiceImpl {
             //create list accountResponse
             for (AccountEntity accountEntity : listAccount) {
 
-                boolean isRun = checkMonthBetweenMonth(year, month, accountEntity.getTimeCreate(), accountEntity.getTimeDeactive());
+                boolean isRun = checkMonthBetweenMonth(year, month, accountEntity.getTimeCreate(), accountEntity.getActive() == EStatus.DEACTIVE ? accountEntity.getTimeDeactive() : null);
                 if (isRun) {
 
                     //getDayCheckIn
@@ -121,7 +118,9 @@ public class TimekeepingServiceImpl {
                     Long dayCheckIn = mapChekin.get(accountId);
 
                     //Count Work day
-                    int workDay = ServiceUtils.countWorkDay(year, month, accountEntity.getTimeCreate(), accountEntity.getTimeDeactive());
+                    // note
+                    Timestamp deactiveTime = accountEntity.getActive() == EStatus.DEACTIVE ? accountEntity.getTimeDeactive() : null;
+                    int workDay = ServiceUtils.countWorkDay(year, month, accountEntity.getTimeCreate(), deactiveTime);
 
                     AccountTKReportModel accountTK = new AccountTKReportModel(accountEntity);
                     if (dayCheckIn != null) {
@@ -200,18 +199,20 @@ public class TimekeepingServiceImpl {
         return accountAttendance;
     }
 
+
+    /***
+     * compare time select between fromMonth, toMonth
+     * 11-9-2016
+     * @param year + month: month of select
+     * @param fromMonth : Time from
+     * @param toMonth: time to*/
     private boolean checkMonthBetweenMonth(int year, int month, Timestamp fromMonth, Timestamp toMonth) {
         YearMonth monthSelect = YearMonth.of(year, month);
         YearMonth monthCreate = TimeUtil.parseYearMonth(fromMonth);
-        YearMonth monthDeactive = null;
-        if (toMonth == null) {
-            monthDeactive = YearMonth.now();
-        } else {
-            monthDeactive = TimeUtil.parseYearMonth(toMonth);
-        }
+        YearMonth monthDeactive = toMonth == null ? YearMonth.now() : TimeUtil.parseYearMonth(toMonth);
 
         // check condition monthCreate <= monthSelect <= monthDeactive
-        boolean result =(monthSelect.compareTo(monthCreate) >= 0 && monthSelect.compareTo(monthDeactive) <= 0);
+        boolean result = (monthSelect.compareTo(monthCreate) >= 0 && monthSelect.compareTo(monthDeactive) <= 0);
         return result;
     }
 

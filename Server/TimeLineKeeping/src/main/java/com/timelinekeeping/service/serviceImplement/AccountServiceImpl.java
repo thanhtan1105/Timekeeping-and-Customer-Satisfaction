@@ -221,7 +221,7 @@ public class AccountServiceImpl {
             entity.setActive(EStatus.DEACTIVE);
             entity.setTimeDeactive(new Date().getTime());
             accountRepo.saveAndFlush(entity);
-            return new Pair<>(false, ERROR.OTHER);
+            return new Pair<>(true);
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
