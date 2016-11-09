@@ -129,7 +129,6 @@ public class AccountEntity implements Serializable {
             this.address = StringUtils.isNotEmpty(model.getAddress()) ?model.getAddress() : this.address;
             this.gender = model.getGender() != null ? model.getGender() : this.gender;
             this.note = StringUtils.isNotEmpty(model.getNote()) ? model.getNote() : this.note;
-
         }
     }
 
