@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum EHistory {
 
-    SYNCHRONIZED(0, "notstarted");
+    SYNCHRONIZED(0, "SYNCHRONIZED");
 
     private int index;
     private String name;

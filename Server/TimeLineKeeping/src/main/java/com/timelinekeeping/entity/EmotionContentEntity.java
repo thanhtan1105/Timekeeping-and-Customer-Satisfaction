@@ -17,31 +17,40 @@ public class EmotionContentEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "emotion_first")
+    @Basic
+    @Column(name = "emotion_first", nullable = false)
     private EEmotion emotionFirst = EEmotion.NONE;
 
+    @Basic
     @Column(name = "emotion_second")
     private EEmotion emotionSecond = EEmotion.NONE;
 
+    @Basic
     @Column(name = "emotion_third")
     private EEmotion emotionThird = EEmotion.NONE;
 
+    @Basic
     @Column(name = "from_age")
     private Double fromAge;
 
+    @Basic
     @Column(name = "to_age")
     private Double toAge;
 
+    @Basic
     @Column(name = "gender")
     private Gender gender;
 
-    @Column(name = "message")
+    @Basic
+    @Column(name = "message", length = Integer.MAX_VALUE)
     private String message;
 
-    @Column(name = "status")
+    @Basic
+    @Column(name = "status", nullable = false)
     private EStatus status = EStatus.ACTIVE;
 
-    @Column(name = "vote")
+    @Basic
+    @Column(name = "vote", nullable = false)
     private Long vote = 0l;
 
     public Long getId() {

@@ -21,19 +21,19 @@ public class TimeKeepingEntity implements Serializable {
     private Long id;
 
     @Basic
-    @Column(name = "type")
+    @Column(name = "type", nullable = false)
     private ETypeCheckin type;
 
     @Basic
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private ETimeKeeping status = ETimeKeeping.ABSENT;
 
     @Basic
-    @Column(name = "time_check")
+    @Column(name = "time_check", nullable = false)
     private Timestamp timeCheck = new Timestamp(new Date().getTime());
 
     @Basic
-    @Column(name = "note")
+    @Column(name = "note", length = Integer.MAX_VALUE)
     private String note;
 
     @ManyToOne(fetch = FetchType.LAZY)

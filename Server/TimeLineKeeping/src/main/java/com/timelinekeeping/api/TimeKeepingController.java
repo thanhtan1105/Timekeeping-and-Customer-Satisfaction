@@ -10,6 +10,7 @@ import com.timelinekeeping.service.serviceImplement.TimekeepingServiceImpl;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +30,7 @@ public class TimeKeepingController {
 
     private Logger logger = LogManager.getLogger(TimeKeepingController.class);
 
-    @RequestMapping(I_URI.API_TIMEKEEPING_LIST_EMPLOYEE)
+    @RequestMapping(value = I_URI.API_TIMEKEEPING_LIST_EMPLOYEE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<AccountCheckInModel> getEmployeeUnderManager(@RequestParam("departmentId") Long departmentId,
                                                              @RequestParam("accountId") Long accountId) {
         try {
@@ -41,7 +42,7 @@ public class TimeKeepingController {
     }
 
 
-    @RequestMapping(value = I_URI.API_TIMEKEEPING_CHECK_IN_MANUAL, method = RequestMethod.POST)
+    @RequestMapping(value = I_URI.API_TIMEKEEPING_CHECK_IN_MANUAL, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<CheckinManualModel> checkManual(@RequestParam(value = "accountId", required = false) List<CheckinManualModel> listCheckin) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -52,7 +53,7 @@ public class TimeKeepingController {
     }
 
 
-    @RequestMapping(value = I_URI.API_TIMEKEEPING_VIEW_TIMEKEEPING, method = RequestMethod.POST)
+    @RequestMapping(value = I_URI.API_TIMEKEEPING_VIEW_TIMEKEEPING, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public TimekeepingResponseModel getTimeKeeping(@RequestParam(value = "managerId") Long managerId,
                                                    @RequestParam("year") Integer year,
                                                    @RequestParam("month") Integer month) {
@@ -64,7 +65,7 @@ public class TimeKeepingController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_TIMEKEEPING_ATTENDANCE, method = RequestMethod.POST)
+    @RequestMapping(value = I_URI.API_TIMEKEEPING_ATTENDANCE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public AccountAttendanceModel getAttendace(@RequestParam(value = "accountId") Long accountId,
                                                @RequestParam(value = "year") Integer year,
                                                @RequestParam(value = "month") Integer month) {

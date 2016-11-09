@@ -218,8 +218,39 @@ public class AccountServiceImpl {
                 return new Pair<>(false, "AccountId does not exist in system.");
             }
 
+            if (entity.getActive() == EStatus.DEACTIVE){
+                return new Pair<>(false, "Account is being deactivated.");
+            }
             entity.setActive(EStatus.DEACTIVE);
             entity.setTimeDeactive(new Date().getTime());
+            accountRepo.saveAndFlush(entity);
+            return new Pair<>(true);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    public Pair<Boolean, String> reActive(Long accountId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+            //get account
+            AccountEntity entity = accountRepo.findOne(accountId);
+
+            //check exist in db
+            if (entity == null) {
+                return new Pair<>(false, "AccountId does not exist in system.");
+            }
+            if (entity.getActive() == EStatus.ACTIVE){
+                return new Pair<>(false, "Account is being activated.");
+            }
+
+            entity.setActive(EStatus.ACTIVE);
+
+            //TODO
+            //set timekeepinng status deactive fromDate -> now deactvie
+            Timestamp dateDeactive = entity.getTimeDeactive();
+            entity.setTimeDeactive(null);
             accountRepo.saveAndFlush(entity);
             return new Pair<>(true);
         } finally {

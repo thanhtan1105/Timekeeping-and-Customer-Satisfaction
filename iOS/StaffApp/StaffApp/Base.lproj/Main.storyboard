@@ -453,7 +453,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XRq-HS-Llh">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XRq-HS-Llh">
                                 <rect key="frame" x="0.0" y="469" width="320" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="4qb-ra-NCx"/>
@@ -494,7 +494,7 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <scrollView hidden="YES" autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7LN-6h-Rr7">
+                            <scrollView hidden="YES" autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7LN-6h-Rr7">
                                 <rect key="frame" x="0.0" y="106" width="320" height="363"/>
                             </scrollView>
                         </subviews>
@@ -703,49 +703,39 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9yz-Vf-WGA">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9yz-Vf-WGA">
                                 <rect key="frame" x="70" y="202" width="240" height="30"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="onDateChange:" destination="nyU-Br-aZ6" eventType="touchUpInside" id="gCn-1l-JkL"/>
-                                </connections>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="twU-Tu-ze5">
-                                <rect key="frame" x="0.0" y="258" width="320" height="261"/>
-                                <subviews>
-                                    <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Ull-Xl-puf">
-                                        <rect key="frame" x="0.0" y="45" width="320" height="216"/>
-                                        <date key="date" timeIntervalSinceReferenceDate="497709930.40134299">
-                                            <!--2016-10-09 12:45:30 +0000-->
-                                        </date>
-                                    </datePicker>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WYh-mt-EEk">
-                                        <rect key="frame" x="8" y="8" width="62" height="30"/>
-                                        <state key="normal" title="Cancel"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OE5-zc-iBA">
-                                        <rect key="frame" x="250" y="7" width="62" height="30"/>
-                                        <state key="normal" title="Done"/>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zDc-ux-x2i">
                                 <rect key="frame" x="70" y="72" width="240" height="120"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="BaW-09-l6j"/>
                                 </constraints>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation </string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Ull-Xl-puf">
+                                <rect key="frame" x="0.0" y="303" width="320" height="216"/>
+                                <date key="date" timeIntervalSinceReferenceDate="497709930.40134299">
+                                    <!--2016-10-09 12:45:30 +0000-->
+                                </date>
+                                <connections>
+                                    <action selector="onDatePickerChange:" destination="nyU-Br-aZ6" eventType="valueChanged" id="bxc-xB-sYA"/>
+                                </connections>
+                            </datePicker>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Ull-Xl-puf" secondAttribute="trailing" id="0Zp-0Y-OdL"/>
+                            <constraint firstItem="VhM-kA-eVo" firstAttribute="top" secondItem="Ull-Xl-puf" secondAttribute="bottom" id="2Hz-St-hz8"/>
                             <constraint firstItem="uqb-Tb-pkx" firstAttribute="leading" secondItem="tmx-a8-3xL" secondAttribute="leading" constant="15" id="AQQ-hR-xPD"/>
                             <constraint firstItem="2hm-dg-mYl" firstAttribute="height" secondItem="9yz-Vf-WGA" secondAttribute="height" id="Al6-pi-IYN"/>
                             <constraint firstItem="9yz-Vf-WGA" firstAttribute="trailing" secondItem="zDc-ux-x2i" secondAttribute="trailing" id="GN2-eO-rXf"/>
+                            <constraint firstItem="Ull-Xl-puf" firstAttribute="leading" secondItem="tmx-a8-3xL" secondAttribute="leading" id="OOG-8z-zWK"/>
                             <constraint firstItem="zDc-ux-x2i" firstAttribute="leading" secondItem="tmx-a8-3xL" secondAttribute="leading" constant="70" id="S9c-j2-aYC"/>
                             <constraint firstItem="9yz-Vf-WGA" firstAttribute="top" secondItem="zDc-ux-x2i" secondAttribute="bottom" constant="10" id="Tnx-iN-3R6"/>
                             <constraint firstItem="2hm-dg-mYl" firstAttribute="top" secondItem="zDc-ux-x2i" secondAttribute="bottom" constant="10" id="X3o-yz-QtR"/>
@@ -757,14 +747,15 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Add" id="t61-uk-4G3">
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="UKz-CT-u5B"/>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="UKz-CT-u5B">
+                            <connections>
+                                <action selector="onSaveButtonTapped:" destination="nyU-Br-aZ6" id="DQr-X8-qji"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="cancelButton" destination="WYh-mt-EEk" id="TNV-vh-5Ce"/>
                         <outlet property="dateButton" destination="9yz-Vf-WGA" id="sIN-uB-Ljo"/>
-                        <outlet property="dateTimePicker" destination="Ull-Xl-puf" id="hDW-Ax-qWl"/>
-                        <outlet property="dateView" destination="twU-Tu-ze5" id="3AU-om-Unb"/>
-                        <outlet property="doneButton" destination="OE5-zc-iBA" id="rYl-Rg-8WQ"/>
+                        <outlet property="dateTimePicker" destination="Ull-Xl-puf" id="8sY-7m-YRF"/>
                         <outlet property="titleDescription" destination="zDc-ux-x2i" id="oWT-8z-j9p"/>
                     </connections>
                 </viewController>

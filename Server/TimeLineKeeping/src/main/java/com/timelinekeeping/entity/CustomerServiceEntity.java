@@ -30,15 +30,15 @@ public class CustomerServiceEntity {
     private String CustomerCode;
 
     @Basic
-    @Column(name = "grade")
+    @Column(name = "grade", nullable = false)
     private Double grade = 0d;
 
     @Basic
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private ETransaction status = ETransaction.BEGIN;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "create_by")
+    @JoinColumn(name = "create_by", nullable = false)
     private AccountEntity createBy;
 
     @Basic
