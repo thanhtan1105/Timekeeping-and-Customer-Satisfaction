@@ -30,20 +30,24 @@ public class ServiceUtils {
         return sb.toString();
     }
 
-    public static EDayStatus convertDateType(AccountEntity accountEntity, Calendar calendar){
+    public static EDayStatus convertDateType(AccountEntity accountEntity, Calendar calendar) {
         //set DayStatus
         if (accountEntity.getTimeCreate() != null && calendar.getTime().compareTo(accountEntity.getTimeCreate()) < 0) {
             return EDayStatus.DAY_BEFORE_CREATE;
         } else if (accountEntity.getTimeDeactive() != null && calendar.getTime().compareTo(accountEntity.getTimeDeactive()) > 0) {
             return EDayStatus.DAY_AFTER_DEACTIVE;
         } else if (calendar.getTime().compareTo(new Date()) > 0) {
-            return EDayStatus.DAY_FUTURE;
-        } else {
-            EDayOfWeek dayOfWeek = EDayOfWeek.fromIndex(calendar.get(Calendar.DAY_OF_WEEK));
-            if (dayOfWeek == EDayOfWeek.SUNDAY || dayOfWeek == EDayOfWeek.SATURDAY) {
-                return EDayStatus.DAY_OFF;
+            if (EDayOfWeek.checkDayOff(calendar.get(Calendar.DAY_OF_WEEK))) {
+                return EDayStatus.DAY_FUTURE_OFF;
+            } else {
+                return EDayStatus.DAY_FUTURE_NORMAL;
             }
-            return EDayStatus.NORMAL;
+        } else {
+            if (EDayOfWeek.checkDayOff(calendar.get(Calendar.DAY_OF_WEEK))) {
+                return EDayStatus.DAY_OFF;
+            } else {
+                return EDayStatus.NORMAL;
+            }
         }
     }
 

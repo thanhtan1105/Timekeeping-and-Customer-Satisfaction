@@ -88,6 +88,22 @@ public class AccountController {
         }
     }
 
+
+    @RequestMapping(value = I_URI.API_ACTIVE, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse reActive(@RequestParam("accountId") Long accountId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            Pair<Boolean, String> response = accountService.reActive(accountId);
+            return new BaseResponse(response.getKey(), response.getValue());
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        }
+    }
+
     @RequestMapping(value = I_URI.API_ACCOUNT_LIST_MANAGER, method = RequestMethod.GET)
     @ResponseBody
     public BaseResponse listManager() {

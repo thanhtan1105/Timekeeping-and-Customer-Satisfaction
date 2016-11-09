@@ -237,14 +237,6 @@ public class AccountEntity implements Serializable {
         this.faces = faces;
     }
 
-    public void setTimeDeactive(Timestamp timeDeactive) {
-        this.timeDeactive = timeDeactive;
-    }
-
-    public void setTimeCreate(Timestamp timeCreate) {
-        this.timeCreate = timeCreate;
-    }
-
     public AccountEntity getManager() {
         return manager;
     }
