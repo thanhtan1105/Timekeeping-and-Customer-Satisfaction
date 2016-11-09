@@ -126,7 +126,7 @@ public class AccountEntity implements Serializable {
             this.fullName = StringUtils.isNotEmpty(model.getFullName()) ? model.getFullName() : this.fullName;
             this.phone = StringUtils.isNotEmpty(model.getPhone()) ? model.getPhone() : this.phone;
             this.email = StringUtils.isNotEmpty(model.getEmail()) ? model.getEmail() : this.email;
-            this.address = StringUtils.isNotEmpty(model.getAddress()) ?model.getAddress() : this.address;
+            this.address = StringUtils.isNotEmpty(model.getAddress()) ? model.getAddress() : this.address;
             this.gender = model.getGender() != null ? model.getGender() : this.gender;
             this.note = StringUtils.isNotEmpty(model.getNote()) ? model.getNote() : this.note;
         }
@@ -201,7 +201,11 @@ public class AccountEntity implements Serializable {
     }
 
     public void setTimeDeactive(Long timeDeactive) {
-        this.timeDeactive = new Timestamp(timeDeactive);
+        if (timeDeactive != null) {
+            this.timeDeactive = new Timestamp(timeDeactive);
+        } else {
+            this.timeDeactive = null;
+        }
     }
 
     public Timestamp getTimeCreate() {
@@ -234,14 +238,6 @@ public class AccountEntity implements Serializable {
 
     public void setFaces(Set<FaceEntity> faces) {
         this.faces = faces;
-    }
-
-    public void setTimeDeactive(Timestamp timeDeactive) {
-        this.timeDeactive = timeDeactive;
-    }
-
-    public void setTimeCreate(Timestamp timeCreate) {
-        this.timeCreate = timeCreate;
     }
 
     public AccountEntity getManager() {

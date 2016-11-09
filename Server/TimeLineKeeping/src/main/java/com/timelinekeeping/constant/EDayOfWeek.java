@@ -34,6 +34,14 @@ public enum EDayOfWeek {
         return null;
     }
 
+    public static Boolean checkDayOff(int index){
+        EDayOfWeek dayOfWeek = fromIndex(index);
+        if (dayOfWeek == EDayOfWeek.SUNDAY || dayOfWeek == EDayOfWeek.SATURDAY){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     @JsonValue
     public int getIndex() {
