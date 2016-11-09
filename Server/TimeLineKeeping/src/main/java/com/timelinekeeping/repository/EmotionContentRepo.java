@@ -1,6 +1,7 @@
 package com.timelinekeeping.repository;
 
 import com.timelinekeeping.constant.EEmotion;
+import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.entity.EmotionContentEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,10 +21,13 @@ import java.util.List;
 @Repository
 public interface EmotionContentRepo extends JpaRepository<EmotionContentEntity, Long> {
 
-    @Query("SELECT e FROM EmotionContentEntity  e WHERE e.emotionFirst = :first AND (:second is null  or e.emotionSecond =:second  ) AND (:third is null or e.emotionThird =:third ) AND (e.status <> 0) order by e.vote")
+    @Query("SELECT e FROM EmotionContentEntity  e WHERE e.emotionFirst = :first AND (:second is null  or e.emotionSecond =:second  ) " +
+            "AND (:third is null or e.emotionThird =:third ) AND ( :age is null  or :age between e.fromAge and e.toAge) and (:gender is null  or :gender = e.gender) AND (e.status <> 0) order by e.vote")
     public Page<EmotionContentEntity> getEmotionContent(@Param("first") EEmotion first,
                                                         @Param("second") EEmotion second,
                                                         @Param("third") EEmotion third,
+                                                        @Param("age") Double age,
+                                                        @Param("gender")Gender gender,
                                                         Pageable pageable);
     @Modifying
     @Transactional

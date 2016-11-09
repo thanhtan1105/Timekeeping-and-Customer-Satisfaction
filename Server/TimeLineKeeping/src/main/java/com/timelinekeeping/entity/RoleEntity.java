@@ -17,15 +17,15 @@ public class RoleEntity  implements Serializable{
     private Long id;
 
     @Basic
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Basic
-    @Column(name = "redirect")
+    @Column(name = "redirect", nullable = false)
     private String redirect;
 
     @Basic
-    @Column(name = "allow_page")
+    @Column(name = "allow_page", nullable = false)
     public String allowPage;
 
 

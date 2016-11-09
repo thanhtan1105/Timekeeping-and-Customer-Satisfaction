@@ -276,7 +276,8 @@ function set_list_accounts(list_accounts, $tbody_list_accounts) {
                 'title="Deactivate Account" onclick="deactivate(' + list_accounts[i].id + ')">Deactivate</button>';
         } else {
             tr_status = '<tr class="text-muted">';
-            btn_activate = ' <button class="btn btn-danger btn-flat btn-sm" type="button" title="Activate Account">Activate</button>';
+            btn_activate = ' <button class="btn btn-danger btn-flat btn-sm" type="button" ' +
+                'title="Activate Account" onclick="activate(' + list_accounts[i].id + ')">Activate</button>';
         }
         content_list_accounts += tr_status +
             '<td>' + list_accounts[i].fullName + '</td>' +
@@ -725,6 +726,27 @@ function deactivate(id) {
         success: function (response) {
             var success = response.success;
             console.info('[deactivate account][success] ' + success);
+            if (success) {
+                //reload list accounts
+                load_list_accounts(current_search_value, current_index_page, current_page_size);
+            }
+        }
+    });
+}
+
+/**
+ * Fc: activate account
+ * @param id
+ */
+function activate(id) {
+    var urlString = '/api/account/active?accountId=' + id;
+    console.info('[activate account][id] ' + id);
+    $.ajax({
+        type: 'GET',
+        url: urlString,
+        success: function (response) {
+            var success = response.success;
+            console.info('[activate account][success] ' + success);
             if (success) {
                 //reload list accounts
                 load_list_accounts(current_search_value, current_index_page, current_page_size);

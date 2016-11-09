@@ -17,13 +17,21 @@ public class HistoryEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Basic
+    @Column(name = "name")
     private String name;
 
+    @Basic
+    @Column(name = "time", nullable = false)
     private Timestamp time = new Timestamp(new Date().getTime());
 
-    private String node;
+    @Basic
+    @Column(name = "note", length = Integer.MAX_VALUE)
+    private String note;
 
-    private EHistory type;
+    @Basic
+    @Column(name = "type", nullable = false)
+    private EHistory type = EHistory.SYNCHRONIZED;
 
     public Long getId() {
         return id;
@@ -49,12 +57,12 @@ public class HistoryEntity {
         this.time = time;
     }
 
-    public String getNode() {
-        return node;
+    public String getNote() {
+        return note;
     }
 
-    public void setNode(String node) {
-        this.node = node;
+    public void setNote(String node) {
+        this.note = node;
     }
 
     public EHistory getType() {
