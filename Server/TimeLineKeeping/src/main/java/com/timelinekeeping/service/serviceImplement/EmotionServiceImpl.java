@@ -104,7 +104,7 @@ public class EmotionServiceImpl {
             //create Customer service
             AccountEntity employee = accountRepo.findOne(employeeId);
             if (employee == null) {
-                logger.error(String.format(ERROR.TIME_KEEPING_ACCOUNT_ID_CANNOT_EXIST, employeeId));
+                logger.error(String.format(ERROR.ACCOUNT_ID_CANNOT_EXIST, employeeId));
                 return null;
             }
             CustomerServiceEntity customerResultEntity = new CustomerServiceEntity(employee);

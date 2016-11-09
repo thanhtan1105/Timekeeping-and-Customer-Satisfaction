@@ -17,7 +17,7 @@ public class ToDoListModel {
     private String title;
     private EStatusToDoTask isComplete;
     private Timestamp timeNotify;
-    private AccountModel accountCreated;
+    private AccountNotificationModel accountCreated;
 
 
     public ToDoListModel(ToDoListEntity entity) {
@@ -26,7 +26,7 @@ public class ToDoListModel {
             this.title = entity.getTitle();
             this.isComplete = entity.getIsComplete();
             this.timeNotify = entity.getTimeNotify();
-            this.accountCreated = new AccountModel(entity.getAccountCreated());
+            this.accountCreated = new AccountNotificationModel(entity.getAccountCreated());
         }
     }
 
@@ -72,11 +72,11 @@ public class ToDoListModel {
         this.timeNotify = timeNotify;
     }
 
-    public AccountModel getAccountCreated() {
+    public AccountNotificationModel getAccountCreated() {
         return accountCreated;
     }
 
-    public void setAccountCreated(AccountModel accountCreated) {
+    public void setAccountCreated(AccountNotificationModel accountCreated) {
         this.accountCreated = accountCreated;
     }
 }

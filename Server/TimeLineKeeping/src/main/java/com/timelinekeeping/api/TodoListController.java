@@ -1,18 +1,17 @@
 package com.timelinekeeping.api;
 
+import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.EStatusToDoTask;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.controller.PersonGroupControllerWeb;
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.model.ToDoListModel;
+import com.timelinekeeping.model.ToDoListModifyModel;
 import com.timelinekeeping.service.serviceImplement.TodoListServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -50,6 +49,7 @@ public class TodoListController {
         }
     }
 
+    
     @RequestMapping(value = I_URI.API_TODOLIST_SELECT_TASK, method = RequestMethod.GET)
     public BaseResponse selectTask(@RequestParam(value = "id") String taskId) {
         try {
@@ -59,6 +59,60 @@ public class TodoListController {
             baseResponse.setSuccess(true);
             baseResponse.setData(statusToDoTask.getIndex());
             return baseResponse;
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        }
+    }
+
+    @RequestMapping(value = I_URI.API_CREATE, method = RequestMethod.POST)
+    public BaseResponse create(@ModelAttribute ToDoListModifyModel modifyModel) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            Pair<Boolean, String> result = todoListService.create(modifyModel);
+            if (result.getKey()){
+                return new BaseResponse(result.getKey(), new Pair<String, Long>("id", Long.valueOf(result.getValue())));
+            }else {
+                return new BaseResponse(result.getKey(), result.getValue());
+            }
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        }
+    }
+
+    @RequestMapping(value = I_URI.API_UPDATE, method = RequestMethod.POST)
+    public BaseResponse update(@ModelAttribute ToDoListModifyModel modifyModel) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            Pair<Boolean, String> result = todoListService.update(modifyModel);
+            if (result.getKey()){
+                return new BaseResponse(result.getKey(), new Pair<String, Long>("id", Long.valueOf(result.getValue())));
+            }else {
+                return new BaseResponse(result.getKey(), result.getValue());
+            }
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        }
+    }
+
+    @RequestMapping(value = I_URI.API_DELETE, method = RequestMethod.GET)
+    public BaseResponse delete(@RequestParam("id") Long todoId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            Pair<Boolean, String> result = todoListService.delete(todoId);
+            if (result.getKey()){
+                return new BaseResponse(result.getKey());
+            }else {
+                return new BaseResponse(result.getKey(), result.getValue());
+            }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);

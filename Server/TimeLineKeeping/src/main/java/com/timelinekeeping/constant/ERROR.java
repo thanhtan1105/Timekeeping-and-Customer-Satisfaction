@@ -44,5 +44,10 @@ public interface ERROR {
     String CHECK_IN_MANUAL_NO_EXIST_ACCOUNTID = "No exist accountId = '%s'.";
     String CHECK_IN_MANUAL_ACCOUNT_CHECKINED = "AccountId = '%s' is used to checkIn.";
 
-    String TIME_KEEPING_ACCOUNT_ID_CANNOT_EXIST = "AccountID = '%s' does not exist.";
+    String ACCOUNT_ID_CANNOT_EXIST = "AccountID = '%s' does not exist.";
+
+    String TODO_TITLE_EMPTY = "Title is empty";
+    String TODO_ACCOUNT_CREATE_EMPTY = "Account create is empty";
+    String TODO_ID_EMPTY = "ID  is empty";
+    String TODO_ID_CANNOT_EXIST = "TodoId = '%s' does not exist.";
 }
