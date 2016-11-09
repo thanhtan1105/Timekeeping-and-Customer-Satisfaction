@@ -6,7 +6,15 @@ package com.timelinekeeping.constant;
 public interface TIME_CONST {
 
     String API_COGN_MICROSOFT_PER_GROUP_FORMAT_TIME = "MM/DD/YYYY h:mm:ss a";
+
+
     String YEAR_MONTH = "MMMM-yyyy";
-    String FULL_TIME = "dd-MMMM-yyyy";
+    String FULL_DATE = "yyyy-MM-dd";
+    String FULL_TIME = "yyyy-MM-dd hh:mm";
+    String FULL_TIME_SECOND = "yyyy-MM-dd hh:mm:ss";
+    String TIME_MINUTE = "hh:mm";
+    String TIME_FULL = "hh:mm:ss";
+
+
 
 }
