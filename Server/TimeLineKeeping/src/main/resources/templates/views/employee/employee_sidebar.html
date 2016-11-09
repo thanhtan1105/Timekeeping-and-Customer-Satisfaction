@@ -3,27 +3,22 @@
 </head>
 
 <aside class="main-sidebar">
-
-    <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-        <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
-            <li class="header" style="color: white;">MAIN MENU</li>
-            <!-- Optionally, you can add icons to the links -->
-            <li th:attr="class=${SideBar == 'Attendance'}? 'active' : ''">
+            <li class="header text-black">
+                <font class="font-16">MAIN MENU</font></li>
+            <li th:attr="class=${SideBar == 'Attendance'}? 'bg-aqua-gradient' : ''">
                 <a th:href="@{/employee/attendance/}">
-                    <i class="fa fa-users"></i>
-                    <span>Attendance</span>
+                    <small class="label bg-yellow-active font-13"><i class="fa fa-users"></i></small>
+                    <font class="font-16">Attendance</font>
                 </a>
             </li>
-            <li th:attr="class=${SideBar == 'CustomerEmotion'}? 'active' : ''">
+            <li th:attr="class=${SideBar == 'CustomerEmotion'}? 'bg-aqua-gradient' : ''">
                 <a th:href="@{/employee/customer_emotion/}">
-                    <i class="fa fa-heartbeat"></i>
-                    <span>Customer Emotion</span>
+                    <small class="label bg-green-active font-13"><i class="fa fa-heartbeat"></i></small>
+                    <font class="font-16">Customer Emotion</font>
                 </a>
             </li>
         </ul>
-        <!-- /.sidebar-menu -->
     </section>
-    <!-- /.sidebar -->
 </aside>

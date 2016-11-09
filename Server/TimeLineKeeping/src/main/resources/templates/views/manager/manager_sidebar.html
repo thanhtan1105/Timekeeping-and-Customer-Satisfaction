@@ -3,39 +3,38 @@
 </head>
 
 <aside class="main-sidebar">
-
-    <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-        <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
-            <li class="header" style="color: white;">MAIN MENU</li>
-            <!-- Optionally, you can add icons to the links -->
-            <li th:attr="class=${SideBar == 'Checkin'}? 'active' : ''">
-                <a th:href="@{/manager/check_in/}">
-                    <i class="fa fa-calendar-check-o"></i>
-                    <span>Check-in Manual</span>
-                </a>
-            </li>
-            <li th:attr="class=${SideBar == 'Timekeeping'}? 'active' : ''">
+            <li class="header text-black">
+                <font class="font-16">REPORT</font></li>
+            <li th:attr="class=${SideBar == 'Timekeeping'}? 'bg-aqua-gradient' : ''">
                 <a th:href="@{/manager/timekeeping/}">
-                    <i class="fa fa-balance-scale"></i>
-                    <span>Timekeeping</span>
+                    <small class="label bg-green-active font-13"><i class="fa fa-balance-scale"></i></small>
+                    <font class="font-16">Timekeeping</font>
                 </a>
             </li>
-            <li th:attr="class=${SideBar == 'CustomerSatisfaction'}? 'active' : ''">
+            <li th:attr="class=${SideBar == 'CustomerSatisfaction'}? 'bg-aqua-gradient' : ''">
                 <a th:href="@{/manager/cus_satisfaction/month/}">
-                    <i class="fa fa-heartbeat"></i>
-                    <span>Customer Satisfaction</span>
+                    <small class="label bg-maroon-gradient font-13"><i class="fa fa-heartbeat"></i></small>
+                    <font class="font-16">Customer Satisfaction</font>
                 </a>
             </li>
-            <li th:attr="class=${SideBar == 'ManagementReminder'}? 'active' : ''">
+            <hr style="border-color: darkgreen"/>
+            <li class="header text-black">
+                <font class="font-16">MANAGEMENT</font></li>
+            <li th:attr="class=${SideBar == 'ManagementReminder'}? 'bg-aqua-gradient' : ''">
                 <a th:href="@{/manager/reminders/}">
-                    <i class="fa fa-clock-o"></i>
-                    <span>Management Reminders</span>
+                    <small class="label bg-red-active font-13"><i class="fa fa-clock-o"></i></small>
+                    <font class="font-16">Reminders</font>
+                </a>
+            </li>
+            <hr style="border-color: darkgreen"/>
+            <li th:attr="class=${SideBar == 'Checkin'}? 'bg-aqua-gradient' : ''">
+                <a th:href="@{/manager/check_in/}">
+                    <small class="label bg-yellow-active font-13"><i class="fa fa-calendar-check-o"></i></small>
+                    <font class="font-16">Check-in Manual</font>
                 </a>
             </li>
         </ul>
-        <!-- /.sidebar-menu -->
     </section>
-    <!-- /.sidebar -->
 </aside>
