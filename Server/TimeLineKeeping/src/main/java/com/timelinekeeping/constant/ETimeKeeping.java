@@ -9,7 +9,7 @@ public enum  ETimeKeeping {
 
     PRESENT(0, "Present"),
     ABSENT(1, "Absent"),
-    DEACTIVE(1, "Deactive");
+    DEACTIVE(2, "Deactive");
 
     private int index;
     private String name;
