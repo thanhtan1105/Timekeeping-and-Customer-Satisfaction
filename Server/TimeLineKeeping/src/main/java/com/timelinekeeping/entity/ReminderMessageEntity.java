@@ -22,7 +22,7 @@ public class ReminderMessageEntity implements Serializable {
     private Long id;
 
     @Basic
-    @Column(name = "title")
+    @Column(name = "title", length = 1000, nullable = false)
     private String title;
 
     @Basic
@@ -42,11 +42,11 @@ public class ReminderMessageEntity implements Serializable {
     private Timestamp createDate = new Timestamp(new Date().getTime());
 
     @Basic
-    @Column(name = "active")
+    @Column(name = "active", nullable = false)
     private EStatus active = EStatus.ACTIVE;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
     private AccountEntity manager;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

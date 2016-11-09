@@ -20,7 +20,7 @@ public class NotificationEntity implements Serializable {
     private Long id;
 
     @Basic
-    @Column(name = "time_notify")
+    @Column(name = "time_notify", nullable = false)
     private Timestamp timeNotify;
 
     @Basic

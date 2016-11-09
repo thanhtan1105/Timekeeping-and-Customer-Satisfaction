@@ -11,7 +11,8 @@ public enum EDayStatus {
     DAY_BEFORE_CREATE(1, "DAY_BEFORE_CREATE"),
     DAY_AFTER_DEACTIVE(2, "DAY_AFTER_DEACTIVE"),
     DAY_OFF(3, "DAY_OFF"),
-    DAY_FUTURE(4, "DAY_FUTURE");
+    DAY_FUTURE_NORMAL(4, "DAY_FUTURE_NORMAL"),
+    DAY_FUTURE_OFF(5, "DAY_FUTURE_OFF");
 
     private int index;
     private String name;

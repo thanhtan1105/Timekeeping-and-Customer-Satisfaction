@@ -26,7 +26,7 @@ public class ToDoListEntity implements Serializable {
     private String title;
 
     @Basic
-    @Column(name = "message")
+    @Column(name = "message", length = Integer.MAX_VALUE)
     private String message;
 
     @Basic
@@ -38,7 +38,7 @@ public class ToDoListEntity implements Serializable {
     private Timestamp timeNotify;
 
     @Basic
-    @Column(name = "time_create")
+    @Column(name = "time_create", nullable = false)
     private Timestamp timeCreate = new Timestamp(new Date().getTime());
 
 

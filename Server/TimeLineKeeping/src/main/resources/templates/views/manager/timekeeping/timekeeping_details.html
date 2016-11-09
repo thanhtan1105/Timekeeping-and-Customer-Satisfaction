@@ -71,15 +71,13 @@
             <div class="box-body">
                 <table class="table">
                     <colgroup>
-                        <col span="1" style="width: 5%;">
                         <col span="1" style="width: 25%;">
-                        <col span="1" style="width: 15%;">
-                        <col span="1" style="width: 20%;">
-                        <col span="1" style="width: 50%;">
+                        <col span="1" style="width: 25%;">
+                        <col span="1" style="width: 25%;">
+                        <col span="1" style="width: 25%;">
                     </colgroup>
                     <thead>
                     <tr>
-                        <th>#</th>
                         <th>Date</th>
                         <th>Status</th>
                         <th>Time Check-in</th>
@@ -88,21 +86,19 @@
                     </thead>
                     <tbody>
                     <tr th:each="attendance,counter: ${AccountAttendanceModel.attendances}"
-                        th:if="${attendance.dayStatus.index != 4}"
-                        th:attr="class=${attendance.dayStatus.index == 3} ? 'text-aqua'">
-                        <td th:text="${counter.count} + '.'"></td>
+                        th:if="${attendance.dayStatus.index != 1}"
+                        th:attr="class=${attendance.dayStatus.index == 3 or attendance.dayStatus.index == 5} ? 'text-bold'">
                         <td th:text="${#dates.format(attendance.date, 'dd-MMM-yyyy')}"></td>
                         <td>
-                            <label th:class="${attendance.present.index == 0}? 'label label-success' : 'label label-danger'"
-                                   th:text="${attendance.dayStatus.index == 3 and attendance.present.index == 1} ? '' : (${attendance.dayStatus.index == 3 and attendance.present.index == 0} ? 'Present' : (${attendance.dayStatus.index != 3 and attendance.present.index == 0} ? 'Present' : 'Absent'))"
+                            <label th:class="${(attendance.dayStatus.index == 2) or (attendance.dayStatus.index == 4) or (attendance.dayStatus.index == 5) or (attendance.dayStatus.index == 3 and attendance.present.index == 1)}? '' : (${(attendance.dayStatus.index == 3 and attendance.present.index == 0) or (attendance.dayStatus.index == 0 and attendance.present.index == 0)} ? 'label label-success' : 'label label-danger')"
+                                   th:text="${(attendance.dayStatus.index == 2) or (attendance.dayStatus.index == 4) or (attendance.dayStatus.index == 5) or (attendance.dayStatus.index == 3 and attendance.present.index == 1)}? '-' : (${(attendance.dayStatus.index == 3 and attendance.present.index == 0) or (attendance.dayStatus.index == 0 and attendance.present.index == 0)} ? 'Present' : 'Absent')"
                                    style="font-size: 14px;"></label>
                         </td>
                         <td>
                             <font th:text="${attendance.timeCheck != null}? ${#dates.format(attendance.timeCheck, 'HH:mm')}: '-'"
                                   style="font-style: italic"></font>
                         </td>
-                        <td th:text="${attendance.note != null and attendance.note != ''}? ${attendance.note}: '-'">-
-                        </td>
+                        <td th:text="${attendance.note != null and attendance.note != ''}? ${attendance.note}: '-'"></td>
                     </tr>
                     </tbody>
                 </table>

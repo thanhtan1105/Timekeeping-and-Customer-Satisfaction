@@ -13,13 +13,16 @@ public class QuantityEmotionEnity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name")
+    @Basic
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "from_value")
+    @Basic
+    @Column(name = "from_value", nullable = false)
     private Double fromValue;
 
-    @Column(name = "to_value")
+    @Basic
+    @Column(name = "to_value", nullable = false)
     private Double toValue;
 
     public QuantityEmotionEnity() {

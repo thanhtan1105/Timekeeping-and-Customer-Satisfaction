@@ -15,6 +15,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,7 +36,7 @@ public class AccountController {
     @Autowired
     private FaceServiceImpl faceService;
 
-    @RequestMapping(value = I_URI.API_CREATE, method = RequestMethod.POST)
+    @RequestMapping(value = I_URI.API_CREATE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse create(@ModelAttribute AccountModifyModel account) {
         try {
@@ -57,7 +58,7 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_UPDATE, method = RequestMethod.POST)
+    @RequestMapping(value = I_URI.API_UPDATE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse update(@ModelAttribute AccountModifyModel account) {
         try {
@@ -73,7 +74,7 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_DEACTIVE, method = RequestMethod.GET)
+    @RequestMapping(value = I_URI.API_DEACTIVE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse deactive(@RequestParam("accountId") Long accountId) {
         try {
@@ -88,7 +89,23 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_ACCOUNT_LIST_MANAGER, method = RequestMethod.GET)
+
+    @RequestMapping(value = I_URI.API_ACTIVE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public BaseResponse reActive(@RequestParam("accountId") Long accountId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            Pair<Boolean, String> response = accountService.reActive(accountId);
+            return new BaseResponse(response.getKey(), response.getValue());
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        }
+    }
+
+    @RequestMapping(value = I_URI.API_ACCOUNT_LIST_MANAGER, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse listManager() {
         try {
@@ -108,7 +125,7 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_GET, method = RequestMethod.GET)
+    @RequestMapping(value = I_URI.API_GET, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse get(@RequestParam("accountId") Long accountId) {
         try {
@@ -127,7 +144,7 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_LIST, method = RequestMethod.GET)
+    @RequestMapping(value = I_URI.API_LIST, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse search(@RequestParam(value = "start", required = false, defaultValue = IContanst.PAGE_PAGE) Integer page,
                                @RequestParam(value = "top", required = false, defaultValue = IContanst.PAGE_SIZE) Integer size) {
@@ -145,7 +162,7 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_ACCOUNT_SEARCH_DEPARTMENT, method = RequestMethod.GET)
+    @RequestMapping(value = I_URI.API_ACCOUNT_SEARCH_DEPARTMENT, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse searchByDepartment(@RequestParam(value = "departmentID") Long departmentID,
                                            @RequestParam(value = "start", required = false, defaultValue = IContanst.PAGE_PAGE) Integer start,
@@ -170,7 +187,7 @@ public class AccountController {
     }
 
 
-    @RequestMapping(value = I_URI.API_ACCOUNT_ADD_FACE, method = RequestMethod.POST)
+    @RequestMapping(value = I_URI.API_ACCOUNT_ADD_FACE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse addFaceToAccount(@RequestParam(value = "image") MultipartFile imageFile,
                                          @RequestParam(value = "accountId") Long accountId) {
@@ -190,7 +207,7 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_ACCOUNT_REMOVE_FACE, method = RequestMethod.GET)
+    @RequestMapping(value = I_URI.API_ACCOUNT_REMOVE_FACE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse removeFaceFromAccount(@RequestParam(value = "accountId") String accountId,
                                               @RequestParam(value = "faceId") String faceId) {
@@ -212,7 +229,7 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_ACCOUNT_LIST_FACE, method = RequestMethod.GET)
+    @RequestMapping(value = I_URI.API_ACCOUNT_LIST_FACE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse listFace(@RequestParam(value = "accountId") String accountId) {
         try {
@@ -232,7 +249,7 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_ACCOUNT_CHECK_IN, method = RequestMethod.POST)
+    @RequestMapping(value = I_URI.API_ACCOUNT_CHECK_IN, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse checkin(@RequestParam(value = "image") MultipartFile fileImg) {
         try {
@@ -246,7 +263,7 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_ACCOUNT_GET_REMINDER, method = RequestMethod.POST)
+    @RequestMapping(value = I_URI.API_ACCOUNT_GET_REMINDER, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BaseResponse getReminderOnDay(@RequestParam(value = "accountId") String accountId) {
         try {
             BaseResponse baseResponse = new BaseResponse();
@@ -263,7 +280,7 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_ACCOUNT_UPDATE_TOKEN_ONE_SIGNAL_ID_MOBILE, method = RequestMethod.POST)
+    @RequestMapping(value = I_URI.API_ACCOUNT_UPDATE_TOKEN_ONE_SIGNAL_ID_MOBILE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse updateTokenMobile(@RequestParam(value = "accountID") String accountID,
                                           @RequestParam(value = "tokenID") String tokenID) {
@@ -281,7 +298,7 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_ACCOUNT_LOGIN, method = RequestMethod.POST)
+    @RequestMapping(value = I_URI.API_ACCOUNT_LOGIN, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse login(@RequestParam(value = "username") String username,
                               @RequestParam(value = "password") String password) {
@@ -308,7 +325,7 @@ public class AccountController {
     }
 
 
-    @RequestMapping(value = I_URI.API_ACCOUNT_CHECK_EXIST_USERNAME, method = RequestMethod.GET)
+    @RequestMapping(value = I_URI.API_ACCOUNT_CHECK_EXIST_USERNAME, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse checkExistUsername(@RequestParam(value = "username") String username) {
         try {
@@ -324,7 +341,7 @@ public class AccountController {
 
     }
 
-    @RequestMapping(value = I_URI.API_ACCOUNT_CREATE_EMAIL, method = RequestMethod.GET)
+    @RequestMapping(value = I_URI.API_ACCOUNT_CREATE_EMAIL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse createEmail(@RequestParam(value = "fullName") String fullName) {
         try {

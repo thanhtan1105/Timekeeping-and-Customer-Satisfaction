@@ -25,26 +25,22 @@ public class CoordinateEntity implements Serializable {
     private String name;
 
     @Basic
-    @Column(name = "floor")
+    @Column(name = "floor", nullable = false, columnDefinition = "0")
     private Integer floor = 0;
 
     @Basic
-    @NotNull
-    @Column(name = "latitude")
+    @Column(name = "latitude", nullable = false, columnDefinition = "0")
     private Double latitude = 0d;
 
     @Basic
-    @NotNull
-    @Column(name = "longitude")
+    @Column(name = "longitude", nullable = false, columnDefinition = "0")
     private Double longitude = 0d;
 
     @Basic
-    @NotNull
     @Column(name = "minjor")
     private int minjor;
 
     @Basic
-    @NotNull
     @Column(name = "major")
     private int major;
 

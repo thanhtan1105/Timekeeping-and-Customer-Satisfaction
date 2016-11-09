@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.service.serviceImplement.HandlerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +27,7 @@ public class HandlerController {
     @Autowired
     HandlerServiceImpl handlerService;
 
-    @RequestMapping(I_URI.API_HANDLER_SYNCHONRINZE)
+    @RequestMapping(value = I_URI.API_HANDLER_SYNCHONRINZE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BaseResponse synchronize() {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -45,7 +46,7 @@ public class HandlerController {
         }
     }
 
-    @RequestMapping(I_URI.API_HANDLER_LIST_HISTORY)
+    @RequestMapping(value = I_URI.API_HANDLER_LIST_HISTORY, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BaseResponse listHistory() {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
