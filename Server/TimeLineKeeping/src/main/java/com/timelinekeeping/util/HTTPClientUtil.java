@@ -3,7 +3,7 @@ package com.timelinekeeping.util;
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.constant.IContanst;
-import com.timelinekeeping.constant.TIME_CONST;
+import com.timelinekeeping.constant.I_TIME;
 import com.timelinekeeping.modelMCS.ResponseErrorWrap;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -229,7 +229,7 @@ public class HTTPClientUtil {
             case JsonUtil.NORMAl_PARSER:
                 return JsonUtil.convertObject(dataResponse, classReturn);
             case JsonUtil.TIME_PARSER:
-                return JsonUtil.convertObject(dataResponse, classReturn, TIME_CONST.API_COGN_MICROSOFT_PER_GROUP_FORMAT_TIME);
+                return JsonUtil.convertObject(dataResponse, classReturn, I_TIME.API_COGN_MICROSOFT_PER_GROUP_FORMAT_TIME);
             case JsonUtil.LIST_PARSER:
                 return JsonUtil.convertListObject(dataResponse, classReturn);
             case JsonUtil.MAP_PARSER:
