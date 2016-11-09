@@ -31,58 +31,80 @@
         body {
             font-size: 17px;
         }
+
+        .font-login {
+            font-family: fantasy;
+            font-size: 37px;
+        }
     </style>
 </head>
 <body class="login-cover">
 <div class="page-container login-container">
     <div class="page-content">
         <div class="content-wrapper">
-            <div class="content">
-                <form th:action="@{/login/processing}" method="post"
-                      class="form-horizontal">
-                    <div class="panel panel-body login-form width-450">
-                        <div class="text-center">
-                            <div class="icon-object border-warning-400 text-warning-400"><i class="icon-reading"></i>
-                            </div>
-                            <h3 class="content-group text-semibold">TIMEKEEPING & <br/>CUSTOMER SATISFACTION</h3>
-                        </div>
-                        <div class="form-group has-feedback has-feedback-left">
-                            <label class="col-lg-3 control-label">Username:</label>
-                            <div class="col-lg-9">
-                                <input type="text" th:name="username"
-                                       class="form-control" style="font-size: 16px"/>
-                                <div class="form-control-feedback">
-                                    <i class="icon-user text-muted"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group has-feedback has-feedback-left">
-                            <label class="col-lg-3 control-label">Password:</label>
-                            <div class="col-lg-9">
-                                <input type="password" th:name="password"
-                                       class="form-control" style="font-size: 16px"/>
-                                <div class="form-control-feedback">
-                                    <i class="icon-lock2 text-muted"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group login-options">
-                            <div class="col-lg-3"></div>
-                            <div class="col-sm-6">
-                                <label class="checkbox-inline">
-                                    <input type="checkbox" class="styled" checked="checked">
-                                    Remember
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-10 col-md-offset-1">
-                                <button type="submit" class="btn bg-blue btn-block btn-lg">Sign In
-                                    <i class="icon-arrow-right14 position-right"></i></button>
-                            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-offset-1">
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <img class="img-circle" th:src="@{/img/logo.png}"
+                                 style="background-color: white; opacity: 0.97; width: 255px; height: auto"/>
                         </div>
                     </div>
-                </form>
+                    <div class="row">
+                        <div class="col-lg-12 text-center text-bold">
+                            <h3 class="content-group text-white" style="font-size: 30px">TIMEKEEPING & <br/>CUSTOMER
+                                SATISFACTION</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-offset-1">
+                    <div class="content">
+                        <form th:action="@{/login/processing}" method="post"
+                              class="form-horizontal">
+                            <div class="panel panel-body login-form width-450">
+                                <div class="text-center">
+                                    <h3 class="content-group text-info-700 font-login">LOGIN</h3>
+                                </div>
+                                <div class="form-group has-feedback has-feedback-left">
+                                    <label class="col-lg-3 control-label">Username:</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" th:name="username"
+                                               class="form-control" style="font-size: 16px"/>
+                                        <div class="form-control-feedback">
+                                            <i class="icon-user text-muted"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group has-feedback has-feedback-left">
+                                    <label class="col-lg-3 control-label">Password:</label>
+                                    <div class="col-lg-9">
+                                        <input type="password" th:name="password"
+                                               class="form-control" style="font-size: 16px"/>
+                                        <div class="form-control-feedback">
+                                            <i class="icon-lock2 text-muted"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group login-options">
+                                    <div class="col-lg-3"></div>
+                                    <div class="col-sm-6">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" class="styled" checked="checked">
+                                            Remember
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-3"></div>
+                                    <div class="col-lg-4">
+                                        <button type="submit" class="btn bg-blue btn-block btn-lg">Sign In
+                                            <i class="icon-arrow-right14 position-right"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
