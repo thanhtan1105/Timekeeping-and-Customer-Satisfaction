@@ -78,16 +78,16 @@
                 <table class="table">
                     <colgroup>
                         <col span="1" style="width: 5%;">
-                        <col span="1" style="width: 30%;">
                         <col span="1" style="width: 25%;">
-                        <col span="1" style="width: 35%;">
+                        <col span="1" style="width: 25%;">
+                        <col span="1" style="width: 40%;">
                         <col span="1" style="width: 5%;">
                     </colgroup>
                     <thead>
                     <tr>
                         <th>#</th>
                         <th>Name</th>
-                        <th>Total Present Days</th>
+                        <th class="text-center">Total Present Days</th>
                         <th>Note</th>
                         <th>Action</th>
                     </tr>
@@ -96,7 +96,7 @@
                     <tr th:each="employee,counter: ${TimekeepingResponseModel.listEmployee}">
                         <td th:text="${counter.count} + '.'"></td>
                         <td th:text="${employee.fullName}"></td>
-                        <td th:text="(${employee.dayCheckin != null} ? ${employee.dayCheckin}: 0 ) + '/' + ${employee.dayWork}"></td>
+                        <td class="text-center" th:text="(${employee.dayCheckin != null} ? ${employee.dayCheckin}: 0 )"></td>
                         <td>-</td>
                         <td>
                             <form th:action="@{/manager/timekeeping/details}" method="post"

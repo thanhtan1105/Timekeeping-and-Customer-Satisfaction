@@ -27,3 +27,8 @@ function formatDate(date) {
 
     return day + "/" + month + "/" + year + " (" + hourFormatted + ":" + minuteFormatted + ")";
 }
+
+/**
+ * Pattern time
+ */
+var full_month = '';
