@@ -2,6 +2,7 @@ package com.timelinekeeping.model;
 
 import com.timelinekeeping.constant.EStatusToDoTask;
 import com.timelinekeeping.entity.ToDoListEntity;
+import com.timelinekeeping.util.TimeUtil;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class ToDoListModifyModel {
     }
 
     public void setTimeNotify(Long timeNotify) {
+        timeNotify = TimeUtil.correctMilisecord(timeNotify);
         this.timeNotify = timeNotify;
     }
 
