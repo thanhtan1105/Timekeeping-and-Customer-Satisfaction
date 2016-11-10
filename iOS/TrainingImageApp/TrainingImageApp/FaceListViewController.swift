@@ -119,7 +119,7 @@ extension FaceListViewController: UICollectionViewDelegate, UICollectionViewData
     } else {
       let item = collectionView.dequeueReusableCellWithReuseIdentifier(FaceCollectionCell.ClassName, forIndexPath: indexPath) as! FaceCollectionCell
       let URL = NSURL(string: faceList[indexPath.item - 1].storePath)
-      item.faceImage.downloadedFrom(URL!)
+      item.faceImage.downloadedFrom(URL!, placeHolder: "placeholder")
       return item
     }      
   }

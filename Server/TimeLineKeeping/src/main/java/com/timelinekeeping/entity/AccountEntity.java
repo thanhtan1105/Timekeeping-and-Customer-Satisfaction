@@ -27,22 +27,19 @@ public class AccountEntity implements Serializable {
     private Long id;
 
     @Basic
-    @NotNull
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
     @Basic
-    @NotNull
     @Column(name = "user_code", nullable = false, unique = true)
     private String userCode;
 
     @Basic
-    @NotNull
     @Column(name = "password", nullable = false)
     private String password;
 
     @Basic
-    @Column(name = "full_name", length = Integer.MAX_VALUE, nullable = false)
+    @Column(name = "full_name", length = 1000, nullable = false)
     private String fullName;
 
     @Basic
@@ -54,11 +51,10 @@ public class AccountEntity implements Serializable {
     private String phone;
 
     @Basic
-    @Column(name = "address", length = 500)
+    @Column(name = "address", length = Integer.MAX_VALUE)
     private String address;
 
     @Basic
-    @NotNull
     @Column(name = "gender", nullable = false)
     private Gender gender;
 
@@ -67,12 +63,12 @@ public class AccountEntity implements Serializable {
     private String note;
 
     @Basic
-    @Column(name = "active")
+    @Column(name = "active", nullable = false)
     private EStatus active = EStatus.ACTIVE;
 
 
     @Basic
-    @Column(name = "token")
+    @Column(name = "token", length = 100)
     private String token;
 
     @Basic
@@ -129,7 +125,6 @@ public class AccountEntity implements Serializable {
             this.address = StringUtils.isNotEmpty(model.getAddress()) ? model.getAddress() : this.address;
             this.gender = model.getGender() != null ? model.getGender() : this.gender;
             this.note = StringUtils.isNotEmpty(model.getNote()) ? model.getNote() : this.note;
-
         }
     }
 

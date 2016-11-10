@@ -23,28 +23,23 @@ public class BeaconEntity {
     private Integer floor = 0;
 
     @Basic
-    @NotNull
     @Column(name = "latitude")
     private Double latitude = 0d;
 
     @Basic
-    @NotNull
     @Column(name = "longitude")
     private Double longitude = 0d;
 
     @Basic
-    @NotNull
-    @Column(name = "minjor")
+    @Column(name = "minjor", nullable = false)
     private int minjor;
 
     @Basic
-    @NotNull
-    @Column(name = "major")
+    @Column(name = "major", nullable = false)
     private int major;
 
     @Basic
-    @NotNull
-    @Column(name = "area_name")
+    @Column(name = "area_name", length = 1000)
     private String areaName;
 
     public Long getId() {

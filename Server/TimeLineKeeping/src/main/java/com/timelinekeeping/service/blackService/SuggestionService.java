@@ -44,22 +44,14 @@ public class SuggestionService {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             ESuggestionSubject result = ESuggestionSubject.ANH;
-            if (age < 20) {
+            if (age < 10) {
                 result = ESuggestionSubject.EM;
-            } else if (age < 35) {
-                if (gender == Gender.FEMALE) {
-                    result = ESuggestionSubject.CHI;
-                } else {
-                    result = ESuggestionSubject.ANH;
-                }
-            } else if (age < 50) {
-                if (gender == Gender.FEMALE) {
-                    result = ESuggestionSubject.CO;
-                } else {
-                    result = ESuggestionSubject.CHU;
-                }
-            } else if (age < 65) {
-                result = ESuggestionSubject.BAC;
+//            } else if (age < 55) {
+//                if (gender == Gender.FEMALE) {
+//                    result = ESuggestionSubject.CHI;
+//                } else {
+//                    result = ESuggestionSubject.ANH;
+//                }
             } else {
                 if (gender == Gender.FEMALE) {
                     result = ESuggestionSubject.BA;
@@ -148,9 +140,9 @@ public class SuggestionService {
                         result = String.format(IContanst.SUGGESTION_BOTH_1_1_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(negative.get(0)));
                     } else if (positive.size() > 1 && positive.size() > negative.size()) {
                         result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(positive.get(1)), getEmotion(negative.get(0)));
-                    } else if (negative.size() >1 ){
+                    } else if (negative.size() > 1) {
                         result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(negative.get(0)), getEmotion(negative.get(1)));
-                    }else {
+                    } else {
                         logger.error("--%%%%% -- It out our parttern.");
                         logger.info("Positive: " + JsonUtil.toJson(positive));
                         logger.info("Negative: " + JsonUtil.toJson(negative));
@@ -172,7 +164,7 @@ public class SuggestionService {
 
             // get from database
             //TODO add many emotion
-            Page<EmotionContentEntity> pageContent = emotionContentRepo.getEmotionContent(emotion, null, null, new PageRequest(IContanst.PAGE_PAGE_I, IContanst.PAGE_SIZE_CONTENT));
+            Page<EmotionContentEntity> pageContent = emotionContentRepo.getEmotionContent(emotion, null, null, null, null, new PageRequest(IContanst.PAGE_PAGE_I, IContanst.PAGE_SIZE_CONTENT));
             List<EmotionContentModel> modelContents = new ArrayList<>();
             if (pageContent != null && pageContent.getContent() != null && pageContent.getContent().size() > 0) {
                 for (EmotionContentEntity entity : pageContent.getContent()) {

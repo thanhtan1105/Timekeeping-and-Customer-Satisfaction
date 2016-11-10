@@ -137,6 +137,20 @@ class APIRequest: NSObject {
 
     webservice_GET(url, params: dataSent, headersParams: header, completion: onCompletion)
   }
+  
+  func createTask(title: String, timeNotify: String, accountId: String, onCompletion: ServiceResponse) {
+    let url = http + urlCreateTask
+    let header = [
+      "Content-Type" : "application/json",
+    ]
+    
+    let dataSent = [
+      "title": title,
+      "timeNotify": timeNotify,
+      "accountId": accountId
+    ]
+    webservice_POST(url, params: dataSent, headersParams: header, completion: onCompletion)
+  }
 }
 
 // MARK: - Private method

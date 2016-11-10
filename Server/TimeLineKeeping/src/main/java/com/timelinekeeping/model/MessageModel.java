@@ -6,6 +6,7 @@ import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.entity.MessageEntity;
+import com.timelinekeeping.util.ServiceUtils;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class MessageModel {
         if (emotionCustomerEntity != null) {
             this.ageOfFace = emotionCustomerEntity.getAge();
             this.gender = emotionCustomerEntity.getGender();
-            this.predict = String.format("%s - %s", (int)(ageOfFace - IContanst.AGE_AMOUNT), (int)(ageOfFace + IContanst.AGE_AMOUNT));
+            this.predict = ServiceUtils.convertAgePredict(this.ageOfFace);
         }
     }
 

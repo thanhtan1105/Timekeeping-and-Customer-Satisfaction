@@ -14,6 +14,7 @@ import com.timelinekeeping.util.JsonUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class DepartmentController {
     private DepartmentServiceImpl departmentService;
 
 
-    @RequestMapping(value = {I_URI.API_LIST}, method = RequestMethod.GET)
+    @RequestMapping(value = {I_URI.API_LIST}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse findAll(@RequestParam("start") int start,
                                 @RequestParam("top") int top) {
@@ -48,7 +49,7 @@ public class DepartmentController {
         }
     }
 
-    @RequestMapping(value = {I_URI.API_LIST_DEPARTMENT}, method = RequestMethod.GET)
+    @RequestMapping(value = {I_URI.API_LIST_DEPARTMENT}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse listDepartment() {
         try {
@@ -68,7 +69,7 @@ public class DepartmentController {
         }
     }
 
-    @RequestMapping(value = {I_URI.API_SEARCH}, method = RequestMethod.GET)
+    @RequestMapping(value = {I_URI.API_SEARCH}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse search(@RequestParam(name = "code", required = false) String code,
                                @RequestParam(name = "name", required = false) String name,
@@ -92,7 +93,7 @@ public class DepartmentController {
     }
 
 
-    @RequestMapping(value = {I_URI.API_GET}, method = RequestMethod.GET)
+    @RequestMapping(value = {I_URI.API_GET}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse get(@RequestParam(value = "id") Long departmentId) {
         try {
@@ -112,7 +113,7 @@ public class DepartmentController {
         }
     }
 
-    @RequestMapping(value = {I_URI.API_CREATE}, method = RequestMethod.POST)
+    @RequestMapping(value = {I_URI.API_CREATE}, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse create(@ModelAttribute DepartmentModifyModel department) {
         try {
@@ -129,7 +130,7 @@ public class DepartmentController {
         }
     }
 
-    @RequestMapping(value = {I_URI.API_UPDATE}, method = RequestMethod.POST)
+    @RequestMapping(value = {I_URI.API_UPDATE}, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse update(@ModelAttribute DepartmentModifyModel department) {
         try {
@@ -147,7 +148,7 @@ public class DepartmentController {
         }
     }
 
-    @RequestMapping(value = {I_URI.API_DELETE}, method = RequestMethod.GET)
+    @RequestMapping(value = {I_URI.API_DELETE}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse delete(@RequestParam("id") Long departmentId) {
         try {
@@ -168,7 +169,7 @@ public class DepartmentController {
      * OTHER
      */
 
-    @RequestMapping(value = {I_URI.API_DEPARTMENT_TRAINING}, method = RequestMethod.GET)
+    @RequestMapping(value = {I_URI.API_DEPARTMENT_TRAINING}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse training(@RequestParam("departmentId") String departmentId) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -187,7 +188,7 @@ public class DepartmentController {
         }
     }
 
-    @RequestMapping(value = {I_URI.API_DEPARTMENT_EXIST}, method = RequestMethod.GET)
+    @RequestMapping(value = {I_URI.API_DEPARTMENT_EXIST}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse checkExistCode(@RequestParam("code") String code) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());

@@ -1,3 +1,4 @@
+
 package com.timelinekeeping.util;
 
 import org.apache.log4j.Logger;
@@ -54,15 +55,12 @@ public class TimeUtil {
         return YearMonth.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);
     }
 
-    public static void main(String[] args) {
-        String text = "2016-11-08 09:30 AM";
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
-        Date date = null;
-        try {
-            date = format.parse(text);
-        } catch (ParseException e) {
-            e.printStackTrace();
+    public static Long correctMilisecord(Long time) {
+        if (String.valueOf(new Date().getTime()).length() > String.valueOf(time).length()) {
+            return time * 1000;
+        } else {
+            return time;
         }
-        System.out.println("Date: " + date);
     }
+
 }
