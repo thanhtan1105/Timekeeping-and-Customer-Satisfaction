@@ -11,6 +11,7 @@ import com.timelinekeeping.model.ToDoListModifyModel;
 import com.timelinekeeping.service.serviceImplement.TodoListServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class TodoListController {
     TodoListServiceImpl todoListService;
 
     // TO DO List
-    @RequestMapping(value = I_URI.API_TODOLIST_GET, method = RequestMethod.GET)
+    @RequestMapping(value = I_URI.API_TODOLIST_GET, method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BaseResponse get(@RequestParam(value = "month") String month,
                             @RequestParam(value = "year") String year,
                             @RequestParam(value = "day") String day,
@@ -67,7 +68,7 @@ public class TodoListController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_CREATE, method = RequestMethod.POST)
+    @RequestMapping(value = I_URI.API_CREATE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BaseResponse create(@RequestParam(value = "title") String title,
                                @RequestParam(value = "timeNotify") String timeNotify,
                                @RequestParam(value = "accountId") String accountId) {
@@ -91,7 +92,7 @@ public class TodoListController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_UPDATE, method = RequestMethod.POST)
+    @RequestMapping(value = I_URI.API_UPDATE, method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BaseResponse update(@ModelAttribute ToDoListModifyModel modifyModel) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -109,7 +110,7 @@ public class TodoListController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_DELETE, method = RequestMethod.GET)
+    @RequestMapping(value = I_URI.API_DELETE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BaseResponse delete(@RequestParam("id") Long todoId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());

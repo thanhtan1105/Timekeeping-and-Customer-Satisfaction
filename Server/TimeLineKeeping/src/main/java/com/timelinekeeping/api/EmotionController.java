@@ -16,6 +16,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,7 +43,7 @@ public class EmotionController {
     @Autowired
     private SuggestionService suggestionService;
 
-    @RequestMapping(value = I_URI.API_EMOTION_GET_EMOTION)
+    @RequestMapping(value = I_URI.API_EMOTION_GET_EMOTION, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse getEmotion(@RequestParam(I_URI.PARAMETER_EMOTION_ACCOUNT_ID) Long accountId) {
         try {
@@ -77,7 +78,7 @@ public class EmotionController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_EMOTION_GET_IMAGE)
+    @RequestMapping(value = I_URI.API_EMOTION_GET_IMAGE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse getImage(@RequestParam(I_URI.PARAMETER_EMOTION_ACCOUNT_ID) Long accountId) {
         try {
@@ -109,7 +110,7 @@ public class EmotionController {
         }
     }
 
-    @RequestMapping(value = "testSuggestEmotion", method = RequestMethod.POST)
+    @RequestMapping(value = "testSuggestEmotion", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BaseResponse testGetSuggestEmotion(@RequestParam("image") MultipartFile imageFile) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         try {
@@ -134,7 +135,7 @@ public class EmotionController {
 
     }
 
-    @RequestMapping(value = I_URI.API_EMOTION_UPLOAD_IMAGE, method = RequestMethod.POST)
+    @RequestMapping(value = I_URI.API_EMOTION_UPLOAD_IMAGE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse uploadImage(@RequestParam(I_URI.PARAMETER_EMOTION_ACCOUNT_ID) Long accountId,
                                     @RequestParam("image") MultipartFile imageFile,
@@ -202,7 +203,7 @@ public class EmotionController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_EMOTION_NEXT_TRANSACTION)
+    @RequestMapping(value = I_URI.API_EMOTION_NEXT_TRANSACTION, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse nextTransaction(@RequestParam(I_URI.PARAMETER_EMOTION_ACCOUNT_ID) Long accountId,
                                         @RequestParam(value = "skip", required = false) Boolean isSkip) {
@@ -242,7 +243,7 @@ public class EmotionController {
     }
 
 
-    @RequestMapping(value = {I_URI.API_EMOTION_REPORT}, method = RequestMethod.POST)
+    @RequestMapping(value = {I_URI.API_EMOTION_REPORT}, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse reportEmotion(@RequestParam("year") Integer year,
                                       @RequestParam("month") Integer month,
@@ -266,7 +267,7 @@ public class EmotionController {
         }
     }
 
-    @RequestMapping(value = {I_URI.API_EMOTION_REPORT_EMPLOYEE}, method = RequestMethod.POST)
+    @RequestMapping(value = {I_URI.API_EMOTION_REPORT_EMPLOYEE}, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse reportEmotion(@RequestParam("year") Integer year,
                                       @RequestParam("month") Integer month,
@@ -289,7 +290,7 @@ public class EmotionController {
         }
     }
 
-    @RequestMapping(value = {I_URI.API_EMOTION_VOTE}, method = RequestMethod.GET)
+    @RequestMapping(value = {I_URI.API_EMOTION_VOTE}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse reportEmotion(@RequestParam("content_id") Long contentId) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());

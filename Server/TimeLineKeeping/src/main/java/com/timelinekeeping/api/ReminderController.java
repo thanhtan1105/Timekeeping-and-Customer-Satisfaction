@@ -10,6 +10,7 @@ import com.timelinekeeping.service.serviceImplement.ReminderServiceImpl;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -24,7 +25,7 @@ public class ReminderController {
 
     private Logger logger = LogManager.getLogger(ReminderController.class);
 
-    @RequestMapping(value = {I_URI.API_REMINDER_LIST_MANAGER}, method = RequestMethod.GET)
+    @RequestMapping(value = {I_URI.API_REMINDER_LIST_MANAGER}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse listByManager(@RequestParam(value = "start", required = false, defaultValue = IContanst.PAGE_PAGE) int start,
                                       @RequestParam(value = "top", required = false, defaultValue = IContanst.PAGE_SIZE) int top,
@@ -40,7 +41,7 @@ public class ReminderController {
         }
     }
 
-    @RequestMapping(value = {I_URI.API_GET}, method = RequestMethod.GET)
+    @RequestMapping(value = {I_URI.API_GET}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse get(@RequestParam(value = "id") Long reminderId) {
         try {
@@ -60,7 +61,7 @@ public class ReminderController {
         }
     }
 
-    @RequestMapping(value = {I_URI.API_CREATE}, method = RequestMethod.POST)
+    @RequestMapping(value = {I_URI.API_CREATE}, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse create(@ModelAttribute ReminderModifyModel reminderModel) {
         try {
@@ -74,7 +75,7 @@ public class ReminderController {
         }
     }
 
-    @RequestMapping(value = {I_URI.API_UPDATE}, method = RequestMethod.POST)
+    @RequestMapping(value = {I_URI.API_UPDATE}, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse update(@ModelAttribute ReminderModifyModel reminderModel) {
         try {
@@ -89,7 +90,7 @@ public class ReminderController {
     }
 
 
-    @RequestMapping(value = {I_URI.API_DELETE}, method = RequestMethod.GET)
+    @RequestMapping(value = {I_URI.API_DELETE}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse delete(@RequestParam("reminderId") Long reminderId) {
         try {
@@ -104,7 +105,7 @@ public class ReminderController {
         }
     }
 
-    @RequestMapping(value = {I_URI.API_SEARCH}, method = RequestMethod.GET)
+    @RequestMapping(value = {I_URI.API_SEARCH}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse search(@RequestParam(value = "start", required = false, defaultValue = IContanst.PAGE_PAGE) int start,
                                @RequestParam(value = "top", required = false, defaultValue = IContanst.PAGE_SIZE) int top,
@@ -121,7 +122,7 @@ public class ReminderController {
         }
     }
 
-    @RequestMapping(value = {I_URI.API_SEARCH_ADV}, method = RequestMethod.POST)
+    @RequestMapping(value = {I_URI.API_SEARCH_ADV}, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse search(@RequestParam(value = "start", required = false, defaultValue = IContanst.PAGE_PAGE) int start,
                                @RequestParam(value = "top", required = false, defaultValue = IContanst.PAGE_SIZE) int top,
@@ -138,7 +139,7 @@ public class ReminderController {
         }
     }
 
-    @RequestMapping(value = {I_URI.API_REMINDER_AUTO_COMPLETE}, method = RequestMethod.GET)
+    @RequestMapping(value = {I_URI.API_REMINDER_AUTO_COMPLETE}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse autoComplete(@RequestParam(value = "title") String title,
                                      @RequestParam(value = "managerId") Long managerId) {
