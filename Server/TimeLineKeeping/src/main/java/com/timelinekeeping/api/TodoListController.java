@@ -50,8 +50,7 @@ public class TodoListController {
         }
     }
 
-
-    @RequestMapping(value = I_URI.API_TODOLIST_SELECT_TASK, method = RequestMethod.GET)
+    @RequestMapping(value = I_URI.API_TODOLIST_SELECT_TASK, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BaseResponse selectTask(@RequestParam(value = "id") String taskId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
