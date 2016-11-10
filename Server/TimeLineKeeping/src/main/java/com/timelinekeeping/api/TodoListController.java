@@ -30,7 +30,7 @@ public class TodoListController {
     TodoListServiceImpl todoListService;
 
     // TO DO List
-    @RequestMapping(value = I_URI.API_TODOLIST_GET, method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = I_URI.API_TODOLIST_GET, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BaseResponse get(@RequestParam(value = "month") String month,
                             @RequestParam(value = "year") String year,
                             @RequestParam(value = "day") String day,
