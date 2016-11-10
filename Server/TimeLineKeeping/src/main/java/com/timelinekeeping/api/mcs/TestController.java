@@ -1,6 +1,7 @@
 package com.timelinekeeping.api.mcs;
 
 import com.timelinekeeping.constant.EEmotion;
+import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.EmotionContentEntity;
@@ -104,9 +105,11 @@ public class TestController {
     @RequestMapping("/emotion_content")
     public Page<EmotionContentEntity> getEmotionContent(@RequestParam(value = "first") EEmotion first,
                                                         @RequestParam(value = "second", required = false) EEmotion second,
-                                                        @RequestParam(value = "third", required = false) EEmotion third) {
+                                                        @RequestParam(value = "third", required = false) EEmotion third,
+                                                        @RequestParam(value = "age", required = false) Double age,
+                                                        @RequestParam(value = "gender", required = false) Gender gender) {
 
-        return emotionContentRepo.getEmotionContent(first, second, third, new PageRequest(IContanst.PAGE_PAGE_I, IContanst.PAGE_SIZE_CONTENT));
+        return emotionContentRepo.getEmotionContent(first, second, third,age, gender, new PageRequest(IContanst.PAGE_PAGE_I, IContanst.PAGE_SIZE_CONTENT));
     }
 
 }
