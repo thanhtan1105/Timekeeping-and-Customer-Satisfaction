@@ -69,12 +69,12 @@ public class TodoListController {
 
     @RequestMapping(value = I_URI.API_CREATE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BaseResponse create(@RequestParam(value = "title") String title,
-                               @RequestParam(value = "timeNotify") String timeNotify,
+                               @RequestParam(value = "timeNotify") Long timeNotify,
                                @RequestParam(value = "accountId") String accountId) {
         try {
             ToDoListModifyModel toDoListModifyModel = new ToDoListModifyModel();
             toDoListModifyModel.setAccountCreated(Long.parseLong(accountId));
-            toDoListModifyModel.setTimeNotify(Long.parseLong(timeNotify));
+            toDoListModifyModel.setTimeNotify(timeNotify);
             toDoListModifyModel.setTitle(title);
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             Pair<Boolean, String> result = todoListService.create(toDoListModifyModel);
