@@ -9,7 +9,7 @@ public enum ETypeCheckin {
 
     CHECKIN_CAMERA(0, "Checkin Camera"),
     CHECKIN_MANUAL(1, "Checkin Manual"),
-    AUTO_HANDLER(1, "Auto Handler");;
+    AUTO_HANDLER(2, "Auto Handler");;
 
     private int index;
     private String name;
