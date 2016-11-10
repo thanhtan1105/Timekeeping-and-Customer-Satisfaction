@@ -7,7 +7,7 @@
     <meta charset="UTF-8"/>
     <title>Customer Emotion</title>
 </head>
-<body onload="worker_get_emotion()">
+<body onload="load_page()">
 <div layout:fragment="content" >
     <!-- Main content -->
     <section class="content font-17">
@@ -152,6 +152,11 @@
             </div>
         </div>
         <!-- /.end loader -->
+        <div th:id="'div-not-get-emotion'" style="display: none">
+            <div class="row text-center">
+                <font>Không thể lấy cảm xúc khách hàng.<br/> Xin vui lòng thử lại.</font>
+            </div>
+        </div>
 
     </section>
     <!-- /.content -->

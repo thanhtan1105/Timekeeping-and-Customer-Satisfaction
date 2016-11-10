@@ -10,14 +10,21 @@ var nextAngle = 0;
 var isFirst = true;
 
 /**
+ * Fc: load page
+ */
+function load_page() {
+    //set isFirst = true;
+    isFirst = true;
+
+    //call request: load page
+    worker_get_emotion();
+}
+
+/**
  * Event: next transaction
  */
 $('#btn-next-transaction').on('click', function () {
     console.info('Running btn next');
-    //set isFirst = true;
-    isFirst = true;
-    //reset html
-
     //disable button next
     event_disabled('#btn-next-transaction', true);
     //disable button skip
@@ -36,10 +43,6 @@ $('#btn-next-transaction').on('click', function () {
  */
 $('#btn-skip-transaction').on('click', function () {
     console.info('Running btn skip');
-    //set isFirst = true;
-    isFirst = true;
-    //reset html
-
     //disable button next
     event_disabled('#btn-next-transaction', true);
     //disable button skip
@@ -141,7 +144,7 @@ function worker_next_transaction(isSkip) {
                 customerCode = response.data;
                 if (customerCode != null) {
                     //call request: load page
-                    worker_get_emotion();
+                    load_page();
                 }
             } else {
                 alert(response.data);
