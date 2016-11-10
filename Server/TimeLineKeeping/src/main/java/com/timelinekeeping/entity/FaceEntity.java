@@ -18,7 +18,7 @@ public class FaceEntity  implements Serializable {
     private Long id;
 
     @Basic
-    @Column(name = "persisted_face_id", nullable = false, unique = true)
+    @Column(name = "persisted_face_id", length = 100, nullable = false, unique = true)
     private String persistedFaceId;
 
 

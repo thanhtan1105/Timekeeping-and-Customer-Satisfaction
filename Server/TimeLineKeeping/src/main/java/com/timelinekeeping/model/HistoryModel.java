@@ -29,7 +29,7 @@ public class HistoryModel {
             this.id = entity.getId();
             this.name = entity.getName();
             this.time = entity.getTime();
-            this.note = entity.getNode();
+            this.note = entity.getNote();
             this.type = entity.getType();
         }
     }
