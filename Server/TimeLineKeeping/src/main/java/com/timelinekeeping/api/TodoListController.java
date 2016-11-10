@@ -30,7 +30,7 @@ public class TodoListController {
     TodoListServiceImpl todoListService;
 
     // TO DO List
-    @RequestMapping(value = I_URI.API_TODOLIST_GET, method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = I_URI.API_TODOLIST_GET, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BaseResponse get(@RequestParam(value = "month") String month,
                             @RequestParam(value = "year") String year,
                             @RequestParam(value = "day") String day,
@@ -69,12 +69,12 @@ public class TodoListController {
 
     @RequestMapping(value = I_URI.API_CREATE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BaseResponse create(@RequestParam(value = "title") String title,
-                               @RequestParam(value = "timeNotify") String timeNotify,
+                               @RequestParam(value = "timeNotify") Long timeNotify,
                                @RequestParam(value = "accountId") String accountId) {
         try {
             ToDoListModifyModel toDoListModifyModel = new ToDoListModifyModel();
             toDoListModifyModel.setAccountCreated(Long.parseLong(accountId));
-            toDoListModifyModel.setTimeNotify(Long.parseLong(timeNotify));
+            toDoListModifyModel.setTimeNotify(timeNotify);
             toDoListModifyModel.setTitle(title);
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             Pair<Boolean, String> result = todoListService.create(toDoListModifyModel);

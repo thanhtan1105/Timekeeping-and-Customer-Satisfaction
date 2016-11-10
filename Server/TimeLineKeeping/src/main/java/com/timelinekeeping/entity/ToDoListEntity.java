@@ -58,7 +58,7 @@ public class ToDoListEntity implements Serializable {
         if (modifyModel != null) {
             this.title = modifyModel.getTitle();
             this.message = modifyModel.getMessage();
-            this.timeNotify = new Timestamp(modifyModel.getTimeNotify() * 1000);
+            this.timeNotify = new Timestamp(modifyModel.getTimeNotify());
         }
     }
 

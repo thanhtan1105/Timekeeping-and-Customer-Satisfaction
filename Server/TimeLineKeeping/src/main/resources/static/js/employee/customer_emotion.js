@@ -13,6 +13,11 @@ var isFirst = true;
  * Event: next transaction
  */
 $('#btn-next-transaction').on('click', function () {
+    console.info('Running btn next');
+    //set isFirst = true;
+    isFirst = true;
+    //reset html
+
     //disable button next
     event_disabled('#btn-next-transaction', true);
     //disable button skip
@@ -31,6 +36,10 @@ $('#btn-next-transaction').on('click', function () {
  */
 $('#btn-skip-transaction').on('click', function () {
     console.info('Running btn skip');
+    //set isFirst = true;
+    isFirst = true;
+    //reset html
+
     //disable button next
     event_disabled('#btn-next-transaction', true);
     //disable button skip
@@ -87,8 +96,6 @@ function worker_get_emotion() {
                 //enable button skip
                 event_disabled('#btn-skip-transaction', false);
 
-                //set overview customer emotion
-                set_content_overview_customer_emotion(age_predict, gender, awsUrl, emotionExist, customer_emotion_msg, suggestions);
                 if (isFirst) {
                     //set content
                     //set isFirst = false;
@@ -319,12 +326,14 @@ function set_image_customer(awsUrl) {
  */
 function set_ratios_emotion(emotionExist) {
     var $font_ratios_emotion = $('#font-ratios-emotion'),
-        content_ratios_emotion = '';
+        content_ratios_emotion = '',
+        formt_number;
     //set content
     if (emotionExist != null && emotionExist.length > 0) {
         content_ratios_emotion += '(';
         for (var i = 0; i < emotionExist.length; i++) {
-            content_ratios_emotion += emotionExist[i].percent + '% ' +
+            formt_number = Math.round(emotionExist[i].percent);
+            content_ratios_emotion += formt_number + '% ' +
                 emotionExist[i].emotionName;
             if (i != (emotionExist.length - 1)) {
                 content_ratios_emotion += ', ';
