@@ -164,7 +164,7 @@ public class SuggestionService {
 
             // get from database
             //TODO add many emotion
-            Page<EmotionContentEntity> pageContent = emotionContentRepo.getEmotionContent(emotion, null, null, new PageRequest(IContanst.PAGE_PAGE_I, IContanst.PAGE_SIZE_CONTENT));
+            Page<EmotionContentEntity> pageContent = emotionContentRepo.getEmotionContent(emotion, null, null, null, null, new PageRequest(IContanst.PAGE_PAGE_I, IContanst.PAGE_SIZE_CONTENT));
             List<EmotionContentModel> modelContents = new ArrayList<>();
             if (pageContent != null && pageContent.getContent() != null && pageContent.getContent().size() > 0) {
                 for (EmotionContentEntity entity : pageContent.getContent()) {
