@@ -7,6 +7,7 @@ import com.timelinekeeping.model.RoleModel;
 import com.timelinekeeping.service.serviceImplement.RoleServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,7 +27,7 @@ public class RoleController {
     @Autowired
     private RoleServiceImpl roleService;
 
-    @RequestMapping(value = {I_URI.API_LIST_ROLE}, method = RequestMethod.GET)
+    @RequestMapping(value = {I_URI.API_LIST_ROLE}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public BaseResponse listDepartment() {
         try {

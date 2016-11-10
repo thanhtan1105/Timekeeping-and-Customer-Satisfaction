@@ -9,6 +9,7 @@ import com.timelinekeeping.service.serviceImplement.BeaconServiceImpl;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +30,7 @@ public class BeaconController {
     @Autowired
     private BeaconAlgorithm algorithm;
 
-    @RequestMapping(I_URI.API_BEACON_GET_BEACON_POINT)
+    @RequestMapping(value = I_URI.API_BEACON_GET_BEACON_POINT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BaseResponse getBeaconPoint() {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -42,7 +43,7 @@ public class BeaconController {
         }
     }
 
-    @RequestMapping(I_URI.API_BEACON_FIND_PATH)
+    @RequestMapping(value = I_URI.API_BEACON_FIND_PATH, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BaseResponse findMinPath(@RequestParam("from") String beginVertex,
                                     @RequestParam("to") String endVertex) {
         try {
