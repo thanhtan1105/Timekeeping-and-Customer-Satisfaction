@@ -42,6 +42,7 @@ public class TodoListServiceImpl {
 
             // convert list
             List<ToDoListEntity> list = toDoListRepo.findByToDoListOnMonth(accountId, month, year, day);
+//            List<ToDoListEntity> list = toDoListRepo.findByToDoListOnMonth(accountId, month, day);
             List<ToDoListModel> returnValue = list.stream().map(ToDoListModel::new).collect(Collectors.toList());
             return returnValue;
         } finally {
