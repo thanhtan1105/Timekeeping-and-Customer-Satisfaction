@@ -64,6 +64,8 @@ public interface IContanst {
     String TIME_CHECK_IN_SYSTEM_START = AppConfigKeys.getInstance().getApiPropertyValue("checkin.time.system.start");
     String TIME_CHECK_IN_SYSTEM_END = AppConfigKeys.getInstance().getApiPropertyValue("checkin.time.system.end");
 
+    String TIME_SYSTEM_EXCEPT = AppConfigKeys.getInstance().getApiPropertyValue("time.system.except");
+
     // emotion minimun
     double EXCEPTION_VALUE = 0.15;
 
