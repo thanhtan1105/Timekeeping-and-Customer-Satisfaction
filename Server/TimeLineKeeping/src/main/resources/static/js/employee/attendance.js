@@ -14,3 +14,11 @@ $('.selected-date').on('change', function() {
     // submit form
     $form_submit_change_month.submit();
 });
+
+//Date picker
+$('#date-picker-attendance').datepicker({
+    format: "MM-yyyy",
+    viewMode: "months",
+    minViewMode: "months",
+    autoclose: true
+});
