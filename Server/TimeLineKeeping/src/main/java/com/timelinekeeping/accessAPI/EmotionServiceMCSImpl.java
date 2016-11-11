@@ -66,7 +66,7 @@ public class EmotionServiceMCSImpl {
             URIBuilder builder = new URIBuilder(url)
                     .addParameter("faceRectangles", ractangle.toFaceRectangle());
 //            url = String.format("%s?%s=%s", url, "faceRectangles", ractangle.toFaceRectangle());
-
+            logger.info("url: " + builder.build());
             /** entity*/
             byte[] byteEntity = IOUtils.toByteArray(inputStreamImg);
 //            logger.info("json Entity: " + jsonEntity);

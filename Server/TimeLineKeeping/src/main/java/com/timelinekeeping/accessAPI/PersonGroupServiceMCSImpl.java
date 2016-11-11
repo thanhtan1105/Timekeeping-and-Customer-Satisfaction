@@ -37,6 +37,8 @@ public class PersonGroupServiceMCSImpl {
             logger.info(IContanst.BEGIN_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
             String urlString = String.format("%s/%s", rootPath, groupId);
 
+            logger.info("url: " + urlString);
+
             /** entity*/
             Map<String, String> entity = new HashMap<String, String>();
             entity.put("name", groupName);
@@ -57,6 +59,8 @@ public class PersonGroupServiceMCSImpl {
             URIBuilder builder = new URIBuilder(urlString)
                     .addParameter("start", String.valueOf(start))
                     .addParameter("top", String.valueOf(top));
+
+            logger.info("url: " + builder.build());
             return HTTPClientUtil.getInstanceFace().toGet(builder.build(), JsonUtil.LIST_PARSER, PersonGroup.class);
         } finally {
             logger.info(IContanst.END_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -67,8 +71,12 @@ public class PersonGroupServiceMCSImpl {
         try {
             logger.info(IContanst.BEGIN_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
             String urlString = rootPath;
+
+
             String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.person.addition");
             String url = String.format("%s/%s/%s", urlString, personGroupId, urlAddition);
+
+            logger.info("url: " + url);
             return HTTPClientUtil.getInstanceFace().toPost(url);
         } finally {
             logger.info(IContanst.END_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -82,6 +90,7 @@ public class PersonGroupServiceMCSImpl {
             String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.train.status.addition");
             String url = String.format("%s/%s/%s", urlString, personGroupId, urlAddition);
 
+            logger.info("url: " + url);
             return HTTPClientUtil.getInstanceFace().toGet(url, JsonUtil.TIME_PARSER, PersonGroupTrainingStatus.class);
         } finally {
             logger.info(IContanst.END_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
