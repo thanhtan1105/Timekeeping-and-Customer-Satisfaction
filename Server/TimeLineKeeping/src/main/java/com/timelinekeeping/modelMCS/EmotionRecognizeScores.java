@@ -113,6 +113,7 @@ public class EmotionRecognizeScores {
 
     public void competitiveEmotion() {
 
+        // anger + happy
         if (anger > 0 && happiness > 0) {
             double value = anger * EEmotion.ANGER.getGrade() + happiness * EEmotion.HAPPINESS.getGrade();
             if (value < 0) {
@@ -124,6 +125,7 @@ public class EmotionRecognizeScores {
             }
         }
 
+        // sadness happiness
         if (sadness > 0 && happiness > 0) {
             double value = sadness * EEmotion.SADNESS.getGrade() + happiness * EEmotion.HAPPINESS.getGrade();
             if (value < 0) {
@@ -134,6 +136,17 @@ public class EmotionRecognizeScores {
                 this.sadness = 0d;
             }
         }
+
+        // nature
+        if (anger > neutral) anger = anger - neutral;
+        if (contempt > neutral) contempt = contempt - neutral;
+        if (disgust > neutral) disgust = disgust - neutral;
+        if (fear > neutral) fear = fear - neutral;
+        if (happiness > neutral) happiness = happiness - neutral;
+        if (neutral > neutral) neutral = neutral - neutral;
+        if (sadness < neutral) sadness = sadness - neutral;
+        if (surprise > neutral) surprise = surprise - neutral;
+
 
     }
 

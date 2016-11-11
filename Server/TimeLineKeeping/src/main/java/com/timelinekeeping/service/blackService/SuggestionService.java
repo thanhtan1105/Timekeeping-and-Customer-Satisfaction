@@ -44,7 +44,7 @@ public class SuggestionService {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             ESuggestionSubject result = ESuggestionSubject.ANH;
-            if (age < 10) {
+            if (age < 20) {
                 result = ESuggestionSubject.EM;
 //            } else if (age < 55) {
 //                if (gender == Gender.FEMALE) {
@@ -64,6 +64,7 @@ public class SuggestionService {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
+
 
 
     public String getEmotion(EmotionCompare emotionCompare) {
@@ -103,7 +104,7 @@ public class SuggestionService {
                 result = "";
             } else if (emotionCompares.size() == 1) {
                 // single time
-                result = String.format(IContanst.SUGGESTION_1_EMOTION, subject.getName(), getEmotion(emotionCompares.get(0)));
+                result = String.format(IContanst.SUGGESTION_1_EMOTION, subject.getName(), emotionCompares.get(0).getEmotionName());
             } else {
                 //many time
 
@@ -126,9 +127,9 @@ public class SuggestionService {
                     }
                     //only positive
                     if (positive.size() == 2) {
-                        result = String.format(IContanst.SUGGESTION_2_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(positive.get(1)));
+                        result = String.format(IContanst.SUGGESTION_2_EMOTION, subject.getName(), positive.get(0).getEmotionName(), getEmotion(positive.get(1)));
                     } else {
-                        result = String.format(IContanst.SUGGESTION_3_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(positive.get(1)), getEmotion(positive.get(2)));
+                        result = String.format(IContanst.SUGGESTION_3_EMOTION, subject.getName(), positive.get(0).getEmotionName(), getEmotion(positive.get(1)), getEmotion(positive.get(2)));
                     }
 
                 } else {
@@ -137,11 +138,11 @@ public class SuggestionService {
 
                     //size bold =1, positive = 1
                     if (positive.size() == 1 && negative.size() == 1) {
-                        result = String.format(IContanst.SUGGESTION_BOTH_1_1_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(negative.get(0)));
+                        result = String.format(IContanst.SUGGESTION_BOTH_1_1_EMOTION, subject.getName(), positive.get(0).getEmotionName(), getEmotion(negative.get(0)));
                     } else if (positive.size() > 1 && positive.size() > negative.size()) {
-                        result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(positive.get(1)), getEmotion(negative.get(0)));
+                        result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), positive.get(0).getEmotionName(), getEmotion(positive.get(1)), getEmotion(negative.get(0)));
                     } else if (negative.size() > 1) {
-                        result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), getEmotion(positive.get(0)), getEmotion(negative.get(0)), getEmotion(negative.get(1)));
+                        result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), positive.get(0).getEmotionName(), getEmotion(negative.get(0)), getEmotion(negative.get(1)));
                     } else {
                         logger.error("--%%%%% -- It out our parttern.");
                         logger.info("Positive: " + JsonUtil.toJson(positive));
@@ -181,17 +182,17 @@ public class SuggestionService {
     }
 
 
-//    public static void main(String[] args) {
-//        EmotionAnalysisModel analysisModel = new EmotionAnalysisModel();
-////        System.out.println(suggestionService.getSubject(24d, Gender.MALE).getName());
-//        analysisModel.setAge(24d);
-//        analysisModel.setGender(Gender.FEMALE);
-//        EmotionRecognizeScores emotionRecognizeScores = new EmotionRecognizeScores();
-//        emotionRecognizeScores.setHappiness(0.9d);
-//        emotionRecognizeScores.setSadness(0.1d);
-//        emotionRecognizeScores.setAnger(0.2d);
-//        analysisModel.setEmotion(emotionRecognizeScores);
-//        SuggestionService suggestionService = new SuggestionService();
-//        System.out.println(suggestionService.getEmotionMessage(analysisModel));
-//    }
+    public static void main(String[] args) {
+        EmotionAnalysisModel analysisModel = new EmotionAnalysisModel();
+//        System.out.println(suggestionService.getSubject(24d, Gender.MALE).getName());
+        analysisModel.setAge(24d);
+        analysisModel.setGender(Gender.FEMALE);
+        EmotionRecognizeScores emotionRecognizeScores = new EmotionRecognizeScores();
+        emotionRecognizeScores.setHappiness(0.9d);
+        emotionRecognizeScores.setSadness(0.1d);
+        emotionRecognizeScores.setAnger(0.2d);
+        analysisModel.setEmotion(emotionRecognizeScores);
+        SuggestionService suggestionService = new SuggestionService();
+        System.out.println(UtilApps.formatSentence(suggestionService.getEmotionMessage(analysisModel)));
+    }
 }

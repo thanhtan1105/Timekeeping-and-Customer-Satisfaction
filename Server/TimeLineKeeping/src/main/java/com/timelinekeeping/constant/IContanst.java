@@ -61,11 +61,12 @@ public interface IContanst {
 
 
     /** CHECKIN*/
-    String TIME_CHECK_IN_SYSTEM = AppConfigKeys.getInstance().getApiPropertyValue("checkin.time.system");
+    String TIME_CHECK_IN_SYSTEM_START = AppConfigKeys.getInstance().getApiPropertyValue("checkin.time.system.start");
+    String TIME_CHECK_IN_SYSTEM_END = AppConfigKeys.getInstance().getApiPropertyValue("checkin.time.system.end");
 
     /** suggestion model**/
     String QUANLITY_EMOTION_DEFAULT = "một ít";
-    double EXCEPTION_VALUE = 0.05;
+    double EXCEPTION_VALUE = 0.2;
     String SUGGESTION_1_EMOTION = "%s có vẻ %s.";
     String SUGGESTION_2_EMOTION = "%s có vẻ %s và %s.";
     String SUGGESTION_3_EMOTION = "%s có vẻ %s, %s và %s.";
@@ -74,8 +75,11 @@ public interface IContanst {
     String SUGGESTION_BOTH_1_2_EMOTION = "%s có vẻ %s nhưng %s và %s.";
 
     /** Message Competition*/
-    List<Pair<EEmotion, EEmotion>> COMPETITION_EMOTION = Arrays.asList(new Pair<>(EEmotion.ANGER, EEmotion.HAPPINESS),
-            new Pair<>(EEmotion.ANGER, EEmotion.HAPPINESS));
+    List<Pair<EEmotion, EEmotion>> COMPETITION_EMOTION =
+            Arrays.asList(new Pair<>(EEmotion.ANGER, EEmotion.HAPPINESS),
+                          new Pair<>(EEmotion.NEUTRAL, EEmotion.HAPPINESS),
+                    new Pair<>(EEmotion.NEUTRAL, EEmotion.CONTEMPT),
+                    new Pair<>(EEmotion.NEUTRAL, EEmotion.CONTEMPT));
 
     String COMPANY_EMAIL = "tkcs.vn";
     String PASSWORD_DEFAULT = "abcd@123";
