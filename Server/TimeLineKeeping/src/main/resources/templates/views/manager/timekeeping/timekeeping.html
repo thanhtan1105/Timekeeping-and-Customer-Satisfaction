@@ -35,8 +35,8 @@
                     <font>Month:</font></div>
                 <div class="col-sm-6 text-left">
                     <div class="input-group date" style="width: 35%">
-                        <input type="text" th:value="${#dates.format(SelectedDate, 'yyyy-MM')}"
-                               class="form-control pull-left selected-date" id="datepicker"/>
+                        <input type="text" th:value="${#dates.format(SelectedDate, 'yyyy-MMMM')}"
+                               class="form-control pull-left selected-date" id="date-picker-timekeeping"/>
 
                         <div class="input-group-addon">
                             <i class="fa fa-calendar text-success"></i>
@@ -120,6 +120,7 @@
     <!-- /.content -->
 </div>
 <div layout:fragment="js">
+    <script th:src="@{/js/common.js}"></script>
     <script th:src="@{/js/manager/timekeeping/timekeeping.js}"></script>
 </div>
 </body>

@@ -17,7 +17,7 @@ $('.selected-date').on('change', function() {
 
 //Date picker
 $('#date-picker-attendance').datepicker({
-    format: "MM-yyyy",
+    format: com_full_year_month,
     viewMode: "months",
     minViewMode: "months",
     autoclose: true

@@ -36,4 +36,5 @@ function formatDate(date) {
 /**
  * Pattern time
  */
-var full_month = '';
+var com_full_year_month = 'yyyy-MM';
+var com_full_date = 'yyyy-M-dd';
