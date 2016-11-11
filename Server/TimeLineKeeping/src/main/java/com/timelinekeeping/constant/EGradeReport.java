@@ -5,11 +5,12 @@ package com.timelinekeeping.constant;
  */
 public enum EGradeReport {
 
-    EXCELLENT(0, "RẤT TỐT", 9d, 10d),
-    GOOD(1, "TỐT", 8d, 9d),
-    NORMAL(2, "BÌNH THƯỜNG", 5d, 8d),
-    MEDIUM(3, "TRUNG BÌNH KHÁ", 2.5d, 5d),
-    BAD(4, "CHƯA TỐT", 0d, 2.5d);
+    EXCELLENT(0, "RẤT TỐT", 4d, 5d),
+    GOOD(1, "TỐT", 2d, 4d),
+    NORMAL(2, "ĐẠT", 0d, 2d),
+    MEDIUM(3, "TRUNG BÌNH", -2.5d, 0d),
+    BAD(4, "CHƯA TỐT", -2.5d, 0d),
+    VERY_BAD(4, "CHƯA ĐẠT", -5d, -2.5d);
 
     private int index;
     private String name;

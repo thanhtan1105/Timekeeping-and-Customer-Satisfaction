@@ -34,7 +34,7 @@ public class AccountReportCustomerService {
         if (obj.length == 3) {
             this.totalCustomer = obj[1] != null ? ((BigInteger) obj[1]).longValue() : 0;
             this.grade = obj[2] != null ? (Double) obj[2] : 0;
-            this.evaluation = EGradeReport.fromGrade(this.grade).getName();
+            this.evaluation = this.grade != null ? EGradeReport.fromGrade(this.grade).getName() : null;
         }
 
     }
