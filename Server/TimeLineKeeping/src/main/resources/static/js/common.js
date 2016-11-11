@@ -12,7 +12,7 @@ var time_out = 2500;
  * @type {number}
  */
 var time_out_reminder = 1000 * 60 * 15;
-var com_time_out_worker_get_emotion = 60 * 1000;
+var com_time_out_worker_get_emotion = 120 * 1000;
 
 /**
  * Fc: format date

@@ -13,6 +13,8 @@ enum Status: Int {
     case Preview, Still, Error
 }
 
+let screenSize: CGSize = UIScreen.mainScreen().bounds.size
+
 class CameraViewController: UIViewController {
 
   @IBOutlet weak var cameraStill: UIImageView!
@@ -159,32 +161,31 @@ extension CameraViewController: CameraDelegate {
   func camera(camera: Camera, didShowFaceDetect face: AVMetadataFaceObject) {
     let adjusted = self.preview?.transformedMetadataObjectForMetadataObject(face)
     dispatch_async(dispatch_get_main_queue()) {
-
-      if self.cameraStill.image == nil {
-        // filter
-        dispatch_async(dispatch_get_main_queue(), {
-          if let adjusted = adjusted {
-            self.faceView?.frame = adjusted.bounds
-          }
+      if (adjusted?.bounds.size.width >= screenSize.width / 2.8) && (adjusted?.bounds.size.height >= screenSize.width / 2.8) {
+        if self.cameraStill.image == nil {
+          // filter
+          dispatch_async(dispatch_get_main_queue(), {
+            if let adjusted = adjusted {
+              self.faceView?.frame = adjusted.bounds
+            }
+            
+          })
           
-        })
-        
-        let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime3, dispatch_get_main_queue()) {
-          self.faceView?.frame = CGRect.zero
-        }
-      }
-      
-      if self.isCameraTaken == false {
-        self.isCameraTaken = true
-        
-        let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(0.75 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime3, dispatch_get_main_queue()) {
-          self.captureFrame(UIButton())
+          let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
+          dispatch_after(delayTime3, dispatch_get_main_queue()) {
+            self.faceView?.frame = CGRect.zero
+          }
         }
         
+        if self.isCameraTaken == false {
+          self.isCameraTaken = true
+          
+          let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
+          dispatch_after(delayTime3, dispatch_get_main_queue()) {
+            self.captureFrame(UIButton())
+          }
+        }
       }
-      
     }
   }  
 }
