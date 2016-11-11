@@ -8,15 +8,11 @@ var timer_get_emotion;
 var timer_get_image;
 var timer_stop_get_emotion;
 var nextAngle = 0;
-var isFirst = true;
 
 /**
  * Fc: load page
  */
 function load_page() {
-    //set isFirst = true;
-    isFirst = true;
-
     //call request: load page
     worker_get_emotion();
 
@@ -89,14 +85,11 @@ function worker_get_emotion() {
                 var data = response.data,
                     messages = data.messages,
                     emotionExist = data.analyzes.emotion.emotionExist,
-                    isFinal = data.final,
                     awsUrl = data.awsUrl,
                     customer_emotion_msg = messages.message,
                     suggestions = messages.sugguest,
                     age_predict = messages.predict,
                     gender = messages.gender;
-                console.info('[isFirst] ' + isFirst);
-                console.info('[isFinal] ' + isFinal);
 
                 //hide div loader
                 event_hide('#div-loader');
@@ -109,30 +102,12 @@ function worker_get_emotion() {
                 //enable button skip
                 event_disabled('#btn-skip-transaction', false);
 
-                if (isFirst) {
-                    //set content
-                    //set isFirst = false;
-
-                    //set overview customer emotion
-                    set_content_overview_customer_emotion(age_predict, gender, awsUrl, emotionExist, customer_emotion_msg, suggestions);
-                    //set isFirst = false
-                    isFirst = false;
-                } else {
-                    //if isFinal --> set content, stop worker, set isFirst = true;
-                    //else do nothing
-                    if (isFinal) {
-                        //set overview customer emotion
-                        set_content_overview_customer_emotion(age_predict, gender, awsUrl, emotionExist, customer_emotion_msg, suggestions);
-
-                        //set isFirst = true;
-                        isFirst = true;
-
-                        //stop request: get first emotion
-                        clearTimeout(timer_get_emotion);
-                    } else {
-                        //do nothing
-                    }
-                }
+                //set overview customer emotion
+                set_content_overview_customer_emotion(age_predict, gender, awsUrl, emotionExist, customer_emotion_msg, suggestions);
+                //stop time out worker get emotion
+                clearTimeout(timer_stop_get_emotion);
+                //stop request: get first emotion
+                clearTimeout(timer_get_emotion);
             }
         }
     });
@@ -203,7 +178,7 @@ function worker_get_image() {
  */
 function time_out_worker_get_emotion() {
     //set timeout stop worker get emotion
-    timer_stop_get_emotion = setTimeout(function() {
+    timer_stop_get_emotion = setTimeout(function () {
         console.info('[Stopped worker get emotion]')
         //stop request get emotion
         clearTimeout(timer_get_emotion);
