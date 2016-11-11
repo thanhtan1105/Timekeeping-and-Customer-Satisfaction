@@ -36,8 +36,8 @@
                     <font>Month:</font></div>
                 <div class="col-sm-6 text-left">
                     <div class="input-group date" style="width: 35%">
-                        <input type="text" th:value="${#dates.format(SelectedDate, 'MMMM-yyyy')}"
-                               class="form-control pull-left selected-date" id="date_picker_month"/>
+                        <input type="text" th:value="${#dates.format(SelectedDate, 'yyyy-MMMM')}"
+                               class="form-control pull-left selected-date" id="date-picker-cs-month"/>
 
                         <div class="input-group-addon">
                             <i class="fa fa-calendar text-success"></i>
@@ -142,6 +142,7 @@
     <!-- /.content -->
 </div>
 <div layout:fragment="js">
+    <script th:src="@{/js/common.js}"></script>
     <script th:src="@{/js/manager/customer_satisfaction/cus_satisfaction_month.js}"></script>
 </div>
 </body>

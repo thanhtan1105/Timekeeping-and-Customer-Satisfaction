@@ -2,6 +2,7 @@ package com.timelinekeeping.controller;
 
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.IViewConst;
+import com.timelinekeeping.constant.I_TIME;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.AccountAttendanceModel;
 import com.timelinekeeping.model.AccountModel;
@@ -75,9 +76,8 @@ public class AttendanceControllerWeb {
                                             Model model, HttpSession session) {
         logger.info("[Controller- Change Month Attendance View] BEGIN");
         logger.info("[Controller- Change Month Attendance View] selected month: " + selectedMonth);
-        String pattern = "MMMM-yyyy";
         // parse to date
-        Date selectedDate = TimeUtil.parseToDate(selectedMonth, pattern);
+        Date selectedDate = TimeUtil.parseToDate(selectedMonth, I_TIME.FULL_YEAR_MONTH);
         logger.info("[Controller- Change Month Attendance View] selected date: " + selectedDate);
         // get month, year
         Calendar calendar = Calendar.getInstance();

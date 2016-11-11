@@ -37,8 +37,8 @@
                     <font>Month:</font></div>
                 <div class="col-sm-6 text-left">
                     <div class="input-group date" style="width: 35%">
-                        <input type="text" th:value="${#dates.format(SelectedDate, 'yyyy-MM')}"
-                               class="form-control pull-left selected-date" id="datepicker"/>
+                        <input type="text" th:value="${#dates.format(SelectedDate, 'yyyy-MMMM')}"
+                               class="form-control pull-left selected-date" id="date-picker-timekeeping-detail"/>
 
                         <div class="input-group-addon">
                             <i class="fa fa-calendar text-success"></i>
@@ -54,6 +54,16 @@
                 </div>
             </div>
             <!-- /.end month -->
+            <div class="row">
+                <div class="col-sm-2">
+                    <a th:href="@{/manager/timekeeping/}">
+                        <button type="button" class="btn btn-primary btn-flat btn-sm" style="width: 45%"
+                                th:id="'btn-back-to-previous'">
+                            <i class="glyphicon glyphicon-arrow-left"></i> BACK
+                        </button>
+                    </a>
+                </div>
+            </div>
         </div>
         <div class=" box box-success">
             <div class="box-header">
@@ -88,10 +98,10 @@
                     <tr th:each="attendance,counter: ${AccountAttendanceModel.attendances}"
                         th:if="${attendance.dayStatus.index != 1}"
                         th:attr="class=${attendance.dayStatus.index == 3 or attendance.dayStatus.index == 5} ? 'text-bold'">
-                        <td th:text="${#dates.format(attendance.date, 'dd-MMM-yyyy')}"></td>
+                        <td th:text="${#dates.format(attendance.date, 'yyyy-MMM-dd')}"></td>
                         <td>
-                            <label th:class="${(attendance.dayStatus.index == 2) or (attendance.dayStatus.index == 4) or (attendance.dayStatus.index == 5) or (attendance.dayStatus.index == 3 and attendance.present.index == 1)}? '' : (${(attendance.dayStatus.index == 3 and attendance.present.index == 0) or (attendance.dayStatus.index == 0 and attendance.present.index == 0)} ? 'label label-success' : 'label label-danger')"
-                                   th:text="${(attendance.dayStatus.index == 2) or (attendance.dayStatus.index == 4) or (attendance.dayStatus.index == 5) or (attendance.dayStatus.index == 3 and attendance.present.index == 1)}? '-' : (${(attendance.dayStatus.index == 3 and attendance.present.index == 0) or (attendance.dayStatus.index == 0 and attendance.present.index == 0)} ? 'Present' : 'Absent')"
+                            <label th:class="${(attendance.dayStatus.index == 2) or (attendance.dayStatus.index == 4) or (attendance.dayStatus.index == 5) or (attendance.dayStatus.index == 3 and attendance.present.index == 1 and attendance.timeCheck == null)}? '' : (${(attendance.dayStatus.index == 3 and attendance.present.index == 0) or (attendance.dayStatus.index == 0 and attendance.present.index == 0)} ? 'label label-success' : 'label label-danger')"
+                                   th:text="${(attendance.dayStatus.index == 2) or (attendance.dayStatus.index == 4) or (attendance.dayStatus.index == 5) or (attendance.dayStatus.index == 3 and attendance.present.index == 1 and attendance.timeCheck == null)}? '-' : (${(attendance.dayStatus.index == 3 and attendance.present.index == 0) or (attendance.dayStatus.index == 0 and attendance.present.index == 0)} ? 'Present' : 'Absent')"
                                    style="font-size: 14px;"></label>
                         </td>
                         <td>
@@ -120,6 +130,7 @@
     <!-- /.content -->
 </div>
 <div layout:fragment="js">
+    <script th:src="@{/js/common.js}"></script>
     <script th:src="@{/js/manager/timekeeping/timekeeping_details.js}"></script>
 </div>
 </body>
