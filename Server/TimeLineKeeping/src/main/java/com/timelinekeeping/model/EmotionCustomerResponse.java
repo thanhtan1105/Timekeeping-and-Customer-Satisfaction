@@ -1,5 +1,7 @@
 package com.timelinekeeping.model;
 
+import java.util.List;
+
 /**
  * Created by HienTQSE60896 on 9/30/2016.
  */
@@ -7,6 +9,7 @@ public class EmotionCustomerResponse {
     private String customerCode;
     private EmotionAnalysisModel analyzes;
     private MessageModel messages;
+    private List<EmotionCompare> emotionPercent;
     private String awsUrl;
     private Boolean isFinal = false;
 
@@ -75,5 +78,13 @@ public class EmotionCustomerResponse {
 
     public void setFinal(Boolean aFinal) {
         isFinal = aFinal;
+    }
+
+    public List<EmotionCompare> getEmotionPercent() {
+        return emotionPercent;
+    }
+
+    public void setEmotionPercent(List<EmotionCompare> emotionPercent) {
+        this.emotionPercent = emotionPercent;
     }
 }
