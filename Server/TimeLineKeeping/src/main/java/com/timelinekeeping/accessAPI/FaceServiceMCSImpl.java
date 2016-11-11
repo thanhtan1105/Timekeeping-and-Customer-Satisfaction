@@ -48,6 +48,8 @@ public class FaceServiceMCSImpl {
                     .addParameter("returnFaceLandmarks", "false")
                     .addParameter("returnFaceAttributes", "age,gender,smile");
 
+            logger.info("url: " + builder.build());
+
             /** entity*/
             byte[] bytes = IOUtils.toByteArray(imgStream);
 
@@ -75,7 +77,7 @@ public class FaceServiceMCSImpl {
                     .addParameter("returnFaceId", "true")
                     .addParameter("returnFaceLandmarks", "false")
                     .addParameter("returnFaceAttributes", "age,gender");
-
+            logger.info("url: " + url);
             /** entity*/
             Map<String, String> mapEntity = new HashMap<>();
             mapEntity.put("url", urlImg);
@@ -117,6 +119,7 @@ public class FaceServiceMCSImpl {
             String url = rootPath + urlIdentity;
 
             /*** url -> @{url}*/
+            logger.info("url: " + url);
 
             /** entity*/
             FaceIdentifyRequest identityRequest = new FaceIdentifyRequest(groupId, faceIds);
