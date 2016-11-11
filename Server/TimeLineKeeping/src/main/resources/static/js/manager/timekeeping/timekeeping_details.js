@@ -2,6 +2,15 @@
  * Created by TrungNN on 10/1/2016.
  */
 
+//Date picker
+$('#date-picker-timekeeping-detail').datepicker({
+    format: com_full_year_month,
+    viewMode: "months",
+    minViewMode: "months",
+    endDate: new Date(),
+    autoclose: true
+});
+
 /**
  * Event: select another month
  */

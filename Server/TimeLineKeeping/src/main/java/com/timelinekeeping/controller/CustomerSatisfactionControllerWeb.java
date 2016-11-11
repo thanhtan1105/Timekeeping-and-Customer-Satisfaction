@@ -2,6 +2,7 @@ package com.timelinekeeping.controller;
 
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.IViewConst;
+import com.timelinekeeping.constant.I_TIME;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.AccountCustomerServiceDetails;
 import com.timelinekeeping.model.AccountModel;
@@ -136,10 +137,9 @@ public class CustomerSatisfactionControllerWeb {
         logger.info("[Controller- Load Customer Satisfaction Month Details View] BEGIN");
         logger.info("[Controller- Load Customer Satisfaction Month Details View] accountCustomerServiceDetailsJson: "
                 + accountCustomerServiceDetailsJson);
-        String pattern = "MMMM-yyyy";
         // parse string-json to object
         AccountCustomerServiceDetails accountCustomerServiceDetails
-                = JsonUtil.convertObject(accountCustomerServiceDetailsJson, AccountCustomerServiceDetails.class, pattern);
+                = JsonUtil.convertObject(accountCustomerServiceDetailsJson, AccountCustomerServiceDetails.class, I_TIME.FULL_YEAR_MONTH);
         if (accountCustomerServiceDetails != null) {
             Long accountId = accountCustomerServiceDetails.getAccountId();
             Date selectedDate = accountCustomerServiceDetails.getSelectedDate();
@@ -170,9 +170,8 @@ public class CustomerSatisfactionControllerWeb {
                                                       Model model, HttpSession session) {
         logger.info("[Controller- Change Month Customer Satisfaction Month View] BEGIN");
         logger.info("[Controller- Change Month Customer Satisfaction Month View] selected month: " + selectedMonth);
-        String pattern = "MMMM-yyyy";
         // parse to date
-        Date selectedDate = TimeUtil.parseToDate(selectedMonth, pattern);
+        Date selectedDate = TimeUtil.parseToDate(selectedMonth, I_TIME.FULL_YEAR_MONTH);
         logger.info("[Controller- Change Month Customer Satisfaction Month View] selected date: " + selectedDate);
         // get month, year, day
         Calendar calendar = Calendar.getInstance();
@@ -218,9 +217,8 @@ public class CustomerSatisfactionControllerWeb {
                                                      Model model, HttpSession session) {
         logger.info("[Controller- Change Date Customer Satisfaction Date View] BEGIN");
         logger.info("[Controller- Change Date Customer Satisfaction Date View] selected month: " + selectedMonth);
-        String pattern = "dd-MMMM-yyyy";
         // parse to date
-        Date selectedDate = TimeUtil.parseToDate(selectedMonth, pattern);
+        Date selectedDate = TimeUtil.parseToDate(selectedMonth, I_TIME.FULL_DATE);
         logger.info("[Controller- Change Date Customer Satisfaction Date View] selected date: " + selectedDate);
         // get month, year, day
         Calendar calendar = Calendar.getInstance();
@@ -268,9 +266,8 @@ public class CustomerSatisfactionControllerWeb {
         logger.info("[Controller- Change Month Customer Satisfaction Details View] BEGIN");
         logger.info("[Controller- Change Month Customer Satisfaction Details View] selected month: " + selectedMonth);
         logger.info("[Controller- Change Month Customer Satisfaction Details View] accountId: " + accountId);
-        String pattern = "MMMM-yyyy";
         // parse to date
-        Date selectedDate = TimeUtil.parseToDate(selectedMonth, pattern);
+        Date selectedDate = TimeUtil.parseToDate(selectedMonth, I_TIME.FULL_YEAR_MONTH);
         logger.info("[Controller- Change Month Customer Satisfaction View] selected date: " + selectedDate);
         // get month, year
         Calendar calendar = Calendar.getInstance();

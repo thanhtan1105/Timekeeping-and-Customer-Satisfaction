@@ -1,7 +1,9 @@
 package com.timelinekeeping.controller;
 
+import com.sun.corba.se.spi.activation.IIOP_CLEAR_TEXT;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.IViewConst;
+import com.timelinekeeping.constant.I_TIME;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.AccountAttendanceModel;
 import com.timelinekeeping.model.AccountModel;
@@ -10,7 +12,6 @@ import com.timelinekeeping.model.TimekeepingResponseModel;
 import com.timelinekeeping.service.serviceImplement.TimekeepingServiceImpl;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.TimeUtil;
-import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -82,10 +83,9 @@ public class TimekeepingControllerWeb {
                                              Model model) {
         logger.info("[Controller- Load Timekeeping Details View] BEGIN");
         logger.info("[Controller- Load Timekeeping Details View] accountTKDetailsModelJson: " + accountTKDetailsModelJson);
-        String pattern = "yyyy-MM";
         // parse string-json to object
         AccountTKDetailsModel accountTKDetailsModel
-                = JsonUtil.convertObject(accountTKDetailsModelJson, AccountTKDetailsModel.class, pattern);
+                = JsonUtil.convertObject(accountTKDetailsModelJson, AccountTKDetailsModel.class, I_TIME.FULL_YEAR_MONTH);
         if (accountTKDetailsModel != null) {
             Long accountId = accountTKDetailsModel.getAccountId();
             Date selectedDate = accountTKDetailsModel.getSelectedDate();
@@ -115,9 +115,8 @@ public class TimekeepingControllerWeb {
                                              Model model, HttpSession session) {
         logger.info("[Controller- Change Month Timekeeping View] BEGIN");
         logger.info("[Controller- Change Month Timekeeping View] selected month: " + selectedMonth);
-        String pattern = "yyyy-MM";
         // parse to date
-        Date selectedDate = TimeUtil.parseToDate(selectedMonth, pattern);
+        Date selectedDate = TimeUtil.parseToDate(selectedMonth, I_TIME.FULL_YEAR_MONTH);
         logger.info("[Controller- Change Month Timekeeping View] selected date: " + selectedDate);
         // get month, year
         Calendar calendar = Calendar.getInstance();
@@ -165,7 +164,7 @@ public class TimekeepingControllerWeb {
         logger.info("[Controller- Change Month Timekeeping Details View] accountId: " + accountId);
         String pattern = "yyyy-MM";
         // parse to date
-        Date selectedDate = TimeUtil.parseToDate(selectedMonth, pattern);
+        Date selectedDate = TimeUtil.parseToDate(selectedMonth, I_TIME.FULL_YEAR_MONTH);
         logger.info("[Controller- Change Month Timekeeping View] selected date: " + selectedDate);
         // get month, year
         Calendar calendar = Calendar.getInstance();

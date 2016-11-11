@@ -7,14 +7,10 @@ public interface I_TIME {
 
     String API_COGN_MICROSOFT_PER_GROUP_FORMAT_TIME = "MM/DD/YYYY h:mm:ss a";
 
-
-    String YEAR_MONTH = "MMMM-yyyy";
-    String FULL_DATE = "yyyy-MM-dd";
+    String FULL_YEAR_MONTH = "yyyy-MMMM";
+    String FULL_DATE = "yyyy-MMM-dd";
     String FULL_TIME = "yyyy-MM-dd hh:mm";
     String FULL_TIME_SECOND = "yyyy-MM-dd hh:mm:ss";
     String TIME_MINUTE = "hh:mm";
     String TIME_FULL = "hh:mm:ss";
-
-
-
 }
