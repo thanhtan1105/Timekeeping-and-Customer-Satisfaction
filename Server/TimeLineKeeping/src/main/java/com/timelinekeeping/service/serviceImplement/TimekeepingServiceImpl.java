@@ -90,6 +90,11 @@ public class TimekeepingServiceImpl {
      * get
      */
     public TimekeepingResponseModel getTimeKeeping(Long managerId, Integer year, Integer month) {
+
+        //get from_time, to_time
+        String timeFrom = TimeUtil.correctTimeCheckin(IContanst.TIME_CHECK_IN_SYSTEM_START);
+        String timeto = TimeUtil.correctTimeCheckin(IContanst.TIME_CHECK_IN_SYSTEM_END);
+
         //get All acount by manager
         //get all timekeeping in month
         //compare to data
@@ -101,7 +106,7 @@ public class TimekeepingServiceImpl {
             List<AccountEntity> listAccount = accountRepo.findByManagerNoActive(managerId);
 
 
-            List<Object[]> listCountTime = timekeepingRepo.countEmployeeTime(year, month);
+            List<Object[]> listCountTime = timekeepingRepo.countEmployeeTime(year, month, timeFrom, timeto);
             Map<Long, Long> mapChekin = new HashMap<>();
             listCountTime.stream().filter(countTime -> countTime.length >= 2)
                     .forEach(countTime -> mapChekin.put(((BigInteger) countTime[0]).longValue(), ((BigInteger) countTime[1]).longValue()));
@@ -148,8 +153,10 @@ public class TimekeepingServiceImpl {
 
 
     public AccountAttendanceModel getAttendance(Long accountId, Integer year, Integer month) {
+
+
         //getAttendance from sql
-        List<TimeKeepingEntity> timeKeepingEntityList = timekeepingRepo.getTimekeepingByAccount(accountId, year, month);
+        List<TimeKeepingEntity> timeKeepingEntityList = timekeepingRepo.getTimekeepingByAccount(accountId, year, month, null, null);
 
         //convert to map with date key
         Map<Integer, TimeKeepingEntity> mapTimeKeeping = new HashMap<>();
@@ -158,9 +165,14 @@ public class TimekeepingServiceImpl {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(timeCheck);
             Integer dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-            if (timeKeepingEntity.getStatus() == ETimeKeeping.PRESENT) {
-                mapTimeKeeping.put(dayOfMonth, timeKeepingEntity);
+            if (timeKeepingEntity.getStatus() == ETimeKeeping.PRESENT || timeKeepingEntity.getStatus() == ETimeKeeping.ABSENT) {
+                if (TimeUtil.isPresentTimeCheckin(timeCheck)) {
+                    timeKeepingEntity.setStatus(ETimeKeeping.PRESENT);
+                } else {
+                    timeKeepingEntity.setStatus(ETimeKeeping.ABSENT);
+                }
             }
+            mapTimeKeeping.put(dayOfMonth, timeKeepingEntity);
         }
 
         //getAccount Entity

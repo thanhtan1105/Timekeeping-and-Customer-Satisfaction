@@ -1,6 +1,8 @@
 
 package com.timelinekeeping.util;
 
+import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.constant.I_TIME;
 import org.apache.log4j.Logger;
 
 import java.text.DateFormat;
@@ -44,6 +46,11 @@ public class TimeUtil {
         return format.format(time);
     }
 
+    public static String timeToString(Date time, String pattern) {
+        DateFormat format = new SimpleDateFormat(pattern);
+        return format.format(time);
+    }
+
 
     public static YearMonth parseYearMonth(Long time) {
         return parseYearMonth(new Date(time));
@@ -60,6 +67,56 @@ public class TimeUtil {
             return time * 1000;
         } else {
             return time;
+        }
+    }
+
+    public static String correctTimeCheckin(String time) {
+        Integer timeExcept = Integer.valueOf(IContanst.TIME_SYSTEM_EXCEPT);
+        try {
+            DateFormat format = new SimpleDateFormat(I_TIME.TIME_MINUTE);
+            Calendar calendar = Calendar.getInstance();
+            Date date = format.parse(time);
+            calendar.setTime(date);
+            calendar.add(Calendar.HOUR_OF_DAY, timeExcept * -1);
+            System.out.println(calendar.getTime());
+
+
+            //return
+            DateFormat formatReturn = new SimpleDateFormat(I_TIME.TIME_FULL);
+            return formatReturn.format(calendar.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public static boolean isPresentTimeCheckin(Date date) {
+        Date timeFromDate = parseToDate(IContanst.TIME_CHECK_IN_SYSTEM_START, I_TIME.TIME_MINUTE);
+        Date timeToDate = parseToDate(IContanst.TIME_CHECK_IN_SYSTEM_END, I_TIME.TIME_MINUTE);
+        if (timeFromDate == null || timeToDate == null) {
+            return true;
+        }
+
+        Date timechek = parseToDate(timeToString(date, I_TIME.TIME_MINUTE), I_TIME.TIME_MINUTE);
+
+
+
+
+        if (timeFromDate.getTime() <= timechek.getTime() && timechek.getTime() <= timeToDate.getTime()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            DateFormat format = new SimpleDateFormat(I_TIME.TIME_MINUTE);
+            Date date = format.parse("16:31");
+            System.out.println(isPresentTimeCheckin(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 
