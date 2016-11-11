@@ -3,6 +3,7 @@ package com.timelinekeeping.service.serviceImplement;
 import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.common.BaseResponse;
+import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.ERROR;
 import com.timelinekeeping.constant.ETransaction;
 import com.timelinekeeping.constant.IContanst;
@@ -11,6 +12,7 @@ import com.timelinekeeping.entity.CustomerServiceEntity;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.modelMCS.EmotionRecognizeResponse;
+import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
 import com.timelinekeeping.modelMCS.FaceDetectResponse;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.CustomerServiceRepo;
@@ -95,7 +97,23 @@ public class EmotionServiceImpl {
         MessageModel messageModel = new MessageModel(emotionCustomerEntity);
         messageModel.setMessage(Collections.singletonList(UtilApps.formatSentence(messageEmotion)));
         messageModel.setSugguest(suggestion);
-        return new EmotionCustomerResponse(analysisModel, messageModel);
+        EmotionCustomerResponse emotionCustomerResponse = new EmotionCustomerResponse(analysisModel, messageModel);
+
+        // add emotion percent
+
+        EmotionRecognizeScores emotionScores = analysisModel.getEmotion();
+        emotionScores.clearData(IContanst.EXCEPTION_VALUE);
+
+        Map<EEmotion, Double> map = emotionScores.map();
+
+        //get emotionCompar
+        List<EmotionCompare> emotionCompares = ServiceUtils.getEmotionExist(map);
+
+        //add to model
+        emotionCustomerResponse.setEmotionPercent(emotionCompares);
+
+
+        return emotionCustomerResponse;
     }
 
     public CustomerServiceModel beginTransaction(Long employeeId) {

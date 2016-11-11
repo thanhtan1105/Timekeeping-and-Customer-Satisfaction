@@ -2,15 +2,17 @@ package com.timelinekeeping.util;
 
 import com.timelinekeeping.constant.EDayOfWeek;
 import com.timelinekeeping.constant.EDayStatus;
+import com.timelinekeeping.constant.EEmotion;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
+import com.timelinekeeping.model.EmotionCompare;
 import org.apache.http.HttpEntity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.YearMonth;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by lethanhtan on 9/8/16.
@@ -131,5 +133,90 @@ public class ServiceUtils {
 
     public static void main(String[] args) {
         System.out.println(convertAgePredict(0d));
+    }
+
+    public static void competitiveEmotion(Map<EEmotion, Double> map) {
+
+        // anger + happy
+        double anger = map.get(EEmotion.ANGER);
+        double contempt = map.get(EEmotion.CONTEMPT);
+        double disgust = map.get(EEmotion.DISGUST);
+        double fear = map.get(EEmotion.FEAR);
+        double happiness = map.get(EEmotion.HAPPINESS);
+        double neutral = map.get(EEmotion.NEUTRAL);
+        double sadness = map.get(EEmotion.SADNESS);
+        double surprise = map.get(EEmotion.SURPRISE);
+
+        if (anger > 0 && happiness > 0) {
+            double value = anger * EEmotion.ANGER.getGrade() + happiness * EEmotion.HAPPINESS.getGrade();
+            if (value < 0) {
+                anger = value / EEmotion.ANGER.getGrade();
+                happiness = 0d;
+            } else {
+                happiness = value / EEmotion.HAPPINESS.getGrade();
+                anger = 0d;
+            }
+        }
+
+
+        // sadness happiness
+
+        if (sadness > 0 && happiness > 0) {
+            double value = sadness * EEmotion.SADNESS.getGrade() + happiness * EEmotion.HAPPINESS.getGrade();
+            if (value < 0) {
+                sadness = value / EEmotion.SADNESS.getGrade();
+                happiness = 0d;
+            } else {
+                happiness = value / EEmotion.HAPPINESS.getGrade();
+                sadness = 0d;
+            }
+        }
+
+
+
+
+        //TODO check again
+        // nature
+        if (neutral > IContanst.EXCEPTION_VALUE) {
+            if (anger > neutral) anger = anger - neutral;
+            if (contempt > neutral) contempt = contempt - neutral;
+            if (disgust > neutral) disgust = disgust - neutral;
+            if (fear > neutral) fear = fear - neutral;
+            if (happiness > neutral) happiness = happiness - neutral;
+//        if (neutral > neutral) neutral = neutral - neutral;
+            if (sadness > neutral) sadness = sadness - neutral;
+            if (surprise > neutral) surprise = surprise - neutral;
+
+            neutral = 0;
+        }
+
+
+        map.put(EEmotion.ANGER, anger);
+        map.put(EEmotion.CONTEMPT, contempt);
+        map.put(EEmotion.DISGUST, disgust);
+        map.put(EEmotion.FEAR, fear);
+        map.put(EEmotion.HAPPINESS, happiness);
+        map.put(EEmotion.NEUTRAL, neutral);
+        map.put(EEmotion.SADNESS, sadness);
+        map.put(EEmotion.SURPRISE, surprise);
+    }
+
+    public static List<EmotionCompare> getEmotionExist(Map<EEmotion, Double> map) {
+        competitiveEmotion(map);
+
+        Double sum = 0d;
+        for (Map.Entry<EEmotion, Double> value : map.entrySet()) {
+            sum += value.getValue();
+        }
+
+        List<EmotionCompare> listCompare = new ArrayList<>();
+        for (Map.Entry<EEmotion, Double> entry : map.entrySet()) {
+            if (entry.getValue() > IContanst.EXCEPTION_VALUE) {
+                listCompare.add(new EmotionCompare(entry.getKey(), entry.getValue(), (entry.getValue() / sum)));
+            }
+        }
+        listCompare.sort((EmotionCompare e1, EmotionCompare e2) -> e1.getValue() > e2.getValue() ? -1 : 0);
+
+        return listCompare;
     }
 }

@@ -84,7 +84,7 @@ function worker_get_emotion() {
             if (response.success) {
                 var data = response.data,
                     messages = data.messages,
-                    emotionExist = data.analyzes.emotion.emotionExist,
+                    emotionExist = data.emotionPercent,
                     awsUrl = data.awsUrl,
                     customer_emotion_msg = messages.message,
                     suggestions = messages.sugguest,
