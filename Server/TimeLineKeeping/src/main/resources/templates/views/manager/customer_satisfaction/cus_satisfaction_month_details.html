@@ -70,14 +70,12 @@
             <div class="box-body">
                 <table class="table">
                     <colgroup>
-                        <col span="1" style="width: 5%;">
-                        <col span="1" style="width: 15%;">
-                        <col span="1" style="width: 55%;">
-                        <col span="1" style="width: 25%;">
+                        <col span="1" style="width: 20%;">
+                        <col span="1" style="width: 50%;">
+                        <col span="1" style="width: 30%;">
                     </colgroup>
                     <thead>
                     <tr>
-                        <th>#</th>
                         <th>Date</th>
                         <th class="text-center">Total Served Customers</th>
                         <th>Evaluation</th>
@@ -85,12 +83,13 @@
                     </thead>
                     <tbody>
                     <tr th:each="report,counter: ${CustomerServiceReport.reportDate}"
-                        th:if="${report.dayStatus.index != 4}">
-                        <td th:text="${counter.count} + '.'"></td>
+                        th:if="${report.dayStatus.index != 1}"
+                        th:attr="class=${report.dayStatus.index == 3 or report.dayStatus.index == 5} ? 'text-bold'">
                         <td th:text="${#dates.format(report.date, 'dd-MMM-yyyy')}"></td>
-                        <td th:text="${report.totalCustomer != null}? ${report.totalCustomer}: 0"
+                        <td th:text="${(report.dayStatus.index == 2) or (report.dayStatus.index == 4) or (report.dayStatus.index == 5) or (report.dayStatus.index == 3)}? '-' : (${(report.dayStatus.index == 0) and (report.totalCustomer != null)} ? ${report.totalCustomer} : '-')"
                             class="text-center"></td>
-                        <td th:text="${report.totalCustomer != 0}? ${report.evaluation}: 'N/A'"></td>
+                        </td>
+                        <td th:text="${report.totalCustomer != 0}? ${report.evaluation}: '-'"></td>
                     </tr>
                     </tbody>
                 </table>
