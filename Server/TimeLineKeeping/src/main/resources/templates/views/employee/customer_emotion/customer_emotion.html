@@ -7,27 +7,34 @@
     <meta charset="UTF-8"/>
     <title>Customer Emotion</title>
 </head>
-<body onload="worker_get_emotion()">
-<div layout:fragment="content" >
+<body onload="load_page()">
+<div layout:fragment="content">
     <!-- Main content -->
     <section class="content font-17">
         <!-- Your Page Content Here -->
         <!-- store accountId-->
         <input id="accountId" th:if="${session} and ${session.UserSession}"
-              th:value="${session.UserSession.id}" type="hidden"/>
+               th:value="${session.UserSession.id}" type="hidden"/>
         <!-- Info: manager, department, date -->
-        <div style="margin-bottom: 10px">
-            <div class="row text-black" style="font-size: 24px;">
-                <div class="col-sm-4"></div>
-                <div class="col-sm-8 text-left">
+        <div style="margin-bottom: 50px">
+            <div class="row text-black">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8 text-center">
                     <label>
-                        <font>Cảm Xúc Khách Hàng</font>
+                        <font class="font-24">Cảm Xúc Khách Hàng</font>
                     </label>
+                </div>
+                <div th:id="'div-stop-worker-get-emotion-manual'" class="col-sm-2" style="opacity: 0"
+                     onclick="stop_get_emotion_manual()">
+                    <div class="box box-default">
+                        <div class="box-body"></div>
+                    </div>
                 </div>
             </div>
             <!-- department -->
-            <div class="row text-black" style="font-size: 18px;">
-                <div class="col-sm-5 text-right ">
+            <div class="row text-black font-18">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-2 text-left">
                     <label>Phòng Ban:</label></div>
                 <div class="col-sm-6 text-left">
                     <font th:if="${session} and ${session.UserSession}"
@@ -35,30 +42,31 @@
             </div>
             <!-- /.end department -->
             <!-- date -->
-            <div class="row text-black" style="font-size: 18px;">
-                <div class="col-sm-5 text-right">
+            <div class="row text-black font-18">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-2 text-left">
                     <label>Ngày:</label></div>
                 <div class="col-sm-6 text-left">
                     <font th:text="${#dates.format(CurrentDate, 'dd-MMM-yyyy')}"></font></div>
             </div>
             <!-- /.end date -->
             <!-- button begin-end transaction -->
-            <div class="row" style="font-size: 18px; margin-top: 5px;">
-                <div class="col-sm-5 text-right">
-                    <button class="btn bg-aqua-active" style="width: 10%" disabled title="Next"
+            <div class="row font-18" style="margin-top: 20px;">
+                <div class="col-sm-6 text-right">
+                    <button class="btn bg-aqua-active" style="width: 17%" title="Next" disabled
                             th:id="'btn-next-transaction'">
                         <i class="fa fa-play"></i></button>
                 </div>
                 <div class="col-sm-6 text-left">
-                    <button class="btn bg-red-active" style="width: 8%" disabled title="Skip"
+                    <button class="btn bg-red-active" style="width: 17%" title="Skip" disabled
                             th:id="'btn-skip-transaction'">
                         <i class="fa fa-fast-forward"></i></button>
                 </div>
             </div>
             <!-- /.end button begin-end transaction -->
         </div>
-        <div th:id="'div-overview-customer-emotion'" class="row" style="margin-top: 25px; display: none;">
-            <div class="col-sm-3">
+        <div th:id="'div-overview-customer-emotion'" class="row" style="display: none;">
+            <div class="col-sm-4">
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="row" th:id="'div-image-customer'">
@@ -102,7 +110,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-9">
+            <div class="col-sm-8">
                 <ul class="timeline">
                     <!-- customer emotion -->
                     <li class="time-label">
@@ -141,8 +149,8 @@
             </div>
         </div>
         <!-- loader -->
-        <div th:id="'div-loader'" class="row" style="margin-top: 50px;">
-            <div class="col-sm-10 text-center">
+        <div th:id="'div-loader'" class="row" style="margin-top: 55px;">
+            <div class="col-sm-12 text-center">
                 <div class="thecube">
                     <div class="cube c1"></div>
                     <div class="cube c2"></div>
@@ -152,6 +160,19 @@
             </div>
         </div>
         <!-- /.end loader -->
+        <div th:id="'div-not-get-emotion'" style="display: none">
+            <div class="row text-center">
+                <div class="col-sm-4 col-md-offset-4">
+                    <div class="box box-warning">
+                        <div class="box-body">
+                            <p class="font-18">Không thể lấy cảm xúc khách hàng.
+                                <br/> Xin vui lòng thử lại.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </section>
     <!-- /.content -->

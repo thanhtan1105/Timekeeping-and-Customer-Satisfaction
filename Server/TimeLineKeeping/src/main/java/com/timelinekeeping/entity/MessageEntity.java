@@ -19,7 +19,7 @@ public class MessageEntity implements Serializable {
     private Long id;
 
     @Basic
-    @Column(name = "message")
+    @Column(name = "message", length = Integer.MAX_VALUE)
     private String message;
 
     @Basic

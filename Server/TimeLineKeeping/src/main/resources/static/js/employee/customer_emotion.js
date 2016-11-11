@@ -6,24 +6,37 @@ var accountId = $('#accountId').val();
 var customerCode;
 var timer_get_emotion;
 var timer_get_image;
+var timer_stop_get_emotion;
 var nextAngle = 0;
 var isFirst = true;
+
+/**
+ * Fc: load page
+ */
+function load_page() {
+    //set isFirst = true;
+    isFirst = true;
+
+    //call request: load page
+    worker_get_emotion();
+
+    //timeout stop worker get emotion
+    time_out_worker_get_emotion()
+}
 
 /**
  * Event: next transaction
  */
 $('#btn-next-transaction').on('click', function () {
     console.info('Running btn next');
-    //set isFirst = true;
-    isFirst = true;
-    //reset html
-
     //disable button next
     event_disabled('#btn-next-transaction', true);
     //disable button skip
     event_disabled('#btn-skip-transaction', true);
     //hide div overview customer emotion
     event_hide('#div-overview-customer-emotion');
+    //hide div not get emotion
+    event_hide('#div-not-get-emotion');
     //show div loader
     event_show('#div-loader');
 
@@ -36,16 +49,14 @@ $('#btn-next-transaction').on('click', function () {
  */
 $('#btn-skip-transaction').on('click', function () {
     console.info('Running btn skip');
-    //set isFirst = true;
-    isFirst = true;
-    //reset html
-
     //disable button next
     event_disabled('#btn-next-transaction', true);
     //disable button skip
     event_disabled('#btn-skip-transaction', true);
     //hide div overview customer emotion
     event_hide('#div-overview-customer-emotion');
+    //hide div not get emotion
+    event_hide('#div-not-get-emotion');
     //show div loader
     event_show('#div-loader');
 
@@ -89,6 +100,8 @@ function worker_get_emotion() {
 
                 //hide div loader
                 event_hide('#div-loader');
+                //hide div not get emotion
+                event_hide('#div-not-get-emotion');
                 //show div overview customer emotion
                 event_show('#div-overview-customer-emotion');
                 //enable button next
@@ -141,7 +154,7 @@ function worker_next_transaction(isSkip) {
                 customerCode = response.data;
                 if (customerCode != null) {
                     //call request: load page
-                    worker_get_emotion();
+                    load_page();
                 }
             } else {
                 alert(response.data);
@@ -183,6 +196,49 @@ function worker_get_image() {
         }
     });
     timer_get_image = setTimeout(worker_get_image, time_out);
+}
+
+/**
+ * Fc: set time out stop worker get emotion
+ */
+function time_out_worker_get_emotion() {
+    //set timeout stop worker get emotion
+    timer_stop_get_emotion = setTimeout(function() {
+        console.info('[Stopped worker get emotion]')
+        //stop request get emotion
+        clearTimeout(timer_get_emotion);
+
+        //hide div loader
+        event_hide('#div-loader');
+        //hide div overview customer emotion
+        event_hide('#div-overview-customer-emotion');
+        //show div not get emotion
+        event_show('#div-not-get-emotion');
+        //enable button next
+        event_disabled('#btn-next-transaction', false);
+        //enable button skip
+        event_disabled('#btn-skip-transaction', false);
+    }, com_time_out_worker_get_emotion);
+}
+
+/**
+ * Fc: stop get emotion manual
+ */
+function stop_get_emotion_manual() {
+    console.info('[Stopped worker get emotion manual]');
+    //stop request get emotion
+    clearTimeout(timer_get_emotion);
+    //stop time out worker get emotion
+    clearTimeout(timer_stop_get_emotion);
+
+    //hide div loader
+    event_hide('#div-loader');
+    //hide div overview customer emotion
+    event_hide('#div-overview-customer-emotion');
+    //enable button next
+    event_disabled('#btn-next-transaction', false);
+    //enable button skip
+    event_disabled('#btn-skip-transaction', false);
 }
 
 /**
