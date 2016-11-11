@@ -12,9 +12,9 @@ public enum  ESuggestionSubject {
     EM(2, "em ấy"),
     CHU(3, "chú ấy"),
     CO(4, "cô ấy"),
-    BAC(4, "bác ấy"),
-    ONG(4, "ông"),
-    BA(4, "bà");
+    BAC(5, "bác ấy"),
+    ONG(6, "ông ấy"),
+    BA(7, "bà ấy");
 
     private int index;
     private String name;
