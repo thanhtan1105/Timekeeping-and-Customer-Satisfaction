@@ -12,6 +12,7 @@ import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
 import com.timelinekeeping.repository.EmotionContentRepo;
 import com.timelinekeeping.repository.QuantityRepo;
 import com.timelinekeeping.util.JsonUtil;
+import com.timelinekeeping.util.ServiceUtils;
 import com.timelinekeeping.util.UtilApps;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by HienTQSE60896 on 10/7/2016.
@@ -66,7 +68,6 @@ public class SuggestionService {
     }
 
 
-
     public String getEmotion(EmotionCompare emotionCompare) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -93,10 +94,12 @@ public class SuggestionService {
             ESuggestionSubject subject = getSubject(analysisModel.getAge(), analysisModel.getGender());
             String result = "";
             EmotionRecognizeScores emotionScores = analysisModel.getEmotion();
-            emotionScores.clearData(IContanst.EXCEPTION_VALUE);
+//            emotionScores.clearData(IContanst.EXCEPTION_VALUE);
+
+            Map<EEmotion, Double> map = emotionScores.map();
 
             //get emotionCompar
-            List<EmotionCompare> emotionCompares = emotionScores.getEmotionExist();
+            List<EmotionCompare> emotionCompares = ServiceUtils.getEmotionExist(map);
             logger.info("emotionCompares: " + JsonUtil.toJson(emotionCompares));
 
             // create message
@@ -109,44 +112,51 @@ public class SuggestionService {
                 //many time
 
                 //cut 1 list -> postive list, negative list
-                List<EmotionCompare> positive = new ArrayList<>();
-                List<EmotionCompare> negative = new ArrayList<>();
+                List<EmotionCompare> array1 = new ArrayList<>();
+                List<EmotionCompare> array2 = new ArrayList<>();
                 for (EmotionCompare emotionCompare : emotionCompares) {
                     if (emotionCompare.getEmotion().getGrade() > 0) {
-                        positive.add(emotionCompare);
+                        array1.add(emotionCompare);
                     } else {
-                        negative.add(emotionCompare);
+                        array2.add(emotionCompare);
                     }
                 }
 
-                if (positive.size() == 0 || negative.size() == 0) {
-                    if (positive.size() == 0) {
+                if (array1.size() == 0 || array2.size() == 0) {
+                    if (array1.size() == 0) {
                         //only negative
-                        negative.sort((EmotionCompare e1, EmotionCompare e2) -> Math.abs(e1.getValue()) > Math.abs(e2.getValue()) ? -1 : 1);
-                        positive = negative;
+                        array2.sort((EmotionCompare e1, EmotionCompare e2) -> Math.abs(e1.getValue()) > Math.abs(e2.getValue()) ? -1 : 1);
+                        array1 = array2;
                     }
                     //only positive
-                    if (positive.size() == 2) {
-                        result = String.format(IContanst.SUGGESTION_2_EMOTION, subject.getName(), positive.get(0).getEmotionName(), getEmotion(positive.get(1)));
+                    if (array1.size() == 2) {
+                        result = String.format(IContanst.SUGGESTION_2_EMOTION, subject.getName(), array1.get(0).getEmotionName(), getEmotion(array1.get(1)));
                     } else {
-                        result = String.format(IContanst.SUGGESTION_3_EMOTION, subject.getName(), positive.get(0).getEmotionName(), getEmotion(positive.get(1)), getEmotion(positive.get(2)));
+                        result = String.format(IContanst.SUGGESTION_3_EMOTION, subject.getName(), array1.get(0).getEmotionName(), getEmotion(array1.get(1)), getEmotion(array1.get(2)));
                     }
 
                 } else {
                     //Bolt
-                    negative.sort((EmotionCompare e1, EmotionCompare e2) -> Math.abs(e1.getValue()) > Math.abs(e2.getValue()) ? -1 : 1);
+                    array2.sort((EmotionCompare e1, EmotionCompare e2) -> Math.abs(e1.getValue()) > Math.abs(e2.getValue()) ? -1 : 1);
+
+                    //switch array
+                    if (Math.abs(array2.get(0).getValue()) > Math.abs(array1.get(0).getValue())){
+                        List<EmotionCompare> tmp = array1;
+                        array1 = array2;
+                        array2 = tmp;
+                    }
 
                     //size bold =1, positive = 1
-                    if (positive.size() == 1 && negative.size() == 1) {
-                        result = String.format(IContanst.SUGGESTION_BOTH_1_1_EMOTION, subject.getName(), positive.get(0).getEmotionName(), getEmotion(negative.get(0)));
-                    } else if (positive.size() > 1 && positive.size() > negative.size()) {
-                        result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), positive.get(0).getEmotionName(), getEmotion(positive.get(1)), getEmotion(negative.get(0)));
-                    } else if (negative.size() > 1) {
-                        result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), positive.get(0).getEmotionName(), getEmotion(negative.get(0)), getEmotion(negative.get(1)));
+                    if (array1.size() == 1 && array2.size() == 1) {
+                        result = String.format(IContanst.SUGGESTION_BOTH_1_1_EMOTION, subject.getName(), array1.get(0).getEmotionName(), getEmotion(array2.get(0)));
+                    } else if (array1.size() > 1 && array1.size() > array2.size()) {
+                        result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), array1.get(0).getEmotionName(), getEmotion(array1.get(1)), getEmotion(array2.get(0)));
+                    } else if (array2.size() > 1) {
+                        result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), array1.get(0).getEmotionName(), getEmotion(array2.get(0)), getEmotion(array2.get(1)));
                     } else {
                         logger.error("--%%%%% -- It out our parttern.");
-                        logger.info("Positive: " + JsonUtil.toJson(positive));
-                        logger.info("Negative: " + JsonUtil.toJson(negative));
+                        logger.info("Positive: " + JsonUtil.toJson(array1));
+                        logger.info("Negative: " + JsonUtil.toJson(array2));
                     }
                 }
                 logger.info("Result message: " + result);
@@ -189,7 +199,8 @@ public class SuggestionService {
         analysisModel.setGender(Gender.FEMALE);
         EmotionRecognizeScores emotionRecognizeScores = new EmotionRecognizeScores();
         emotionRecognizeScores.setHappiness(0.9d);
-        emotionRecognizeScores.setSadness(0.1d);
+        emotionRecognizeScores.setNeutral(0.5d);
+        emotionRecognizeScores.setSurprise(0.4d);
         emotionRecognizeScores.setAnger(0.2d);
         analysisModel.setEmotion(emotionRecognizeScores);
         SuggestionService suggestionService = new SuggestionService();

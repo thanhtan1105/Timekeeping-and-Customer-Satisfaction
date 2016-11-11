@@ -111,61 +111,7 @@ public class EmotionRecognizeScores {
         if (surprise < except) surprise = 0d;
     }
 
-    public void competitiveEmotion() {
 
-        // anger + happy
-        if (anger > 0 && happiness > 0) {
-            double value = anger * EEmotion.ANGER.getGrade() + happiness * EEmotion.HAPPINESS.getGrade();
-            if (value < 0) {
-                this.anger = value / EEmotion.ANGER.getGrade();
-                this.happiness = 0d;
-            } else {
-                this.happiness = value / EEmotion.HAPPINESS.getGrade();
-                this.anger = 0d;
-            }
-        }
-
-        // sadness happiness
-        if (sadness > 0 && happiness > 0) {
-            double value = sadness * EEmotion.SADNESS.getGrade() + happiness * EEmotion.HAPPINESS.getGrade();
-            if (value < 0) {
-                this.sadness = value / EEmotion.SADNESS.getGrade();
-                this.happiness = 0d;
-            } else {
-                this.happiness = value / EEmotion.HAPPINESS.getGrade();
-                this.sadness = 0d;
-            }
-        }
-
-        // nature
-        if (anger > neutral) anger = anger - neutral;
-        if (contempt > neutral) contempt = contempt - neutral;
-        if (disgust > neutral) disgust = disgust - neutral;
-        if (fear > neutral) fear = fear - neutral;
-        if (happiness > neutral) happiness = happiness - neutral;
-        if (neutral > neutral) neutral = neutral - neutral;
-        if (sadness < neutral) sadness = sadness - neutral;
-        if (surprise > neutral) surprise = surprise - neutral;
-
-
-    }
-
-    public List<EmotionCompare> getEmotionExist() {
-        competitiveEmotion();
-        Double sum = anger + contempt + disgust + fear + happiness + neutral + sadness + surprise;
-        List<EmotionCompare> listCompare = new ArrayList<>();
-        if (anger > 0) listCompare.add(new EmotionCompare(EEmotion.ANGER, anger, (anger / sum)));
-        if (contempt > 0) listCompare.add(new EmotionCompare(EEmotion.CONTEMPT, contempt, (contempt / sum)));
-        if (disgust > 0) listCompare.add(new EmotionCompare(EEmotion.DISGUST, disgust, (disgust / sum)));
-        if (fear > 0) listCompare.add(new EmotionCompare(EEmotion.FEAR, fear, (fear / sum)));
-        if (happiness > 0) listCompare.add(new EmotionCompare(EEmotion.HAPPINESS, happiness, (happiness / sum)));
-        if (neutral > 0) listCompare.add(new EmotionCompare(EEmotion.NEUTRAL, neutral, (neutral / sum)));
-        if (sadness > 0) listCompare.add(new EmotionCompare(EEmotion.SADNESS, sadness, (sadness / sum)));
-        if (surprise > 0) listCompare.add(new EmotionCompare(EEmotion.SURPRISE, surprise, (surprise / sum)));
-        listCompare.sort((EmotionCompare e1, EmotionCompare e2) -> e1.getValue() > e2.getValue() ? -1 : 0);
-
-        return listCompare;
-    }
 
     public Map<EEmotion, Double> map() {
         Map<EEmotion, Double> map = new HashMap<>();
