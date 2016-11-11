@@ -16,7 +16,7 @@ public class AccountAttendanceModel {
     private String fullName;
     private EStatus active;
     private Date dateDeactive;
-    private String timeSystem = IContanst.TIME_CHECK_IN_SYSTEM; // time to compare employee absent or present
+//    private String timeSystem = IContanst.TIME_CHECK_IN_SYSTEM; // time to compare employee absent or present
     private Integer year;
     private Integer month;
 
@@ -120,11 +120,11 @@ public class AccountAttendanceModel {
         this.dayWork = dayWork;
     }
 
-    public String getTimeSystem() {
-        return timeSystem;
-    }
-
-    public void setTimeSystem(String timeSystem) {
-        this.timeSystem = timeSystem;
-    }
+//    public String getTimeSystem() {
+//        return timeSystem;
+//    }
+//
+//    public void setTimeSystem(String timeSystem) {
+//        this.timeSystem = timeSystem;
+//    }
 }
