@@ -100,8 +100,8 @@
                         th:attr="class=${attendance.dayStatus.index == 3 or attendance.dayStatus.index == 5} ? 'text-bold'">
                         <td th:text="${#dates.format(attendance.date, 'yyyy-MMM-dd')}"></td>
                         <td>
-                            <label th:class="${(attendance.dayStatus.index == 2) or (attendance.dayStatus.index == 4) or (attendance.dayStatus.index == 5) or (attendance.dayStatus.index == 3 and attendance.present.index == 1)}? '' : (${(attendance.dayStatus.index == 3 and attendance.present.index == 0) or (attendance.dayStatus.index == 0 and attendance.present.index == 0)} ? 'label label-success' : 'label label-danger')"
-                                   th:text="${(attendance.dayStatus.index == 2) or (attendance.dayStatus.index == 4) or (attendance.dayStatus.index == 5) or (attendance.dayStatus.index == 3 and attendance.present.index == 1)}? '-' : (${(attendance.dayStatus.index == 3 and attendance.present.index == 0) or (attendance.dayStatus.index == 0 and attendance.present.index == 0)} ? 'Present' : 'Absent')"
+                            <label th:class="${(attendance.dayStatus.index == 2) or (attendance.dayStatus.index == 4) or (attendance.dayStatus.index == 5) or (attendance.dayStatus.index == 3 and attendance.present.index == 1 and attendance.timeCheck == null)}? '' : (${(attendance.dayStatus.index == 3 and attendance.present.index == 0) or (attendance.dayStatus.index == 0 and attendance.present.index == 0)} ? 'label label-success' : 'label label-danger')"
+                                   th:text="${(attendance.dayStatus.index == 2) or (attendance.dayStatus.index == 4) or (attendance.dayStatus.index == 5) or (attendance.dayStatus.index == 3 and attendance.present.index == 1 and attendance.timeCheck == null)}? '-' : (${(attendance.dayStatus.index == 3 and attendance.present.index == 0) or (attendance.dayStatus.index == 0 and attendance.present.index == 0)} ? 'Present' : 'Absent')"
                                    style="font-size: 14px;"></label>
                         </td>
                         <td>
