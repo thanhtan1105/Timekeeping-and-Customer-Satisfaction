@@ -18,18 +18,12 @@
         <!-- Info: manager, department, date -->
         <div style="margin-bottom: 50px">
             <div class="row text-black">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-8 text-center">
+                <div class="col-sm-12 text-center">
                     <label>
                         <font class="font-24">Cảm Xúc Khách Hàng</font>
                     </label>
                 </div>
-                <div th:id="'div-stop-worker-get-emotion-manual'" class="col-sm-2" style="opacity: 0"
-                     onclick="stop_get_emotion_manual()">
-                    <div class="box box-default">
-                        <div class="box-body"></div>
-                    </div>
-                </div>
+
             </div>
             <!-- department -->
             <div class="row text-black font-18">
@@ -53,14 +47,20 @@
             <!-- button begin-end transaction -->
             <div class="row font-18" style="margin-top: 20px;">
                 <div class="col-sm-6 text-right">
-                    <button class="btn bg-aqua-active" style="width: 17%" title="Next" disabled
+                    <button class="btn bg-aqua-active" style="width: 15%; height: 50px" title="Next" disabled
                             th:id="'btn-next-transaction'">
                         <i class="fa fa-play"></i></button>
                 </div>
-                <div class="col-sm-6 text-left">
-                    <button class="btn bg-red-active" style="width: 17%" title="Skip" disabled
+                <div class="col-sm-3 text-left">
+                    <button class="btn bg-red-active" style="width: 35%; height: 50px" title="Skip" disabled
                             th:id="'btn-skip-transaction'">
                         <i class="fa fa-fast-forward"></i></button>
+                </div>
+                <div th:id="'div-stop-worker-get-emotion-manual'" class="col-sm-3" style="opacity: 0"
+                     onclick="stop_get_emotion_manual()">
+                    <div class="box box-default">
+                        <div class="box-body"></div>
+                    </div>
                 </div>
             </div>
             <!-- /.end button begin-end transaction -->

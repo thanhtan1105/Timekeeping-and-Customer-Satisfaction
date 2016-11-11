@@ -235,6 +235,8 @@ function stop_get_emotion_manual() {
     event_hide('#div-loader');
     //hide div overview customer emotion
     event_hide('#div-overview-customer-emotion');
+    //show div not get emotion
+    event_show('#div-not-get-emotion');
     //enable button next
     event_disabled('#btn-next-transaction', false);
     //enable button skip
