@@ -101,7 +101,7 @@ public class TimekeepingServiceImpl {
             List<AccountEntity> listAccount = accountRepo.findByManagerNoActive(managerId);
 
 
-            List<Object[]> listCountTime = timekeepingRepo.countEmployeeTime(year, month);
+            List<Object[]> listCountTime = timekeepingRepo.countEmployeeTime(year, month, null, null);
             Map<Long, Long> mapChekin = new HashMap<>();
             listCountTime.stream().filter(countTime -> countTime.length >= 2)
                     .forEach(countTime -> mapChekin.put(((BigInteger) countTime[0]).longValue(), ((BigInteger) countTime[1]).longValue()));
@@ -149,7 +149,7 @@ public class TimekeepingServiceImpl {
 
     public AccountAttendanceModel getAttendance(Long accountId, Integer year, Integer month) {
         //getAttendance from sql
-        List<TimeKeepingEntity> timeKeepingEntityList = timekeepingRepo.getTimekeepingByAccount(accountId, year, month);
+        List<TimeKeepingEntity> timeKeepingEntityList = timekeepingRepo.getTimekeepingByAccount(accountId, year, month, null, null);
 
         //convert to map with date key
         Map<Integer, TimeKeepingEntity> mapTimeKeeping = new HashMap<>();
