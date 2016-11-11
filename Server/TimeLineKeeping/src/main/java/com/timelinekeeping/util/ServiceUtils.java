@@ -2,7 +2,6 @@ package com.timelinekeeping.util;
 
 import com.timelinekeeping.constant.EDayOfWeek;
 import com.timelinekeeping.constant.EDayStatus;
-import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import org.apache.http.HttpEntity;
 
@@ -118,15 +117,19 @@ public class ServiceUtils {
         return dayWork;
     }
 
-    public static String convertAgePredict(Double ageOfFace){
-        if (ageOfFace < 5){
-            return (ageOfFace.intValue()) + "";
-        }else if (ageOfFace < 20){
-            return String.format("%s - %s", (int) (ageOfFace - 0.5), (int) (ageOfFace + 0.5));
-        }else if (ageOfFace < 40){
-            return String.format("%s - %s", (int) (ageOfFace - 1), (int) (ageOfFace + 1));
-        }else {
-            return String.format("%s - %s", (int) (ageOfFace - 1.5), (int) (ageOfFace + 1.5));
+    public static String convertAgePredict(Double ageOfFace) {
+        if (ageOfFace < 5) {
+            return String.format("%s - %s", ((int) (ageOfFace - 0.5)) > 0 ? (int) (ageOfFace - 0.5) : 0, (int) Math.round(ageOfFace + 0.5));
+        } else if (ageOfFace < 20) {
+            return String.format("%s - %s", (int) (ageOfFace - 0.75), (int) Math.round(ageOfFace + 0.75));
+        } else if (ageOfFace < 40) {
+            return String.format("%s - %s", (int) (ageOfFace - 1), (int) Math.round(ageOfFace + 1));
+        } else {
+            return String.format("%s - %s", (int) (ageOfFace - 1.5), (int) Math.round(ageOfFace + 1.5));
         }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(convertAgePredict(0d));
     }
 }
