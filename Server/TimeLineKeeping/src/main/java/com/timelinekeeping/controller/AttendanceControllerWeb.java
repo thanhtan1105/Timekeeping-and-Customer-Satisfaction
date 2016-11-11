@@ -49,6 +49,7 @@ public class AttendanceControllerWeb {
                 calendar.setTime(currentDate);
                 Integer month = calendar.get(Calendar.MONTH) + 1;
                 Integer year = calendar.get(Calendar.YEAR);
+                logger.info("[Controller- Load Timekeeping View] current year: " + year);
                 logger.info("[Controller- Load Timekeeping View] current month: " + month);
                 logger.info("[Controller- Load Timekeeping View] current year: " + year);
 
