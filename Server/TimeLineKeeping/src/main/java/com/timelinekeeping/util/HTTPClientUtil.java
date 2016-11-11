@@ -45,9 +45,6 @@ public class HTTPClientUtil {
      **/
     private int typeJson = JsonUtil.NORMAl_PARSER;
 
-    /*** class return*/
-    private Class<?> classReturn;
-
     private HTTPClientUtil() {
 
     }
@@ -83,11 +80,11 @@ public class HTTPClientUtil {
         return clientUtil;
     }
 
-    public void setKeyFace() {
+    private void setKeyFace() {
         key = keyFace;
     }
 
-    public void setKeyEmotion() {
+    private void setKeyEmotion() {
         key = keyEmotion;
     }
 
@@ -101,10 +98,9 @@ public class HTTPClientUtil {
 
     public BaseResponse toGet(URI uri, int typeJson, Class<?> classReturn) throws IOException {
         this.typeJson = typeJson;
-        this.classReturn = classReturn;
         request = new HttpGet(uri);
         setHeaderJson();
-        return toProcess();
+        return toProcess(classReturn);
     }
 
     public BaseResponse toPost(String url) throws URISyntaxException, IOException {
@@ -121,13 +117,12 @@ public class HTTPClientUtil {
 
     public BaseResponse toPost(URI uri, HttpEntity entity, int typeJson, Class<?> classReturn) throws IOException {
         this.typeJson = typeJson;
-        this.classReturn = classReturn;
         request = new HttpPost(uri);
         setHeaderJson();
         if (entity != null) {
             ((HttpPost) request).setEntity(entity);
         }
-        return toProcess();
+        return toProcess(classReturn);
     }
 
     public BaseResponse toPostOct(String url, HttpEntity entity, int typeJson, Class<?> classReturn) throws IOException, URISyntaxException {
@@ -136,13 +131,12 @@ public class HTTPClientUtil {
 
     public BaseResponse toPostOct(URI uri, HttpEntity entity, int typeJson, Class<?> classReturn) throws IOException {
         this.typeJson = typeJson;
-        this.classReturn = classReturn;
         request = new HttpPost(uri);
         setHeaderOct();
         if (entity != null) {
             ((HttpPost) request).setEntity(entity);
         }
-        return toProcess();
+        return toProcess(classReturn);
     }
 
 
@@ -153,13 +147,12 @@ public class HTTPClientUtil {
 
     public BaseResponse toPut(URI uri, HttpEntity entity, int typeJson, Class<?> classReturn) throws IOException {
         this.typeJson = typeJson;
-        this.classReturn = classReturn;
         request = new HttpPut(uri);
         setHeaderJson();
         if (entity != null) {
             ((HttpPut) request).setEntity(entity);
         }
-        return toProcess();
+        return toProcess(classReturn);
     }
 
     public BaseResponse toDelete(String url) throws URISyntaxException, IOException {
@@ -168,14 +161,13 @@ public class HTTPClientUtil {
 
     public BaseResponse toDelete(URI uri, HttpEntity entity, int typeJson, Class<?> classReturn) throws IOException {
         this.typeJson = typeJson;
-        this.classReturn = classReturn;
         request = new HttpDelete(uri);
 
         setHeaderJson();
         if (entity != null) {
             ((HttpPut) request).setEntity(entity);
         }
-        return toProcess();
+        return toProcess(classReturn);
     }
 
 
@@ -190,7 +182,7 @@ public class HTTPClientUtil {
     }
 
     /***/
-    private BaseResponse toProcess() throws IOException {
+    private BaseResponse toProcess(Class<?> classReturn) throws IOException {
         // Request
         HttpClient httpclient = HttpClients.createDefault();
 

@@ -60,6 +60,8 @@ public class PersonServiceMCSImpl {
             String url = rootPath + String.format("/%s", departmentCode) + urlChild;
 
             /*** url*/
+            logger.info("url: " + url);
+
             /** entity*/
             Map<String, String> entity = new HashMap<String, String>();
             entity.put("name", name);
@@ -125,6 +127,7 @@ public class PersonServiceMCSImpl {
             String url = rootPath + String.format("/%s", persongroupId) + urlPerson + String.format("/%s", personId) + urlPersistence;
 
             /*** url -> {url}*/
+            logger.info("url: " + url);
 
             /** entity*/
             byte[] byteImg = IOUtils.toByteArray(imgStream);
@@ -163,6 +166,7 @@ public class PersonServiceMCSImpl {
 
             /*** url*/
             logger.info("-- url: " + url);
+            
             /** entity*/
 
             return HTTPClientUtil.getInstanceFace().toGet(url, JsonUtil.LIST_PARSER, PersonInformation.class);
