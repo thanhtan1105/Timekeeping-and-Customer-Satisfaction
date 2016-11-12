@@ -221,7 +221,7 @@ public class HTTPClientUtil {
             case JsonUtil.NORMAl_PARSER:
                 return JsonUtil.convertObject(dataResponse, classReturn);
             case JsonUtil.TIME_PARSER:
-                return JsonUtil.convertObject(dataResponse, classReturn, I_TIME.API_COGN_MICROSOFT_PER_GROUP_FORMAT_TIME);
+                return JsonUtil.convertObject(dataResponse, classReturn, I_TIME.FULL_TIME_AM_MCS);
             case JsonUtil.LIST_PARSER:
                 return JsonUtil.convertListObject(dataResponse, classReturn);
             case JsonUtil.MAP_PARSER:

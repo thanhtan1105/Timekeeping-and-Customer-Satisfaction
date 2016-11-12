@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  * Created by HienTQSE60896 on 10/10/2016.
  */
 @Component
-public class Interceptor extends HandlerInterceptorAdapter{
+public class EmotionInterceptor extends HandlerInterceptorAdapter{
 
     @Autowired
     private EmotionServiceImpl emotionService;

@@ -66,15 +66,17 @@
                 <table class="table">
                     <colgroup>
                         <col span="1" style="width: 5%;">
-                        <col span="1" style="width: 25%;">
                         <col span="1" style="width: 20%;">
-                        <col span="1" style="width: 50%;">
+                        <col span="1" style="width: 15%;">
+                        <col span="1" style="width: 15%;">
+                        <col span="1" style="width: 45%;">
                     </colgroup>
                     <thead>
                     <tr>
                         <th>#</th>
                         <th>Name</th>
                         <th>Present</th>
+                        <th>Time</th>
                         <th>Note</th>
                     </tr>
                     </thead>
@@ -88,6 +90,10 @@
                                    th:attr="id='statusCheckin-' + ${counter.count}"
                                    th:checked="${account.statusCheckin.index} == 0"
                                    th:disabled="${account.statusCheckin.index} == 0"/>
+                        </td>
+                        <td>
+                            <font th:text="${account.timeCheckin != null}? ${#dates.format(account.timeCheckin, 'HH:mm')}: '-'"
+                                  style="font-style: italic"></font>
                         </td>
                         <td>
                             <input th:name="note" type="text" th:value="${account.note}"

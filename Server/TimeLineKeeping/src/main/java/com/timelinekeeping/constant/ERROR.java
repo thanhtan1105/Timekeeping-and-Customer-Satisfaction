@@ -9,6 +9,9 @@ public interface ERROR {
 
     String ERROR_IN_MCS = "Error in MCS: ";
 
+    /** COMMON*/
+    String ACCOUNT_ID_CANNOT_EXIST = "AccountID = '%s' does not exist.";
+
     /** ACCOUNT */
     String ACCOUNT_ADD_FACE_CANNOT_SAVE_DB = "Cannot save database for faceId";
     String ACCOUNT_ADD_FACE_CANNOT_FOUND_ACCOUNTID = "Cannot found accountId";
@@ -26,6 +29,7 @@ public interface ERROR {
 
     String ACCOUNT_API_USERNAME_IS_NOT_EMPTY = "Username is Empty.";
     String ACCOUNT_API_PASSWORD_IS_NOT_EMPTY = "Password is Empty.";
+
     /** EMOTION*/
     String EMOTION_API_GET_CUSTOMER_EMOTION_EMPTY_DETECT = "Image cannot detect.";
 
@@ -44,10 +48,16 @@ public interface ERROR {
     String CHECK_IN_MANUAL_NO_EXIST_ACCOUNTID = "No exist accountId = '%s'.";
     String CHECK_IN_MANUAL_ACCOUNT_CHECKINED = "AccountId = '%s' is used to checkIn.";
 
-    String ACCOUNT_ID_CANNOT_EXIST = "AccountID = '%s' does not exist.";
 
+
+    /** TO DO */
     String TODO_TITLE_EMPTY = "Title is empty";
     String TODO_ACCOUNT_CREATE_EMPTY = "Account create is empty";
     String TODO_ID_EMPTY = "ID  is empty";
     String TODO_ID_CANNOT_EXIST = "TodoId = '%s' does not exist.";
+
+    /** OTHER */
+    String MESSAGE_CHECKIN_MANUAL = "Check in manual by %s.";
+
+
 }

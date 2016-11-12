@@ -5,6 +5,7 @@ import com.timelinekeeping.common.BaseResponseG;
 import com.timelinekeeping.constant.ERROR;
 import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.constant.I_TIME;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.CoordinateEntity;
 import com.timelinekeeping.entity.NotificationEntity;
@@ -231,7 +232,7 @@ public class ReminderServiceImpl {
 
     private void notification(ReminderMessageEntity entity){
         String message = String.format("Thông báo cuộc họp: \nChủ đề: %s \nPhòng họp: %s \nThời gian: %s\n",
-                entity.getTitle(), entity.getRoom().getName(), TimeUtil.timeToString(entity.getTime()));
+                entity.getTitle(), entity.getRoom().getName(), TimeUtil.timeToString(entity.getTime(), I_TIME.FULL_TIME_MINUS));
         String header = entity.getTitle();
         Set<NotificationEntity> notificationSet = notificationRepo.findReminder(entity.getId());
         for (NotificationEntity notificationEntity : notificationSet){

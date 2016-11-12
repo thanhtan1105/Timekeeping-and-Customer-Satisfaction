@@ -30,8 +30,7 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
     @Query("SELECT a FROM AccountEntity a WHERE a.userCode = ?1 and a.active <>0")
     AccountEntity findByUserCode(String code);
 
-//    @Query(value = "SELECT * FROM account a WHERE a.id = ?1 and a.active <>0", nativeQuery = true)
-//    AccountEntity findById(Long id);
+
 
     @Query("SELECT a FROM AccountEntity a WHERE a.active <>0")
     List<AccountEntity> findAll();
@@ -41,6 +40,10 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
 
     @Query("SELECT a FROM AccountEntity a INNER JOIN a.department d WHERE d.id = :department_id AND a.active <> 0")
     List<AccountEntity> findByDepartment(@Param("department_id") Long departmentId);
+
+    @Query("SELECT a FROM AccountEntity a INNER JOIN a.department d WHERE d.id = :department_id AND a.role.id = 2 AND a.active <> 0")
+    Page<AccountEntity> findManagerByDepartment(@Param("department_id") Long departmentId,
+                                                Pageable pageable);
 
     @Query("SELECT a FROM AccountEntity a INNER JOIN a.department d INNER JOIN a.role r " +
             "WHERE d.id = :department_id AND r.id <> :role_id AND a.active <> 0")

@@ -1,6 +1,7 @@
 package com.timelinekeeping.model;
 
 import com.timelinekeeping.constant.ETimeKeeping;
+import com.timelinekeeping.constant.ETypeCheckin;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.TimeKeepingEntity;
 
@@ -14,6 +15,7 @@ public class AccountCheckInModel {
     private Long id;
     private String username;
     private String fullName;
+    private ETypeCheckin typeCheckin;
     private ETimeKeeping statusCheckin = ETimeKeeping.ABSENT;
     private Date timeCheckin; //if check successful has timeCheckin
     private Date currentDate = new Date();
@@ -30,6 +32,7 @@ public class AccountCheckInModel {
             if (timeEntity != null) {
                 this.statusCheckin = timeEntity.getStatus();
                 this.timeCheckin = timeEntity.getTimeCheck();
+                this.typeCheckin = timeEntity.getType();
                 this.note = timeEntity.getNote();
             }
         }
@@ -81,5 +84,21 @@ public class AccountCheckInModel {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public Date getCurrentDate() {
+        return currentDate;
+    }
+
+    public void setCurrentDate(Date currentDate) {
+        this.currentDate = currentDate;
+    }
+
+    public ETypeCheckin getTypeCheckin() {
+        return typeCheckin;
+    }
+
+    public void setTypeCheckin(ETypeCheckin typeCheckin) {
+        this.typeCheckin = typeCheckin;
     }
 }

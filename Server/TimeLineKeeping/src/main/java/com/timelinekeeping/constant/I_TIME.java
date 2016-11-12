@@ -5,12 +5,13 @@ package com.timelinekeeping.constant;
  */
 public interface I_TIME {
 
-    String API_COGN_MICROSOFT_PER_GROUP_FORMAT_TIME = "MM/DD/YYYY h:mm:ss a";
+    String FULL_TIME_AM_MCS = "MM/DD/YYYY h:mm:ss a";
 
     String FULL_YEAR_MONTH = "yyyy-MMMM";
     String FULL_DATE = "yyyy-MMM-dd";
-    String FULL_TIME = "yyyy-MM-dd hh:mm";
+    String FULL_TIME_MINUS = "yyyy-MM-dd HH:mm";
     String FULL_TIME_SECOND = "yyyy-MM-dd HH:mm:ss";
+    String FULL_TIME_AM = "yyyy-MM-dd h:mm:ss a";
     String TIME_MINUTE = "HH:mm";
     String TIME_FULL = "HH:mm:ss";
 }

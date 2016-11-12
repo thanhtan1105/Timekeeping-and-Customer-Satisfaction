@@ -107,6 +107,7 @@ public class AccountServiceImpl {
                 return new Pair<>(false, String.format(ERROR.ACCOUNT_API_CRATE_DEPARTMENT_DOES_NOT_EXIST, account.getDepartmentId()));
             }
 
+
             // get role code
             RoleEntity roleEntity = roleRepo.findOne(account.getRoleId());
             if (roleEntity == null) {
@@ -135,10 +136,10 @@ public class AccountServiceImpl {
             entity.setRole(roleEntity);
             entity.setDepartment(departmentEntity);
 
-            //add manager
-            if (account.getManagerId() != null) {
-                AccountEntity manager = accountRepo.findOne(account.getManagerId());
-                entity.setManager(manager);
+            //getManager
+            Page<AccountEntity> manager = accountRepo.findManagerByDepartment(account.getDepartmentId(), new PageRequest(0, 1));
+            if (manager != null && manager.getTotalElements() > 0) {
+                entity.setManager(manager.getContent().get(0));
             }
             //save db
             AccountEntity result = accountRepo.saveAndFlush(entity);
@@ -187,15 +188,19 @@ public class AccountServiceImpl {
                 if (departmentEntity != null) {
                     entity.setDepartment(departmentEntity);
                 }
-            }
-
-            //2.3 mananegr
-            if (model.getManagerId() != null) {
-                AccountEntity managerEntity = accountRepo.findOne(model.getManagerId());
-                if (managerEntity != null) {
-                    entity.setManager(managerEntity);
+                Page<AccountEntity> manager = accountRepo.findManagerByDepartment(model.getDepartmentId(), new PageRequest(0, 1));
+                if (manager != null && manager.getTotalElements() > 0) {
+                    entity.setManager(manager.getContent().get(0));
                 }
             }
+
+//            //2.3 mananegr
+//            if (model.getManagerId() != null) {
+//                AccountEntity managerEntity = accountRepo.findOne(model.getManagerId());
+//                if (managerEntity != null) {
+//                    entity.setManager(managerEntity);
+//                }
+//            }
 
             //store db
             accountRepo.saveAndFlush(entity);
@@ -218,9 +223,21 @@ public class AccountServiceImpl {
                 return new Pair<>(false, "AccountId does not exist in system.");
             }
 
-            if (entity.getActive() == EStatus.DEACTIVE){
+            if (entity.getActive() == EStatus.DEACTIVE) {
                 return new Pair<>(false, "Account is being deactivated.");
             }
+
+
+            if (entity.getRole().getId() == ERole.ADMIN.getIndex()) {
+                return new Pair<>(false, "Cannot delete Account role admin");
+            } else if (entity.getRole().getId() == ERole.MANAGER.getIndex()) {
+                // if manager, cannot delete account when manager has employee
+                List<AccountEntity> employee = accountRepo.findByManager(accountId);
+                if (ValidateUtil.isNotEmpty(employee)) {
+                    return new Pair<>(false, "Cannot delete Account role Manager when account has exist employee");
+                }
+            }
+
             entity.setActive(EStatus.DEACTIVE);
             entity.setTimeDeactive(new Date().getTime());
             accountRepo.saveAndFlush(entity);
@@ -241,15 +258,35 @@ public class AccountServiceImpl {
             if (entity == null) {
                 return new Pair<>(false, "AccountId does not exist in system.");
             }
-            if (entity.getActive() == EStatus.ACTIVE){
+            if (entity.getActive() == EStatus.ACTIVE) {
                 return new Pair<>(false, "Account is being activated.");
             }
 
-            entity.setActive(EStatus.ACTIVE);
 
-            //TODO
             //set timekeepinng status deactive fromDate -> now deactvie
             Timestamp dateDeactive = entity.getTimeDeactive();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date(dateDeactive.getTime()));
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            while (calendar.getTime().compareTo(new Date()) < 0) {
+
+                //prepare time to store db
+                TimeKeepingEntity timeKeepingEntity = new TimeKeepingEntity();
+                timeKeepingEntity.setAccount(entity);
+                timeKeepingEntity.setType(ETypeCheckin.AUTO_HANDLER);
+                timeKeepingEntity.setStatus(ETimeKeeping.DEACTIVE);
+                timeKeepingEntity.setTimeCheck(new Timestamp(calendar.getTime().getTime()));
+                timeKeepingEntity.setRpManagerId(entity.getManager().getId());
+                timeKeepingEntity.setRpDepartmentId(entity.getDepartment().getId());
+                timekeepingRepo.save(timeKeepingEntity);
+
+                calendar.add(Calendar.DAY_OF_YEAR, 1);
+            }
+            timekeepingRepo.flush();
+
+
+            /** create account entity to store db*/
+            entity.setActive(EStatus.ACTIVE);
             entity.setTimeDeactive(null);
             accountRepo.saveAndFlush(entity);
             return new Pair<>(true);
