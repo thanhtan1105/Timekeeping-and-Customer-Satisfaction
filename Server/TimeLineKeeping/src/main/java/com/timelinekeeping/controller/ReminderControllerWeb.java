@@ -111,7 +111,7 @@ public class ReminderControllerWeb {
         logger.info("[Controller- Add Reminder] message: " + message);
         String dateTime = date + " " + time;
         logger.info("[Controller- Add Reminder] date time: " + dateTime);
-        Date timeParser = TimeUtil.parseToDate(dateTime, I_TIME.FULL_TIME_AM);
+        Date timeParser = TimeUtil.parseToDate(dateTime, I_TIME.FULL_TIME_MINUS);
         logger.info("[Controller- Add Reminder] parse to Date: " + timeParser);
         List<Long> employeeSet = new ArrayList<Long>();
         for (int i = 0; i < listEmployees.length; i++) {
