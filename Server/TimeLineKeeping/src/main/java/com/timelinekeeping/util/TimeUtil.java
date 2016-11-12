@@ -18,18 +18,6 @@ import java.util.Date;
 public class TimeUtil {
 
     private static Logger logger = Logger.getLogger(TimeUtil.class);
-    private static final String pattern = "yyyy-MM-dd  HH:mm";
-
-    public static Date parseStringToDate(String text) {
-        DateFormat format = new SimpleDateFormat(pattern);
-        Date date = null;
-        try {
-            date = format.parse(text);
-        } catch (ParseException e) {
-            logger.error(e);
-        }
-        return date;
-    }
 
     public static Date parseToDate(String text, String pattern) {
         DateFormat format = new SimpleDateFormat(pattern);
@@ -41,10 +29,6 @@ public class TimeUtil {
         }
     }
 
-    public static String timeToString(Date time) {
-        DateFormat format = new SimpleDateFormat(pattern);
-        return format.format(time);
-    }
 
     public static String timeToString(Date time, String pattern) {
         DateFormat format = new SimpleDateFormat(pattern);

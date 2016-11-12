@@ -39,8 +39,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public Interceptor interceptor() {
-        return new Interceptor();
+    public EmotionInterceptor interceptor() {
+        return new EmotionInterceptor();
     }
 
     @Bean

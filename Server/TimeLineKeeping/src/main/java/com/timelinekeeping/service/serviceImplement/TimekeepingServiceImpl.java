@@ -83,6 +83,8 @@ public class TimekeepingServiceImpl {
                         timeKeeping.setType(ETypeCheckin.CHECKIN_MANUAL);
                         timeKeeping.setStatus(ETimeKeeping.PRESENT);
                         timeKeeping.setTimeCheck(new Timestamp(new Date().getTime()));
+                        timeKeeping.setRpManagerId(accountEntity.getManager().getId());
+                        timeKeeping.setRpDepartmentId(accountEntity.getDepartment().getId());
                         timekeepingRepo.save(timeKeeping);
                         checkinModel.setSuccess(true);
                     } else if (timeKeeping.getType() == ETypeCheckin.CHECKIN_CAMERA && TimeUtil.isPresentTimeCheckin(timeKeeping.getTimeCheck()) == false) {

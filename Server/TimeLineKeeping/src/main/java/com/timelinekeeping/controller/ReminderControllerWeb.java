@@ -2,6 +2,7 @@ package com.timelinekeeping.controller;
 
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.IViewConst;
+import com.timelinekeeping.constant.I_TIME;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.common.BaseResponseG;
@@ -12,7 +13,6 @@ import com.timelinekeeping.util.TimeUtil;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -111,7 +111,7 @@ public class ReminderControllerWeb {
         logger.info("[Controller- Add Reminder] message: " + message);
         String dateTime = date + " " + time;
         logger.info("[Controller- Add Reminder] date time: " + dateTime);
-        Date timeParser = TimeUtil.parseToDate(dateTime, "yyyy-MM-dd hh:mm a");
+        Date timeParser = TimeUtil.parseToDate(dateTime, I_TIME.FULL_TIME_AM);
         logger.info("[Controller- Add Reminder] parse to Date: " + timeParser);
         List<Long> employeeSet = new ArrayList<Long>();
         for (int i = 0; i < listEmployees.length; i++) {
@@ -209,7 +209,7 @@ public class ReminderControllerWeb {
                            @RequestParam("message") String message,
                            HttpSession session) {
         TimeUtil timeUtil = new TimeUtil();
-        Date timeParser = timeUtil.parseStringToDate(time);
+        Date timeParser = timeUtil.parseToDate(time, I_TIME.FULL_TIME_MINUS);
 
         List<Long> employeeSet = new ArrayList<Long>();
         for (int i = 0; i < listEmployees.length; i++) {

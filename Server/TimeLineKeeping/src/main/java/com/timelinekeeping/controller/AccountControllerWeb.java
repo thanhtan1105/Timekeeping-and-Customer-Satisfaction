@@ -111,7 +111,6 @@ public class AccountControllerWeb {
             account.setFullName(fullName);
             account.setRoleId(ValidateUtil.parseNumber(roleId));
             account.setDepartmentId(ValidateUtil.parseNumber(departmentId));
-            account.setManagerId(ValidateUtil.parseNumber(managerId));
             account.setGender(Integer.parseInt(gender));
             account.setEmail(email);
             account.setPhone(phone);
@@ -122,7 +121,6 @@ public class AccountControllerWeb {
 
             logger.info("[Controller- Add Account] success: " + success);
             if (success) {
-//                url = "redirect:/admin/accounts/";
                 // set side-bar
                 String sideBar = IContanst.SIDE_BAR_ADMIN_MANAGEMENT_ACC;
 
