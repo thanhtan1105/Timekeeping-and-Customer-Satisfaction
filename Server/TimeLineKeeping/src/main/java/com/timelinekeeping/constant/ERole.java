@@ -8,9 +8,9 @@ import com.timelinekeeping.model.RoleAuthen;
  */
 public enum ERole {
 
-    ADMIN(0, "ADMIN"),
-    MANAGER(1, "MANAGER"),
-    EMPLOYEE(2, "EMPLOYEE");
+    ADMIN(0, "admin"),
+    MANAGER(1, "manager"),
+    EMPLOYEE(2, "employee");
 
     private int index;
     private String name;

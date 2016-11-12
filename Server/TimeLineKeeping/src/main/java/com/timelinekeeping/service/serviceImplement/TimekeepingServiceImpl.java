@@ -49,6 +49,8 @@ public class TimekeepingServiceImpl {
                         } else {
                             timeKeepingEntity.setStatus(ETimeKeeping.ABSENT);
                         }
+                    }else{
+                        timeKeepingEntity.setTimeCheck(null);
                     }
                 }
                 AccountCheckInModel accountCheckInModel = new AccountCheckInModel(accountEntity, timeKeepingEntity);
