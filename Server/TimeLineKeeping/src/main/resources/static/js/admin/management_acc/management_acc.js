@@ -267,7 +267,8 @@ function set_list_accounts(list_accounts, $tbody_list_accounts) {
     var content_list_accounts = '',
         status,
         tr_status,
-        btn_activate;
+        btn_activate,
+        role_name;
     for (var i = 0; i < list_accounts.length; i++) {
         status = list_accounts[i].active;
         if (status == 1) {
@@ -283,7 +284,7 @@ function set_list_accounts(list_accounts, $tbody_list_accounts) {
             '<td>' + list_accounts[i].fullName + '</td>' +
             '<td>' + list_accounts[i].username + '</td>' +
             '<td>' + list_accounts[i].department.name + '</td>' +
-            '<td>' + list_accounts[i].role.name + '</td>' +
+            '<td class="capitalize-first-character">' + list_accounts[i].role.name + '</td>' +
             '<td>' +
             '<button class="btn btn-success btn-flat btn-sm" type="button" title="View Account" onclick="view(' + list_accounts[i].id + ')">' +
             '<i class="fa fa-eye"></i>' +
