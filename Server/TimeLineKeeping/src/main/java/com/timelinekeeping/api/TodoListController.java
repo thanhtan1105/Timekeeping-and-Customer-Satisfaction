@@ -1,14 +1,16 @@
 package com.timelinekeeping.api;
 
+import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.EStatusToDoTask;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.controller.PersonGroupControllerWeb;
-import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.model.ToDoListModel;
 import com.timelinekeeping.model.ToDoListModifyModel;
 import com.timelinekeeping.service.serviceImplement.TodoListServiceImpl;
+import com.timelinekeeping.util.TimeUtil;
+import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -30,18 +32,18 @@ public class TodoListController {
     TodoListServiceImpl todoListService;
 
     // TO DO List
-    @RequestMapping(value = I_URI.API_TODOLIST_GET, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public BaseResponse get(@RequestParam(value = "month") String month,
-                            @RequestParam(value = "year") String year,
-                            @RequestParam(value = "day") String day,
-                            @RequestParam(value = "accountId") String accountId) {
+    @RequestMapping(value = I_URI.API_TODOLIST_List_TODO, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public BaseResponse getByAccountAndTime(@RequestParam(value = "time") Long time,
+                                            @RequestParam(value = "accountId") String accountId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            BaseResponse baseResponse = new BaseResponse();
-            List<ToDoListModel> list = todoListService.getToDoTask(Integer.parseInt(day), Integer.parseInt(month), Integer.parseInt(year), accountId);
-            baseResponse.setData(list);
-            baseResponse.setSuccess(true);
-            return baseResponse;
+            time = TimeUtil.correctMilisecord(time);
+            List<ToDoListModel> list = todoListService.getToDoTask(time, accountId);
+            if (ValidateUtil.isEmpty(list)) {
+                return new BaseResponse(false);
+            } else {
+                return new BaseResponse(true, list);
+            }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
@@ -78,9 +80,9 @@ public class TodoListController {
             toDoListModifyModel.setTitle(title);
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             Pair<Boolean, String> result = todoListService.create(toDoListModifyModel);
-            if (result.getKey()){
+            if (result.getKey()) {
                 return new BaseResponse(result.getKey(), new Pair<String, Long>("id", Long.valueOf(result.getValue())));
-            }else {
+            } else {
                 return new BaseResponse(result.getKey(), result.getValue());
             }
         } catch (Exception e) {
@@ -91,14 +93,14 @@ public class TodoListController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_UPDATE, method = RequestMethod.POST , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = I_URI.API_UPDATE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BaseResponse update(@ModelAttribute ToDoListModifyModel modifyModel) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             Pair<Boolean, String> result = todoListService.update(modifyModel);
-            if (result.getKey()){
+            if (result.getKey()) {
                 return new BaseResponse(result.getKey(), new Pair<String, Long>("id", Long.valueOf(result.getValue())));
-            }else {
+            } else {
                 return new BaseResponse(result.getKey(), result.getValue());
             }
         } catch (Exception e) {
@@ -114,9 +116,9 @@ public class TodoListController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             Pair<Boolean, String> result = todoListService.delete(todoId);
-            if (result.getKey()){
+            if (result.getKey()) {
                 return new BaseResponse(result.getKey());
-            }else {
+            } else {
                 return new BaseResponse(result.getKey(), result.getValue());
             }
         } catch (Exception e) {

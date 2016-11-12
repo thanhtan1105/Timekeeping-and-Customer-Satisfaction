@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,12 +37,14 @@ public class TodoListServiceImpl {
 
     private Logger logger = LogManager.getLogger(AccountServiceImpl.class);
 
-    public List<ToDoListModel> getToDoTask(int day, int month, int year, String accountId) {
+    public List<ToDoListModel> getToDoTask(Long time, String accountId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
 
+            Date dateQuery = new Date(time);
+
             // convert list
-            List<ToDoListEntity> list = toDoListRepo.findByToDoListOnMonth(accountId, month, year, day);
+            List<ToDoListEntity> list = toDoListRepo.findByToDoListOnMonth(accountId, dateQuery);
             List<ToDoListModel> returnValue = list.stream().map(ToDoListModel::new).collect(Collectors.toList());
             return returnValue;
         } finally {

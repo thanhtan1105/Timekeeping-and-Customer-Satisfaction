@@ -95,7 +95,7 @@ public interface I_URI {
      * To do list
      */
     String API_TODOLIST = "/api/todo_list";
-    String API_TODOLIST_GET = "/get";
+    String API_TODOLIST_List_TODO = "/list_todo";
     String API_TODOLIST_SELECT_TASK = "/select_task";
 
     /**
