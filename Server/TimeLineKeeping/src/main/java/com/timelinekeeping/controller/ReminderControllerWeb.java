@@ -111,7 +111,7 @@ public class ReminderControllerWeb {
         logger.info("[Controller- Add Reminder] message: " + message);
         String dateTime = date + " " + time;
         logger.info("[Controller- Add Reminder] date time: " + dateTime);
-        Date timeParser = TimeUtil.parseToDate(dateTime, I_TIME.FULL_TIME_AM);
+        Date timeParser = TimeUtil.parseToDate(dateTime, I_TIME.FULL_TIME_MINUS);
         logger.info("[Controller- Add Reminder] parse to Date: " + timeParser);
         List<Long> employeeSet = new ArrayList<Long>();
         for (int i = 0; i < listEmployees.length; i++) {
@@ -203,16 +203,26 @@ public class ReminderControllerWeb {
 
     @RequestMapping(value = "/updating", method = RequestMethod.POST)
     public String updating(@RequestParam("title") String title,
+                           @RequestParam("date") String date,
                            @RequestParam("time") String time,
                            @RequestParam("roomId") String roomId,
                            @RequestParam("listEmployees") String[] listEmployees,
                            @RequestParam("message") String message,
                            HttpSession session) {
-        TimeUtil timeUtil = new TimeUtil();
-        Date timeParser = timeUtil.parseToDate(time, I_TIME.FULL_TIME_MINUS);
+        logger.info("[Controller- Add Reminder] BEGIN");
+        logger.info("[Controller- Add Reminder] title: " + title);
+        logger.info("[Controller- Add Reminder] time: " + time);
+        logger.info("[Controller- Add Reminder] roomId: " + roomId);
+        logger.info("[Controller- Add Reminder] size of list employees: " + listEmployees.length);
+        logger.info("[Controller- Add Reminder] message: " + message);
+        String dateTime = date + " " + time;
+        logger.info("[Controller- Add Reminder] date time: " + dateTime);
+        Date timeParser = TimeUtil.parseToDate(dateTime, I_TIME.FULL_TIME_MINUS);
+        logger.info("[Controller- Add Reminder] parse to Date: " + timeParser);
 
         List<Long> employeeSet = new ArrayList<Long>();
         for (int i = 0; i < listEmployees.length; i++) {
+            logger.info("[Controller- Add Reminder] employeeId[" + i + "]: " + listEmployees[i]);
             employeeSet.add(ValidateUtil.parseNumber(listEmployees[i]));
         }
 

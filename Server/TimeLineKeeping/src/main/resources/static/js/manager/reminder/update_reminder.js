@@ -1,11 +1,11 @@
 /**
- * Created by TrungNN on 11/3/2016.
+ * Created by TrungNN on 11/13/2016.
  */
 
 /**
  * Initial datepicker
  */
-$('#datepicker-reminder-adding').datepicker({
+$('#datepicker-reminder-updating').datepicker({
     format: 'yyyy-M-dd',
     startDate: new Date(),
     todayHighlight: 1,
@@ -15,7 +15,7 @@ $('#datepicker-reminder-adding').datepicker({
 /**
  * Initial timepicker
  */
-$(".timepicker-reminder-adding").timepicker({
+$(".timepicker-reminder-updating").timepicker({
     format: 'hh:mm',
     defaultTime: 'current',
     minuteStep: 1,
