@@ -50,4 +50,6 @@ public interface ERROR {
     String TODO_ACCOUNT_CREATE_EMPTY = "Account create is empty";
     String TODO_ID_EMPTY = "ID  is empty";
     String TODO_ID_CANNOT_EXIST = "TodoId = '%s' does not exist.";
+
+    String MESSAGE_CHECKIN_MANUAL = "Check in manual by %s.";
 }

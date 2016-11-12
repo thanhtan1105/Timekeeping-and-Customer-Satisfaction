@@ -41,7 +41,18 @@ public class TimekeepingServiceImpl {
             List<AccountEntity> listAccount = accountRepo.findByManager(managerID);
             for (AccountEntity accountEntity : listAccount) {
                 TimeKeepingEntity timeKeepingEntity = timekeepingRepo.findByAccountCheckinDate(accountEntity.getId(), new Date());
-                listResult.add(new AccountCheckInModel(accountEntity, timeKeepingEntity));
+                if (timeKeepingEntity != null) {
+                    //if type checkin = camera, reset time keeping
+                    if (timeKeepingEntity.getType() == ETypeCheckin.CHECKIN_CAMERA) {
+                        if (TimeUtil.isPresentTimeCheckin(timeKeepingEntity.getTimeCheck())) {
+                            timeKeepingEntity.setStatus(ETimeKeeping.PRESENT);
+                        } else {
+                            timeKeepingEntity.setStatus(ETimeKeeping.ABSENT);
+                        }
+                    }
+                }
+                AccountCheckInModel accountCheckInModel = new AccountCheckInModel(accountEntity, timeKeepingEntity);
+                listResult.add(accountCheckInModel);
             }
             return listResult;
         } finally {
@@ -60,10 +71,20 @@ public class TimekeepingServiceImpl {
                 AccountEntity accountEntity = accountRepo.findOne(accountId);
                 if (accountEntity != null) {
                     TimeKeepingEntity timeKeeping = timekeepingRepo.findByAccountCheckinDate(accountId, new Date());
+                    String note = String.format(ERROR.MESSAGE_CHECKIN_MANUAL, accountEntity.getManager().getUsername()) + " " + checkinModel.getNote();
                     if (timeKeeping == null) {
+
+
                         timeKeeping = new TimeKeepingEntity();
                         timeKeeping.setAccount(accountEntity);
-                        timeKeeping.setNote(checkinModel.getNote());
+                        timeKeeping.setNote(note);
+                        timeKeeping.setType(ETypeCheckin.CHECKIN_MANUAL);
+                        timeKeeping.setStatus(ETimeKeeping.PRESENT);
+                        timeKeeping.setTimeCheck(new Timestamp(new Date().getTime()));
+                        timekeepingRepo.save(timeKeeping);
+                        checkinModel.setSuccess(true);
+                    } else if (timeKeeping.getType() == ETypeCheckin.CHECKIN_CAMERA && TimeUtil.isPresentTimeCheckin(timeKeeping.getTimeCheck()) == false) {
+                        timeKeeping.setNote(note);
                         timeKeeping.setType(ETypeCheckin.CHECKIN_MANUAL);
                         timeKeeping.setStatus(ETimeKeeping.PRESENT);
                         timeKeeping.setTimeCheck(new Timestamp(new Date().getTime()));
@@ -92,8 +113,8 @@ public class TimekeepingServiceImpl {
     public TimekeepingResponseModel getTimeKeeping(Long managerId, Integer year, Integer month) {
 
         //get from_time, to_time
-        String timeFrom = TimeUtil.correctTimeCheckin(IContanst.TIME_CHECK_IN_SYSTEM_START);
-        String timeto = TimeUtil.correctTimeCheckin(IContanst.TIME_CHECK_IN_SYSTEM_END);
+        Date timeFrom = TimeUtil.parseToDate(IContanst.TIME_CHECK_IN_SYSTEM_START, I_TIME.TIME_MINUTE);
+        Date timeto = TimeUtil.parseToDate(IContanst.TIME_CHECK_IN_SYSTEM_END, I_TIME.TIME_MINUTE);
 
         //get All acount by manager
         //get all timekeeping in month
@@ -106,10 +127,29 @@ public class TimekeepingServiceImpl {
             List<AccountEntity> listAccount = accountRepo.findByManagerNoActive(managerId);
 
 
-            List<Object[]> listCountTime = timekeepingRepo.countEmployeeTime(year, month, timeFrom, timeto);
+            //get All Timekeepung
+            List<TimeKeepingEntity> listTimekeeping = timekeepingRepo.countEmployeeTime(year, month);
             Map<Long, Long> mapChekin = new HashMap<>();
-            listCountTime.stream().filter(countTime -> countTime.length >= 2)
-                    .forEach(countTime -> mapChekin.put(((BigInteger) countTime[0]).longValue(), ((BigInteger) countTime[1]).longValue()));
+            for (TimeKeepingEntity timeKeepingEntity : listTimekeeping){
+                Long count = mapChekin.get(timeKeepingEntity.getAccount().getId());
+                if (count == null) count = 0l;
+                if (timeKeepingEntity.getType() == ETypeCheckin.CHECKIN_CAMERA ){
+                    if (TimeUtil.isPresentTimeCheckin(timeKeepingEntity.getTimeCheck())){
+                        count++;
+                    }
+                }else {
+                    if (timeKeepingEntity.getStatus() == ETimeKeeping.PRESENT){
+                        count++;
+                    }
+                }
+                mapChekin.put(timeKeepingEntity.getAccount().getId(), count);
+            }
+
+
+
+//            Map<Long, Long> mapChekin = new HashMap<>();
+//            listCountTime.stream().filter(countTime -> countTime.length >= 2)
+//                    .forEach(countTime -> mapChekin.put(((BigInteger) countTime[0]).longValue(), ((BigInteger) countTime[1]).longValue()));
 
             List<AccountTKReportModel> accountTKReportModels = new ArrayList<>();
             //create list accountResponse
@@ -127,16 +167,19 @@ public class TimekeepingServiceImpl {
                     Timestamp deactiveTime = accountEntity.getActive() == EStatus.DEACTIVE ? accountEntity.getTimeDeactive() : null;
                     int workDay = ServiceUtils.countWorkDay(year, month, accountEntity.getTimeCreate(), deactiveTime);
 
-                    // it must workDay >0, it cannot accept timekeeping 0/0
-                    if (workDay > 0) {
-                        AccountTKReportModel accountTK = new AccountTKReportModel(accountEntity);
-                        if (dayCheckIn != null) {
-                            accountTK.setDayCheckin(dayCheckIn.intValue());
-                        }
-                        accountTK.setDayWork(workDay);
-
-                        accountTKReportModels.add(accountTK);
+                    // it must account deactive workDay >0, it cannot accept timekeeping 0/0
+                    if (accountEntity.getActive() == EStatus.DEACTIVE && workDay <= 0) {
+                        continue;
                     }
+
+                    AccountTKReportModel accountTK = new AccountTKReportModel(accountEntity);
+                    if (dayCheckIn != null) {
+                        accountTK.setDayCheckin(dayCheckIn.intValue());
+                    }
+                    accountTK.setDayWork(workDay);
+
+                    accountTKReportModels.add(accountTK);
+
                 }
             }
 
@@ -156,7 +199,7 @@ public class TimekeepingServiceImpl {
 
 
         //getAttendance from sql
-        List<TimeKeepingEntity> timeKeepingEntityList = timekeepingRepo.getTimekeepingByAccount(accountId, year, month, null, null);
+        List<TimeKeepingEntity> timeKeepingEntityList = timekeepingRepo.getTimekeepingByAccount(accountId, year, month);
 
         //convert to map with date key
         Map<Integer, TimeKeepingEntity> mapTimeKeeping = new HashMap<>();
@@ -165,12 +208,14 @@ public class TimekeepingServiceImpl {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(timeCheck);
             Integer dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-            if (timeKeepingEntity.getStatus() == ETimeKeeping.PRESENT || timeKeepingEntity.getStatus() == ETimeKeeping.ABSENT) {
+            if (timeKeepingEntity.getType() == ETypeCheckin.CHECKIN_CAMERA) {
                 if (TimeUtil.isPresentTimeCheckin(timeCheck)) {
                     timeKeepingEntity.setStatus(ETimeKeeping.PRESENT);
                 } else {
                     timeKeepingEntity.setStatus(ETimeKeeping.ABSENT);
                 }
+            } else {
+                timeKeepingEntity.setTimeCheck(null);
             }
             mapTimeKeeping.put(dayOfMonth, timeKeepingEntity);
         }

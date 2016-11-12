@@ -31,11 +31,10 @@ public class TimeKeepingController {
     private Logger logger = LogManager.getLogger(TimeKeepingController.class);
 
     @RequestMapping(value = I_URI.API_TIMEKEEPING_LIST_EMPLOYEE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<AccountCheckInModel> getEmployeeUnderManager(@RequestParam("departmentId") Long departmentId,
-                                                             @RequestParam("accountId") Long accountId) {
+    public List<AccountCheckInModel> getEmployeeUnderManager(@RequestParam("managerId") Long managerId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            return timekeepingService.getEmployeeUnderManager(accountId);
+            return timekeepingService.getEmployeeUnderManager(managerId);
         } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
