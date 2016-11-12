@@ -147,6 +147,8 @@ public class ServiceUtils {
         double sadness = map.get(EEmotion.SADNESS);
         double surprise = map.get(EEmotion.SURPRISE);
 
+        EEmotion emotionMost = emotionMost(map);
+
         if (anger > 0 && happiness > 0) {
             double value = anger * EEmotion.ANGER.getGrade() + happiness * EEmotion.HAPPINESS.getGrade();
             if (value < 0) {
@@ -173,21 +175,19 @@ public class ServiceUtils {
         }
 
 
-
-
         //TODO check again
         // nature
         if (neutral > IContanst.EXCEPTION_VALUE) {
-            if (anger > neutral) anger = anger - neutral;
-            if (contempt > neutral) contempt = contempt - neutral;
-            if (disgust > neutral) disgust = disgust - neutral;
-            if (fear > neutral) fear = fear - neutral;
-            if (happiness > neutral) happiness = happiness - neutral;
-//        if (neutral > neutral) neutral = neutral - neutral;
-            if (sadness > neutral) sadness = sadness - neutral;
-            if (surprise > neutral) surprise = surprise - neutral;
-
-            neutral = 0;
+            if (emotionMost != EEmotion.NEUTRAL) {
+                if (anger > neutral) anger = anger - neutral;
+                if (contempt > neutral) contempt = contempt - neutral;
+                if (disgust > neutral) disgust = disgust - neutral;
+                if (fear > neutral) fear = fear - neutral;
+                if (happiness > neutral) happiness = happiness - neutral;
+                if (sadness > neutral) sadness = sadness - neutral;
+                if (surprise > neutral) surprise = surprise - neutral;
+                neutral = 0;
+            }
         }
 
 
@@ -218,5 +218,17 @@ public class ServiceUtils {
         listCompare.sort((EmotionCompare e1, EmotionCompare e2) -> e1.getValue() > e2.getValue() ? -1 : 0);
 
         return listCompare;
+    }
+
+    public static EEmotion emotionMost(Map<EEmotion, Double> map) {
+        EEmotion emotion = null;
+        Double value = 0d;
+        for (Map.Entry<EEmotion, Double> entry : map.entrySet()) {
+            if (entry.getValue() > value) {
+                value = entry.getValue();
+                emotion = entry.getKey();
+            }
+        }
+        return emotion;
     }
 }
