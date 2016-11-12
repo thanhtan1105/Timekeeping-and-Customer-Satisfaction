@@ -462,7 +462,7 @@ function set_manager(manager) {
  */
 function set_not_available(value) {
     if (value == null || value.trim() == '') {
-        return 'N/A';
+        return '';
     } else {
         return value;
     }
