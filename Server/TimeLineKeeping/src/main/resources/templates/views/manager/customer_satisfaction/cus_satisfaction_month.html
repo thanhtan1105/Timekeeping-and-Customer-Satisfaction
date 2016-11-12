@@ -13,7 +13,7 @@
     <section class="content font-17">
         <!-- Your Page Content Here -->
         <!-- Info: manager, department, date -->
-        <div style="margin-bottom: 10px">
+        <div style="margin-bottom: 20px">
             <div class="row text-success" style="font-size: 24px;">
                 <div class="col-sm-5 text-right text-bold">
                     <i class="fa fa-thumbs-o-up"></i>
@@ -74,7 +74,7 @@
                                     <font class="box-title text-success" style="font-size: 19px">
                                         <i class="fa fa-users"></i> Employees List</font>
                                 </div>
-                                <div class="col-sm-6 text-right">
+                                <div class="col-sm-6 text-right" style="display: none">
                                     <div class="input-group" style="margin-left: 60%">
                                             <span class="input-group-btn">
                                                 <button class="btn btn-success btn-flat btn-sm" type="button">
@@ -112,7 +112,7 @@
                                             <td th:text="${employee.fullName}"></td>
                                             <td th:text="${employee.totalCustomer != null}? ${employee.totalCustomer}: 0"
                                                 class="text-center"></td>
-                                            <td th:text="${employee.totalCustomer != 0}? ${employee.evaluation}: 'N/A'"></td>
+                                            <td th:text="${employee.totalCustomer != 0}? ${employee.evaluation}: '-'"></td>
                                             <td class="text-center">
                                                 <form th:action="@{/manager/cus_satisfaction/month/details}" method="post"
                                                       th:id="'form-submit-view-details-' + ${employee.id}">
