@@ -33,7 +33,7 @@
                                 <label class="col-sm-2 text-right">Time:</label>
                                 <div class="col-sm-10">
                                     <font th:if="${session} and ${session.ReminderModel}"
-                                          th:text="${#dates.format(session.ReminderModel.time, 'yyyy-MM-dd  HH:mm')}"></font>
+                                          th:text="${#dates.format(session.ReminderModel.time, 'yyyy-MMMM-dd  HH:mm')}"></font>
                                 </div>
                             </div>
                             <div class="row">

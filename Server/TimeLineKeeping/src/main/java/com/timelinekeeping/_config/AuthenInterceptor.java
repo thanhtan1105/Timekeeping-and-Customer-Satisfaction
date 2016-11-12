@@ -22,7 +22,7 @@ import java.util.List;
 public class AuthenInterceptor extends HandlerInterceptorAdapter {
     private static final List<String> IGNORED_PATHS = Arrays
             .asList("/",
-                    "/error/**",
+//                    "/error/**",
                     "/login",
                     "/js/**",
                     "/css/**",

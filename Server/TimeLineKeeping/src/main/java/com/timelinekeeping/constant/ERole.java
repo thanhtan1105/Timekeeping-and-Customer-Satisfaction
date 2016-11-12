@@ -1,6 +1,7 @@
 package com.timelinekeeping.constant;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.timelinekeeping.entity.RoleEntity;
 import com.timelinekeeping.model.RoleAuthen;
 
 /**
@@ -8,13 +9,12 @@ import com.timelinekeeping.model.RoleAuthen;
  */
 public enum ERole {
 
-    ADMIN(0, "ADMIN"),
-    MANAGER(1, "MANAGER"),
-    EMPLOYEE(2, "EMPLOYEE");
+    ADMIN(1, "admin"),
+    MANAGER(2, "manager"),
+    EMPLOYEE(3, "employee");
 
     private int index;
     private String name;
-    private RoleAuthen role;
     ERole(int index, String name) {
         this.index = index;
         this.name = name;
@@ -46,11 +46,4 @@ public enum ERole {
         this.name = name;
     }
 
-    public RoleAuthen getRole() {
-        return role;
-    }
-
-    public void setRole(RoleAuthen role) {
-        this.role = role;
-    }
 }

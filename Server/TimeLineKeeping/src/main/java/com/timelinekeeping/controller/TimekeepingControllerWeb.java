@@ -162,7 +162,7 @@ public class TimekeepingControllerWeb {
         logger.info("[Controller- Change Month Timekeeping Details View] BEGIN");
         logger.info("[Controller- Change Month Timekeeping Details View] selected month: " + selectedMonth);
         logger.info("[Controller- Change Month Timekeeping Details View] accountId: " + accountId);
-        String pattern = "yyyy-MM";
+
         // parse to date
         Date selectedDate = TimeUtil.parseToDate(selectedMonth, I_TIME.FULL_YEAR_MONTH);
         logger.info("[Controller- Change Month Timekeeping View] selected date: " + selectedDate);

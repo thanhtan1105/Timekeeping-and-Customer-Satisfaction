@@ -21,18 +21,14 @@ public interface TimekeepingRepo extends JpaRepository<TimeKeepingEntity, Long> 
     @Query("SELECT t FROM TimeKeepingEntity t INNER JOIN t.account a WHERE a.id = :accountId")
     public List<TimeKeepingEntity> findByAccount(@Param("accountId") Long accountId);
 
-    @Query(value = "SELECT t.account_id, count(id) FROM time_keeping t WHERE year(t.time_check) = :year and month(t.time_check) = :month and (:from_time is null or :to_time is null or cast(time_check as time) between :from_time and :to_time) group by t.account_id;", nativeQuery = true)
-    public List<Object[]> countEmployeeTime(@Param("year") Integer year,
-                                            @Param("month") Integer month,
-                                            @Param("from_time") String fromTime,
-                                            @Param("to_time") String toTime);
+    @Query(value = "SELECT * FROM time_keeping t WHERE year(t.time_check) = :year and month(t.time_check) = :month ", nativeQuery = true)
+    public List<TimeKeepingEntity> countEmployeeTime(@Param("year") Integer year,
+                                                     @Param("month") Integer month);
 
-    @Query(value = "SELECT * FROM time_keeping t WHERE  t.account_id = :accountId AND year(t.time_check) = :year and month(t.time_check) = :month and (:from_time is null or :to_time is null or cast(time_check as time) between :from_time and :to_time) ", nativeQuery = true)
+    @Query(value = "SELECT * FROM time_keeping t WHERE  t.account_id = :accountId AND year(t.time_check) = :year and month(t.time_check) = :month  ", nativeQuery = true)
     public List<TimeKeepingEntity> getTimekeepingByAccount(@Param("accountId") Long accountId,
                                                            @Param("year") Integer year,
-                                                           @Param("month") Integer month,
-                                                           @Param("from_time") String fromTime,
-                                                           @Param("to_time") String toTime);
+                                                           @Param("month") Integer month);
 
 }
 

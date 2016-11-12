@@ -20,7 +20,7 @@ public class AccountModifyModel {
     private Long roleId;
     private Long departmentId;
     private Gender gender;
-    private Long managerId;
+//    private Long managerId;
 
     public AccountModifyModel() {
     }
@@ -90,13 +90,13 @@ public class AccountModifyModel {
         this.departmentId = departmentId;
     }
 
-    public Long getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(Long managerId) {
-        this.managerId = managerId;
-    }
+//    public Long getManagerId() {
+//        return managerId;
+//    }
+//
+//    public void setManagerId(Long managerId) {
+//        this.managerId = managerId;
+//    }
 
     public String getEmail() {
         return email;

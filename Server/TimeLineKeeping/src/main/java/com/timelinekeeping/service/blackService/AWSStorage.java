@@ -16,15 +16,7 @@ import java.io.File;
 /**
  * Created by lethanhtan on 10/31/16.
  */
-public class AWSStorage {
-
-    public static void main(String args[]) {
-        File file = new File("D:\\CP\\FILE\\customerCode4.jpg");
-        if (file != null) {
-            System.out.println("Link ne:" + uploadFile(file, "customerCode4.jpg"));
-        }
-
-    }
+public class AWSStorage{
 
     public static String uploadFile(File file, String fileName) {
         AWSCredentials credentials = null;
@@ -66,4 +58,10 @@ public class AWSStorage {
 
         return null;
     }
+
+//
+//    @Override
+//    public void run() {
+//        uploadFile()
+//    }
 }

@@ -24,7 +24,7 @@ INSERT INTO `mydb`.`emotion_content` (`emotion_first`, `emotion_second`, `emotio
 INSERT INTO `mydb`.`emotion_content` (`emotion_first`, `emotion_second`, `emotion_third`, `message`, `status`, `vote`) VALUES ('4', '8', '8', 'Nếu chưa có Visa thì hãy giới thiệu cho %s.', '0', '0');
 
 /** ROLE*/
-INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('admin','/admin/**;/account/**;/department/**','redirect:/admin/departments/');
+INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('admin','/admin/**;/account/**;/department/**','redirect:/admin/accounts/');
 INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('manager','/manager/**','redirect:/manager/check_in/');
 INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('employee','/employee/**','redirect:/employee/attendance/');
 
