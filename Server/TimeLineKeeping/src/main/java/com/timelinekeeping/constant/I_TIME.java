@@ -9,7 +9,7 @@ public interface I_TIME {
 
     String FULL_YEAR_MONTH = "yyyy-MMMM";
     String FULL_DATE = "yyyy-MMM-dd";
-    String FULL_TIME_MINUS = "yyyy-MMM-dd hh:mm a";
+    String FULL_TIME_MINUS = "yyyy-MM-dd HH:mm";
     String FULL_TIME_SECOND = "yyyy-MM-dd HH:mm:ss";
     String FULL_TIME_AM = "yyyy-MM-dd h:mm:ss a";
     String TIME_MINUTE = "HH:mm";

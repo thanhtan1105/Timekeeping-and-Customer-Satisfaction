@@ -40,11 +40,6 @@ public class HTTPClientUtil {
      */
     private HttpRequestBase request;
 
-    /**
-     * type parser
-     **/
-    private int typeJson = JsonUtil.NORMAl_PARSER;
-
     private HTTPClientUtil() {
 
     }
@@ -97,10 +92,9 @@ public class HTTPClientUtil {
     }
 
     public BaseResponse toGet(URI uri, int typeJson, Class<?> classReturn) throws IOException {
-        this.typeJson = typeJson;
         request = new HttpGet(uri);
         setHeaderJson();
-        return toProcess(classReturn);
+        return toProcess(typeJson, classReturn);
     }
 
     public BaseResponse toPost(String url) throws URISyntaxException, IOException {
@@ -116,13 +110,12 @@ public class HTTPClientUtil {
     }
 
     public BaseResponse toPost(URI uri, HttpEntity entity, int typeJson, Class<?> classReturn) throws IOException {
-        this.typeJson = typeJson;
         request = new HttpPost(uri);
         setHeaderJson();
         if (entity != null) {
             ((HttpPost) request).setEntity(entity);
         }
-        return toProcess(classReturn);
+        return toProcess(typeJson, classReturn);
     }
 
     public BaseResponse toPostOct(String url, HttpEntity entity, int typeJson, Class<?> classReturn) throws IOException, URISyntaxException {
@@ -130,13 +123,12 @@ public class HTTPClientUtil {
     }
 
     public BaseResponse toPostOct(URI uri, HttpEntity entity, int typeJson, Class<?> classReturn) throws IOException {
-        this.typeJson = typeJson;
         request = new HttpPost(uri);
         setHeaderOct();
         if (entity != null) {
             ((HttpPost) request).setEntity(entity);
         }
-        return toProcess(classReturn);
+        return toProcess(typeJson, classReturn);
     }
 
 
@@ -146,13 +138,12 @@ public class HTTPClientUtil {
     }
 
     public BaseResponse toPut(URI uri, HttpEntity entity, int typeJson, Class<?> classReturn) throws IOException {
-        this.typeJson = typeJson;
         request = new HttpPut(uri);
         setHeaderJson();
         if (entity != null) {
             ((HttpPut) request).setEntity(entity);
         }
-        return toProcess(classReturn);
+        return toProcess(typeJson, classReturn);
     }
 
     public BaseResponse toDelete(String url) throws URISyntaxException, IOException {
@@ -160,14 +151,13 @@ public class HTTPClientUtil {
     }
 
     public BaseResponse toDelete(URI uri, HttpEntity entity, int typeJson, Class<?> classReturn) throws IOException {
-        this.typeJson = typeJson;
         request = new HttpDelete(uri);
 
         setHeaderJson();
         if (entity != null) {
             ((HttpPut) request).setEntity(entity);
         }
-        return toProcess(classReturn);
+        return toProcess(typeJson, classReturn);
     }
 
 
@@ -182,7 +172,7 @@ public class HTTPClientUtil {
     }
 
     /***/
-    private BaseResponse toProcess(Class<?> classReturn) throws IOException {
+    private BaseResponse toProcess(int typeJson, Class<?> classReturn) throws IOException {
         // Request
         HttpClient httpclient = HttpClients.createDefault();
 
@@ -198,7 +188,7 @@ public class HTTPClientUtil {
                 response.getStatusLine().getStatusCode() == HttpStatus.SC_ACCEPTED) {
             responseResult.setSuccess(true);
             if (classReturn != null) {
-                responseResult.setData(convertObject(dataResponse, classReturn));
+                responseResult.setData(convertObject(typeJson, dataResponse, classReturn));
             }
         } else {
             ResponseErrorWrap responseErrorWrap = JsonUtil.convertObject(dataResponse, ResponseErrorWrap.class);
@@ -216,7 +206,7 @@ public class HTTPClientUtil {
         return responseResult;
     }
 
-    private <T> Object convertObject(String dataResponse, Class<T> classReturn) {
+    private <T> Object convertObject(int typeJson, String dataResponse, Class<T> classReturn) {
         switch (typeJson) {
             case JsonUtil.NORMAl_PARSER:
                 return JsonUtil.convertObject(dataResponse, classReturn);

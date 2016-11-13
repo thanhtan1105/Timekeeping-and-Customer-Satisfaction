@@ -15,12 +15,10 @@ import com.timelinekeeping.repository.*;
 import com.timelinekeeping.service.blackService.AWSStorage;
 import com.timelinekeeping.service.blackService.OneSignalNotification;
 import com.timelinekeeping.service.blackService.SMSNotification;
-import com.timelinekeeping.util.JsonUtil;
-import com.timelinekeeping.util.StoreFileUtils;
-import com.timelinekeeping.util.UtilApps;
-import com.timelinekeeping.util.ValidateUtil;
+import com.timelinekeeping.util.*;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -268,14 +266,18 @@ public class AccountServiceImpl {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date(dateDeactive.getTime()));
             calendar.add(Calendar.DAY_OF_YEAR, 1);
-            while (calendar.getTime().compareTo(new Date()) < 0) {
+            while (TimeUtil.noiseDate(calendar.getTime(), I_TIME.FULL_DATE).compareTo(TimeUtil.noiseDate(new Date(), I_TIME.FULL_DATE)) < 0) {
 
+                Date dateCurrent = calendar.getTime();
                 //prepare time to store db
-                TimeKeepingEntity timeKeepingEntity = new TimeKeepingEntity();
+                TimeKeepingEntity timeKeepingEntity = timekeepingRepo.findByAccountCheckinDate(accountId, dateCurrent);
+                if (timeKeepingEntity == null) {
+                    timeKeepingEntity = new TimeKeepingEntity();
+                }
                 timeKeepingEntity.setAccount(entity);
                 timeKeepingEntity.setType(ETypeCheckin.AUTO_HANDLER);
                 timeKeepingEntity.setStatus(ETimeKeeping.DEACTIVE);
-                timeKeepingEntity.setTimeCheck(new Timestamp(calendar.getTime().getTime()));
+                timeKeepingEntity.setTimeCheck(new Timestamp(dateCurrent.getTime()));
                 timeKeepingEntity.setRpManagerId(entity.getManager().getId());
                 timeKeepingEntity.setRpDepartmentId(entity.getDepartment().getId());
                 timekeepingRepo.save(timeKeepingEntity);

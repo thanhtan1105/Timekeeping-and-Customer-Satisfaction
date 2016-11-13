@@ -18,6 +18,7 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.YearMonth;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by HienTQSE60896 on 9/24/2016.
@@ -254,11 +255,15 @@ public class TimekeepingServiceImpl {
 
         //dayWork
         int dayWork = ServiceUtils.countWorkDay(year, month, accountEntity.getTimeCreate(), accountEntity.getTimeDeactive());
-        //prepare return model
 
+        //count totalPresent
+
+        int totalPresent = listAttendance.stream().filter(attendanceDateModel -> attendanceDateModel.getPresent() == ETimeKeeping.PRESENT).collect(Collectors.toList()).size();
+
+        //prepare return model
         AccountAttendanceModel accountAttendance = new AccountAttendanceModel(accountEntity, year, month);
         accountAttendance.setDayWork(dayWork);
-        accountAttendance.setTotalTimeKeeping(timeKeepingEntityList.size());
+        accountAttendance.setTotalTimeKeeping(totalPresent);
         accountAttendance.setAttendances(listAttendance);
         return accountAttendance;
     }

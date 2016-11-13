@@ -74,6 +74,9 @@ public class TimeUtil {
         }
     }
 
+    public static Date noiseDate(Date date, String pattern){
+       return parseToDate(timeToString(date, pattern), pattern);
+    }
 
     public static boolean isPresentTimeCheckin(Date date) {
         Date timeFromDate = parseToDate(IContanst.TIME_CHECK_IN_SYSTEM_START, I_TIME.TIME_MINUTE);
@@ -82,12 +85,10 @@ public class TimeUtil {
             return true;
         }
 
-        Date timechek = parseToDate(timeToString(date, I_TIME.TIME_MINUTE), I_TIME.TIME_MINUTE);
+        Date timeCheck = noiseDate(date, I_TIME.TIME_MINUTE);
 
 
-
-
-        if (timeFromDate.getTime() <= timechek.getTime() && timechek.getTime() <= timeToDate.getTime()) {
+        if (timeFromDate.getTime() <= timeCheck.getTime() && timeCheck.getTime() <= timeToDate.getTime()) {
             return true;
         } else {
             return false;
