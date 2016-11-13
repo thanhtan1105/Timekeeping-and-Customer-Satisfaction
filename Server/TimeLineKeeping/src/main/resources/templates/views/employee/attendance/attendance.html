@@ -79,27 +79,29 @@
                     <tr>
                         <th>Date</th>
                         <th>Status</th>
-                        <th>Time Check-in</th>
                         <th>Type Check-in</th>
+                        <th>Time Check-in</th>
                         <th>Note</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="attendance: ${AccountAttendanceModel.attendances}"
+                    <tr th:each="attendance,counter: ${AccountAttendanceModel.attendances}"
                         th:if="${attendance.dayStatus.index != 1 and attendance.dayStatus.index != 2}"
-                        th:attr="class=${attendance.dayStatus.index == 3 or attendance.dayStatus.index == 5} ? 'text-bold' : (${attendance.present.index == 2} ? 'bg-gray')">
+                        th:attr="class=${(attendance.dayStatus.index == 3 or attendance.dayStatus.index == 5) and (attendance.present.index == 2)} ? 'text-bold bg-gray' : (${(attendance.dayStatus.index == 3 or attendance.dayStatus.index == 5) and (attendance.present.index != 2)} ? 'text-bold': (${attendance.present.index == 2}? 'bg-gray'))">
                         <td th:text="${#dates.format(attendance.date, 'yyyy-MMM-dd')}"></td>
                         <td>
-                            <label th:class="${(attendance.dayStatus.index == 4) or (attendance.dayStatus.index == 5) or (attendance.dayStatus.index == 3 and attendance.present.index == 1 and attendance.timeCheck == null)}? '' : (${(attendance.dayStatus.index == 3 and attendance.present.index == 2) or (attendance.dayStatus.index == 0 and attendance.present.index == 2)} ? 'label label-default' : (${(attendance.dayStatus.index == 3 and attendance.present.index == 0) or (attendance.dayStatus.index == 0 and attendance.present.index == 0)} ? 'label label-success' : 'label label-danger'))"
+                            <label th:class="${(attendance.dayStatus.index == 4) or (attendance.dayStatus.index == 5) or (attendance.dayStatus.index == 3 and attendance.present.index == 1 and attendance.timeCheck == null)}? '' : (${(attendance.dayStatus.index == 3 and attendance.present.index == 2) or (attendance.dayStatus.index == 0 and attendance.present.index == 2)} ? '' : (${(attendance.dayStatus.index == 3 and attendance.present.index == 0) or (attendance.dayStatus.index == 0 and attendance.present.index == 0)} ? 'label label-success' : 'label label-danger'))"
                                    th:text="${(attendance.dayStatus.index == 4) or (attendance.dayStatus.index == 5) or (attendance.dayStatus.index == 3 and attendance.present.index == 1 and attendance.timeCheck == null)}? '-' : (${(attendance.dayStatus.index == 3 and attendance.present.index == 2) or (attendance.dayStatus.index == 0 and attendance.present.index == 2)} ? 'Deactivate' : (${(attendance.dayStatus.index == 3 and attendance.present.index == 0) or (attendance.dayStatus.index == 0 and attendance.present.index == 0)} ? 'Present' : 'Absent'))"
                                    style="font-size: 14px;"></label>
                         </td>
                         <td>
-                            <font th:text="${attendance.timeCheck != null}? ${#dates.format(attendance.timeCheck, 'HH:mm')}: '-'"
-                                  style="font-style: italic"></font>
+                            <font th:if="${attendance.type != null}"
+                                  th:text="${attendance.type.index == 0} ? 'Camera' : (${attendance.type.index == 1} ? 'Manual':  (${attendance.type.index == 2}? '-'))"></font>
+                            <font th:if="${attendance.type == null}">-</font>
                         </td>
                         <td>
-                            <font th:text="${(attendance.type == 2) or (attendance.type == null)} ? '-' : (${attendance.type == 0} ? 'Camera' : 'Manual')"></font>
+                            <font th:text="${attendance.timeCheck != null}? ${#dates.format(attendance.timeCheck, 'HH:mm')}: '-'"
+                                  style="font-style: italic"></font>
                         </td>
                         <td th:text="${attendance.note != null and attendance.note != ''}? ${attendance.note}: '-'"></td>
                     </tr>
