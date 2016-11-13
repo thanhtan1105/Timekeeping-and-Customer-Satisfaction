@@ -79,8 +79,8 @@ extension TimeKeepingViewController {
     
   }
   
-  private func callApiGetToDoList(accountId: String, day: Int, month: Int, year: Int, completion onCompletion: ((todoLists: [TodoList]?, error: NSError?) -> Void)) {
-    APIRequest.shareInstance.getToDoList(day, month: month, year: year, accoundId: accountId) { (response: ResponsePackage?, error: ErrorWebservice?) in
+  private func callApiGetToDoList(accountId: String, time: Double, completion onCompletion: ((todoLists: [TodoList]?, error: NSError?) -> Void)) {
+    APIRequest.shareInstance.getToDoList(time * 1000, accoundId: accountId) { (response: ResponsePackage?, error: ErrorWebservice?) in
       guard error == nil else {
         onCompletion(todoLists: nil, error: NSError(domain: "com.thanhtan", code: 0, userInfo: ["info" : (error?.error_description)!]))
         return
@@ -105,12 +105,22 @@ extension TimeKeepingViewController {
     
     // TODO
     let id = Account.getAccount()!.id!
-    callApiGetToDoList(String(id), day: day, month: month, year: year) { (todoLists, error) in
+//    day: day, month: month, year: year
+    let dateString = String(year) + "-" + String(month) + "-" + String(day)
+    let dateFormatter = NSDateFormatter()
+    dateFormatter.timeZone = NSTimeZone(name: "UTC")
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+    let date = dateFormatter.dateFromString(dateString)
+    
+    let timeStample = date?.timeIntervalSince1970
+    callApiGetToDoList(String(id), time: timeStample!) { (todoLists, error) in
       if let todoLists = todoLists {
         self.todoLists = todoLists
         dispatch_async(dispatch_get_main_queue(), {
           self.tableView.reloadData()
         })
+      } else {
+        print(error)
       }
     }
   }

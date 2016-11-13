@@ -35,16 +35,14 @@ class APIRequest: NSObject {
     webservice_POST(url, params: dataSent, headersParams: header, completion: onCompletion)
   }
   
-  func getToDoList(day: Int, month: Int, year: Int, accoundId: String, onCompletion: ServiceResponse) {
+  func getToDoList(time: Double, accoundId: String, onCompletion: ServiceResponse) {
     let url = http + urlGetToDoList
     let header = [
       "Content-Type" : "application/json",
       ]
     
     var dataSent: [String: AnyObject] = [:]
-    dataSent["day"] = day
-    dataSent["month"] = month
-    dataSent["year"] = year
+    dataSent["time"] = CLong(time)
     dataSent["accountId"] = accoundId
     
     webservice_GET(url, params: dataSent, headersParams: header, completion: onCompletion)
