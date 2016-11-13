@@ -58,10 +58,4 @@ public class AWSStorage{
 
         return null;
     }
-
-//
-//    @Override
-//    public void run() {
-//        uploadFile()
-//    }
 }

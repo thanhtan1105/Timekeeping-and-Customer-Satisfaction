@@ -18,7 +18,7 @@ import com.timelinekeeping.service.blackService.SMSNotification;
 import com.timelinekeeping.util.*;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
+//import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -470,8 +470,15 @@ public class AccountServiceImpl {
                 String outAWSFileName = null;
                 if (outFileName != null) {
                     File file = new File(outFileName);
-                    outAWSFileName = AWSStorage.uploadFile(file, file.getName());
-                    logger.info("aws link: " + outAWSFileName);
+                    outAWSFileName = AppConfigKeys.getInstance().getAmazonPropertyValue("amazon.s3.link") + file.getName();
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String linkURL = AWSStorage.uploadFile(file, file.getName());
+                            logger.info("aws link: " + linkURL);
+                        }
+                    });
+                    thread.start();
                 }
 
                 // save db
