@@ -67,10 +67,11 @@ public class TimeKeepingController {
     @RequestMapping(value = I_URI.API_TIMEKEEPING_ATTENDANCE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public AccountAttendanceModel getAttendace(@RequestParam(value = "accountId") Long accountId,
                                                @RequestParam(value = "year") Integer year,
-                                               @RequestParam(value = "month") Integer month) {
+                                               @RequestParam(value = "month") Integer month,
+                                               @RequestParam(value = "viewManger", required = false) Boolean viewManger) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            return timekeepingService.getAttendance(accountId, year, month);
+            return timekeepingService.getAttendance(accountId, year, month, viewManger);
         } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
 
