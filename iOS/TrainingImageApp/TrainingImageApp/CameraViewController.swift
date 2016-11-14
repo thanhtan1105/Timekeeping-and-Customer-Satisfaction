@@ -115,7 +115,7 @@ class CameraViewController: BaseViewController {
       
       // error of network
       guard error == nil else {
-        let alertVC = UIAlertController(title: "Please try again", message: "Cannot detect face", preferredStyle: .Alert)
+        let alertVC = UIAlertController(title: "Please try again", message: error?.userInfo["info"] as? String ?? "", preferredStyle: .Alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction) in
           
         }))

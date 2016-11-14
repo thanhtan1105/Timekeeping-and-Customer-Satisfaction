@@ -148,8 +148,27 @@ public class FaceServiceImpl {
                 String outAWSFileName = null;
                 if (outFileName != null) {
                     File file = new File(outFileName);
-                    outAWSFileName = AWSStorage.uploadFile(file, file.getName());
-                    logger.info("aws link: " + outAWSFileName);
+//                    outAWSFileName = AWSStorage.uploadFile(file, file.getName());
+//                    logger.info("aws link: " + outAWSFileName);
+
+                    outAWSFileName = AppConfigKeys.getInstance().getAmazonPropertyValue("amazon.s3.link") + file.getName();
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            int count = 0;
+                            while (count != 9) {
+                                String linkURL = AWSStorage.uploadFile(file, file.getName());
+                                logger.info("aws link: " + linkURL);
+                                if (linkURL != null) {
+                                    break;
+                                } else {
+                                    count++;
+                                }
+                            }
+                        }
+                    });
+                    thread.start();
+
                 }
 
                 // save db
