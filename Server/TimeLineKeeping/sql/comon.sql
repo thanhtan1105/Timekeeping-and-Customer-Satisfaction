@@ -1,3 +1,16 @@
+---- ROLE
+INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('admin','/admin/**;/account/**;/department/**','redirect:/admin/accounts/');
+INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('manager','/manager/**','redirect:/manager/check_in/');
+INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('employee','/employee/**','redirect:/employee/attendance/');
+
+---- CONFIGURATION
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('send.sms', 'SEND_SMS', '0');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.acception', 'EMOTION_ACCEPT', '0.15');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('email.company', 'EMAIL_COMPANY', 'tkcs.vn');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('password.default', 'PASSWORD_DEFAULT', 'abcd@123');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('checkin.accept.confident', 'CHECKIN_ACCEPT_CONFIDENT', '0.8');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('time.checkin.begin', 'TIME_CHECKIN_BEGIN', '6:30');
+
 
 --- QUANTITY EMOTION
 INSERT INTO `mydb`.`quantity_emotion` (`from_value`, `name`, `to_value`) VALUES ('0', 'hơi hơi', '0.15');
@@ -10,7 +23,7 @@ INSERT INTO `mydb`.`quantity_emotion` (`from_value`, `name`, `to_value`) VALUES 
 INSERT INTO `mydb`.`quantity_emotion` (`from_value`, `name`, `to_value`) VALUES ('0.9', 'vô cùng', '1.5');
 INSERT INTO `mydb`.`quantity_emotion` (`from_value`, `name`, `to_value`) VALUES ('0.8', 'gần như', '1.2');
 
-/** EMOTION CONTENT**/
+---- EMOTION CONTENT
 INSERT INTO `mydb`.`emotion_content` (`emotion_first`, `emotion_second`, `emotion_third`, `message`, `status`, `vote`) VALUES ('0', '8', '99', 'Bạn nên rót cho %s ly nước.', '0', '0');
 INSERT INTO `mydb`.`emotion_content` (`emotion_first`, `emotion_second`, `emotion_third`, `message`, `status`, `vote`) VALUES ('1', '8', '8', 'Bạn nên bình tỉnh và tôn trọng %s khi nói chuyện.', '0', '0');
 INSERT INTO `mydb`.`emotion_content` (`emotion_first`, `emotion_second`, `emotion_third`, `message`, `status`, `vote`) VALUES ('2', '8', '8', 'Bạn nên lăng nghe những ấm uất của %s.', '0', '0');
@@ -23,10 +36,7 @@ INSERT INTO `mydb`.`emotion_content` (`emotion_first`, `emotion_second`, `emotio
 INSERT INTO `mydb`.`emotion_content` (`emotion_first`, `emotion_second`, `emotion_third`, `message`, `status`, `vote`) VALUES ('4', '8', '8', 'Bạn nên giới thiệu các dịch vụ mới cho %s.', '0', '0');
 INSERT INTO `mydb`.`emotion_content` (`emotion_first`, `emotion_second`, `emotion_third`, `message`, `status`, `vote`) VALUES ('4', '8', '8', 'Nếu chưa có Visa thì hãy giới thiệu cho %s.', '0', '0');
 
-/** ROLE*/
-INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('admin','/admin/**;/account/**;/department/**','redirect:/admin/accounts/');
-INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('manager','/manager/**','redirect:/manager/check_in/');
-INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('employee','/employee/**','redirect:/employee/attendance/');
+
 
 
 /** COORDINATE*/
