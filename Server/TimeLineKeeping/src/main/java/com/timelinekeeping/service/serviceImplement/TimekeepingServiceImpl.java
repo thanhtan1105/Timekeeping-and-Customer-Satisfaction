@@ -5,6 +5,7 @@ import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.TimeKeepingEntity;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.repository.AccountRepo;
+import com.timelinekeeping.repository.ConfigurationRepo;
 import com.timelinekeeping.repository.TimekeepingRepo;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ServiceUtils;
@@ -31,9 +32,15 @@ public class TimekeepingServiceImpl {
     @Autowired
     private TimekeepingRepo timekeepingRepo;
 
+    @Autowired
+    private ConfigurationRepo configurationRepo;
+
     private Logger logger = LogManager.getLogger(TimekeepingServiceImpl.class);
 
     public List<AccountCheckInModel> getEmployeeUnderManager(Long managerID) {
+        String beginTimeCheckin = configurationRepo.findByKey(IContanst.TIME_CHECK_IN_SYSTEM_START_KEY).getValue();
+        String endTimeCheckin = configurationRepo.findByKey(IContanst.TIME_CHECK_IN_SYSTEM_END_KEY).getValue();
+
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             List<AccountCheckInModel> listResult = new ArrayList<>();
@@ -44,7 +51,7 @@ public class TimekeepingServiceImpl {
                 if (timeKeepingEntity != null) {
                     //if type checkin = camera, reset time keeping
                     if (timeKeepingEntity.getType() == ETypeCheckin.CHECKIN_CAMERA) {
-                        if (TimeUtil.isPresentTimeCheckin(timeKeepingEntity.getTimeCheck())) {
+                        if (TimeUtil.isPresentTimeCheckin(timeKeepingEntity.getTimeCheck(), beginTimeCheckin, endTimeCheckin)) {
                             timeKeepingEntity.setStatus(ETimeKeeping.PRESENT);
                         } else {
                             timeKeepingEntity.setStatus(ETimeKeeping.ABSENT);
@@ -64,6 +71,8 @@ public class TimekeepingServiceImpl {
 
     public List<CheckinManualModel> checkInManual(List<CheckinManualModel> listCheckin) {
 
+        String beginTimeCheckin = configurationRepo.findByKey(IContanst.TIME_CHECK_IN_SYSTEM_START_KEY).getValue();
+        String endTimeCheckin = configurationRepo.findByKey(IContanst.TIME_CHECK_IN_SYSTEM_END_KEY).getValue();
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             List<CheckinManualModel> checkinManualModels = new ArrayList<>();
@@ -87,7 +96,7 @@ public class TimekeepingServiceImpl {
                         timeKeeping.setRpDepartmentId(accountEntity.getDepartment().getId());
                         timekeepingRepo.save(timeKeeping);
                         checkinModel.setSuccess(true);
-                    } else if (timeKeeping.getType() == ETypeCheckin.CHECKIN_CAMERA && TimeUtil.isPresentTimeCheckin(timeKeeping.getTimeCheck()) == false) {
+                    } else if (timeKeeping.getType() == ETypeCheckin.CHECKIN_CAMERA && TimeUtil.isPresentTimeCheckin(timeKeeping.getTimeCheck(), beginTimeCheckin, endTimeCheckin) == false) {
                         timeKeeping.setNote(note);
                         timeKeeping.setType(ETypeCheckin.CHECKIN_MANUAL);
                         timeKeeping.setStatus(ETimeKeeping.PRESENT);
@@ -120,6 +129,9 @@ public class TimekeepingServiceImpl {
         Date timeFrom = TimeUtil.parseToDate(IContanst.TIME_CHECK_IN_SYSTEM_START, I_TIME.TIME_MINUTE);
         Date timeto = TimeUtil.parseToDate(IContanst.TIME_CHECK_IN_SYSTEM_END, I_TIME.TIME_MINUTE);
 
+        String beginTimeCheckin = configurationRepo.findByKey(IContanst.TIME_CHECK_IN_SYSTEM_START_KEY).getValue();
+        String endTimeCheckin = configurationRepo.findByKey(IContanst.TIME_CHECK_IN_SYSTEM_END_KEY).getValue();
+
         //get All acount by manager
         //get all timekeeping in month
         //compare to data
@@ -138,7 +150,7 @@ public class TimekeepingServiceImpl {
                 Long count = mapChekin.get(timeKeepingEntity.getAccount().getId());
                 if (count == null) count = 0l;
                 if (timeKeepingEntity.getType() == ETypeCheckin.CHECKIN_CAMERA) {
-                    if (TimeUtil.isPresentTimeCheckin(timeKeepingEntity.getTimeCheck())) {
+                    if (TimeUtil.isPresentTimeCheckin(timeKeepingEntity.getTimeCheck(), beginTimeCheckin, endTimeCheckin)) {
                         count++;
                     }
                 } else {
@@ -200,7 +212,8 @@ public class TimekeepingServiceImpl {
 
     public AccountAttendanceModel getAttendance(Long accountId, Integer year, Integer month, Boolean viewManger) {
 
-
+        String beginTimeCheckin = configurationRepo.findByKey(IContanst.TIME_CHECK_IN_SYSTEM_START_KEY).getValue();
+        String endTimeCheckin = configurationRepo.findByKey(IContanst.TIME_CHECK_IN_SYSTEM_END_KEY).getValue();
         //getAttendance from sql
         List<TimeKeepingEntity> timeKeepingEntityList = timekeepingRepo.getTimekeepingByAccount(accountId, year, month);
 
@@ -212,7 +225,7 @@ public class TimekeepingServiceImpl {
             calendar.setTime(timeCheck);
             Integer dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
             if (timeKeepingEntity.getType() == ETypeCheckin.CHECKIN_CAMERA) {
-                if (TimeUtil.isPresentTimeCheckin(timeCheck)) {
+                if (TimeUtil.isPresentTimeCheckin(timeCheck, beginTimeCheckin, endTimeCheckin)) {
                     timeKeepingEntity.setStatus(ETimeKeeping.PRESENT);
                 } else {
                     timeKeepingEntity.setStatus(ETimeKeeping.ABSENT);

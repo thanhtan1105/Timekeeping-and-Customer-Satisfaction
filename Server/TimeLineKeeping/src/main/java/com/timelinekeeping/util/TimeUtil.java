@@ -78,9 +78,26 @@ public class TimeUtil {
        return parseToDate(timeToString(date, pattern), pattern);
     }
 
-    public static boolean isPresentTimeCheckin(Date date) {
-        Date timeFromDate = parseToDate(IContanst.TIME_CHECK_IN_SYSTEM_START, I_TIME.TIME_MINUTE);
-        Date timeToDate = parseToDate(IContanst.TIME_CHECK_IN_SYSTEM_END, I_TIME.TIME_MINUTE);
+//    public static boolean isPresentTimeCheckin(Date date) {
+//        Date timeFromDate = parseToDate(IContanst.TIME_CHECK_IN_SYSTEM_START, I_TIME.TIME_MINUTE);
+//        Date timeToDate = parseToDate(IContanst.TIME_CHECK_IN_SYSTEM_END, I_TIME.TIME_MINUTE);
+//        if (timeFromDate == null || timeToDate == null) {
+//            return true;
+//        }
+//
+//        Date timeCheck = noiseDate(date, I_TIME.TIME_MINUTE);
+//
+//
+//        if (timeFromDate.getTime() <= timeCheck.getTime() && timeCheck.getTime() <= timeToDate.getTime()) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+
+    public static boolean isPresentTimeCheckin(Date date, String timeBegin, String timeEnd) {
+        Date timeFromDate = parseToDate(timeBegin, I_TIME.TIME_MINUTE);
+        Date timeToDate = parseToDate(timeEnd, I_TIME.TIME_MINUTE);
         if (timeFromDate == null || timeToDate == null) {
             return true;
         }
@@ -99,7 +116,7 @@ public class TimeUtil {
         try {
             DateFormat format = new SimpleDateFormat(I_TIME.TIME_MINUTE);
             Date date = format.parse("16:31");
-            System.out.println(isPresentTimeCheckin(date));
+//            System.out.println(isPresentTimeCheckin(date));
         } catch (ParseException e) {
             e.printStackTrace();
         }
