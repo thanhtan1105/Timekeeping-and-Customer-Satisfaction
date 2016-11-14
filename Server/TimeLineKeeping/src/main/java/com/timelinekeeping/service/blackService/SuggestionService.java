@@ -99,7 +99,9 @@ public class SuggestionService {
             Map<EEmotion, Double> map = emotionScores.map();
 
             //get emotionCompar
+            ServiceUtils.competitiveEmotion(map);
             List<EmotionCompare> emotionCompares = ServiceUtils.getEmotionExist(map);
+
             logger.info("emotionCompares: " + JsonUtil.toJson(emotionCompares));
 
             // create message
