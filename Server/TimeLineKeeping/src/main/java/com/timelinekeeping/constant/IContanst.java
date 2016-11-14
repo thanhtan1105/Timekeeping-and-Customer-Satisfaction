@@ -63,6 +63,7 @@ public interface IContanst {
     String SIDE_BAR_ADMIN_MANAGEMENT_DEPART = "ManagementDepart";
     String SIDE_BAR_ADMIN_MANAGEMENT_ACC = "ManagementAcc";
     String SIDE_BAR_ADMIN_SYNC_DATA = "SyncData";
+    String SIDE_BAR_ADMIN_SYSTEM_CONFIG = "SystemConfig";
     String SIDE_BAR_MANAGER_CHECK_IN = "Checkin";
     String SIDE_BAR_MANAGER_TIMEKEEPING = "Timekeeping";
     String SIDE_BAR_MANAGER_MANAGEMENT_REMINDER = "ManagementReminder";
