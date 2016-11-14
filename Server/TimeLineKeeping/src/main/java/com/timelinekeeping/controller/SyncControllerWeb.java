@@ -19,7 +19,7 @@ public class SyncControllerWeb {
     private Logger logger = Logger.getLogger(SyncControllerWeb.class);
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String loadManagementAccountView(Model model) {
+    public String loadSyncDataView(Model model) {
         // set side-bar
         String sideBar = IContanst.SIDE_BAR_ADMIN_SYNC_DATA;
 

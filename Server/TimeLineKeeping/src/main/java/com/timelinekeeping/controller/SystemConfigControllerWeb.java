@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 @RequestMapping(I_URI.WEB_ADMIN_SYSTEM_CONFIG)
-public class SystemConfigurationControllerWeb {
+public class SystemConfigControllerWeb {
 
-    private Logger logger = Logger.getLogger(SystemConfigurationControllerWeb.class);
+    private Logger logger = Logger.getLogger(SystemConfigControllerWeb.class);
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String loadSystemConfigurationView(Model model) {
