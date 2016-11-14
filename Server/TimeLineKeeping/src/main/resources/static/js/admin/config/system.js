@@ -8,6 +8,11 @@ var current_sendSMS;
  * For event fc
  */
 function load_page() {
+    //hide button update processing
+    event_hide('#btn-update-config-processing');
+    //show button update
+    event_show('#btn-update-config');
+
     //call ajax get list config
     ajax_get_list_config();
 }
@@ -29,7 +34,12 @@ function update_system_config() {
         'checkinConfident': checkinConfident,
         'timeCheckinBegin': timeCheckinBegin,
         'timeCheckinEnd': timeCheckinEnd
-    }
+    };
+
+    //hide button update
+    event_hide('#btn-update-config');
+    //show button update processing
+    event_show('#btn-update-config-processing');
 
     //call ajax update system config
     ajax_update_system_config(configurationModel);
@@ -67,8 +77,6 @@ function ajax_update_system_config(configurationModel) {
             set_content_message_update_config(success);
 
             if (success) {
-                var data = response.data;
-
                 //reload page
                 load_page();
 
@@ -78,6 +86,11 @@ function ajax_update_system_config(configurationModel) {
                 //show modal
                 show_modal('#modal-msg-fail', true);
             }
+
+            //hide button update processing
+            event_hide('#btn-update-config-processing');
+            //show button update
+            event_show('#btn-update-config');
         }
     });
 }
@@ -142,4 +155,20 @@ function show_modal(id, keyboard) {
         });
     }
 
+}
+
+/**
+ * Fc: hide
+ * @param id
+ */
+function event_hide(id) {
+    $(id).hide();
+}
+
+/**
+ * Fc: show
+ * @param id
+ */
+function event_show(id) {
+    $(id).show();
 }
