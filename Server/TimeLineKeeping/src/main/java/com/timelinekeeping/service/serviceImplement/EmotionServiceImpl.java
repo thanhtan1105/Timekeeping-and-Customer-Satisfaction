@@ -89,15 +89,12 @@ public class EmotionServiceImpl {
 
 
     public EmotionCustomerResponse emotionAnalyzis(EmotionCustomerEntity emotionCustomerEntity) {
+
+        //prepare
+
         //get analysis
         EmotionAnalysisModel analysisModel = new EmotionAnalysisModel(emotionCustomerEntity);
-        String messageEmotion = suggestionService.getEmotionMessage(analysisModel);
-        List<EmotionContentModel> suggestion = suggestionService.getSuggestion(emotionCustomerEntity.getEmotionMost(), emotionCustomerEntity.getAge(), emotionCustomerEntity.getGender());
-        //create message
-        MessageModel messageModel = new MessageModel(emotionCustomerEntity);
-        messageModel.setMessage(Collections.singletonList(UtilApps.formatSentence(messageEmotion)));
-        messageModel.setSugguest(suggestion);
-        EmotionCustomerResponse emotionCustomerResponse = new EmotionCustomerResponse(analysisModel, messageModel);
+
 
         // add emotion percent
 
@@ -108,6 +105,19 @@ public class EmotionServiceImpl {
 
         //get emotionCompar
         List<EmotionCompare> emotionCompares = ServiceUtils.getEmotionExist(map);
+
+
+        // get messageEmotion
+        String messageEmotion = suggestionService.getEmotionMessage(analysisModel);
+        List<EmotionContentModel> suggestion = suggestionService.getSuggestion(emotionCustomerEntity.getEmotionMost(), emotionCustomerEntity.getAge(), emotionCustomerEntity.getGender());
+
+
+        //create message
+        MessageModel messageModel = new MessageModel(emotionCustomerEntity);
+        messageModel.setMessage(Collections.singletonList(UtilApps.formatSentence(messageEmotion)));
+        messageModel.setSugguest(suggestion);
+        EmotionCustomerResponse emotionCustomerResponse = new EmotionCustomerResponse(analysisModel, messageModel);
+
 
         //add to model
         emotionCustomerResponse.setEmotionPercent(emotionCompares);

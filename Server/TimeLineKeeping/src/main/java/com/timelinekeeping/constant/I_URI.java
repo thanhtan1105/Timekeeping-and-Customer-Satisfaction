@@ -104,6 +104,7 @@ public interface I_URI {
     String WEB_ADMIN_ACCOUNT = "/admin/accounts";
     String WEB_ADMIN_DEPARTMENT = "/admin/departments";
     String WEB_ADMIN_SYNC_DATA = "/admin/sync_data";
+    String WEB_ADMIN_SYSTEM_CONFIG = "/admin/system_config";
     String WEB_MANAGER_CHECK_IN = "/manager/check_in";
     String WEB_MANAGER_CUS_SATISFACTION = "/manager/cus_satisfaction";
     String WEB_MANAGER_REMINDER = "/manager/reminders";
@@ -135,4 +136,6 @@ public interface I_URI {
     String API_HANDLER = "/api/handler";
     String API_HANDLER_SYNCHONRINZE = "/sync";
     String API_HANDLER_LIST_HISTORY = "/list_history";
+    String API_HANDLER_LIST_CONFIGURATION = "/list_config";
+    String API_HANDLER_UPDATE_CONFIGURATION = "/update_config";
 }

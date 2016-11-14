@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout_admin">
+
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>System Configuration</title>
+</head>
+<body onload="load_page()">
+<div layout:fragment="content">
+    <section class="content font-17">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <label><font class="font-24"><i class="fa fa-cog"></i> System Configuration</font></label>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 25px;">
+            <div class="col-sm-8 col-md-offset-2">
+                <div class="box box-danger">
+                    <form class="form-horizontal" th:id="'form-config-system'">
+                        <div class="box-body">
+                            <div class="form-group" style="display: none">
+                                <label class="col-sm-6 control-label">Send SMS</label>
+
+                                <div class="col-sm-6">
+                                    <div class="radio">
+                                        <input type="radio" name="sendSMS" value="1"
+                                               class="flat-red" checked> Yes
+                                        &nbsp;
+                                        <input type="radio" name="sendSMS" value="0"
+                                               class="flat-red"> No
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Range Acceptable Emotions</label>
+
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" th:name="emotionAccept"
+                                           style="width: 50%"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Range Acceptable Confidence of
+                                    Detection</label>
+
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" th:name="checkinConfident"
+                                           style="width: 50%"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Email Company</label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" th:name="emailCompany"
+                                           style="width: 50%"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Start Time Check-in</label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" th:name="timeCheckinBegin"
+                                           style="width: 50%"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">End Time Check-in</label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" th:name="timeCheckinEnd"
+                                           style="width: 50%"/>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="box-footer no-border">
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <button class="btn btn-flat bg-aqua-active" onclick="update_system_config()">SAVE</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- modals here -->
+        <div th:replace="views/admin/configuration/system_modals"></div>
+    </section>
+    <!-- /.content -->
+</div>
+<div layout:fragment="js">
+    <!--<script th:src="@{/js/common.js}"></script>-->
+    <script th:src="@{/js/admin/config/system.js}"></script>
+</div>
+</body>
+</html>

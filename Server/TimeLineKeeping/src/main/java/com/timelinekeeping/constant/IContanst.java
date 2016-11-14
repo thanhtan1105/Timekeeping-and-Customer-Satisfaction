@@ -46,6 +46,16 @@ public interface IContanst {
     double MCS_PERSON_DETECT_CONFIDINCE_CORRECT = AppConfigKeys.getInstance().getApiPropertyDouble("detect.person.indetify.confidence");
     ////------
 
+    String SEND_SMS_KEY = "send.sms";
+    String EMOTION_ACEPTION_VALUE_KEY = "emotion.acception";
+
+    String COMPANY_EMAIL_KEY = "email.company";
+    String PASSWORD_DEFAULT_KEY = "password.default";
+
+    String CHECKIN_CONFIDINCE_CORRECT_KEY = "checkin.accept.confident";
+    String TIME_CHECK_IN_SYSTEM_START_KEY = "time.checkin.begin";
+    String TIME_CHECK_IN_SYSTEM_END_KEY = "time.checkin.end";
+    /////-----
 
     int PAGE_PAGE_I = 0;
     int PAGE_SIZE_I = 10;
@@ -63,6 +73,7 @@ public interface IContanst {
     String SIDE_BAR_ADMIN_MANAGEMENT_DEPART = "ManagementDepart";
     String SIDE_BAR_ADMIN_MANAGEMENT_ACC = "ManagementAcc";
     String SIDE_BAR_ADMIN_SYNC_DATA = "SyncData";
+    String SIDE_BAR_ADMIN_SYSTEM_CONFIG = "SystemConfig";
     String SIDE_BAR_MANAGER_CHECK_IN = "Checkin";
     String SIDE_BAR_MANAGER_TIMEKEEPING = "Timekeeping";
     String SIDE_BAR_MANAGER_MANAGEMENT_REMINDER = "ManagementReminder";
