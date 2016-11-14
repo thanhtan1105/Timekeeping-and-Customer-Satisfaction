@@ -4,6 +4,9 @@
 
 var current_sendSMS;
 
+/**
+ * For event fc
+ */
 function load_page() {
     //call ajax get list config
     ajax_get_list_config();
@@ -59,14 +62,21 @@ function ajax_update_system_config(configurationModel) {
         success: function (response) {
             var success = response.success;
             console.info('[update system config][success] ' + success);
+
+            //set content message update config
+            set_content_message_update_config(success);
+
             if (success) {
                 var data = response.data;
 
-                //set content list config
-                set_content_list_config(data);
-                //show message
+                //reload page
+                load_page();
+
+                //show modal
+                show_modal('#modal-msg-success', true);
             } else {
-                //
+                //show modal
+                show_modal('#modal-msg-fail', true);
             }
         }
     });
@@ -98,4 +108,38 @@ function set_content_list_config(data) {
     $emailCompany.val(emailCompay);
     $timeCheckinBegin.val(timeCheckinBegin);
     $timeCheckinEnd.val(timeCheckinEnd);
+}
+
+function set_content_message_update_config(success) {
+    var content;
+    if (success) {
+        content = 'Successful saving changes';
+        $('#modal-msg-success-content').html(content);
+    } else {
+        content = 'Save the changes failed';
+        $('#modal-msg-fail-content').html(content);
+    }
+}
+
+/**
+ * For common fc
+ */
+/**
+ * Fc: show modal
+ * @param id
+ * @param enabled ('true', 'false')
+ */
+function show_modal(id, keyboard) {
+    if (!keyboard) {//prevent closing
+        $(id).modal({
+            backdrop: 'static',
+            keyboard: keyboard, //(false) prevent closing with Esc button
+            show: true
+        });
+    } else {//allow closing
+        $(id).modal({
+            show: true
+        });
+    }
+
 }
