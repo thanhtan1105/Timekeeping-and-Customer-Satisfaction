@@ -3,7 +3,6 @@ package com.timelinekeeping.service.serviceImplement;
 import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.common.BaseResponse;
-import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.EHistory;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
@@ -215,7 +214,7 @@ public class HandlerServiceImpl {
             List<ConfigurationEntity> entities = configurationRepo.findAll();
             if (ValidateUtil.isNotEmpty(entities)) {
                 Map<String, String> map = new HashMap<>();
-                for (ConfigurationEntity entity : entities){
+                for (ConfigurationEntity entity : entities) {
                     map.put(entity.getKey(), entity.getValue());
                 }
                 return new ConfigurationModel(map);
@@ -227,15 +226,16 @@ public class HandlerServiceImpl {
         }
     }
 
-    public Boolean updateConfiguration(Map<String, String> listConfig) {
+    public Boolean updateConfiguration(ConfigurationModel model) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            if (listConfig != null && listConfig.size() > 0) {
-                String emotionAccept = listConfig.get(IContanst.EMOTION_ACEPTION_VALUE_KEY);
-                String checkinConfident = listConfig.get(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY);
+            Map<String, String> map = model.map();
+            if (map != null && map.size() > 0) {
+                String emotionAccept = map.get(IContanst.EMOTION_ACEPTION_VALUE_KEY);
+                String checkinConfident = map.get(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY);
 
                 if (Double.valueOf(emotionAccept) > 0 && Double.valueOf(checkinConfident) > 0) {
-                    for (Map.Entry<String, String> entries : listConfig.entrySet()) {
+                    for (Map.Entry<String, String> entries : map.entrySet()) {
                         ConfigurationEntity configurationEntity = configurationRepo.findByKey(entries.getKey());
                         configurationEntity.setValue(entries.getValue());
                         configurationRepo.save(configurationEntity);

@@ -107,7 +107,6 @@ public class EmotionServiceImpl {
         List<EmotionCompare> emotionCompares = ServiceUtils.getEmotionExist(map);
 
 
-
         // get messageEmotion
         String messageEmotion = suggestionService.getEmotionMessage(analysisModel);
         List<EmotionContentModel> suggestion = suggestionService.getSuggestion(emotionCustomerEntity.getEmotionMost(), emotionCustomerEntity.getAge(), emotionCustomerEntity.getGender());
@@ -118,7 +117,6 @@ public class EmotionServiceImpl {
         messageModel.setMessage(Collections.singletonList(UtilApps.formatSentence(messageEmotion)));
         messageModel.setSugguest(suggestion);
         EmotionCustomerResponse emotionCustomerResponse = new EmotionCustomerResponse(analysisModel, messageModel);
-
 
 
         //add to model

@@ -42,14 +42,20 @@ public class ConfigurationModel {
         this.timeCheckinEnd = entity.get(IContanst.TIME_CHECK_IN_SYSTEM_END_KEY);
     }
 
-    public Map<String, String> map(){
+    public Map<String, String> map() {
         Map<String, String> map = new HashMap<>();
-        map.put(IContanst.SEND_SMS_KEY, String.valueOf(sendSMS));
-        map.put(IContanst.EMOTION_ACEPTION_VALUE_KEY, String.valueOf(emotionAccept));
-        map.put(IContanst.COMPANY_EMAIL_KEY, String.valueOf(emailCompay));
-        map.put(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY, String.valueOf(checkinConfident));
-        map.put(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY, String.valueOf(timeCheckinBegin));
-        map.put(IContanst.TIME_CHECK_IN_SYSTEM_END_KEY, String.valueOf(timeCheckinEnd));
+        if (sendSMS != null)
+            map.put(IContanst.SEND_SMS_KEY, String.valueOf(sendSMS ? 1 : 0));
+        if (emotionAccept != null && emotionAccept > 0)
+            map.put(IContanst.EMOTION_ACEPTION_VALUE_KEY, String.valueOf(emotionAccept));
+        if (emailCompay != null)
+            map.put(IContanst.COMPANY_EMAIL_KEY, String.valueOf(emailCompay));
+        if (checkinConfident != null & checkinConfident > 0)
+            map.put(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY, String.valueOf(checkinConfident));
+        if (timeCheckinBegin != null)
+            map.put(IContanst.TIME_CHECK_IN_SYSTEM_START_KEY, String.valueOf(timeCheckinBegin));
+        if (timeCheckinEnd != null)
+            map.put(IContanst.TIME_CHECK_IN_SYSTEM_END_KEY, String.valueOf(timeCheckinEnd));
         return map;
     }
 
