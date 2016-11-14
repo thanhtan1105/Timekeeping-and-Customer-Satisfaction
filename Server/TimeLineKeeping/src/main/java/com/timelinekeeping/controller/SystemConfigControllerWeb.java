@@ -10,22 +10,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * Created by TrungNN on 11/8/2016.
+ * Created by TrungNN on 11/14/2016.
  */
 @Controller
-@RequestMapping(I_URI.WEB_ADMIN_SYNC_DATA)
-public class SyncControllerWeb {
+@RequestMapping(I_URI.WEB_ADMIN_SYSTEM_CONFIG)
+public class SystemConfigControllerWeb {
 
-    private Logger logger = Logger.getLogger(SyncControllerWeb.class);
+    private Logger logger = Logger.getLogger(SystemConfigControllerWeb.class);
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String loadSyncDataView(Model model) {
+    public String loadSystemConfigurationView(Model model) {
         // set side-bar
-        String sideBar = IContanst.SIDE_BAR_ADMIN_SYNC_DATA;
+        String sideBar = IContanst.SIDE_BAR_ADMIN_SYSTEM_CONFIG;
 
         // side-bar
         model.addAttribute("SideBar", sideBar);
 
-        return IViewConst.SYNC_DATA_VIEW;
+        return IViewConst.SYSTEM_CONFIGURATION_VIEW;
     }
 }

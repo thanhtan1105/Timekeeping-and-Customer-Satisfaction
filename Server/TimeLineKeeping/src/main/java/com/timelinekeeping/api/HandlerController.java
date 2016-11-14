@@ -91,7 +91,7 @@ public class HandlerController {
                                             @RequestParam("value") String value) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            return new BaseResponse(handlerService.updateConfiguration(new Pair<String, String>(key, value)));
+            return new BaseResponse(handlerService.updateConfiguration(null));
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
