@@ -38,7 +38,7 @@ public class ConfigurationModel {
         if (ValidateUtil.isNotEmpty(entity.get(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY))) {
             this.checkinConfident = Double.valueOf(entity.get(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY));
         }
-        this.timeCheckinBegin = entity.get(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY);
+        this.timeCheckinBegin = entity.get(IContanst.TIME_CHECK_IN_SYSTEM_START_KEY);
         this.timeCheckinEnd = entity.get(IContanst.TIME_CHECK_IN_SYSTEM_END_KEY);
     }
 
