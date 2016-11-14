@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -208,12 +209,16 @@ public class HandlerServiceImpl {
         }
     }
 
-    public List<ConfigurationModel> listConfiguration() {
+    public ConfigurationModel listConfiguration() {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             List<ConfigurationEntity> entities = configurationRepo.findAll();
             if (ValidateUtil.isNotEmpty(entities)) {
-                return entities.stream().map(ConfigurationModel::new).collect(Collectors.toList());
+                Map<String, String> map = new HashMap<>();
+                for (ConfigurationEntity entity : entities){
+                    map.put(entity.getKey(), entity.getValue());
+                }
+                return new ConfigurationModel(map);
             } else {
                 return null;
             }
@@ -225,7 +230,7 @@ public class HandlerServiceImpl {
     public Boolean updateConfiguration(Pair<String, String> config) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            if (IContanst.SEND_SMS_KEY.equals(config.getKey()) || IContanst.EXCEPTION_VALUE_KEY.equals(config.getKey()) || IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY.equals(config.getValue())) {
+            if (IContanst.SEND_SMS_KEY.equals(config.getKey()) || IContanst.EMOTION_ACEPTION_VALUE_KEY.equals(config.getKey()) || IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY.equals(config.getValue())) {
                 if (Double.valueOf(config.getValue()) <= 0) {
                     return false;
                 }

@@ -72,7 +72,7 @@ public class HandlerController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
 
-            List<ConfigurationModel> result = handlerService.listConfiguration();
+            ConfigurationModel result = handlerService.listConfiguration();
             if (result == null) {
                 return new BaseResponse(false);
             } else {
