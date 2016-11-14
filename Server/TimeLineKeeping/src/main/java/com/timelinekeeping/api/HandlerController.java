@@ -1,7 +1,6 @@
 package com.timelinekeeping.api;
 
 import com.timelinekeeping.common.BaseResponse;
-import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.ConfigurationModel;
@@ -11,8 +10,9 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -86,12 +86,11 @@ public class HandlerController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_HANDLER_UPDATE_CONFIGURATION, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public BaseResponse updateConfiguration(@RequestParam("key") String key,
-                                            @RequestParam("value") String value) {
+    @RequestMapping(value = I_URI.API_HANDLER_UPDATE_CONFIGURATION, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public BaseResponse updateConfiguration(@ModelAttribute ConfigurationModel model) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            return new BaseResponse(handlerService.updateConfiguration(null));
+            return new BaseResponse(handlerService.updateConfiguration(model));
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
