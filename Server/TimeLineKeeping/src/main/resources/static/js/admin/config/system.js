@@ -2,10 +2,11 @@
  * Created by TrungNN on 11/14/2016.
  */
 
-var current_sendSMS;
-
 /**
  * For event fc
+ */
+/**
+ * Fc: load page
  */
 function load_page() {
     //hide button update processing
@@ -17,6 +18,9 @@ function load_page() {
     ajax_get_list_config();
 }
 
+/**
+ * Fc: ajax update system config
+ */
 function update_system_config() {
     //form
     var $form_config_system = $('#form-config-system'),
@@ -24,11 +28,12 @@ function update_system_config() {
         checkinConfident = $form_config_system.find('[name="checkinConfident"]').val(),
         emailCompany = $form_config_system.find('[name="emailCompany"]').val(),
         timeCheckinBegin = $form_config_system.find('[name="timeCheckinBegin"]').val(),
-        timeCheckinEnd = $form_config_system.find('[name="timeCheckinEnd"]').val();
+        timeCheckinEnd = $form_config_system.find('[name="timeCheckinEnd"]').val(),
+        sendSMS = get_radio_selected_value($form_config_system, 'sendSMS');
 
     //model
     var configurationModel = {
-        'sendSMS': current_sendSMS,
+        'sendSMS': sendSMS,
         'emotionAccept': emotionAccept,
         'emailCompay': emailCompany,
         'checkinConfident': checkinConfident,
@@ -45,6 +50,9 @@ function update_system_config() {
     ajax_update_system_config(configurationModel);
 }
 
+/**
+ * Fc: ajax get list config
+ */
 function ajax_get_list_config() {
     var urlString = '/api/handler/list_config';
     $.ajax({
@@ -63,6 +71,10 @@ function ajax_get_list_config() {
     });
 }
 
+/**
+ * Fc: update system config
+ * @param configurationModel
+ */
 function ajax_update_system_config(configurationModel) {
     var urlString = '/api/handler/update_config';
     $.ajax({
@@ -95,6 +107,10 @@ function ajax_update_system_config(configurationModel) {
     });
 }
 
+/**
+ * Fc: set content list config
+ * @param data
+ */
 function set_content_list_config(data) {
     //response data
     var sendSMS = data.sendSMS,
@@ -110,10 +126,15 @@ function set_content_list_config(data) {
         $checkinConfident = $form_config_system.find('[name="checkinConfident"]'),
         $emailCompany = $form_config_system.find('[name="emailCompany"]'),
         $timeCheckinBegin = $form_config_system.find('[name="timeCheckinBegin"]'),
-        $timeCheckinEnd = $form_config_system.find('[name="timeCheckinEnd"]');
+        $timeCheckinEnd = $form_config_system.find('[name="timeCheckinEnd"]'),
+        selected_radio_sendSMS = 0;
 
-    //set current sendSMS
-    current_sendSMS = sendSMS;
+    //set selected radio sendSMS
+    if (sendSMS) {
+        selected_radio_sendSMS = 1;
+    }
+    //set radio sendSMS
+    set_radio_selected_value($form_config_system, 'sendSMS', selected_radio_sendSMS);
 
     //set content html
     $emotionAccept.val(emotionAccept);
@@ -123,6 +144,10 @@ function set_content_list_config(data) {
     $timeCheckinEnd.val(timeCheckinEnd);
 }
 
+/**
+ * Fc: set content message update config
+ * @param success
+ */
 function set_content_message_update_config(success) {
     var content;
     if (success) {
@@ -171,4 +196,25 @@ function event_hide(id) {
  */
 function event_show(id) {
     $(id).show();
+}
+
+/**
+ * Fc: set radio selected value
+ * @param $form
+ * @param name
+ * @param value
+ */
+function set_radio_selected_value($form, name, value) {
+    $form.find('input:radio[name="' + name + '"][value="' + value + '"]').iCheck('check');
+}
+
+/**
+ * Fc: get radio selected value
+ * @param $form
+ * @param name
+ * @returns {*}
+ */
+function get_radio_selected_value($form, name) {
+    var value = $form.find('input:radio[name="' + name + '"]:checked').val();
+    return value;
 }
