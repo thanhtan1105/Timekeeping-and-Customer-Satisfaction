@@ -15,14 +15,11 @@ import java.util.List;
 @Repository
 public interface CustomerServiceRepo extends JpaRepository<CustomerServiceEntity, Long> {
 
-    @Query("SELECT c FROM CustomerServiceEntity c WHERE c.CustomerCode = :customerCode")
+    @Query(value = "SELECT c FROM CustomerServiceEntity c WHERE c.CustomerCode = :customerCode")
     public CustomerServiceEntity findByCustomerCode(@Param("customerCode") String customerCode);
 
-    @Query(value = "SELECT * FROM customer_service c WHERE c.create_by = ?1 AND c.status = 0", nativeQuery = true)
-    public CustomerServiceEntity getLastCustomerById(@Param("create_by") Long employeeId);
-
-    @Query(value = "SELECT * FROM customer_service c WHERE c.customer_code = ?1 ", nativeQuery = true)
-    public CustomerServiceEntity startTransactionByCustomercode(@Param("customer_code") String customerCode);
+    @Query(value = "SELECT c FROM CustomerServiceEntity c WHERE c.createBy.id = :create_by AND c.status = 0")
+    public List<CustomerServiceEntity> getLastCustomerById(@Param("create_by") Long employeeId);
 
     @Query(value = "SELECT create_by, count(customer_code) as cusotmer_code, avg(grade) as grade " +
             "from customer_service WHERE  year(create_time) = :year AND month(create_time)=:month " +

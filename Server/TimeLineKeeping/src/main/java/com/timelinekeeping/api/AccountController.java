@@ -193,7 +193,7 @@ public class AccountController {
                                          @RequestParam(value = "accountId") Long accountId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            Long faceId = accountService.addFaceImg(Long.valueOf(accountId), imageFile.getInputStream());
+            Long faceId = faceService.addFaceImg(Long.valueOf(accountId), imageFile.getInputStream());
             if (faceId != null) {
                 return new BaseResponse(true, new Pair<>("faceId", faceId));
             } else {
@@ -235,7 +235,7 @@ public class AccountController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("accountId: " + accountId);
-            List<FaceModel> faces = accountService.listFace(Long.parseLong(accountId));
+            List<FaceModel> faces = faceService.listFace(Long.parseLong(accountId));
             if (ValidateUtil.isNotEmpty(faces)) {
                 return new BaseResponse(true, faces);
             } else {

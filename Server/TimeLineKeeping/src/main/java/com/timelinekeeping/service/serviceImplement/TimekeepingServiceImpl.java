@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.YearMonth;
 import java.util.*;
@@ -50,7 +49,7 @@ public class TimekeepingServiceImpl {
                         } else {
                             timeKeepingEntity.setStatus(ETimeKeeping.ABSENT);
                         }
-                    }else{
+                    } else {
                         timeKeepingEntity.setTimeCheck(null);
                     }
                 }
@@ -135,21 +134,20 @@ public class TimekeepingServiceImpl {
             //get All Timekeepung
             List<TimeKeepingEntity> listTimekeeping = timekeepingRepo.countEmployeeTime(year, month);
             Map<Long, Long> mapChekin = new HashMap<>();
-            for (TimeKeepingEntity timeKeepingEntity : listTimekeeping){
+            for (TimeKeepingEntity timeKeepingEntity : listTimekeeping) {
                 Long count = mapChekin.get(timeKeepingEntity.getAccount().getId());
                 if (count == null) count = 0l;
-                if (timeKeepingEntity.getType() == ETypeCheckin.CHECKIN_CAMERA ){
-                    if (TimeUtil.isPresentTimeCheckin(timeKeepingEntity.getTimeCheck())){
+                if (timeKeepingEntity.getType() == ETypeCheckin.CHECKIN_CAMERA) {
+                    if (TimeUtil.isPresentTimeCheckin(timeKeepingEntity.getTimeCheck())) {
                         count++;
                     }
-                }else {
-                    if (timeKeepingEntity.getStatus() == ETimeKeeping.PRESENT){
+                } else {
+                    if (timeKeepingEntity.getStatus() == ETimeKeeping.PRESENT) {
                         count++;
                     }
                 }
                 mapChekin.put(timeKeepingEntity.getAccount().getId(), count);
             }
-
 
 
 //            Map<Long, Long> mapChekin = new HashMap<>();
@@ -200,7 +198,7 @@ public class TimekeepingServiceImpl {
     }
 
 
-    public AccountAttendanceModel getAttendance(Long accountId, Integer year, Integer month) {
+    public AccountAttendanceModel getAttendance(Long accountId, Integer year, Integer month, Boolean viewManger) {
 
 
         //getAttendance from sql
@@ -257,8 +255,13 @@ public class TimekeepingServiceImpl {
         int dayWork = ServiceUtils.countWorkDay(year, month, accountEntity.getTimeCreate(), accountEntity.getTimeDeactive());
 
         //count totalPresent
-
         int totalPresent = listAttendance.stream().filter(attendanceDateModel -> attendanceDateModel.getPresent() == ETimeKeeping.PRESENT).collect(Collectors.toList()).size();
+
+
+        //if viewManager == false, remove all imagePath
+        if (viewManger == null || viewManger == false) {
+            listAttendance.stream().forEach(attendanceDateModel -> attendanceDateModel.setImagePath(null));
+        }
 
         //prepare return model
         AccountAttendanceModel accountAttendance = new AccountAttendanceModel(accountEntity, year, month);

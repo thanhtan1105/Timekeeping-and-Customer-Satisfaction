@@ -16,9 +16,9 @@ import com.timelinekeeping.service.blackService.AWSStorage;
 import com.timelinekeeping.service.blackService.OneSignalNotification;
 import com.timelinekeeping.service.blackService.SMSNotification;
 import com.timelinekeeping.util.*;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-//import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -432,84 +432,7 @@ public class AccountServiceImpl {
         }
     }
 
-    public Long addFaceImg(Long accountId, InputStream imgStream) throws URISyntaxException, IOException {
-        try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
 
-//            InputStream[] streams = UtilApps.muitleStream(imgStream, 2);
-            //rotate image
-            byte[] byteImage = StoreFileUtils.rotateImage(imgStream);
-            AccountEntity accountEntity = accountRepo.findOne(accountId);
-            if (accountEntity == null) {
-                return null;
-            }
-
-            String departmentCode = IContanst.DEPARTMENT_MICROSOFT;
-            BaseResponse baseResponse = personServiceMCS.addFaceImg(departmentCode, accountEntity.getUserCode(), new ByteArrayInputStream(byteImage));
-            logger.info("RESPONSE" + baseResponse);
-            if (!baseResponse.isSuccess()) {
-                return null;
-            }
-
-            // encoding data
-            Map<String, String> mapResult = (Map<String, String>) baseResponse.getData(); // get face
-            if (mapResult != null && mapResult.size() > 0) {
-
-                String persistedFaceID = mapResult.get("persistedFaceId");
-
-
-                //STORE FILE
-                String nameFile = accountEntity.getDepartment().getId() + "_" + accountEntity.getDepartment().getCode()
-                        + File.separator + accountId + "_" + accountEntity.getUsername() + File.separator + new Date().getTime();
-
-
-                String outFileName = StoreFileUtils.storeFile(nameFile, new ByteArrayInputStream(byteImage));
-                //return faceReturn.getId();
-
-                //store file AWS
-                String outAWSFileName = null;
-                if (outFileName != null) {
-                    File file = new File(outFileName);
-                    outAWSFileName = AppConfigKeys.getInstance().getAmazonPropertyValue("amazon.s3.link") + file.getName();
-                    Thread thread = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            String linkURL = AWSStorage.uploadFile(file, file.getName());
-                            logger.info("aws link: " + linkURL);
-                        }
-                    });
-                    thread.start();
-                }
-
-                // save db
-                FaceEntity faceCreate = new FaceEntity(persistedFaceID, accountEntity);
-                faceCreate.setStorePath(outAWSFileName);
-                FaceEntity faceReturn = faceRepo.saveAndFlush(faceCreate);
-                return faceReturn.getId();
-            }
-            return null;
-        } finally {
-            logger.info(IContanst.END_METHOD_SERVICE);
-        }
-
-    }
-
-    /**
-     * list all face in account
-     */
-    public List<FaceModel> listFace(Long accountID) {
-        try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            List<FaceEntity> entities = faceRepo.findByAccount(accountID);
-            if (ValidateUtil.isEmpty(entities)) {
-                return null;
-            }
-            return entities.stream().filter(faceEntity -> faceEntity.getStorePath() != null).map(FaceModel::new).collect(Collectors.toList());
-
-        } finally {
-            logger.info(IContanst.END_METHOD_SERVICE);
-        }
-    }
 
     /**
      * check_in by image from client
@@ -524,8 +447,11 @@ public class AccountServiceImpl {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
 
             BaseResponse response = new BaseResponse(); /** return */
+
+            byte[] byteImage = IOUtils.toByteArray(fileInputStream);
+
             /** call API MCS get List FaceID*/
-            String faceID = detectImg(fileInputStream);
+            String faceID = detectImg(new ByteArrayInputStream(byteImage));
             if (faceID == null) {
                 logger.error(IContanst.ERROR_LOGGER + ERROR.ACCOUNT_CHECKIN_IMAGE_CANNOT_DETECT_IMAGE);
                 return new BaseResponse(false, ERROR.ACCOUNT_CHECKIN_IMAGE_CANNOT_DETECT_IMAGE, null);
@@ -558,15 +484,33 @@ public class AccountServiceImpl {
             // Save TimeKeeping fro accountID
             TimeKeepingEntity timeKeepingEntity = timekeepingRepo.findByAccountCheckinDate(accountEntity.getId(), new Date());
 
+
             if (timeKeepingEntity != null) {
                 // TODO checked, show message
 
             } else {
+
+                //STORE FILE
+                String nameFile = accountEntity.getDepartment().getId() + "_" + accountEntity.getDepartment().getCode()
+                        + File.separator + accountEntity.getId() + "_" + accountEntity.getUsername() + File.separator + new Date().getTime();
+
+
+                String outFileName = StoreFileUtils.storeFile(nameFile, new ByteArrayInputStream(byteImage));
+
+                //store file AWS
+                String outAWSFileName = null;
+                if (outFileName != null) {
+                    File file = new File(outFileName);
+                    outAWSFileName = AWSStorage.uploadFile(file, file.getName());
+                    logger.info("aws link: " + outAWSFileName);
+                }
+
                 timeKeepingEntity = new TimeKeepingEntity();
                 timeKeepingEntity.setType(ETypeCheckin.CHECKIN_CAMERA);
                 timeKeepingEntity.setStatus(ETimeKeeping.PRESENT);
                 timeKeepingEntity.setAccount(accountEntity);
                 timeKeepingEntity.setTimeCheck(new Timestamp(new Date().getTime()));
+                timeKeepingEntity.setImagePath(outAWSFileName);
                 timekeepingRepo.saveAndFlush(timeKeepingEntity);
                 logger.info("-- Save TimeKeeping: " + timeKeepingEntity.getTimeCheck());
             }
@@ -576,6 +520,9 @@ public class AccountServiceImpl {
 
             // push sms
             SMSNotification.getInstance().sendSms(new AccountModel(accountEntity));
+
+
+            //TODO add face to person if image > 0.8
 
             //Response to Server
             response.setSuccess(true);

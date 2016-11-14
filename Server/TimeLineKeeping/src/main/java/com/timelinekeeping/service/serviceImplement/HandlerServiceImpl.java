@@ -71,6 +71,8 @@ public class HandlerServiceImpl {
 
         // check userCode exist in list Persisted
         for (AccountEntity accountEntity : accountEntities) {
+            logger.info("--------");
+            logger.info("accountEntity [id] = " + accountEntity.getId());
             PersonInformation personSelect = personMap.get(accountEntity.getUserCode());
             if (personSelect == null) {
 
@@ -114,15 +116,16 @@ public class HandlerServiceImpl {
                 }
             } else {
                 List<String> persistedFaces = personSelect.getPersistedFaceIds();
-                List<String> listFace = accountEntity.getFaces().stream().map(FaceEntity::getPersistedFaceId).collect(Collectors.toList());
+                List<FaceModel> faceModelList = faceRepo.findByAccount(accountEntity.getId()).stream().map(FaceModel::new).collect(Collectors.toList());
+                List<String> listFace = faceModelList.stream().map(FaceModel::getPersistedFaceId).collect(Collectors.toList());
 
                 logger.info("ListFace: " + JsonUtil.toJson(listFace));
                 logger.info("ListFace Size(): " + listFace.size());
                 logger.info("ListPersisted: " + JsonUtil.toJson(persistedFaces));
                 logger.info("ListPersisted size: " + persistedFaces.size());
 
-                if (ValidateUtil.isNotEmpty(accountEntity.getFaces())) {
-                    List<FaceModel> faceModelList = faceRepo.findByAccount(accountEntity.getId()).stream().map(FaceModel::new).collect(Collectors.toList());
+                if (ValidateUtil.isNotEmpty(faceModelList)) {
+
 
                     for (FaceModel faceModel : faceModelList) {
                         if (persistedFaces != null && !persistedFaces.contains(faceModel.getPersistedFaceId())) {
@@ -132,6 +135,7 @@ public class HandlerServiceImpl {
                                 Map<String, String> mapResult = (Map<String, String>) responseFace.getData();
                                 if (mapResult != null && mapResult.size() > 0) {
                                     String persistedFaceID = mapResult.get("persistedFaceId");
+
                                     // find one
                                     FaceEntity faceEntity = faceRepo.findOne(faceModel.getId());
                                     faceEntity.setPersistedFaceId(persistedFaceID);
@@ -162,6 +166,7 @@ public class HandlerServiceImpl {
                 }
                 faceRepo.flush();
             }
+            logger.info("++++++++++");
         }
 
         //training

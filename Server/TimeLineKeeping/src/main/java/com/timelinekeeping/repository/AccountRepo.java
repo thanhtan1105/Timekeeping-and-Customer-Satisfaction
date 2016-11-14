@@ -50,10 +50,6 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
     List<AccountEntity> findByDepartmentAndRole(@Param("department_id") Long departmentId,
                                                 @Param("role_id") Long roleId);
 
-//    @Query("UPDATE account SET token = :tokenID WHERE id = :accountID", nativeQuery = true)
-//    int updateMobileTokenID(@Param("accountID") Long accountID,
-//                            @Param("tokenID") String tokenID);
-
     @Query("SELECT a FROM AccountEntity a WHERE a.keyOneSignal = :keyOne and a.active <>0")
     List<AccountEntity> findByOneSignal(@Param("keyOne") String key);
 
