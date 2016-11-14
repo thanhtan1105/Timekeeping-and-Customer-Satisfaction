@@ -95,8 +95,8 @@ public class AccountEntity implements Serializable {
     @JoinColumn(name = "manager_id")
     private AccountEntity manager;
 
-    @OneToMany(mappedBy = "accountEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<FaceEntity> faces;
+//    @OneToMany(mappedBy = "accountEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private Set<FaceEntity> faces;
 
 
     public AccountEntity() {
@@ -227,14 +227,14 @@ public class AccountEntity implements Serializable {
     public void setDepartment(DepartmentEntity departments) {
         this.department = departments;
     }
-
-    public Set<FaceEntity> getFaces() {
-        return faces;
-    }
-
-    public void setFaces(Set<FaceEntity> faces) {
-        this.faces = faces;
-    }
+//
+//    public Set<FaceEntity> getFaces() {
+//        return faces;
+//    }
+//
+//    public void setFaces(Set<FaceEntity> faces) {
+//        this.faces = faces;
+//    }
 
     public AccountEntity getManager() {
         return manager;
