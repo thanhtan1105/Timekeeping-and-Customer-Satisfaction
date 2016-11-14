@@ -22,6 +22,8 @@ public class ConfigurationEntity {
     @Column( name = "value", nullable = false)
     private String value;
 
+
+
     public Long getId() {
         return id;
     }

@@ -3,6 +3,7 @@ package com.timelinekeeping.api;
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
+import com.timelinekeeping.model.ConfigurationModel;
 import com.timelinekeeping.model.HistoryModel;
 import com.timelinekeeping.service.serviceImplement.HandlerServiceImpl;
 import org.apache.log4j.LogManager;
@@ -64,4 +65,25 @@ public class HandlerController {
             logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
+
+
+    @RequestMapping(value = I_URI.API_HANDLER_LIST_CONFIGURATION, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public BaseResponse listConfiguration() {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+            List<ConfigurationModel> result = handlerService.listConfiguration();
+            if (result == null) {
+                return new BaseResponse(false);
+            } else {
+                return new BaseResponse(true, result);
+            }
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        }
+    }
+
 }

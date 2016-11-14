@@ -221,13 +221,20 @@ public class HandlerServiceImpl {
         }
     }
 
-    public Boolean updateConfiguration(List<ConfigurationModel> listModel) {
+    public Boolean updateConfiguration(Map<String, String> listConfig) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            if (ValidateUtil.isNotEmpty(listModel)) {
-                for (ConfigurationModel model : listModel) {
+            if (listConfig != null && listConfig.size() > 0) {
+                String emotionAccept = listConfig.get(IContanst.EXCEPTION_VALUE_KEY);
+                String checkinConfident = listConfig.get(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY);
 
-//                    ConfigurationEntity entity = configurationRepo.findOne()
+                if (Double.valueOf(emotionAccept) > 0 && Double.valueOf(checkinConfident) > 0) {
+                    for (Map.Entry<String, String> entries : listConfig.entrySet()) {
+                        ConfigurationEntity configurationEntity = configurationRepo.findByKey(entries.getKey());
+                        configurationEntity.setValue(entries.getValue());
+                        configurationRepo.save(configurationEntity);
+                    }
+                    configurationRepo.flush();
                 }
             }
             return true;
