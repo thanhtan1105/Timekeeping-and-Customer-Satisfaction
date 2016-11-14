@@ -86,12 +86,11 @@ public class HandlerController {
         }
     }
 
-    @RequestMapping(value = I_URI.API_HANDLER_UPDATE_CONFIGURATION, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BaseResponse updateConfiguration(@RequestParam("key") String key,
                                             @RequestParam("value") String value) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            return new BaseResponse(handlerService.updateConfiguration(new Pair<String, String>(key, value)));
+            return new BaseResponse(handlerService.updateConfiguration(null));
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);

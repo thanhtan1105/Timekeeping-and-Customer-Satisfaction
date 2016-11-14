@@ -227,17 +227,22 @@ public class HandlerServiceImpl {
         }
     }
 
-    public Boolean updateConfiguration(Pair<String, String> config) {
+    public Boolean updateConfiguration(Map<String, String> listConfig) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            if (IContanst.SEND_SMS_KEY.equals(config.getKey()) || IContanst.EMOTION_ACEPTION_VALUE_KEY.equals(config.getKey()) || IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY.equals(config.getValue())) {
-                if (Double.valueOf(config.getValue()) <= 0) {
-                    return false;
+            if (listConfig != null && listConfig.size() > 0) {
+                String emotionAccept = listConfig.get(IContanst.EMOTION_ACEPTION_VALUE_KEY);
+                String checkinConfident = listConfig.get(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY);
+
+                if (Double.valueOf(emotionAccept) > 0 && Double.valueOf(checkinConfident) > 0) {
+                    for (Map.Entry<String, String> entries : listConfig.entrySet()) {
+                        ConfigurationEntity configurationEntity = configurationRepo.findByKey(entries.getKey());
+                        configurationEntity.setValue(entries.getValue());
+                        configurationRepo.save(configurationEntity);
+                    }
+                    configurationRepo.flush();
                 }
             }
-            ConfigurationEntity configurationEntity = configurationRepo.findByKey(config.getKey());
-            configurationEntity.setValue(config.getValue());
-            configurationRepo.saveAndFlush(configurationEntity);
             return true;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
