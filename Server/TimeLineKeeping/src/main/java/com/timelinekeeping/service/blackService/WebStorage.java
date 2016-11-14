@@ -38,7 +38,7 @@ public class WebStorage {
 //        headers.add(HttpHeaders.ACCEPT_ENCODING, "UTF-8");
         byte[] bytes = IOUtils.toByteArray(new FileInputStream(fileName));
         MultiValueMap<String, Object> mapEntity = new LinkedMultiValueMap<>();
-        mapEntity.set("File", );
+//        mapEntity.set("File", );
 
         ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<MultiValueMap<String, Object>>(mapEntity, headers), String.class);
         logger.info(JsonUtil.toJson(response));

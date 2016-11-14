@@ -482,7 +482,10 @@ public class AccountServiceImpl {
             }
 
             // Save TimeKeeping fro accountID
-            TimeKeepingEntity timeKeepingEntity = timekeepingRepo.findByAccountCheckinDate(accountEntity.getId(), new Date());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+            calendar.add(Calendar.HOUR_OF_DAY, 7);
+            TimeKeepingEntity timeKeepingEntity = timekeepingRepo.findByAccountCheckinDate(accountEntity.getId(), calendar.getTime());
 
 
             if (timeKeepingEntity != null) {
