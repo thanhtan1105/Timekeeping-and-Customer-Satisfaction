@@ -29,7 +29,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -213,10 +212,7 @@ public class HandlerServiceImpl {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             List<ConfigurationEntity> entities = configurationRepo.findAll();
             if (ValidateUtil.isNotEmpty(entities)) {
-                Map<String, String> map = new HashMap<>();
-                for (ConfigurationEntity entity : entities) {
-                    map.put(entity.getKey(), entity.getValue());
-                }
+                Map<String, String> map = entities.stream().collect(Collectors.toMap(ConfigurationEntity::getKey, ConfigurationEntity::getValue));
                 return new ConfigurationModel(map);
             } else {
                 return null;
