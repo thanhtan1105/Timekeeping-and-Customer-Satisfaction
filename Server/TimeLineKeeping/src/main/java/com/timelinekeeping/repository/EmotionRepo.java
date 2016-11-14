@@ -1,6 +1,8 @@
 package com.timelinekeeping.repository;
 
 import com.timelinekeeping.entity.EmotionCustomerEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,6 +22,7 @@ public interface EmotionRepo extends JpaRepository<EmotionCustomerEntity, Long> 
             "WHERE c.id = :customerId")
     public List<EmotionCustomerEntity> findByCustomerId(@Param("customerId") Long customerId);
 
-    @Query(value = "select * from mydb.emotion c where customer_id = :customer_id order by c.create_time desc limit 1;", nativeQuery = true)
-    public EmotionCustomerEntity findByCustomerIdLeast(@Param("customer_id") Long customerId);
+    @Query(value = "SELECT c FROM EmotionCustomerEntity c WHERE c.customerService.id = :customer_id ORDER BY c.createTime DESC")
+    public Page<EmotionCustomerEntity> findByCustomerIdLeast(@Param("customer_id") Long customerId,
+                                                       Pageable pageable);
 }

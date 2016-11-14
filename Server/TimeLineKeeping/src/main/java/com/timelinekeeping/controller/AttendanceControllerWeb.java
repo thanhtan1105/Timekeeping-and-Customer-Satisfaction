@@ -54,7 +54,7 @@ public class AttendanceControllerWeb {
                 logger.info("[Controller- Load Timekeeping View] current month: " + month);
                 logger.info("[Controller- Load Timekeeping View] current year: " + year);
 
-                AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month);
+                AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month, false);
 
                 // set side-bar
                 String sideBar = IContanst.SIDE_BAR_EMPLOYEE_ATTENDANCE;
@@ -97,7 +97,7 @@ public class AttendanceControllerWeb {
                 Long accountId = accountModel.getId();
 
                 // get attendance
-                AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month);
+                AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month, false);
 
                 // set side-bar
                 String sideBar = IContanst.SIDE_BAR_EMPLOYEE_ATTENDANCE;

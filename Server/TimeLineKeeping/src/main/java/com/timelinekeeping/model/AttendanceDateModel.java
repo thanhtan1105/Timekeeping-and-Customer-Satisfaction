@@ -17,7 +17,7 @@ public class AttendanceDateModel {
     private ETypeCheckin type;
     private Date timeCheck;
     private String note;
-
+    private String imagePath;
     private EDayStatus dayStatus = EDayStatus.NORMAL;
 
     public AttendanceDateModel() {
@@ -29,15 +29,17 @@ public class AttendanceDateModel {
             this.type = entity.getType();
             this.timeCheck = entity.getTimeCheck();
             this.note = entity.getNote();
+            this.imagePath = entity.getImagePath();
         }
     }
 
-    public void  from(TimeKeepingEntity entity) {
+    public void from(TimeKeepingEntity entity) {
         if (entity != null) {
             this.present = entity.getStatus();
             this.type = entity.getType();
             this.timeCheck = entity.getTimeCheck();
             this.note = entity.getNote();
+            this.imagePath = entity.getImagePath();
         }
     }
 
@@ -95,5 +97,13 @@ public class AttendanceDateModel {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

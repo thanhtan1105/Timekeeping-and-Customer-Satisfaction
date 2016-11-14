@@ -36,6 +36,10 @@ public class TimeKeepingEntity implements Serializable {
     @Column(name = "note", length = Integer.MAX_VALUE)
     private String note;
 
+    @Basic
+    @Column(name = "image_path", length = 500)
+    private String imagePath;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
     private AccountEntity account;
@@ -114,5 +118,13 @@ public class TimeKeepingEntity implements Serializable {
 
     public void setRpDepartmentId(Long rpDepartmentId) {
         this.rpDepartmentId = rpDepartmentId;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

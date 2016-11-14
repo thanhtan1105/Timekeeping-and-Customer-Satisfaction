@@ -16,6 +16,7 @@ import com.timelinekeeping.service.blackService.AWSStorage;
 import com.timelinekeeping.service.blackService.OneSignalNotification;
 import com.timelinekeeping.service.blackService.SMSNotification;
 import com.timelinekeeping.util.*;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 //import org.joda.time.DateTime;
@@ -524,8 +525,11 @@ public class AccountServiceImpl {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
 
             BaseResponse response = new BaseResponse(); /** return */
+
+            byte[] byteImage = IOUtils.toByteArray(fileInputStream);
+
             /** call API MCS get List FaceID*/
-            String faceID = detectImg(fileInputStream);
+            String faceID = detectImg(new ByteArrayInputStream(byteImage));
             if (faceID == null) {
                 logger.error(IContanst.ERROR_LOGGER + ERROR.ACCOUNT_CHECKIN_IMAGE_CANNOT_DETECT_IMAGE);
                 return new BaseResponse(false, ERROR.ACCOUNT_CHECKIN_IMAGE_CANNOT_DETECT_IMAGE, null);
@@ -558,15 +562,33 @@ public class AccountServiceImpl {
             // Save TimeKeeping fro accountID
             TimeKeepingEntity timeKeepingEntity = timekeepingRepo.findByAccountCheckinDate(accountEntity.getId(), new Date());
 
+
             if (timeKeepingEntity != null) {
                 // TODO checked, show message
 
             } else {
+
+                //STORE FILE
+                String nameFile = accountEntity.getDepartment().getId() + "_" + accountEntity.getDepartment().getCode()
+                        + File.separator + accountEntity.getId() + "_" + accountEntity.getUsername() + File.separator + new Date().getTime();
+
+
+                String outFileName = StoreFileUtils.storeFile(nameFile, new ByteArrayInputStream(byteImage));
+
+                //store file AWS
+                String outAWSFileName = null;
+                if (outFileName != null) {
+                    File file = new File(outFileName);
+                    outAWSFileName = AWSStorage.uploadFile(file, file.getName());
+                    logger.info("aws link: " + outAWSFileName);
+                }
+
                 timeKeepingEntity = new TimeKeepingEntity();
                 timeKeepingEntity.setType(ETypeCheckin.CHECKIN_CAMERA);
                 timeKeepingEntity.setStatus(ETimeKeeping.PRESENT);
                 timeKeepingEntity.setAccount(accountEntity);
                 timeKeepingEntity.setTimeCheck(new Timestamp(new Date().getTime()));
+                timeKeepingEntity.setImagePath(outAWSFileName);
                 timekeepingRepo.saveAndFlush(timeKeepingEntity);
                 logger.info("-- Save TimeKeeping: " + timeKeepingEntity.getTimeCheck());
             }
@@ -576,6 +598,9 @@ public class AccountServiceImpl {
 
             // push sms
             SMSNotification.getInstance().sendSms(new AccountModel(accountEntity));
+
+
+            //TODO add face to person if image > 0.8
 
             //Response to Server
             response.setSuccess(true);

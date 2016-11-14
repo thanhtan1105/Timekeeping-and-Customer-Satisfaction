@@ -21,7 +21,7 @@ public interface TimekeepingRepo extends JpaRepository<TimeKeepingEntity, Long> 
     @Query("SELECT t FROM TimeKeepingEntity t INNER JOIN t.account a WHERE a.id = :accountId")
     public List<TimeKeepingEntity> findByAccount(@Param("accountId") Long accountId);
 
-    @Query(value = "SELECT * FROM time_keeping t WHERE year(t.time_check) = :year and month(t.time_check) = :month ", nativeQuery = true)
+    @Query(value = "SELECT * FROM TimeKeepingEntity t WHERE Year(t.t) = :year and month(t.time_check) = :month ", nativeQuery = true)
     public List<TimeKeepingEntity> countEmployeeTime(@Param("year") Integer year,
                                                      @Param("month") Integer month);
 

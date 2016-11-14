@@ -94,7 +94,7 @@ public class TimekeepingControllerWeb {
             Integer month = calendar.get(Calendar.MONTH) + 1;
             Integer year = calendar.get(Calendar.YEAR);
 
-            AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month);
+            AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month, true);
             logger.info(JsonUtil.toJson(accountAttendanceModel));
             model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
             model.addAttribute("SelectedDate", selectedDate);
@@ -175,7 +175,7 @@ public class TimekeepingControllerWeb {
         logger.info("[Controller- Change Month Timekeeping View] selected year: " + year);
 
         // get attendance
-        AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month);
+        AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month, true);
         // set side-bar
         String sideBar = IContanst.SIDE_BAR_MANAGER_TIMEKEEPING;
 
