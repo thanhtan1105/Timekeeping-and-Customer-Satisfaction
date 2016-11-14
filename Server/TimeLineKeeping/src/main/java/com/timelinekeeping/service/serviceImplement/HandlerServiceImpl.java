@@ -71,6 +71,8 @@ public class HandlerServiceImpl {
 
         // check userCode exist in list Persisted
         for (AccountEntity accountEntity : accountEntities) {
+            logger.info("--------");
+            logger.info("accountEntity [id] = " + accountEntity.getId());
             PersonInformation personSelect = personMap.get(accountEntity.getUserCode());
             if (personSelect == null) {
 
@@ -162,6 +164,7 @@ public class HandlerServiceImpl {
                 }
                 faceRepo.flush();
             }
+            logger.info("++++++++++");
         }
 
         //training

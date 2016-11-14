@@ -1,15 +1,20 @@
 package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping._config.AppConfigKeys;
+import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.FaceEntity;
+import com.timelinekeeping.model.FaceModel;
 import com.timelinekeeping.model.FaceModifyModel;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.FaceRepo;
+import com.timelinekeeping.service.blackService.AWSStorage;
 import com.timelinekeeping.util.HTTPClientUtil;
+import com.timelinekeeping.util.StoreFileUtils;
+import com.timelinekeeping.util.ValidateUtil;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -19,10 +24,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by lethanhtan on 9/19/16.
@@ -37,6 +49,10 @@ public class FaceServiceImpl {
 
     @Autowired
     private AccountRepo accountRepo;
+
+    @Autowired
+    private PersonServiceMCSImpl personServiceMCS;
+
 
     Logger logger = LogManager.getLogger(FaceServiceImpl.class);
 
@@ -68,16 +84,18 @@ public class FaceServiceImpl {
 
     public Boolean removeFace(String personGroupId, Long accountId, Long faceId) throws URISyntaxException, IOException {
         logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-
+        logger.info(String.format("Remove Face: accountId = [%s] faceId = [%s]", accountId, faceId));
         AccountEntity accountEntity = accountRepo.findOne(accountId);
         if (accountEntity == null){
+            logger.info(String.format("AccountId = [%s] no exist.", accountId));
             return null;
         }
         FaceEntity faceEntity = faceRepo.findOne(faceId);
         if (faceEntity == null){
+            logger.info(String.format("faceEntity = [%s] no exist.", faceId));
             return null;
         }
-        BaseResponse baseResponse = callAPIremoveMCS(personGroupId, accountEntity.getUserCode(), faceEntity.getPersistedFaceId());
+        BaseResponse baseResponse = personServiceMCS.removePersonFace(personGroupId, accountEntity.getUserCode(), faceEntity.getPersistedFaceId());
 
         if (baseResponse.isSuccess() == true) {
             // remove on db
@@ -90,14 +108,78 @@ public class FaceServiceImpl {
         }
     }
 
-    public BaseResponse callAPIremoveMCS(String personGroupId, String personID, String persistedFaceId) throws URISyntaxException, IOException {
-        String urlDeleteFace = AppConfigKeys.getInstance().getApiPropertyValue("api.person.group") + "/" + personGroupId;
-        urlDeleteFace += "/" + AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.delete.person.face.1.addition") + "/" + personID;
-        urlDeleteFace += "/" + AppConfigKeys.getInstance().getApiPropertyValue("api.person.group.delete.person.face.2.addition") + "/" + persistedFaceId;
-        String url = rootPath  + urlDeleteFace;
 
-        BaseResponse faceResponse = HTTPClientUtil.getInstanceFace().toGet(new URI(url), String.class);
-        return faceResponse;
+
+    public Long addFaceImg(Long accountId, InputStream imgStream) throws URISyntaxException, IOException {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+//            InputStream[] streams = UtilApps.muitleStream(imgStream, 2);
+            //rotate image
+            byte[] byteImage = StoreFileUtils.rotateImage(imgStream);
+            AccountEntity accountEntity = accountRepo.findOne(accountId);
+            if (accountEntity == null) {
+                return null;
+            }
+
+            String departmentCode = IContanst.DEPARTMENT_MICROSOFT;
+            BaseResponse baseResponse = personServiceMCS.addFaceImg(departmentCode, accountEntity.getUserCode(), new ByteArrayInputStream(byteImage));
+            logger.info("RESPONSE" + baseResponse);
+            if (!baseResponse.isSuccess()) {
+                return null;
+            }
+
+            // encoding data
+            Map<String, String> mapResult = (Map<String, String>) baseResponse.getData(); // get face
+            if (mapResult != null && mapResult.size() > 0) {
+
+                String persistedFaceID = mapResult.get("persistedFaceId");
+
+
+                //STORE FILE
+                String nameFile = accountEntity.getDepartment().getId() + "_" + accountEntity.getDepartment().getCode()
+                        + File.separator + accountId + "_" + accountEntity.getUsername() + File.separator + new Date().getTime();
+
+
+                String outFileName = StoreFileUtils.storeFile(nameFile, new ByteArrayInputStream(byteImage));
+                //return faceReturn.getId();
+
+                //store file AWS
+                String outAWSFileName = null;
+                if (outFileName != null) {
+                    File file = new File(outFileName);
+                    outAWSFileName = AWSStorage.uploadFile(file, file.getName());
+                    logger.info("aws link: " + outAWSFileName);
+                }
+
+                // save db
+                FaceEntity faceCreate = new FaceEntity(persistedFaceID, accountEntity);
+                faceCreate.setStorePath(outAWSFileName);
+                FaceEntity faceReturn = faceRepo.saveAndFlush(faceCreate);
+                return faceReturn.getId();
+            }
+            return null;
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
     }
+
+    /**
+     * list all face in account
+     */
+    public List<FaceModel> listFace(Long accountID) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            List<FaceEntity> entities = faceRepo.findByAccount(accountID);
+            if (ValidateUtil.isEmpty(entities)) {
+                return null;
+            }
+            return entities.stream().filter(faceEntity -> faceEntity.getStorePath() != null).map(FaceModel::new).collect(Collectors.toList());
+
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
 }
 
