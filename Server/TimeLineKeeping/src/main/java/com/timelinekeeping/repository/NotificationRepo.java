@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -15,10 +16,10 @@ import java.util.Set;
 @Repository
 public interface NotificationRepo extends JpaRepository<NotificationEntity, Long> {
 
-    @Query(value = "SELECT distinct n.*  FROM notification n, reminder_message rm " +
-            "WHERE n.reminder_message_id = rm.id and n.account_id = :accountid and date(rm.time) = curdate() " +
-            "and rm.active <> 0 and n.active <> 0 ;", nativeQuery = true)
-    public List<NotificationEntity> findByAccountReceiveByDate(@Param("accountid") Long accountid);
+    @Query(value = "SELECT distinct n  FROM NotificationEntity n inner join n.reminderMessage rm  WHERE n.accountReceive.id = :accountId and (rm.time between :fromDay and :toDay)  and rm.active <> 0 and n.active <> 0")
+    public List<NotificationEntity> findByAccountReceiveByDate(@Param("accountId") Long accountid,
+                                                               @Param("fromDay") Date fromDay,
+                                                               @Param("toDay") Date toDay);
 
     @Query(value = "SELECT n FROM NotificationEntity n WHERE n.reminderMessage.id = :reminderId and n.active <>0")
     public Set<NotificationEntity> findReminder(@Param("reminderId") Long reminderId);

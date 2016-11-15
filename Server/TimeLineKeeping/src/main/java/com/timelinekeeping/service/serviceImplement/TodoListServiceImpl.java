@@ -12,6 +12,7 @@ import com.timelinekeeping.model.ToDoListModifyModel;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.ToDoListRepo;
 import com.timelinekeeping.util.JsonUtil;
+import com.timelinekeeping.util.TimeUtil;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -37,14 +38,16 @@ public class TodoListServiceImpl {
 
     private Logger logger = LogManager.getLogger(AccountServiceImpl.class);
 
-    public List<ToDoListModel> getToDoTask(Long time, String accountId) {
+    public List<ToDoListModel> getToDoTask(Long time, Long accountId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
 
             Date dateQuery = new Date(time);
 
+            Pair<Date, Date> betweenDate = TimeUtil.createDayBetween(dateQuery);
+
             // convert list
-            List<ToDoListEntity> list = toDoListRepo.findByToDoListOnMonth(accountId, dateQuery);
+            List<ToDoListEntity> list = toDoListRepo.findByToDoListOnMonth(accountId, betweenDate.getKey(), betweenDate.getValue());
             List<ToDoListModel> returnValue = list.stream().map(ToDoListModel::new).collect(Collectors.toList());
             return returnValue;
         } finally {

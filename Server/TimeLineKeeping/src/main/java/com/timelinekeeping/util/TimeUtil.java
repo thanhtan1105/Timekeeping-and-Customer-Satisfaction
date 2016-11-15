@@ -1,9 +1,11 @@
 
 package com.timelinekeeping.util;
 
+import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_TIME;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -74,9 +76,10 @@ public class TimeUtil {
         }
     }
 
-    public static Date noiseDate(Date date, String pattern){
-       return parseToDate(timeToString(date, pattern), pattern);
+    public static Date noiseDate(Date date, String pattern) {
+        return parseToDate(timeToString(date, pattern), pattern);
     }
+
 
 //    public static boolean isPresentTimeCheckin(Date date) {
 //        Date timeFromDate = parseToDate(IContanst.TIME_CHECK_IN_SYSTEM_START, I_TIME.TIME_MINUTE);
@@ -95,6 +98,28 @@ public class TimeUtil {
 //        }
 //    }
 
+
+    public static Pair<Date, Date> createDayBetween(Date currentDay) {
+        Pair<Date, Date> returnValue = new Pair<>();
+        Date startDate = noiseDate(currentDay, I_TIME.FULL_DATE);
+        returnValue.setKey(startDate);
+        DateTime endTime = new DateTime(startDate);
+
+        returnValue.setValue(endTime.plusDays(1).plusSeconds(-1).toDate());
+        return returnValue;
+    }
+
+    public static Pair<Date, Date> createMonthBetween(Date currentDay) {
+        Pair<Date, Date> returnValue = new Pair<>();
+        Date startDate = noiseDate(currentDay, I_TIME.FULL_YEAR_MONTH);
+        returnValue.setKey(startDate);
+        DateTime endTime = new DateTime(startDate);
+
+        returnValue.setValue(endTime.plusMonths(1).plusSeconds(-1).toDate());
+        return returnValue;
+    }
+
+
     public static boolean isPresentTimeCheckin(Date date, String timeBegin, String timeEnd) {
         Date timeFromDate = parseToDate(timeBegin, I_TIME.TIME_MINUTE);
         Date timeToDate = parseToDate(timeEnd, I_TIME.TIME_MINUTE);
@@ -112,14 +137,11 @@ public class TimeUtil {
         }
     }
 
+
     public static void main(String[] args) {
-        try {
-            DateFormat format = new SimpleDateFormat(I_TIME.TIME_MINUTE);
-            Date date = format.parse("16:31");
-//            System.out.println(isPresentTimeCheckin(date));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        System.out.println(JsonUtil.toJson(createDayBetween(new Date())));
+        System.out.println(JsonUtil.toJson(createMonthBetween(new Date())));
     }
+
 
 }

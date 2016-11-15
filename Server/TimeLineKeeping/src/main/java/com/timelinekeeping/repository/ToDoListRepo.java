@@ -1,8 +1,6 @@
 package com.timelinekeeping.repository;
 
-import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.ToDoListEntity;
-import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,9 +17,10 @@ import java.util.List;
 public interface ToDoListRepo extends JpaRepository<ToDoListEntity, Long> {
 
     // TO DO LIST
-    @Query(value = "SELECT * FROM todo_list a WHERE a.account_id = :accountId AND  date(a.time_notify) = date(:date) AND a.active <> 0", nativeQuery = true)
-    List<ToDoListEntity> findByToDoListOnMonth(@Param("accountId") String accountId,
-                                               @Param("date") Date month);
+    @Query(value = "SELECT td FROM ToDoListEntity td WHERE td.account_created.id = :accountId AND  (td.timeNotify BETWEEN :fromDay AND :toDay ) AND td.active <> 0")
+    List<ToDoListEntity> findByToDoListOnMonth(@Param("accountId") Long accountId,
+                                               @Param("fromDay") Date fromDay,
+                                               @Param("toDay") Date toDay);
 
     @Query("SELECT  todo FROM ToDoListEntity  todo WHERE todo.id = ?1 and todo.active <> 0")
     ToDoListEntity findOne(Long id);

@@ -3,6 +3,7 @@ package com.timelinekeeping.service.serviceImplement;
 import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
 import com.timelinekeeping.common.BaseResponse;
+import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.ERROR;
 import com.timelinekeeping.constant.ETransaction;
@@ -21,10 +22,12 @@ import com.timelinekeeping.repository.EmotionRepo;
 import com.timelinekeeping.service.blackService.SuggestionService;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ServiceUtils;
+import com.timelinekeeping.util.TimeUtil;
 import com.timelinekeeping.util.UtilApps;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -292,7 +295,11 @@ public class EmotionServiceImpl {
             EmployeeReportCustomerService customerService = new EmployeeReportCustomerService(year, month, employee);
             customerService.setReportDate(dayReports);
             customerService.complete();
+
+            logger.info("Return Json: " +JsonUtil.toJson(customerService));
             return customerService;
+
+
 
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
@@ -310,16 +317,22 @@ public class EmotionServiceImpl {
             List<AccountEntity> accountEntities = accountRepo.findByManager(managerId);
             List<AccountReportCustomerService> accountReports = accountEntities.stream().map(AccountReportCustomerService::new).collect(Collectors.toList());
 
+            Pair<Date,Date> datePair = null;
+            if (day > 0){
+                datePair = TimeUtil.createDayBetween(new DateTime(year, month, day, 0,0).toDate());
+            }else {
+                datePair = TimeUtil.createMonthBetween(new DateTime(year, month, 1, 0,0).toDate());
+            }
             //get report
-            List<Object[]> objs = customerRepo.reportCustomerByMonth(year, month, day);
+            List<ReportCustomerEmotionQuery> listquery = customerRepo.reportCustomerByMonth(datePair.getKey(), datePair.getValue());
             //convert to map
-            Map<Long, Object[]> mapVal = UtilApps.converListObject2Map(objs);
+            Map<Long, ReportCustomerEmotionQuery> mapVal = listquery.stream().collect(Collectors.toMap(rp -> rp.getId(), rp -> rp));
 
             //get tu value trong map add to account
             for (AccountReportCustomerService customerService : accountReports) {
-                Object[] objects = mapVal.get(customerService.getId());
-                if (objects != null && objects.length > 0) {
-                    customerService.from(objects);
+                ReportCustomerEmotionQuery report = mapVal.get(customerService.getId());
+                if (report != null ) {
+                    customerService.from(report);
                 }
             }
 

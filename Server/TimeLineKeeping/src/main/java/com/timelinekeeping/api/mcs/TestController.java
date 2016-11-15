@@ -1,5 +1,6 @@
 package com.timelinekeeping.api.mcs;
 
+import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.constant.IContanst;
@@ -7,10 +8,12 @@ import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.EmotionContentEntity;
 import com.timelinekeeping.entity.NotificationEntity;
 import com.timelinekeeping.model.AccountModel;
-import com.timelinekeeping.model.EmotionCustomerResponse;
 import com.timelinekeeping.model.NotificationCheckInModel;
+import com.timelinekeeping.model.ReportCustomerEmotionQuery;
 import com.timelinekeeping.repository.*;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
+import com.timelinekeeping.util.TimeUtil;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,38 +62,49 @@ public class TestController {
 
     @RequestMapping("/get_notify")
     public List<NotificationCheckInModel> getNotify(@RequestParam(value = "account_id", required = false) Long accountId) {
-        List<NotificationEntity> lisNotify =  notificationRepo.findByAccountReceiveByDate(accountId);
+        List<NotificationEntity> lisNotify = notificationRepo.findByAccountReceiveByDate(accountId, null, null);
         List<NotificationCheckInModel> listCheckIn = lisNotify.stream().map(NotificationCheckInModel::new).collect(Collectors.toList());
         return listCheckIn;
     }
 
     @RequestMapping("/get_employee_under_manager")
     public List<AccountModel> getEmployee(@RequestParam(value = "manager_id", required = false) Long managerId) {
-        List<AccountEntity> lisNotify =  accountRepo.findByManager(managerId);
+        List<AccountEntity> lisNotify = accountRepo.findByManager(managerId);
         List<AccountModel> listAccount = lisNotify.stream().map(AccountModel::new).collect(Collectors.toList());
         return listAccount;
     }
 
     @RequestMapping("/count_employee")
-    public  List<List<Long>> countEmployee(@RequestParam(value = "year", required = false) Integer year,
-                                                      @RequestParam(value = "month", required = false) Integer month) {
+    public List<List<Long>> countEmployee(@RequestParam(value = "year", required = false) Integer year,
+                                          @RequestParam(value = "month", required = false) Integer month) {
 
 //        List<List<Long>> list = timekeepingRepo.countEmployeeTime(year, month);
         return null;
     }
 
     @RequestMapping("/count_Customer")
-    public List<Object[]> countCustomer(@RequestParam(value = "year") Integer year,
-                                        @RequestParam(value = "month") Integer month,
-                                        @RequestParam(value = "day", defaultValue = IContanst.DEFAULT_INT) Integer day) {
+    public List<ReportCustomerEmotionQuery> countCustomer(@RequestParam(value = "year") Integer year,
+                                                          @RequestParam(value = "month") Integer month,
+                                                          @RequestParam(value = "day", defaultValue = IContanst.DEFAULT_INT) Integer day) {
 
 //        List<List<Long>> list = timekeepingRepo.countEmployeeTime(year, month);
-        return customerServiceRepo.reportCustomerByMonth(year, month, day);
+
+
+        Pair<Date, Date> datePair = null;
+        if (day > 0) {
+            datePair = TimeUtil.createDayBetween(new DateTime(year, month, day, 0, 0).toDate());
+        } else {
+            datePair = TimeUtil.createMonthBetween(new DateTime(year, month, 1, 0, 0).toDate());
+        }
+        //get report
+        List<ReportCustomerEmotionQuery> listquery = customerServiceRepo.reportCustomerByMonth(datePair.getKey(), datePair.getValue());
+        return listquery;
     }
+
     @RequestMapping("/count_Customer_employee")
     public List<Object[]> countCustomerByEmployee(@RequestParam(value = "year") Integer year,
-                                        @RequestParam(value = "month") Integer month,
-                                        @RequestParam(value = "employee_id") Long employeeId) {
+                                                  @RequestParam(value = "month") Integer month,
+                                                  @RequestParam(value = "employee_id") Long employeeId) {
 
 //        List<List<Long>> list = timekeepingRepo.countEmployeeTime(year, month);
         return customerServiceRepo.reportCustomerByMonthAndEmployee(year, month, employeeId);
@@ -109,7 +124,7 @@ public class TestController {
                                                         @RequestParam(value = "age", required = false) Double age,
                                                         @RequestParam(value = "gender", required = false) Gender gender) {
 
-        return emotionContentRepo.getEmotionContent(first, second, third,age, gender, new PageRequest(IContanst.PAGE_PAGE_I, IContanst.PAGE_SIZE_CONTENT));
+        return emotionContentRepo.getEmotionContent(first, second, third, age, gender, new PageRequest(IContanst.PAGE_PAGE_I, IContanst.PAGE_SIZE_CONTENT));
     }
 
 }
