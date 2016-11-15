@@ -99,7 +99,9 @@ public class SuggestionService {
             Map<EEmotion, Double> map = emotionScores.map();
 
             //get emotionCompar
+            ServiceUtils.competitiveEmotion(map);
             List<EmotionCompare> emotionCompares = ServiceUtils.getEmotionExist(map);
+
             logger.info("emotionCompares: " + JsonUtil.toJson(emotionCompares));
 
             // create message
@@ -147,17 +149,17 @@ public class SuggestionService {
                     }
 
                     //size bold =1, positive = 1
-                    if (array1.size() == 1 && array2.size() == 1) {
+//                    if (array1.size() == 1 && array2.size() == 1) {
                         result = String.format(IContanst.SUGGESTION_BOTH_1_1_EMOTION, subject.getName(), array1.get(0).getEmotionName(), getEmotion(array2.get(0)));
-                    } else if (array1.size() > 1 && array1.size() > array2.size()) {
-                        result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), array1.get(0).getEmotionName(), getEmotion(array1.get(1)), getEmotion(array2.get(0)));
-                    } else if (array2.size() > 1) {
-                        result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), array1.get(0).getEmotionName(), getEmotion(array2.get(0)), getEmotion(array2.get(1)));
-                    } else {
+//                    } else if (array1.size() > 1 && array1.size() > array2.size()) {
+//                        result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), array1.get(0).getEmotionName(), getEmotion(array1.get(1)), getEmotion(array2.get(0)));
+//                    } else if (array2.size() > 1) {
+//                        result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), array1.get(0).getEmotionName(), getEmotion(array2.get(0)), getEmotion(array2.get(1)));
+//                    } else {
                         logger.error("--%%%%% -- It out our parttern.");
                         logger.info("Positive: " + JsonUtil.toJson(array1));
                         logger.info("Negative: " + JsonUtil.toJson(array2));
-                    }
+//                    }
                 }
                 logger.info("Result message: " + result);
             }

@@ -135,7 +135,7 @@ public class ServiceUtils {
         System.out.println(convertAgePredict(0d));
     }
 
-    public static void competitiveEmotion(Map<EEmotion, Double> map) {
+    public static Map<EEmotion, Double> competitiveEmotion(Map<EEmotion, Double> map) {
 
         // anger + happy
         double anger = map.get(EEmotion.ANGER);
@@ -199,10 +199,12 @@ public class ServiceUtils {
         map.put(EEmotion.NEUTRAL, neutral);
         map.put(EEmotion.SADNESS, sadness);
         map.put(EEmotion.SURPRISE, surprise);
+
+        return map;
     }
 
     public static List<EmotionCompare> getEmotionExist(Map<EEmotion, Double> map) {
-        competitiveEmotion(map);
+//        competitiveEmotion(map);
 
         Double sum = 0d;
         for (Map.Entry<EEmotion, Double> value : map.entrySet()) {
