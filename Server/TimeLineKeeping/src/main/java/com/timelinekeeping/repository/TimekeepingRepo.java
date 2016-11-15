@@ -1,6 +1,8 @@
 package com.timelinekeeping.repository;
 
 import com.timelinekeeping.entity.TimeKeepingEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,22 +16,23 @@ import java.util.List;
  */
 public interface TimekeepingRepo extends JpaRepository<TimeKeepingEntity, Long> {
 
-    @Query(value = "SELECT * FROM time_keeping t WHERE t.account_id = :accountId and date(t.time_check) = date(:date) LIMIT 1;", nativeQuery = true)
-    public TimeKeepingEntity findByAccountCheckinDate(@Param("accountId") Long accountId,
-                                                      @Param("date") Date date);
+    @Query(value = "SELECT t FROM TimeKeepingEntity t WHERE t.account.id = :accountId and (t.timeCheck between :fromDay and :toDay)")
+    public Page<TimeKeepingEntity> findByAccountCheckinDate(@Param("accountId") Long accountId,
+                                                            @Param("fromDay") Date fromDay,
+                                                            @Param("toDay") Date toDay,
+                                                            Pageable pageable);
 
     @Query("SELECT t FROM TimeKeepingEntity t INNER JOIN t.account a WHERE a.id = :accountId")
     public List<TimeKeepingEntity> findByAccount(@Param("accountId") Long accountId);
 
-//    @Query(value = "SELECT * FROM TimeKeepingEntity t WHERE Year(t.t) = :year and month(t.time_check) = :month ", nativeQuery = true)
-    @Query(value = "SELECT * FROM time_keeping t WHERE year(t.time_check) = :year and month(t.time_check) = :month ", nativeQuery = true)
-    public List<TimeKeepingEntity> countEmployeeTime(@Param("year") Integer year,
-                                                     @Param("month") Integer month);
+    @Query(value = "SELECT t FROM TimeKeepingEntity t WHERE (t.timeCheck between :fromMonth and :toMonth)")
+    public List<TimeKeepingEntity> countEmployeeTime( @Param("fromMonth") Date fromMonth,
+                                                      @Param("toMonth") Date toMonth);
 
-    @Query(value = "SELECT * FROM time_keeping t WHERE  t.account_id = :accountId AND year(t.time_check) = :year and month(t.time_check) = :month  ", nativeQuery = true)
+    @Query(value = "SELECT t FROM TimeKeepingEntity t WHERE  t.account.id = :accountId AND (t.timeCheck between :fromMonth and :toMonth)")
     public List<TimeKeepingEntity> getTimekeepingByAccount(@Param("accountId") Long accountId,
-                                                           @Param("year") Integer year,
-                                                           @Param("month") Integer month);
+                                                           @Param("fromMonth") Date fromMonth,
+                                                           @Param("toMonth") Date toMonth);
 
 }
 

@@ -7,7 +7,10 @@ import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.*;
 import com.timelinekeeping.entity.*;
-import com.timelinekeeping.model.*;
+import com.timelinekeeping.model.AccountManagerModel;
+import com.timelinekeeping.model.AccountModel;
+import com.timelinekeeping.model.AccountModifyModel;
+import com.timelinekeeping.model.NotificationCheckInModel;
 import com.timelinekeeping.modelMCS.FaceDetectResponse;
 import com.timelinekeeping.modelMCS.FaceIdentifyConfidenceRespone;
 import com.timelinekeeping.modelMCS.FaceIdentityCandidate;
@@ -269,10 +272,14 @@ public class AccountServiceImpl {
             while (TimeUtil.noiseDate(calendar.getTime(), I_TIME.FULL_DATE).compareTo(TimeUtil.noiseDate(new Date(), I_TIME.FULL_DATE)) < 0) {
 
                 Date dateCurrent = calendar.getTime();
+                Pair<Date, Date> datePair = TimeUtil.createDayBetween(dateCurrent);
                 //prepare time to store db
-                TimeKeepingEntity timeKeepingEntity = timekeepingRepo.findByAccountCheckinDate(accountId, dateCurrent);
-                if (timeKeepingEntity == null) {
+                Page<TimeKeepingEntity> page = timekeepingRepo.findByAccountCheckinDate(accountId, datePair.getKey(), datePair.getValue(), new PageRequest(0, 1));
+                TimeKeepingEntity timeKeepingEntity = null;
+                if (page == null || page.getTotalElements() <= 0) {
                     timeKeepingEntity = new TimeKeepingEntity();
+                } else {
+                    timeKeepingEntity = page.getContent().get(0);
                 }
                 timeKeepingEntity.setAccount(entity);
                 timeKeepingEntity.setType(ETypeCheckin.AUTO_HANDLER);
@@ -433,7 +440,6 @@ public class AccountServiceImpl {
     }
 
 
-
     /**
      * check_in by image from client
      * <p>
@@ -481,14 +487,16 @@ public class AccountServiceImpl {
                 return new BaseResponse(false, ERROR.ACCOUNT_CHECKIN_NOT_FOUND_PERSONID, null);
             }
 
+
+
             // Save TimeKeeping fro accountID
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(new Date());
-            calendar.add(Calendar.HOUR_OF_DAY, 7);
-            TimeKeepingEntity timeKeepingEntity = timekeepingRepo.findByAccountCheckinDate(accountEntity.getId(), calendar.getTime());
+
+            Pair<Date, Date> datePair = TimeUtil.createDayBetween(new Date());
+            Page<TimeKeepingEntity> page = timekeepingRepo.findByAccountCheckinDate(accountEntity.getId(), datePair.getKey(), datePair.getValue(), new PageRequest(0,1));
+//            TimeKeepingEntity timeKeepingEntity = timekeepingRepo.findByAccountCheckinDate(accountEntity.getId(), new Date());
 
 
-            if (timeKeepingEntity != null) {
+            if (page != null && page.getTotalElements() > 0) {
                 // TODO checked, show message
 
             } else {
@@ -508,7 +516,7 @@ public class AccountServiceImpl {
                     logger.info("aws link: " + outAWSFileName);
                 }
 
-                timeKeepingEntity = new TimeKeepingEntity();
+                TimeKeepingEntity timeKeepingEntity = new TimeKeepingEntity();
                 timeKeepingEntity.setType(ETypeCheckin.CHECKIN_CAMERA);
                 timeKeepingEntity.setStatus(ETimeKeeping.PRESENT);
                 timeKeepingEntity.setAccount(accountEntity);
