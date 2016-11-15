@@ -163,11 +163,14 @@ public class TimekeepingServiceImpl {
 
 
             //get All Timekeepung
-            Pair<Date, Date> datePair = TimeUtil.createDayBetween(new DateTime(year, month, 1, 0, 0).toDate());
+            Pair<Date, Date> datePair = TimeUtil.createMonthBetween(new DateTime(year, month, 1, 0, 0).toDate());
             List<TimeKeepingEntity> listTimekeeping = timekeepingRepo.countEmployeeTime(datePair.getKey(), datePair.getValue());
+
             Map<Long, Long> mapChekin = new HashMap<>();
             for (TimeKeepingEntity timeKeepingEntity : listTimekeeping) {
                 Long count = mapChekin.get(timeKeepingEntity.getAccount().getId());
+                String timeString = TimeUtil.timeToString(new Date(timeKeepingEntity.getTimeCheck().getTime()), I_TIME.FULL_TIME_MINUS);
+                logger.info(String.format("Account id = [%s], status = [%s], type = [%s], time = [%s]", timeKeepingEntity.getAccount().getId(), timeKeepingEntity.getStatus(), timeKeepingEntity.getType(), timeString));
                 if (count == null) count = 0l;
                 if (timeKeepingEntity.getType() == ETypeCheckin.CHECKIN_CAMERA) {
                     if (TimeUtil.isPresentTimeCheckin(timeKeepingEntity.getTimeCheck(), beginTimeCheckin, endTimeCheckin)) {
@@ -181,6 +184,7 @@ public class TimekeepingServiceImpl {
                 mapChekin.put(timeKeepingEntity.getAccount().getId(), count);
             }
 
+            logger.info("Map: " + JsonUtil.toJson(mapChekin));
 
 //            Map<Long, Long> mapChekin = new HashMap<>();
 //            listCountTime.stream().filter(countTime -> countTime.length >= 2)
