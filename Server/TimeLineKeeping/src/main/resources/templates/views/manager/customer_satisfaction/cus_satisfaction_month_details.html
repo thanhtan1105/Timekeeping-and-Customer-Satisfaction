@@ -92,10 +92,10 @@
                     </thead>
                     <tbody>
                     <tr th:each="report,counter: ${CustomerServiceReport.reportDate}"
-                        th:if="${report.dayStatus.index != 1}"
+                        th:if="${report.dayStatus.index != 1 and report.dayStatus.index != 2}"
                         th:attr="class=${report.dayStatus.index == 3 or report.dayStatus.index == 5} ? 'text-bold'">
                         <td th:text="${#dates.format(report.date, 'yyyy-MMM-dd')}"></td>
-                        <td th:text="${(report.dayStatus.index == 2) or (report.dayStatus.index == 4) or (report.dayStatus.index == 5) or (report.dayStatus.index == 3)}? '-' : (${(report.dayStatus.index == 0) and (report.totalCustomer != null)} ? ${report.totalCustomer} : '-')"
+                        <td th:text="${(report.dayStatus.index == 4) or (report.dayStatus.index == 5) or (report.dayStatus.index == 3 and report.totalCustomer == 0)}? '-' : (${(report.dayStatus.index == 0) and (report.totalCustomer != null)} ? ${report.totalCustomer} : '-')"
                             class="text-center"></td>
                         </td>
                         <td th:text="${report.totalCustomer != 0}? ${report.evaluation}: '-'"></td>
