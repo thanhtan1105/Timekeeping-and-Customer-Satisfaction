@@ -563,8 +563,10 @@ public class AccountServiceImpl {
     public List<NotificationCheckInModel> getReminder(Long accountID) {
         AccountEntity accountEntity = accountRepo.findOne(accountID);
 
+
+        Pair<Date, Date> pairTime = TimeUtil.createDayBetween(new Date());
         // accountID -> get Reminder
-        List<NotificationEntity> notificationSet = notificationRepo.findByAccountReceiveByDate(accountEntity.getId());
+        List<NotificationEntity> notificationSet = notificationRepo.findByAccountReceiveByDate(accountEntity.getId(), pairTime.getKey(), pairTime.getValue());
         List<NotificationCheckInModel> message = new ArrayList<>();
         for (NotificationEntity notificationEntity : notificationSet) {
             if (notificationEntity.getStatus() == ENotification.NOSEND) {
