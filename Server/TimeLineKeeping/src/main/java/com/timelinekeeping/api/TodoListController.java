@@ -33,11 +33,11 @@ public class TodoListController {
 
     // TO DO List
     @RequestMapping(value = I_URI.API_TODOLIST_List_TODO, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public BaseResponse getByAccountAndTime(@RequestParam(value = "time") String time,
-                                            @RequestParam(value = "accountId") String accountId) {
+    public BaseResponse getByAccountAndTime(@RequestParam(value = "time") Long time,
+                                            @RequestParam(value = "accountId") Long accountId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            Long timeLong = TimeUtil.correctMilisecord(Long.parseLong(time));
+            Long timeLong = TimeUtil.correctMilisecord(time);
             List<ToDoListModel> list = todoListService.getToDoTask(timeLong, accountId);
             return new BaseResponse(true, list);
         } catch (Exception e) {

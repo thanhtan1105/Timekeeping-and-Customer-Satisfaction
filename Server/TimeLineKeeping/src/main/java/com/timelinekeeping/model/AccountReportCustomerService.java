@@ -30,10 +30,10 @@ public class AccountReportCustomerService {
         }
     }
 
-    public void from(Object[] obj) {
-        if (obj.length == 3) {
-            this.totalCustomer = obj[1] != null ? ((BigInteger) obj[1]).longValue() : 0;
-            this.grade = obj[2] != null ? (Double) obj[2] : 0;
+    public void from(ReportCustomerEmotionQuery report) {
+        if (report != null) {
+            this.totalCustomer = report.getCount() != null ? report.getCount() : 0;
+            this.grade = report.getGrade() != null ? report.getGrade(): 0;
             this.evaluation = this.grade != null ? EGradeReport.fromGrade(this.grade).getName() : null;
         }
 

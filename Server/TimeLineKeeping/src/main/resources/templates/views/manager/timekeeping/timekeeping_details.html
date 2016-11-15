@@ -31,6 +31,15 @@
                           th:text="${session.UserSession.department.name}"></font></div>
             </div>
             <!-- /.end department -->
+            <!-- total present days -->
+            <div class="row text-success" style="font-size: 18px;">
+                <div class="col-sm-5 text-right text-bold">
+                    <font>Total present days:</font></div>
+                <div class="col-sm-6 text-left">
+                    <font th:text="${AccountAttendanceModel.totalTimeKeeping}"></font>
+                </div>
+            </div>
+            <!-- /.total present days -->
             <!-- month -->
             <div class="row text-success" style="font-size: 18px;">
                 <div class="col-sm-5 text-right text-bold">

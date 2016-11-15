@@ -4,6 +4,7 @@ import com.timelinekeeping.util.JsonUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
@@ -38,7 +39,7 @@ public class WebStorage {
 //        headers.add(HttpHeaders.ACCEPT_ENCODING, "UTF-8");
         byte[] bytes = IOUtils.toByteArray(new FileInputStream(fileName));
         MultiValueMap<String, Object> mapEntity = new LinkedMultiValueMap<>();
-//        mapEntity.set("File", );
+        mapEntity.set("File", new ByteArrayResource(bytes));
 
         ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<MultiValueMap<String, Object>>(mapEntity, headers), String.class);
         logger.info(JsonUtil.toJson(response));
