@@ -2,6 +2,7 @@ package com.timelinekeeping._config;
 
 import com.timelinekeeping.constant.IViewConst;
 import com.timelinekeeping.constant.I_URI;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,9 @@ import org.springframework.web.servlet.config.annotation.*;
 @EnableWebMvc
 @ComponentScan("com.timelinekeeping._config")
 public class MvcConfig extends WebMvcConfigurerAdapter {
+
+    @Value("${file.store.path}")
+    private String path;
 
     public static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
             "classpath:/META-INF/resources/",
@@ -36,6 +40,10 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         if (!registry.hasMappingForPattern("/**")) {
             registry.addResourceHandler("/**").addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
         }
+        if (!registry.hasMappingForPattern("/file/**")) {
+            registry.addResourceHandler("/file/**").addResourceLocations("file:///" + path);
+        }
+        System.out.println(path);
     }
 
     @Bean
@@ -52,6 +60,6 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authenInterceptor());
         registry.addInterceptor(interceptor()).addPathPatterns(I_URI.API_EMOTION + I_URI.API_EMOTION_UPLOAD_IMAGE)
-        .addPathPatterns(I_URI.API_EMOTION + I_URI.API_EMOTION_GET_EMOTION);
+                .addPathPatterns(I_URI.API_EMOTION + I_URI.API_EMOTION_GET_EMOTION);
     }
 }
