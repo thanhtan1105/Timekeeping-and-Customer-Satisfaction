@@ -12,7 +12,6 @@ import com.timelinekeeping.modelMCS.FaceDetectResponse;
 import com.timelinekeeping.modelMCS.FaceIdentifyConfidenceRespone;
 import com.timelinekeeping.modelMCS.FaceIdentityCandidate;
 import com.timelinekeeping.repository.*;
-import com.timelinekeeping.service.blackService.AWSStorage;
 import com.timelinekeeping.service.blackService.OneSignalNotification;
 import com.timelinekeeping.service.blackService.SMSNotification;
 import com.timelinekeeping.util.*;
@@ -28,7 +27,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;

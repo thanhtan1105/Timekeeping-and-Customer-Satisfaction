@@ -231,7 +231,13 @@ public class ServiceUtils {
     }
 
     public static String correctUrl(String uri) {
-        return IContanst.PREFIX_STORE + "/" + uri;
+        if (ValidateUtil.isEmpty(uri)){
+            return uri;
+        }
+        if (File.separatorChar != uri.charAt(0)){
+            uri = File.separator + uri;
+        }
+        return IContanst.PREFIX_STORE + uri;
     }
 
     public static String createFolderEmotion(String customerCode) {
