@@ -65,6 +65,9 @@ public class AccountServiceImpl {
     @Autowired
     private TimekeepingRepo timekeepingRepo;
 
+    @Autowired
+    private ConfigurationRepo configurationRepo;
+
     private Logger logger = LogManager.getLogger(AccountServiceImpl.class);
 
     // METHOD
@@ -593,9 +596,14 @@ public class AccountServiceImpl {
             // push notification
             pushNotification(accountEntity);
 
-            // push sms
-            SMSNotification.getInstance().sendSms(new AccountModel(accountEntity));
 
+            // push sms
+            ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.SEND_SMS_KEY);
+            if (configurationEntity != null) {
+                if (configurationEntity.getValue().equals("1")) {
+                    SMSNotification.getInstance().sendSms(accountEntity.getPhone(), new AccountModel(accountEntity));
+                }
+            }
 
             //TODO add face to person if image > 0.8
 
@@ -709,7 +717,9 @@ public class AccountServiceImpl {
         }
 
         //check greater then confidence
-        if (confidence > IContanst.MCS_PERSON_DETECT_CONFIDINCE_CORRECT) {
+        ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY);
+        double confienceDatabase = new Double(configurationEntity.getValue());
+        if (confidence > confienceDatabase) {
             return personID;
         } else {
             return null;
@@ -777,6 +787,9 @@ public class AccountServiceImpl {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("Username: " + fullName);
+            ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.COMPANY_EMAIL_KEY);
+            String lefixEmail = configurationEntity.getValue();
+
             if (ValidateUtil.isEmpty(fullName)) {
                 return null;
             }
@@ -794,9 +807,9 @@ public class AccountServiceImpl {
                 i++;
                 String emailPre;
                 if (i == 1) {
-                    emailPre = nameEmail + "@" + IContanst.COMPANY_EMAIL;
+                    emailPre = nameEmail + "@" + lefixEmail;
                 } else {
-                    emailPre = String.format("%s.%s@%s", nameEmail, i, IContanst.COMPANY_EMAIL);
+                    emailPre = String.format("%s.%s@%s", nameEmail, i, lefixEmail);
                 }
                 if (accountRepo.checkExistEmail(emailPre) > 0) {
                     email = emailPre;

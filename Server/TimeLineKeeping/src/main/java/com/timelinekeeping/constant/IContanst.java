@@ -53,7 +53,6 @@ public interface IContanst {
 
     String COMPANY_EMAIL_KEY = "email.company";
     String PASSWORD_DEFAULT_KEY = "password.default";
-
     String CHECKIN_CONFIDINCE_CORRECT_KEY = "checkin.accept.confident";
     String TIME_CHECK_IN_SYSTEM_START_KEY = "time.checkin.begin";
     String TIME_CHECK_IN_SYSTEM_END_KEY = "time.checkin.end";

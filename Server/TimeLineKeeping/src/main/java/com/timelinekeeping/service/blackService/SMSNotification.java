@@ -81,10 +81,7 @@ public class SMSNotification {
         }
     }
 
-    public BaseResponse sendSms(AccountModel accountModel) throws IOException, URISyntaxException {
-        if (IContanst.SEND_SMS != 1) {
-            return null;
-        }
+    public BaseResponse sendSms(String phoneNumber, AccountModel accountModel) throws IOException, URISyntaxException {
         // make data
         Gender gender = accountModel.getGender();
         String welcomeMessage = "Xin chao ";
@@ -92,7 +89,7 @@ public class SMSNotification {
         welcomeMessage += prefix + " ";
         welcomeMessage += accountModel.getFullName() + " ";
         welcomeMessage += ". Chuc " + prefix + " " + "mot ngay lam viec tot lanh";
-        return sendSms("0936714994", welcomeMessage);
+        return sendSms(phoneNumber, welcomeMessage);
     }
 
 //    public static void main(String[] args) {
