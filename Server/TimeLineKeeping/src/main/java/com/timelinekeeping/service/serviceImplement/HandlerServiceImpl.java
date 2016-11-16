@@ -17,6 +17,7 @@ import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.ConfigurationRepo;
 import com.timelinekeeping.repository.FaceRepo;
 import com.timelinekeeping.repository.HistoryRepo;
+import com.timelinekeeping.util.FileUtils;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.LogManager;
@@ -27,7 +28,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
@@ -103,18 +106,33 @@ public class HandlerServiceImpl {
 
                         for (FaceModel faceModel : faceModelList) {
 
-                            logger.info(String.format("Create face: id = [%s], path = [%s] ", faceModel.getId(), faceModel.getStorePath()));
+                            try {
+                                logger.info(String.format("Create face: id = [%s], path = [%s] ", faceModel.getId(), faceModel.getStorePath()));
 
-                            BaseResponse response = personServiceMCS.addFaceUrl(IContanst.DEPARTMENT_MICROSOFT, personCode, faceModel.getStorePath());
-                            if (response.isSuccess() == true) {
-                                Map<String, String> mapResult = (Map<String, String>) response.getData();
-                                if (mapResult != null && mapResult.size() > 0) {
-                                    String persistedFaceID = mapResult.get("persistedFaceId");
-                                    // find one
-                                    FaceEntity faceEntity = faceRepo.findOne(faceModel.getId());
-                                    faceEntity.setPersistedFaceId(persistedFaceID);
-                                    faceRepo.save(faceEntity);
+                                if (ValidateUtil.isEmpty(faceModel.getStorePath())){
+                                    continue;
                                 }
+
+                                // change addImage to Face
+                                String nameFile = FileUtils.addParentFolderImage(faceModel.getStorePath());
+                                //create faceImage
+                                InputStream imageStream = new FileInputStream(nameFile);
+                                BaseResponse response = personServiceMCS.addFaceImg(IContanst.DEPARTMENT_MICROSOFT, personCode, imageStream);
+//                            BaseResponse response = personServiceMCS.addFaceUrl(IContanst.DEPARTMENT_MICROSOFT, personCode, faceModel.getStorePath());
+                                if (response.isSuccess() == true) {
+                                    Map<String, String> mapResult = (Map<String, String>) response.getData();
+                                    if (mapResult != null && mapResult.size() > 0) {
+                                        String persistedFaceID = mapResult.get("persistedFaceId");
+                                        // find one
+                                        FaceEntity faceEntity = faceRepo.findOne(faceModel.getId());
+                                        faceEntity.setPersistedFaceId(persistedFaceID);
+                                        faceRepo.save(faceEntity);
+                                    }
+
+                                }
+                            } catch (Exception e) {
+                                logger.error(e);
+                                logger.error(String.format("Cannot create face: id = [%s], path = [%s] ", faceModel.getId(), faceModel.getStorePath()));
 
                             }
                         }
@@ -137,20 +155,37 @@ public class HandlerServiceImpl {
 
                         for (FaceModel faceModel : faceModelList) {
                             if (persistedFaces != null && !persistedFaces.contains(faceModel.getPersistedFaceId())) {
-                                logger.info(String.format("Create face: id = [%s], path = [%s] ", faceModel.getId(), faceModel.getStorePath()));
-                                BaseResponse responseFace = personServiceMCS.addFaceUrl(IContanst.DEPARTMENT_MICROSOFT, accountEntity.getUserCode(), faceModel.getStorePath());
-                                if (responseFace.isSuccess() == true) {
-                                    Map<String, String> mapResult = (Map<String, String>) responseFace.getData();
-                                    if (mapResult != null && mapResult.size() > 0) {
-                                        String persistedFaceID = mapResult.get("persistedFaceId");
+                                try {
 
-                                        // find one
-                                        FaceEntity faceEntity = faceRepo.findOne(faceModel.getId());
-                                        faceEntity.setPersistedFaceId(persistedFaceID);
-                                        faceRepo.save(faceEntity);
+
+                                    logger.info(String.format("Create face: id = [%s], path = [%s] ", faceModel.getId(), faceModel.getStorePath()));
+
+                                    if (ValidateUtil.isEmpty(faceModel.getStorePath())){
+                                        continue;
                                     }
-                                } else {
-                                    logger.info("FaceId: detectFail");
+                                    // change addImage to Face
+                                    String nameFile = FileUtils.addParentFolderImage(faceModel.getStorePath());
+                                    //create faceImage
+                                    InputStream imageStream = new FileInputStream(nameFile);
+                                    BaseResponse responseFace = personServiceMCS.addFaceImg(IContanst.DEPARTMENT_MICROSOFT, accountEntity.getUserCode(), imageStream);
+
+                                    if (responseFace.isSuccess() == true) {
+                                        Map<String, String> mapResult = (Map<String, String>) responseFace.getData();
+                                        if (mapResult != null && mapResult.size() > 0) {
+                                            String persistedFaceID = mapResult.get("persistedFaceId");
+
+                                            // find one
+                                            FaceEntity faceEntity = faceRepo.findOne(faceModel.getId());
+                                            faceEntity.setPersistedFaceId(persistedFaceID);
+                                            faceRepo.save(faceEntity);
+                                        }
+                                    } else {
+                                        logger.info("FaceId: detectFail");
+                                    }
+                                } catch (Exception e) {
+                                    logger.error(e);
+                                    logger.error(String.format("Cannot create face: id = [%s], path = [%s] ", faceModel.getId(), faceModel.getStorePath()));
+
                                 }
                             }
                         }

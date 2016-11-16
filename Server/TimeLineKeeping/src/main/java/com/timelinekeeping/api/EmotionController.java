@@ -8,10 +8,7 @@ import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.service.blackService.SuggestionService;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
-import com.timelinekeeping.util.JsonUtil;
-import com.timelinekeeping.util.ServiceUtils;
-import com.timelinekeeping.util.StoreFileUtils;
-import com.timelinekeeping.util.ValidateUtil;
+import com.timelinekeeping.util.*;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -170,11 +167,11 @@ public class EmotionController {
                 }
 
                 //store Image
-                String fileName = ServiceUtils.createFolderEmotion(customerCode);
+                String fileName = FileUtils.createFolderEmotion(customerCode);
                 /**store image*/
                 String urlFile = new StoreFileUtils().storeFile(fileName, new ByteArrayInputStream(byteImage));
 
-                String uriImage = ServiceUtils.correctUrl(fileName);
+                String uriImage = FileUtils.correctUrl(fileName);
 
                 logger.info("url: " + uriImage);
                 //set session

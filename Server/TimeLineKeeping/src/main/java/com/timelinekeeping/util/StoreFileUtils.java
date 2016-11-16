@@ -16,10 +16,6 @@ import java.io.*;
  */
 public class StoreFileUtils {
 
-
-    private String path = AppConfigKeys.getInstance().getApplicationPropertyValue("file.store.path");
-
-
     public String storeFile(String nameFile, InputStream fileStore) {
         try {
             if (ValidateUtil.isEmpty(nameFile) || fileStore == null) {
@@ -30,11 +26,8 @@ public class StoreFileUtils {
                 nameFile += "." + IContanst.EXTENSION_FILE_IMAGE;
             }
 
-            if (File.separatorChar != nameFile.charAt(0) && path.charAt(path.length() - 1) != File.separatorChar) {
-                nameFile = File.separatorChar + nameFile;
-            }
 
-            String fileName = path + nameFile;
+            String fileName = FileUtils.addParentFolderImage(nameFile);
             File file = new File(fileName);
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
@@ -97,7 +90,7 @@ public class StoreFileUtils {
             accountModel.setDepartment(new DepartmentModel(1l, "fpt_university"));
             FileInputStream fileInputStream = new FileInputStream("D:\\CP\\FILE\\1_humanresource\\4_quan\\1478255415074.jpg");
 
-            String filename = ServiceUtils.createFolderTrain(accountModel);
+            String filename = FileUtils.createFolderTrain(accountModel);
 
             new StoreFileUtils().storeFile(filename, fileInputStream);
         } catch (FileNotFoundException e) {

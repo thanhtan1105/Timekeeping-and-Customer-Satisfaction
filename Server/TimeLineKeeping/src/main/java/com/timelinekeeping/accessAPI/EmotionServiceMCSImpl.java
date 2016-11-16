@@ -35,7 +35,7 @@ public class EmotionServiceMCSImpl {
     public BaseResponse recognize(String urlImg) throws URISyntaxException, IOException {
 
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info(IContanst.BEGIN_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
             String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.emotion.recognize");
             String url = rootPath + urlAddition;
 
@@ -51,7 +51,7 @@ public class EmotionServiceMCSImpl {
 
             return HTTPClientUtil.getInstanceEmotion().toPost(url, new StringEntity(jsonEntity, StandardCharsets.UTF_8), JsonUtil.LIST_PARSER, EmotionRecognizeResponse.class);
         } finally {
-            logger.info(IContanst.END_METHOD_SERVICE);
+            logger.info(IContanst.END_METHOD_MCS);
         }
     }
 
@@ -80,7 +80,7 @@ public class EmotionServiceMCSImpl {
     public BaseResponse recognize(InputStream inputStreamImg) throws URISyntaxException, IOException {
 
         try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            logger.info(IContanst.BEGIN_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
             String urlAddition = AppConfigKeys.getInstance().getApiPropertyValue("api.emotion.recognize");
             String url = rootPath + urlAddition;
 
@@ -94,7 +94,7 @@ public class EmotionServiceMCSImpl {
 
             return HTTPClientUtil.getInstanceEmotion().toPostOct(url, new ByteArrayEntity(byteEntity), JsonUtil.LIST_PARSER, EmotionRecognizeResponse.class);
         } finally {
-            logger.info(IContanst.END_METHOD_SERVICE);
+            logger.info(IContanst.END_METHOD_MCS);
         }
     }
 }
