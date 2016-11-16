@@ -6,6 +6,7 @@ import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.ConfigurationModel;
 import com.timelinekeeping.model.HistoryModel;
 import com.timelinekeeping.service.serviceImplement.HandlerServiceImpl;
+import com.timelinekeeping.util.JsonUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,11 +74,13 @@ public class HandlerController {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
 
             ConfigurationModel result = handlerService.listConfiguration();
+            logger.info("Result : " + JsonUtil.toJson(result));
             if (result == null) {
                 return new BaseResponse(false);
             } else {
                 return new BaseResponse(true, result);
             }
+
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);

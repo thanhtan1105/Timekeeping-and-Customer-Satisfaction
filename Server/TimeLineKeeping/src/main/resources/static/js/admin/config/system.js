@@ -26,6 +26,7 @@ function update_system_config() {
     var $form_config_system = $('#form-config-system'),
         emotionAccept = $form_config_system.find('[name="emotionAccept"]').val(),
         checkinConfident = $form_config_system.find('[name="checkinConfident"]').val(),
+        trainConfident = $form_config_system.find('[name="trainConfident"]').val(),
         emailCompany = $form_config_system.find('[name="emailCompany"]').val(),
         timeCheckinBegin = $form_config_system.find('[name="timeCheckinBegin"]').val(),
         timeCheckinEnd = $form_config_system.find('[name="timeCheckinEnd"]').val(),
@@ -37,6 +38,7 @@ function update_system_config() {
         'emotionAccept': emotionAccept,
         'emailCompay': emailCompany,
         'checkinConfident': checkinConfident,
+        'trainConfident': trainConfident,
         'timeCheckinBegin': timeCheckinBegin,
         'timeCheckinEnd': timeCheckinEnd
     };
@@ -117,6 +119,7 @@ function set_content_list_config(data) {
         emotionAccept = data.emotionAccept,
         emailCompay = data.emailCompay,
         checkinConfident = data.checkinConfident,
+        trainConfident = data.trainConfident,
         timeCheckinBegin = data.timeCheckinBegin,
         timeCheckinEnd = data.timeCheckinEnd;
 
@@ -124,6 +127,7 @@ function set_content_list_config(data) {
     var $form_config_system = $('#form-config-system'),
         $emotionAccept = $form_config_system.find('[name="emotionAccept"]'),
         $checkinConfident = $form_config_system.find('[name="checkinConfident"]'),
+        $trainConfident = $form_config_system.find('[name="trainConfident"]'),
         $emailCompany = $form_config_system.find('[name="emailCompany"]'),
         $timeCheckinBegin = $form_config_system.find('[name="timeCheckinBegin"]'),
         $timeCheckinEnd = $form_config_system.find('[name="timeCheckinEnd"]'),
@@ -139,6 +143,7 @@ function set_content_list_config(data) {
     //set content html
     $emotionAccept.val(emotionAccept);
     $checkinConfident.val(checkinConfident);
+    $trainConfident.val(trainConfident);
     $emailCompany.val(emailCompay);
     $timeCheckinBegin.val(timeCheckinBegin);
     $timeCheckinEnd.val(timeCheckinEnd);

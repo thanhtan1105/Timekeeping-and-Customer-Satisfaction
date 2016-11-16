@@ -9,6 +9,7 @@ INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.acception',
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('email.company', 'EMAIL_COMPANY', 'tkcs.vn');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('password.default', 'PASSWORD_DEFAULT', 'abcd@123');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('checkin.accept.confident', 'CHECKIN_ACCEPT_CONFIDENT', '0.8');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('checkin.training.confident', 'CHECK_IN_TRAINING_CONFIDENT', '0.85');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('time.checkin.begin', 'TIME_CHECKIN_BEGIN', '6:30');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('time.checkin.end', 'TIME_CHECKIN_END', '8:30');
 

@@ -17,6 +17,7 @@ public class AttendanceDateModel {
     private ETypeCheckin type;
     private Date timeCheck;
     private String note;
+    private Double confidence;
     private String imagePath;
     private EDayStatus dayStatus = EDayStatus.NORMAL;
 
@@ -28,6 +29,7 @@ public class AttendanceDateModel {
             this.present = entity.getStatus();
             this.type = entity.getType();
             this.timeCheck = entity.getTimeCheck();
+            this.confidence = entity.getConfidence();
             this.note = entity.getNote();
             this.imagePath = entity.getImagePath();
         }
@@ -38,6 +40,7 @@ public class AttendanceDateModel {
             this.present = entity.getStatus();
             this.type = entity.getType();
             this.timeCheck = entity.getTimeCheck();
+            this.confidence = entity.getConfidence();
             this.note = entity.getNote();
             this.imagePath = entity.getImagePath();
         }
@@ -105,5 +108,13 @@ public class AttendanceDateModel {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public Double getConfidence() {
+        return confidence;
+    }
+
+    public void setConfidence(Double confidence) {
+        this.confidence = confidence;
     }
 }
