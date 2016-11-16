@@ -30,6 +30,8 @@ public interface IContanst {
     int HTTP_CLIENT_KEY_FACE = 0;
     int HTTP_CLIENT_KEY_EMOTION = 1;
 
+    String PREFIX_STORE = "/file";
+
 
     //////-----------------
     String EXTENSION_FILE_IMAGE = "jpg";

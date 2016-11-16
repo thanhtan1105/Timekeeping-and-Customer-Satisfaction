@@ -1,5 +1,6 @@
 package com.timelinekeeping._config;
 
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.IViewConst;
 import com.timelinekeeping.constant.I_URI;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,8 +41,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         if (!registry.hasMappingForPattern("/**")) {
             registry.addResourceHandler("/**").addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
         }
-        if (!registry.hasMappingForPattern("/file/**")) {
-            registry.addResourceHandler("/file/**").addResourceLocations("file:///" + path);
+        if (!registry.hasMappingForPattern(IContanst.PREFIX_STORE + "/**")) {
+            registry.addResourceHandler(IContanst.PREFIX_STORE + "/**").addResourceLocations("file:///" + path);
         }
         System.out.println(path);
     }

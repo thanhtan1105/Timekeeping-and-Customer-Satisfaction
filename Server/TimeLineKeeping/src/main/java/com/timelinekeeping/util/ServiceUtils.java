@@ -233,4 +233,12 @@ public class ServiceUtils {
         }
         return emotion;
     }
+
+    public static String correctUrl(String uri){
+        return IContanst.PREFIX_STORE + "/" + uri;
+    }
+
+    public static String createFolderEmotion(){
+
+    }
 }

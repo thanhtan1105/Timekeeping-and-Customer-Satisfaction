@@ -22,7 +22,7 @@ public class StoreFileUtils {
 
     public static String storeFile(String nameFile, InputStream fileStore){
         try {
-            String fileName = PATH + String.format("%s.%s", nameFile, IContanst.EXTENSION_FILE_IMAGE);
+            String fileName = PATH + nameFile;
             File file = new File(fileName);
             if (!file.getParentFile().exists()){
                 file.getParentFile().mkdirs();

@@ -578,25 +578,18 @@ public class AccountServiceImpl {
 
                 //STORE FILE
                 String nameFile = accountEntity.getDepartment().getId() + "_" + accountEntity.getDepartment().getCode()
-                        + File.separator + accountEntity.getId() + "_" + accountEntity.getUsername() + File.separator + new Date().getTime();
+                        + File.separator + accountEntity.getId() + "_" + accountEntity.getUsername() + File.separator +
+                        new Date().getTime() + "." + IContanst.EXTENSION_FILE_IMAGE;
 
 
                 String outFileName = StoreFileUtils.storeFile(nameFile, new ByteArrayInputStream(byteImage));
-
-                //store file AWS
-                String outAWSFileName = null;
-                if (outFileName != null) {
-                    File file = new File(outFileName);
-                    outAWSFileName = AWSStorage.uploadFile(file, file.getName());
-                    logger.info("aws link: " + outAWSFileName);
-                }
 
                 TimeKeepingEntity timeKeepingEntity = new TimeKeepingEntity();
                 timeKeepingEntity.setType(ETypeCheckin.CHECKIN_CAMERA);
                 timeKeepingEntity.setStatus(ETimeKeeping.PRESENT);
                 timeKeepingEntity.setAccount(accountEntity);
                 timeKeepingEntity.setTimeCheck(new Timestamp(new Date().getTime()));
-                timeKeepingEntity.setImagePath(outAWSFileName);
+                timeKeepingEntity.setImagePath(nameFile);
                 timekeepingRepo.saveAndFlush(timeKeepingEntity);
                 logger.info("-- Save TimeKeeping: " + timeKeepingEntity.getTimeCheck());
             }
