@@ -122,5 +122,6 @@ public interface IContanst {
     String DIRECTOR_EMOTION = "Emotion";
     String DIRECTOR_CHECKIN = "Checkin";
     String DIRECTOR_TRAIN = "Train";
+    String DIRECTOR_TIMEKEEPING = "Timekeeping";
 
 }

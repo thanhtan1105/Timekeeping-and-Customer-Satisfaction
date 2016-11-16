@@ -5,7 +5,6 @@ import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_TIME;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.AccountModel;
-import com.timelinekeeping.model.DepartmentModel;
 
 import java.io.File;
 import java.util.Date;
@@ -17,16 +16,16 @@ public class FileUtils {
 
 
     public static String correctUrl(String uri) {
-        if (ValidateUtil.isEmpty(uri)){
+        if (ValidateUtil.isEmpty(uri)) {
             return uri;
         }
-        if (File.separatorChar != uri.charAt(0)){
+        if (File.separatorChar != uri.charAt(0)) {
             uri = File.separator + uri;
         }
         return IContanst.PREFIX_STORE + uri;
     }
 
-    public static String addParentFolderImage(String nameFile){
+    public static String addParentFolderImage(String nameFile) {
         String path = AppConfigKeys.getInstance().getApplicationPropertyValue("file.store.path");
         if (File.separatorChar != nameFile.charAt(0) && path.charAt(path.length() - 1) != File.separatorChar) {
             nameFile = File.separatorChar + nameFile;
@@ -41,13 +40,13 @@ public class FileUtils {
     }
 
     public static String createFolderTrain(AccountModel accountModel) {
-        return IContanst.DIRECTOR_CHECKIN + File.separator + String.format("%s_%s", accountModel.getDepartment().getId(), accountModel.getDepartment().getCode())
+        return IContanst.DIRECTOR_TIMEKEEPING + File.separator + String.format("%s_%s", accountModel.getDepartment().getId(), accountModel.getDepartment().getCode())
                 + File.separator + String.format("%s_%s", accountModel.getId(), accountModel.getUsername()) + File.separator
                 + IContanst.DIRECTOR_TRAIN + File.separator + TimeUtil.timeToString(new Date(), I_TIME.TIME_NAME_FULL) + "." + IContanst.EXTENSION_FILE_IMAGE;
     }
 
     public static String createFolderCheckin(AccountModel accountModel) {
-        return IContanst.DIRECTOR_CHECKIN + File.separator + String.format("%s_%s", accountModel.getDepartment().getId(), accountModel.getDepartment().getCode())
+        return IContanst.DIRECTOR_TIMEKEEPING + File.separator + String.format("%s_%s", accountModel.getDepartment().getId(), accountModel.getDepartment().getCode())
                 + File.separator + String.format("%s_%s", accountModel.getId(), accountModel.getUsername()) + File.separator
                 + IContanst.DIRECTOR_CHECKIN + File.separator + TimeUtil.timeToString(new Date(), I_TIME.TIME_NAME_FULL) + "." + IContanst.EXTENSION_FILE_IMAGE;
     }
