@@ -115,4 +115,11 @@ public interface IContanst {
 
 
     String DEPARTMENT_MICROSOFT = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.department");
+
+
+    // FOLDER
+    String DIRECTOR_EMOTION = "Emotion";
+    String DIRECTOR_CHECKIN = "Checkin";
+    String DIRECTOR_TRAIN = "Train";
+
 }

@@ -14,4 +14,7 @@ public interface I_TIME {
     String FULL_TIME_AM = "yyyy-MM-dd h:mm:ss a";
     String TIME_MINUTE = "HH:mm";
     String TIME_FULL = "HH:mm:ss";
+
+    String TIME_NAME_FULL = "yyyyMMddHHmmss";
+    String TIME_NAME = "yyyyMMdd";
 }

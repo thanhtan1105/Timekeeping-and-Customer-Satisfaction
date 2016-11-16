@@ -7,6 +7,7 @@ import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.FaceEntity;
+import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.FaceModel;
 import com.timelinekeeping.model.FaceModifyModel;
 import com.timelinekeeping.repository.AccountRepo;
@@ -136,15 +137,11 @@ public class FaceServiceImpl {
 
                 String persistedFaceID = mapResult.get("persistedFaceId");
 
-
                 //STORE FILE
-                String nameFile = accountEntity.getDepartment().getId() + "_" + accountEntity.getDepartment().getCode()
-                        + File.separator + accountId + "_" + accountEntity.getUsername() + File.separator +
-                        new Date().getTime() + "." + IContanst.EXTENSION_FILE_IMAGE;;
-
+                String nameFile = ServiceUtils.createFolderTrain(new AccountModel(accountEntity));
 
                 //Store
-                StoreFileUtils.storeFile(nameFile, new ByteArrayInputStream(byteImage));
+                new StoreFileUtils().storeFile(nameFile, new ByteArrayInputStream(byteImage));
 
                 // save db
                 FaceEntity faceCreate = new FaceEntity(persistedFaceID, accountEntity);

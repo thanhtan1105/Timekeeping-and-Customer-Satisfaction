@@ -577,12 +577,10 @@ public class AccountServiceImpl {
             } else {
 
                 //STORE FILE
-                String nameFile = accountEntity.getDepartment().getId() + "_" + accountEntity.getDepartment().getCode()
-                        + File.separator + accountEntity.getId() + "_" + accountEntity.getUsername() + File.separator +
-                        new Date().getTime() + "." + IContanst.EXTENSION_FILE_IMAGE;
+                String nameFile = ServiceUtils.createFolderCheckin(new AccountModel(accountEntity));
 
-
-                String outFileName = StoreFileUtils.storeFile(nameFile, new ByteArrayInputStream(byteImage));
+                //store
+                new  StoreFileUtils().storeFile(nameFile, new ByteArrayInputStream(byteImage));
 
                 TimeKeepingEntity timeKeepingEntity = new TimeKeepingEntity();
                 timeKeepingEntity.setType(ETypeCheckin.CHECKIN_CAMERA);

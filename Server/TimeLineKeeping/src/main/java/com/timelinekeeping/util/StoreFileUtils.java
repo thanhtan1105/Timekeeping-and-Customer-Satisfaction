@@ -2,9 +2,8 @@ package com.timelinekeeping.util;
 
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.constant.IContanst;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import com.timelinekeeping.model.AccountModel;
+import com.timelinekeeping.model.DepartmentModel;
 
 import javax.imageio.ImageIO;
 import java.awt.geom.AffineTransform;
@@ -17,17 +16,30 @@ import java.io.*;
  */
 public class StoreFileUtils {
 
-    @Value("${file.store.path}")
-    private static String PATH;
 
-    public static String storeFile(String nameFile, InputStream fileStore){
+    private String path = AppConfigKeys.getInstance().getApplicationPropertyValue("file.store.path");
+
+
+    public String storeFile(String nameFile, InputStream fileStore) {
         try {
-            String fileName = PATH + nameFile;
+            if (ValidateUtil.isEmpty(nameFile) || fileStore == null) {
+                return null;
+            }
+
+            if (nameFile.indexOf(".") < 0) {
+                nameFile += "." + IContanst.EXTENSION_FILE_IMAGE;
+            }
+
+            if (File.separatorChar != nameFile.charAt(0) && path.charAt(path.length() - 1) != File.separatorChar) {
+                nameFile = File.separatorChar + nameFile;
+            }
+
+            String fileName = path + nameFile;
             File file = new File(fileName);
-            if (!file.getParentFile().exists()){
+            if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
-            }else{
-                if (file.exists()){
+            } else {
+                if (file.exists()) {
                     file.delete();
                 }
             }
@@ -42,10 +54,10 @@ public class StoreFileUtils {
         }
     }
 
-    public static void delete(String url){
-        if (url != null){
+    public static void delete(String url) {
+        if (url != null) {
             File file = new File(url);
-            if (file.exists()){
+            if (file.exists()) {
                 file.delete();
             }
         }
@@ -74,6 +86,24 @@ public class StoreFileUtils {
             e.printStackTrace();
             return null;
         }
+    }
+
+
+    public static void main(String[] args) {
+        try {
+            AccountModel accountModel = new AccountModel();
+            accountModel.setId(1l);
+            accountModel.setUsername("quanghien");
+            accountModel.setDepartment(new DepartmentModel(1l, "fpt_university"));
+            FileInputStream fileInputStream = new FileInputStream("D:\\CP\\FILE\\1_humanresource\\4_quan\\1478255415074.jpg");
+
+            String filename = ServiceUtils.createFolderTrain(accountModel);
+
+            new StoreFileUtils().storeFile(filename, fileInputStream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

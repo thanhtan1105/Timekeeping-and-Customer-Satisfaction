@@ -18,6 +18,11 @@ public class DepartmentModel {
     public DepartmentModel() {
     }
 
+    public DepartmentModel(Long id, String code) {
+        this.id = id;
+        this.code = code;
+    }
+
     public DepartmentModel(String code, String name, String description) {
         this.code = code;
         this.name = name;

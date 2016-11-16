@@ -152,10 +152,10 @@ public class EmotionController {
             // split image
             byte[] byteImage = IOUtils.toByteArray(imageFile.getInputStream());
 
-            /** TEST store file before*/
-            String fileNameBefore = I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId + "BEFORE" + new Date().getTime();
-            StoreFileUtils.storeFile(fileNameBefore, new ByteArrayInputStream(byteImage));
-            /** TEST store file before*/
+//            /** TEST store file before*/
+//            String fileNameBefore = I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId + "BEFORE" + new Date().getTime();
+//            StoreFileUtils.storeFile(fileNameBefore, new ByteArrayInputStream(byteImage));
+//            /** TEST store file before*/
 
 
             //call service
@@ -170,12 +170,13 @@ public class EmotionController {
                 }
 
                 //store Image
-                String fileName = I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + customerCode;
+                String fileName = ServiceUtils.createFolderEmotion(customerCode);
                 /**store image*/
-                String urlFile = StoreFileUtils.storeFile(fileName, new ByteArrayInputStream(byteImage));
+                String urlFile = new StoreFileUtils().storeFile(fileName, new ByteArrayInputStream(byteImage));
 
                 String uriImage = ServiceUtils.correctUrl(fileName);
 
+                logger.info("url: " + uriImage);
                 //set session
                 customerValue.setPathImage(urlFile);
                 customerValue.setUriImage(uriImage);

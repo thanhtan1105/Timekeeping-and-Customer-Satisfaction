@@ -1,14 +1,14 @@
 package com.timelinekeeping.util;
 
-import com.timelinekeeping.constant.EDayOfWeek;
-import com.timelinekeeping.constant.EDayStatus;
-import com.timelinekeeping.constant.EEmotion;
-import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.constant.*;
 import com.timelinekeeping.entity.AccountEntity;
+import com.timelinekeeping.model.AccountModel;
+import com.timelinekeeping.model.DepartmentModel;
 import com.timelinekeeping.model.EmotionCompare;
 import org.apache.http.HttpEntity;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.YearMonth;
@@ -131,10 +131,6 @@ public class ServiceUtils {
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println(convertAgePredict(0d));
-    }
-
     public static Map<EEmotion, Double> competitiveEmotion(Map<EEmotion, Double> map) {
 
         // anger + happy
@@ -234,11 +230,33 @@ public class ServiceUtils {
         return emotion;
     }
 
-    public static String correctUrl(String uri){
+    public static String correctUrl(String uri) {
         return IContanst.PREFIX_STORE + "/" + uri;
     }
 
-    public static String createFolderEmotion(){
+    public static String createFolderEmotion(String customerCode) {
+        return IContanst.DIRECTOR_EMOTION + File.separator + TimeUtil.timeToString(new Date(), I_TIME.TIME_NAME) + File.separator + I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + customerCode + "." + IContanst.EXTENSION_FILE_IMAGE;
+    }
 
+    public static String createFolderTrain(AccountModel accountModel) {
+        return IContanst.DIRECTOR_CHECKIN + File.separator + String.format("%s_%s", accountModel.getDepartment().getId(), accountModel.getDepartment().getCode())
+                + File.separator + String.format("%s_%s", accountModel.getId(), accountModel.getUsername()) + File.separator
+                + IContanst.DIRECTOR_TRAIN + File.separator + TimeUtil.timeToString(new Date(), I_TIME.TIME_NAME_FULL) + "." + IContanst.EXTENSION_FILE_IMAGE;
+    }
+
+    public static String createFolderCheckin(AccountModel accountModel) {
+        return IContanst.DIRECTOR_CHECKIN + File.separator + String.format("%s_%s", accountModel.getDepartment().getId(), accountModel.getDepartment().getCode())
+                + File.separator + String.format("%s_%s", accountModel.getId(), accountModel.getUsername()) + File.separator
+                + IContanst.DIRECTOR_CHECKIN + File.separator + TimeUtil.timeToString(new Date(), I_TIME.TIME_NAME_FULL) + "." + IContanst.EXTENSION_FILE_IMAGE;
+    }
+
+    public static void main(String[] args) {
+        AccountModel accountModel = new AccountModel();
+        accountModel.setId(1l);
+        accountModel.setUsername("quanghien");
+        accountModel.setDepartment(new DepartmentModel(1l, "fpt_university"));
+        System.out.println(createFolderEmotion("2763276372"));
+        System.out.println(createFolderTrain(accountModel));
+        System.out.println(createFolderCheckin(accountModel));
     }
 }
