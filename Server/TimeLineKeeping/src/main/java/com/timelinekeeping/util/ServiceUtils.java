@@ -230,39 +230,5 @@ public class ServiceUtils {
         return emotion;
     }
 
-    public static String correctUrl(String uri) {
-        if (ValidateUtil.isEmpty(uri)){
-            return uri;
-        }
-        if (File.separatorChar != uri.charAt(0)){
-            uri = File.separator + uri;
-        }
-        return IContanst.PREFIX_STORE + uri;
-    }
 
-    public static String createFolderEmotion(String customerCode) {
-        return IContanst.DIRECTOR_EMOTION + File.separator + TimeUtil.timeToString(new Date(), I_TIME.TIME_NAME) + File.separator + I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + customerCode + "." + IContanst.EXTENSION_FILE_IMAGE;
-    }
-
-    public static String createFolderTrain(AccountModel accountModel) {
-        return IContanst.DIRECTOR_CHECKIN + File.separator + String.format("%s_%s", accountModel.getDepartment().getId(), accountModel.getDepartment().getCode())
-                + File.separator + String.format("%s_%s", accountModel.getId(), accountModel.getUsername()) + File.separator
-                + IContanst.DIRECTOR_TRAIN + File.separator + TimeUtil.timeToString(new Date(), I_TIME.TIME_NAME_FULL) + "." + IContanst.EXTENSION_FILE_IMAGE;
-    }
-
-    public static String createFolderCheckin(AccountModel accountModel) {
-        return IContanst.DIRECTOR_CHECKIN + File.separator + String.format("%s_%s", accountModel.getDepartment().getId(), accountModel.getDepartment().getCode())
-                + File.separator + String.format("%s_%s", accountModel.getId(), accountModel.getUsername()) + File.separator
-                + IContanst.DIRECTOR_CHECKIN + File.separator + TimeUtil.timeToString(new Date(), I_TIME.TIME_NAME_FULL) + "." + IContanst.EXTENSION_FILE_IMAGE;
-    }
-
-    public static void main(String[] args) {
-        AccountModel accountModel = new AccountModel();
-        accountModel.setId(1l);
-        accountModel.setUsername("quanghien");
-        accountModel.setDepartment(new DepartmentModel(1l, "fpt_university"));
-        System.out.println(createFolderEmotion("2763276372"));
-        System.out.println(createFolderTrain(accountModel));
-        System.out.println(createFolderCheckin(accountModel));
-    }
 }

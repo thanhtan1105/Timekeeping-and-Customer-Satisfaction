@@ -12,6 +12,7 @@ import com.timelinekeeping.model.FaceModel;
 import com.timelinekeeping.model.FaceModifyModel;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.FaceRepo;
+import com.timelinekeeping.util.FileUtils;
 import com.timelinekeeping.util.ServiceUtils;
 import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.ValidateUtil;
@@ -131,7 +132,7 @@ public class FaceServiceImpl {
                 String persistedFaceID = mapResult.get("persistedFaceId");
 
                 //STORE FILE
-                String nameFile = ServiceUtils.createFolderTrain(new AccountModel(accountEntity));
+                String nameFile = FileUtils.createFolderTrain(new AccountModel(accountEntity));
 
                 //Store
                 new StoreFileUtils().storeFile(nameFile, new ByteArrayInputStream(byteImage));
@@ -162,7 +163,7 @@ public class FaceServiceImpl {
 
 
             // replace url
-            faceModelList.stream().forEach(faceModel -> faceModel.setStorePath(ServiceUtils.correctUrl(faceModel.getStorePath())));
+            faceModelList.stream().forEach(faceModel -> faceModel.setStorePath(FileUtils.correctUrl(faceModel.getStorePath())));
 
             return faceModelList;
 

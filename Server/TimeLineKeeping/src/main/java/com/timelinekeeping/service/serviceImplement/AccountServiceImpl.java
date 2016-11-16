@@ -575,7 +575,7 @@ public class AccountServiceImpl {
             } else {
 
                 //STORE FILE
-                String nameFile = ServiceUtils.createFolderCheckin(new AccountModel(accountEntity));
+                String nameFile = FileUtils.createFolderCheckin(new AccountModel(accountEntity));
 
                 //store
                 new  StoreFileUtils().storeFile(nameFile, new ByteArrayInputStream(byteImage));
