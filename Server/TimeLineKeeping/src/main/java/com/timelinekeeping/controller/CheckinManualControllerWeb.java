@@ -12,6 +12,7 @@ import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +36,7 @@ public class CheckinManualControllerWeb {
     @Autowired
     private TimekeepingServiceImpl timekeepingService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String loadCheckinManualView(Model model, HttpSession session) {
         logger.info("[Controller- Load Check-in Manual View] BEGIN");
         String url = IViewConst.LOGIN_VIEW;
@@ -72,7 +73,7 @@ public class CheckinManualControllerWeb {
         return url;
     }
 
-    @RequestMapping(value = "/checkinManualProcessing", method = RequestMethod.POST)
+    @RequestMapping(value = "/checkinManualProcessing", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String checkinManual(@RequestParam("accountCheckInModels") String accountCheckInModels) {
         logger.info("[Controller- Check-in Manual] BEGIN");
         logger.info("[Controller- Check-in Manual] accountCheckInModels: " + accountCheckInModels);

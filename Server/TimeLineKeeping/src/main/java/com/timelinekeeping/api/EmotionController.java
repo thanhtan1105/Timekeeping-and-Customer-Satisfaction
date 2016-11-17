@@ -6,12 +6,9 @@ import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.*;
-import com.timelinekeeping.service.blackService.AWSStorage;
 import com.timelinekeeping.service.blackService.SuggestionService;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
-import com.timelinekeeping.util.JsonUtil;
-import com.timelinekeeping.util.StoreFileUtils;
-import com.timelinekeeping.util.ValidateUtil;
+import com.timelinekeeping.util.*;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -21,9 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
@@ -64,7 +58,7 @@ public class EmotionController {
 
             if (emotionCustomer != null) {
                 emotionCustomer.setFinal(customerValue.getFinal());
-                emotionCustomer.setAwsUrl(customerValue.getAwsUrl());
+                emotionCustomer.setAwsUrl(customerValue.getUriImage());
                 return new BaseResponse(true, emotionCustomer);
             } else {
                 return new BaseResponse(false);
@@ -94,8 +88,8 @@ public class EmotionController {
             logger.info(String.format("Session = '%s' ", JsonUtil.toJson(customerValue)));
 
             //get url image
-            if (customerValue.getUrlImage() != null) {
-                String url = customerValue.getUrlImage();
+            if (customerValue.getPathImage() != null) {
+                String url = customerValue.getPathImage();
                 byte[] data = Files.readAllBytes(Paths.get(url));
                 return new BaseResponse(true, new Pair<String, Object>("image", data));
             } else {
@@ -155,10 +149,10 @@ public class EmotionController {
             // split image
             byte[] byteImage = IOUtils.toByteArray(imageFile.getInputStream());
 
-            /** TEST store file before*/
-            String fileNameBefore = I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId + "BEFORE" + new Date().getTime();
-            StoreFileUtils.storeFile(fileNameBefore, new ByteArrayInputStream(byteImage));
-            /** TEST store file before*/
+//            /** TEST store file before*/
+//            String fileNameBefore = I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId + "BEFORE" + new Date().getTime();
+//            StoreFileUtils.storeFile(fileNameBefore, new ByteArrayInputStream(byteImage));
+//            /** TEST store file before*/
 
 
             //call service
@@ -173,20 +167,16 @@ public class EmotionController {
                 }
 
                 //store Image
-                String fileName = I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + customerCode;
+                String fileName = FileUtils.createFolderEmotion(customerCode);
                 /**store image*/
-                String urlFile = StoreFileUtils.storeFile(fileName, new ByteArrayInputStream(byteImage));
+                String urlFile = new StoreFileUtils().storeFile(fileName, new ByteArrayInputStream(byteImage));
 
-                //Store aws
-                String awsUrl = null;
-                if (urlFile != null) {
-                    File fileOutput = new File(urlFile);
-                    awsUrl = AWSStorage.uploadFile(fileOutput, fileOutput.getName());
-                }
+                String uriImage = FileUtils.correctUrl(fileName);
 
+                logger.info("url: " + uriImage);
                 //set session
-                customerValue.setUrlImage(urlFile);
-                customerValue.setAwsUrl(awsUrl);
+                customerValue.setPathImage(urlFile);
+                customerValue.setUriImage(uriImage);
 
                 //return
                 return new BaseResponse(true, new Pair<>("uploadSuccess", true));
@@ -222,7 +212,7 @@ public class EmotionController {
                 String newCustomer = result.getCustomerCode();
 
                 //delete image
-                StoreFileUtils.delete(customerValue.getUrlImage());
+                StoreFileUtils.delete(customerValue.getPathImage());
 
                 //replace newCustomer to session
                 EmotionSession.remove(I_URI.SESSION_API_EMOTION_CUSTOMER_CODE + accountId);

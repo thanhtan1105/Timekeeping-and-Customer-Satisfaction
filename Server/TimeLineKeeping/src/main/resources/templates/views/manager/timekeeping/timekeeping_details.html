@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <!-- form change month -->
-                    <form th:action="@{/manager/timekeeping/details/change_month}" method="post"
+                    <form th:action="@{/manager/timekeeping/details/change_month}" method="get"
                           th:id="'form-submit-change-month'">
                         <input type="hidden" th:name="selectedMonth"/>
                         <input type="hidden" th:name="accountId" th:value="${AccountAttendanceModel.id}"/>
@@ -105,9 +105,10 @@
                         <th>Note</th>
                     </tr>
                     </thead>
-                    <tbody><tr th:each="attendance,counter: ${AccountAttendanceModel.attendances}"
-                               th:if="${attendance.dayStatus.index != 1 and attendance.dayStatus.index != 2}"
-                               th:attr="class=${(attendance.dayStatus.index == 3 or attendance.dayStatus.index == 5) and (attendance.present.index == 2)} ? 'text-bold bg-gray' : (${(attendance.dayStatus.index == 3 or attendance.dayStatus.index == 5) and (attendance.present.index != 2)} ? 'text-bold': (${attendance.present.index == 2}? 'bg-gray'))">
+                    <tbody>
+                    <tr th:each="attendance,counter: ${AccountAttendanceModel.attendances}"
+                        th:if="${attendance.dayStatus.index != 1 and attendance.dayStatus.index != 2}"
+                        th:attr="class=${(attendance.dayStatus.index == 3 or attendance.dayStatus.index == 5) and (attendance.present.index == 2)} ? 'text-bold bg-gray' : (${(attendance.dayStatus.index == 3 or attendance.dayStatus.index == 5) and (attendance.present.index != 2)} ? 'text-bold': (${attendance.present.index == 2}? 'bg-gray'))">
                         <td th:text="${#dates.format(attendance.date, 'yyyy-MMM-dd')}"></td>
                         <td>
                             <label th:class="${(attendance.dayStatus.index == 4) or (attendance.dayStatus.index == 5) or (attendance.dayStatus.index == 3 and attendance.present.index == 1 and attendance.timeCheck == null)}? '' : (${(attendance.dayStatus.index == 3 and attendance.present.index == 2) or (attendance.dayStatus.index == 0 and attendance.present.index == 2)} ? '' : (${(attendance.dayStatus.index == 3 and attendance.present.index == 0) or (attendance.dayStatus.index == 0 and attendance.present.index == 0)} ? 'label label-success' : 'label label-danger'))"
@@ -116,7 +117,7 @@
                         </td>
                         <td>
                             <font th:if="${attendance.type != null}"
-                                  th:text="${attendance.type.index == 0} ? 'Camera' : (${attendance.type.index == 1} ? 'Manual':  (${attendance.type.index == 2}? '-'))"></font>
+                                  th:text="${attendance.type.index == 0}? (${attendance.confidence > 0 and attendance.confidence != null}? 'Camera ['+${attendance.confidence}+'%]': 'Camera'): (${attendance.type.index == 1}? 'Manual': (${attendance.type.index == 2}? ''))"></font>
                             <font th:if="${attendance.type == null}">-</font>
                         </td>
                         <td>

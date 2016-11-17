@@ -12,7 +12,6 @@ import com.timelinekeeping.modelMCS.FaceDetectResponse;
 import com.timelinekeeping.modelMCS.FaceIdentifyConfidenceRespone;
 import com.timelinekeeping.modelMCS.FaceIdentityCandidate;
 import com.timelinekeeping.repository.*;
-import com.timelinekeeping.service.blackService.AWSStorage;
 import com.timelinekeeping.service.blackService.OneSignalNotification;
 import com.timelinekeeping.service.blackService.SMSNotification;
 import com.timelinekeeping.util.*;
@@ -28,7 +27,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
@@ -66,6 +64,9 @@ public class AccountServiceImpl {
 
     @Autowired
     private TimekeepingRepo timekeepingRepo;
+
+    @Autowired
+    private ConfigurationRepo configurationRepo;
 
     private Logger logger = LogManager.getLogger(AccountServiceImpl.class);
 
@@ -125,11 +126,18 @@ public class AccountServiceImpl {
             logger.info("personCode: " + personCode);
 
 
+            //prepair password
+            String password = IContanst.PASSWORD_DEFAULT;
+            ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.PASSWORD_DEFAULT_KEY);
+            if (configurationEntity != null){
+                password = configurationEntity.getValue();
+            }
+
             //create entity
             AccountEntity entity = new AccountEntity(account);
             entity.setUsername(account.getUsername());
             entity.setUserCode(personCode);
-            entity.setPassword(IContanst.PASSWORD_DEFAULT);
+            entity.setPassword(password);
             entity.setFullName(account.getFullName());
             entity.setRole(roleEntity);
             entity.setDepartment(departmentEntity);
@@ -436,68 +444,6 @@ public class AccountServiceImpl {
         }
     }
 
-//    public Long addFaceImg(Long accountId, InputStream imgStream) throws URISyntaxException, IOException {
-//        try {
-//            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-//
-////            InputStream[] streams = UtilApps.muitleStream(imgStream, 2);
-//            //rotate image
-//            byte[] byteImage = StoreFileUtils.rotateImage(imgStream);
-//            AccountEntity accountEntity = accountRepo.findOne(accountId);
-//            if (accountEntity == null) {
-//                return null;
-//            }
-//
-//            String departmentCode = IContanst.DEPARTMENT_MICROSOFT;
-//            BaseResponse baseResponse = personServiceMCS.addFaceImg(departmentCode, accountEntity.getUserCode(), new ByteArrayInputStream(byteImage));
-//            logger.info("RESPONSE" + baseResponse);
-//            if (!baseResponse.isSuccess()) {
-//                return null;
-//            }
-//
-//            // encoding data
-//            Map<String, String> mapResult = (Map<String, String>) baseResponse.getData(); // get face
-//            if (mapResult != null && mapResult.size() > 0) {
-//
-//                String persistedFaceID = mapResult.get("persistedFaceId");
-//
-//
-//                //STORE FILE
-//                String nameFile = accountEntity.getDepartment().getId() + "_" + accountEntity.getDepartment().getCode()
-//                        + File.separator + accountId + "_" + accountEntity.getUsername() + File.separator + new Date().getTime();
-//
-//
-//                String outFileName = StoreFileUtils.storeFile(nameFile, new ByteArrayInputStream(byteImage));
-//                //return faceReturn.getId();
-//
-//                //store file AWS
-//                String outAWSFileName = null;
-//                if (outFileName != null) {
-//                    File file = new File(outFileName);
-//                    outAWSFileName = AppConfigKeys.getInstance().getAmazonPropertyValue("amazon.s3.link") + file.getName();
-//                    Thread thread = new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            String linkURL = AWSStorage.uploadFile(file, file.getName());
-//                            logger.info("aws link: " + linkURL);
-//                        }
-//                    });
-//                    thread.start();
-//                }
-//
-//                // save db
-//                FaceEntity faceCreate = new FaceEntity(persistedFaceID, accountEntity);
-//                faceCreate.setStorePath(outAWSFileName);
-//                FaceEntity faceReturn = faceRepo.saveAndFlush(faceCreate);
-//                return faceReturn.getId();
-//            }
-//            return null;
-//        } finally {
-//            logger.info(IContanst.END_METHOD_SERVICE);
-//        }
-//
-//    }
-
     /**
      * list all face in account
      */
@@ -547,13 +493,16 @@ public class AccountServiceImpl {
             //departmentEntities.stream().map(DepartmentEntity::getCode).collect(Collectors.toList());
             logger.info("-- List department: " + JsonUtil.toJson(departmentCode));
 
-            /** get PersonID from */
-            String personID = checkExistFaceInDepartment(faceID, departmentCode);
-            if (ValidateUtil.isEmpty(personID)) {
+            /** get PersonID and confidence from checkin */
+            Pair<String, Double> resultIdentify = checkExistFaceInDepartment(faceID, departmentCode);
+            if (resultIdentify == null) {
 
                 logger.error(IContanst.ERROR_LOGGER + ERROR.ACCOUNT_CHECKIN_IMAGE_CANNOT_IDENTIFY_IMAGE);
                 return new BaseResponse(false, ERROR.ACCOUNT_CHECKIN_IMAGE_CANNOT_IDENTIFY_IMAGE, null);
             }
+
+            String personID = resultIdentify.getKey();
+            Double confidance = resultIdentify.getValue();
             logger.info("-- PersonID: " + personID);
 
             // PersonID -> AccountEntity
@@ -577,26 +526,18 @@ public class AccountServiceImpl {
             } else {
 
                 //STORE FILE
-                String nameFile = accountEntity.getDepartment().getId() + "_" + accountEntity.getDepartment().getCode()
-                        + File.separator + accountEntity.getId() + "_" + accountEntity.getUsername() + File.separator + new Date().getTime();
+                String nameFile = FileUtils.createFolderCheckin(new AccountModel(accountEntity));
 
-
-                String outFileName = StoreFileUtils.storeFile(nameFile, new ByteArrayInputStream(byteImage));
-
-                //store file AWS
-                String outAWSFileName = null;
-                if (outFileName != null) {
-                    File file = new File(outFileName);
-                    outAWSFileName = AWSStorage.uploadFile(file, file.getName());
-                    logger.info("aws link: " + outAWSFileName);
-                }
+                //store
+                new  StoreFileUtils().storeFile(nameFile, new ByteArrayInputStream(byteImage));
 
                 TimeKeepingEntity timeKeepingEntity = new TimeKeepingEntity();
                 timeKeepingEntity.setType(ETypeCheckin.CHECKIN_CAMERA);
                 timeKeepingEntity.setStatus(ETimeKeeping.PRESENT);
                 timeKeepingEntity.setAccount(accountEntity);
                 timeKeepingEntity.setTimeCheck(new Timestamp(new Date().getTime()));
-                timeKeepingEntity.setImagePath(outAWSFileName);
+                timeKeepingEntity.setConfidence(confidance);
+                timeKeepingEntity.setImagePath(nameFile);
                 timekeepingRepo.saveAndFlush(timeKeepingEntity);
                 logger.info("-- Save TimeKeeping: " + timeKeepingEntity.getTimeCheck());
             }
@@ -604,9 +545,20 @@ public class AccountServiceImpl {
             // push notification
             pushNotification(accountEntity);
 
-            // push sms
-            SMSNotification.getInstance().sendSms(new AccountModel(accountEntity));
 
+            // push sms
+            ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.SEND_SMS_KEY);
+            if (configurationEntity != null) {
+                if (configurationEntity.getValue().equals("1")) {
+                    SMSNotification.getInstance().sendSms(accountEntity.getPhone(), new AccountModel(accountEntity));
+                }
+            }
+
+            Double trainValue = 1d;
+            ConfigurationEntity configEntityTrain = configurationRepo.findByKey(IContanst.CHECKIN_CONFIDINCE_TRAIN_KEY);
+            if (configEntityTrain == null) {
+                trainValue = Double.valueOf(configEntityTrain.getValue());
+            }
 
             //TODO add face to person if image > 0.8
 
@@ -690,7 +642,7 @@ public class AccountServiceImpl {
     /**
      * check exist faceID in list department
      */
-    private String checkExistFaceInDepartment(String faceID, List<String> departmentCode) throws IOException, URISyntaxException {
+    private Pair<String, Double> checkExistFaceInDepartment(String faceID, List<String> departmentCode) throws IOException, URISyntaxException {
 
         String personID = null;
         double confidence = 0d;
@@ -720,8 +672,10 @@ public class AccountServiceImpl {
         }
 
         //check greater then confidence
-        if (confidence > IContanst.MCS_PERSON_DETECT_CONFIDINCE_CORRECT) {
-            return personID;
+        ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY);
+        double confienceDatabase = new Double(configurationEntity.getValue());
+        if (confidence > confienceDatabase) {
+            return new Pair<String, Double>(personID, confidence);
         } else {
             return null;
         }
@@ -788,6 +742,9 @@ public class AccountServiceImpl {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("Username: " + fullName);
+            ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.COMPANY_EMAIL_KEY);
+            String lefixEmail = configurationEntity.getValue();
+
             if (ValidateUtil.isEmpty(fullName)) {
                 return null;
             }
@@ -805,9 +762,9 @@ public class AccountServiceImpl {
                 i++;
                 String emailPre;
                 if (i == 1) {
-                    emailPre = nameEmail + "@" + IContanst.COMPANY_EMAIL;
+                    emailPre = nameEmail + "@" + lefixEmail;
                 } else {
-                    emailPre = String.format("%s.%s@%s", nameEmail, i, IContanst.COMPANY_EMAIL);
+                    emailPre = String.format("%s.%s@%s", nameEmail, i, lefixEmail);
                 }
                 if (accountRepo.checkExistEmail(emailPre) > 0) {
                     email = emailPre;

@@ -15,13 +15,13 @@ public class AppConfigKeys {
 
     private Properties propertiesApi = null;
     private Properties propertiesMessage = null;
-    private Properties propertiesAmazon = null;
+    private Properties propertiesApplication = null;
 
     private static AppConfigKeys instance = null;
 
     private static final String NAME_FILE_API_PROPERTIES = "apiConfig.properties";
+    private static final String NAME_FILE_APPLICATION_PROPERTIES = "application.properties";
     private static final String NAME_FILE_MESSAGE_PROPERTIES = "messages.properties";
-    private static final String NAME_FILE_AMAZON_PROPERTIES = "amazon.properties";
 
     public static AppConfigKeys getInstance() {
         if (instance == null) {
@@ -33,10 +33,10 @@ public class AppConfigKeys {
     public AppConfigKeys() {
         propertiesApi = new Properties();
         propertiesMessage = new Properties();
-        propertiesAmazon = new Properties();
+        propertiesApplication = new Properties();
         initProperties(propertiesApi, NAME_FILE_API_PROPERTIES);
         initProperties(propertiesMessage, NAME_FILE_MESSAGE_PROPERTIES);
-        initProperties(propertiesAmazon, NAME_FILE_AMAZON_PROPERTIES);
+        initProperties(propertiesApplication, NAME_FILE_APPLICATION_PROPERTIES);
     }
 
 
@@ -83,9 +83,9 @@ public class AppConfigKeys {
         }
     }
 
-    public String getAmazonPropertyValue(String key) {
+    public String getApplicationPropertyValue(String key) {
         try {
-            return UtilApps.trim(propertiesAmazon.getProperty(key));
+            return UtilApps.trim(propertiesApplication.getProperty(key));
         } catch (Exception e) {
             return null;
         }

@@ -8,6 +8,7 @@ import com.timelinekeeping.model.RoleAuthen;
 import com.timelinekeeping.service.serviceImplement.AccountServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,7 +28,7 @@ public class LoginControllerWeb {
     @Autowired
     AccountServiceImpl accountService;
 
-    @RequestMapping(value = {"", "/", "/login"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"", "/", "/login"}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String loginView(HttpSession session) {
         AccountModel accountModel = (AccountModel) session.getAttribute(I_URI.SESSION_AUTHEN);
         if (accountModel != null) {
@@ -37,7 +38,7 @@ public class LoginControllerWeb {
         }
     }
 
-    @RequestMapping(value = "/login/processing", method = RequestMethod.POST)
+    @RequestMapping(value = "/login/processing", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String login(@RequestParam("username") String username,
                         @RequestParam("password") String password,
                         HttpSession session) {
@@ -56,7 +57,7 @@ public class LoginControllerWeb {
         return url;
     }
 
-    @RequestMapping(value = {"/logout", "/login/logout"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/logout", "/login/logout"}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String logout(HttpSession session) {
 
         AccountModel accountModel = (AccountModel) session.getAttribute(I_URI.SESSION_AUTHEN);
@@ -66,7 +67,8 @@ public class LoginControllerWeb {
         EmotionSession.clean();
         return "redirect:/";
     }
-    @RequestMapping(value = {"/login/permissionDenied"}, method = RequestMethod.GET)
+
+    @RequestMapping(value = {"/login/permissionDenied"}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String permissionDenied() {
         return "redirect:/login";
     }

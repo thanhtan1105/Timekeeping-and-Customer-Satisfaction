@@ -7,15 +7,15 @@ import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.FaceEntity;
+import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.FaceModel;
 import com.timelinekeeping.model.FaceModifyModel;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.FaceRepo;
-import com.timelinekeeping.service.blackService.AWSStorage;
-import com.timelinekeeping.util.HTTPClientUtil;
+import com.timelinekeeping.util.FileUtils;
+import com.timelinekeeping.util.ServiceUtils;
 import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.ValidateUtil;
-import org.apache.http.client.utils.URIBuilder;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +25,9 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -135,45 +131,15 @@ public class FaceServiceImpl {
 
                 String persistedFaceID = mapResult.get("persistedFaceId");
 
-
                 //STORE FILE
-                String nameFile = accountEntity.getDepartment().getId() + "_" + accountEntity.getDepartment().getCode()
-                        + File.separator + accountId + "_" + accountEntity.getUsername() + File.separator + new Date().getTime();
+                String nameFile = FileUtils.createFolderTrain(new AccountModel(accountEntity));
 
-
-                String outFileName = StoreFileUtils.storeFile(nameFile, new ByteArrayInputStream(byteImage));
-                //return faceReturn.getId();
-
-                //store file AWS
-                String outAWSFileName = null;
-                if (outFileName != null) {
-                    File file = new File(outFileName);
-//                    outAWSFileName = AWSStorage.uploadFile(file, file.getName());
-//                    logger.info("aws link: " + outAWSFileName);
-
-                    outAWSFileName = AppConfigKeys.getInstance().getAmazonPropertyValue("amazon.s3.link") + file.getName();
-                    Thread thread = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            int count = 0;
-                            while (count != 9) {
-                                String linkURL = AWSStorage.uploadFile(file, file.getName());
-                                logger.info("aws link: " + linkURL);
-                                if (linkURL != null) {
-                                    break;
-                                } else {
-                                    count++;
-                                }
-                            }
-                        }
-                    });
-                    thread.start();
-
-                }
+                //Store
+                new StoreFileUtils().storeFile(nameFile, new ByteArrayInputStream(byteImage));
 
                 // save db
                 FaceEntity faceCreate = new FaceEntity(persistedFaceID, accountEntity);
-                faceCreate.setStorePath(outAWSFileName);
+                faceCreate.setStorePath(nameFile);
                 FaceEntity faceReturn = faceRepo.saveAndFlush(faceCreate);
                 return faceReturn.getId();
             }
@@ -193,7 +159,15 @@ public class FaceServiceImpl {
             if (ValidateUtil.isEmpty(entities)) {
                 return null;
             }
-            return entities.stream().filter(faceEntity -> faceEntity.getStorePath() != null).map(FaceModel::new).collect(Collectors.toList());
+            List<FaceModel> faceModelList = entities.stream().filter(faceEntity -> faceEntity.getStorePath() != null).map(FaceModel::new).collect(Collectors.toList());
+
+
+            // replace url
+            faceModelList.stream().forEach(faceModel -> faceModel.setStorePath(FileUtils.correctUrl(faceModel.getStorePath())));
+
+            return faceModelList;
+
+
 
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);

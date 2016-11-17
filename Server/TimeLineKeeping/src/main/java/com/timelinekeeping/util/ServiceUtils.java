@@ -1,14 +1,14 @@
 package com.timelinekeeping.util;
 
-import com.timelinekeeping.constant.EDayOfWeek;
-import com.timelinekeeping.constant.EDayStatus;
-import com.timelinekeeping.constant.EEmotion;
-import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.constant.*;
 import com.timelinekeeping.entity.AccountEntity;
+import com.timelinekeeping.model.AccountModel;
+import com.timelinekeeping.model.DepartmentModel;
 import com.timelinekeeping.model.EmotionCompare;
 import org.apache.http.HttpEntity;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.YearMonth;
@@ -131,10 +131,6 @@ public class ServiceUtils {
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println(convertAgePredict(0d));
-    }
-
     public static Map<EEmotion, Double> competitiveEmotion(Map<EEmotion, Double> map) {
 
         // anger + happy
@@ -233,4 +229,6 @@ public class ServiceUtils {
         }
         return emotion;
     }
+
+
 }

@@ -13,6 +13,7 @@ import com.timelinekeeping.util.TimeUtil;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,7 +45,7 @@ public class ReminderControllerWeb {
     @Autowired
     private CoordinateServiceImpl coordinateService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String loadManagementReminderView(Model model) {
         // set side-bar
         String sideBar = IContanst.SIDE_BAR_MANAGER_MANAGEMENT_REMINDER;
@@ -55,7 +56,7 @@ public class ReminderControllerWeb {
         return IViewConst.MANAGEMENT_REMINDER_VIEW;
     }
 
-    @RequestMapping(value = "/addReminder", method = RequestMethod.GET)
+    @RequestMapping(value = "/addReminder", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String loadAddReminderView(Model model, HttpSession session) {
         logger.info("[Controller- Load Add Reminder View] BEGIN");
 
@@ -95,7 +96,7 @@ public class ReminderControllerWeb {
         return url;
     }
 
-    @RequestMapping(value = "/addReminderProcessing", produces = "text/plain;charset=UTF-8", method = RequestMethod.POST)
+    @RequestMapping(value = "/addReminderProcessing",  method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String addReminder(@RequestParam("title") String title,
                               @RequestParam("date") String date,
                               @RequestParam("time") String time,
@@ -111,7 +112,7 @@ public class ReminderControllerWeb {
         logger.info("[Controller- Add Reminder] message: " + message);
         String dateTime = date + " " + time;
         logger.info("[Controller- Add Reminder] date time: " + dateTime);
-        Date timeParser = TimeUtil.parseToDate(dateTime, I_TIME.FULL_TIME_MINUS);
+        Date timeParser = TimeUtil.parseToDate(dateTime, I_TIME.FULL_TIME_MINUS_AM);
         logger.info("[Controller- Add Reminder] parse to Date: " + timeParser);
         List<Long> employeeSet = new ArrayList<Long>();
         for (int i = 0; i < listEmployees.length; i++) {
@@ -151,7 +152,7 @@ public class ReminderControllerWeb {
         return url;
     }
 
-    @RequestMapping(value = "/view", method = RequestMethod.GET)
+    @RequestMapping(value = "/view", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String viewReminder(@RequestParam("reminderId") String reminderId,
                                HttpSession session, Model model) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -169,7 +170,7 @@ public class ReminderControllerWeb {
         return IViewConst.VIEW_REMINDER_VIEW;
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/update", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String updateReminder(Model model, HttpSession session) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -201,7 +202,7 @@ public class ReminderControllerWeb {
         return IViewConst.UPDATE_REMINDER_VIEW;
     }
 
-    @RequestMapping(value = "/updating", method = RequestMethod.POST)
+    @RequestMapping(value = "/updating", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String updating(@RequestParam("title") String title,
                            @RequestParam("date") String date,
                            @RequestParam("time") String time,
@@ -217,7 +218,7 @@ public class ReminderControllerWeb {
         logger.info("[Controller- Add Reminder] message: " + message);
         String dateTime = date + " " + time;
         logger.info("[Controller- Add Reminder] date time: " + dateTime);
-        Date timeParser = TimeUtil.parseToDate(dateTime, I_TIME.FULL_TIME_MINUS);
+        Date timeParser = TimeUtil.parseToDate(dateTime, I_TIME.FULL_TIME_MINUS_AM);
         logger.info("[Controller- Add Reminder] parse to Date: " + timeParser);
 
         List<Long> employeeSet = new ArrayList<Long>();

@@ -11,6 +11,7 @@ import com.timelinekeeping.util.TimeUtil;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +34,7 @@ public class AttendanceControllerWeb {
     @Autowired
     private TimekeepingServiceImpl timekeepingService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String loadAttendanceView(Model model, HttpSession session) {
         logger.info("[Controller- Load Attendance View] BEGIN");
         String url = IViewConst.LOGIN_VIEW;
@@ -71,7 +72,9 @@ public class AttendanceControllerWeb {
         return url;
     }
 
-    @RequestMapping(value = "/change_month", method = RequestMethod.POST)
+
+    //TODO Change Get
+    @RequestMapping(value = "/change_month", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String changeMonthAttendanceView(@RequestParam("selectedMonth") String selectedMonth,
                                             Model model, HttpSession session) {
         logger.info("[Controller- Change Month Attendance View] BEGIN");

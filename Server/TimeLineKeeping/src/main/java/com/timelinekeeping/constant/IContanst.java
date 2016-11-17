@@ -13,15 +13,17 @@ public interface IContanst {
     String BEGIN_METHOD = "---begin---";
     String END_METHOD = "----end----";
 
-    String BEGIN_METHOD_SERVICE = "--- Begin Service : ";
-    String END_METHOD_SERVICE = "---- End Service ----";
+    String BEGIN_METHOD_CONTROLLER  = "------------ Begin Controller : ";
+    String END_METHOD_CONTROLLER    = "++++++++++++ End Controller : ";
 
-    String BEGIN_METHOD_MCS = "--- Begin MCS API : ";
-    String END_METHOD_MCS = "---- End MCS API ----";
+    String BEGIN_METHOD_SERVICE     = "-------- Begin Service : ";
+    String END_METHOD_SERVICE       = "++++++++ End Service : ";
+
+    String BEGIN_METHOD_MCS         = "----- Begin MCS API : ";
+    String END_METHOD_MCS           = "+++++ End MCS API : ";
 
 
-    String BEGIN_METHOD_CONTROLLER = "--- Begin Controller : ";
-    String END_METHOD_CONTROLLER = "---- End Controller ----";
+
     String LOGGER_ERROR = "--- ERROR";
 
     String ERROR_LOGGER = "-- ERROR: ";
@@ -29,6 +31,8 @@ public interface IContanst {
 
     int HTTP_CLIENT_KEY_FACE = 0;
     int HTTP_CLIENT_KEY_EMOTION = 1;
+
+    String PREFIX_STORE = "/file";
 
 
     //////-----------------
@@ -51,8 +55,8 @@ public interface IContanst {
 
     String COMPANY_EMAIL_KEY = "email.company";
     String PASSWORD_DEFAULT_KEY = "password.default";
-
     String CHECKIN_CONFIDINCE_CORRECT_KEY = "checkin.accept.confident";
+    String CHECKIN_CONFIDINCE_TRAIN_KEY = "checkin.training.confident";
     String TIME_CHECK_IN_SYSTEM_START_KEY = "time.checkin.begin";
     String TIME_CHECK_IN_SYSTEM_END_KEY = "time.checkin.end";
     /////-----
@@ -113,4 +117,12 @@ public interface IContanst {
 
 
     String DEPARTMENT_MICROSOFT = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.department");
+
+
+    // FOLDER
+    String DIRECTOR_EMOTION = "Emotion";
+    String DIRECTOR_CHECKIN = "Checkin";
+    String DIRECTOR_TRAIN = "Train";
+    String DIRECTOR_TIMEKEEPING = "Timekeeping";
+
 }

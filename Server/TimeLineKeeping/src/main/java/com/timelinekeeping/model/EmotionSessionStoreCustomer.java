@@ -8,8 +8,8 @@ public class EmotionSessionStoreCustomer {
     private String customerCode;
     private Long emotionCamera1;
     private Long emotionCamera2;
-    private String urlImage;
-    private String awsUrl;
+    private String pathImage;
+    private String uriImage;
     private Boolean isFinal = false;
 
     public EmotionSessionStoreCustomer(String customerCode) {
@@ -49,20 +49,20 @@ public class EmotionSessionStoreCustomer {
 
     }
 
-    public String getUrlImage() {
-        return urlImage;
+    public String getPathImage() {
+        return pathImage;
     }
 
-    public void setUrlImage(String urlImage) {
-        this.urlImage = urlImage;
+    public void setPathImage(String pathImage) {
+        this.pathImage = pathImage;
     }
 
-    public String getAwsUrl() {
-        return awsUrl;
+    public String getUriImage() {
+        return uriImage;
     }
 
-    public void setAwsUrl(String awsUrl) {
-        this.awsUrl = awsUrl;
+    public void setUriImage(String uriImage) {
+        this.uriImage = uriImage;
     }
 
     public Boolean getFinal() {

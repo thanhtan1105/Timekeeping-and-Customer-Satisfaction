@@ -40,6 +40,10 @@ public class TimeKeepingEntity implements Serializable {
     @Column(name = "image_path", length = 500)
     private String imagePath;
 
+    @Basic
+    @Column(name = "confidence")
+    private Double confidence;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
     private AccountEntity account;
@@ -126,5 +130,13 @@ public class TimeKeepingEntity implements Serializable {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public Double getConfidence() {
+        return confidence;
+    }
+
+    public void setConfidence(Double confidence) {
+        this.confidence = confidence;
     }
 }

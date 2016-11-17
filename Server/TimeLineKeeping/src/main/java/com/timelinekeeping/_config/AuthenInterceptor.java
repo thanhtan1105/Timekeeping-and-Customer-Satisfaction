@@ -1,5 +1,6 @@
 package com.timelinekeeping._config;
 
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.RoleAuthen;
@@ -28,6 +29,7 @@ public class AuthenInterceptor extends HandlerInterceptorAdapter {
                     "/css/**",
                     "/img/**",
                     "/font/**",
+                    IContanst.PREFIX_STORE + "/**",
                     "/login/**");
 
     private static final PathMatcher pathMatcher = new AntPathMatcher();
