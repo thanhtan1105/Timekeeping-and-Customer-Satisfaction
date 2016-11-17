@@ -213,13 +213,31 @@ public class AccountController {
                                               @RequestParam(value = "faceId") String faceId) {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
-            String personGroupId = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.department");
-            Boolean result = faceService.removeFace(personGroupId, Long.parseLong(accountId), Long.parseLong(faceId));
+            Boolean result = faceService.removeFace(Long.parseLong(accountId), Long.parseLong(faceId));
             if (result != null) {
                 return new BaseResponse(result);
             } else {
                 return new BaseResponse(false);
 
+            }
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        }
+    }
+
+    @RequestMapping(value = I_URI.API_ACCOUNT_REMOVE_ALL_FACE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public BaseResponse removeAllFaceFromAccount(@RequestParam(value = "accountId") String accountId) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            Pair<Boolean, String> result = faceService.removeAllFace(Long.parseLong(accountId));
+            if (result.getKey()) {
+                return new BaseResponse(true);
+            } else {
+                return new BaseResponse(false, result.getValue());
             }
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);

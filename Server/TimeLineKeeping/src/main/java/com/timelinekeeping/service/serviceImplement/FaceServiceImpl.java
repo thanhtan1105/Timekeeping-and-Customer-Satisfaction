@@ -3,6 +3,7 @@ package com.timelinekeeping.service.serviceImplement;
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.common.BaseResponse;
+import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.EStatus;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
@@ -13,9 +14,9 @@ import com.timelinekeeping.model.FaceModifyModel;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.FaceRepo;
 import com.timelinekeeping.util.FileUtils;
-import com.timelinekeeping.util.ServiceUtils;
 import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.ValidateUtil;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,14 +61,14 @@ public class FaceServiceImpl {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             FaceEntity entity = null;
             AccountEntity accountEntity;
-            if (!ObjectUtils.isEmpty(faceModifyModel.getAccountId())){
+            if (!ObjectUtils.isEmpty(faceModifyModel.getAccountId())) {
                 accountEntity = accountRepo.findOne(faceModifyModel.getAccountId());
-            }else if (!StringUtils.isEmpty(faceModifyModel.getAccountCode())){
+            } else if (!StringUtils.isEmpty(faceModifyModel.getAccountCode())) {
                 accountEntity = accountRepo.findByUserCode(faceModifyModel.getAccountCode());
-            }else {
+            } else {
                 return null;
             }
-            if (accountEntity == null){
+            if (accountEntity == null) {
                 return null;
             }
             entity = new FaceEntity(faceModifyModel.getPersistedFaceId(), accountEntity);
@@ -78,32 +79,64 @@ public class FaceServiceImpl {
         }
     }
 
-    public Boolean removeFace(String personGroupId, Long accountId, Long faceId) throws URISyntaxException, IOException {
+    public Boolean removeFace(Long accountId, Long faceId) throws URISyntaxException, IOException {
         logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
         logger.info(String.format("Remove Face: accountId = [%s] faceId = [%s]", accountId, faceId));
         AccountEntity accountEntity = accountRepo.findOne(accountId);
-        if (accountEntity == null){
+        if (accountEntity == null) {
             logger.info(String.format("AccountId = [%s] no exist.", accountId));
             return null;
         }
         FaceEntity faceEntity = faceRepo.findOne(faceId);
-        if (faceEntity == null){
+        if (faceEntity == null) {
             logger.info(String.format("faceEntity = [%s] no exist.", faceId));
             return null;
         }
-        BaseResponse baseResponse = personServiceMCS.removePersonFace(personGroupId, accountEntity.getUserCode(), faceEntity.getPersistedFaceId());
+        BaseResponse baseResponse = personServiceMCS.removePersonFace(IContanst.DEPARTMENT_MICROSOFT, accountEntity.getUserCode(), faceEntity.getPersistedFaceId());
 
         if (baseResponse.isSuccess() == true) {
             // remove on db
             faceEntity.setActive(EStatus.DEACTIVE);
             faceRepo.save(faceEntity);
             return true;
-        }else {
+        } else {
 
             return false;
         }
     }
 
+    public Pair<Boolean, String> removeAllFace(Long accountId) throws URISyntaxException, IOException {
+        logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+        logger.info(String.format("Remove Face: accountId = [%s]", accountId));
+        AccountEntity accountEntity = accountRepo.findOne(accountId);
+        if (accountEntity == null) {
+            logger.error(String.format("AccountId = [%s] no exist.", accountId));
+            return new Pair<>(false, String.format("AccountId = [%s] no exist.", accountId));
+        }
+
+        List<FaceEntity> listFaceEntity = faceRepo.findByAccount(accountId);
+
+        if (ValidateUtil.isEmpty(listFaceEntity)) {
+            logger.error(String.format("listFaceEntity.size = [0]"));
+            return new Pair<>(false, String.format("listFaceEntity.size = [0]"));
+        }
+
+        logger.info("Listface size = " + listFaceEntity.size());
+        for (FaceEntity faceEntity : listFaceEntity) {
+            logger.info(String.format("Delete persistence_Id = [%s], url = [%s]", faceEntity.getPersistedFaceId(), faceEntity.getStorePath()));
+            BaseResponse baseResponse = personServiceMCS.removePersonFace(IContanst.DEPARTMENT_MICROSOFT, accountEntity.getUserCode(), faceEntity.getPersistedFaceId());
+
+            if (baseResponse.isSuccess() == true) {
+                // remove on db
+                faceEntity.setActive(EStatus.DEACTIVE);
+                faceRepo.save(faceEntity);
+                logger.info("----- Succuess. ");
+            } else {
+                logger.info("************* Delete fail. **********");
+            }
+        }
+        return new Pair<>(true);
+    }
 
 
     public Long addFaceImg(Long accountId, InputStream imgStream) throws URISyntaxException, IOException {
@@ -112,12 +145,13 @@ public class FaceServiceImpl {
 
 //            InputStream[] streams = UtilApps.muitleStream(imgStream, 2);
             //rotate image
-            byte[] byteImage = StoreFileUtils.rotateImage(imgStream);
+//            byte[] byteImage = StoreFileUtils.rotateImage(imgStream);
             AccountEntity accountEntity = accountRepo.findOne(accountId);
             if (accountEntity == null) {
                 return null;
             }
 
+            byte[] byteImage = IOUtils.toByteArray(imgStream);
             String departmentCode = IContanst.DEPARTMENT_MICROSOFT;
             BaseResponse baseResponse = personServiceMCS.addFaceImg(departmentCode, accountEntity.getUserCode(), new ByteArrayInputStream(byteImage));
             logger.info("RESPONSE" + baseResponse);
@@ -166,7 +200,6 @@ public class FaceServiceImpl {
             faceModelList.stream().forEach(faceModel -> faceModel.setStorePath(FileUtils.correctUrl(faceModel.getStorePath())));
 
             return faceModelList;
-
 
 
         } finally {
