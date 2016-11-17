@@ -14,7 +14,7 @@ import java.util.Date;
  * Created by lethanhtan on 10/9/16.
  */
 @Entity
-@Table(name = "todo_list", schema = "mydb")
+@Table(name = "todo_list")
 public class ToDoListEntity implements Serializable {
 
     @Id

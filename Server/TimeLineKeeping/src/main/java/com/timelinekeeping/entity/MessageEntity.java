@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 
 @Entity
-@Table(name = "message", schema = "mydb")
+@Table(name = "message")
 public class MessageEntity implements Serializable {
 
     @Id

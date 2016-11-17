@@ -8,7 +8,7 @@ import java.util.Set;
  * Created by Lep on 9/7/2016.
  */
 @Entity
-@Table(name = "role", schema = "mydb")
+@Table(name = "role")
 public class RoleEntity  implements Serializable{
 
     @Id

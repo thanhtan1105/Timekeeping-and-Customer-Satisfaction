@@ -12,7 +12,7 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "coordinate", schema = "mydb")
+@Table(name = "coordinate")
 public class CoordinateEntity implements Serializable {
 
     @Id
@@ -25,15 +25,15 @@ public class CoordinateEntity implements Serializable {
     private String name;
 
     @Basic
-    @Column(name = "floor", nullable = false, columnDefinition = "0")
+    @Column(name = "floor", nullable = false)
     private Integer floor = 0;
 
     @Basic
-    @Column(name = "latitude", nullable = false, columnDefinition = "0")
+    @Column(name = "latitude", nullable = false)
     private Double latitude = 0d;
 
     @Basic
-    @Column(name = "longitude", nullable = false, columnDefinition = "0")
+    @Column(name = "longitude", nullable = false)
     private Double longitude = 0d;
 
     @Basic

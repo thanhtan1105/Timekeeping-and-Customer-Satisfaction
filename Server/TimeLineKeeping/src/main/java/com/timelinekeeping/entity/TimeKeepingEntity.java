@@ -13,7 +13,7 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name = "time_keeping", schema = "mydb")
+@Table(name = "time_keeping")
 public class TimeKeepingEntity implements Serializable {
 
     @Id
