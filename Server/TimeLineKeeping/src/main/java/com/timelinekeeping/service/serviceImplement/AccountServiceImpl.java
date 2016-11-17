@@ -554,13 +554,20 @@ public class AccountServiceImpl {
                 }
             }
 
-            Double trainValue = 1d;
+            Double trainValue = 10d;
             ConfigurationEntity configEntityTrain = configurationRepo.findByKey(IContanst.CHECKIN_CONFIDINCE_TRAIN_KEY);
             if (configEntityTrain == null) {
                 trainValue = Double.valueOf(configEntityTrain.getValue());
             }
 
-            //TODO add face to person if image > 0.8
+
+            // if confidance > trainValue
+            if (confidance >= trainValue){
+                //add training
+                new FaceServiceImpl().addFaceImg(accountEntity.getId(), new ByteArrayInputStream(byteImage));
+                new DepartmentServiceImpl().training(IContanst.DEPARTMENT_MICROSOFT);
+            }
+
 
             //Response to Server
             response.setSuccess(true);
