@@ -118,7 +118,16 @@ extension FaceListViewController: UICollectionViewDelegate, UICollectionViewData
       return item
     } else {
       let item = collectionView.dequeueReusableCellWithReuseIdentifier(FaceCollectionCell.ClassName, forIndexPath: indexPath) as! FaceCollectionCell
-      let URL = NSURL(string: faceList[indexPath.item - 1].storePath)
+      
+      var http : String {
+        get {
+          let ip = NSUserDefaults.standardUserDefaults().objectForKey("ip") as? String ?? "192.168.43.93"
+          let http = prefixHttp + ip + ":8080"
+          return http
+        }
+      }
+      
+      let URL = NSURL(string: http + faceList[indexPath.item - 1].storePath)
       item.faceImage.image = UIImage(named: "placeholder")
       if let URL = URL {
         item.faceImage.af_setImageWithURL(URL)
