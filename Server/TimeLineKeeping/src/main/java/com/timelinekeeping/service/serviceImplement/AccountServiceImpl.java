@@ -68,6 +68,7 @@ public class AccountServiceImpl {
     @Autowired
     private ConfigurationRepo configurationRepo;
 
+
     private Logger logger = LogManager.getLogger(AccountServiceImpl.class);
 
     // METHOD
@@ -129,7 +130,7 @@ public class AccountServiceImpl {
             //prepair password
             String password = IContanst.PASSWORD_DEFAULT;
             ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.PASSWORD_DEFAULT_KEY);
-            if (configurationEntity != null){
+            if (configurationEntity != null) {
                 password = configurationEntity.getValue();
             }
 
@@ -512,11 +513,10 @@ public class AccountServiceImpl {
             }
 
 
-
             // Save TimeKeeping fro accountID
 
             Pair<Date, Date> datePair = TimeUtil.createDayBetween(new Date());
-            Page<TimeKeepingEntity> page = timekeepingRepo.findByAccountCheckinDate(accountEntity.getId(), datePair.getKey(), datePair.getValue(), new PageRequest(0,1));
+            Page<TimeKeepingEntity> page = timekeepingRepo.findByAccountCheckinDate(accountEntity.getId(), datePair.getKey(), datePair.getValue(), new PageRequest(0, 1));
 //            TimeKeepingEntity timeKeepingEntity = timekeepingRepo.findByAccountCheckinDate(accountEntity.getId(), new Date());
 
 
@@ -529,7 +529,7 @@ public class AccountServiceImpl {
                 String nameFile = FileUtils.createFolderCheckin(new AccountModel(accountEntity));
 
                 //store
-                new  StoreFileUtils().storeFile(nameFile, new ByteArrayInputStream(byteImage));
+                new StoreFileUtils().storeFile(nameFile, new ByteArrayInputStream(byteImage));
 
                 TimeKeepingEntity timeKeepingEntity = new TimeKeepingEntity();
                 timeKeepingEntity.setType(ETypeCheckin.CHECKIN_CAMERA);
@@ -554,13 +554,20 @@ public class AccountServiceImpl {
                 }
             }
 
-            Double trainValue = 1d;
+            Double trainValue = 10d;
             ConfigurationEntity configEntityTrain = configurationRepo.findByKey(IContanst.CHECKIN_CONFIDINCE_TRAIN_KEY);
-            if (configEntityTrain == null) {
+            if (configEntityTrain != null) {
                 trainValue = Double.valueOf(configEntityTrain.getValue());
             }
 
-            //TODO add face to person if image > 0.8
+
+            // if confidance > trainValue
+            if (confidance >= trainValue) {
+                //add training
+                new FaceServiceImpl().addFaceImg(accountEntity.getId(), new ByteArrayInputStream(byteImage));
+                new DepartmentServiceImpl().training(IContanst.DEPARTMENT_MICROSOFT);
+            }
+
 
             //Response to Server
             response.setSuccess(true);

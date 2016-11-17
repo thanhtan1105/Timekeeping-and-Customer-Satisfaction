@@ -4,6 +4,8 @@ import com.timelinekeeping.constant.EStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by lethanhtan on 9/19/16.
@@ -30,6 +32,10 @@ public class FaceEntity  implements Serializable {
     @Basic
     @Column(name = "active")
     private EStatus active = EStatus.ACTIVE;
+
+    @Basic
+    @Column(name = "create_time")
+    private Timestamp create_time = new Timestamp(new Date().getTime());
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", nullable = false)
@@ -83,6 +89,14 @@ public class FaceEntity  implements Serializable {
 
     public void setActive(EStatus active) {
         this.active = active;
+    }
+
+    public Timestamp getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(Timestamp create_time) {
+        this.create_time = create_time;
     }
 }
 

@@ -24,4 +24,5 @@ public interface FaceRepo extends JpaRepository<FaceEntity, Long> {
 
     @Query("SELECT f FROM FaceEntity f WHERE f.id = :id and f.active <> 0")
     FaceEntity findOne(@Param("id") Long id);
+
 }
