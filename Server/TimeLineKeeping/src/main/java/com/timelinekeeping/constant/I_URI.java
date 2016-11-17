@@ -27,6 +27,7 @@ public interface I_URI {
     String API_ACCOUNT = "/api/account";
     String API_ACCOUNT_ADD_FACE = "/add_face";
     String API_ACCOUNT_REMOVE_FACE = "/remove_face";
+    String API_ACCOUNT_REMOVE_ALL_FACE = "/remove_all_face";
     String API_ACCOUNT_LIST_FACE = "/list_face";
     String API_ACCOUNT_CHECK_IN = "/check_in";
     String API_ACCOUNT_LIST_MANAGER = "/list_manager";
