@@ -80,7 +80,7 @@ public class TimekeepingControllerWeb {
     }
 
     //TODO change to method GET
-    @RequestMapping(value = "/details", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String loadTimekeepingDetailsView(@RequestParam("accountTKDetailsModel") String accountTKDetailsModelJson,
                                              Model model) {
         logger.info("[Controller- Load Timekeeping Details View] BEGIN");
@@ -113,7 +113,7 @@ public class TimekeepingControllerWeb {
     }
 
     //TODO change to method GET
-    @RequestMapping(value = "/change_month", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/change_month", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String changeMonthTimekeepingView(@RequestParam("selectedMonth") String selectedMonth,
                                              Model model, HttpSession session) {
         logger.info("[Controller- Change Month Timekeeping View] BEGIN");
@@ -159,7 +159,7 @@ public class TimekeepingControllerWeb {
     }
 
     //TODO change to method GET
-    @RequestMapping(value = "/details/change_month", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/details/change_month", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String changeMonthTimekeepingDetailsView(@RequestParam("selectedMonth") String selectedMonth,
                                                     @RequestParam("accountId") Long accountId,
                                                     Model model) {

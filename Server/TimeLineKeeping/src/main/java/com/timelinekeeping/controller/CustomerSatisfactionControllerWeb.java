@@ -133,7 +133,7 @@ public class CustomerSatisfactionControllerWeb {
     }
 
     //TODO
-    @RequestMapping(value = "/month/details", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/month/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String loadCustomerSatisfactionDetailsView(@RequestParam("accountCustomerServiceDetails") String accountCustomerServiceDetailsJson,
                                                       Model model) {
         logger.info("[Controller- Load Customer Satisfaction Month Details View] BEGIN");
@@ -168,7 +168,7 @@ public class CustomerSatisfactionControllerWeb {
     }
 
     //TODO change method GET
-    @RequestMapping(value = "/change_month", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/change_month", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String changeMonthCustomerSatisfactionView(@RequestParam("selectedMonth") String selectedMonth,
                                                       Model model, HttpSession session) {
         logger.info("[Controller- Change Month Customer Satisfaction Month View] BEGIN");
@@ -216,7 +216,7 @@ public class CustomerSatisfactionControllerWeb {
     }
 
     //TODO change method GET
-    @RequestMapping(value = "/change_date", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/change_date", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String changeDateCustomerSatisfactionView(@RequestParam("selectedMonth") String selectedMonth,
                                                      Model model, HttpSession session) {
         logger.info("[Controller- Change Date Customer Satisfaction Date View] BEGIN");
@@ -263,7 +263,7 @@ public class CustomerSatisfactionControllerWeb {
         return url;
     }
 
-    @RequestMapping(value = "/details/change_month", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/details/change_month", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String changeMonthDetailsCustomerSatisfactionView(@RequestParam("selectedMonth") String selectedMonth,
                                                              @RequestParam("accountId") Long accountId,
                                                              Model model) {

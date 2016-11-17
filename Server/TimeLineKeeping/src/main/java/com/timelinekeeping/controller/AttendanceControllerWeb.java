@@ -74,7 +74,7 @@ public class AttendanceControllerWeb {
 
 
     //TODO Change Get
-    @RequestMapping(value = "/change_month", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/change_month", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String changeMonthAttendanceView(@RequestParam("selectedMonth") String selectedMonth,
                                             Model model, HttpSession session) {
         logger.info("[Controller- Change Month Attendance View] BEGIN");
