@@ -66,7 +66,13 @@ public class AccountServiceImpl {
     private TimekeepingRepo timekeepingRepo;
 
     @Autowired
+    private FaceServiceImpl faceService;
+
+    @Autowired
     private ConfigurationRepo configurationRepo;
+
+    @Autowired
+    private DepartmentServiceImpl departmentService;
 
     private Logger logger = LogManager.getLogger(AccountServiceImpl.class);
 
@@ -555,7 +561,7 @@ public class AccountServiceImpl {
 
             Double trainValue = 10d;
             ConfigurationEntity configEntityTrain = configurationRepo.findByKey(IContanst.CHECKIN_CONFIDINCE_TRAIN_KEY);
-            if (configEntityTrain == null) {
+            if (configEntityTrain != null) {
                 trainValue = Double.valueOf(configEntityTrain.getValue());
             }
 
@@ -563,8 +569,8 @@ public class AccountServiceImpl {
             // if confidance > trainValue
             if (confidance >= trainValue) {
                 //add training
-                new FaceServiceImpl().addFaceImg(accountEntity.getId(), new ByteArrayInputStream(byteImage));
-                new DepartmentServiceImpl().training(IContanst.DEPARTMENT_MICROSOFT);
+                faceService.addFaceImg(accountEntity.getId(), new ByteArrayInputStream(byteImage));
+                departmentService.training(IContanst.DEPARTMENT_MICROSOFT);
             }
 
 
