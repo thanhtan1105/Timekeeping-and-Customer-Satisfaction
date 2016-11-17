@@ -1,9 +1,10 @@
 package com.timelinekeeping.util;
 
-import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.model.DepartmentModel;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.geom.AffineTransform;
@@ -17,6 +18,7 @@ import java.io.*;
 public class StoreFileUtils {
 
     private Logger logger = LogManager.getLogger(StoreFileUtils.class);
+
     public String storeFile(String nameFile, InputStream fileStore) {
 
         try {
