@@ -119,10 +119,11 @@
                             <font th:if="${attendance.type != null}"
                                   th:text="${attendance.type.index == 0}? (${attendance.confidence > 0 and attendance.confidence != null}? 'Camera ['+${attendance.confidence}+'%]': 'Camera'): (${attendance.type.index == 1}? 'Manual': (${attendance.type.index == 2}? ''))"></font>
                             <font th:if="${attendance.type == null}">-</font>
+                            &nbsp;
                             <button th:if="${attendance.type != null and attendance.type.index == 0}"
-                                    class="btn bg-aqua-active btn-sm" type="button" title="View Image"
+                                    class="btn bg-orange-active btn-sm" type="button" title="View Image"
                                     th:onclick="'show_image_employee(\''+ ${attendance.imagePath} + '\')'">
-                                <i class="fa fa-eye"></i>
+                                <i class="fa fa-image"></i>
                             </button>
                         </td>
                         <td>

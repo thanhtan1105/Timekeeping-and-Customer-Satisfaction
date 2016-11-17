@@ -11,30 +11,26 @@
 <div layout:fragment="content">
     <!-- Main content -->
     <section class="content font-17">
-        <!-- Your Page Content Here -->
         <!-- Info: department, date -->
-        <div style="margin-bottom: 10px">
-            <div class="row text-success" style="font-size: 24px;">
-                <div class="col-sm-5 text-right text-bold">
-                    <i class="fa fa-calendar-check-o"></i>
-                </div>
-                <div class="col-sm-6 text-left">
-                    <font>Check-in Manual</font>
+        <div style="margin-bottom: 20px">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <label><font class="font-24"><i class="fa fa-calendar-check-o"></i> Check-in Manual</font></label>
                 </div>
             </div>
             <!-- department -->
-            <div class="row text-success" style="font-size: 18px;">
-                <div class="col-sm-5 text-right text-bold">
-                    <font>Department:</font></div>
+            <div class="row font-18">
+                <div class="col-sm-6 text-right">
+                    <label>Department:</label></div>
                 <div class="col-sm-6 text-left">
                     <font th:if="${session} and ${session.UserSession}"
                           th:text="${session.UserSession.department.name}"></font></div>
             </div>
             <!-- /.end department -->
             <!-- month -->
-            <div class="row text-success" style="font-size: 18px;">
-                <div class="col-sm-5 text-right text-bold">
-                    <font>Date:</font></div>
+            <div class="row font-18">
+                <div class="col-sm-6 text-right">
+                    <label>Date:</label></div>
                 <div class="col-sm-6 text-left">
                     <font th:text="${#dates.format(CurrentDate, 'yyyy-MMM-dd')}"></font></div>
             </div>
@@ -44,19 +40,8 @@
             <div class="box-header">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h3 class="box-title text-success"><i class="fa fa-users"></i> Employees
+                        <h3 class="box-title text-success font-18"><i class="fa fa-users"></i> Employees
                             List</h3>
-                    </div>
-                    <div class="col-sm-6 text-right">
-                        <div class="input-group" style="margin-left: 60%">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-success btn-flat btn-sm" type="button">
-                                        <i class="glyphicon glyphicon-search"></i>
-                                    </button>
-                                </span>
-                            <input type="text" class="form-control input-sm" placeholder="Enter Employee Name"
-                                   style="font-size: 14px"/>
-                        </div>
                     </div>
                 </div>
             </div>
