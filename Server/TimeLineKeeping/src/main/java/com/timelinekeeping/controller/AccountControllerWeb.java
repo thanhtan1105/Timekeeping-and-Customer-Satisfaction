@@ -12,6 +12,7 @@ import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +37,7 @@ public class AccountControllerWeb {
     @Autowired
     private DepartmentServiceImpl departmentService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String loadManagementAccountView(Model model) {
         // set side-bar
         String sideBar = IContanst.SIDE_BAR_ADMIN_MANAGEMENT_ACC;
@@ -47,7 +48,7 @@ public class AccountControllerWeb {
         return "/views/admin/management_acc/management_acc";
     }
 
-    @RequestMapping(value = "/addAccount", method = RequestMethod.GET)
+    @RequestMapping(value = "/addAccount", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String loadAddAccountView(Model model) {
         logger.info("[Controller- Load Add Account View] BEGIN");
         // Get all roles for selection
@@ -83,7 +84,7 @@ public class AccountControllerWeb {
         return "/views/admin/management_acc/add_acc";
     }
 
-    @RequestMapping(value = "/addAccountProcessing", produces = "text/plain;charset=UTF-8", method = RequestMethod.POST)
+    @RequestMapping(value = "/addAccountProcessing", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String addAccount(@RequestParam("username") String username,
                              @RequestParam("fullName") String fullName,
                              @RequestParam("roleId") String roleId,

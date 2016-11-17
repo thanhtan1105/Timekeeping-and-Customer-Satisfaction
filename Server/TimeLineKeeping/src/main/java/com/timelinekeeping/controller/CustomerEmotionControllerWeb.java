@@ -5,6 +5,7 @@ import com.timelinekeeping.constant.IViewConst;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.AccountModel;
 import org.apache.log4j.Logger;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ public class CustomerEmotionControllerWeb {
 
     private Logger logger = Logger.getLogger(CustomerEmotionControllerWeb.class);
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String loadCustomerEmotionView(Model model, HttpSession session) {
         logger.info("[Controller- Load Customer Emotion View] BEGIN");
         String url = IViewConst.LOGIN_VIEW;

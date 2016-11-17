@@ -46,7 +46,7 @@ public class SuggestionService {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             ESuggestionSubject result = ESuggestionSubject.ANH;
-            if (age < 20) {
+            if (age < 15) {
                 result = ESuggestionSubject.EM;
 //            } else if (age < 55) {
 //                if (gender == Gender.FEMALE) {

@@ -14,6 +14,7 @@ import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.TimeUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +37,7 @@ public class TimekeepingControllerWeb {
     @Autowired
     private TimekeepingServiceImpl timekeepingService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String loadTimekeepingView(Model model, HttpSession session) {
         logger.info("[Controller- Load Timekeeping View] BEGIN");
         String url = IViewConst.LOGIN_VIEW;
@@ -78,7 +79,8 @@ public class TimekeepingControllerWeb {
         return url;
     }
 
-    @RequestMapping(value = "/details", method = RequestMethod.POST)
+    //TODO change to method GET
+    @RequestMapping(value = "/details", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String loadTimekeepingDetailsView(@RequestParam("accountTKDetailsModel") String accountTKDetailsModelJson,
                                              Model model) {
         logger.info("[Controller- Load Timekeeping Details View] BEGIN");
@@ -110,7 +112,8 @@ public class TimekeepingControllerWeb {
         return IViewConst.TIME_KEEPING_DETAILS_VIEW;
     }
 
-    @RequestMapping(value = "/change_month", method = RequestMethod.POST)
+    //TODO change to method GET
+    @RequestMapping(value = "/change_month", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String changeMonthTimekeepingView(@RequestParam("selectedMonth") String selectedMonth,
                                              Model model, HttpSession session) {
         logger.info("[Controller- Change Month Timekeeping View] BEGIN");
@@ -155,7 +158,8 @@ public class TimekeepingControllerWeb {
         return url;
     }
 
-    @RequestMapping(value = "/details/change_month", method = RequestMethod.POST)
+    //TODO change to method GET
+    @RequestMapping(value = "/details/change_month", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String changeMonthTimekeepingDetailsView(@RequestParam("selectedMonth") String selectedMonth,
                                                     @RequestParam("accountId") Long accountId,
                                                     Model model) {

@@ -11,6 +11,7 @@ import com.timelinekeeping.service.serviceImplement.DepartmentServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +35,7 @@ public class DepartmentControllerWeb {
     @Autowired
     private DepartmentServiceImpl departmentService;
 
-    @RequestMapping("/")
+    @RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String loadManagementDepartmentView(Model model) {
         // set side-bar
         String sideBar = IContanst.SIDE_BAR_ADMIN_MANAGEMENT_DEPART;
@@ -45,7 +46,7 @@ public class DepartmentControllerWeb {
         return "/views/admin/management_depart/management_depart";
     }
 
-    @RequestMapping(value = "/addDepartment", method = RequestMethod.GET)
+    @RequestMapping(value = "/addDepartment", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String loadAddDepartmentView(Model model) {
         // set side-bar
         String sideBar = IContanst.SIDE_BAR_ADMIN_MANAGEMENT_DEPART;
@@ -56,7 +57,7 @@ public class DepartmentControllerWeb {
         return "/views/admin/management_depart/add_depart";
     }
 
-    @RequestMapping(value = "/addDepartmentProcessing", method = RequestMethod.POST)
+    @RequestMapping(value = "/addDepartmentProcessing", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String addDepartment(@RequestParam("departmentCode") String departmentCode,
                                 @RequestParam("departmentName") String departmentName,
                                 @RequestParam("description") String description,
@@ -95,7 +96,7 @@ public class DepartmentControllerWeb {
         return url;
     }
 
-    @RequestMapping(value = "/search2", method = RequestMethod.POST)
+    @RequestMapping(value = "/search2", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String search(@RequestParam(value = "searchValue") String searchValue) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         logger.info(Thread.currentThread().getStackTrace()[1].getMethodName() + "[searchValue] " + searchValue);

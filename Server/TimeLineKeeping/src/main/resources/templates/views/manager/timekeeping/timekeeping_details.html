@@ -116,7 +116,7 @@
                         </td>
                         <td>
                             <font th:if="${attendance.type != null}"
-                                  th:text="${attendance.type.index == 0} ? 'Camera' : (${attendance.type.index == 1} ? 'Manual':  (${attendance.type.index == 2}? '-'))"></font>
+                                  th:text="${attendance.type.index == 0} ? ('Camera' + (${attendance.confidence > 0} ? [${attendance.confidence} %] : '')) : (${attendance.type.index == 1} ? 'Manual':  (${attendance.type.index == 2}? '-'))"></font>
                             <font th:if="${attendance.type == null}">-</font>
                         </td>
                         <td>
