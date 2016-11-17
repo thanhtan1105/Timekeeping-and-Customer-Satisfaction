@@ -12,7 +12,7 @@ import java.sql.Timestamp;
  */
 
 @Entity
-@Table(name = "notification", schema = "mydb")
+@Table(name = "notification")
 public class NotificationEntity implements Serializable {
 
     @Id

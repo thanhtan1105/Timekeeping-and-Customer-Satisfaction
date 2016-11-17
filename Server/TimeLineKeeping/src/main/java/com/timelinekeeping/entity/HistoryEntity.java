@@ -10,7 +10,7 @@ import java.util.Date;
  * Created by HienTQSE60896 on 11/8/2016.
  */
 @Entity
-@Table(name = "history", schema = "mydb")
+@Table(name = "history")
 public class HistoryEntity {
 
     @Id
