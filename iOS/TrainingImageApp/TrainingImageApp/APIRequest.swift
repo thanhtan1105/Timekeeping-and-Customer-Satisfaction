@@ -50,6 +50,15 @@ class APIRequest: NSObject {
     webservice_GET(url, params: params, headersParams: nil, completion: onCompletion)
   }
   
+  func deleteAllFace(userId: String, onCompletion: ServiceResponse) {
+    let url = http + urlDeleteAllFace
+    let params: [String : AnyObject] = [
+      "accountId" : userId
+    ]
+    
+    webservice_GET(url, params: params, headersParams: nil, completion: onCompletion)
+  }
+  
   func sendTrainingStatus(departmentId: String, onCompletion: ServiceResponse) {
     let url = http + urlSendTrainingStatus
     let params: [String : AnyObject] = [

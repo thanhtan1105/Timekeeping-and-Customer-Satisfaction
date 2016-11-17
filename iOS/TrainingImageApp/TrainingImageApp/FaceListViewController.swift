@@ -49,6 +49,22 @@ class FaceListViewController: BaseViewController {
     presentViewController(alertVC, animated: true, completion: nil)
       
   }
+  
+  @IBAction func onDeleteAllTapped(sender: UIBarButtonItem) {
+    let alertVC = UIAlertController(title: "Delete all face ", message: "Do you want to delete all face", preferredStyle: .Alert)
+    alertVC.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction) in
+      // show confirm again
+      self.showDeleteAgain()
+    }))
+    
+    alertVC.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action: UIAlertAction) in
+      
+    }))
+    
+    presentViewController(alertVC, animated: true, completion: nil)
+  }
+  
+  
 }
 
 // MARK: - Private method
@@ -84,6 +100,44 @@ extension FaceListViewController {
         onCompletion(isSuccess: true)
       }
     }
+  }
+  
+  private func deleteAllFace(userId: String, onCompletion: (isSuccess: Bool) -> Void) {
+    APIRequest.shareInstance.deleteAllFace(userId) { (response: ResponsePackage?, error: ErrorWebservice?) in
+      guard error == nil else {
+        print("Fail to remove face")
+        onCompletion(isSuccess: false)
+        return
+      }
+      
+      let dict = response?.response as! [String: AnyObject]
+      let success = dict["success"] as? Int
+      if success == 1 {
+        onCompletion(isSuccess: true)
+      }
+
+    }
+  }
+  
+  private func showDeleteAgain() {
+    let alertVC = UIAlertController(title: "Remove all face ", message: "Are you sure you want to delete all face", preferredStyle: .Alert)
+    
+    alertVC.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action: UIAlertAction) in
+      
+    }))
+    
+    alertVC.addAction(UIAlertAction(title: "Remove", style: .Destructive, handler: { (action: UIAlertAction) in
+      // call api delete
+      let id = String(self.employee.id!)   // send person code
+      
+      self.deleteAllFace(id, onCompletion: { (isSuccess) in
+        
+      })
+      
+    }))
+    
+    presentViewController(alertVC, animated: true, completion: nil)
+
   }
 }
 
