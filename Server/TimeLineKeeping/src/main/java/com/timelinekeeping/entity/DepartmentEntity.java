@@ -14,7 +14,7 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "department", schema = "mydb")
+@Table(name = "department")
 public class DepartmentEntity implements Serializable {
 
     @Id

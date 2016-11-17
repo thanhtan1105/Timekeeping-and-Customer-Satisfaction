@@ -13,7 +13,7 @@ import java.util.Set;
  * Created by HienTQSE60896 on 9/30/2016.
  */
 @Entity
-@Table(name = "customer_service", schema = "mydb")
+@Table(name = "customer_service")
 public class CustomerServiceEntity {
 
     @Id

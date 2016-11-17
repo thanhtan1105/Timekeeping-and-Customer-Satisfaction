@@ -18,7 +18,7 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "account", schema = "mydb")
+@Table(name = "account")
 public class AccountEntity implements Serializable {
 
     @Id
@@ -94,10 +94,6 @@ public class AccountEntity implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
     private AccountEntity manager;
-
-//    @OneToMany(mappedBy = "accountEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    private Set<FaceEntity> faces;
-
 
     public AccountEntity() {
 

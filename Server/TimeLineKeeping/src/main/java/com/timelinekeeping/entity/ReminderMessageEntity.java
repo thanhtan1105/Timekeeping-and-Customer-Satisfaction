@@ -13,7 +13,7 @@ import java.util.Set;
  * Created by HienTQSE60896 on 9/20/2016.
  */
 @Entity
-@Table(name = "reminder_message", schema = "mydb")
+@Table(name = "reminder_message")
 public class ReminderMessageEntity implements Serializable {
 
 
