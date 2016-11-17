@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 
 @Entity
-@Table(name = "face", schema = "mydb")
+@Table(name = "face")
 public class FaceEntity  implements Serializable {
 
     @Id

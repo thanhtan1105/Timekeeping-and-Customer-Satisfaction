@@ -16,7 +16,7 @@ import java.util.Date;
 
 
 @Entity
-@Table(name = "emotion", schema = "mydb")
+@Table(name = "emotion")
 public class EmotionCustomerEntity implements Serializable {
 
     @Id
