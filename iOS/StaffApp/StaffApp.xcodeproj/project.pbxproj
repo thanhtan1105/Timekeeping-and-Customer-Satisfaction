@@ -953,7 +953,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.supercoolapps.employeeapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "StaffApp/StaffApp-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Debug;
 		};
@@ -974,6 +974,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.supercoolapps.employeeapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "StaffApp/StaffApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Release;
 		};
