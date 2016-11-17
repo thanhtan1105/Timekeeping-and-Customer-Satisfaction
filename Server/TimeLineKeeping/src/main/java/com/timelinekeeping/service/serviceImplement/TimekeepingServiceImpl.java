@@ -145,8 +145,8 @@ public class TimekeepingServiceImpl {
     public TimekeepingResponseModel getTimeKeeping(Long managerId, Integer year, Integer month) {
 
         //get from_time, to_time
-        Date timeFrom = TimeUtil.parseToDate(IContanst.TIME_CHECK_IN_SYSTEM_START, I_TIME.TIME_MINUTE);
-        Date timeto = TimeUtil.parseToDate(IContanst.TIME_CHECK_IN_SYSTEM_END, I_TIME.TIME_MINUTE);
+//        Date timeFrom = TimeUtil.parseToDate(IContanst.TIME_CHECK_IN_SYSTEM_START, I_TIME.TIME_MINUTE);
+//        Date timeto = TimeUtil.parseToDate(IContanst.TIME_CHECK_IN_SYSTEM_END, I_TIME.TIME_MINUTE);
 
         String beginTimeCheckin = configurationRepo.findByKey(IContanst.TIME_CHECK_IN_SYSTEM_START_KEY).getValue();
         String endTimeCheckin = configurationRepo.findByKey(IContanst.TIME_CHECK_IN_SYSTEM_END_KEY).getValue();

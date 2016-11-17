@@ -19,6 +19,8 @@ public class ConfigurationModel {
 
     private Double checkinConfident;
 
+    private Double trainConfident;
+
     private String timeCheckinBegin;
 
     private String timeCheckinEnd;
@@ -38,6 +40,10 @@ public class ConfigurationModel {
         if (ValidateUtil.isNotEmpty(entity.get(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY))) {
             this.checkinConfident = Double.valueOf(entity.get(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY));
         }
+
+        if (ValidateUtil.isNotEmpty(entity.get(IContanst.CHECKIN_CONFIDINCE_TRAIN_KEY))) {
+            this.trainConfident = Double.valueOf(entity.get(IContanst.CHECKIN_CONFIDINCE_TRAIN_KEY));
+        }
         this.timeCheckinBegin = entity.get(IContanst.TIME_CHECK_IN_SYSTEM_START_KEY);
         this.timeCheckinEnd = entity.get(IContanst.TIME_CHECK_IN_SYSTEM_END_KEY);
     }
@@ -52,6 +58,8 @@ public class ConfigurationModel {
             map.put(IContanst.COMPANY_EMAIL_KEY, String.valueOf(emailCompay));
         if (checkinConfident != null & checkinConfident > 0)
             map.put(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY, String.valueOf(checkinConfident));
+        if (trainConfident != null & trainConfident > 0)
+            map.put(IContanst.CHECKIN_CONFIDINCE_TRAIN_KEY, String.valueOf(trainConfident));
         if (timeCheckinBegin != null)
             map.put(IContanst.TIME_CHECK_IN_SYSTEM_START_KEY, String.valueOf(timeCheckinBegin));
         if (timeCheckinEnd != null)
@@ -105,5 +113,13 @@ public class ConfigurationModel {
 
     public void setTimeCheckinEnd(String timeCheckinEnd) {
         this.timeCheckinEnd = timeCheckinEnd;
+    }
+
+    public Double getTrainConfident() {
+        return trainConfident;
+    }
+
+    public void setTrainConfident(Double trainConfident) {
+        this.trainConfident = trainConfident;
     }
 }

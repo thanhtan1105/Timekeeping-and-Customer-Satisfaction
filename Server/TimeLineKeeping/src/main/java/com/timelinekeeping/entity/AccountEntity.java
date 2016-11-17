@@ -100,7 +100,7 @@ public class AccountEntity implements Serializable {
 
 
     public AccountEntity() {
-        this.setPassword(IContanst.PASSWORD_DEFAULT);
+
     }
 
     public AccountEntity(AccountModifyModel model) {
@@ -113,7 +113,6 @@ public class AccountEntity implements Serializable {
             this.gender = model.getGender();
             this.note = model.getNote();
         }
-        this.setPassword(IContanst.PASSWORD_DEFAULT);
     }
 
     public void update(AccountModifyModel model) {

@@ -56,6 +56,7 @@ public interface IContanst {
     String COMPANY_EMAIL_KEY = "email.company";
     String PASSWORD_DEFAULT_KEY = "password.default";
     String CHECKIN_CONFIDINCE_CORRECT_KEY = "checkin.accept.confident";
+    String CHECKIN_CONFIDINCE_TRAIN_KEY = "checkin.training.confident";
     String TIME_CHECK_IN_SYSTEM_START_KEY = "time.checkin.begin";
     String TIME_CHECK_IN_SYSTEM_END_KEY = "time.checkin.end";
     /////-----
@@ -122,5 +123,6 @@ public interface IContanst {
     String DIRECTOR_EMOTION = "Emotion";
     String DIRECTOR_CHECKIN = "Checkin";
     String DIRECTOR_TRAIN = "Train";
+    String DIRECTOR_TIMEKEEPING = "Timekeeping";
 
 }
