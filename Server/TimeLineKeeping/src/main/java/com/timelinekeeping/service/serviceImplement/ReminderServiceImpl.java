@@ -26,6 +26,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -139,6 +140,7 @@ public class ReminderServiceImpl {
                     AccountEntity employee = accountRepo.findOne(employeeId);
                     NotificationEntity notificationEntity = new NotificationEntity();
                     notificationEntity.setReminderMessage(entityResult);
+                    notificationEntity.setTimeNotify(new Timestamp(new Date().getTime()));
                     notificationEntity.setAccountReceive(employee);
                     notificationRepo.save(notificationEntity);
                 }
