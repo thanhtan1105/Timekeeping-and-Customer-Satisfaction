@@ -237,7 +237,7 @@ public class ReminderServiceImpl {
                 entity.getTitle(), entity.getRoom().getName(), TimeUtil.timeToString(entity.getTime(), I_TIME.FULL_TIME_MINUS));
         String header = entity.getTitle();
         Set<NotificationEntity> notificationSet = notificationRepo.findReminder(entity.getId());
-        Long timeNotification = (entity.getTime().getTime() - entity.getCreateDate().getTime()) / 1000;
+        Long timeNotification = (entity.getTime().getTime() - new Date().getTime()) / 1000;
         for (NotificationEntity notificationEntity : notificationSet) {
             OneSignalNotification.instance().pushNotification(new AccountModel(notificationEntity.getAccountReceive()), header, message, timeNotification);
         }
