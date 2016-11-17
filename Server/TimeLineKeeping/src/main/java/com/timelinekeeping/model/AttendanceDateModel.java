@@ -110,8 +110,12 @@ public class AttendanceDateModel {
         this.imagePath = imagePath;
     }
 
-    public Double getConfidence() {
-        return confidence;
+    public Integer getConfidence() {
+        if (confidence > 0) {
+            return (int) ( confidence * 100);
+        }else{
+            return 0;
+        }
     }
 
     public void setConfidence(Double confidence) {
