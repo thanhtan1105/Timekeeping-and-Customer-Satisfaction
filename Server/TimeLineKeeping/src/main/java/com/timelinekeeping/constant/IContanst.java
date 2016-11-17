@@ -71,6 +71,8 @@ public interface IContanst {
     String DEFAULT_INT = -1 + "";
 
 
+
+
     /**
      * Side-bar
      */
@@ -124,5 +126,7 @@ public interface IContanst {
     String DIRECTOR_CHECKIN = "Checkin";
     String DIRECTOR_TRAIN = "Train";
     String DIRECTOR_TIMEKEEPING = "Timekeeping";
+
+    int TIME_LIVE_ONE_SIGNAL = 3 * 24 *  60 * 60;
 
 }

@@ -2,6 +2,7 @@ package com.timelinekeeping.service.blackService;
 
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.constant.Gender;
+import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.AccountModel;
 
 import java.io.OutputStream;
@@ -31,6 +32,10 @@ public class OneSignalNotification {
      * push notification for device
      */
     public void pushNotification(AccountModel account, String header, String message) {
+        pushNotification(account, header, message, (long) IContanst.TIME_LIVE_ONE_SIGNAL);
+    }
+
+    public void pushNotification(AccountModel account, String header, String message, Long time) {
         try {
             String jsonResponse;
             String urlString = AppConfigKeys.getInstance().getApiPropertyValue("api.one.signal.notification.url");
@@ -51,6 +56,7 @@ public class OneSignalNotification {
                     + "\"app_id\": \"dbd7cdd6-9555-416b-bc08-21aa24164299\","
                     + "\"include_player_ids\" : [\"" + account.getKeyOneSignal() + "\"],"
                     + "\"data\": {\"id\": " + account.getId() + "},"
+                    + "\"ttl\": " + time + ","
                     + "\"headings\": {\"en\": \"" + header + "\"},"
                     + "\"contents\": {\"en\": \"" + message + "\"}"
                     + "}";

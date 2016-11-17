@@ -232,16 +232,16 @@ public class ReminderServiceImpl {
         }
     }
 
-    private void notification(ReminderMessageEntity entity){
+    private void notification(ReminderMessageEntity entity) {
         String message = String.format("Thông báo cuộc họp: \nChủ đề: %s \nPhòng họp: %s \nThời gian: %s\n",
                 entity.getTitle(), entity.getRoom().getName(), TimeUtil.timeToString(entity.getTime(), I_TIME.FULL_TIME_MINUS));
         String header = entity.getTitle();
         Set<NotificationEntity> notificationSet = notificationRepo.findReminder(entity.getId());
-        for (NotificationEntity notificationEntity : notificationSet){
-            OneSignalNotification.instance().pushNotification(new AccountModel(notificationEntity.getAccountReceive()), header, message);
+        Long timeNotification = (entity.getTime().getTime() - entity.getCreateDate().getTime()) / 1000;
+        for (NotificationEntity notificationEntity : notificationSet) {
+            OneSignalNotification.instance().pushNotification(new AccountModel(notificationEntity.getAccountReceive()), header, message, timeNotification);
         }
     }
-
 
 
     public Boolean delete(Long reminderId) {
@@ -298,8 +298,8 @@ public class ReminderServiceImpl {
             PageRequest pageRequest = new PageRequest(page, size);
 
             //prepare Data
-            Date dateFrom = reminderQuery.getTimeFrom() != null? new Date(reminderQuery.getTimeFrom()) : null;
-            Date dateTo = reminderQuery.getTimeTo() != null? new Date(reminderQuery.getTimeTo()) : null;
+            Date dateFrom = reminderQuery.getTimeFrom() != null ? new Date(reminderQuery.getTimeFrom()) : null;
+            Date dateTo = reminderQuery.getTimeTo() != null ? new Date(reminderQuery.getTimeTo()) : null;
             //save DB
             Page<ReminderMessageEntity> pageEntity = reminderRepo.search(reminderQuery.getTitle(),
                     dateFrom, dateTo, reminderQuery.getRoomId(), reminderQuery.getEmployeeSet(),
