@@ -129,7 +129,7 @@ public class AccountServiceImpl {
             //prepair password
             String password = IContanst.PASSWORD_DEFAULT;
             ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.PASSWORD_DEFAULT_KEY);
-            if (configurationEntity != null){
+            if (configurationEntity != null) {
                 password = configurationEntity.getValue();
             }
 
@@ -512,11 +512,10 @@ public class AccountServiceImpl {
             }
 
 
-
             // Save TimeKeeping fro accountID
 
             Pair<Date, Date> datePair = TimeUtil.createDayBetween(new Date());
-            Page<TimeKeepingEntity> page = timekeepingRepo.findByAccountCheckinDate(accountEntity.getId(), datePair.getKey(), datePair.getValue(), new PageRequest(0,1));
+            Page<TimeKeepingEntity> page = timekeepingRepo.findByAccountCheckinDate(accountEntity.getId(), datePair.getKey(), datePair.getValue(), new PageRequest(0, 1));
 //            TimeKeepingEntity timeKeepingEntity = timekeepingRepo.findByAccountCheckinDate(accountEntity.getId(), new Date());
 
 
@@ -529,7 +528,7 @@ public class AccountServiceImpl {
                 String nameFile = FileUtils.createFolderCheckin(new AccountModel(accountEntity));
 
                 //store
-                new  StoreFileUtils().storeFile(nameFile, new ByteArrayInputStream(byteImage));
+                new StoreFileUtils().storeFile(nameFile, new ByteArrayInputStream(byteImage));
 
                 TimeKeepingEntity timeKeepingEntity = new TimeKeepingEntity();
                 timeKeepingEntity.setType(ETypeCheckin.CHECKIN_CAMERA);
@@ -562,7 +561,7 @@ public class AccountServiceImpl {
 
 
             // if confidance > trainValue
-            if (confidance >= trainValue){
+            if (confidance >= trainValue) {
                 //add training
                 new FaceServiceImpl().addFaceImg(accountEntity.getId(), new ByteArrayInputStream(byteImage));
                 new DepartmentServiceImpl().training(IContanst.DEPARTMENT_MICROSOFT);

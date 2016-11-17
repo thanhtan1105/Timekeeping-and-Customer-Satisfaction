@@ -1,5 +1,6 @@
 package com.timelinekeeping.service.serviceImplement;
 
+import ch.qos.logback.core.rolling.helper.FileStoreUtil;
 import com.timelinekeeping._config.AppConfigKeys;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.common.BaseResponse;
@@ -16,6 +17,7 @@ import com.timelinekeeping.util.FileUtils;
 import com.timelinekeeping.util.ServiceUtils;
 import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.ValidateUtil;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,16 +112,18 @@ public class FaceServiceImpl {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
 
-//            InputStream[] streams = UtilApps.muitleStream(imgStream, 2);
+            byte[] byteImage = IOUtils.toByteArray(imgStream);
+            new StoreFileUtils().storeFile("1. cdsere.jpg", new ByteArrayInputStream(byteImage));
             //rotate image
-            byte[] byteImage = StoreFileUtils.rotateImage(imgStream);
+            byte[] byteImageRoute = StoreFileUtils.rotateImage(new ByteArrayInputStream(byteImage));
+            new StoreFileUtils().storeFile("2. ajbhdbf.jpg", new ByteArrayInputStream(byteImageRoute));
             AccountEntity accountEntity = accountRepo.findOne(accountId);
             if (accountEntity == null) {
                 return null;
             }
 
             String departmentCode = IContanst.DEPARTMENT_MICROSOFT;
-            BaseResponse baseResponse = personServiceMCS.addFaceImg(departmentCode, accountEntity.getUserCode(), new ByteArrayInputStream(byteImage));
+            BaseResponse baseResponse = personServiceMCS.addFaceImg(departmentCode, accountEntity.getUserCode(), byteImageRoute);
             logger.info("RESPONSE" + baseResponse);
             if (!baseResponse.isSuccess()) {
                 return null;

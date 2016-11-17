@@ -118,7 +118,7 @@ public class PersonServiceMCSImpl {
         }
     }
 
-    public BaseResponse addFaceImg(String persongroupId, String personId, InputStream imgStream) throws URISyntaxException, IOException {
+    public BaseResponse addFaceImg(String persongroupId, String personId, byte[] byteImg) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_MCS + Thread.currentThread().getStackTrace()[1].getMethodName());
             //STORE FILE
@@ -130,7 +130,7 @@ public class PersonServiceMCSImpl {
             logger.info("url: " + url);
 
             /** entity*/
-            byte[] byteImg = IOUtils.toByteArray(imgStream);
+//            byte[] byteImg = IOUtils.toByteArray(imgStream);
 
             /** type Response JSON List*/
 

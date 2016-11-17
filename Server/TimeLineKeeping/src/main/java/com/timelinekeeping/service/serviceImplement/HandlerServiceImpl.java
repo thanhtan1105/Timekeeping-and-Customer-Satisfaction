@@ -19,7 +19,9 @@ import com.timelinekeeping.repository.FaceRepo;
 import com.timelinekeeping.repository.HistoryRepo;
 import com.timelinekeeping.util.FileUtils;
 import com.timelinekeeping.util.JsonUtil;
+import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.ValidateUtil;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,7 +119,9 @@ public class HandlerServiceImpl {
                                 String nameFile = FileUtils.addParentFolderImage(faceModel.getStorePath());
                                 //create faceImage
                                 InputStream imageStream = new FileInputStream(nameFile);
-                                BaseResponse response = personServiceMCS.addFaceImg(IContanst.DEPARTMENT_MICROSOFT, personCode, imageStream);
+                                byte[] byteImage = StoreFileUtils.rotateImage(imageStream);
+//                                byte[] byteImage = IOUtils.toByteArray(imageStream);
+                                BaseResponse response = personServiceMCS.addFaceImg(IContanst.DEPARTMENT_MICROSOFT, personCode, byteImage);
 //                            BaseResponse response = personServiceMCS.addFaceUrl(IContanst.DEPARTMENT_MICROSOFT, personCode, faceModel.getStorePath());
                                 if (response.isSuccess() == true) {
                                     Map<String, String> mapResult = (Map<String, String>) response.getData();
@@ -165,9 +169,12 @@ public class HandlerServiceImpl {
                                     }
                                     // change addImage to Face
                                     String nameFile = FileUtils.addParentFolderImage(faceModel.getStorePath());
+
                                     //create faceImage
                                     InputStream imageStream = new FileInputStream(nameFile);
-                                    BaseResponse responseFace = personServiceMCS.addFaceImg(IContanst.DEPARTMENT_MICROSOFT, accountEntity.getUserCode(), imageStream);
+                                    byte[] byteImage = StoreFileUtils.rotateImage(imageStream);
+//                                    byte[] byteImage = IOUtils.toByteArray(imageStream);
+                                    BaseResponse responseFace = personServiceMCS.addFaceImg(IContanst.DEPARTMENT_MICROSOFT, accountEntity.getUserCode(), byteImage);
 
                                     if (responseFace.isSuccess() == true) {
                                         Map<String, String> mapResult = (Map<String, String>) responseFace.getData();

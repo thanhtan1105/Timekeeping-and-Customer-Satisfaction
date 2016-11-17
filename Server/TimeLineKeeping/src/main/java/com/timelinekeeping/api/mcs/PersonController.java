@@ -5,6 +5,7 @@ import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ValidateUtil;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -71,7 +72,8 @@ public class PersonController {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             BaseResponse response = null;
             if (ValidateUtil.isImageFile(img.getInputStream())) {
-                response = personService.addFaceImg(groupId, personId, img.getInputStream());
+                byte[] byteImage = IOUtils.toByteArray(img.getInputStream());
+                response = personService.addFaceImg(groupId, personId, byteImage);
                 logger.info("RESPONSE: " + JsonUtil.toJson(response));
             } else {
                 response = new BaseResponse();
