@@ -2,6 +2,8 @@
  * Created by TrungNN on 10/1/2016.
  */
 
+var nextAngle = 0;
+
 //Date picker
 $('#date-picker-timekeeping-detail').datepicker({
     format: com_full_year_month,
@@ -26,14 +28,23 @@ $('.selected-date').on('change', function () {
 
 function show_image_employee(src) {
     console.info('[show img emp][src] ' + src);
+    //reset angle
+    nextAngle = 0;
+
     if (src != null) {
         //set content image
-        set_src_img(src, '#img-employee');
+        set_src_img('http://localhost:8080/file/' + src, '#img-employee');
+
+        //rotate right 90
+        rotateRight('#img-employee', 90);
+
         //show modal
         show_modal('#modal-img-employee', true);
     } else {
         //do nothing
     }
+
+
 }
 
 /**
@@ -66,4 +77,26 @@ function show_modal(id, keyboard) {
         });
     }
 
+}
+
+/**
+ * function: rotate right
+ * @param id
+ * @param degrees
+ */
+function rotateRight(id_image, degrees) {
+    $(id_image).rotate(getAngle(degrees));
+}
+
+/**
+ * function: get angle
+ * @param degrees
+ * @returns {number}
+ */
+function getAngle(degrees) {
+    nextAngle += degrees;
+    if (nextAngle >= 360) {
+        nextAngle = 0;
+    }
+    return nextAngle;
 }
