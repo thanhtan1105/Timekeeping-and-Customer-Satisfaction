@@ -114,6 +114,8 @@ extension FaceListViewController {
       let success = dict["success"] as? Int
       if success == 1 {
         onCompletion(isSuccess: true)
+      } else {
+        onCompletion(isSuccess: false)
       }
 
     }
@@ -129,9 +131,14 @@ extension FaceListViewController {
     alertVC.addAction(UIAlertAction(title: "Remove", style: .Destructive, handler: { (action: UIAlertAction) in
       // call api delete
       let id = String(self.employee.id!)   // send person code
+      LeThanhTanLoading.sharedInstance.showLoadingAddedTo(self.view, animated: true)
       
       self.deleteAllFace(id, onCompletion: { (isSuccess) in
-        
+        LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
+        if isSuccess == true {
+          self.faceList.removeAll()
+          self.collectionView.reloadData()
+        }
       })
       
     }))
@@ -185,6 +192,7 @@ extension FaceListViewController: UICollectionViewDelegate, UICollectionViewData
       item.faceImage.image = UIImage(named: "placeholder")
       if let URL = URL {
         item.faceImage.af_setImageWithURL(URL)
+        item.faceImage.transform = CGAffineTransformMakeRotation(CGFloat(M_PI / 2));
       }
 //      item.faceImage.downloadedFrom(URL!, placeHolder: "placeholder")
       return item
