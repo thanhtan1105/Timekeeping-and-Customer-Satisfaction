@@ -30,8 +30,6 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
     @Query("SELECT a FROM AccountEntity a WHERE a.userCode = ?1 and a.active <>0")
     AccountEntity findByUserCode(String code);
 
-
-
     @Query("SELECT a FROM AccountEntity a WHERE a.active <>0")
     List<AccountEntity> findAll();
 
@@ -66,4 +64,5 @@ public interface AccountRepo extends JpaRepository<AccountEntity, Long> {
 
     @Query("SELECT a FROM  AccountEntity a INNER JOIN a.role r WHERE  r.id = 2 and a.active <> 0")
     List<AccountEntity> listAllManger();
+
 }

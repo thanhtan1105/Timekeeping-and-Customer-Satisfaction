@@ -19,7 +19,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by HienTQSE60896 on 9/14/2016.
@@ -311,6 +313,27 @@ public class AccountController {
         } catch (Exception e) {
             logger.error(IContanst.LOGGER_ERROR, e);
             return new BaseResponse(e);
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        }
+    }
+
+    @RequestMapping(value = I_URI.API_ACCOUNT_EXPIRE, method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse expire(@RequestParam(value = "accountID") String accountID) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+            BaseResponse baseResponse = new BaseResponse();
+            String keyOneSignal = accountService.expireToken(accountID);
+            Map<String, String> map = new HashMap<>();
+            map.put("key", keyOneSignal);
+            baseResponse.setData(map);
+            baseResponse.setSuccess(true);
+            return baseResponse;
+        } catch (Exception e) {
+            logger.error(IContanst.LOGGER_ERROR, e);
+            return new BaseResponse(e);
+
         } finally {
             logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         }

@@ -3,6 +3,14 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "GLOBAL">
+         <PersistentStrings>
+            <PersistentString
+               value = "loginViewController">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "NotificationViewController.viewWillAppear(Bool) -&gt; ():NotificationViewController.swift">
          <PersistentStrings>
             <PersistentString

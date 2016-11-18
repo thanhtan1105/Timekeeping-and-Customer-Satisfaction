@@ -585,21 +585,26 @@
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="EKx-Kk-2mq" secondAttribute="height" multiplier="1.4" id="0oF-vf-2fl"/>
+                                                <constraint firstAttribute="height" constant="229" id="CY7-t0-kAA"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="0oF-vf-2fl"/>
+                                                </mask>
+                                            </variation>
                                         </view>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="ZZH-fC-zWu" secondAttribute="trailing" id="6jQ-3H-vhQ"/>
-                                        <constraint firstItem="EKx-Kk-2mq" firstAttribute="top" secondItem="ynF-zA-XFJ" secondAttribute="bottom" id="BE8-1d-Rsk"/>
+                                        <constraint firstItem="EKx-Kk-2mq" firstAttribute="leading" secondItem="ynF-zA-XFJ" secondAttribute="leading" id="9oC-ba-CCv"/>
+                                        <constraint firstItem="EKx-Kk-2mq" firstAttribute="trailing" secondItem="ynF-zA-XFJ" secondAttribute="trailing" id="BYg-OV-IF0"/>
                                         <constraint firstAttribute="trailing" secondItem="ynF-zA-XFJ" secondAttribute="trailing" id="J5y-wZ-e6d"/>
-                                        <constraint firstAttribute="trailing" secondItem="EKx-Kk-2mq" secondAttribute="trailing" id="VIX-6a-spa"/>
-                                        <constraint firstItem="EKx-Kk-2mq" firstAttribute="leading" secondItem="MA0-GT-SyE" secondAttribute="leading" id="Woy-wo-kcV"/>
                                         <constraint firstItem="ZZH-fC-zWu" firstAttribute="leading" secondItem="MA0-GT-SyE" secondAttribute="leading" id="YAd-1n-aWs"/>
                                         <constraint firstItem="ZZH-fC-zWu" firstAttribute="top" secondItem="MA0-GT-SyE" secondAttribute="top" constant="8" id="ZKG-Qi-dzy"/>
                                         <constraint firstItem="ynF-zA-XFJ" firstAttribute="top" secondItem="ZZH-fC-zWu" secondAttribute="bottom" id="mIF-8q-vVq"/>
                                         <constraint firstItem="ynF-zA-XFJ" firstAttribute="leading" secondItem="MA0-GT-SyE" secondAttribute="leading" id="o2j-be-Iu3"/>
-                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="EKx-Kk-2mq" secondAttribute="bottom" constant="5" id="yhF-gU-nlm"/>
+                                        <constraint firstItem="EKx-Kk-2mq" firstAttribute="top" secondItem="ynF-zA-XFJ" secondAttribute="bottom" id="sL4-HY-0bp"/>
                                     </constraints>
                                 </view>
                                 <prototypes>
@@ -785,7 +790,7 @@
         <!--Navigation Controller-->
         <scene sceneID="x8F-nK-BLJ">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="qLp-tM-Yjl" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="loginNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="qLp-tM-Yjl" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="qiR-qF-4Ta">

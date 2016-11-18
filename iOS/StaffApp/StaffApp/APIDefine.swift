@@ -32,4 +32,5 @@ let urlGetBeacon: String = "/beacon/list_beacon_point"
 let urlGetRoomPoint: String = "/coordinate/list_room_point"
 let urlGetPoint: String = "/coordinate/list_point"
 let urlFindPath: String = "/beacon/find_path"
+let urlExpire: String = "/account/expire"
 

@@ -787,4 +787,10 @@ public class AccountServiceImpl {
             logger.info(IContanst.END_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
         }
     }
+
+    public String expireToken(String accountID) {
+        logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+        AccountEntity accountEntity = accountRepo.findOne(Long.parseLong(accountID));
+        return accountEntity.getKeyOneSignal();
+    }
 }

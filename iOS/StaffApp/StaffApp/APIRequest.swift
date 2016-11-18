@@ -149,6 +149,18 @@ class APIRequest: NSObject {
     ]
     webservice_POST(url, params: dataSent, headersParams: header, completion: onCompletion)
   }
+  
+  func checkExpire(accountID: String, onCompletion: ServiceResponse) {
+    let url = http + urlExpire
+    let header = [
+      "Content-Type" : "application/json",
+    ]
+    let dataSent = [
+      "accountID" : accountID
+    ]
+    
+    webservice_GET(url, params: dataSent, headersParams: header, completion: onCompletion)
+  }
 }
 
 // MARK: - Private method

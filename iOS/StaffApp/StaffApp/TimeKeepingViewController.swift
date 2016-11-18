@@ -40,6 +40,10 @@ class TimeKeepingViewController: BaseViewController {
     super.viewWillAppear(animated)
   }
   
+  override func viewDidAppear(animated: Bool) {
+    super.viewDidAppear(animated)
+  }
+  
   func initLoadData() {
   }
   

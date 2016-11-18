@@ -37,6 +37,7 @@ public interface I_URI {
     String API_ACCOUNT_CHECK_EXIST_USERNAME = "/exits_username";
     String API_ACCOUNT_CREATE_EMAIL = "/create_email";
     String API_ACCOUNT_GET_REMINDER = "/get_reminder";
+    String API_ACCOUNT_EXPIRE = "/expire";
 
     /**
      * Department
