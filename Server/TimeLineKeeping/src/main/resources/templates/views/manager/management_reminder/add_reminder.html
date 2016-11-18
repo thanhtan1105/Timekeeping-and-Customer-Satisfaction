@@ -31,8 +31,8 @@
             <div class="panel-body">
                 <!-- Form for add reminder -->
                 <form th:action="@{/manager/reminders/addReminderProcessing}" method="post"
-                        class="form-horizontal" role="form">
-                    <div class="form-group">
+                      th:id="'form-add-reminder'" class="form-horizontal" role="form">
+                    <div class="form-group" th:id="'div-title'">
                         <label class="control-label col-sm-2">
                             Title: <font color="red">*</font></label>
 
@@ -40,35 +40,39 @@
                             <input type="text" th:name="title" th:value="${title}"
                                    class="form-control" placeholder="Enter Title"
                                    style="width: 50%;"/>
+                            <span th:id="'span-title-msg-error'" class="help-block" style="font-style: italic"></span>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" th:id="'div-date'">
                         <label class="control-label col-sm-2">
                             Date: <font color="red">*</font></label>
 
                         <div class="col-sm-10">
                             <div class="input-group date" style="width: 50%" id="datepicker-reminder-adding">
-                                <input type="text" th:name="date" class="form-control pull-left" />
+                                <input type="text" th:name="date" class="form-control pull-left"/>
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
                             </div>
+                            <span th:id="'span-date-msg-error'" class="help-block" style="font-style: italic"></span>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" th:id="'div-time'">
                         <label class="control-label col-sm-2">
                             Time: <font color="red">*</font></label>
 
                         <div class="col-sm-10">
                             <div class="input-group bootstrap-timepicker" style="width: 50%">
-                                <input type="text" th:name="time" class="form-control pull-left timepicker-reminder-adding">
+                                <input type="text" th:name="time"
+                                       class="form-control pull-left timepicker-reminder-adding">
                                 <div class="input-group-addon">
                                     <i class="fa fa-clock-o"></i>
                                 </div>
                             </div>
+                            <span th:id="'span-time-msg-error'" class="help-block" style="font-style: italic"></span>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" th:id="'div-room'">
                         <label class="control-label col-sm-2">
                             Room: <font color="red">*</font></label>
 
@@ -76,14 +80,15 @@
                             <div style="width: 50%">
                                 <select th:name="roomId"
                                         class="form-control select2" style="width: 100%;">
-                                    <option>Select Room</option>
+                                    <option value="">Select Room</option>
                                     <option th:each="room: ${ListRooms}" th:value="${room.id}"
                                             th:text="${room.name}"></option>
                                 </select>
                             </div>
+                            <span th:id="'span-room-msg-error'" class="help-block" style="font-style: italic"></span>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" th:id="'div-participant'">
                         <label class="control-label col-sm-2">
                             Participants: <font color="red">*</font></label>
 
@@ -96,6 +101,8 @@
                                             th:text="${account.fullName} +' - ' + ${account.username}"></option>
                                 </select>
                             </div>
+                            <span th:id="'span-participant-msg-error'" class="help-block"
+                                  style="font-style: italic"></span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -104,14 +111,15 @@
 
                         <div class="col-sm-10">
                                 <textarea th:name="message" th:text="${message}"
-                                        class="form-control" placeholder="Enter Description"
+                                          class="form-control" placeholder="Enter Description"
                                           style="width: 50%"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-2"></div>
                         <div class="col-sm-5">
-                            <button type="submit" class="btn btn-success btn-flat btn-sm" style="width: 25%;">
+                            <button type="button" class="btn btn-success btn-flat btn-sm" style="width: 25%;"
+                                    onclick="submit_form()">
                                 <i class="fa fa-download"></i> SAVE
                             </button>
                             <button type="reset" class="btn btn-warning btn-flat btn-sm" style="width: 25%;">
@@ -137,6 +145,7 @@
     <!-- /.content -->
 </div>
 <div layout:fragment="js">
+    <script th:src="@{/js/common.js}"></script>
     <script th:src="@{/js/manager/reminder/add_reminder.js}"></script>
 </div>
 </body>
