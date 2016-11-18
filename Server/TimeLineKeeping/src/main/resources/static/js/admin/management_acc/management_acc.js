@@ -267,18 +267,23 @@ function set_list_accounts(list_accounts, $tbody_list_accounts) {
     var content_list_accounts = '',
         status,
         tr_status,
-        btn_activate,
-        role_name;
+        btn_activate;
     for (var i = 0; i < list_accounts.length; i++) {
         status = list_accounts[i].active;
-        if (status == 1) {
+        console.info('role: ' + list_accounts[i].role.id);
+        if (list_accounts[i].role.id == 1) {
             tr_status = '<tr>';
-            btn_activate = ' <button class="btn btn-default btn-flat btn-sm" type="button" ' +
-                'title="Deactivate Account" onclick="deactivate(' + list_accounts[i].id + ')">Deactivate</button>';
+            btn_activate = '';
         } else {
-            tr_status = '<tr class="text-muted">';
-            btn_activate = ' <button class="btn btn-danger btn-flat btn-sm" type="button" ' +
-                'title="Activate Account" onclick="activate(' + list_accounts[i].id + ')">Activate</button>';
+            if (status == 1) {
+                tr_status = '<tr>';
+                btn_activate = ' <button class="btn btn-default btn-flat btn-sm" type="button" ' +
+                    'title="Deactivate Account" onclick="deactivate(' + list_accounts[i].id + ')">Deactivate</button>';
+            } else {
+                tr_status = '<tr class="text-muted">';
+                btn_activate = ' <button class="btn btn-danger btn-flat btn-sm" type="button" ' +
+                    'title="Activate Account" onclick="activate(' + list_accounts[i].id + ')">Activate</button>';
+            }
         }
         content_list_accounts += tr_status +
             '<td>' + list_accounts[i].fullName + '</td>' +

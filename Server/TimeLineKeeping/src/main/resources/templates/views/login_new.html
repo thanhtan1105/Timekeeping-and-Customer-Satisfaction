@@ -35,6 +35,10 @@
             font-size: 17px;
         }
 
+        .font-17 {
+            font-size: 17px;
+        }
+
         .font-login {
             font-family: fantasy;
             font-size: 37px;
@@ -68,12 +72,12 @@
                 <div class="col-lg-4">
                     <div class="content">
                         <form th:action="@{/login/processing}" method="post"
-                              class="form-horizontal">
+                              th:id="'form-login'" class="form-horizontal">
                             <div class="panel panel-body login-form width-450">
                                 <div class="text-center">
                                     <h3 class="content-group text-info-700 font-login">LOGIN</h3>
                                 </div>
-                                <div class="form-group has-feedback has-feedback-left">
+                                <div class="form-group has-feedback has-feedback-left" th:id="'div-username'">
                                     <label class="col-lg-3 control-label">Username:</label>
                                     <div class="col-lg-9">
                                         <input type="text" th:name="username"
@@ -83,7 +87,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group has-feedback has-feedback-left">
+                                <div class="form-group has-feedback has-feedback-left" th:id="'div-password'">
                                     <label class="col-lg-3 control-label">Password:</label>
                                     <div class="col-lg-9">
                                         <input type="password" th:name="password"
@@ -91,6 +95,7 @@
                                         <div class="form-control-feedback">
                                             <i class="icon-lock2 text-muted"></i>
                                         </div>
+                                        <span th:id="'span-msg-error'" class="help-block font-17" style="font-style: italic"></span>
                                     </div>
                                 </div>
                                 <div class="form-group login-options">
@@ -105,7 +110,8 @@
                                 <div class="form-group">
                                     <div class="col-lg-3"></div>
                                     <div class="col-lg-4">
-                                        <button type="submit" class="btn bg-blue btn-block btn-lg">Sign In
+                                        <button type="button" class="btn bg-blue btn-block btn-lg"
+                                                onclick="submit_form()">Sign In
                                             <i class="icon-arrow-right14 position-right"></i></button>
                                     </div>
                                 </div>
@@ -120,5 +126,6 @@
         </div>
     </div>
 </div>
+<script th:src="@{/js/login/login.js}"></script>
 </body>
 </html>
