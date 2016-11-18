@@ -98,6 +98,8 @@ extension FaceListViewController {
       let success = dict["success"] as? Int
       if success == 1 {
         onCompletion(isSuccess: true)
+      } else {
+        onCompletion(isSuccess: false)
       }
     }
   }
