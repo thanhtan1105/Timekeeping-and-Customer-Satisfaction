@@ -8,7 +8,6 @@ var timer_get_emotion;
 var timer_get_image;
 var timer_stop_get_emotion;
 var nextAngle = 0;
-var isFirst;
 
 /**
  * Fc: load page
@@ -19,13 +18,6 @@ function load_page() {
 
     //timeout stop worker get emotion
     time_out_worker_get_emotion();
-}
-
-/**
- * Fc: load first
- */
-function load_first() {
-    isFirst = true;
 }
 
 /**
@@ -45,11 +37,11 @@ $('#btn-next-transaction').on('click', function () {
     event_hide('#btn-show-modal-customer-emotion');
 
     //check is first call
-    if (isFirst) {//is first call get_emotion api
+    if (com_first_time_load_get_customer_emotion) {//is first call get_emotion api
         //call request: load page
         load_page();
-        //reset isFirst
-        isFirst = false;
+        //reset is first time
+        com_first_time_load_get_customer_emotion = false;
     } else {// is not first call next api
         //call request: next transaction (isSkip == false)
         worker_next_transaction(false);
