@@ -33,8 +33,8 @@ $('#btn-next-transaction').on('click', function () {
     event_hide('#div-overview-customer-emotion');
     //hide div not get emotion
     event_hide('#div-not-get-emotion');
-    //show div loader
-    event_show('#div-loader');
+    //hide button show modal customer emotion
+    event_hide('#btn-show-modal-customer-emotion');
 
     //call request: next transaction (isSkip == false)
     worker_next_transaction(false);
@@ -53,8 +53,8 @@ $('#btn-skip-transaction').on('click', function () {
     event_hide('#div-overview-customer-emotion');
     //hide div not get emotion
     event_hide('#div-not-get-emotion');
-    //show div loader
-    event_show('#div-loader');
+    //hide button show modal customer emotion
+    event_hide('#btn-show-modal-customer-emotion');
 
     //call request: next transaction (isSkip == true)
     worker_next_transaction(true);
@@ -91,12 +91,12 @@ function worker_get_emotion() {
                     age_predict = messages.predict,
                     gender = messages.gender;
 
-                //hide div loader
-                event_hide('#div-loader');
                 //hide div not get emotion
                 event_hide('#div-not-get-emotion');
                 //show div overview customer emotion
                 event_show('#div-overview-customer-emotion');
+                //show button show modal customer emotion
+                event_show('#btn-show-modal-customer-emotion');
                 //enable button next
                 event_disabled('#btn-next-transaction', false);
                 //enable button skip
@@ -183,10 +183,10 @@ function time_out_worker_get_emotion() {
         //stop request get emotion
         clearTimeout(timer_get_emotion);
 
-        //hide div loader
-        event_hide('#div-loader');
         //hide div overview customer emotion
         event_hide('#div-overview-customer-emotion');
+        //hide button show modal customer emotion
+        event_hide('#btn-show-modal-customer-emotion');
         //show div not get emotion
         event_show('#div-not-get-emotion');
         //enable button next
@@ -206,10 +206,10 @@ function stop_get_emotion_manual() {
     //stop time out worker get emotion
     clearTimeout(timer_stop_get_emotion);
 
-    //hide div loader
-    event_hide('#div-loader');
     //hide div overview customer emotion
     event_hide('#div-overview-customer-emotion');
+    //hide button show modal customer emotion
+    event_hide('#btn-show-modal-customer-emotion');
     //show div not get emotion
     event_show('#div-not-get-emotion');
     //enable button next
@@ -306,6 +306,16 @@ function vote_suggestion(id) {
     });
 }
 
+function close_modal_customer_emotion(isClose) {
+    if (isClose) {
+        //hide div overview customer emotion
+        event_hide('#div-overview-customer-emotion');
+    } else {
+        //show div overview customer emotion
+        event_show('#div-overview-customer-emotion');
+    }
+}
+
 /**
  * Fc: set content age_predict
  * @param age_predict
@@ -386,12 +396,10 @@ function set_customer_emotion_message(customer_emotion_msg) {
         $customer_emotion_msg = $('#customer-emotion-message');
     if (customer_emotion_msg != null && customer_emotion_msg.length > 0) {
         for (var i = 0; i < customer_emotion_msg.length; i++) {
-            ul_content_customer_emotion += '<li>' +
-                customer_emotion_msg[i] +
-                '</li>';
+            ul_content_customer_emotion += customer_emotion_msg[i];
         }
     } else {
-        ul_content_customer_emotion += '<li>N/A</li>';
+        ul_content_customer_emotion += 'N/A';
     }
     $customer_emotion_msg.html(ul_content_customer_emotion);
 }
