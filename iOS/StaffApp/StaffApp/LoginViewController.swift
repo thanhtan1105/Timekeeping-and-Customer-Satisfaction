@@ -14,15 +14,24 @@ class LoginViewController: BaseViewController {
   @IBOutlet weak var passwordLabel: UITextField!
   @IBOutlet weak var loginFailLabel: UILabel!
   @IBOutlet weak var signInButton: UIButton!
+  @IBOutlet weak var usernameView: UIView!
+  @IBOutlet weak var passwordView: UIView!
+  @IBOutlet weak var backgroundImage: UIImageView!
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.navigationController?.setNavigationBarHidden(true, animated: false)
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.backgroundImageTapped(_:)))
+    backgroundImage.addGestureRecognizer(tapGesture)
+    self.view.addGestureRecognizer(tapGesture)
     
-//    myTextField.attributedPlaceholder = NSAttributedString(string:"placeholder text",
-//                                                           attributes:[NSForegroundColorAttributeName: UIColor.yellowColor()])
     usernameLabel.attributedPlaceholder = NSAttributedString(string: "username", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
     passwordLabel.attributedPlaceholder = NSAttributedString(string: "password", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+    
+    signInButton.layer.cornerRadius = 10
+    usernameView.layer.cornerRadius = 10
+    passwordView.layer.cornerRadius = 10
+    
+
   }
   
   override func viewWillAppear(animated: Bool) {
@@ -30,6 +39,11 @@ class LoginViewController: BaseViewController {
     navigationController?.setNavigationBarHidden(true, animated: true)
   }
 
+  func backgroundImageTapped(tapGesture: UITapGestureRecognizer) {
+    usernameLabel.resignFirstResponder()
+    passwordLabel.resignFirstResponder()
+  }
+  
   @IBAction func onSignInTapped(sender: UIButton) {
     let username = usernameLabel.text
     let password = passwordLabel.text

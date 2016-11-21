@@ -569,8 +569,8 @@ public class AccountServiceImpl {
             // if confidance > trainValue
             if (confidance >= trainValue) {
                 //add training
-                faceService.addFaceImg(accountEntity.getId(), new ByteArrayInputStream(byteImage));
-                departmentService.training(IContanst.DEPARTMENT_MICROSOFT);
+//                faceService.addFaceImg(accountEntity.getId(), new ByteArrayInputStream(byteImage));
+//                departmentService.training(IContanst.DEPARTMENT_MICROSOFT);
             }
 
 

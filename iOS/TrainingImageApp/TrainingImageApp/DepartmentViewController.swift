@@ -17,8 +17,10 @@ class DepartmentViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    navigationController?.setNavigationBarHidden(false, animated: false)
     callApiDepartment(start: 0, top: 100)
   }
+  
   
   @IBAction func onNextAction(sender: UIBarButtonItem) {
     if checkedIndex == nil {

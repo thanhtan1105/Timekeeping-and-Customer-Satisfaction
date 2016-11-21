@@ -127,7 +127,8 @@ function check_date(date, comparison) {
     console.info('[Check date][current] ' + current_date);
     console.info('[Check date][date reminder] ' + date);
     if (comparison == '>=') {
-        return date - current_date >= time_out_reminder;
+        return date - current_date >= 0;
+        // return date - current_date >= time_out_reminder;
     }
 }
 

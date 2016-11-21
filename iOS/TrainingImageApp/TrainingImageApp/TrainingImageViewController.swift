@@ -14,7 +14,11 @@ class TrainingImageViewController: BaseViewController {
     super.viewDidLoad()
   }
   
-  @IBAction func onSettingTapped(sender: UIBarButtonItem) {
+  override func viewWillAppear(animated: Bool) {
+    navigationController?.setNavigationBarHidden(true, animated: false)    
+  }
+  
+  @IBAction func onSettingTapped(sender: UIButton) {
     let alert = UIAlertController(title: "IP address", message: "", preferredStyle: .Alert)
     let okAction = UIAlertAction(title: "OK", style: .Default) { (action: UIAlertAction) in
       if alert.textFields?.count > 0 {

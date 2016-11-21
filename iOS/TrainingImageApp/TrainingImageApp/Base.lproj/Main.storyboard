@@ -17,27 +17,50 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hbD-wp-qFq">
-                                <rect key="frame" x="96" y="220" width="128" height="128"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_cover" translatesAutoresizingMaskIntoConstraints="NO" id="BDL-Pa-O6y">
+                                <rect key="frame" x="0.0" y="44" width="320" height="524"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hbD-wp-qFq">
+                                <rect key="frame" x="96" y="207" width="128" height="155"/>
                                 <state key="normal" image="start"/>
                                 <connections>
                                     <segue destination="PJM-UA-FLl" kind="show" id="rMP-Pd-jZe"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Training Image" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GaN-di-GMj">
+                                <rect key="frame" x="69" y="118" width="183" height="32"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="26"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ih5-MT-4BD">
+                                <rect key="frame" x="260" y="72" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="IfD-qk-vD9"/>
+                                    <constraint firstAttribute="width" constant="40" id="feH-4I-z5m"/>
+                                </constraints>
+                                <state key="normal" image="ic_setting"/>
+                                <connections>
+                                    <action selector="onSettingTapped:" destination="oH8-hi-KVR" eventType="touchUpInside" id="Swd-hN-dHe"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="hbD-wp-qFq" firstAttribute="top" secondItem="GaN-di-GMj" secondAttribute="bottom" constant="57" id="2qV-e6-QKi"/>
+                            <constraint firstItem="BDL-Pa-O6y" firstAttribute="top" secondItem="FJu-XP-4DK" secondAttribute="bottom" constant="-20" id="DhY-dR-EhW"/>
+                            <constraint firstAttribute="trailing" secondItem="BDL-Pa-O6y" secondAttribute="trailing" id="HFR-Vf-c9F"/>
+                            <constraint firstItem="Ih5-MT-4BD" firstAttribute="top" secondItem="FJu-XP-4DK" secondAttribute="bottom" constant="8" id="KdX-un-cmb"/>
                             <constraint firstItem="hbD-wp-qFq" firstAttribute="centerY" secondItem="9an-pF-Dkk" secondAttribute="centerY" id="a3e-yk-eEA"/>
+                            <constraint firstItem="GaN-di-GMj" firstAttribute="centerX" secondItem="9an-pF-Dkk" secondAttribute="centerX" id="bwx-aX-qm3"/>
+                            <constraint firstItem="BDL-Pa-O6y" firstAttribute="leading" secondItem="9an-pF-Dkk" secondAttribute="leading" id="h7x-Tz-wDO"/>
+                            <constraint firstItem="GaN-di-GMj" firstAttribute="top" secondItem="FJu-XP-4DK" secondAttribute="bottom" constant="54" id="mbh-Rt-6WU"/>
+                            <constraint firstAttribute="trailing" secondItem="Ih5-MT-4BD" secondAttribute="trailing" constant="20" id="qIZ-SW-2Jv"/>
+                            <constraint firstItem="weT-en-gU8" firstAttribute="top" secondItem="BDL-Pa-O6y" secondAttribute="bottom" id="ru9-xV-eT8"/>
                             <constraint firstItem="hbD-wp-qFq" firstAttribute="centerX" secondItem="9an-pF-Dkk" secondAttribute="centerX" id="xgH-pv-1hA"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Training Image" id="tPQ-uD-Etf">
-                        <barButtonItem key="rightBarButtonItem" title="Setting" id="o8W-AI-YQb">
-                            <connections>
-                                <action selector="onSettingTapped:" destination="oH8-hi-KVR" id="GEB-qo-nXq"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Training Image" id="tPQ-uD-Etf"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CyR-gw-vuk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -64,7 +87,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="77"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ASk-VE-KTT" id="2as-F4-4ki">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="76.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="77"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1DF-6J-zug">
@@ -100,6 +123,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Department" id="x3v-WS-uNK">
                         <barButtonItem key="rightBarButtonItem" title="Next" id="6Kb-iZ-quA">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="onNextAction:" destination="PJM-UA-FLl" id="bF1-T5-uV4"/>
                             </connections>
@@ -139,27 +163,33 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f2s-Nh-DXm">
                                         <rect key="frame" x="133" y="8" width="55" height="30"/>
-                                        <state key="normal" title="Capture"/>
+                                        <state key="normal" title="Capture">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
                                         <connections>
                                             <action selector="onCaptureTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LMn-ax-OxM"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lB0-GI-FKd">
                                         <rect key="frame" x="240" y="8" width="72" height="30"/>
-                                        <state key="normal" title="Use Photo"/>
+                                        <state key="normal" title="Use Photo">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
                                         <connections>
                                             <action selector="onUsePhotoTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1jl-c3-yUU"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mme-di-fV6">
                                         <rect key="frame" x="8" y="8" width="47" height="30"/>
-                                        <state key="normal" title="Retake"/>
+                                        <state key="normal" title="Retake">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
                                         <connections>
                                             <action selector="onRetakeTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="I9W-3M-BgE"/>
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="0.31010237068965518" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.0" green="0.65098039220000004" blue="0.35294117650000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="mme-di-fV6" firstAttribute="leading" secondItem="cR7-bF-Wxd" secondAttribute="leading" constant="8" id="2if-wO-6EB"/>
                                     <constraint firstAttribute="trailing" secondItem="lB0-GI-FKd" secondAttribute="trailing" constant="8" id="6Nj-Vw-BQH"/>
@@ -245,7 +275,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="haZ-c7-khU" id="qzV-7B-6Bq">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="74.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7rY-rx-Msm">
@@ -281,6 +311,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Employee List" id="t05-Ry-6kN">
                         <barButtonItem key="rightBarButtonItem" title="Next" id="mCL-Gp-lkJ">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="onNextTapped:" destination="Ede-7e-hZQ" id="fu2-yX-MOW"/>
                             </connections>
@@ -403,11 +434,13 @@
                     </view>
                     <navigationItem key="navigationItem" title="Face List" id="dha-eE-fqZ">
                         <barButtonItem key="leftBarButtonItem" title="Finish" id="edm-oE-a8d">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="onFinishTapped:" destination="KM3-fr-A6Q" id="hXT-74-u42"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Delete All" id="f7z-VM-e2N">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="onDeleteAllTapped:" destination="KM3-fr-A6Q" id="1pC-jy-SzN"/>
                             </connections>
@@ -431,6 +464,11 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="dpn-Q3-RNH">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.0" green="0.65098039220000004" blue="0.35294117650000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.0" green="0.65098039220000004" blue="0.35294117650000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -443,6 +481,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="ic_setting" width="128" height="128"/>
+        <image name="login_cover" width="3000" height="2000"/>
         <image name="start" width="128" height="128"/>
     </resources>
 </document>

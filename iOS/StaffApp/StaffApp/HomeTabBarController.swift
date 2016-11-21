@@ -16,7 +16,7 @@ class HomeTabBarController: UITabBarController {
   override func viewDidLoad() {
     super.viewDidLoad()
     UITabBar.appearance().tintColor = UIColor(hex: 0xffffff)
-    UITabBar.appearance().barTintColor = UIColor(hex: 0x4F84B0)
+    UITabBar.appearance().barTintColor = UIColor(hex: 0x00a65a)
     UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState: .Normal)
     self.navigationController?.navigationBar.barTintColor = UIColor(hex: 0x4F84B0)
     self.selectedIndex = 0
