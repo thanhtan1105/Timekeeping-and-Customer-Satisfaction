@@ -26,6 +26,7 @@ class NotificationDetailViewController: BaseViewController {
   @IBAction func onDirectionTapped(sender: UIButton) {
     let beaconVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("BeaconViewController") as! BeaconViewController
     beaconVC.destinationPointId = notification.location?.id
+    beaconVC.notification = notification
     self.navigationController?.pushViewController(beaconVC, animated: true)
   }
   

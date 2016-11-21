@@ -25,6 +25,9 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
   @IBOutlet weak var topView: UIView!
   @IBOutlet weak var nextButton: UIButton!
 
+  // notification
+  var notification: Notification!
+  
   // beacon variable
   var beaconManager: ESTBeaconManager? = nil
   var region: CLBeaconRegion!
@@ -69,13 +72,13 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
     // show loading
     LeThanhTanLoading.sharedInstance.showLoadingAddedTo(self.view, title: "Loading...", animated: true)
     
-    // hide loading
+//    // hide loading
 //    let delayTime3 = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
 //    dispatch_after(delayTime3, dispatch_get_main_queue()) {
 //      LeThanhTanLoading.sharedInstance.hideLoadingAddedTo(self.view, animated: true)
 //      self.scrollView.hidden = false
 //    }
-
+//
 ////     init source Point
 //    sourcePoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
 //      return point.name == "107"
@@ -364,6 +367,9 @@ extension BeaconViewController {
     let point = realm.objects(Point.self).filter { (point: Point) -> Bool in
       return point.name == sourcePoint.name && point.typeRaw == PointCategory.Room.descriptions
     }.first
+    
+    // dump
+//    let point: Point? = sourcePoint
     
     if let point = point {
       if currentFloor == -1 || point.floor == currentFloor {

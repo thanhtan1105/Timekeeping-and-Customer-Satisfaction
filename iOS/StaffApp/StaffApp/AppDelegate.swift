@@ -34,6 +34,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
           let notificationVC = navigation.childViewControllers[0] as! NotificationViewController
           notificationVC.reloadNotification()
         }
+        
+        // beacon view controller
+        if (viewController as? HomeTabBarController) != nil {
+          let homeTabbar = viewController as! HomeTabBarController
+          let listVC: [UIViewController] = homeTabbar.viewControllers!
+          let navigation = listVC[1] as! UINavigationController   // notificaionViewController
+          if let beaconVC = navigation.viewControllers.last as? BeaconViewController {
+            // cut string
+            // "Thông báo cuộc họp: \nChủ đề: Téting \nPhòng họp: 101 \nThời gian: 2016-Nov-21 23:31\n"
+            let body = payload.body
+//            let roomString = body.characters.split("\n")[2].map(String.init())
+            let roomStringArr = body.characters.split{$0 == "\n"}.map(String.init)[2]
+            let room = roomStringArr.replace("Phòng họp: ", replacement: "")
+            print(room)
+            
+          }
+          
+          
+        }
       })
       
     }
