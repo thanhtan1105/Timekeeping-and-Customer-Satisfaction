@@ -86,7 +86,7 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
 //    currentFloor = sourcePoint.floor
 //    showSourcePoint(sourcePoint)
 
-    // dumping
+    
     destinationPoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
       return point.id == destinationPointId
     }).first
@@ -138,6 +138,18 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
     drawPathToMap(pathIds)
   }
   
+  func reloadDataIfHaveNotification(newRoom room: String, time: String, title: String) {
+    if title == notification.title {
+      destinationPoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
+        return point.name == room
+      }).first
+      
+      removeDestinationPoint()
+      currentFloor = -1
+      showSourcePoint(sourcePoint)
+      onDirectTapped(UIBarButtonItem())
+    }
+  }
 }
 
 extension BeaconViewController: ESTBeaconManagerDelegate {
@@ -388,7 +400,7 @@ extension BeaconViewController {
         imagePoint.image = UIImage(named: "points")
         pointInMap.addSubview(imagePoint)
         
-        // create the image inside current point
+        // create the image inside curre nt point
         pointInMap.tag = 4
         self.imageView.addSubview(pointInMap)
         
@@ -405,6 +417,13 @@ extension BeaconViewController {
         // show destination point
         showDestinatePoint(destinationPoint)
       }      
+    }
+  }
+  
+  private func removeDestinationPoint() {
+    let templeView2 = view.viewWithTag(5)
+    if templeView2 != nil {
+      templeView2?.removeFromSuperview()
     }
   }
   

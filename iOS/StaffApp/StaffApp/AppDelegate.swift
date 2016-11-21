@@ -46,9 +46,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let body = payload.body
 //            let roomString = body.characters.split("\n")[2].map(String.init())
             let roomStringArr = body.characters.split{$0 == "\n"}.map(String.init)[2]
-            let room = roomStringArr.replace("Phòng họp: ", replacement: "")
-            print(room)
+            let roomString = roomStringArr.replace("Phòng họp: ", replacement: "")
+            let room = roomString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
             
+            let titleStringArr = body.characters.split{$0 == "\n"}.map(String.init)[1]
+            let titleString = titleStringArr.replace("Chủ đề: ", replacement: "")
+            let title = titleString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            
+            let timeStringArr = body.characters.split{$0 == "\n"}.map(String.init)[3]
+            let timeString = timeStringArr.replace("Thời gian: ", replacement: "")
+            let time = timeString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            beaconVC.reloadDataIfHaveNotification(newRoom: room, time: time, title: title)
           }
           
           
