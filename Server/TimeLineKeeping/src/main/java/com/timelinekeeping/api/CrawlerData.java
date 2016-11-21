@@ -24,41 +24,41 @@ import java.nio.file.Path;
  */
 public class CrawlerData {
 
-    public static void main(String[] args) {
-        try {
-            int i = 30;
-            FileWriter writer = new FileWriter("/Users/lethanhtan/Desktop/LoziData.txt");
-            BufferedWriter bufferedWriter = new BufferedWriter(writer);
-            for (int j = 0; j < 24; j++) {
-                while (true) {
-                    String character = CharUtils.ASCIIToChar(j + 97) + "";
-                    String url = "http://latte.lozi.vn/v1.2/search/users?q=" + character + "&lat=-1&lng=-1&r=" + i + "&skip=" + i;
-                    HttpClient httpclient = HttpClients.createDefault();
-                    HttpRequestBase request = new HttpGet(url);
-                    HttpResponse response = null;
-
-                    response = httpclient.execute(request);
-                    HttpEntity entity = response.getEntity();
-                    String dataResponse = ServiceUtils.getDataResponse(entity);
-                    System.out.println(dataResponse);
-
-                    bufferedWriter.write("\n" + dataResponse);
-
-
-                    i = i + 30;
-                    if (i == 3000) {
-                        break;
-                    }
-                }
-            }
-            bufferedWriter.close();
-
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
+//    public static void main(String[] args) {
+//        try {
+//            int i = 30;
+//            FileWriter writer = new FileWriter("/Users/lethanhtan/Desktop/LoziData.txt");
+//            BufferedWriter bufferedWriter = new BufferedWriter(writer);
+//            for (int j = 0; j < 24; j++) {
+//                while (true) {
+//                    String character = CharUtils.ASCIIToChar(j + 97) + "";
+//                    String url = "http://latte.lozi.vn/v1.2/search/users?q=" + character + "&lat=-1&lng=-1&r=" + i + "&skip=" + i;
+//                    HttpClient httpclient = HttpClients.createDefault();
+//                    HttpRequestBase request = new HttpGet(url);
+//                    HttpResponse response = null;
+//
+//                    response = httpclient.execute(request);
+//                    HttpEntity entity = response.getEntity();
+//                    String dataResponse = ServiceUtils.getDataResponse(entity);
+//                    System.out.println(dataResponse);
+//
+//                    bufferedWriter.write("\n" + dataResponse);
+//
+//
+//                    i = i + 30;
+//                    if (i == 3000) {
+//                        break;
+//                    }
+//                }
+//            }
+//            bufferedWriter.close();
+//
+//        }
+//        catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//    }
 
 }

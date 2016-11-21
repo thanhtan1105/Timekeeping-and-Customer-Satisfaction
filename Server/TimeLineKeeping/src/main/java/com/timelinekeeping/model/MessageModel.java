@@ -1,11 +1,8 @@
 package com.timelinekeeping.model;
 
-import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.Gender;
-import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
-import com.timelinekeeping.entity.MessageEntity;
 import com.timelinekeeping.util.ServiceUtils;
 
 import java.util.List;

@@ -51,15 +51,15 @@ public class FileUtils {
                 + IContanst.DIRECTOR_CHECKIN + File.separator + TimeUtil.timeToString(new Date(), I_TIME.TIME_NAME_FULL) + "." + IContanst.EXTENSION_FILE_IMAGE;
     }
 
-    public static void main(String[] args) {
-//        AccountModel accountModel = new AccountModel();
-//        accountModel.setId(1l);
-//        accountModel.setUsername("quanghien");
-//        accountModel.setDepartment(new DepartmentModel(1l, "fpt_university"));
-//        System.out.println(createFolderEmotion("2763276372"));
-//        System.out.println(createFolderTrain(accountModel));
-//        System.out.println(createFolderCheckin(accountModel));
-
-        System.out.println(addParentFolderImage("abcd.jpg"));
-    }
+//    public static void main(String[] args) {
+////        AccountModel accountModel = new AccountModel();
+////        accountModel.setId(1l);
+////        accountModel.setUsername("quanghien");
+////        accountModel.setDepartment(new DepartmentModel(1l, "fpt_university"));
+////        System.out.println(createFolderEmotion("2763276372"));
+////        System.out.println(createFolderTrain(accountModel));
+////        System.out.println(createFolderCheckin(accountModel));
+//
+//        System.out.println(addParentFolderImage("abcd.jpg"));
+//    }
 }

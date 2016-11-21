@@ -15,6 +15,7 @@ import com.timelinekeeping.model.FaceModifyModel;
 import com.timelinekeeping.repository.AccountRepo;
 import com.timelinekeeping.repository.FaceRepo;
 import com.timelinekeeping.util.FileUtils;
+import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.ValidateUtil;
 import org.apache.commons.io.IOUtils;
@@ -139,7 +140,6 @@ public class FaceServiceImpl {
         return new Pair<>(true);
     }
 
-
     public Long addFaceImg(Long accountId, InputStream imgStream) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -201,7 +201,7 @@ public class FaceServiceImpl {
 
             // replace url
             faceModelList.stream().forEach(faceModel -> faceModel.setStorePath(FileUtils.correctUrl(faceModel.getStorePath())));
-
+            logger.info("FaceList: " + JsonUtil.toJson(faceModelList));
             return faceModelList;
 
 

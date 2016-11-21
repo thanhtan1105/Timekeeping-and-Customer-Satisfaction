@@ -171,7 +171,7 @@ public class DepartmentController {
 
     @RequestMapping(value = {I_URI.API_DEPARTMENT_TRAINING}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public BaseResponse training(@RequestParam("departmentId") String departmentId) {
+    public BaseResponse training(@RequestParam(value = "departmentId", required = false) String departmentId) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         try {
             String department = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.department");

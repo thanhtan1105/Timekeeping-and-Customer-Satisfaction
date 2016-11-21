@@ -282,7 +282,7 @@ public class EmotionController {
 
     @RequestMapping(value = {I_URI.API_EMOTION_VOTE}, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public BaseResponse reportEmotion(@RequestParam("content_id") Long contentId) {
+    public BaseResponse vote(@RequestParam("content_id") Long contentId) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         BaseResponse response = null;
         try {

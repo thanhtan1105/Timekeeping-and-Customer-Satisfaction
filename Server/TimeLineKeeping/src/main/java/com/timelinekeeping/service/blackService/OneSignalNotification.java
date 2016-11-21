@@ -88,12 +88,12 @@ public class OneSignalNotification {
         }
     }
 
-    public static void main(String[] args) {
-        AccountModel accountModel = new AccountModel();
-        accountModel.setGender(Gender.MALE);
-        accountModel.setId(1l);
-        accountModel.setKeyOneSignal("76e1cf31-e007-4fac-b1ee-d3870a0e210f");
-
-        OneSignalNotification.instance().pushNotification(accountModel, "Test", "dang test gi day");
-    }
+//    public static void main(String[] args) {
+//        AccountModel accountModel = new AccountModel();
+//        accountModel.setGender(Gender.MALE);
+//        accountModel.setId(1l);
+//        accountModel.setKeyOneSignal("76e1cf31-e007-4fac-b1ee-d3870a0e210f");
+//
+//        OneSignalNotification.instance().pushNotification(accountModel, "Test", "dang test gi day");
+//    }
 }
