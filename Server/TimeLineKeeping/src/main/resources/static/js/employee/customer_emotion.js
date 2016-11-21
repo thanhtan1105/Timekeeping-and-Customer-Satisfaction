@@ -18,7 +18,7 @@ function load_page() {
     worker_get_emotion();
 
     //timeout stop worker get emotion
-    time_out_worker_get_emotion()
+    time_out_worker_get_emotion();
 }
 
 /**
@@ -48,6 +48,8 @@ $('#btn-next-transaction').on('click', function () {
     if (isFirst) {//is first call get_emotion api
         //call request: load page
         load_page();
+        //reset isFirst
+        isFirst = false;
     } else {// is not first call next api
         //call request: next transaction (isSkip == false)
         worker_next_transaction(false);
