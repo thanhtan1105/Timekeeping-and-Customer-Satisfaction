@@ -8,6 +8,7 @@ var timer_get_emotion;
 var timer_get_image;
 var timer_stop_get_emotion;
 var nextAngle = 0;
+var isFirst;
 
 /**
  * Fc: load page
@@ -18,6 +19,13 @@ function load_page() {
 
     //timeout stop worker get emotion
     time_out_worker_get_emotion()
+}
+
+/**
+ * Fc: load first
+ */
+function load_first() {
+    isFirst = true;
 }
 
 /**
@@ -36,8 +44,14 @@ $('#btn-next-transaction').on('click', function () {
     //hide button show modal customer emotion
     event_hide('#btn-show-modal-customer-emotion');
 
-    //call request: next transaction (isSkip == false)
-    worker_next_transaction(false);
+    //check is first call
+    if (isFirst) {//is first call get_emotion api
+        //call request: load page
+        load_page();
+    } else {// is not first call next api
+        //call request: next transaction (isSkip == false)
+        worker_next_transaction(false);
+    }
 });
 
 /**
@@ -121,10 +135,12 @@ function worker_get_emotion() {
 function worker_next_transaction(isSkip) {
     var urlString = '/api/emotion/next?accountId=' + accountId
         + '&skip=' + isSkip;
+    console.info('[Worker next transaction][accountId] ' + accountId);
     $.ajax({
         type: "GET",
         url: urlString,
         success: function (response) {
+            console.info('[Worker next transaction][success] ' + response.success);
             if (response.success) {
                 customerCode = response.data;
                 if (customerCode != null) {
@@ -132,7 +148,7 @@ function worker_next_transaction(isSkip) {
                     load_page();
                 }
             } else {
-                alert(response.data);
+                console.log(response.data)
             }
         }
     });
@@ -306,6 +322,10 @@ function vote_suggestion(id) {
     });
 }
 
+/**
+ * Fc: close modal customer emotion
+ * @param isClose
+ */
 function close_modal_customer_emotion(isClose) {
     if (isClose) {
         //hide div overview customer emotion
