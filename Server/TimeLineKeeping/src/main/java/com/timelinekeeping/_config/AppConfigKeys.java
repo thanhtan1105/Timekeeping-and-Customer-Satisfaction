@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
 import java.util.Properties;
 
 /**
@@ -50,7 +52,8 @@ public class AppConfigKeys {
                 inputStream = new FileInputStream(f);
             } else {
                 //if the configuration file is not exists. Use the default file
-                inputStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
+                URL filePath = this.getClass().getClassLoader().getResource(fileName);
+                inputStream = new FileInputStream(filePath.getFile());
             }
             properties.load(inputStream);
             inputStream.close();

@@ -11,18 +11,28 @@ buildscript {
 
 }
 
+
 apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'idea'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'spring-boot'
 apply plugin: 'war'
 
-
-war {
-    baseName = 'timelinekeeping'
-    version = '0.0.1-SNAPSHOT'
-}
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+war {
+    baseName = 'TKCS'
+    version = '1.0'
+}
+
+bootRun{
+    addResources = true
+}
+
+bootRepackage {
+    mainClass = 'demo.timelinekeeping.Application'
+}
 
 repositories {
     mavenCentral()
@@ -33,25 +43,35 @@ configurations {
 }
 
 dependencies {
+
+    //spring
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-jdbc')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile("org.springframework.boot:spring-boot-starter-security")
     compile("org.springframework.boot:spring-boot-devtools")
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+    //data
     runtime('mysql:mysql-connector-java')
     compile group: 'org.hibernate', name: 'hibernate-validator', version: '4.2.0.Final'
+
+    //* http*/
     compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.5'
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
     compile group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.5.2'
+    compile group: 'com.ning', name: 'async-http-client', version: '1.9.40'
+
+    //common
     compile group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.5'
     compile group: 'net.sourceforge.nekohtml', name: 'nekohtml', version: '1.9.22'
-//    compile group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.11.49'
-    compile group: 'com.ning', name: 'async-http-client', version: '1.9.40'
-    testCompile group: 'junit', name: 'junit', version: '4.11'
     compile group: 'joda-time', name: 'joda-time', version: '2.9.4'
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+
 
 }
 

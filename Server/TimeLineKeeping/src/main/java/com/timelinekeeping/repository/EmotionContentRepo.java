@@ -12,8 +12,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 /**
  * Created by lethanhtan on 9/19/16.
  */
@@ -27,8 +25,9 @@ public interface EmotionContentRepo extends JpaRepository<EmotionContentEntity, 
                                                         @Param("second") EEmotion second,
                                                         @Param("third") EEmotion third,
                                                         @Param("age") Double age,
-                                                        @Param("gender")Gender gender,
+                                                        @Param("gender") Gender gender,
                                                         Pageable pageable);
+
     @Modifying
     @Transactional
     @Query(value = "update emotion_content set vote = vote +1 where id  = ?1", nativeQuery = true)

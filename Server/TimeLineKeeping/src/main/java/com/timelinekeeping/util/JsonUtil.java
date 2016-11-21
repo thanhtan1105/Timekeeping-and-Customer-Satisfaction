@@ -78,9 +78,9 @@ public class JsonUtil {
         }
     }
 
-    public static void main(String[] args) {
-        String json = "[{\"faceRectangle\":{\"height\":952,\"left\":806,\"top\":1275,\"width\":952},\"scores\":{\"anger\":0.80901897,\"contempt\":1.84519173E-08,\"disgust\":0.000492386345,\"fear\":0.150978327,\"happiness\":0.000305363646,\"neutral\":5.94567655E-06,\"sadness\":0.009365463,\"surprise\":0.0298335142}}]";
-        List<EmotionRecognizeResponse> obj = JsonUtil.convertListObject(json, EmotionRecognizeResponse.class);
-        System.out.println("json:" + JsonUtil.toJson(obj));
-    }
+//    public static void main(String[] args) {
+//        String json = "[{\"faceRectangle\":{\"height\":952,\"left\":806,\"top\":1275,\"width\":952},\"scores\":{\"anger\":0.80901897,\"contempt\":1.84519173E-08,\"disgust\":0.000492386345,\"fear\":0.150978327,\"happiness\":0.000305363646,\"neutral\":5.94567655E-06,\"sadness\":0.009365463,\"surprise\":0.0298335142}}]";
+//        List<EmotionRecognizeResponse> obj = JsonUtil.convertListObject(json, EmotionRecognizeResponse.class);
+//        System.out.println("json:" + JsonUtil.toJson(obj));
+//    }
 }
