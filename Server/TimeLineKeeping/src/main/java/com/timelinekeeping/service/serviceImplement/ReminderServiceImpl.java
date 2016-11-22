@@ -202,14 +202,16 @@ public class ReminderServiceImpl {
             Set<Long> employeeModel = reminder.getEmployeeSet();
 
             // remove old notification
-            notificationSet.stream().filter(notificationEntity -> !employeeModel.contains(notificationEntity.getAccountReceive().getId()))
-                    .forEach(notificationEntity -> {
-                        notificationEntity.setActive(EStatus.DEACTIVE);
-                        notificationRepo.save(notificationEntity);
-                    });
+
+                notificationSet.stream().filter(notificationEntity ->  employeeModel != null && !employeeModel.contains(notificationEntity.getAccountReceive().getId()))
+                        .forEach(notificationEntity -> {
+                            notificationEntity.setActive(EStatus.DEACTIVE);
+                            notificationRepo.save(notificationEntity);
+                        });
+
 
             // add new notfication
-            reminder.getEmployeeSet().stream().filter(employeeId -> !employeeIDEntity.contains(employeeId)).forEach(
+            reminder.getEmployeeSet().stream().filter(employeeId ->  employeeIDEntity != null &&!employeeIDEntity.contains(employeeId)).forEach(
                     employeeId -> {
                         AccountEntity employee = accountRepo.findOne(employeeId);
                         NotificationEntity notificationEntity = new NotificationEntity();
