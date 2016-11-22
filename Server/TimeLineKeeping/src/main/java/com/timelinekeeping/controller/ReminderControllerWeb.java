@@ -1,11 +1,11 @@
 package com.timelinekeeping.controller;
 
+import com.timelinekeeping.common.BaseResponseG;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.constant.IViewConst;
 import com.timelinekeeping.constant.I_TIME;
 import com.timelinekeeping.constant.I_URI;
 import com.timelinekeeping.model.*;
-import com.timelinekeeping.common.BaseResponseG;
 import com.timelinekeeping.service.serviceImplement.AccountServiceImpl;
 import com.timelinekeeping.service.serviceImplement.CoordinateServiceImpl;
 import com.timelinekeeping.service.serviceImplement.ReminderServiceImpl;
@@ -21,10 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -96,7 +93,7 @@ public class ReminderControllerWeb {
         return url;
     }
 
-    @RequestMapping(value = "/addReminderProcessing",  method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/addReminderProcessing", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String addReminder(@RequestParam("title") String title,
                               @RequestParam("date") String date,
                               @RequestParam("time") String time,
@@ -108,14 +105,14 @@ public class ReminderControllerWeb {
         logger.info("[Controller- Add Reminder] title: " + title);
         logger.info("[Controller- Add Reminder] time: " + time);
         logger.info("[Controller- Add Reminder] roomId: " + roomId);
-        logger.info("[Controller- Add Reminder] size of list employees: " + listEmployees != null ? listEmployees.length : 0);
+        logger.info("[Controller- Add Reminder] size of list employees: " + (listEmployees != null ? listEmployees.length : 0));
         logger.info("[Controller- Add Reminder] message: " + message);
         String dateTime = date + " " + time;
         logger.info("[Controller- Add Reminder] date time: " + dateTime);
         Date timeParser = TimeUtil.parseToDate(dateTime, I_TIME.FULL_TIME_MINUS_AM);
         logger.info("[Controller- Add Reminder] parse to Date: " + timeParser);
-        if (listEmployees != null) {
-            List<Long> employeeSet = new ArrayList<Long>();
+        Set<Long> employeeSet = new HashSet<>();
+        if (listEmployees != null && listEmployees.length > 0) {
             for (int i = 0; i < listEmployees.length; i++) {
                 logger.info("[Controller- Add Reminder] employeeId[" + i + "]: " + listEmployees[i]);
                 employeeSet.add(ValidateUtil.parseNumber(listEmployees[i]));
@@ -126,26 +123,22 @@ public class ReminderControllerWeb {
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
         if (accountModel != null) {
             url = IViewConst.LOGIN_VIEW;
-            String role = accountModel.getRole().getName().toUpperCase();
-            // check is manager
-            if ("MANAGER".equals(role)) {
-                Long managerId = accountModel.getId();
-                ReminderModifyModel reminderModifyModel = new ReminderModifyModel();
-                reminderModifyModel.setTitle(title);
-                reminderModifyModel.setMessage(message);
-                reminderModifyModel.setTime(timeParser.getTime());
-                reminderModifyModel.setManagerId(managerId);
-                //reminderModifyModel.setEmployeeSet(new HashSet<Long>(employeeSet));
-                reminderModifyModel.setRoomId(ValidateUtil.parseNumber(roomId));
-                // create reminder
-                BaseResponseG<ReminderModel> response = reminderService.create(reminderModifyModel);
+            Long managerId = accountModel.getId();
+            ReminderModifyModel reminderModifyModel = new ReminderModifyModel();
+            reminderModifyModel.setTitle(title);
+            reminderModifyModel.setMessage(message);
+            reminderModifyModel.setTime(timeParser.getTime());
+            reminderModifyModel.setManagerId(managerId);
+            reminderModifyModel.setEmployeeSet(employeeSet);
+            reminderModifyModel.setRoomId(ValidateUtil.parseNumber(roomId));
+            // create reminder
+            BaseResponseG<ReminderModel> response = reminderService.create(reminderModifyModel);
 
-                url = IViewConst.ADD_REMINDER_VIEW;
-                boolean success = response.isSuccess();
-                logger.info("[Controller- Add Reminder] [result] create reminder: " + success);
-                if (success) {
-                    url = "redirect:/manager/reminders/";
-                }
+            url = IViewConst.ADD_REMINDER_VIEW;
+            boolean success = response.isSuccess();
+            logger.info("[Controller- Add Reminder] [result] create reminder: " + success);
+            if (success) {
+                url = "redirect:/manager/reminders/";
             }
         }
 
@@ -215,17 +208,19 @@ public class ReminderControllerWeb {
         logger.info("[Controller- Add Reminder] title: " + title);
         logger.info("[Controller- Add Reminder] time: " + time);
         logger.info("[Controller- Add Reminder] roomId: " + roomId);
-        logger.info("[Controller- Add Reminder] size of list employees: " + listEmployees.length);
+        logger.info("[Controller- Add Reminder] size of list employees: " + (listEmployees != null ? listEmployees.length : 0));
         logger.info("[Controller- Add Reminder] message: " + message);
         String dateTime = date + " " + time;
         logger.info("[Controller- Add Reminder] date time: " + dateTime);
         Date timeParser = TimeUtil.parseToDate(dateTime, I_TIME.FULL_TIME_MINUS_AM);
         logger.info("[Controller- Add Reminder] parse to Date: " + timeParser);
 
-        List<Long> employeeSet = new ArrayList<Long>();
-        for (int i = 0; i < listEmployees.length; i++) {
-            logger.info("[Controller- Add Reminder] employeeId[" + i + "]: " + listEmployees[i]);
-            employeeSet.add(ValidateUtil.parseNumber(listEmployees[i]));
+        Set<Long> employeeSet = new HashSet<>();
+        if (listEmployees != null && listEmployees.length > 0) {
+            for (int i = 0; i < listEmployees.length; i++) {
+                logger.info("[Controller- Add Reminder] employeeId[" + i + "]: " + listEmployees[i]);
+                employeeSet.add(ValidateUtil.parseNumber(listEmployees[i]));
+            }
         }
 
         // get session
@@ -240,7 +235,7 @@ public class ReminderControllerWeb {
         reminderModifyModel.setMessage(message);
         reminderModifyModel.setTime(timeParser.getTime());
         reminderModifyModel.setManagerId(managerId);
-        reminderModifyModel.setEmployeeSet(new HashSet<Long>(employeeSet));
+        reminderModifyModel.setEmployeeSet(employeeSet);
         reminderModifyModel.setRoomId(ValidateUtil.parseNumber(roomId));
 
         BaseResponseG<ReminderModel> response = reminderService.update(reminderModifyModel);
