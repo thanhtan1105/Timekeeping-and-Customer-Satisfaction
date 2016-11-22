@@ -105,7 +105,8 @@
                                                              style="width: 100px; height: auto"/>
                                                     </div>
                                                     <!-- preloader image -->
-                                                    <div th:id="'div-preloader-image'" style="display: none; text-align: center">
+                                                    <div th:id="'div-preloader-image'"
+                                                         style="display: none; text-align: center">
                                                         <button class="btn bg-blue-gradient" disabled>
                                                             <i class="fa fa-refresh fa-spin"></i>
                                                         </button>
@@ -158,8 +159,8 @@
                                     <!-- button skip -->
                                     <div class="row" style="margin-top: 5px">
                                         <div class="col-sm-4 col-sm-offset-4">
-                                            <button class="btn bg-orange-active btn-flat btn-block"
-                                                    th:id="'btn-skip-transaction'">Bỏ qua
+                                            <button class="btn bg-orange-active btn-flat btn-block btn-skip-transaction">
+                                                Bỏ qua
                                             </button>
                                         </div>
                                     </div>
@@ -177,8 +178,15 @@
                     <div class="box box-warning">
                         <div class="box-body">
                             <p class="font-18">Không thể lấy cảm xúc khách hàng.
-                                <br/> Xin vui lòng thử lại.
+                                <br/>
+                                <font class="text-bold">Vui lòng nhấn</font>
                             </p>
+                            <div class="row">
+                                <div class="col-sm-2 col-sm-offset-5">
+                                    <button class="btn bg-orange-active btn-flat btn-block btn-skip-transaction">Bỏ qua
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -28,7 +28,7 @@ $('#btn-next-transaction').on('click', function () {
     //disable button next
     event_disabled('#btn-next-transaction', true);
     //disable button skip
-    event_disabled('#btn-skip-transaction', true);
+    event_disabled('.btn-skip-transaction', true);
     //hide div overview customer emotion
     event_hide('#div-overview-customer-emotion');
     //hide div not get emotion
@@ -51,12 +51,12 @@ $('#btn-next-transaction').on('click', function () {
 /**
  * Event: skip transaction
  */
-$('#btn-skip-transaction').on('click', function () {
+$('.btn-skip-transaction').on('click', function () {
     console.info('Running btn skip');
     //disable button next
     event_disabled('#btn-next-transaction', true);
     //disable button skip
-    event_disabled('#btn-skip-transaction', true);
+    event_disabled('.btn-skip-transaction', true);
     //hide div overview customer emotion
     event_hide('#div-overview-customer-emotion');
     //hide div not get emotion
@@ -108,7 +108,7 @@ function worker_get_emotion() {
                 //enable button next
                 event_disabled('#btn-next-transaction', false);
                 //enable button skip
-                event_disabled('#btn-skip-transaction', false);
+                event_disabled('.btn-skip-transaction', false);
 
                 //set overview customer emotion
                 set_content_overview_customer_emotion(age_predict, gender, awsUrl, emotionExist, customer_emotion_msg, suggestions);
@@ -202,7 +202,7 @@ function time_out_worker_get_emotion() {
         //enable button next
         event_disabled('#btn-next-transaction', false);
         //enable button skip
-        event_disabled('#btn-skip-transaction', false);
+        event_disabled('.btn-skip-transaction', false);
     }, com_time_out_worker_get_emotion);
 }
 
@@ -225,7 +225,7 @@ function stop_get_emotion_manual() {
     //enable button next
     event_disabled('#btn-next-transaction', false);
     //enable button skip
-    event_disabled('#btn-skip-transaction', false);
+    event_disabled('.btn-skip-transaction', false);
 }
 
 /**
