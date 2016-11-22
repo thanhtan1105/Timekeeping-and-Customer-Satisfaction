@@ -251,19 +251,19 @@ public class PersonServiceMCSImpl {
 //        }
 //    }
 
-
-    public static void main(String[] args) {
-
-        try {
-            PersonServiceMCSImpl personServiceMCS = new PersonServiceMCSImpl();
-//            System.out.println(JsonUtil.toJson(personServiceMCS.removePersonFace("tkcs","8a50c336-5a94-4f77-ad6d-70b92a96b928", "19981081-4abf-411c-9fc9-22191f729e2b")));
-            System.out.println(JsonUtil.toJson(personServiceMCS.listPersonInGroup("tkcs")));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
+//
+//    public static void main(String[] args) {
+//
+//        try {
+//            PersonServiceMCSImpl personServiceMCS = new PersonServiceMCSImpl();
+////            System.out.println(JsonUtil.toJson(personServiceMCS.removePersonFace("tkcs","8a50c336-5a94-4f77-ad6d-70b92a96b928", "19981081-4abf-411c-9fc9-22191f729e2b")));
+//            System.out.println(JsonUtil.toJson(personServiceMCS.listPersonInGroup("tkcs")));
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
 }

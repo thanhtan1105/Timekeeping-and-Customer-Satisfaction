@@ -138,10 +138,10 @@ public class TimeUtil {
     }
 
 
-    public static void main(String[] args) {
-        System.out.println(JsonUtil.toJson(createDayBetween(new Date())));
-        System.out.println(JsonUtil.toJson(createMonthBetween(new Date())));
-    }
+//    public static void main(String[] args) {
+//        System.out.println(JsonUtil.toJson(createDayBetween(new Date())));
+//        System.out.println(JsonUtil.toJson(createMonthBetween(new Date())));
+//    }
 
 
 }

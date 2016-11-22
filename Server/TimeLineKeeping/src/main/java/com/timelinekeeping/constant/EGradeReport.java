@@ -34,6 +34,7 @@ public enum EGradeReport {
     }
 
     public static EGradeReport fromGrade(double grade) {
+
         for (EGradeReport eg : values()) {
             if (grade == 10d) {
                 return EXCELLENT;

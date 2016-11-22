@@ -17,7 +17,7 @@ function load_page() {
     worker_get_emotion();
 
     //timeout stop worker get emotion
-    time_out_worker_get_emotion()
+    time_out_worker_get_emotion();
 }
 
 /**
@@ -28,33 +28,41 @@ $('#btn-next-transaction').on('click', function () {
     //disable button next
     event_disabled('#btn-next-transaction', true);
     //disable button skip
-    event_disabled('#btn-skip-transaction', true);
+    event_disabled('.btn-skip-transaction', true);
     //hide div overview customer emotion
     event_hide('#div-overview-customer-emotion');
     //hide div not get emotion
     event_hide('#div-not-get-emotion');
-    //show div loader
-    event_show('#div-loader');
+    //hide button show modal customer emotion
+    event_hide('#btn-show-modal-customer-emotion');
 
-    //call request: next transaction (isSkip == false)
-    worker_next_transaction(false);
+    //check is first call
+    if (com_first_time_load_get_customer_emotion) {//is first call get_emotion api
+        //call request: load page
+        load_page();
+        //reset is first time
+        com_first_time_load_get_customer_emotion = false;
+    } else {// is not first call next api
+        //call request: next transaction (isSkip == false)
+        worker_next_transaction(false);
+    }
 });
 
 /**
  * Event: skip transaction
  */
-$('#btn-skip-transaction').on('click', function () {
+$('.btn-skip-transaction').on('click', function () {
     console.info('Running btn skip');
     //disable button next
     event_disabled('#btn-next-transaction', true);
     //disable button skip
-    event_disabled('#btn-skip-transaction', true);
+    event_disabled('.btn-skip-transaction', true);
     //hide div overview customer emotion
     event_hide('#div-overview-customer-emotion');
     //hide div not get emotion
     event_hide('#div-not-get-emotion');
-    //show div loader
-    event_show('#div-loader');
+    //hide button show modal customer emotion
+    event_hide('#btn-show-modal-customer-emotion');
 
     //call request: next transaction (isSkip == true)
     worker_next_transaction(true);
@@ -91,16 +99,16 @@ function worker_get_emotion() {
                     age_predict = messages.predict,
                     gender = messages.gender;
 
-                //hide div loader
-                event_hide('#div-loader');
                 //hide div not get emotion
                 event_hide('#div-not-get-emotion');
                 //show div overview customer emotion
                 event_show('#div-overview-customer-emotion');
+                //show button show modal customer emotion
+                event_show('#btn-show-modal-customer-emotion');
                 //enable button next
                 event_disabled('#btn-next-transaction', false);
                 //enable button skip
-                event_disabled('#btn-skip-transaction', false);
+                event_disabled('.btn-skip-transaction', false);
 
                 //set overview customer emotion
                 set_content_overview_customer_emotion(age_predict, gender, awsUrl, emotionExist, customer_emotion_msg, suggestions);
@@ -121,10 +129,12 @@ function worker_get_emotion() {
 function worker_next_transaction(isSkip) {
     var urlString = '/api/emotion/next?accountId=' + accountId
         + '&skip=' + isSkip;
+    console.info('[Worker next transaction][accountId] ' + accountId);
     $.ajax({
         type: "GET",
         url: urlString,
         success: function (response) {
+            console.info('[Worker next transaction][success] ' + response.success);
             if (response.success) {
                 customerCode = response.data;
                 if (customerCode != null) {
@@ -132,7 +142,7 @@ function worker_next_transaction(isSkip) {
                     load_page();
                 }
             } else {
-                alert(response.data);
+                console.log(response.data)
             }
         }
     });
@@ -183,16 +193,16 @@ function time_out_worker_get_emotion() {
         //stop request get emotion
         clearTimeout(timer_get_emotion);
 
-        //hide div loader
-        event_hide('#div-loader');
         //hide div overview customer emotion
         event_hide('#div-overview-customer-emotion');
+        //hide button show modal customer emotion
+        event_hide('#btn-show-modal-customer-emotion');
         //show div not get emotion
         event_show('#div-not-get-emotion');
         //enable button next
         event_disabled('#btn-next-transaction', false);
         //enable button skip
-        event_disabled('#btn-skip-transaction', false);
+        event_disabled('.btn-skip-transaction', false);
     }, com_time_out_worker_get_emotion);
 }
 
@@ -206,16 +216,16 @@ function stop_get_emotion_manual() {
     //stop time out worker get emotion
     clearTimeout(timer_stop_get_emotion);
 
-    //hide div loader
-    event_hide('#div-loader');
     //hide div overview customer emotion
     event_hide('#div-overview-customer-emotion');
+    //hide button show modal customer emotion
+    event_hide('#btn-show-modal-customer-emotion');
     //show div not get emotion
     event_show('#div-not-get-emotion');
     //enable button next
     event_disabled('#btn-next-transaction', false);
     //enable button skip
-    event_disabled('#btn-skip-transaction', false);
+    event_disabled('.btn-skip-transaction', false);
 }
 
 /**
@@ -307,6 +317,20 @@ function vote_suggestion(id) {
 }
 
 /**
+ * Fc: close modal customer emotion
+ * @param isClose
+ */
+function close_modal_customer_emotion(isClose) {
+    if (isClose) {
+        //hide div overview customer emotion
+        event_hide('#div-overview-customer-emotion');
+    } else {
+        //show div overview customer emotion
+        event_show('#div-overview-customer-emotion');
+    }
+}
+
+/**
  * Fc: set content age_predict
  * @param age_predict
  */
@@ -386,12 +410,10 @@ function set_customer_emotion_message(customer_emotion_msg) {
         $customer_emotion_msg = $('#customer-emotion-message');
     if (customer_emotion_msg != null && customer_emotion_msg.length > 0) {
         for (var i = 0; i < customer_emotion_msg.length; i++) {
-            ul_content_customer_emotion += '<li>' +
-                customer_emotion_msg[i] +
-                '</li>';
+            ul_content_customer_emotion += customer_emotion_msg[i];
         }
     } else {
-        ul_content_customer_emotion += '<li>N/A</li>';
+        ul_content_customer_emotion += 'N/A';
     }
     $customer_emotion_msg.html(ul_content_customer_emotion);
 }

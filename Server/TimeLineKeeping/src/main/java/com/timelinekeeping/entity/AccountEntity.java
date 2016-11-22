@@ -27,7 +27,7 @@ public class AccountEntity implements Serializable {
     private Long id;
 
     @Basic
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(name = "username", unique = true, nullable = false, length = 100)
     private String username;
 
     @Basic
@@ -88,7 +88,7 @@ public class AccountEntity implements Serializable {
     private RoleEntity role;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id", nullable = false)
+    @JoinColumn(name = "department_id")
     private DepartmentEntity department;
 
     @ManyToOne(fetch = FetchType.LAZY)

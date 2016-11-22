@@ -89,21 +89,21 @@ public class StoreFileUtils {
     }
 
 
-    public static void main(String[] args) {
-        try {
-            AccountModel accountModel = new AccountModel();
-            accountModel.setId(1l);
-            accountModel.setUsername("quanghien");
-            accountModel.setDepartment(new DepartmentModel(1l, "fpt_university"));
-            FileInputStream fileInputStream = new FileInputStream("D:\\CP\\FILE\\1_humanresource\\4_quan\\1478255415074.jpg");
-
-            String filename = FileUtils.createFolderTrain(accountModel);
-
-            new StoreFileUtils().storeFile(filename, fileInputStream);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-    }
+//    public static void main(String[] args) {
+//        try {
+//            AccountModel accountModel = new AccountModel();
+//            accountModel.setId(1l);
+//            accountModel.setUsername("quanghien");
+//            accountModel.setDepartment(new DepartmentModel(1l, "fpt_university"));
+//            FileInputStream fileInputStream = new FileInputStream("D:\\CP\\FILE\\1_humanresource\\4_quan\\1478255415074.jpg");
+//
+//            String filename = FileUtils.createFolderTrain(accountModel);
+//
+//            new StoreFileUtils().storeFile(filename, fileInputStream);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
 }

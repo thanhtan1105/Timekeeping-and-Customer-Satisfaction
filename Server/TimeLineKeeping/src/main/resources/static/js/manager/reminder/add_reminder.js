@@ -87,7 +87,7 @@ function submit_form() {
         //reset error empty room (if any)
         reset_content_error('#div-room', '#span-room-msg-error');
     }
-    //participants
+    // //participants
     if (!check_list(listEmployees)) {
         find_error = true;
         message_error = 'Participants are required';

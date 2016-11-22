@@ -194,18 +194,18 @@ public class SuggestionService {
     }
 
 
-    public static void main(String[] args) {
-        EmotionAnalysisModel analysisModel = new EmotionAnalysisModel();
-//        System.out.println(suggestionService.getSubject(24d, Gender.MALE).getName());
-        analysisModel.setAge(24d);
-        analysisModel.setGender(Gender.FEMALE);
-        EmotionRecognizeScores emotionRecognizeScores = new EmotionRecognizeScores();
-        emotionRecognizeScores.setHappiness(0.9d);
-        emotionRecognizeScores.setNeutral(0.5d);
-        emotionRecognizeScores.setSurprise(0.4d);
-        emotionRecognizeScores.setAnger(0.2d);
-        analysisModel.setEmotion(emotionRecognizeScores);
-        SuggestionService suggestionService = new SuggestionService();
-        System.out.println(UtilApps.formatSentence(suggestionService.getEmotionMessage(analysisModel)));
-    }
+//    public static void main(String[] args) {
+//        EmotionAnalysisModel analysisModel = new EmotionAnalysisModel();
+////        System.out.println(suggestionService.getSubject(24d, Gender.MALE).getName());
+//        analysisModel.setAge(24d);
+//        analysisModel.setGender(Gender.FEMALE);
+//        EmotionRecognizeScores emotionRecognizeScores = new EmotionRecognizeScores();
+//        emotionRecognizeScores.setHappiness(0.9d);
+//        emotionRecognizeScores.setNeutral(0.5d);
+//        emotionRecognizeScores.setSurprise(0.4d);
+//        emotionRecognizeScores.setAnger(0.2d);
+//        analysisModel.setEmotion(emotionRecognizeScores);
+//        SuggestionService suggestionService = new SuggestionService();
+//        System.out.println(UtilApps.formatSentence(suggestionService.getEmotionMessage(analysisModel)));
+//    }
 }
