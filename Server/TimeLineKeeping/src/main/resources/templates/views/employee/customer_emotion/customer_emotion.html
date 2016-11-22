@@ -19,117 +19,131 @@
         <div style="margin-bottom: 50px">
             <!-- company name -->
             <div class="row text-black">
-                <div class="col-sm-12 text-center">
-                    <div class="col-sm-4 col-sm-offset-4 text-center">
-                        <div class="panel panel-primary">
-                            <div class="panel-body">
-                                <label>
-                                    <font class="font-24 text-uppercase">TKCS Company</font>
-                                </label>
-                            </div>
-                        </div>
+                <div class="panel panel-primary" style="margin-left: 33%; margin-right: 33%">
+                    <div class="panel-body" style="text-align: center">
+                        <label>
+                            <font class="font-24 text-uppercase">TKCS Company</font>
+                        </label>
                     </div>
                 </div>
-
             </div>
-            <!-- department -->
-            <div class="row text-black font-18">
-                <div class="col-sm-6 text-right">
-                    <label>Department:</label></div>
-                <div class="col-sm-6 text-left">
-                    <font th:if="${session} and ${session.UserSession}"
-                          th:text="${session.UserSession.department.name}"></font>
-                    &nbsp;
-                    <!-- button show modal customer emotion -->
-                    <label class="text-yellow" th:id="'btn-show-modal-customer-emotion'" style="display: none"
-                           onclick="close_modal_customer_emotion(false)">
-                        <i class="fa fa-lightbulb-o"></i></label>
-                </div>
+            <div class="row text-black font-18" style="margin-left: 4%; margin-right: 4%">
+                <table style="width: 100%!important;">
+                    <!-- department -->
+                    <tr>
+                        <td style="width: 48%; text-align: right">
+                            <label>Department:</label>
+                        </td>
+                        <td style="width: 4%"></td>
+                        <td style="width: 48%">
+                            <font th:if="${session} and ${session.UserSession}"
+                                  th:text="${session.UserSession.department.name}"></font>
+                            &nbsp;
+                            <!-- button show modal customer emotion -->
+                            <label class="text-yellow" th:id="'btn-show-modal-customer-emotion'" style="display: none"
+                                   onclick="close_modal_customer_emotion(false)">
+                                <i class="fa fa-lightbulb-o"></i></label>
+                        </td>
+                    </tr>
+                    <!-- /.end department -->
+                    <!-- date -->
+                    <tr>
+                        <td style="width: 48%; text-align: right">
+                            <label>Date:</label>
+                        </td>
+                        <td style="width: 4%"></td>
+                        <td style="width: 48%">
+                            <font th:text="${#dates.format(CurrentDate, 'yyyy-MMM-dd')}"></font>
+                        </td>
+                    </tr>
+                    <!-- /.end date -->
+                </table>
             </div>
-            <!-- /.end department -->
-            <!-- date -->
-            <div class="row text-black font-18">
-                <div class="col-sm-6 text-right">
-                    <label>Date:</label></div>
-                <div class="col-sm-6 text-left">
-                    <font th:text="${#dates.format(CurrentDate, 'yyyy-MMM-dd')}"></font></div>
-            </div>
-            <!-- /.end date -->
             <!-- button next transaction -->
-            <div class="row font-18" style="margin-top: 20px;">
-                <div class="col-sm-2 col-sm-offset-5">
+            <div class="row" style="margin-top: 20px;">
+                <div style="margin-left: 35%; margin-right: 35%; text-align: center">
                     <button class="btn bg-aqua-active btn-flat btn-block"
                             th:id="'btn-next-transaction'">
                         Khách hàng tiếp theo
                     </button>
                 </div>
-                <div th:id="'div-stop-worker-get-emotion-manual'" class="col-sm-5" style="opacity: 0"
+            </div>
+            <!-- /.end button next transaction -->
+            <!-- button stop transaction -->
+            <div class="row">
+                <div th:id="'div-stop-worker-get-emotion-manual'" style="opacity: 0"
                      onclick="stop_get_emotion_manual()">
-                    <div class="box box-default">
+                    <div class="box">
                         <div class="box-body"></div>
                     </div>
                 </div>
             </div>
-            <!-- /.end button next transaction -->
+            <!-- /.end button stop transaction -->
         </div>
         <div th:id="'div-overview-customer-emotion'" class="row" style="display: none;">
             <div class="col-sm-12">
                 <div class="customer-emotion">
                     <div class="modal">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog" style="width: 100%!important;">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" onclick="close_modal_customer_emotion(true)">
+                                <div class="modal-header" style="padding: 3px">
+                                    <button type="button" class="close" onclick="close_modal_customer_emotion(true)"
+                                            style="margin-top: 3px; margin-right: 2px">
                                         <span aria-hidden="true">&times;</span></button>
-                                    <h3 class="modal-title text-blue text-bold">Customer Emotion</h3>
+                                    <h4 class="modal-title text-blue text-bold"
+                                        style="margin-left: 15px">Customer Emotion</h4>
                                 </div>
-                                <div class="modal-body">
+                                <div class="modal-body"
+                                     style="padding: 5px; height: 310px; overflow-y:scroll; overflow-x: hidden">
                                     <div class="row">
-                                        <!-- image customer -->
-                                        <div class="col-sm-3 text-center">
-                                            <div class="col-sm-12" th:id="'div-image-customer'">
-                                                <img th:id="'image-customer'" style="width: 95%; height: auto"/>
-                                            </div>
-                                            <!-- preloader image -->
-                                            <div class="col-sm-12" th:id="'div-preloader-image'" style="display: none">
-                                                <button class="btn bg-blue-gradient" disabled>
-                                                    <i class="fa fa-refresh fa-spin"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-9 text-left">
-                                            <!-- gender -->
-                                            <div class="row">
-                                                <div class="col-sm-5">
-                                                    <label>Giới tính:</label>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <span th:id="'font-gender'"></span>
-                                                </div>
-                                            </div>
-                                            <!-- age -->
-                                            <div class="row">
-                                                <div class="col-sm-5">
-                                                    <label>Tuổi khuôn mặt:</label>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <font th:id="'font-age-predict'"></font>
-                                                </div>
-                                            </div>
-                                            <!-- emotion -->
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <label>Cảm xúc: </label>
-                                                    <font th:id="'customer-emotion-message'"></font>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <table style="width: 100%">
+                                            <tr>
+                                                <!-- image customer -->
+                                                <td style="width: 30%; text-align: center">
+                                                    <div th:id="'div-image-customer'">
+                                                        <img th:id="'image-customer'"
+                                                             style="width: 100px; height: auto"/>
+                                                    </div>
+                                                    <!-- preloader image -->
+                                                    <div th:id="'div-preloader-image'" style="display: none; text-align: center">
+                                                        <button class="btn bg-blue-gradient" disabled>
+                                                            <i class="fa fa-refresh fa-spin"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                                <td style="width: 70%; text-align: left">
+                                                    <table style="width: 95%">
+                                                        <!-- gender -->
+                                                        <tr>
+                                                            <td style="width: 50%">
+                                                                <label>Giới tính:</label></td>
+                                                            <td style="width: 50%">
+                                                                <span th:id="'font-gender'"></span></td>
+                                                        </tr>
+                                                        <!-- age -->
+                                                        <tr>
+                                                            <td style="width: 50%">
+                                                                <label>Tuổi khuôn mặt:</label></td>
+                                                            <td style="width: 50%">
+                                                                <font th:id="'font-age-predict'"></font></td>
+                                                        </tr>
+                                                        <!-- emotion -->
+                                                        <tr>
+                                                            <td colspan="2">
+                                                                <label>Cảm xúc: </label>
+                                                                <font th:id="'customer-emotion-message'"></font>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </div>
                                     <!-- suggestion -->
-                                    <div class="row" style="margin-top: 10px">
+                                    <div class="row" style="margin-top: 5px; margin-left: 1px">
                                         <div class="col-sm-12">
-                                            <div class="panel panel-primary">
-                                                <div class="panel-body">
+                                            <div class="panel panel-primary" style="margin-bottom: 5px">
+                                                <div class="panel-body" style="padding: 5px">
                                                     <label>Gợi ý giao tiếp</label>
                                                     <ol th:id="'suggestion-behavior-message'"></ol>
                                                 </div>
@@ -158,8 +172,8 @@
         </div>
         <!-- div message not get emotion -->
         <div th:id="'div-not-get-emotion'" style="display: none">
-            <div class="row text-center">
-                <div class="col-sm-4 col-md-offset-4">
+            <div class="row">
+                <div style="margin-left: 25%; margin-right: 25%; text-align: center">
                     <div class="box box-warning">
                         <div class="box-body">
                             <p class="font-18">Không thể lấy cảm xúc khách hàng.
@@ -170,7 +184,6 @@
                 </div>
             </div>
         </div>
-
     </section>
     <!-- /.content -->
 </div>
