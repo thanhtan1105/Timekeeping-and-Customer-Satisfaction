@@ -101,25 +101,26 @@ public class ReminderControllerWeb {
                               @RequestParam("date") String date,
                               @RequestParam("time") String time,
                               @RequestParam("roomId") String roomId,
-                              @RequestParam("listEmployees") String[] listEmployees,
+                              @RequestParam(value = "listEmployees", required = false) String[] listEmployees,
                               @RequestParam("message") String message,
                               HttpSession session) {
         logger.info("[Controller- Add Reminder] BEGIN");
         logger.info("[Controller- Add Reminder] title: " + title);
         logger.info("[Controller- Add Reminder] time: " + time);
         logger.info("[Controller- Add Reminder] roomId: " + roomId);
-        logger.info("[Controller- Add Reminder] size of list employees: " + listEmployees.length);
+        logger.info("[Controller- Add Reminder] size of list employees: " + listEmployees != null ? listEmployees.length : 0);
         logger.info("[Controller- Add Reminder] message: " + message);
         String dateTime = date + " " + time;
         logger.info("[Controller- Add Reminder] date time: " + dateTime);
         Date timeParser = TimeUtil.parseToDate(dateTime, I_TIME.FULL_TIME_MINUS_AM);
         logger.info("[Controller- Add Reminder] parse to Date: " + timeParser);
-        List<Long> employeeSet = new ArrayList<Long>();
-        for (int i = 0; i < listEmployees.length; i++) {
-            logger.info("[Controller- Add Reminder] employeeId[" + i + "]: " + listEmployees[i]);
-            employeeSet.add(ValidateUtil.parseNumber(listEmployees[i]));
+        if (listEmployees != null) {
+            List<Long> employeeSet = new ArrayList<Long>();
+            for (int i = 0; i < listEmployees.length; i++) {
+                logger.info("[Controller- Add Reminder] employeeId[" + i + "]: " + listEmployees[i]);
+                employeeSet.add(ValidateUtil.parseNumber(listEmployees[i]));
+            }
         }
-
         String url = IViewConst.LOGIN_VIEW;
         // get session
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
@@ -134,7 +135,7 @@ public class ReminderControllerWeb {
                 reminderModifyModel.setMessage(message);
                 reminderModifyModel.setTime(timeParser.getTime());
                 reminderModifyModel.setManagerId(managerId);
-                reminderModifyModel.setEmployeeSet(new HashSet<Long>(employeeSet));
+                //reminderModifyModel.setEmployeeSet(new HashSet<Long>(employeeSet));
                 reminderModifyModel.setRoomId(ValidateUtil.parseNumber(roomId));
                 // create reminder
                 BaseResponseG<ReminderModel> response = reminderService.create(reminderModifyModel);
@@ -185,7 +186,7 @@ public class ReminderControllerWeb {
         logger.info(Thread.currentThread().getStackTrace()[1].getMethodName() + "[size of list rooms] "
                 + coordinateModels.size());
 
-        // set side-bar
+        // set side-bar7
         String sideBar = IContanst.SIDE_BAR_MANAGER_MANAGEMENT_REMINDER;
 
         //get list only employeeID thui, qua bên kia dể làm hơn
@@ -207,7 +208,7 @@ public class ReminderControllerWeb {
                            @RequestParam("date") String date,
                            @RequestParam("time") String time,
                            @RequestParam("roomId") String roomId,
-                           @RequestParam("listEmployees") String[] listEmployees,
+                           @RequestParam(value = "listEmployees", required = false) String[] listEmployees,
                            @RequestParam("message") String message,
                            HttpSession session) {
         logger.info("[Controller- Add Reminder] BEGIN");

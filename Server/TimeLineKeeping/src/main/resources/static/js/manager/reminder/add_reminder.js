@@ -87,15 +87,15 @@ function submit_form() {
         //reset error empty room (if any)
         reset_content_error('#div-room', '#span-room-msg-error');
     }
-    //participants
-    if (!check_list(listEmployees)) {
-        find_error = true;
-        message_error = 'Participants are required';
-        set_content_error('#div-participant', '#span-participant-msg-error', message_error);
-    } else {
-        //reset error empty participants (if any)
-        reset_content_error('#div-participant', '#span-participant-msg-error');
-    }
+    // //participants
+    // if (!check_list(listEmployees)) {
+    //     find_error = true;
+    //     message_error = 'Participants are required';
+    //     set_content_error('#div-participant', '#span-participant-msg-error', message_error);
+    // } else {
+    //     //reset error empty participants (if any)
+    //     reset_content_error('#div-participant', '#span-participant-msg-error');
+    // }
 
     console.info('[Add reminder][find error] ' + find_error);
     if (!find_error) {
