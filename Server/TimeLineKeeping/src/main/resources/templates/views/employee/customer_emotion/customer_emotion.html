@@ -7,7 +7,7 @@
     <meta charset="UTF-8"/>
     <title>Customer Emotion</title>
 </head>
-<body>
+<body th:id="'div-keydown-get-customer-emotion'">
 <div layout:fragment="content">
     <!-- Main content -->
     <section class="content font-17">
@@ -88,13 +88,13 @@
                             <div class="modal-content">
                                 <div class="modal-header" style="padding: 3px">
                                     <button type="button" class="close" onclick="close_modal_customer_emotion(true)"
-                                            style="margin-top: 3px; margin-right: 2px">
+                                            style="margin-top: 3px; margin-right: 10px">
                                         <span aria-hidden="true">&times;</span></button>
                                     <h4 class="modal-title text-blue text-bold"
                                         style="margin-left: 15px">Customer Emotion</h4>
                                 </div>
-                                <div class="modal-body"
-                                     style="padding: 5px; height: 310px; overflow-y:scroll; overflow-x: hidden">
+                                <div class="modal-body" th:id="'div-body-scroll-customer-emotion'"
+                                     style="padding: 8px; height: 310px; overflow-y:scroll; overflow-x: hidden">
                                     <div class="row">
                                         <table style="width: 100%">
                                             <tr>
@@ -102,7 +102,7 @@
                                                 <td style="width: 30%; text-align: center">
                                                     <div th:id="'div-image-customer'">
                                                         <img th:id="'image-customer'"
-                                                             style="width: 100px; height: auto"/>
+                                                             style="width: 110px; height: auto"/>
                                                     </div>
                                                     <!-- preloader image -->
                                                     <div th:id="'div-preloader-image'"
@@ -132,6 +132,12 @@
                                                         <tr>
                                                             <td colspan="2">
                                                                 <label>Cảm xúc: </label>
+                                                                <font th:id="'font-ratios-emotion'"></font>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2">
+                                                                <label>Nhận xét: </label>
                                                                 <font th:id="'customer-emotion-message'"></font>
                                                             </td>
                                                         </tr>
@@ -141,7 +147,7 @@
                                         </table>
                                     </div>
                                     <!-- suggestion -->
-                                    <div class="row" style="margin-top: 5px; margin-left: 1px">
+                                    <div class="row" style="margin-top: 15px; margin-left: 1px">
                                         <div class="col-sm-12">
                                             <div class="panel panel-primary" style="margin-bottom: 5px">
                                                 <div class="panel-body" style="padding: 5px">
@@ -153,7 +159,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12 text-center text-bold">
-                                            <font>Nếu không phải xin nhấn</font>
+                                            <font>Nếu không phải khách hàng này xin nhấn</font>
                                         </div>
                                     </div>
                                     <!-- button skip -->
@@ -182,8 +188,9 @@
                                 <font class="text-bold">Vui lòng nhấn</font>
                             </p>
                             <div class="row">
-                                <div class="col-sm-2 col-sm-offset-5">
-                                    <button class="btn bg-orange-active btn-flat btn-block btn-skip-transaction">Bỏ qua
+                                <div style="margin-left: 33%; margin-right: 33%; text-align: center">
+                                    <button class="btn bg-orange-active btn-flat btn-block btn-skip-transaction">
+                                        Thử lại
                                     </button>
                                 </div>
                             </div>

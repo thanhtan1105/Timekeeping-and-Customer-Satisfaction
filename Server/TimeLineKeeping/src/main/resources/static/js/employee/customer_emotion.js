@@ -77,6 +77,34 @@ $('#btn-rotate-image').on('click', function () {
     rotateRight('#image-customer', degrees);
 });
 
+$('#div-keydown-get-customer-emotion').keydown(function (event) {
+    var keyCode = (event.keyCode ? event.keyCode : event.which);
+    if (keyCode == 13) {
+        console.info('Running keydown');
+        //disable button next
+        event_disabled('#btn-next-transaction', true);
+        //disable button skip
+        event_disabled('.btn-skip-transaction', true);
+        //hide div overview customer emotion
+        event_hide('#div-overview-customer-emotion');
+        //hide div not get emotion
+        event_hide('#div-not-get-emotion');
+        //hide button show modal customer emotion
+        event_hide('#btn-show-modal-customer-emotion');
+
+        //check is first call
+        if (com_first_time_load_get_customer_emotion) {//is first call get_emotion api
+            //call request: load page
+            load_page();
+            //reset is first time
+            com_first_time_load_get_customer_emotion = false;
+        } else {// is not first call next api
+            //call request: next transaction (isSkip == false)
+            worker_next_transaction(false);
+        }
+    }
+});
+
 /**
  * Worker: get first emotion
  * Description: run on loading page or clicking skip button
@@ -105,6 +133,8 @@ function worker_get_emotion() {
                 event_show('#div-overview-customer-emotion');
                 //show button show modal customer emotion
                 event_show('#btn-show-modal-customer-emotion');
+                //reset scroll
+                reset_scroll('#div-body-scroll-customer-emotion');
                 //enable button next
                 event_disabled('#btn-next-transaction', false);
                 //enable button skip
@@ -317,6 +347,14 @@ function vote_suggestion(id) {
 }
 
 /**
+ * Fc: reset scroll
+ * @param id
+ */
+function reset_scroll(id) {
+    $(id).scrollTop(0);
+}
+
+/**
  * Fc: close modal customer emotion
  * @param isClose
  */
@@ -327,6 +365,8 @@ function close_modal_customer_emotion(isClose) {
     } else {
         //show div overview customer emotion
         event_show('#div-overview-customer-emotion');
+        //reset scroll
+        reset_scroll('#div-body-scroll-customer-emotion');
     }
 }
 
@@ -387,7 +427,6 @@ function set_ratios_emotion(emotionExist) {
         formt_number;
     //set content
     if (emotionExist != null && emotionExist.length > 0) {
-        content_ratios_emotion += '(';
         for (var i = 0; i < emotionExist.length; i++) {
             formt_number = Math.round(emotionExist[i].percent);
             content_ratios_emotion += formt_number + '% ' +
@@ -396,7 +435,6 @@ function set_ratios_emotion(emotionExist) {
                 content_ratios_emotion += ', ';
             }
         }
-        content_ratios_emotion += ')';
     }
     $font_ratios_emotion.html(content_ratios_emotion);
 }
@@ -430,26 +468,6 @@ function set_suggest_behaviour(suggestions) {
             ul_content_suggestion_behavior += '<li>' +
                 suggestions[i].message +
                 '</li>';
-            ul_content_suggestion_behavior += '<ul class="list-inline">' +
-                '<li>' +
-                '<button type="button" class="btn btn-default btn-xs btn-vote" ' +
-                'id="btn-vote-' +
-                suggestions[i].id +
-                '" ' +
-                'onclick="vote_suggestion(' +
-                suggestions[i].id +
-                ')">' +
-                '<i class="fa fa-thumbs-o-up margin-r-5"></i> Vote</button>' +
-                '</li>' +
-                '<li><span class="badge bg-aqua-gradient" id="span-vote-' +
-                suggestions[i].id +
-                '">' +
-                suggestions[i].vote +
-                '</span></li>' +
-                '</ul>';
-            if (i < suggestions.length - 1) {
-                ul_content_suggestion_behavior += '<hr/>';
-            }
         }
     } else {
         ul_content_suggestion_behavior += '<li>N/A</li>';

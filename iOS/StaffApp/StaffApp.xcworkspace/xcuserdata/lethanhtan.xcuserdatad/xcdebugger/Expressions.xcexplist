@@ -11,6 +11,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "AppDelegate.(application(UIApplication, didFinishLaunchingWithOptions : [NSObject : AnyObject]?) -&gt; Bool).(closure #1).(closure #1):AppDelegate.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "title">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "NotificationViewController.viewWillAppear(Bool) -&gt; ():NotificationViewController.swift">
          <PersistentStrings>
             <PersistentString

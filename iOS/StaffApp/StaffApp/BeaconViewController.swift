@@ -144,6 +144,7 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
         return point.name == room
       }).first
       
+      print("Destination Point:", destinationPoint)
       removeDestinationPoint()
       currentFloor = -1
       showSourcePoint(sourcePoint)

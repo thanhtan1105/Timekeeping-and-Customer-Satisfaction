@@ -106,3 +106,4 @@ public class BeaconEntity {
         this.areaName = areaName;
     }
 }
+

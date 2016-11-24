@@ -21,48 +21,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     OneSignal.initWithLaunchOptions(launchOptions, appId: "dbd7cdd6-9555-416b-bc08-21aa24164299") { (result: OSNotificationOpenedResult!) in
       // This block gets called when the user reacts to a notification received
       let payload = result.notification.payload
-//      let id = payload.additionalData["id"] as! Int
-      
       // download notification
-      dispatch_async(dispatch_get_main_queue(), { 
-        let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
-        let viewController = appDelegate!.window!.rootViewController
-        if (viewController as? HomeTabBarController) != nil {
-          let homeTabbar = viewController as! HomeTabBarController
-          let listVC: [UIViewController] = homeTabbar.viewControllers!
-          let navigation = listVC[1] as! UINavigationController   // notificaionViewController
-          let notificationVC = navigation.childViewControllers[0] as! NotificationViewController
-          notificationVC.reloadNotification()
-        }
-        
-        // beacon view controller
-        if (viewController as? HomeTabBarController) != nil {
-          let homeTabbar = viewController as! HomeTabBarController
-          let listVC: [UIViewController] = homeTabbar.viewControllers!
-          let navigation = listVC[1] as! UINavigationController   // notificaionViewController
-          if let beaconVC = navigation.viewControllers.last as? BeaconViewController {
-            // cut string
-            // "Thông báo cuộc họp: \nChủ đề: Téting \nPhòng họp: 101 \nThời gian: 2016-Nov-21 23:31\n"
-            let body = payload.body
-//            let roomString = body.characters.split("\n")[2].map(String.init())
-            let roomStringArr = body.characters.split{$0 == "\n"}.map(String.init)[2]
-            let roomString = roomStringArr.replace("Phòng họp: ", replacement: "")
-            let room = roomString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            
-            let titleStringArr = body.characters.split{$0 == "\n"}.map(String.init)[1]
-            let titleString = titleStringArr.replace("Chủ đề: ", replacement: "")
-            let title = titleString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            
-            let timeStringArr = body.characters.split{$0 == "\n"}.map(String.init)[3]
-            let timeString = timeStringArr.replace("Thời gian: ", replacement: "")
-            let time = timeString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            beaconVC.reloadDataIfHaveNotification(newRoom: room, time: time, title: title)
-          }
-          
-          
-        }
-      })
+      let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+      let viewController = appDelegate!.window!.rootViewController
+      if (viewController as? HomeTabBarController) != nil {
+        let homeTabbar = viewController as! HomeTabBarController
+        let listVC: [UIViewController] = homeTabbar.viewControllers!
+        let navigation = listVC[1] as! UINavigationController   // notificaionViewController
+        let notificationVC = navigation.childViewControllers[0] as! NotificationViewController
+        notificationVC.reloadNotification()
+      }
       
+      // beacon view controller
+      if (viewController as? HomeTabBarController) != nil {
+        let homeTabbar = viewController as! HomeTabBarController
+        let listVC: [UIViewController] = homeTabbar.viewControllers!
+        let navigation = listVC[1] as! UINavigationController   // notificaionViewController
+        if let beaconVC = navigation.viewControllers.last as? BeaconViewController {
+          // cut string
+          // "Thông báo cuộc họp: \nChủ đề: Téting \nPhòng họp: 101 \nThời gian: 2016-Nov-21 23:31\n"
+          let body = payload.body
+//            let roomString = body.characters.split("\n")[2].map(String.init())
+          let roomStringArr = body.characters.split{$0 == "\n"}.map(String.init)[2]
+          let roomString = roomStringArr.replace("Phòng họp: ", replacement: "")
+          let room = roomString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+          
+          let titleStringArr = body.characters.split{$0 == "\n"}.map(String.init)[1]
+          let titleString = titleStringArr.replace("Chủ đề: ", replacement: "")
+          let title = titleString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+          
+          let timeStringArr = body.characters.split{$0 == "\n"}.map(String.init)[3]
+          let timeString = timeStringArr.replace("Thời gian: ", replacement: "")
+          let time = timeString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+          beaconVC.reloadDataIfHaveNotification(newRoom: room, time: time, title: title)
+        }
+      }      
     }
     
     OneSignal.IdsAvailable { (userID: String!, pushToken: String!) in
