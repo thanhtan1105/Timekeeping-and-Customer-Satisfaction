@@ -1,5 +1,8 @@
 package com.timelinekeeping.model;
 
+import org.joda.time.DateTime;
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -7,6 +10,8 @@ import java.util.List;
  */
 public class EmotionCustomerResponse {
     private String customerCode;
+
+    //emotion analysis model
     private EmotionAnalysisModel analyzes;
 
     // mess
@@ -14,7 +19,14 @@ public class EmotionCustomerResponse {
 
     // emotion percent
     private List<EmotionCompare> emotionPercent;
+
+    private CustomerModel customerInformation;
+
+    private List<String> customerHistory;
+
+    // link aws url
     private String awsUrl;
+    // check final
     private Boolean isFinal = false;
 
     public EmotionCustomerResponse() {
@@ -90,5 +102,35 @@ public class EmotionCustomerResponse {
 
     public void setEmotionPercent(List<EmotionCompare> emotionPercent) {
         this.emotionPercent = emotionPercent;
+    }
+
+    public CustomerModel getCustomerInformation() {
+        return completeAnalysisCustomer();
+    }
+
+    public void setCustomerInformation(CustomerModel customerInformation) {
+        this.customerInformation = customerInformation;
+    }
+
+    /** if customer is null, convert information detect to  customer infor*/
+    public CustomerModel completeAnalysisCustomer(){
+        if (customerInformation == null && analyzes != null){
+            CustomerModel customerModel = new CustomerModel();
+            customerModel.setGender(analyzes.getGender());
+            DateTime dateTime = new DateTime(new Date());
+            Integer year = dateTime.plusYears(analyzes.getAge().intValue()).getYear();
+            customerModel.setYearBirth(year);
+            return customerModel;
+        }else {
+            return customerInformation;
+        }
+    }
+
+    public List<String> getCustomerHistory() {
+        return customerHistory;
+    }
+
+    public void setCustomerHistory(List<String> customerHistory) {
+        this.customerHistory = customerHistory;
     }
 }

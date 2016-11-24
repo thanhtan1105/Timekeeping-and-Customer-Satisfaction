@@ -1,6 +1,8 @@
 package com.timelinekeeping.entity;
 
 import com.timelinekeeping.constant.Gender;
+import com.timelinekeeping.model.CustomerTransactionModel;
+import com.timelinekeeping.util.ValidateUtil;
 
 import javax.persistence.*;
 
@@ -34,6 +36,14 @@ public class CustomerEntity {
     @Basic
     @Column(name = "description")
     private String description;
+
+
+    public void update(CustomerTransactionModel customerTransactionModel) {
+        this.name = ValidateUtil.isNotEmpty(customerTransactionModel.getName()) ? customerTransactionModel.getName() : null;
+        this.yearBirth = customerTransactionModel.getYearBirth() != null ? customerTransactionModel.getYearBirth() : null;
+        this.gender = customerTransactionModel.getGender() != null ? customerTransactionModel.getGender() : null;
+        this.description = customerTransactionModel.getDescription() != null ? customerTransactionModel.getDescription() : null;
+    }
 
     public Long getId() {
         return id;
@@ -82,4 +92,6 @@ public class CustomerEntity {
     public void setDescription(String description) {
         this.description = description;
     }
+
+
 }

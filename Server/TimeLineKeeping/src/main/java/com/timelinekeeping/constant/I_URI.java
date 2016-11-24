@@ -63,6 +63,7 @@ public interface I_URI {
     String API_EMOTION_UPLOAD_IMAGE = "/upload";
     String API_EMOTION_NEXT_TRANSACTION = "/next";
     String API_EMOTION_VOTE = "/vote";
+    String API_EMOTION_MODIFY = "/update_customer_infor";
     String API_EMOTION_BEGIN_TRANSACTION = "/begin_transaction";
     String API_EMOTION_START_TRANSACTION = "/start_transaction";
     String API_EMOTION_PROCESS_TRANSACTION = "/process_transaction";

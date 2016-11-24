@@ -20,16 +20,15 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Date;
 
 /**
  * Created by HienTQSE60896 on 10/10/2016.
  */
 @RestController
 @RequestMapping(I_URI.API_EMOTION)
-public class EmotionController {
+public class CustomerEmotionController {
 
-    private Logger logger = LogManager.getLogger(EmotionController.class);
+    private Logger logger = LogManager.getLogger(CustomerEmotionController.class);
 
     @Autowired
     private EmotionServiceImpl emotionService;
@@ -288,6 +287,27 @@ public class EmotionController {
         try {
             emotionService.vote(contentId);
             return new BaseResponse(true);
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+            logger.error(e);
+            return new BaseResponse(false, e.getMessage());
+        } finally {
+            logger.info(IContanst.END_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        }
+    }
+
+
+    @RequestMapping(value = {I_URI.API_EMOTION_MODIFY}, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public BaseResponse updateCustomer(@ModelAttribute CustomerTransactionModel customerTransactionModel) {
+        logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
+        try {
+            Pair<Boolean, Object> result  = emotionService.updateCustomer(customerTransactionModel);
+            if (result.getKey() == true){
+                return new BaseResponse(true, result.getValue());
+            }else {
+                return new BaseResponse(false);
+            }
         } catch (Exception e) {
             System.out.println(e.getStackTrace());
             logger.error(e);

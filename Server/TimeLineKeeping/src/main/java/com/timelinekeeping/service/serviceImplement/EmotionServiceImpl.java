@@ -9,21 +9,16 @@ import com.timelinekeeping.constant.ERROR;
 import com.timelinekeeping.constant.ETransaction;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.AccountEntity;
+import com.timelinekeeping.entity.CustomerEntity;
 import com.timelinekeeping.entity.CustomerServiceEntity;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.modelMCS.EmotionRecognizeResponse;
 import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
 import com.timelinekeeping.modelMCS.FaceDetectResponse;
-import com.timelinekeeping.repository.AccountRepo;
-import com.timelinekeeping.repository.CustomerServiceRepo;
-import com.timelinekeeping.repository.EmotionContentRepo;
-import com.timelinekeeping.repository.EmotionRepo;
+import com.timelinekeeping.repository.*;
 import com.timelinekeeping.service.blackService.SuggestionService;
-import com.timelinekeeping.util.JsonUtil;
-import com.timelinekeeping.util.ServiceUtils;
-import com.timelinekeeping.util.TimeUtil;
-import com.timelinekeeping.util.UtilApps;
+import com.timelinekeeping.util.*;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -46,7 +41,11 @@ import java.util.stream.Collectors;
 public class EmotionServiceImpl {
 
     @Autowired
-    private CustomerServiceRepo customerRepo;
+    private CustomerServiceRepo customerServiceRepo;
+
+    @Autowired
+    private CustomerRepo customerRepo;
+
 
     @Autowired
     private EmotionRepo emotionRepo;
@@ -142,7 +141,10 @@ public class EmotionServiceImpl {
 
             //set status = BEGIN
             customerResultEntity.setStatus(ETransaction.BEGIN);
-            CustomerServiceEntity entity = customerRepo.saveAndFlush(customerResultEntity);
+
+            //set rpmanager and set rp deparment
+            customerResultEntity.setRpDepartmentId(employee.getDepartment().getId());
+            CustomerServiceEntity entity = customerServiceRepo.saveAndFlush(customerResultEntity);
             return new CustomerServiceModel(entity);
 
         } finally {
@@ -159,7 +161,7 @@ public class EmotionServiceImpl {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info(String.format("customerCode = '%s', Status = ''", customerCode, stauts));
             //get Customer Service with customerCode
-            CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
+            CustomerServiceEntity customerResultEntity = customerServiceRepo.findByCustomerCode(customerCode);
             if (customerResultEntity != null
                     && (customerResultEntity.getStatus() == ETransaction.BEGIN
                     || customerResultEntity.getStatus() == ETransaction.PROCESS)) {
@@ -168,7 +170,7 @@ public class EmotionServiceImpl {
                 if (stauts == ETransaction.END) {
                     customerResultEntity.calculateGrade();
                 }
-                customerRepo.saveAndFlush(customerResultEntity);
+                customerServiceRepo.saveAndFlush(customerResultEntity);
                 return customerResultEntity.getCreateBy() != null ? customerResultEntity.getCreateBy().getId() : null;
             } else {
                 logger.error("CustomerService has status: " + customerResultEntity.getStatus());
@@ -190,14 +192,14 @@ public class EmotionServiceImpl {
             logger.info("CustomerCode: " + customerCode);
 
             //get Customer Service with customerCode;
-            CustomerServiceEntity customerResultEntity = customerRepo.findByCustomerCode(customerCode);
+            CustomerServiceEntity customerResultEntity = customerServiceRepo.findByCustomerCode(customerCode);
             logger.info("customer Emotion: " + JsonUtil.toJson(new CustomerServiceModel(customerResultEntity)));
             if (customerResultEntity != null && (customerResultEntity.getStatus() == ETransaction.BEGIN || customerResultEntity.getStatus() == ETransaction.PROCESS)) {
 
                 //if status == BEGIN, change status = PROCESS. save db
                 if (customerResultEntity.getStatus() == ETransaction.BEGIN) {
                     customerResultEntity.setStatus(ETransaction.PROCESS);
-                    customerRepo.saveAndFlush(customerResultEntity);
+                    customerServiceRepo.saveAndFlush(customerResultEntity);
                 }
 
                 //analyze emotion
@@ -258,7 +260,7 @@ public class EmotionServiceImpl {
             }
 
             //getListObject day
-            List<Object[]> objs = customerRepo.reportCustomerByMonthAndEmployee(year, month, eployeeId);
+            List<Object[]> objs = customerServiceRepo.reportCustomerByMonthAndEmployee(year, month, eployeeId);
             //Convert qua mapValue
             Map<Long, Object[]> mapVal = UtilApps.converListObject2Map(objs);
             //get dayMax in month
@@ -296,9 +298,8 @@ public class EmotionServiceImpl {
             customerService.setReportDate(dayReports);
             customerService.complete();
 
-            logger.info("Return Json: " +JsonUtil.toJson(customerService));
+            logger.info("Return Json: " + JsonUtil.toJson(customerService));
             return customerService;
-
 
 
         } finally {
@@ -318,21 +319,21 @@ public class EmotionServiceImpl {
             List<AccountEntity> accountEntities = accountRepo.findEmployeeByDepartmentNoActive(managerEntity.getDepartment().getId());
             List<AccountReportCustomerService> accountReports = accountEntities.stream().map(AccountReportCustomerService::new).collect(Collectors.toList());
 
-            Pair<Date,Date> datePair = null;
-            if (day > 0){
-                datePair = TimeUtil.createDayBetween(new DateTime(year, month, day, 0,0).toDate());
-            }else {
-                datePair = TimeUtil.createMonthBetween(new DateTime(year, month, 1, 0,0).toDate());
+            Pair<Date, Date> datePair = null;
+            if (day > 0) {
+                datePair = TimeUtil.createDayBetween(new DateTime(year, month, day, 0, 0).toDate());
+            } else {
+                datePair = TimeUtil.createMonthBetween(new DateTime(year, month, 1, 0, 0).toDate());
             }
             //get report
-            List<ReportCustomerEmotionQuery> listquery = customerRepo.reportCustomerByMonth(datePair.getKey(), datePair.getValue());
+            List<ReportCustomerEmotionQuery> listquery = customerServiceRepo.reportCustomerByMonth(datePair.getKey(), datePair.getValue());
             //convert to map
             Map<Long, ReportCustomerEmotionQuery> mapVal = listquery.stream().collect(Collectors.toMap(rp -> rp.getId(), rp -> rp));
 
             //get tu value trong map add to account
             for (AccountReportCustomerService customerService : accountReports) {
                 ReportCustomerEmotionQuery report = mapVal.get(customerService.getId());
-                if (report != null ) {
+                if (report != null) {
                     customerService.from(report);
                 }
             }
@@ -416,6 +417,45 @@ public class EmotionServiceImpl {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             contentRepo.updateVote(contentId);
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
+    public Pair<Boolean, Object> updateCustomer(CustomerTransactionModel customerTransactionModel) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+
+            if (customerTransactionModel == null || ValidateUtil.isEmpty(customerTransactionModel.getCustomerCode())){
+                return new Pair<>(false);
+            }
+
+            CustomerEntity customerEntity = null;
+            if (customerTransactionModel.getId() != null) {
+                customerEntity = customerRepo.findOne(customerTransactionModel.getId());
+            }
+
+            if (customerEntity == null){
+                customerEntity = new CustomerEntity();
+            }
+
+            customerEntity.update(customerTransactionModel);
+
+            //store customer
+            CustomerEntity customerResponse = customerRepo.save(customerEntity);
+
+
+
+            //update customer service
+            CustomerServiceEntity customerServiceEntity = customerServiceRepo.findByCustomerCode(customerTransactionModel.getCustomerCode());
+            if (customerServiceEntity != null) {
+                customerServiceEntity.setContentTransaction(customerTransactionModel.getContent());
+                customerServiceEntity.setCustomerInformation(customerResponse);
+                customerServiceRepo.save(customerServiceEntity);
+            }
+
+            return new Pair<>(true, new Pair<String, Long>("customerId", customerResponse.getId()));
+
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
