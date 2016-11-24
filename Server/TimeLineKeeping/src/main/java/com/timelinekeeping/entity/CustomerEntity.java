@@ -35,7 +35,7 @@ public class CustomerEntity {
 
     @Basic
     @Column(name = "image_size")
-    private Integer imageSize;
+    private Integer imageSize = 0;
 
     @Basic
     @Column(name = "description")

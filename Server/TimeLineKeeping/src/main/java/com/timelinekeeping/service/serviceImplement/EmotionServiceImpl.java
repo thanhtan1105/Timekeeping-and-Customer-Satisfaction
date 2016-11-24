@@ -9,10 +9,7 @@ import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.ERROR;
 import com.timelinekeeping.constant.ETransaction;
 import com.timelinekeeping.constant.IContanst;
-import com.timelinekeeping.entity.AccountEntity;
-import com.timelinekeeping.entity.CustomerEntity;
-import com.timelinekeeping.entity.CustomerServiceEntity;
-import com.timelinekeeping.entity.EmotionCustomerEntity;
+import com.timelinekeeping.entity.*;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.modelMCS.*;
 import com.timelinekeeping.repository.*;
@@ -261,9 +258,11 @@ public class EmotionServiceImpl {
 
                 //save mostChoose
                 EmotionCustomerEntity emotionEntity = new EmotionCustomerEntity(emotionAnalysis, customerResultEntity);
-
-
                 EmotionCustomerEntity result = emotionRepo.saveAndFlush(emotionEntity);
+
+                historyCustomer(customerResultEntity, emotionAnalysis.getFaceId(), bytes);
+                /** history customer*/
+
 
 
                 //save to session
@@ -278,7 +277,7 @@ public class EmotionServiceImpl {
 
     }
 
-    public void identfyCustomer(CustomerServiceEntity customerResultEntity, String faceId, byte[] bytesImage) throws IOException, URISyntaxException {
+    public void historyCustomer(CustomerServiceEntity customerResultEntity, String faceId, byte[] bytesImage) throws IOException, URISyntaxException {
 
         // identify customer Emotion
         CustomerEntity customerEntity = customerResultEntity.getCustomerInformation();
@@ -307,13 +306,39 @@ public class EmotionServiceImpl {
 
         } else {
             //if null -> create customer emotion. add faceto, add to fb
-            //create new
-            personServiceMCS.createPerson(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER, "", "");
+            String personId = null;
+            //create new MCS
+            BaseResponse response = personServiceMCS.createPerson(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER, "", "");
+            if (response.isSuccess()) {
+                Map<String, String> map = (Map<String, String>) response.getData();
+                personId = map.get("personId");
+                logger.info("personCode: " + personId);
+
+                //create in db
+                customerEntity = new CustomerEntity();
+                customerEntity.setCode(personID);
+                customerEntity = customerRepo.save(customerEntity);
+
+                //connect with customerService
+                customerResultEntity.setCustomerInformation(customerEntity);
+                customerServiceRepo.save(customerResultEntity);
+            }
+
 
         }
 
         if (customerEntity.getImageSize() < IContanst.SIZE_IMAGE_CUSTOMER_TRAINING) {
-            personServiceMCS.addFaceImg(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER, customerEntity.getCode(), bytesImage);
+            BaseResponse responseFace = personServiceMCS.addFaceImg(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER, customerEntity.getCode(), bytesImage);
+            if (responseFace.isSuccess() == true) {
+                Map<String, String> mapResult = (Map<String, String>) responseFace.getData();
+                if (mapResult != null && mapResult.size() > 0) {
+                    String persistedFaceID = mapResult.get("persistedFaceId");
+                    // find one
+                    customerEntity.setImageSize(customerEntity.getImageSize() + 1);
+                    customerRepo.save(customerEntity);
+                }
+
+            }
         }
         //find in data customer
 
