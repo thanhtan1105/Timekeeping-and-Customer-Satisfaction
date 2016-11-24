@@ -30,21 +30,18 @@ public class CustomerEmotionControllerWeb {
         // get session
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
         if (accountModel != null) {
-            String role = accountModel.getRole().getName().toUpperCase();
             // check is employee
-            if ("EMPLOYEE".equals(role)) {
-                url = IViewConst.CUSTOMER_EMOTION_VIEW;
+            url = IViewConst.CUSTOMER_EMOTION_VIEW;
 
-                // get current date
-                Date currentDate = new Date();
-                // set side-bar
-                String sideBar = IContanst.SIDE_BAR_EMPLOYEE_CUSTOMER_EMOTION;
+            // get current date
+            Date currentDate = new Date();
+            // set side-bar
+            String sideBar = IContanst.SIDE_BAR_EMPLOYEE_CUSTOMER_EMOTION;
 
-                //current date
-                model.addAttribute("CurrentDate", currentDate);
-                // side-bar
-                model.addAttribute("SideBar", sideBar);
-            }
+            //current date
+            model.addAttribute("CurrentDate", currentDate);
+            // side-bar
+            model.addAttribute("SideBar", sideBar);
         }
 
         logger.info("[Controller- Load Customer Emotion View] END");

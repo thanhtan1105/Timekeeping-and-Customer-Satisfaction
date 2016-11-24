@@ -71,12 +71,12 @@ public class TestController {
         return listCheckIn;
     }
 
-    @RequestMapping("/get_employee_under_manager")
-    public List<AccountModel> getEmployee(@RequestParam(value = "manager_id", required = false) Long managerId) {
-        List<AccountEntity> lisNotify = accountRepo.findByManager(managerId);
-        List<AccountModel> listAccount = lisNotify.stream().map(AccountModel::new).collect(Collectors.toList());
-        return listAccount;
-    }
+//    @RequestMapping("/get_employee_under_manager")
+//    public List<AccountModel> getEmployee(@RequestParam(value = "manager_id", required = false) Long managerId) {
+//        List<AccountEntity> lisNotify = accountRepo.findByManager(managerId);
+//        List<AccountModel> listAccount = lisNotify.stream().map(AccountModel::new).collect(Collectors.toList());
+//        return listAccount;
+//    }
 
     @RequestMapping("/count_employee")
     public List<List<Long>> countEmployee(@RequestParam(value = "year", required = false) Integer year,

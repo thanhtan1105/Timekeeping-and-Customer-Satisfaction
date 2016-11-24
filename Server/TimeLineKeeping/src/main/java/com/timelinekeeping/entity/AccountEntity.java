@@ -88,12 +88,12 @@ public class AccountEntity implements Serializable {
     private RoleEntity role;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id")
+    @JoinColumn(name = "department_id", nullable = false)
     private DepartmentEntity department;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "manager_id")
-    private AccountEntity manager;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "manager_id")
+//    private AccountEntity manager;
 
     public AccountEntity() {
 
@@ -231,13 +231,13 @@ public class AccountEntity implements Serializable {
 //        this.faces = faces;
 //    }
 
-    public AccountEntity getManager() {
-        return manager;
-    }
-
-    public void setManager(AccountEntity manager) {
-        this.manager = manager;
-    }
+//    public AccountEntity getManager() {
+//        return manager;
+//    }
+//
+//    public void setManager(AccountEntity manager) {
+//        this.manager = manager;
+//    }
 
     public String getEmail() {
         return email;

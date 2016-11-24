@@ -314,7 +314,8 @@ public class EmotionServiceImpl {
             if (manager == null) {
                 return null;
             }
-            List<AccountEntity> accountEntities = accountRepo.findByManager(managerId);
+            AccountEntity managerEntity = accountRepo.findOne(managerId);
+            List<AccountEntity> accountEntities = accountRepo.findEmployeeByDepartmentNoActive(managerEntity.getDepartment().getId());
             List<AccountReportCustomerService> accountReports = accountEntities.stream().map(AccountReportCustomerService::new).collect(Collectors.toList());
 
             Pair<Date,Date> datePair = null;

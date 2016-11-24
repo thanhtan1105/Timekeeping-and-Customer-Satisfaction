@@ -9,7 +9,6 @@ import com.timelinekeeping.model.CheckinManualModel;
 import com.timelinekeeping.model.CheckinManualRequestModel;
 import com.timelinekeeping.service.serviceImplement.TimekeepingServiceImpl;
 import com.timelinekeeping.util.JsonUtil;
-import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -43,30 +42,27 @@ public class CheckinManualControllerWeb {
         // get session
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
         if (accountModel != null) {
-            String role = accountModel.getRole().getName().toUpperCase();
             // check is manager
-            if ("MANAGER".equals(role)) {
-                Long accountId = accountModel.getId();
-                // get employees list in the department
-                List<AccountCheckInModel> accountCheckInModels
-                        = timekeepingService.getEmployeeUnderManager(accountId);
-                if (accountCheckInModels != null) {
-                    int sizeOfListAccounts = accountCheckInModels.size();
-                    model.addAttribute("SizeOfListAccounts", sizeOfListAccounts);
-                }
-
-                // get current date
-                Date currentDate = new Date();
-                // set side-bar
-                String sideBar = IContanst.SIDE_BAR_MANAGER_CHECK_IN;
-
-                model.addAttribute("AccountCheckInModels", accountCheckInModels);
-                model.addAttribute("CurrentDate", currentDate);
-                // side-bar
-                model.addAttribute("SideBar", sideBar);
-
-                url = IViewConst.CHECK_IN_MANUAL_VIEW;
+            Long accountId = accountModel.getId();
+            // get employees list in the department
+            List<AccountCheckInModel> accountCheckInModels
+                    = timekeepingService.getEmployeeUnderManager(accountId);
+            if (accountCheckInModels != null) {
+                int sizeOfListAccounts = accountCheckInModels.size();
+                model.addAttribute("SizeOfListAccounts", sizeOfListAccounts);
             }
+
+            // get current date
+            Date currentDate = new Date();
+            // set side-bar
+            String sideBar = IContanst.SIDE_BAR_MANAGER_CHECK_IN;
+
+            model.addAttribute("AccountCheckInModels", accountCheckInModels);
+            model.addAttribute("CurrentDate", currentDate);
+            // side-bar
+            model.addAttribute("SideBar", sideBar);
+
+            url = IViewConst.CHECK_IN_MANUAL_VIEW;
         }
 
         logger.info("[Controller- Load Check-in Manual View] END");

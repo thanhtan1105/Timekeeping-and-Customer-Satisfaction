@@ -43,41 +43,38 @@ public class CustomerSatisfactionControllerWeb {
         // get session
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
         if (accountModel != null) {
-            String role = accountModel.getRole().getName().toUpperCase();
             // check is manager
-            if ("MANAGER".equals(role)) {
-                Long managerId = accountModel.getId();
-                // get current date
-                Date currentDate = new Date();
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(currentDate);
-                Integer month = calendar.get(Calendar.MONTH) + 1;
-                Integer year = calendar.get(Calendar.YEAR);
-                Integer day = Integer.valueOf(IContanst.DEFAULT_INT);
-                logger.info("[Controller- Load Customer Satisfaction Month View] current year: " + year);
-                logger.info("[Controller- Load Customer Satisfaction Month View] current month: " + month);
-                logger.info("[Controller- Load Customer Satisfaction Month View] current date: " + day);
+            Long managerId = accountModel.getId();
+            // get current date
+            Date currentDate = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentDate);
+            Integer month = calendar.get(Calendar.MONTH) + 1;
+            Integer year = calendar.get(Calendar.YEAR);
+            Integer day = Integer.valueOf(IContanst.DEFAULT_INT);
+            logger.info("[Controller- Load Customer Satisfaction Month View] current year: " + year);
+            logger.info("[Controller- Load Customer Satisfaction Month View] current month: " + month);
+            logger.info("[Controller- Load Customer Satisfaction Month View] current date: " + day);
 
-                //get customer satisfaction report
-                CustomerServiceReport customerServiceReport
-                        = emotionService.reportCustomerService(year, month, day, managerId);
-                if (customerServiceReport != null) {
-                    logger.info("[Controller- Load Customer Satisfaction Month View] "
-                            + customerServiceReport.getDepartment().getName());
-                } else {
-                    logger.info("[Controller- Load Customer Satisfaction Month View]  null");
-                }
-
-                // set side-bar
-                String sideBar = IContanst.SIDE_BAR_MANAGER_CUSTOMER_SATISFACTION;
-
-                model.addAttribute("CustomerServiceReport", customerServiceReport);
-                model.addAttribute("SelectedDate", currentDate);
-                // side-bar
-                model.addAttribute("SideBar", sideBar);
-
-                url = IViewConst.CUSTOMER_SATISFACTION_MONTH_VIEW;
+            //get customer satisfaction report
+            CustomerServiceReport customerServiceReport
+                    = emotionService.reportCustomerService(year, month, day, managerId);
+            if (customerServiceReport != null) {
+                logger.info("[Controller- Load Customer Satisfaction Month View] "
+                        + customerServiceReport.getDepartment().getName());
+            } else {
+                logger.info("[Controller- Load Customer Satisfaction Month View]  null");
             }
+
+            // set side-bar
+            String sideBar = IContanst.SIDE_BAR_MANAGER_CUSTOMER_SATISFACTION;
+
+            model.addAttribute("CustomerServiceReport", customerServiceReport);
+            model.addAttribute("SelectedDate", currentDate);
+            // side-bar
+            model.addAttribute("SideBar", sideBar);
+
+            url = IViewConst.CUSTOMER_SATISFACTION_MONTH_VIEW;
         }
 
         logger.info("[Controller- Load Customer Satisfaction Month View] END");
@@ -91,41 +88,38 @@ public class CustomerSatisfactionControllerWeb {
         // get session
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
         if (accountModel != null) {
-            String role = accountModel.getRole().getName().toUpperCase();
             // check is manager
-            if ("MANAGER".equals(role)) {
-                Long managerId = accountModel.getId();
-                // get current date
-                Date currentDate = new Date();
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(currentDate);
-                Integer month = calendar.get(Calendar.MONTH) + 1;
-                Integer year = calendar.get(Calendar.YEAR);
-                Integer day = calendar.get(Calendar.DAY_OF_MONTH);
-                logger.info("[Controller- Load Customer Satisfaction Month View] current year: " + year);
-                logger.info("[Controller- Load Customer Satisfaction Month View] current month: " + month);
-                logger.info("[Controller- Load Customer Satisfaction Month View] current date: " + day);
+            Long managerId = accountModel.getId();
+            // get current date
+            Date currentDate = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentDate);
+            Integer month = calendar.get(Calendar.MONTH) + 1;
+            Integer year = calendar.get(Calendar.YEAR);
+            Integer day = calendar.get(Calendar.DAY_OF_MONTH);
+            logger.info("[Controller- Load Customer Satisfaction Month View] current year: " + year);
+            logger.info("[Controller- Load Customer Satisfaction Month View] current month: " + month);
+            logger.info("[Controller- Load Customer Satisfaction Month View] current date: " + day);
 
-                //get customer satisfaction report
-                CustomerServiceReport customerServiceReport
-                        = emotionService.reportCustomerService(year, month, day, managerId);
-                if (customerServiceReport != null) {
-                    logger.info("[Controller- Load Customer Satisfaction Month View] "
-                            + customerServiceReport.getDepartment().getName());
-                } else {
-                    logger.info("[Controller- Load Customer Satisfaction Month View]  null");
-                }
-
-                // set side-bar
-                String sideBar = IContanst.SIDE_BAR_MANAGER_CUSTOMER_SATISFACTION;
-
-                model.addAttribute("CustomerServiceReport", customerServiceReport);
-                model.addAttribute("SelectedDate", currentDate);
-                // side-bar
-                model.addAttribute("SideBar", sideBar);
-
-                url = IViewConst.CUSTOMER_SATISFACTION_DATE_VIEW;
+            //get customer satisfaction report
+            CustomerServiceReport customerServiceReport
+                    = emotionService.reportCustomerService(year, month, day, managerId);
+            if (customerServiceReport != null) {
+                logger.info("[Controller- Load Customer Satisfaction Month View] "
+                        + customerServiceReport.getDepartment().getName());
+            } else {
+                logger.info("[Controller- Load Customer Satisfaction Month View]  null");
             }
+
+            // set side-bar
+            String sideBar = IContanst.SIDE_BAR_MANAGER_CUSTOMER_SATISFACTION;
+
+            model.addAttribute("CustomerServiceReport", customerServiceReport);
+            model.addAttribute("SelectedDate", currentDate);
+            // side-bar
+            model.addAttribute("SideBar", sideBar);
+
+            url = IViewConst.CUSTOMER_SATISFACTION_DATE_VIEW;
         }
 
         logger.info("[Controller- Load Customer Satisfaction Date View] END");
@@ -190,25 +184,22 @@ public class CustomerSatisfactionControllerWeb {
         // get session
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
         if (accountModel != null) {
-            String role = accountModel.getRole().getName().toUpperCase();
             // check is manager
-            if ("MANAGER".equals(role)) {
-                Long managerId = accountModel.getId();
+            Long managerId = accountModel.getId();
 
-                //get customer satisfaction report
-                CustomerServiceReport customerServiceReport
-                        = emotionService.reportCustomerService(year, month, day, managerId);
+            //get customer satisfaction report
+            CustomerServiceReport customerServiceReport
+                    = emotionService.reportCustomerService(year, month, day, managerId);
 
-                // set side-bar
-                String sideBar = IContanst.SIDE_BAR_MANAGER_CUSTOMER_SATISFACTION;
+            // set side-bar
+            String sideBar = IContanst.SIDE_BAR_MANAGER_CUSTOMER_SATISFACTION;
 
-                model.addAttribute("CustomerServiceReport", customerServiceReport);
-                model.addAttribute("SelectedDate", selectedDate);
-                // side-bar
-                model.addAttribute("SideBar", sideBar);
+            model.addAttribute("CustomerServiceReport", customerServiceReport);
+            model.addAttribute("SelectedDate", selectedDate);
+            // side-bar
+            model.addAttribute("SideBar", sideBar);
 
-                url = IViewConst.CUSTOMER_SATISFACTION_MONTH_VIEW;
-            }
+            url = IViewConst.CUSTOMER_SATISFACTION_MONTH_VIEW;
         }
 
         logger.info("[Controller- Change Month Customer Satisfaction Month View] END");
@@ -238,25 +229,22 @@ public class CustomerSatisfactionControllerWeb {
         // get session
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
         if (accountModel != null) {
-            String role = accountModel.getRole().getName().toUpperCase();
             // check is manager
-            if ("MANAGER".equals(role)) {
-                Long managerId = accountModel.getId();
+            Long managerId = accountModel.getId();
 
-                //get customer satisfaction report
-                CustomerServiceReport customerServiceReport
-                        = emotionService.reportCustomerService(year, month, day, managerId);
+            //get customer satisfaction report
+            CustomerServiceReport customerServiceReport
+                    = emotionService.reportCustomerService(year, month, day, managerId);
 
-                // set side-bar
-                String sideBar = IContanst.SIDE_BAR_MANAGER_CUSTOMER_SATISFACTION;
+            // set side-bar
+            String sideBar = IContanst.SIDE_BAR_MANAGER_CUSTOMER_SATISFACTION;
 
-                model.addAttribute("CustomerServiceReport", customerServiceReport);
-                model.addAttribute("SelectedDate", selectedDate);
-                // side-bar
-                model.addAttribute("SideBar", sideBar);
+            model.addAttribute("CustomerServiceReport", customerServiceReport);
+            model.addAttribute("SelectedDate", selectedDate);
+            // side-bar
+            model.addAttribute("SideBar", sideBar);
 
-                url = IViewConst.CUSTOMER_SATISFACTION_DATE_VIEW;
-            }
+            url = IViewConst.CUSTOMER_SATISFACTION_DATE_VIEW;
         }
 
         logger.info("[Controller- Change Date Customer Satisfaction Date View] END");

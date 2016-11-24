@@ -21,7 +21,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -62,31 +65,28 @@ public class ReminderControllerWeb {
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
         if (accountModel != null) {
             url = IViewConst.LOGIN_VIEW;
-            String role = accountModel.getRole().getName().toUpperCase();
             // check is manager
-            if ("MANAGER".equals(role)) {
 //                Long managerId = accountModel.getId();
-                Long departmentId = accountModel.getDepartment().getId();
-                Long roleId = accountModel.getRole().getId();
+            Long departmentId = accountModel.getDepartment().getId();
+            Long roleId = accountModel.getRole().getId();
 
-                // get all employees for assigning participants
+            // get all employees for assigning participants
 //                List<AccountModel> accountModels = accountService.getEmployeesOfDepart(managerId);
-                List<AccountModel> accountModels = accountService.findByDepartmentAndRole(departmentId, roleId);
-                logger.info("[Controller- Load Add Reminder View] size of list employees: " + accountModels.size());
-                //get all rooms
-                List<CoordinateModel> coordinateModels = coordinateService.getRoomPoint();
-                logger.info("[Controller- Load Add Reminder View] size of list rooms: " + coordinateModels.size());
+            List<AccountModel> accountModels = accountService.getEmployeesOfDepart(departmentId);
+            logger.info("[Controller- Load Add Reminder View] size of list employees: " + accountModels.size());
+            //get all rooms
+            List<CoordinateModel> coordinateModels = coordinateService.getRoomPoint();
+            logger.info("[Controller- Load Add Reminder View] size of list rooms: " + coordinateModels.size());
 
-                // set side-bar
-                String sideBar = IContanst.SIDE_BAR_MANAGER_MANAGEMENT_REMINDER;
+            // set side-bar
+            String sideBar = IContanst.SIDE_BAR_MANAGER_MANAGEMENT_REMINDER;
 
-                model.addAttribute("ListAccounts", accountModels);
-                model.addAttribute("ListRooms", coordinateModels);
-                // side-bar
-                model.addAttribute("SideBar", sideBar);
+            model.addAttribute("ListAccounts", accountModels);
+            model.addAttribute("ListRooms", coordinateModels);
+            // side-bar
+            model.addAttribute("SideBar", sideBar);
 
-                url = IViewConst.ADD_REMINDER_VIEW;
-            }
+            url = IViewConst.ADD_REMINDER_VIEW;
         }
 
         logger.info("[Controller- Load Add Reminder View] END");
@@ -170,10 +170,10 @@ public class ReminderControllerWeb {
 
         // get session
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
-        Long managerId = accountModel.getId();
+//        Long managerId = accountModel.getId();
 
         // get all employees for assigning participants
-        List<AccountModel> accountModels = accountService.getEmployeesOfDepart(managerId);
+        List<AccountModel> accountModels = accountService.getEmployeesOfDepart(accountModel.getDepartment().getId());
         //get all rooms
         List<CoordinateModel> coordinateModels = coordinateService.getRoomPoint();
         logger.info(Thread.currentThread().getStackTrace()[1].getMethodName() + "[size of list rooms] "

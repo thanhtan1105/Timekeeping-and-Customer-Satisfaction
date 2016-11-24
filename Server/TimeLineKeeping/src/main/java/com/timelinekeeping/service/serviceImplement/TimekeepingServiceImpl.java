@@ -48,8 +48,9 @@ public class TimekeepingServiceImpl {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             List<AccountCheckInModel> listResult = new ArrayList<>();
-//            List<AccountEntity> listAccount = accountRepo.findByDepartment(departmentId);
-            List<AccountEntity> listAccount = accountRepo.findByManager(managerID);
+            AccountEntity managerEntity = accountRepo.findOne(managerID);
+            List<AccountEntity> listAccount = accountRepo.findEmployeeByDepartment(managerEntity.getDepartment().getId());
+//            List<AccountEntity> listAccount = accountRepo.findByManager(managerID);
             for (AccountEntity accountEntity : listAccount) {
 
                 //get between day
@@ -97,33 +98,39 @@ public class TimekeepingServiceImpl {
 
 
 //                    TimeKeepingEntity timeKeeping = timekeepingRepo.findByAccountCheckinDate(accountId, new Date());
-                    String note = String.format(ERROR.MESSAGE_CHECKIN_MANUAL, accountEntity.getManager().getUsername()) + " " + checkinModel.getNote();
-                    if (page == null || page.getTotalElements() <= 0) {
+
+                    Page<AccountEntity> pageManager = accountRepo.findManagerByDepartment(accountEntity.getDepartment().getId(), new PageRequest(0,1));
+                    if (pageManager != null && pageManager.getTotalElements() > 0) {
+                        AccountEntity managerEntity = pageManager.getContent().get(0);
+
+                        String note = String.format(ERROR.MESSAGE_CHECKIN_MANUAL, managerEntity.getUsername()) + " " + checkinModel.getNote();
+                        if (page == null || page.getTotalElements() <= 0) {
 
 
-                        TimeKeepingEntity timeKeeping = new TimeKeepingEntity();
-                        timeKeeping.setAccount(accountEntity);
-                        timeKeeping.setNote(note);
-                        timeKeeping.setType(ETypeCheckin.CHECKIN_MANUAL);
-                        timeKeeping.setStatus(ETimeKeeping.PRESENT);
-                        timeKeeping.setTimeCheck(new Timestamp(new Date().getTime()));
-                        timeKeeping.setRpManagerId(accountEntity.getManager().getId());
-                        timeKeeping.setRpDepartmentId(accountEntity.getDepartment().getId());
-                        timekeepingRepo.save(timeKeeping);
-                        checkinModel.setSuccess(true);
-                    } else {
-
-                        TimeKeepingEntity timeKeeping = page.getContent().get(0);
-                        if (timeKeeping.getType() == ETypeCheckin.CHECKIN_CAMERA && TimeUtil.isPresentTimeCheckin(timeKeeping.getTimeCheck(), beginTimeCheckin, endTimeCheckin) == false) {
+                            TimeKeepingEntity timeKeeping = new TimeKeepingEntity();
+                            timeKeeping.setAccount(accountEntity);
                             timeKeeping.setNote(note);
                             timeKeeping.setType(ETypeCheckin.CHECKIN_MANUAL);
                             timeKeeping.setStatus(ETimeKeeping.PRESENT);
                             timeKeeping.setTimeCheck(new Timestamp(new Date().getTime()));
+                            timeKeeping.setRpManagerId(accountEntity.getId());
+                            timeKeeping.setRpDepartmentId(accountEntity.getDepartment().getId());
                             timekeepingRepo.save(timeKeeping);
                             checkinModel.setSuccess(true);
                         } else {
-                            checkinModel.setSuccess(false);
-                            checkinModel.setMessage(String.format(ERROR.CHECK_IN_MANUAL_ACCOUNT_CHECKINED, accountId + ""));
+
+                            TimeKeepingEntity timeKeeping = page.getContent().get(0);
+                            if (timeKeeping.getType() == ETypeCheckin.CHECKIN_CAMERA && TimeUtil.isPresentTimeCheckin(timeKeeping.getTimeCheck(), beginTimeCheckin, endTimeCheckin) == false) {
+                                timeKeeping.setNote(note);
+                                timeKeeping.setType(ETypeCheckin.CHECKIN_MANUAL);
+                                timeKeeping.setStatus(ETimeKeeping.PRESENT);
+                                timeKeeping.setTimeCheck(new Timestamp(new Date().getTime()));
+                                timekeepingRepo.save(timeKeeping);
+                                checkinModel.setSuccess(true);
+                            } else {
+                                checkinModel.setSuccess(false);
+                                checkinModel.setMessage(String.format(ERROR.CHECK_IN_MANUAL_ACCOUNT_CHECKINED, accountId + ""));
+                            }
                         }
                     }
                 } else {
@@ -159,7 +166,9 @@ public class TimekeepingServiceImpl {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info(String.format("getTimeKeeping [managerId = '%s'], [year = '%s'], [month = '%s']", managerId, year, month));
 
-            List<AccountEntity> listAccount = accountRepo.findByManagerNoActive(managerId);
+            //edit convert manager to department
+            AccountEntity managerEntity = accountRepo.findOne(managerId);
+            List<AccountEntity> listAccount = accountRepo.findEmployeeByDepartmentNoActive(managerEntity.getDepartment().getId());
 
 
             //get All Timekeepung

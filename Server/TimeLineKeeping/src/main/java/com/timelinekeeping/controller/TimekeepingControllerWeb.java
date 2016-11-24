@@ -43,35 +43,32 @@ public class TimekeepingControllerWeb {
         // get session
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
         if (accountModel != null) {
-            String role = accountModel.getRole().getName().toUpperCase();
             // check is manager
-            if ("MANAGER".equals(role)) {
-                Long managerId = accountModel.getId();
-                // get current date
-                Calendar calendar = Calendar.getInstance();
-                Integer month = calendar.get(Calendar.MONTH) + 1;
-                Integer year = calendar.get(Calendar.YEAR);
-                logger.info("[Controller- Load Timekeeping View] current month: " + month);
-                logger.info("[Controller- Load Timekeeping View] current year: " + year);
+            Long managerId = accountModel.getId();
+            // get current date
+            Calendar calendar = Calendar.getInstance();
+            Integer month = calendar.get(Calendar.MONTH) + 1;
+            Integer year = calendar.get(Calendar.YEAR);
+            logger.info("[Controller- Load Timekeeping View] current month: " + month);
+            logger.info("[Controller- Load Timekeeping View] current year: " + year);
 
-                // get timekeeping
-                TimekeepingResponseModel timekeepingResponseModel
-                        = timekeepingService.getTimeKeeping(managerId, year, month);
-                if (timekeepingResponseModel != null) {
-                    // get selected date
-                    Date selectedDate = timekeepingResponseModel.getNowDate();
-                    model.addAttribute("SelectedDate", selectedDate);
-                }
-
-                // set side-bar
-                String sideBar = IContanst.SIDE_BAR_MANAGER_TIMEKEEPING;
-
-                model.addAttribute("TimekeepingResponseModel", timekeepingResponseModel);
-                // side-bar
-                model.addAttribute("SideBar", sideBar);
-
-                url = IViewConst.TIME_KEEPING_VIEW;
+            // get timekeeping
+            TimekeepingResponseModel timekeepingResponseModel
+                    = timekeepingService.getTimeKeeping(managerId, year, month);
+            if (timekeepingResponseModel != null) {
+                // get selected date
+                Date selectedDate = timekeepingResponseModel.getNowDate();
+                model.addAttribute("SelectedDate", selectedDate);
             }
+
+            // set side-bar
+            String sideBar = IContanst.SIDE_BAR_MANAGER_TIMEKEEPING;
+
+            model.addAttribute("TimekeepingResponseModel", timekeepingResponseModel);
+            // side-bar
+            model.addAttribute("SideBar", sideBar);
+
+            url = IViewConst.TIME_KEEPING_VIEW;
         }
 
         logger.info("[Controller- Load Timekeeping View] END");
@@ -132,25 +129,22 @@ public class TimekeepingControllerWeb {
         // get session
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
         if (accountModel != null) {
-            String role = accountModel.getRole().getName().toUpperCase();
             // check is manager
-            if ("MANAGER".equals(role)) {
-                Long managerId = accountModel.getId();
+            Long managerId = accountModel.getId();
 
-                // get timekeeping
-                TimekeepingResponseModel timekeepingResponseModel
-                        = timekeepingService.getTimeKeeping(managerId, year, month);
-                // set side-bar
-                String sideBar = IContanst.SIDE_BAR_MANAGER_TIMEKEEPING;
+            // get timekeeping
+            TimekeepingResponseModel timekeepingResponseModel
+                    = timekeepingService.getTimeKeeping(managerId, year, month);
+            // set side-bar
+            String sideBar = IContanst.SIDE_BAR_MANAGER_TIMEKEEPING;
 
-                model.addAttribute("TimekeepingResponseModel", timekeepingResponseModel);
-                model.addAttribute("SelectedDate", selectedDate);
+            model.addAttribute("TimekeepingResponseModel", timekeepingResponseModel);
+            model.addAttribute("SelectedDate", selectedDate);
 
-                // side-bar
-                model.addAttribute("SideBar", sideBar);
+            // side-bar
+            model.addAttribute("SideBar", sideBar);
 
-                url = IViewConst.TIME_KEEPING_VIEW;
-            }
+            url = IViewConst.TIME_KEEPING_VIEW;
         }
 
         logger.info("[Controller- Change Month Timekeeping View] END");

@@ -28,7 +28,7 @@ public class AccountModel {
     private DepartmentModel department;
     private Date timeDeactive;
     private String token;
-    private AccountManagerModel manager;
+//    private AccountManagerModel manager;
 
     public AccountModel() {
     }
@@ -50,9 +50,9 @@ public class AccountModel {
             this.department = new DepartmentModel(entity.getDepartment());
             this.timeDeactive = entity.getTimeDeactive();
             this.keyOneSignal = entity.getKeyOneSignal();
-            if (entity.getManager() != null){
-                this.manager = new AccountManagerModel(entity.getManager());
-            }
+//            if (entity.getManager() != null){
+//                this.manager = new AccountManagerModel(entity.getManager());
+//            }
         }
     }
 
@@ -141,14 +141,14 @@ public class AccountModel {
     public void setToken(String token) {
         this.token = token;
     }
-
-    public AccountManagerModel getManager() {
-        return manager;
-    }
-
-    public void setManager(AccountManagerModel manager) {
-        this.manager = manager;
-    }
+//
+//    public AccountManagerModel getManager() {
+//        return manager;
+//    }
+//
+//    public void setManager(AccountManagerModel manager) {
+//        this.manager = manager;
+//    }
 
     public String getEmail() {
         return email;

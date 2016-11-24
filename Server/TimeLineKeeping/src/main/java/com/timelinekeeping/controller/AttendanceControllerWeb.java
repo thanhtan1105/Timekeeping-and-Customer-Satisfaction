@@ -8,7 +8,6 @@ import com.timelinekeeping.model.AccountAttendanceModel;
 import com.timelinekeeping.model.AccountModel;
 import com.timelinekeeping.service.serviceImplement.TimekeepingServiceImpl;
 import com.timelinekeeping.util.TimeUtil;
-import com.timelinekeeping.util.ValidateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -41,31 +40,28 @@ public class AttendanceControllerWeb {
         // get session
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
         if (accountModel != null) {
-            String role = accountModel.getRole().getName().toUpperCase();
             // check is employee
-            if ("EMPLOYEE".equals(role)) {
-                Long accountId = accountModel.getId();
-                // get current date
-                Date currentDate = new Date();
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(currentDate);
-                Integer month = calendar.get(Calendar.MONTH) + 1;
-                Integer year = calendar.get(Calendar.YEAR);
-                logger.info("[Controller- Load Timekeeping View] current year: " + year);
-                logger.info("[Controller- Load Timekeeping View] current month: " + month);
-                logger.info("[Controller- Load Timekeeping View] current year: " + year);
+            Long accountId = accountModel.getId();
+            // get current date
+            Date currentDate = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentDate);
+            Integer month = calendar.get(Calendar.MONTH) + 1;
+            Integer year = calendar.get(Calendar.YEAR);
+            logger.info("[Controller- Load Timekeeping View] current year: " + year);
+            logger.info("[Controller- Load Timekeeping View] current month: " + month);
+            logger.info("[Controller- Load Timekeeping View] current year: " + year);
 
-                AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month, false);
+            AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month, false);
 
-                // set side-bar
-                String sideBar = IContanst.SIDE_BAR_EMPLOYEE_ATTENDANCE;
+            // set side-bar
+            String sideBar = IContanst.SIDE_BAR_EMPLOYEE_ATTENDANCE;
 
-                model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
-                model.addAttribute("SelectedDate", currentDate);
-                // side-bar
-                model.addAttribute("SideBar", sideBar);
-                url = IViewConst.ATTENDANCE_VIEW;
-            }
+            model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
+            model.addAttribute("SelectedDate", currentDate);
+            // side-bar
+            model.addAttribute("SideBar", sideBar);
+            url = IViewConst.ATTENDANCE_VIEW;
         }
 
         logger.info("[Controller- Load Attendance View] END");
@@ -94,23 +90,20 @@ public class AttendanceControllerWeb {
         // get session
         AccountModel accountModel = (AccountModel) session.getAttribute("UserSession");
         if (accountModel != null) {
-            String role = accountModel.getRole().getName().toUpperCase();
             // check is employee
-            if ("EMPLOYEE".equals(role)) {
-                Long accountId = accountModel.getId();
+            Long accountId = accountModel.getId();
 
-                // get attendance
-                AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month, false);
+            // get attendance
+            AccountAttendanceModel accountAttendanceModel = timekeepingService.getAttendance(accountId, year, month, false);
 
-                // set side-bar
-                String sideBar = IContanst.SIDE_BAR_EMPLOYEE_ATTENDANCE;
+            // set side-bar
+            String sideBar = IContanst.SIDE_BAR_EMPLOYEE_ATTENDANCE;
 
-                model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
-                model.addAttribute("SelectedDate", selectedDate);
-                // side-bar
-                model.addAttribute("SideBar", sideBar);
-                url = IViewConst.ATTENDANCE_VIEW;
-            }
+            model.addAttribute("AccountAttendanceModel", accountAttendanceModel);
+            model.addAttribute("SelectedDate", selectedDate);
+            // side-bar
+            model.addAttribute("SideBar", sideBar);
+            url = IViewConst.ATTENDANCE_VIEW;
         }
 
         logger.info("[Controller- Change Month Attendance View] END");
