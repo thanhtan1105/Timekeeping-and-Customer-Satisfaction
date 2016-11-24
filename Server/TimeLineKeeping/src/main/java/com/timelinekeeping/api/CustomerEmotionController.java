@@ -109,7 +109,7 @@ public class CustomerEmotionController {
         try {
             byte[] byteImage = IOUtils.toByteArray(imageFile.getInputStream());
             EmotionAnalysisModel emotionAnalysis = null;
-            emotionAnalysis = emotionService.getCustomerEmotion(new ByteArrayInputStream(byteImage));
+            emotionAnalysis = emotionService.getCustomerEmotion(byteImage);
             String messageEmotion = suggestionService.getEmotionMessage(emotionAnalysis);
             logger.info("Suggest message: " + messageEmotion);
             BaseResponse baseResponse = new BaseResponse();

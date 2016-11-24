@@ -18,6 +18,7 @@ public class EmotionAnalysisModel implements Serializable {
     private Double age;
     private Gender gender;
     private Double smile;
+    private String faceId;
     private RectangleImage rectangleImage;
     private EmotionRecognizeScores emotion;
 
@@ -54,6 +55,9 @@ public class EmotionAnalysisModel implements Serializable {
         this.rectangleImage = faceDetectResponse.getFaceRectangle();
         this.emotion = emotionRecognize.getScores();
         this.emotionMost = emotion.most();
+
+        //add faceList to identify code
+        this.faceId = faceDetectResponse.getFaceId();
     }
 
     public EEmotion getEmotionMost() {
@@ -104,6 +108,14 @@ public class EmotionAnalysisModel implements Serializable {
         this.rectangleImage = rectangleImage;
     }
 
+    public String getFaceId() {
+        return faceId;
+    }
+
+    public void setFaceId(String faceId) {
+        this.faceId = faceId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -118,6 +130,7 @@ public class EmotionAnalysisModel implements Serializable {
         return !(emotion != null ? !emotion.equals(that.emotion) : that.emotion != null);
 
     }
+
 
     @Override
     public int hashCode() {

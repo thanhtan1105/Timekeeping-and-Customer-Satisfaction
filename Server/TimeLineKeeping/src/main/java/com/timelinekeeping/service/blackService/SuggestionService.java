@@ -67,6 +67,21 @@ public class SuggestionService {
         }
     }
 
+    public String getSubject(String name, Gender gender) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            String result = null;
+            if (gender == Gender.FEMALE) {
+                return "bà " + name;
+            } else {
+                return "ông " + name;
+            }
+
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
 
     public String getEmotion(EmotionCompare emotionCompare) {
         try {
@@ -142,7 +157,7 @@ public class SuggestionService {
                     array2.sort((EmotionCompare e1, EmotionCompare e2) -> Math.abs(e1.getValue()) > Math.abs(e2.getValue()) ? -1 : 1);
 
                     //switch array
-                    if (Math.abs(array2.get(0).getValue()) > Math.abs(array1.get(0).getValue())){
+                    if (Math.abs(array2.get(0).getValue()) > Math.abs(array1.get(0).getValue())) {
                         List<EmotionCompare> tmp = array1;
                         array1 = array2;
                         array2 = tmp;
@@ -150,15 +165,15 @@ public class SuggestionService {
 
                     //size bold =1, positive = 1
 //                    if (array1.size() == 1 && array2.size() == 1) {
-                        result = String.format(IContanst.SUGGESTION_BOTH_1_1_EMOTION, subject.getName(), array1.get(0).getEmotionName(), getEmotion(array2.get(0)));
+                    result = String.format(IContanst.SUGGESTION_BOTH_1_1_EMOTION, subject.getName(), array1.get(0).getEmotionName(), getEmotion(array2.get(0)));
 //                    } else if (array1.size() > 1 && array1.size() > array2.size()) {
 //                        result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), array1.get(0).getEmotionName(), getEmotion(array1.get(1)), getEmotion(array2.get(0)));
 //                    } else if (array2.size() > 1) {
 //                        result = String.format(IContanst.SUGGESTION_BOTH_2_1_EMOTION, subject.getName(), array1.get(0).getEmotionName(), getEmotion(array2.get(0)), getEmotion(array2.get(1)));
 //                    } else {
-                        logger.error("--%%%%% -- It out our parttern.");
-                        logger.info("Positive: " + JsonUtil.toJson(array1));
-                        logger.info("Negative: " + JsonUtil.toJson(array2));
+                    logger.error("--%%%%% -- It out our parttern.");
+                    logger.info("Positive: " + JsonUtil.toJson(array1));
+                    logger.info("Negative: " + JsonUtil.toJson(array2));
 //                    }
                 }
                 logger.info("Result message: " + result);
@@ -191,6 +206,10 @@ public class SuggestionService {
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
+    }
+
+    public String convertHistory(String name, Gender gender, String content) {
+        return String.format(IContanst.APPEND_HISTORY_SUGGESTION, getSubject(name, gender)) + " " + content;
     }
 
 

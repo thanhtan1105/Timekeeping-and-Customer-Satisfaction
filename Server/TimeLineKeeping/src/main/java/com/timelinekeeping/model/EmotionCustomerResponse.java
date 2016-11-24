@@ -14,7 +14,7 @@ public class EmotionCustomerResponse {
     //emotion analysis model
     private EmotionAnalysisModel analyzes;
 
-    // mess
+    // message model
     private MessageModel messages;
 
     // emotion percent

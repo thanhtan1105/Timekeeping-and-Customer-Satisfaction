@@ -87,7 +87,7 @@ public class AccountEntity implements Serializable {
     @JoinColumn(name = "role_id", nullable = false)
     private RoleEntity role;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "department_id", nullable = false)
     private DepartmentEntity department;
 

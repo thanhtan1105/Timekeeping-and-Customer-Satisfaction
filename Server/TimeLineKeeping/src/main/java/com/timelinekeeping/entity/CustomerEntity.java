@@ -34,6 +34,10 @@ public class CustomerEntity {
     private Gender gender;
 
     @Basic
+    @Column(name = "image_size")
+    private Integer imageSize;
+
+    @Basic
     @Column(name = "description")
     private String description;
 
@@ -93,5 +97,11 @@ public class CustomerEntity {
         this.description = description;
     }
 
+    public Integer getImageSize() {
+        return imageSize;
+    }
 
+    public void setImageSize(Integer imageSize) {
+        this.imageSize = imageSize;
+    }
 }

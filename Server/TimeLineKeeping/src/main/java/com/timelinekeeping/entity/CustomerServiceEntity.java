@@ -70,6 +70,9 @@ public class CustomerServiceEntity {
     public CustomerServiceEntity(AccountEntity createBy) {
         this.CustomerCode = UtilApps.generateToken();
         this.createBy = createBy;
+        if (createBy.getDepartment() != null) {
+            this.rpDepartmentId = createBy.getDepartment().getId();
+        }
     }
 
     public Long getId() {

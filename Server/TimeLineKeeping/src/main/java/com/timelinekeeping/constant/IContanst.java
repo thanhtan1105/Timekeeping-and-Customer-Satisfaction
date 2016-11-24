@@ -130,4 +130,7 @@ public interface IContanst {
 
     int TIME_LIVE_ONE_SIGNAL = 3 * 24 *  60 * 60;
 
+    String APPEND_HISTORY_SUGGESTION = "%s đã từng";
+
+    Integer SIZE_IMAGE_CUSTOMER_TRAINING = 5;
 }

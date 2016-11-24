@@ -2,6 +2,7 @@ package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
+import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.common.Pair;
 import com.timelinekeeping.constant.EEmotion;
@@ -13,9 +14,7 @@ import com.timelinekeeping.entity.CustomerEntity;
 import com.timelinekeeping.entity.CustomerServiceEntity;
 import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.model.*;
-import com.timelinekeeping.modelMCS.EmotionRecognizeResponse;
-import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
-import com.timelinekeeping.modelMCS.FaceDetectResponse;
+import com.timelinekeeping.modelMCS.*;
 import com.timelinekeeping.repository.*;
 import com.timelinekeeping.service.blackService.SuggestionService;
 import com.timelinekeeping.util.*;
@@ -59,6 +58,19 @@ public class EmotionServiceImpl {
     @Autowired
     private EmotionContentRepo contentRepo;
 
+    @Autowired
+    FaceServiceMCSImpl faceServiceMCS;
+
+    // emotion recognize
+    @Autowired
+    EmotionServiceMCSImpl emotionServiceMCS;
+
+    @Autowired
+    PersonServiceMCSImpl personServiceMCS;
+
+    @Autowired
+    AccountServiceImpl accountService;
+
     private Logger logger = LogManager.getLogger(EmotionServiceImpl.class);
 
     public EmotionCustomerResponse getEmotionCustomer(EmotionSessionStoreCustomer customerEmotionSession) {
@@ -76,24 +88,57 @@ public class EmotionServiceImpl {
             }
 
             //choose db
-            if (emotionCamera1 != null) {
-                if (emotionCamera2 != null) {
-                    emotionCamera1.merge(emotionCamera2);
-                }
-
-                EmotionCustomerResponse emotionCustomerResponse = emotionAnalyzis(emotionCamera1);
-                emotionCustomerResponse.setCustomerCode(customerEmotionSession.getCustomerCode());
-                return emotionCustomerResponse;
-            } else {
+            if (emotionCamera1 == null) {
                 return null;
             }
+
+            if (emotionCamera2 != null) {
+                emotionCamera1.merge(emotionCamera2);
+            }
+
+            EmotionCustomerResponse emotionCustomerResponse = emotionAnalyzis(emotionCamera1);
+
+            //add customer code
+            emotionCustomerResponse.setCustomerCode(customerEmotionSession.getCustomerCode());
+
+            /** Update History*/
+            updateHistory(emotionCustomerResponse, customerEmotionSession.getCustomerCode());
+            return emotionCustomerResponse;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 
+    private void updateHistory(EmotionCustomerResponse emotionCustomerResponse, String customerCode) {
 
-    public EmotionCustomerResponse emotionAnalyzis(EmotionCustomerEntity emotionCustomerEntity) {
+        // emotionCustomer
+        CustomerServiceEntity customerServiceEntity = customerServiceRepo.findByCustomerCode(customerCode);
+
+        //set Customer
+        CustomerEntity customerEntity = customerServiceEntity.getCustomerInformation();
+        if (customerEntity != null) {
+
+            emotionCustomerResponse.setCustomerInformation(new CustomerModel(customerEntity));
+
+            //get All customer service
+            List<CustomerServiceEntity> customerServiceEntityList = customerServiceRepo.findByCustomer(customerEntity.getId());
+
+            if (ValidateUtil.isNotEmpty(customerServiceEntityList)) {
+
+                //convert list customer service to list suggestion
+                List<String> suggestHistories = new ArrayList<>();
+                for (CustomerServiceEntity customerService : customerServiceEntityList) {
+                    String suggestHistory = suggestionService.convertHistory(customerEntity.getName(), customerEntity.getGender(), customerService.getContentTransaction());
+                    suggestHistories.add(suggestHistory);
+                }
+
+                emotionCustomerResponse.setCustomerHistory(suggestHistories);
+            }
+        }
+
+    }
+
+    private EmotionCustomerResponse emotionAnalyzis(EmotionCustomerEntity emotionCustomerEntity) {
 
         //prepare
 
@@ -194,6 +239,7 @@ public class EmotionServiceImpl {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("CustomerCode: " + customerCode);
 
+            byte[] bytes = IOUtils.toByteArray(imageStream);
             //get Customer Service with customerCode;
             CustomerServiceEntity customerResultEntity = customerServiceRepo.findByCustomerCode(customerCode);
             logger.info("customer Emotion: " + JsonUtil.toJson(new CustomerServiceModel(customerResultEntity)));
@@ -206,19 +252,22 @@ public class EmotionServiceImpl {
                 }
 
                 //analyze emotion
-                EmotionAnalysisModel emotionAnalysis = getCustomerEmotion(imageStream);
-                if (emotionAnalysis != null) {
-                    //save mostChoose
-                    EmotionCustomerEntity emotionEntity = new EmotionCustomerEntity(emotionAnalysis, customerResultEntity);
-                    EmotionCustomerEntity result = emotionRepo.saveAndFlush(emotionEntity);
-
-
-                    //save to session
-                    return result.getId();
-                } else {
+                EmotionAnalysisModel emotionAnalysis = getCustomerEmotion(bytes);
+                if (emotionAnalysis == null) {
                     logger.error("********************** Cannot analyze customer emotion  ********************");
                     return null;
                 }
+
+
+                //save mostChoose
+                EmotionCustomerEntity emotionEntity = new EmotionCustomerEntity(emotionAnalysis, customerResultEntity);
+
+
+                EmotionCustomerEntity result = emotionRepo.saveAndFlush(emotionEntity);
+
+
+                //save to session
+                return result.getId();
             } else {
                 logger.error("CustomerService has status: " + customerResultEntity.getStatus());
                 return null;
@@ -227,6 +276,72 @@ public class EmotionServiceImpl {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
 
+    }
+
+    public void identfyCustomer(CustomerServiceEntity customerResultEntity, String faceId, byte[] bytesImage) throws IOException, URISyntaxException {
+
+        // identify customer Emotion
+        CustomerEntity customerEntity = customerResultEntity.getCustomerInformation();
+        if (customerEntity == null) {
+            return;
+        }
+
+
+        //identify
+        String personID = identifyCustomer(faceId);
+        if (personID != null) {
+
+            customerEntity = customerRepo.findByCode(personID);
+            //if exist -> asign to customer emotion. store db
+            if (customerEntity == null) {
+                // save image new customer
+                customerEntity = new CustomerEntity();
+                customerEntity.setCode(personID);
+                customerEntity = customerRepo.save(customerEntity);
+            }
+            //if not exist -> create customer emotion -> add to db, create customer db. add to face to image, size image
+
+            //connect with customerService
+            customerResultEntity.setCustomerInformation(customerEntity);
+            customerServiceRepo.save(customerResultEntity);
+
+        } else {
+            //if null -> create customer emotion. add faceto, add to fb
+            //create new
+            personServiceMCS.createPerson(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER, "", "");
+
+        }
+
+        if (customerEntity.getImageSize() < IContanst.SIZE_IMAGE_CUSTOMER_TRAINING) {
+            personServiceMCS.addFaceImg(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER, customerEntity.getCode(), bytesImage);
+        }
+        //find in data customer
+
+
+        //if size < 5 - add , if size > 5 if confidance > 0.8 mới add
+        // update image in db and MCS
+
+    }
+
+    private String identifyCustomer(String faceId) throws IOException, URISyntaxException {
+        BaseResponse response = faceServiceMCS.identify(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER, faceId);
+        if (response.isSuccess()) {
+
+            List<FaceIdentifyConfidenceRespone> confidenceResponeList = (List<FaceIdentifyConfidenceRespone>) response.getData();
+
+            if (ValidateUtil.isNotEmpty(confidenceResponeList)) {
+                List<FaceIdentityCandidate> candidates = confidenceResponeList.get(0).getCandidates();
+
+                double confidence = 0d;
+                for (FaceIdentityCandidate candidate : candidates) {
+                    if (candidate.getConfidence() > confidence) {
+                        confidence = candidate.getConfidence();
+                        return candidate.getPersonId();
+                    }
+                }
+            }
+        }
+        return null;
     }
 
 
@@ -353,21 +468,18 @@ public class EmotionServiceImpl {
     }
 
 
-    public EmotionAnalysisModel getCustomerEmotion(InputStream inputStreamImg)
+    public EmotionAnalysisModel getCustomerEmotion(byte[] byteImage)
             throws IOException, URISyntaxException {
         logger.info("[Get Customer Emotion] BEGIN SERVICE");
 
-        byte[] bytes = IOUtils.toByteArray(inputStreamImg);
+//        byte[] bytes = IOUtils.toByteArray(inputStreamImg);
 
 
         Date dateFrom = new Date();
         //Call API
         // face detect
-        FaceServiceMCSImpl faceServiceMCS = new FaceServiceMCSImpl();
-        // emotion recognize
-        EmotionServiceMCSImpl emotionServiceMCS = new EmotionServiceMCSImpl();
-        BaseResponse faceResponse = faceServiceMCS.detect(new ByteArrayInputStream(bytes));
-        BaseResponse emotionResponse = emotionServiceMCS.recognize(new ByteArrayInputStream(bytes));
+        BaseResponse faceResponse = faceServiceMCS.detect(new ByteArrayInputStream(byteImage));
+        BaseResponse emotionResponse = emotionServiceMCS.recognize(new ByteArrayInputStream(byteImage));
         logger.info("[Get Customer Emotion] face response success: " + faceResponse.isSuccess());
         logger.info("EEEEEEEEEEEEE : faceResponse: " + JsonUtil.toJson(faceResponse));
         Date dateto = new Date();
@@ -381,7 +493,12 @@ public class EmotionServiceImpl {
             //parser emotionRecognizeList
             List<EmotionRecognizeResponse> emotionRecognizeList = (List<EmotionRecognizeResponse>) emotionResponse.getData();
 
-            return chooseMapping(faceRecognizeList, emotionRecognizeList);
+            EmotionAnalysisModel analysisModel = chooseMapping(faceRecognizeList, emotionRecognizeList);
+
+
+            //
+
+            return analysisModel;
 
         }
 
@@ -429,7 +546,7 @@ public class EmotionServiceImpl {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
 
-            if (customerTransactionModel == null || ValidateUtil.isEmpty(customerTransactionModel.getCustomerCode())){
+            if (customerTransactionModel == null || ValidateUtil.isEmpty(customerTransactionModel.getCustomerCode())) {
                 return new Pair<>(false);
             }
 
@@ -438,7 +555,7 @@ public class EmotionServiceImpl {
                 customerEntity = customerRepo.findOne(customerTransactionModel.getId());
             }
 
-            if (customerEntity == null){
+            if (customerEntity == null) {
                 customerEntity = new CustomerEntity();
             }
 
@@ -446,7 +563,6 @@ public class EmotionServiceImpl {
 
             //store customer
             CustomerEntity customerResponse = customerRepo.save(customerEntity);
-
 
 
             //update customer service
@@ -463,4 +579,6 @@ public class EmotionServiceImpl {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
+
+
 }

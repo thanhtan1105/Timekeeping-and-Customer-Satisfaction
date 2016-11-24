@@ -1,5 +1,6 @@
 package com.timelinekeeping.repository;
 
+import com.timelinekeeping.entity.CustomerEntity;
 import com.timelinekeeping.entity.CustomerServiceEntity;
 import com.timelinekeeping.model.ReportCustomerEmotionQuery;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,4 +34,9 @@ public interface CustomerServiceRepo extends JpaRepository<CustomerServiceEntity
     public List<Object[]> reportCustomerByMonthAndEmployee(@Param("year") Integer year,
                                                            @Param("month") Integer month,
                                                            @Param("employee_id") Long employeeId);
+
+    @Query("SELECT cs FROM CustomerServiceEntity cs WHERE cs.customerInformation.id = :customerId")
+    public List<CustomerServiceEntity> findByCustomer(@Param("customerId") Long customerEntity);
+
+
 }
