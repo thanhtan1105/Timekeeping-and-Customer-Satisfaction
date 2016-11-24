@@ -525,9 +525,9 @@ function set_age_predict(age_predict, customerInformation) {
         content_age_predict = '';
 
     if (check_empty(customerId)) {//if is old customer
-        var yearBirth = customerInformation.yearBirth;
+        var age = customerInformation.age;
         content_label_age_predict = 'Tuổi:';
-        content_age_predict = yearBirth;
+        content_age_predict = age;
     } else {//if is new customer
         content_label_age_predict = 'Tuổi khuôn mặt:';
         if (age_predict != null) {
