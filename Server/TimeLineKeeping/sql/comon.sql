@@ -1,7 +1,7 @@
 ---- ROLE
 INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('admin','/admin/**;/account/**;/department/**','redirect:/admin/accounts/');
 INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('manager','/manager/**','redirect:/manager/check_in/');
-INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('employee','/employee/**','redirect:/employee/attendance/');
+INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('employee','/employee/**','redirect:/employee/customer_emotion/');
 
 ---- CONFIGURATION
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('send.sms', 'SEND_SMS', '0');
