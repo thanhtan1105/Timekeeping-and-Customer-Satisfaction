@@ -8,7 +8,11 @@ import java.util.List;
 public class EmotionCustomerResponse {
     private String customerCode;
     private EmotionAnalysisModel analyzes;
+
+    // mess
     private MessageModel messages;
+
+    // emotion percent
     private List<EmotionCompare> emotionPercent;
     private String awsUrl;
     private Boolean isFinal = false;

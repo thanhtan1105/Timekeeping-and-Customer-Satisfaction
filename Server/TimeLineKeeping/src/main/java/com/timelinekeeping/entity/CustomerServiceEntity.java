@@ -34,12 +34,21 @@ public class CustomerServiceEntity {
     private Double grade = 0d;
 
     @Basic
+    @Column(name = "content_transaction")
+    private String  contentTransaction;
+
+    @Basic
     @Column(name = "status", nullable = false)
     private ETransaction status = ETransaction.BEGIN;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "create_by", nullable = false)
     private AccountEntity createBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_information_id")
+    private CustomerEntity customerInformation;
+
 
     @Basic
     @Column(name = "rp_manager_id")
@@ -51,6 +60,8 @@ public class CustomerServiceEntity {
 
     @OneToMany(mappedBy = "customerService", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<EmotionCustomerEntity> emotion;
+
+
 
     public CustomerServiceEntity() {
         this.CustomerCode = UtilApps.generateToken();
@@ -133,6 +144,22 @@ public class CustomerServiceEntity {
         this.rpDepartmentId = rpDepartmentId;
     }
 
+    public String getContentTransaction() {
+        return contentTransaction;
+    }
+
+    public void setContentTransaction(String contentTransaction) {
+        this.contentTransaction = contentTransaction;
+    }
+
+    public CustomerEntity getCustomerInformation() {
+        return customerInformation;
+    }
+
+    public void setCustomerInformation(CustomerEntity customerInformation) {
+        this.customerInformation = customerInformation;
+    }
+
     public void calculateGrade() {
         if (ValidateUtil.isNotEmpty(emotion)) {
             double sum = 0d;
@@ -143,4 +170,6 @@ public class CustomerServiceEntity {
         }
 
     }
+
+
 }

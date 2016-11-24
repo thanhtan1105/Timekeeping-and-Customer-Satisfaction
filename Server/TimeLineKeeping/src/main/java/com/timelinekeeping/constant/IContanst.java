@@ -119,6 +119,7 @@ public interface IContanst {
 
 
     String DEPARTMENT_MICROSOFT = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.department");
+    String DEPARTMENT_MICROSOFT_CUSTOMER = AppConfigKeys.getInstance().getApiPropertyValue("api.microsoft.department.customer");
 
 
     // FOLDER
