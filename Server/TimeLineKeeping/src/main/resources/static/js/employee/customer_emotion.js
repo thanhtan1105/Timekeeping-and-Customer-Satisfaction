@@ -329,8 +329,8 @@ function ajax_save_customer_information(customer_name, year, transaction_content
             'code': '',
             'yearBirth': year,
             'gender': current_gender,
-            'description': transaction_content,
-            'content': '',
+            'description': '',
+            'content': transaction_content,
             'customerCode': current_customer_code
         };
     $.ajax({
@@ -631,22 +631,25 @@ function set_customer_emotion_message(customer_emotion_msg) {
 function set_suggest_behaviour(suggestions, customerHistory) {
     var ul_content_suggestion_behavior = '',
         $suggestion_behavior_msg = $('#suggestion-behavior-message');
-    //set history if is old customer
-    if (customerHistory != null && customerHistory.length > 0) {
-        for (var i = 0; i < customerHistory.length; i++) {
-            ul_content_suggestion_behavior += '<li>' +
-                customerHistory[i] +
-                '</li>';
+    if ((customerHistory != null && customerHistory.length > 0) || (suggestions != null && suggestions.length > 0)) {
+
+        //set history if is old customer
+        if (customerHistory != null && customerHistory.length > 0) {
+            for (var i = 0; i < customerHistory.length; i++) {
+                ul_content_suggestion_behavior += '<li>' +
+                    customerHistory[i] +
+                    '</li>';
+            }
         }
-    }
-    //set suggestion
-    if (suggestions != null && suggestions.length > 0) {
-        for (var i = 0; i < suggestions.length; i++) {
-            ul_content_suggestion_behavior += '<li>' +
-                suggestions[i].message +
-                '</li>';
+        //set suggestion
+        if (suggestions != null && suggestions.length > 0) {
+            for (var i = 0; i < suggestions.length; i++) {
+                ul_content_suggestion_behavior += '<li>' +
+                    suggestions[i].message +
+                    '</li>';
+            }
         }
-    } else {
+    }else {
         ul_content_suggestion_behavior += '<li>N/A</li>';
     }
     $suggestion_behavior_msg.html(ul_content_suggestion_behavior);

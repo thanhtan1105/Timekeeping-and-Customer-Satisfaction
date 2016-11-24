@@ -2,6 +2,7 @@ package com.timelinekeeping.service.serviceImplement;
 
 import com.timelinekeeping.accessAPI.EmotionServiceMCSImpl;
 import com.timelinekeeping.accessAPI.FaceServiceMCSImpl;
+import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.common.Pair;
@@ -9,7 +10,10 @@ import com.timelinekeeping.constant.EEmotion;
 import com.timelinekeeping.constant.ERROR;
 import com.timelinekeeping.constant.ETransaction;
 import com.timelinekeeping.constant.IContanst;
-import com.timelinekeeping.entity.*;
+import com.timelinekeeping.entity.AccountEntity;
+import com.timelinekeeping.entity.CustomerEntity;
+import com.timelinekeeping.entity.CustomerServiceEntity;
+import com.timelinekeeping.entity.EmotionCustomerEntity;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.modelMCS.*;
 import com.timelinekeeping.repository.*;
@@ -35,6 +39,9 @@ import java.util.stream.Collectors;
  */
 @Service
 public class EmotionServiceImpl {
+
+    @Autowired
+    AccountServiceImpl accountService;
 
     @Autowired
     private CustomerServiceRepo customerServiceRepo;
@@ -66,7 +73,8 @@ public class EmotionServiceImpl {
     PersonServiceMCSImpl personServiceMCS;
 
     @Autowired
-    AccountServiceImpl accountService;
+    PersonGroupServiceMCSImpl personGroupServiceMCS;
+
 
     private Logger logger = LogManager.getLogger(EmotionServiceImpl.class);
 
@@ -99,14 +107,16 @@ public class EmotionServiceImpl {
             emotionCustomerResponse.setCustomerCode(customerEmotionSession.getCustomerCode());
 
             /** Update History*/
-            updateHistory(emotionCustomerResponse, customerEmotionSession.getCustomerCode());
+            updateHistoryIntoResponse(emotionCustomerResponse, customerEmotionSession.getCustomerCode());
+
+            logger.info("Response:" + JsonUtil.toJson(emotionCustomerResponse));
             return emotionCustomerResponse;
         } finally {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
 
-    private void updateHistory(EmotionCustomerResponse emotionCustomerResponse, String customerCode) {
+    private void updateHistoryIntoResponse(EmotionCustomerResponse emotionCustomerResponse, String customerCode) {
 
         // emotionCustomer
         CustomerServiceEntity customerServiceEntity = customerServiceRepo.findByCustomerCode(customerCode);
@@ -124,10 +134,11 @@ public class EmotionServiceImpl {
 
                 //convert list customer service to list suggestion
                 List<String> suggestHistories = new ArrayList<>();
-                for (CustomerServiceEntity customerService : customerServiceEntityList) {
+                customerServiceEntityList.stream().filter(customerService -> ValidateUtil.isNotEmpty(customerEntity.getName()) && ValidateUtil.isNotEmpty(customerService.getContentTransaction())).forEach(customerService -> {
                     String suggestHistory = suggestionService.convertHistory(customerEntity.getName(), customerEntity.getGender(), customerService.getContentTransaction());
+                    suggestHistory = UtilApps.formatSentence(suggestHistory);
                     suggestHistories.add(suggestHistory);
-                }
+                });
 
                 emotionCustomerResponse.setCustomerHistory(suggestHistories);
             }
@@ -201,7 +212,7 @@ public class EmotionServiceImpl {
      * author TrungNN
      * Web employee: end transaction
      */
-    public Long changeStatusTransaction(String customerCode, ETransaction stauts) {
+    public Long changeStatusTransaction(String customerCode, ETransaction stauts) throws IOException, URISyntaxException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info(String.format("customerCode = '%s', Status = ''", customerCode, stauts));
@@ -215,6 +226,9 @@ public class EmotionServiceImpl {
                 if (stauts == ETransaction.END) {
                     customerResultEntity.calculateGrade();
                 }
+
+                /**history */
+                personGroupServiceMCS.trainGroup(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER);
                 customerServiceRepo.saveAndFlush(customerResultEntity);
                 return customerResultEntity.getCreateBy() != null ? customerResultEntity.getCreateBy().getId() : null;
             } else {
@@ -231,12 +245,12 @@ public class EmotionServiceImpl {
      * upload image to transaction
      * author: hientq
      */
-    public Long uploadImage(InputStream imageStream, String customerCode) throws IOException, URISyntaxException {
+    public Long uploadImage( byte[] bytesImage, String customerCode) throws IOException, URISyntaxException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("CustomerCode: " + customerCode);
 
-            byte[] bytes = IOUtils.toByteArray(imageStream);
+//            byte[] bytesImage = IOUtils.toByteArray(imageStream);
             //get Customer Service with customerCode;
             CustomerServiceEntity customerResultEntity = customerServiceRepo.findByCustomerCode(customerCode);
             logger.info("customer Emotion: " + JsonUtil.toJson(new CustomerServiceModel(customerResultEntity)));
@@ -249,7 +263,7 @@ public class EmotionServiceImpl {
                 }
 
                 //analyze emotion
-                EmotionAnalysisModel emotionAnalysis = getCustomerEmotion(bytes);
+                EmotionAnalysisModel emotionAnalysis = getCustomerEmotion(bytesImage);
                 if (emotionAnalysis == null) {
                     logger.error("********************** Cannot analyze customer emotion  ********************");
                     return null;
@@ -260,9 +274,8 @@ public class EmotionServiceImpl {
                 EmotionCustomerEntity emotionEntity = new EmotionCustomerEntity(emotionAnalysis, customerResultEntity);
                 EmotionCustomerEntity result = emotionRepo.saveAndFlush(emotionEntity);
 
-                historyCustomer(customerResultEntity, emotionAnalysis.getFaceId(), bytes);
                 /** history customer*/
-
+                historyCustomer(customerResultEntity, emotionAnalysis.getFaceId(), bytesImage);
 
 
                 //save to session
@@ -282,49 +295,47 @@ public class EmotionServiceImpl {
         // identify customer Emotion
         CustomerEntity customerEntity = customerResultEntity.getCustomerInformation();
         if (customerEntity == null) {
-            return;
-        }
 
 
-        //identify
-        String personID = identifyCustomer(faceId);
-        if (personID != null) {
+            //identify
+            String personID = identifyCustomer(faceId);
+            if (personID != null) {
 
-            customerEntity = customerRepo.findByCode(personID);
-            //if exist -> asign to customer emotion. store db
-            if (customerEntity == null) {
-                // save image new customer
-                customerEntity = new CustomerEntity();
-                customerEntity.setCode(personID);
-                customerEntity = customerRepo.save(customerEntity);
-            }
-            //if not exist -> create customer emotion -> add to db, create customer db. add to face to image, size image
-
-            //connect with customerService
-            customerResultEntity.setCustomerInformation(customerEntity);
-            customerServiceRepo.save(customerResultEntity);
-
-        } else {
-            //if null -> create customer emotion. add faceto, add to fb
-            String personId = null;
-            //create new MCS
-            BaseResponse response = personServiceMCS.createPerson(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER, "", "");
-            if (response.isSuccess()) {
-                Map<String, String> map = (Map<String, String>) response.getData();
-                personId = map.get("personId");
-                logger.info("personCode: " + personId);
-
-                //create in db
-                customerEntity = new CustomerEntity();
-                customerEntity.setCode(personID);
-                customerEntity = customerRepo.save(customerEntity);
+                customerEntity = customerRepo.findByCode(personID);
+                //if exist -> asign to customer emotion. store db
+                if (customerEntity == null) {
+                    // save image new customer
+                    customerEntity = new CustomerEntity();
+                    customerEntity.setCode(personID);
+                    customerEntity = customerRepo.save(customerEntity);
+                }
+                //if not exist -> create customer emotion -> add to db, create customer db. add to face to image, size image
 
                 //connect with customerService
                 customerResultEntity.setCustomerInformation(customerEntity);
                 customerServiceRepo.save(customerResultEntity);
+
+            } else {
+                //if null -> create customer emotion. add faceto, add to fb
+                //create new MCS
+                BaseResponse response = personServiceMCS.createPerson(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER, ".", ".");
+                if (response.isSuccess()) {
+                    Map<String, String> map = (Map<String, String>) response.getData();
+                    personID = map.get("personId");
+                    logger.info("personCode: " + personID);
+
+                    //create in db
+                    customerEntity = new CustomerEntity();
+                    customerEntity.setCode(personID);
+                    customerEntity = customerRepo.save(customerEntity);
+
+                    //connect with customerService
+                    customerResultEntity.setCustomerInformation(customerEntity);
+                    customerResultEntity = customerServiceRepo.save(customerResultEntity);
+                }
+
+
             }
-
-
         }
 
         if (customerEntity.getImageSize() < IContanst.SIZE_IMAGE_CUSTOMER_TRAINING) {
@@ -375,7 +386,7 @@ public class EmotionServiceImpl {
      * author: hientq
      * call entransaction old, and create new transaction
      */
-    public CustomerServiceModel nextTransaction(String customerCode, Boolean isSkip) {
+    public CustomerServiceModel nextTransaction(String customerCode, Boolean isSkip) throws IOException, URISyntaxException {
         ETransaction transaction = null;
         if (isSkip == null || isSkip == false) {
             transaction = ETransaction.END;

@@ -155,7 +155,7 @@ public class CustomerEmotionController {
 
 
             //call service
-            Long resultEmotion = emotionService.uploadImage(new ByteArrayInputStream(byteImage), customerCode);
+            Long resultEmotion = emotionService.uploadImage(byteImage, customerCode);
             if (resultEmotion != null) {
 
                 //store in session
