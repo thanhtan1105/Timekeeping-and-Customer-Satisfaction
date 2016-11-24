@@ -8,6 +8,7 @@ var timer_get_emotion;
 var timer_get_image;
 var timer_stop_get_emotion;
 var nextAngle = 0;
+var current_gender;
 
 /**
  * Fc: load page
@@ -31,6 +32,8 @@ $('#btn-next-transaction').on('click', function () {
     event_disabled('.btn-skip-transaction', true);
     //hide div overview customer emotion
     event_hide('#div-overview-customer-emotion');
+    //hide div add customer information
+    event_hide('#div-add-customer-information');
     //hide div not get emotion
     event_hide('#div-not-get-emotion');
     //hide button show modal customer emotion
@@ -59,6 +62,8 @@ $('.btn-skip-transaction').on('click', function () {
     event_disabled('.btn-skip-transaction', true);
     //hide div overview customer emotion
     event_hide('#div-overview-customer-emotion');
+    //hide div add customer information
+    event_hide('#div-add-customer-information');
     //hide div not get emotion
     event_hide('#div-not-get-emotion');
     //hide button show modal customer emotion
@@ -87,6 +92,8 @@ $('#div-keydown-get-customer-emotion').keydown(function (event) {
         event_disabled('.btn-skip-transaction', true);
         //hide div overview customer emotion
         event_hide('#div-overview-customer-emotion');
+        //hide div add customer information
+        event_hide('#div-add-customer-information');
         //hide div not get emotion
         event_hide('#div-not-get-emotion');
         //hide button show modal customer emotion
@@ -103,6 +110,16 @@ $('#div-keydown-get-customer-emotion').keydown(function (event) {
             worker_next_transaction(false);
         }
     }
+});
+
+/**
+ * Initial datetime picker year of birth
+ */
+$('#datetime-picker-year-of-birth').datepicker({
+    format: "yyyy",
+    viewMode: "years",
+    minViewMode: "years",
+    autoclose: true
 });
 
 /**
@@ -131,6 +148,8 @@ function worker_get_emotion() {
                 event_hide('#div-not-get-emotion');
                 //show div overview customer emotion
                 event_show('#div-overview-customer-emotion');
+                //show div add customer information
+                event_show('#div-add-customer-information');
                 //show button show modal customer emotion
                 event_show('#btn-show-modal-customer-emotion');
                 //reset scroll
@@ -142,6 +161,8 @@ function worker_get_emotion() {
 
                 //set overview customer emotion
                 set_content_overview_customer_emotion(age_predict, gender, awsUrl, emotionExist, customer_emotion_msg, suggestions);
+                //set adding customer emotion
+                set_content_add_customer_emotion(gender);
                 //stop time out worker get emotion
                 clearTimeout(timer_stop_get_emotion);
                 //stop request: get first emotion
@@ -225,6 +246,8 @@ function time_out_worker_get_emotion() {
 
         //hide div overview customer emotion
         event_hide('#div-overview-customer-emotion');
+        //hide div add customer information
+        event_hide('#div-add-customer-information');
         //hide button show modal customer emotion
         event_hide('#btn-show-modal-customer-emotion');
         //show div not get emotion
@@ -248,6 +271,8 @@ function stop_get_emotion_manual() {
 
     //hide div overview customer emotion
     event_hide('#div-overview-customer-emotion');
+    //hide div add customer information
+    event_hide('#div-add-customer-information');
     //hide button show modal customer emotion
     event_hide('#btn-show-modal-customer-emotion');
     //show div not get emotion
@@ -256,6 +281,10 @@ function stop_get_emotion_manual() {
     event_disabled('#btn-next-transaction', false);
     //enable button skip
     event_disabled('.btn-skip-transaction', false);
+}
+
+function save_customer_information() {
+    //
 }
 
 /**
@@ -362,11 +391,37 @@ function close_modal_customer_emotion(isClose) {
     if (isClose) {
         //hide div overview customer emotion
         event_hide('#div-overview-customer-emotion');
+        //hide div add customer information
+        event_hide('#div-add-customer-information');
     } else {
         //show div overview customer emotion
         event_show('#div-overview-customer-emotion');
+        //show div add customer information
+        event_show('#div-add-customer-information');
         //reset scroll
         reset_scroll('#div-body-scroll-customer-emotion');
+    }
+}
+
+/**
+ * Fc: select gender updating
+ * @param gender
+ */
+function select_gender(gender) {
+    var $btn_gender_male = $('#btn-gender-male'),
+        $btn_gender_female = $('#btn-gender-female');
+    if (gender == 1) {//female
+        $btn_gender_female.attr('class', 'btn bg-aqua-gradient');
+        $btn_gender_male.attr('class', 'btn btn-default');
+
+        //set current gender updating
+        current_gender = 1;
+    } else {//male
+        $btn_gender_male.attr('class', 'btn bg-aqua-gradient');
+        $btn_gender_female.attr('class', 'btn btn-default');
+
+        //set current gender updating
+        current_gender = 0;
     }
 }
 
@@ -507,6 +562,27 @@ function set_content_overview_customer_emotion(age_predict, gender, awsUrl, emot
 
     //set suggestion behavior
     set_suggest_behaviour(suggestions);
+}
+
+/**
+ * Fc: set content adding customer emotion
+ * @param gender
+ */
+function set_content_add_customer_emotion(gender) {
+    var $btn_gender_male = $('#btn-gender-male'),
+        $btn_gender_female = $('#btn-gender-female');
+
+    //set gender
+    if (gender == 1) {//female
+        $btn_gender_female.attr('class', 'btn bg-aqua-gradient');
+        $btn_gender_male.attr('class', 'btn btn-default');
+    } else {//male
+        $btn_gender_male.attr('class', 'btn bg-aqua-gradient');
+        $btn_gender_female.attr('class', 'btn btn-default');
+    }
+
+    //set current gender updating
+    current_gender_updating = gender;
 }
 
 /**
