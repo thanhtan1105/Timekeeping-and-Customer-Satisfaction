@@ -19,48 +19,20 @@
         <div style="margin-bottom: 50px">
             <!-- company name -->
             <div class="row text-black">
-                <div class="panel panel-primary" style="margin-left: 33%; margin-right: 33%">
-                    <div class="panel-body" style="text-align: center">
+                <div class="panel panel-primary" style="margin-left: 28%; margin-right: 28%; margin-bottom: 7px">
+                    <div class="panel-body" style="text-align: center; padding: 5px; padding-bottom: 0px">
                         <label>
                             <font class="font-24 text-uppercase">TKCS Company</font>
                         </label>
                     </div>
                 </div>
             </div>
-            <div class="row text-black font-18" style="margin-left: 4%; margin-right: 4%">
-                <table style="width: 100%!important;">
-                    <!-- department -->
-                    <tr>
-                        <td style="width: 48%; text-align: right">
-                            <label>Department:</label>
-                        </td>
-                        <td style="width: 4%"></td>
-                        <td style="width: 48%">
-                            <font th:if="${session} and ${session.UserSession}"
-                                  th:text="${session.UserSession.department.name}"></font>
-                            &nbsp;
-                            <!-- button show modal customer emotion -->
-                            <label class="text-yellow" th:id="'btn-show-modal-customer-emotion'" style="display: none"
-                                   onclick="close_modal_customer_emotion(false)">
-                                <i class="fa fa-lightbulb-o"></i></label>
-                        </td>
-                    </tr>
-                    <!-- /.end department -->
-                    <!-- date -->
-                    <tr>
-                        <td style="width: 48%; text-align: right">
-                            <label>Date:</label>
-                        </td>
-                        <td style="width: 4%"></td>
-                        <td style="width: 48%">
-                            <font th:text="${#dates.format(CurrentDate, 'yyyy-MMM-dd')}"></font>
-                        </td>
-                    </tr>
-                    <!-- /.end date -->
-                </table>
+            <div class="row text-black font-18" style="margin-left: 4%; margin-right: 4%; text-align: center">
+                <label>Date: </label>
+                <font th:text="${#dates.format(CurrentDate, 'yyyy-MMM-dd')}"></font>
             </div>
             <!-- button next transaction -->
-            <div class="row" style="margin-top: 20px;">
+            <div class="row" style="margin-top: 5px;">
                 <div style="margin-left: 35%; margin-right: 35%; text-align: center">
                     <button class="btn bg-aqua-active btn-flat btn-block"
                             th:id="'btn-next-transaction'">
@@ -94,7 +66,7 @@
                                         style="margin-left: 15px">Customer Emotion</h4>
                                 </div>
                                 <div class="modal-body" th:id="'div-body-scroll-customer-emotion'"
-                                     style="padding: 8px; height: 310px; overflow-y:scroll; overflow-x: hidden">
+                                     style="padding: 8px">
                                     <div class="row">
                                         <table style="width: 100%">
                                             <tr>
@@ -147,13 +119,11 @@
                                         </table>
                                     </div>
                                     <!-- suggestion -->
-                                    <div class="row" style="margin-top: 15px; margin-left: 1px">
-                                        <div class="col-sm-12">
-                                            <div class="panel panel-primary" style="margin-bottom: 5px">
-                                                <div class="panel-body" style="padding: 5px">
-                                                    <label>Gợi ý giao tiếp</label>
-                                                    <ol th:id="'suggestion-behavior-message'"></ol>
-                                                </div>
+                                    <div class="row" style="margin-top: 5px; margin-left: 5px; margin-right: 10px">
+                                        <div class="panel panel-primary" style="margin-bottom: 5px">
+                                            <div class="panel-body" style="padding: 5px">
+                                                <label>Gợi ý giao tiếp</label>
+                                                <ol th:id="'suggestion-behavior-message'"></ol>
                                             </div>
                                         </div>
                                     </div>
@@ -163,16 +133,92 @@
                                         </div>
                                     </div>
                                     <!-- button skip -->
-                                    <div class="row" style="margin-top: 5px">
-                                        <div class="col-sm-4 col-sm-offset-4">
-                                            <button class="btn bg-orange-active btn-flat btn-block btn-skip-transaction">
-                                                Bỏ qua
-                                            </button>
-                                        </div>
+                                    <div class="row" style="margin-top: 5px; margin-left: 35%; margin-right: 35%">
+                                        <button class="btn bg-orange-active btn-flat btn-block btn-skip-transaction">
+                                            Bỏ qua
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- form add customer information -->
+        <div class="row" th:id="'div-add-customer-information'"
+             style="position: relative; top: -80px; bottom: auto; right: auto; left: 15px; width: 490px; display: none">
+            <div class="box box-danger">
+                <div class="box-header" style="padding: 3px">
+                    <h3 class="box-title text-blue text-bold" style="margin-left: 10px">Customer Information</h3>
+                    <div class="box-tools pull-right text-success">
+                        <i class="fa fa-check"></i>
+                    </div>
+                </div>
+                <div class="box-body" style="margin-bottom: -20px">
+                    <div class="box box-primary box-solid">
+                        <div class="box-body">
+                            <table style="width: 100%">
+                                <tr style="margin-bottom: 5px">
+                                    <td style="width: 30%; text-align: left">
+                                        <label class="control-label">Customer Name:</label>
+                                    </td>
+                                    <td style="width: 60%">
+                                        <input th:id="''" class="form-control" style="width: 95%"/>
+                                    </td>
+                                </tr>
+                                <tr style="height: 5px">
+                                    <td colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%; text-align: left">
+                                        <label class="control-label">Gender:</label>
+                                    </td>
+                                    <td style="width: 60%">
+                                        <div class="btn-group" style="width: 100%">
+                                            <button type="button" class="btn bg-aqua-gradient"
+                                                    th:id="'btn-gender-male'"
+                                                    style="width: 25%" onclick="select_gender(0)">Male
+                                            </button>
+                                            <button type="button" class="btn btn-default"
+                                                    th:id="'btn-gender-female'"
+                                                    style="width: 25%" onclick="select_gender(0)">Female
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr style="height: 5px">
+                                    <td colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 40%; text-align: left">
+                                        <label class="control-label">Year of Birth:</label>
+                                    </td>
+                                    <td style="width: 60%">
+                                        <div class="date">
+                                            <input class="form-control" style="width: 50%"
+                                                   th:id="'datetime-picker-year-of-birth'"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr style="height: 5px">
+                                    <td colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 40%; text-align: left">
+                                        <label class="control-label">Transaction Content:</label>
+                                    </td>
+                                    <td style="width: 60%">
+                                        <textarea class="form-control" style="width: 95%"></textarea>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div style="margin-left: 40%; margin-right: 40%; margin-bottom: 10px; text-align: center">
+                        <button class="btn bg-aqua-active btn-flat btn-block" onclick="save_customer_information()">Save</button>
                     </div>
                 </div>
             </div>
