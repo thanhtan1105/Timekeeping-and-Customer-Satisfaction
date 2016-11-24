@@ -118,7 +118,7 @@ public class EmotionCustomerResponse {
             CustomerModel customerModel = new CustomerModel();
             customerModel.setGender(analyzes.getGender());
             DateTime dateTime = new DateTime(new Date());
-            Integer year = dateTime.plusYears(analyzes.getAge().intValue()).getYear();
+            Integer year = dateTime.plusYears(analyzes.getAge().intValue() * -1).getYear();
             customerModel.setYearBirth(year);
             return customerModel;
         }else {

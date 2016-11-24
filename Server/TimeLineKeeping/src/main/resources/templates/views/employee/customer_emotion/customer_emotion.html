@@ -151,7 +151,8 @@
             <div class="box box-danger">
                 <div class="box-header" style="padding: 3px">
                     <h3 class="box-title text-blue text-bold" style="margin-left: 10px">Customer Information</h3>
-                    <div class="box-tools pull-right text-success">
+                    <div th:id="'div-message-saving-success'" class="box-tools pull-right text-success"
+                         style="display: none">
                         <i class="fa fa-check"></i>
                     </div>
                 </div>
@@ -164,7 +165,7 @@
                                         <label class="control-label">Customer Name:</label>
                                     </td>
                                     <td style="width: 60%">
-                                        <input th:id="''" class="form-control" style="width: 95%"/>
+                                        <input th:id="'saving-customer-name'" class="form-control" style="width: 95%"/>
                                     </td>
                                 </tr>
                                 <tr style="height: 5px">
@@ -182,7 +183,7 @@
                                             </button>
                                             <button type="button" class="btn btn-default"
                                                     th:id="'btn-gender-female'"
-                                                    style="width: 25%" onclick="select_gender(0)">Female
+                                                    style="width: 25%" onclick="select_gender(1)">Female
                                             </button>
                                         </div>
                                     </td>
@@ -209,7 +210,8 @@
                                         <label class="control-label">Transaction Content:</label>
                                     </td>
                                     <td style="width: 60%">
-                                        <textarea class="form-control" style="width: 95%"></textarea>
+                                        <textarea th:id="'saving-transaction-content'"
+                                                  class="form-control" style="width: 95%"></textarea>
                                     </td>
                                 </tr>
                             </table>

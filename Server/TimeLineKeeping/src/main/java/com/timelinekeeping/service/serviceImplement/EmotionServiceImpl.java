@@ -80,7 +80,10 @@ public class EmotionServiceImpl {
                 if (emotionCamera2 != null) {
                     emotionCamera1.merge(emotionCamera2);
                 }
-                return emotionAnalyzis(emotionCamera1);
+
+                EmotionCustomerResponse emotionCustomerResponse = emotionAnalyzis(emotionCamera1);
+                emotionCustomerResponse.setCustomerCode(customerEmotionSession.getCustomerCode());
+                return emotionCustomerResponse;
             } else {
                 return null;
             }
@@ -143,7 +146,7 @@ public class EmotionServiceImpl {
             customerResultEntity.setStatus(ETransaction.BEGIN);
 
             //set rpmanager and set rp deparment
-            customerResultEntity.setRpDepartmentId(employee.getDepartment().getId());
+            //customerResultEntity.setRpDepartmentId(employee.getDepartment().getId());
             CustomerServiceEntity entity = customerServiceRepo.saveAndFlush(customerResultEntity);
             return new CustomerServiceModel(entity);
 

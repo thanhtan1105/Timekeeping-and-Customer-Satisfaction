@@ -9,6 +9,8 @@ var timer_get_image;
 var timer_stop_get_emotion;
 var nextAngle = 0;
 var current_gender;
+var current_customer_id;
+var current_customer_code;
 
 /**
  * Fc: load page
@@ -82,35 +84,40 @@ $('#btn-rotate-image').on('click', function () {
     rotateRight('#image-customer', degrees);
 });
 
-$('#div-keydown-get-customer-emotion').keydown(function (event) {
-    var keyCode = (event.keyCode ? event.keyCode : event.which);
-    if (keyCode == 13) {
-        console.info('Running keydown');
-        //disable button next
-        event_disabled('#btn-next-transaction', true);
-        //disable button skip
-        event_disabled('.btn-skip-transaction', true);
-        //hide div overview customer emotion
-        event_hide('#div-overview-customer-emotion');
-        //hide div add customer information
-        event_hide('#div-add-customer-information');
-        //hide div not get emotion
-        event_hide('#div-not-get-emotion');
-        //hide button show modal customer emotion
-        event_hide('#btn-show-modal-customer-emotion');
-
-        //check is first call
-        if (com_first_time_load_get_customer_emotion) {//is first call get_emotion api
-            //call request: load page
-            load_page();
-            //reset is first time
-            com_first_time_load_get_customer_emotion = false;
-        } else {// is not first call next api
-            //call request: next transaction (isSkip == false)
-            worker_next_transaction(false);
-        }
-    }
-});
+/**
+ * Fc: keydown customer emotion
+ */
+// $('#div-keydown-get-customer-emotion').keydown(function (event) {
+//     var keyCode = (event.keyCode ? event.keyCode : event.which);
+//     if (keyCode == 13) {
+//         if (prevent_keydown_saving_customer_information()) {
+//             console.info('Running keydown');
+//             //disable button next
+//             event_disabled('#btn-next-transaction', true);
+//             //disable button skip
+//             event_disabled('.btn-skip-transaction', true);
+//             //hide div overview customer emotion
+//             event_hide('#div-overview-customer-emotion');
+//             //hide div add customer information
+//             event_hide('#div-add-customer-information');
+//             //hide div not get emotion
+//             event_hide('#div-not-get-emotion');
+//             //hide button show modal customer emotion
+//             event_hide('#btn-show-modal-customer-emotion');
+//
+//             //check is first call
+//             if (com_first_time_load_get_customer_emotion) {//is first call get_emotion api
+//                 //call request: load page
+//                 load_page();
+//                 //reset is first time
+//                 com_first_time_load_get_customer_emotion = false;
+//             } else {// is not first call next api
+//                 //call request: next transaction (isSkip == false)
+//                 worker_next_transaction(false);
+//             }
+//         }
+//     }
+// });
 
 /**
  * Initial datetime picker year of birth
@@ -139,6 +146,8 @@ function worker_get_emotion() {
                     messages = data.messages,
                     emotionExist = data.emotionPercent,
                     awsUrl = data.awsUrl,
+                    customerCode = data.customerCode,
+                    customerInformation = data.customerInformation,
                     customer_emotion_msg = messages.message,
                     suggestions = messages.sugguest,
                     age_predict = messages.predict,
@@ -162,11 +171,14 @@ function worker_get_emotion() {
                 //set overview customer emotion
                 set_content_overview_customer_emotion(age_predict, gender, awsUrl, emotionExist, customer_emotion_msg, suggestions);
                 //set adding customer emotion
-                set_content_add_customer_emotion(gender);
+                set_content_add_customer_emotion(customerInformation);
                 //stop time out worker get emotion
                 clearTimeout(timer_stop_get_emotion);
                 //stop request: get first emotion
                 clearTimeout(timer_get_emotion);
+
+                //set current customer code
+                current_customer_code = customerCode;
             }
         }
     });
@@ -283,8 +295,65 @@ function stop_get_emotion_manual() {
     event_disabled('.btn-skip-transaction', false);
 }
 
+/**
+ * Fc: save customer information
+ */
 function save_customer_information() {
-    //
+    var customer_name = $('#saving-customer-name').val(),
+        transaction_content = $('#saving-transaction-content').val(),
+        year = $('#datetime-picker-year-of-birth').val();
+
+    console.info('[Save Customer Information][customer id] ' + current_customer_id);
+    console.info('[Save Customer Information][customer name] ' + customer_name);
+    console.info('[Save Customer Information][gender] ' + current_gender);
+    console.info('[Save Customer Information][year] ' + year);
+    console.info('[Save Customer Information][transaction content] ' + transaction_content);
+    console.info('[Save Customer Information][customer code] ' + current_customer_code);
+
+    //call ajax save customer information
+    ajax_save_customer_information(customer_name, year, transaction_content);
+}
+
+/**
+ * Fc: ajax save customer information
+ * @param customer_name
+ * @param year
+ * @param transaction_content
+ */
+function ajax_save_customer_information(customer_name, year, transaction_content) {
+    var urlString = '/api/emotion/update_customer_infor',
+        customerTransactionModel = {
+            'id': current_customer_id,
+            'name': customer_name,
+            'code': '',
+            'yearBirth': year,
+            'gender': current_gender,
+            'description': transaction_content,
+            'content': '',
+            'customerCode': current_customer_code
+        };
+    $.ajax({
+        type: 'POST',
+        url: urlString,
+        data: customerTransactionModel,
+        success: function (response) {
+            var success = response.success
+            console.info('[Save Customer Information][success] ' + success);
+            if (success) {
+                var customerId = response.data.customerId;
+                console.info('[Save Customer Information][customerId] ' + customerId);
+
+                //set current customer id
+                current_customer_id = customerId;
+
+                //show message saving success
+                event_show('#div-message-saving-success');
+            } else {
+                //hide message saving success
+                event_hide('#div-message-saving-success');
+            }
+        }
+    });
 }
 
 /**
@@ -401,6 +470,24 @@ function close_modal_customer_emotion(isClose) {
         //reset scroll
         reset_scroll('#div-body-scroll-customer-emotion');
     }
+}
+
+function prevent_keydown_saving_customer_information() {
+    var prevent_customer_name = prevent_keydown('#saving-customer-name');
+    var prevent_year_of_birth = prevent_keydown('#datetime-picker-year-of-birth');
+    var prevent_transaction_content = prevent_keydown('#saving-transaction-content');
+    return (prevent_customer_name && prevent_year_of_birth && prevent_transaction_content);
+}
+
+function prevent_keydown(id) {
+    var isPrevent = true;
+    $(id).keydown(function (event) {
+        var keyCode = (event.keyCode ? event.keyCode : event.which);
+        if (keyCode == 13) {
+            isPrevent = false;
+        }
+    });
+    return isPrevent;
 }
 
 /**
@@ -568,9 +655,24 @@ function set_content_overview_customer_emotion(age_predict, gender, awsUrl, emot
  * Fc: set content adding customer emotion
  * @param gender
  */
-function set_content_add_customer_emotion(gender) {
-    var $btn_gender_male = $('#btn-gender-male'),
+function set_content_add_customer_emotion(customerInformation) {
+    var id = customerInformation.id,
+        gender = customerInformation.gender,
+        name = customerInformation.name,
+        yearBirth = customerInformation.yearBirth,
+        description = customerInformation.description;
+    var $customer_name = $('#saving-customer-name'),
+        $transaction_content = $('#saving-transaction-content'),
+        $year = $('#datetime-picker-year-of-birth'),
+        $btn_gender_male = $('#btn-gender-male'),
         $btn_gender_female = $('#btn-gender-female');
+
+    //set content
+    $customer_name.val(name);
+    $year.val(yearBirth);
+    $transaction_content.val(description);
+    //set value datetime-picker
+    // set_value_date_picker('#datetime-picker-year-of-birth', yearBirth);
 
     //set gender
     if (gender == 1) {//female
@@ -581,8 +683,14 @@ function set_content_add_customer_emotion(gender) {
         $btn_gender_female.attr('class', 'btn btn-default');
     }
 
+    //set current customer id
+    current_customer_id = id;
+
     //set current gender updating
-    current_gender_updating = gender;
+    current_gender = gender;
+
+    //hide message saving success
+    event_hide('#div-message-saving-success');
 }
 
 /**
@@ -597,4 +705,13 @@ function set_vote(id) {
     $span_vote.html(vote);
     //disabled button vote
     $btn_vote.prop('disabled', true);
+}
+
+/**
+ * Fc: set value datetime-picker
+ * @param id
+ * @param text
+ */
+function set_value_date_picker(id, text) {
+    $(id).datepicker('setDate', new Date(text));
 }

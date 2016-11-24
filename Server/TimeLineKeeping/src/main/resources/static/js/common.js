@@ -44,3 +44,12 @@ function formatDate(date) {
  */
 var com_full_year_month = 'yyyy-MM';
 var com_full_date = 'yyyy-M-dd';
+
+/**
+ * Fc: check empty
+ * @param value
+ * @returns {boolean}
+ */
+function check_empty(value) {
+    return (value != null && value != '');
+}
