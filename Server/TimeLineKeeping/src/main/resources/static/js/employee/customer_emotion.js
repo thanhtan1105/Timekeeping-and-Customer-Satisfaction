@@ -169,7 +169,7 @@ function worker_get_emotion() {
                 event_disabled('.btn-skip-transaction', false);
 
                 //set overview customer emotion
-                set_content_overview_customer_emotion(age_predict, gender, awsUrl, emotionExist, customer_emotion_msg, suggestions);
+                set_content_overview_customer_emotion(age_predict, gender, awsUrl, emotionExist, customer_emotion_msg, suggestions, customerInformation);
                 //set adding customer emotion
                 set_content_add_customer_emotion(customerInformation);
                 //stop time out worker get emotion
@@ -516,13 +516,27 @@ function select_gender(gender) {
  * Fc: set content age_predict
  * @param age_predict
  */
-function set_age_predict(age_predict) {
-    var $font_age_predict = $('#font-age-predict');
-    if (age_predict != null) {
-        $font_age_predict.html(age_predict);
+function set_age_predict(age_predict, customerInformation) {
+    var customerId = customerInformation.id;
+    var $font_age_predict = $('#font-age-predict'),
+        $label_age_predict = $('#label-age-predict'),
+        content_label_age_predict = '',
+        content_age_predict = '';
+    if (check_empty(customerId)) {
+        var yearBirth = customerInformation.yearBirth;
+        content_label_age_predict = 'Tuổi:';
+        content_age_predict = yearBirth;
     } else {
-        $font_age_predict.html('N/A');
+        content_label_age_predict = 'Tuổi khuôn mặt:';
+        if (age_predict != null) {
+            content_age_predict = age_predict;
+        } else {
+            content_age_predict = 'N/A';
+        }
     }
+    //set content html
+    $label_age_predict.html(content_label_age_predict);
+    $font_age_predict.html(content_age_predict);
 }
 
 /**
@@ -625,9 +639,9 @@ function set_suggest_behaviour(suggestions) {
  * @param customer_emotion_msg
  * @param suggestions
  */
-function set_content_overview_customer_emotion(age_predict, gender, awsUrl, emotionExist, customer_emotion_msg, suggestions) {
+function set_content_overview_customer_emotion(age_predict, gender, awsUrl, emotionExist, customer_emotion_msg, suggestions, customerInformation) {
     //set age predict
-    set_age_predict(age_predict);
+    set_age_predict(age_predict, customerInformation);
 
     //set gender
     set_gender(gender);
