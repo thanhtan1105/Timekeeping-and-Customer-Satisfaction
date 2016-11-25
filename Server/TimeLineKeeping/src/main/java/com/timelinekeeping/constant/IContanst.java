@@ -51,7 +51,7 @@ public interface IContanst {
     ////------
 
     String SEND_SMS_KEY = "send.sms";
-    String EMOTION_ADVANDGE = "emotion.advandge";
+    String EMOTION_ADVANDGE = "emotion.advance";
     String EMOTION_ACEPTION_VALUE_KEY = "emotion.acception";
 
     String COMPANY_EMAIL_KEY = "email.company";

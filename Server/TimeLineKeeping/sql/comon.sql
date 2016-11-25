@@ -12,7 +12,7 @@ INSERT INTO mydb.configuration(key_query,name,value) VALUES('checkin.accept.conf
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('checkin.training.confident', 'CHECK_IN_TRAINING_CONFIDENT', '0.85');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('time.checkin.begin', 'TIME_CHECKIN_BEGIN', '6:30');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('time.checkin.end', 'TIME_CHECKIN_END', '8:30');
-INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.advandge', 'EMOTION_ADVANDGE', '0');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.advance', 'EMOTION_ADVANDGE', '0');
 
 
 --- QUANTITY EMOTION
