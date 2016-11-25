@@ -1,5 +1,6 @@
 package com.timelinekeeping.model;
 
+import com.timelinekeeping.constant.EConfiguration;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.util.ValidateUtil;
 
@@ -30,7 +31,7 @@ public class ConfigurationModel {
 
     public ConfigurationModel(Map<String, String> entity) {
         if (ValidateUtil.isNotEmpty(entity.get(IContanst.SEND_SMS_KEY))) {
-            this.sendSMS = Integer.valueOf(entity.get(IContanst.SEND_SMS_KEY)) == 1;
+            this.sendSMS = Integer.valueOf(entity.get(IContanst.SEND_SMS_KEY)) == EConfiguration.ALLOW.getIndex();
         }
         if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_ACEPTION_VALUE_KEY))) {
             this.emotionAccept = Double.valueOf(entity.get(IContanst.EMOTION_ACEPTION_VALUE_KEY));
@@ -51,7 +52,7 @@ public class ConfigurationModel {
     public Map<String, String> map() {
         Map<String, String> map = new HashMap<>();
         if (sendSMS != null)
-            map.put(IContanst.SEND_SMS_KEY, String.valueOf(sendSMS ? 1 : 0));
+            map.put(IContanst.SEND_SMS_KEY, String.valueOf(sendSMS ? EConfiguration.ALLOW.getIndex() : EConfiguration.DO_NOT.getIndex()));
         if (emotionAccept != null && emotionAccept > 0)
             map.put(IContanst.EMOTION_ACEPTION_VALUE_KEY, String.valueOf(emotionAccept));
         if (emailCompay != null)

@@ -208,6 +208,30 @@ public class SuggestionService {
         }
     }
 
+    // add Name of emotion
+    public List<EmotionContentModel> getSuggestion(EEmotion emotion, String name, Gender gender) {
+        try {
+            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
+            String subject = getSubject(name, gender);
+
+            // get from database
+            //TODO add many emotion
+            Page<EmotionContentEntity> pageContent = emotionContentRepo.getEmotionContent(emotion, null, null, null, null, new PageRequest(IContanst.PAGE_PAGE_I, IContanst.PAGE_SIZE_CONTENT));
+            List<EmotionContentModel> modelContents = new ArrayList<>();
+            if (pageContent != null && pageContent.getContent() != null && pageContent.getContent().size() > 0) {
+                for (EmotionContentEntity entity : pageContent.getContent()) {
+                    EmotionContentModel model = new EmotionContentModel(entity);
+                    String message = model.getMessage();
+                    model.setMessage(UtilApps.formatSentence(String.format(message, subject)));
+                    modelContents.add(model);
+                }
+            }
+            return modelContents;
+        } finally {
+            logger.info(IContanst.END_METHOD_SERVICE);
+        }
+    }
+
     public String convertHistory(String name, Gender gender, String content) {
         return String.format(IContanst.APPEND_HISTORY_SUGGESTION, getSubject(name, gender)) + " " + content;
     }

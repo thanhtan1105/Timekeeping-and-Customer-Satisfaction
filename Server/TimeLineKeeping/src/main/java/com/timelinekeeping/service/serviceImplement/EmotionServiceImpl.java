@@ -6,20 +6,13 @@ import com.timelinekeeping.accessAPI.PersonGroupServiceMCSImpl;
 import com.timelinekeeping.accessAPI.PersonServiceMCSImpl;
 import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.common.Pair;
-import com.timelinekeeping.constant.EEmotion;
-import com.timelinekeeping.constant.ERROR;
-import com.timelinekeeping.constant.ETransaction;
-import com.timelinekeeping.constant.IContanst;
-import com.timelinekeeping.entity.AccountEntity;
-import com.timelinekeeping.entity.CustomerEntity;
-import com.timelinekeeping.entity.CustomerServiceEntity;
-import com.timelinekeeping.entity.EmotionCustomerEntity;
+import com.timelinekeeping.constant.*;
+import com.timelinekeeping.entity.*;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.modelMCS.*;
 import com.timelinekeeping.repository.*;
 import com.timelinekeeping.service.blackService.SuggestionService;
 import com.timelinekeeping.util.*;
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -28,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.time.YearMonth;
 import java.util.*;
@@ -75,6 +67,9 @@ public class EmotionServiceImpl {
     @Autowired
     PersonGroupServiceMCSImpl personGroupServiceMCS;
 
+    @Autowired
+    ConfigurationRepo configurationRepo;
+
 
     private Logger logger = LogManager.getLogger(EmotionServiceImpl.class);
 
@@ -106,8 +101,15 @@ public class EmotionServiceImpl {
             //add customer code
             emotionCustomerResponse.setCustomerCode(customerEmotionSession.getCustomerCode());
 
-            /** Update History*/
-            updateHistoryIntoResponse(emotionCustomerResponse, customerEmotionSession.getCustomerCode());
+            // configuration
+            ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.EMOTION_ADVANCE);
+            if (configurationEntity != null && Integer.valueOf(configurationEntity.getValue()) == EConfiguration.ALLOW.getIndex()) {
+                /** Update History*/
+                updateHistoryIntoResponse(emotionCustomerResponse, customerEmotionSession.getCustomerCode());
+                emotionCustomerResponse.setEmotionAdvendge(true);
+            }else {
+                emotionCustomerResponse.setEmotionAdvendge(false);
+            }
 
             logger.info("Response:" + JsonUtil.toJson(emotionCustomerResponse));
             return emotionCustomerResponse;
@@ -142,6 +144,11 @@ public class EmotionServiceImpl {
 
                 emotionCustomerResponse.setCustomerHistory(suggestHistories);
             }
+
+
+
+            /*** update suggestion*/
+//            List<EmotionContentModel> suggestion = suggestionService.getSuggestion(emotionCustomerEntity.getEmotionMost(), emotionCustomerEntity.getAge(), emotionCustomerEntity.getGender());
         }
 
     }
@@ -227,8 +234,14 @@ public class EmotionServiceImpl {
                     customerResultEntity.calculateGrade();
                 }
 
-                /**history */
-                personGroupServiceMCS.trainGroup(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER);
+                // configuration
+                ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.EMOTION_ADVANCE);
+                if (configurationEntity != null && Integer.valueOf(configurationEntity.getValue()) == EConfiguration.ALLOW.getIndex()) {
+                    /**history */
+                    personGroupServiceMCS.trainGroup(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER);
+                }
+
+
                 customerServiceRepo.saveAndFlush(customerResultEntity);
                 return customerResultEntity.getCreateBy() != null ? customerResultEntity.getCreateBy().getId() : null;
             } else {
@@ -245,7 +258,7 @@ public class EmotionServiceImpl {
      * upload image to transaction
      * author: hientq
      */
-    public Long uploadImage( byte[] bytesImage, String customerCode) throws IOException, URISyntaxException {
+    public Long uploadImage(byte[] bytesImage, String customerCode) throws IOException, URISyntaxException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info("CustomerCode: " + customerCode);
@@ -274,9 +287,11 @@ public class EmotionServiceImpl {
                 EmotionCustomerEntity emotionEntity = new EmotionCustomerEntity(emotionAnalysis, customerResultEntity);
                 EmotionCustomerEntity result = emotionRepo.saveAndFlush(emotionEntity);
 
-                /** history customer*/
-                historyCustomer(customerResultEntity, emotionAnalysis.getFaceId(), bytesImage);
-
+                ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.EMOTION_ADVANCE);
+                if (configurationEntity != null && Integer.valueOf(configurationEntity.getValue()) == EConfiguration.ALLOW.getIndex()) {
+                    /** history customer*/
+                    historyCustomer(customerResultEntity, emotionAnalysis.getFaceId(), bytesImage);
+                }
 
                 //save to session
                 return result.getId();
@@ -360,6 +375,14 @@ public class EmotionServiceImpl {
     }
 
     private String identifyCustomer(String faceId) throws IOException, URISyntaxException {
+
+        Double confidenceValue = 0.5d;
+        ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.EMOTION_ADVANCE_CONFIDENCE);
+        if (configurationEntity != null) {
+            /** Update History*/
+            confidenceValue = Double.valueOf(configurationEntity.getValue());
+        }
+
         BaseResponse response = faceServiceMCS.identify(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER, faceId);
         if (response.isSuccess()) {
 
@@ -369,11 +392,16 @@ public class EmotionServiceImpl {
                 List<FaceIdentityCandidate> candidates = confidenceResponeList.get(0).getCandidates();
 
                 double confidence = 0d;
+                String personId = null;
                 for (FaceIdentityCandidate candidate : candidates) {
                     if (candidate.getConfidence() > confidence) {
                         confidence = candidate.getConfidence();
-                        return candidate.getPersonId();
+                        personId = candidate.getPersonId();
                     }
+                }
+
+                if (confidence >= confidenceValue){
+                    return personId;
                 }
             }
         }

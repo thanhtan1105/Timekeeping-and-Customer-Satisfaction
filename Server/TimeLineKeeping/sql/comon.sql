@@ -5,15 +5,15 @@ INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('employee','/emplo
 
 ---- CONFIGURATION
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('send.sms', 'SEND_SMS', '0');
-INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.acception', 'EMOTION_ACCEPT', '0.15');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.acceptance', 'EMOTION_ACCEPT', '0.15');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('email.company', 'EMAIL_COMPANY', 'tkcs.vn');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('password.default', 'PASSWORD_DEFAULT', 'abcd@123');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('checkin.accept.confident', 'CHECKIN_ACCEPT_CONFIDENT', '0.8');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('checkin.training.confident', 'CHECK_IN_TRAINING_CONFIDENT', '0.85');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('time.checkin.begin', 'TIME_CHECKIN_BEGIN', '6:30');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('time.checkin.end', 'TIME_CHECKIN_END', '8:30');
-INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.advance', 'EMOTION_ADVANDGE', '0');
-INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.advandge.confidance', 'EMOTION_ADVANDGE_CONFIDANCE', '0.5');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.advance', 'EMOTION_ADVANCE', '0');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.advance.confidence', 'EMOTION_ADVANCE_CONFIDENCE', '0.5');
 
 
 --- QUANTITY EMOTION

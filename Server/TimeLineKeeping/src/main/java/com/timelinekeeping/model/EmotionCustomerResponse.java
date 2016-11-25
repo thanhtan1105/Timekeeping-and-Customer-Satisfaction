@@ -24,6 +24,7 @@ public class EmotionCustomerResponse {
 
     private List<String> customerHistory;
 
+    private Boolean isEmotionAdvendge = false;
     // link aws url
     private String awsUrl;
     // check final
@@ -132,5 +133,13 @@ public class EmotionCustomerResponse {
 
     public void setCustomerHistory(List<String> customerHistory) {
         this.customerHistory = customerHistory;
+    }
+
+    public Boolean getEmotionAdvendge() {
+        return isEmotionAdvendge;
+    }
+
+    public void setEmotionAdvendge(Boolean emotionAdvendge) {
+        isEmotionAdvendge = emotionAdvendge;
     }
 }

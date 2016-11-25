@@ -48,11 +48,12 @@ public interface IContanst {
     String TIME_CHECK_IN_SYSTEM_END = AppConfigKeys.getInstance().getApiPropertyValue("checkin.time.system.end");
 
     double MCS_PERSON_DETECT_CONFIDINCE_CORRECT = AppConfigKeys.getInstance().getApiPropertyDouble("detect.person.indetify.confidence");
-    ////------
 
+    ////------
     String SEND_SMS_KEY = "send.sms";
-    String EMOTION_ADVANDGE = "emotion.advance";
-    String EMOTION_ACEPTION_VALUE_KEY = "emotion.acception";
+    String EMOTION_ADVANCE = "emotion.advance";
+    String EMOTION_ADVANCE_CONFIDENCE = "emotion.advance.confidence";
+    String EMOTION_ACEPTION_VALUE_KEY = "emotion.acceptance";
 
     String COMPANY_EMAIL_KEY = "email.company";
     String PASSWORD_DEFAULT_KEY = "password.default";
