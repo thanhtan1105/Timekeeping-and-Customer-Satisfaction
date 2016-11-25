@@ -152,7 +152,8 @@ function worker_get_emotion() {
                     customer_emotion_msg = messages.message,
                     suggestions = messages.sugguest,
                     age_predict = messages.predict,
-                    gender = messages.gender;
+                    gender = messages.gender,
+                    ageOfFace = messages.ageOfFace;
 
                 //hide div not get emotion
                 event_hide('#div-not-get-emotion');
@@ -172,7 +173,7 @@ function worker_get_emotion() {
                 //set overview customer emotion
                 set_content_overview_customer_emotion(age_predict, gender, awsUrl, emotionExist, customer_emotion_msg, suggestions, customerInformation, customerHistory);
                 //set adding customer emotion
-                set_content_add_customer_emotion(customerInformation);
+                set_content_add_customer_emotion(customerInformation, gender, ageOfFace);
                 //stop time out worker get emotion
                 clearTimeout(timer_stop_get_emotion);
                 //stop request: get first emotion
@@ -526,8 +527,17 @@ function set_age_predict(age_predict, customerInformation) {
 
     if (check_empty(customerId)) {//if is old customer
         var yearBirth = customerInformation.yearBirth;
-        content_label_age_predict = 'Tuổi:';
-        content_age_predict = yearBirth;
+        if (check_empty(yearBirth)) {
+            content_label_age_predict = 'Tuổi:';
+            content_age_predict = get_age(yearBirth);
+        } else {
+            content_label_age_predict = 'Tuổi khuôn mặt:';
+            if (age_predict != null) {
+                content_age_predict = age_predict;
+            } else {
+                content_age_predict = 'N/A';
+            }
+        }
     } else {//if is new customer
         content_label_age_predict = 'Tuổi khuôn mặt:';
         if (age_predict != null) {
@@ -550,10 +560,18 @@ function set_gender(gender, customerInformation) {
     var $font_gender = $('#font-gender');
     if (check_empty(customerId)) {//if is old customer
         var gender_customer = customerInformation.gender;
-        if (gender_customer == 0) {
-            $font_gender.html('Nam');
+        if (check_empty(gender_customer)) {
+            if (gender_customer == 0) {
+                $font_gender.html('Nam');
+            } else {
+                $font_gender.html('Nữ');
+            }
         } else {
-            $font_gender.html('Nữ');
+            if (gender == 0) {
+                $font_gender.html('Nam');
+            } else {
+                $font_gender.html('Nữ');
+            }
         }
     } else {//if is new customer
         if (gender == 0) {
@@ -693,9 +711,9 @@ function set_content_overview_customer_emotion(age_predict, gender, awsUrl, emot
  * Fc: set content adding customer emotion
  * @param gender
  */
-function set_content_add_customer_emotion(customerInformation) {
+function set_content_add_customer_emotion(customerInformation, gender, ageOfFace) {
     var id = customerInformation.id,
-        gender = customerInformation.gender,
+        customer_gender = customerInformation.gender,
         name = customerInformation.name,
         yearBirth = customerInformation.yearBirth,
         description = customerInformation.description;
@@ -707,25 +725,42 @@ function set_content_add_customer_emotion(customerInformation) {
 
     //set content
     $customer_name.val(name);
-    $year.val(yearBirth);
+    //set year
+    if (check_empty(yearBirth)) {
+        $year.val(yearBirth);
+    } else {
+        var round_age_of_face = Math.round(ageOfFace),
+            year_of_birth = get_year_of_birth(round_age_of_face);
+        $year.val(year_of_birth);
+    }
     $transaction_content.val(description);
     //set value datetime-picker
     // set_value_date_picker('#datetime-picker-year-of-birth', yearBirth);
 
     //set gender
-    if (gender == 1) {//female
-        $btn_gender_female.attr('class', 'btn bg-aqua-gradient');
-        $btn_gender_male.attr('class', 'btn btn-default');
-    } else {//male
-        $btn_gender_male.attr('class', 'btn bg-aqua-gradient');
-        $btn_gender_female.attr('class', 'btn btn-default');
+    if (check_empty(customer_gender)) {
+        if (customer_gender == 1) {//female
+            $btn_gender_female.attr('class', 'btn bg-aqua-gradient');
+            $btn_gender_male.attr('class', 'btn btn-default');
+        } else {//male
+            $btn_gender_male.attr('class', 'btn bg-aqua-gradient');
+            $btn_gender_female.attr('class', 'btn btn-default');
+        }
+    } else {
+        if (gender == 1) {//female
+            $btn_gender_female.attr('class', 'btn bg-aqua-gradient');
+            $btn_gender_male.attr('class', 'btn btn-default');
+        } else {//male
+            $btn_gender_male.attr('class', 'btn bg-aqua-gradient');
+            $btn_gender_female.attr('class', 'btn btn-default');
+        }
     }
 
     //set current customer id
     current_customer_id = id;
 
     //set current gender updating
-    current_gender = gender;
+    current_gender = customer_gender;
 
     //hide message saving success
     event_hide('#div-message-saving-success');

@@ -53,3 +53,29 @@ var com_full_date = 'yyyy-M-dd';
 function check_empty(value) {
     return (value != null && value != '');
 }
+
+/**
+ * Fc: get age from year of birth
+ * @param year_of_birth
+ * @returns {number}
+ */
+function get_age(year_of_birth) {
+    var current = new Date(),
+        current_year = current.getFullYear();
+
+    //return age
+    return (current_year - year_of_birth);
+}
+
+/**
+ * Fc: get year of birth
+ * @param age
+ * @returns {number}
+ */
+function get_year_of_birth(age) {
+    var current = new Date(),
+        current_year = current.getFullYear();
+
+    //return year of birth
+    return (current_year - age);
+}
