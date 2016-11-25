@@ -26,9 +26,9 @@ public class ConfigurationModel {
 
     private String timeCheckinEnd;
 
-    private Boolean emotionAdvence;
+    private Boolean emotionAdvance;
 
-    private Double emotionAdvenceConfidencce;
+    private Double emotionAdvanceConfidencce;
 
     public ConfigurationModel() {
     }
@@ -53,11 +53,11 @@ public class ConfigurationModel {
         this.timeCheckinEnd = entity.get(IContanst.TIME_CHECK_IN_SYSTEM_END_KEY);
 
         if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_ADVANCE_KEY))) {
-            this.emotionAdvence = Integer.valueOf(entity.get(IContanst.EMOTION_ADVANCE_KEY)) == EConfiguration.ALLOW.getIndex();
+            this.emotionAdvance = Integer.valueOf(entity.get(IContanst.EMOTION_ADVANCE_KEY)) == EConfiguration.ALLOW.getIndex();
         }
 
         if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_ADVANCE_CONFIDENCE_KEY))) {
-            this.emotionAdvenceConfidencce = Double.valueOf(entity.get(IContanst.EMOTION_ADVANCE_CONFIDENCE_KEY));
+            this.emotionAdvanceConfidencce = Double.valueOf(entity.get(IContanst.EMOTION_ADVANCE_CONFIDENCE_KEY));
         }
     }
 
@@ -77,10 +77,10 @@ public class ConfigurationModel {
             map.put(IContanst.TIME_CHECK_IN_SYSTEM_START_KEY, String.valueOf(timeCheckinBegin));
         if (timeCheckinEnd != null)
             map.put(IContanst.TIME_CHECK_IN_SYSTEM_END_KEY, String.valueOf(timeCheckinEnd));
-        if (emotionAdvence != null)
-            map.put(IContanst.EMOTION_ADVANCE_KEY, String.valueOf(emotionAdvence));
-        if (emotionAdvenceConfidencce != null)
-            map.put(IContanst.EMOTION_ADVANCE_CONFIDENCE_KEY, String.valueOf(emotionAdvenceConfidencce));
+        if (emotionAdvance != null)
+            map.put(IContanst.EMOTION_ADVANCE_KEY, String.valueOf(emotionAdvance ? EConfiguration.ALLOW.getIndex() : EConfiguration.DO_NOT.getIndex()));
+        if (emotionAdvanceConfidencce != null)
+            map.put(IContanst.EMOTION_ADVANCE_CONFIDENCE_KEY, String.valueOf(emotionAdvanceConfidencce));
         return map;
     }
 
@@ -140,19 +140,19 @@ public class ConfigurationModel {
         this.trainConfident = trainConfident;
     }
 
-    public Boolean getEmotionAdvence() {
-        return emotionAdvence;
+    public Boolean getEmotionAdvance() {
+        return emotionAdvance;
     }
 
-    public void setEmotionAdvence(Boolean emotionAdvence) {
-        this.emotionAdvence = emotionAdvence;
+    public void setEmotionAdvance(Boolean emotionAdvance) {
+        this.emotionAdvance = emotionAdvance;
     }
 
-    public Double getEmotionAdvenceConfidencce() {
-        return emotionAdvenceConfidencce;
+    public Double getEmotionAdvanceConfidencce() {
+        return emotionAdvanceConfidencce;
     }
 
-    public void setEmotionAdvenceConfidencce(Double emotionAdvenceConfidencce) {
-        this.emotionAdvenceConfidencce = emotionAdvenceConfidencce;
+    public void setEmotionAdvanceConfidencce(Double emotionAdvanceConfidencce) {
+        this.emotionAdvanceConfidencce = emotionAdvanceConfidencce;
     }
 }

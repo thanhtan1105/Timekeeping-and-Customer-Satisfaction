@@ -30,6 +30,11 @@
             <div class="row text-black font-18" style="margin-left: 4%; margin-right: 4%; text-align: center">
                 <label>Date: </label>
                 <font th:text="${#dates.format(CurrentDate, 'yyyy-MMM-dd')}"></font>
+                &nbsp;
+                <!-- button show modal customer emotion -->
+                <label class="text-yellow" th:id="'btn-show-modal-customer-emotion'" style="display: none"
+                       onclick="close_modal_customer_emotion(false)">
+                    <i class="fa fa-lightbulb-o"></i></label>
             </div>
             <!-- button next transaction -->
             <div class="row" style="margin-top: 5px;">

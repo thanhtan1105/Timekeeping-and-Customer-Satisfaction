@@ -30,7 +30,9 @@ function update_system_config() {
         emailCompany = $form_config_system.find('[name="emailCompany"]').val(),
         timeCheckinBegin = $form_config_system.find('[name="timeCheckinBegin"]').val(),
         timeCheckinEnd = $form_config_system.find('[name="timeCheckinEnd"]').val(),
-        sendSMS = get_radio_selected_value($form_config_system, 'sendSMS');
+        emotionAdvanceConfidencce = $form_config_system.find('[name="emotionAdvanceConfidencce"]').val(),
+        sendSMS = get_radio_selected_value($form_config_system, 'sendSMS'),
+        emotionAdvance = get_radio_selected_value($form_config_system, 'emotionAdvance');
 
     //model
     var configurationModel = {
@@ -40,7 +42,9 @@ function update_system_config() {
         'checkinConfident': checkinConfident,
         'trainConfident': trainConfident,
         'timeCheckinBegin': timeCheckinBegin,
-        'timeCheckinEnd': timeCheckinEnd
+        'timeCheckinEnd': timeCheckinEnd,
+        'emotionAdvanceConfidencce': emotionAdvanceConfidencce,
+        'emotionAdvance': emotionAdvance
     };
 
     //hide button update
@@ -121,7 +125,9 @@ function set_content_list_config(data) {
         checkinConfident = data.checkinConfident,
         trainConfident = data.trainConfident,
         timeCheckinBegin = data.timeCheckinBegin,
-        timeCheckinEnd = data.timeCheckinEnd;
+        timeCheckinEnd = data.timeCheckinEnd,
+        emotionAdvance = data.emotionAdvance,
+        emotionAdvanceConfidencce = data.emotionAdvanceConfidencce;
 
     //form
     var $form_config_system = $('#form-config-system'),
@@ -131,14 +137,22 @@ function set_content_list_config(data) {
         $emailCompany = $form_config_system.find('[name="emailCompany"]'),
         $timeCheckinBegin = $form_config_system.find('[name="timeCheckinBegin"]'),
         $timeCheckinEnd = $form_config_system.find('[name="timeCheckinEnd"]'),
-        selected_radio_sendSMS = 0;
+        $emotionAdvanceConfidencce = $form_config_system.find('[name="emotionAdvanceConfidencce"]'),
+        selected_radio_sendSMS = 0,
+        selected_radio_emotionAdvance = 0;
 
     //set selected radio sendSMS
     if (sendSMS) {
         selected_radio_sendSMS = 1;
     }
+    //set selected radio emotionAdvance
+    if (emotionAdvance) {
+        selected_radio_emotionAdvance = 1;
+    }
     //set radio sendSMS
     set_radio_selected_value($form_config_system, 'sendSMS', selected_radio_sendSMS);
+    //set radio emotionAdvance
+    set_radio_selected_value($form_config_system, 'emotionAdvance', selected_radio_emotionAdvance);
 
     //set content html
     $emotionAccept.val(emotionAccept);
@@ -147,6 +161,7 @@ function set_content_list_config(data) {
     $emailCompany.val(emailCompay);
     $timeCheckinBegin.val(timeCheckinBegin);
     $timeCheckinEnd.val(timeCheckinEnd);
+    $emotionAdvanceConfidencce.val(emotionAdvanceConfidencce);
 }
 
 /**
