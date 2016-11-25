@@ -13,6 +13,7 @@ INSERT INTO mydb.configuration(key_query,name,value) VALUES('checkin.training.co
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('time.checkin.begin', 'TIME_CHECKIN_BEGIN', '6:30');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('time.checkin.end', 'TIME_CHECKIN_END', '8:30');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.advance', 'EMOTION_ADVANDGE', '0');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.advandge.confidance', 'EMOTION_ADVANDGE_CONFIDANCE', '0.5');
 
 
 --- QUANTITY EMOTION
