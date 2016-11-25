@@ -106,9 +106,9 @@ public class EmotionServiceImpl {
             if (configurationEntity != null && Integer.valueOf(configurationEntity.getValue()) == EConfiguration.ALLOW.getIndex()) {
                 /** Update History*/
                 updateHistoryIntoResponse(emotionCustomerResponse, customerEmotionSession.getCustomerCode());
-                emotionCustomerResponse.setEmotionAdvendge(true);
+                emotionCustomerResponse.setEmotionAdvance(true);
             } else {
-                emotionCustomerResponse.setEmotionAdvendge(false);
+                emotionCustomerResponse.setEmotionAdvance(false);
             }
 
             logger.info("Response:" + JsonUtil.toJson(emotionCustomerResponse));
