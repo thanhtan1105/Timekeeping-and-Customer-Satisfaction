@@ -11,6 +11,7 @@ var nextAngle = 0;
 var current_gender;
 var current_customer_id;
 var current_customer_code;
+var current_is_configured;
 
 /**
  * Fc: load page
@@ -149,6 +150,7 @@ function worker_get_emotion() {
                     customerCode = data.customerCode,
                     customerInformation = data.customerInformation,
                     customerHistory = data.customerHistory,
+                    isEmotionAdvance = data.emotionAdvance,
                     customer_emotion_msg = messages.message,
                     suggestions = messages.sugguest,
                     age_predict = messages.predict,
@@ -159,8 +161,11 @@ function worker_get_emotion() {
                 event_hide('#div-not-get-emotion');
                 //show div overview customer emotion
                 event_show('#div-overview-customer-emotion');
-                //show div add customer information
-                event_show('#div-add-customer-information');
+                //check is configured
+                if (check_is_configured(isEmotionAdvance)) {
+                    //show div add customer information
+                    event_show('#div-add-customer-information');
+                }
                 //show button show modal customer emotion
                 event_show('#btn-show-modal-customer-emotion');
                 //reset scroll
@@ -172,8 +177,11 @@ function worker_get_emotion() {
 
                 //set overview customer emotion
                 set_content_overview_customer_emotion(age_predict, gender, awsUrl, emotionExist, customer_emotion_msg, suggestions, customerInformation, customerHistory);
-                //set adding customer emotion
-                set_content_add_customer_emotion(customerInformation, gender, ageOfFace);
+                //check is configured
+                if (check_is_configured(isEmotionAdvance)) {
+                    //set adding customer emotion
+                    set_content_add_customer_emotion(customerInformation, gender, ageOfFace);
+                }
                 //stop time out worker get emotion
                 clearTimeout(timer_stop_get_emotion);
                 //stop request: get first emotion
@@ -181,6 +189,9 @@ function worker_get_emotion() {
 
                 //set current customer code
                 current_customer_code = customerCode;
+                //set current is configured
+                current_is_configured = check_is_configured(isEmotionAdvance);
+                console.info('[worker_get_emotion][is configured] ' + current_is_configured);
             }
         }
     });
@@ -317,6 +328,9 @@ function save_customer_information() {
 }
 
 /**
+ * For ajax
+ */
+/**
  * Fc: ajax save customer information
  * @param customer_name
  * @param year
@@ -358,6 +372,9 @@ function ajax_save_customer_information(customer_name, year, transaction_content
     });
 }
 
+/**
+ * For common function
+ */
 /**
  * Event: disabled/enabled
  * @param id
@@ -467,8 +484,11 @@ function close_modal_customer_emotion(isClose) {
     } else {
         //show div overview customer emotion
         event_show('#div-overview-customer-emotion');
-        //show div add customer information
-        event_show('#div-add-customer-information');
+        //check is configured
+        if (check_is_configured(current_is_configured)) {
+            //show div add customer information
+            event_show('#div-add-customer-information');
+        }
         //reset scroll
         reset_scroll('#div-body-scroll-customer-emotion');
     }
@@ -514,6 +534,24 @@ function select_gender(gender) {
     }
 }
 
+/**
+ * Fc: check is configured
+ * @param isConfigured
+ * @returns {boolean}
+ */
+function check_is_configured(isConfigured) {
+    //check empty
+    if (check_empty(isConfigured)) {
+        if (isConfigured) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * For set
+ */
 /**
  * Fc: set content age_predict
  * @param age_predict
@@ -653,7 +691,7 @@ function set_suggest_behaviour(suggestions, customerHistory) {
 
         //set history if is old customer
         if (customerHistory != null && customerHistory.length > 0) {
-            for (var i = 0; i < customerHistory.length; i++) {
+            for (var i = 0; i < Math.min(customerHistory.length, limit_list_history_trasaction); i++) {
                 ul_content_suggestion_behavior += '<li>' +
                     customerHistory[i] +
                     '</li>';
@@ -667,7 +705,7 @@ function set_suggest_behaviour(suggestions, customerHistory) {
                     '</li>';
             }
         }
-    }else {
+    } else {
         ul_content_suggestion_behavior += '<li>N/A</li>';
     }
     $suggestion_behavior_msg.html(ul_content_suggestion_behavior);
@@ -762,7 +800,6 @@ function set_content_add_customer_emotion(customerInformation, gender, ageOfFace
 
     //set current customer id
     current_customer_id = id;
-
 
 
     //hide message saving success

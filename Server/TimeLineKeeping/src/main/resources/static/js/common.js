@@ -15,6 +15,12 @@ var time_out_reminder = 1000 * 60 * 15;
 var com_time_out_worker_get_emotion = 60 * 2 * 1000;
 
 /**
+ * Limit list history transaction of customer
+ * @type {number}
+ */
+var limit_list_history_trasaction = 2
+
+/**
  * Check is first time load page get customer emotion
  * @type {boolean}
  */

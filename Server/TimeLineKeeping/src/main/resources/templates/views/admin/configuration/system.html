@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="row" style="margin-top: 25px;">
-            <div class="col-sm-8 col-md-offset-2">
+            <div class="col-sm-10 col-md-offset-1">
                 <div class="box box-danger">
                     <form class="form-horizontal" th:id="'form-config-system'">
                         <div class="box-body">
@@ -34,10 +34,32 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-sm-6 control-label">Advanced Emotion Intelligence</label>
+
+                                <div class="col-sm-6">
+                                    <div class="radio">
+                                        <input type="radio" name="emotionAdvance" value="1"
+                                               class="flat-red" checked> Yes
+                                        &nbsp;
+                                        <input type="radio" name="emotionAdvance" value="0"
+                                               class="flat-red"> No
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-6 control-label">Range Acceptable Emotions</label>
 
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control" th:name="emotionAccept"
+                                           style="width: 20%"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label">Range Acceptable Confidence of Advanced
+                                    Emotions</label>
+
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" th:name="emotionAdvanceConfidencce"
                                            style="width: 20%"/>
                                 </div>
                             </div>
@@ -91,7 +113,8 @@
                         <div class="row">
                             <div class="col-sm-12 text-center">
                                 <button class="btn btn-flat bg-aqua-active" th:id="'btn-update-config'"
-                                        onclick="update_system_config()">SAVE</button>
+                                        onclick="update_system_config()">SAVE
+                                </button>
                                 <button class="btn btn-flat bg-aqua-active" th:id="'btn-update-config-processing'"
                                         style="display: none" disabled>
                                     <i class="fa fa-refresh fa-spin"></i> Processing...
