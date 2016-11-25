@@ -26,6 +26,10 @@ public class ConfigurationModel {
 
     private String timeCheckinEnd;
 
+    private Boolean emotionAdvence;
+
+    private Double emotionAdvenceConfidencce;
+
     public ConfigurationModel() {
     }
 
@@ -47,6 +51,14 @@ public class ConfigurationModel {
         }
         this.timeCheckinBegin = entity.get(IContanst.TIME_CHECK_IN_SYSTEM_START_KEY);
         this.timeCheckinEnd = entity.get(IContanst.TIME_CHECK_IN_SYSTEM_END_KEY);
+
+        if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_ADVANCE_KEY))) {
+            this.emotionAdvence = Integer.valueOf(entity.get(IContanst.EMOTION_ADVANCE_KEY)) == EConfiguration.ALLOW.getIndex();
+        }
+
+        if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_ADVANCE_CONFIDENCE_KEY))) {
+            this.emotionAdvenceConfidencce = Double.valueOf(entity.get(IContanst.EMOTION_ADVANCE_CONFIDENCE_KEY));
+        }
     }
 
     public Map<String, String> map() {
@@ -65,6 +77,10 @@ public class ConfigurationModel {
             map.put(IContanst.TIME_CHECK_IN_SYSTEM_START_KEY, String.valueOf(timeCheckinBegin));
         if (timeCheckinEnd != null)
             map.put(IContanst.TIME_CHECK_IN_SYSTEM_END_KEY, String.valueOf(timeCheckinEnd));
+        if (emotionAdvence != null)
+            map.put(IContanst.EMOTION_ADVANCE_KEY, String.valueOf(emotionAdvence));
+        if (emotionAdvenceConfidencce != null)
+            map.put(IContanst.EMOTION_ADVANCE_CONFIDENCE_KEY, String.valueOf(emotionAdvenceConfidencce));
         return map;
     }
 
@@ -122,5 +138,21 @@ public class ConfigurationModel {
 
     public void setTrainConfident(Double trainConfident) {
         this.trainConfident = trainConfident;
+    }
+
+    public Boolean getEmotionAdvence() {
+        return emotionAdvence;
+    }
+
+    public void setEmotionAdvence(Boolean emotionAdvence) {
+        this.emotionAdvence = emotionAdvence;
+    }
+
+    public Double getEmotionAdvenceConfidencce() {
+        return emotionAdvenceConfidencce;
+    }
+
+    public void setEmotionAdvenceConfidencce(Double emotionAdvenceConfidencce) {
+        this.emotionAdvenceConfidencce = emotionAdvenceConfidencce;
     }
 }

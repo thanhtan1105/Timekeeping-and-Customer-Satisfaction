@@ -102,12 +102,12 @@ public class EmotionServiceImpl {
             emotionCustomerResponse.setCustomerCode(customerEmotionSession.getCustomerCode());
 
             // configuration
-            ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.EMOTION_ADVANCE);
+            ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.EMOTION_ADVANCE_KEY);
             if (configurationEntity != null && Integer.valueOf(configurationEntity.getValue()) == EConfiguration.ALLOW.getIndex()) {
                 /** Update History*/
                 updateHistoryIntoResponse(emotionCustomerResponse, customerEmotionSession.getCustomerCode());
                 emotionCustomerResponse.setEmotionAdvendge(true);
-            }else {
+            } else {
                 emotionCustomerResponse.setEmotionAdvendge(false);
             }
 
@@ -145,10 +145,12 @@ public class EmotionServiceImpl {
                 emotionCustomerResponse.setCustomerHistory(suggestHistories);
             }
 
-
-
             /*** update suggestion*/
-//            List<EmotionContentModel> suggestion = suggestionService.getSuggestion(emotionCustomerEntity.getEmotionMost(), emotionCustomerEntity.getAge(), emotionCustomerEntity.getGender());
+            /** replace*/
+            if (ValidateUtil.isNotEmpty(customerEntity.getName()) && customerEntity.getGender() != null) {
+                List<EmotionContentModel> suggestion = suggestionService.getSuggestion(emotionCustomerResponse.getAnalyzes().getEmotionMost(), customerEntity.getName(), customerEntity.getGender());
+                emotionCustomerResponse.getMessages().setSugguest(suggestion);
+            }
         }
 
     }
@@ -235,7 +237,7 @@ public class EmotionServiceImpl {
                 }
 
                 // configuration
-                ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.EMOTION_ADVANCE);
+                ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.EMOTION_ADVANCE_KEY);
                 if (configurationEntity != null && Integer.valueOf(configurationEntity.getValue()) == EConfiguration.ALLOW.getIndex()) {
                     /**history */
                     personGroupServiceMCS.trainGroup(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER);
@@ -287,7 +289,7 @@ public class EmotionServiceImpl {
                 EmotionCustomerEntity emotionEntity = new EmotionCustomerEntity(emotionAnalysis, customerResultEntity);
                 EmotionCustomerEntity result = emotionRepo.saveAndFlush(emotionEntity);
 
-                ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.EMOTION_ADVANCE);
+                ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.EMOTION_ADVANCE_KEY);
                 if (configurationEntity != null && Integer.valueOf(configurationEntity.getValue()) == EConfiguration.ALLOW.getIndex()) {
                     /** history customer*/
                     historyCustomer(customerResultEntity, emotionAnalysis.getFaceId(), bytesImage);
@@ -377,7 +379,7 @@ public class EmotionServiceImpl {
     private String identifyCustomer(String faceId) throws IOException, URISyntaxException {
 
         Double confidenceValue = 0.5d;
-        ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.EMOTION_ADVANCE_CONFIDENCE);
+        ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.EMOTION_ADVANCE_CONFIDENCE_KEY);
         if (configurationEntity != null) {
             /** Update History*/
             confidenceValue = Double.valueOf(configurationEntity.getValue());
@@ -400,7 +402,7 @@ public class EmotionServiceImpl {
                     }
                 }
 
-                if (confidence >= confidenceValue){
+                if (confidence >= confidenceValue) {
                     return personId;
                 }
             }

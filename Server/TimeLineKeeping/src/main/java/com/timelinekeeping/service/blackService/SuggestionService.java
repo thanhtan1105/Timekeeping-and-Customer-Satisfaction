@@ -42,7 +42,7 @@ public class SuggestionService {
 
     private Logger logger = LogManager.getLogger(SuggestionService.class);
 
-    public ESuggestionSubject getSubject(Double age, Gender gender) {
+    private ESuggestionSubject getSubject(Double age, Gender gender) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             ESuggestionSubject result = ESuggestionSubject.ANH;
@@ -67,7 +67,7 @@ public class SuggestionService {
         }
     }
 
-    public String getSubject(String name, Gender gender) {
+    private String getSubject(String name, Gender gender) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             String result = null;
@@ -186,33 +186,18 @@ public class SuggestionService {
     }
 
     public List<EmotionContentModel> getSuggestion(EEmotion emotion, Double age, Gender gender) {
-        try {
-            logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            ESuggestionSubject subject = getSubject(age, gender);
-
-            // get from database
-            //TODO add many emotion
-            Page<EmotionContentEntity> pageContent = emotionContentRepo.getEmotionContent(emotion, null, null, null, null, new PageRequest(IContanst.PAGE_PAGE_I, IContanst.PAGE_SIZE_CONTENT));
-            List<EmotionContentModel> modelContents = new ArrayList<>();
-            if (pageContent != null && pageContent.getContent() != null && pageContent.getContent().size() > 0) {
-                for (EmotionContentEntity entity : pageContent.getContent()) {
-                    EmotionContentModel model = new EmotionContentModel(entity);
-                    String message = model.getMessage();
-                    model.setMessage(UtilApps.formatSentence(String.format(message, subject.getName())));
-                    modelContents.add(model);
-                }
-            }
-            return modelContents;
-        } finally {
-            logger.info(IContanst.END_METHOD_SERVICE);
-        }
+        ESuggestionSubject subject = getSubject(age, gender);
+        return getSuggestion(emotion, subject.getName());
     }
 
-    // add Name of emotion
     public List<EmotionContentModel> getSuggestion(EEmotion emotion, String name, Gender gender) {
+        String subject = getSubject(name, gender);
+        return getSuggestion(emotion, subject);
+    }
+    private List<EmotionContentModel> getSuggestion(EEmotion emotion, String subject) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
-            String subject = getSubject(name, gender);
+
 
             // get from database
             //TODO add many emotion
@@ -231,7 +216,6 @@ public class SuggestionService {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
-
     public String convertHistory(String name, Gender gender, String content) {
         return String.format(IContanst.APPEND_HISTORY_SUGGESTION, getSubject(name, gender)) + " " + content;
     }
