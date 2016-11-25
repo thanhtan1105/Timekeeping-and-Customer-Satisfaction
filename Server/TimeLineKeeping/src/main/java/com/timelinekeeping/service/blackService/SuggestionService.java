@@ -216,6 +216,7 @@ public class SuggestionService {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
+
     public String convertHistory(String name, Gender gender, String content) {
         return String.format(IContanst.APPEND_HISTORY_SUGGESTION, getSubject(name, gender)) + " " + content;
     }

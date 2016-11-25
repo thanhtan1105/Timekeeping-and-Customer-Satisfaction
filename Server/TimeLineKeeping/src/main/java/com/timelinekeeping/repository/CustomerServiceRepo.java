@@ -35,7 +35,7 @@ public interface CustomerServiceRepo extends JpaRepository<CustomerServiceEntity
                                                            @Param("month") Integer month,
                                                            @Param("employee_id") Long employeeId);
 
-    @Query("SELECT cs FROM CustomerServiceEntity cs WHERE cs.customerInformation.id = :customerId")
+    @Query("SELECT cs FROM CustomerServiceEntity cs WHERE cs.customerInformation.id = :customerId order by cs.createTime desc ")
     public List<CustomerServiceEntity> findByCustomer(@Param("customerId") Long customerEntity);
 
 

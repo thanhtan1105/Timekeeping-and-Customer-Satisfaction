@@ -200,7 +200,6 @@ public class ServiceUtils {
     }
 
     public static List<EmotionCompare> getEmotionExist(Map<EEmotion, Double> map) {
-//        competitiveEmotion(map);
 
         Double sum = 0d;
         for (Map.Entry<EEmotion, Double> value : map.entrySet()) {
@@ -211,6 +210,24 @@ public class ServiceUtils {
         for (Map.Entry<EEmotion, Double> entry : map.entrySet()) {
             if (entry.getValue() > IContanst.EXCEPTION_VALUE) {
                 listCompare.add(new EmotionCompare(entry.getKey(), entry.getValue(), (entry.getValue() / sum)));
+            }
+        }
+
+        //if listCompare.size() ==0, choose the maximun value;
+        if (listCompare.size() <=0 ){
+
+            Double valueMaximun = 0d;
+            EEmotion eEmotion = null;
+
+            for (Map.Entry<EEmotion, Double> value : map.entrySet()) {
+                if (valueMaximun < value.getValue()) {
+                    valueMaximun = value.getValue();
+                    eEmotion = value.getKey();
+                }
+            }
+
+            if (eEmotion != null) {
+                listCompare.add(new EmotionCompare(eEmotion, valueMaximun, 1d));
             }
         }
         listCompare.sort((EmotionCompare e1, EmotionCompare e2) -> e1.getValue() > e2.getValue() ? -1 : 0);
