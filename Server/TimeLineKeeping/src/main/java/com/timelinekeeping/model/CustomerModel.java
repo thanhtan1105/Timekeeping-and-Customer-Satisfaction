@@ -90,8 +90,11 @@ public class CustomerModel {
 
     public Integer getAge() {
         if (age== null) {
-            DateTime time = new DateTime(new Date());
-            return time.getYear() - yearBirth;
+            if (yearBirth != null) {
+                DateTime time = new DateTime(new Date());
+                return time.getYear() - yearBirth;
+            }
+            return 0;
         }else {
             return age;
         }

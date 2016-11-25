@@ -746,6 +746,8 @@ function set_content_add_customer_emotion(customerInformation, gender, ageOfFace
             $btn_gender_male.attr('class', 'btn bg-aqua-gradient');
             $btn_gender_female.attr('class', 'btn btn-default');
         }
+        //set current gender updating
+        current_gender = customer_gender;
     } else {
         if (gender == 1) {//female
             $btn_gender_female.attr('class', 'btn bg-aqua-gradient');
@@ -754,13 +756,14 @@ function set_content_add_customer_emotion(customerInformation, gender, ageOfFace
             $btn_gender_male.attr('class', 'btn bg-aqua-gradient');
             $btn_gender_female.attr('class', 'btn btn-default');
         }
+        //set current gender updating
+        current_gender = gender;
     }
 
     //set current customer id
     current_customer_id = id;
 
-    //set current gender updating
-    current_gender = customer_gender;
+
 
     //hide message saving success
     event_hide('#div-message-saving-success');

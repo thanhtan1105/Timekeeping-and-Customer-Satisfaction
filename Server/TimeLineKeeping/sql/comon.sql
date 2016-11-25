@@ -12,6 +12,8 @@ INSERT INTO mydb.configuration(key_query,name,value) VALUES('checkin.accept.conf
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('checkin.training.confident', 'CHECK_IN_TRAINING_CONFIDENT', '0.85');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('time.checkin.begin', 'TIME_CHECKIN_BEGIN', '6:30');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('time.checkin.end', 'TIME_CHECKIN_END', '8:30');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.advandge', 'EMOTION_ADVANDGE', '0');
+
 
 --- QUANTITY EMOTION
 INSERT INTO `mydb`.`quantity_emotion` (`from_value`, `name`, `to_value`) VALUES ('0', 'hơi hơi', '0.15');
