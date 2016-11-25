@@ -2,8 +2,10 @@ package com.timelinekeeping.model;
 
 import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.entity.CustomerEntity;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by HienTQSE60896 on 11/14/2016.
@@ -17,6 +19,8 @@ public class CustomerModel {
     private String code;
 
     private Integer yearBirth;
+
+    private Integer age;
 
     private Gender gender;
 
@@ -82,5 +86,18 @@ public class CustomerModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getAge() {
+        if (age== null) {
+            DateTime time = new DateTime(new Date());
+            return time.getYear() - yearBirth;
+        }else {
+            return age;
+        }
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
 }
