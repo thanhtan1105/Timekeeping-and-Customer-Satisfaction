@@ -302,7 +302,7 @@ public class CustomerEmotionController {
     public BaseResponse updateCustomer(@ModelAttribute CustomerTransactionModel customerTransactionModel) {
         logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
         try {
-            Pair<Boolean, Object> result  = emotionService.updateCustomer(customerTransactionModel);
+            Pair<Boolean, Object> result  = emotionService.updateCustomerInformation(customerTransactionModel);
             if (result.getKey() == true){
                 return new BaseResponse(true, result.getValue());
             }else {

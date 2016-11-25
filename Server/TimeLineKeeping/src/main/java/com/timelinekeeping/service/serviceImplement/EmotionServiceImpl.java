@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 public class EmotionServiceImpl {
 
     @Autowired
-    AccountServiceImpl accountService;
+    private AccountRepo accountRepo;
 
     @Autowired
     private CustomerServiceRepo customerServiceRepo;
@@ -41,15 +41,14 @@ public class EmotionServiceImpl {
     @Autowired
     private CustomerRepo customerRepo;
 
-
     @Autowired
     private EmotionRepo emotionRepo;
 
     @Autowired
-    private SuggestionService suggestionService;
+    ConfigurationRepo configurationRepo;
 
     @Autowired
-    private AccountRepo accountRepo;
+    private SuggestionService suggestionService;
 
     @Autowired
     private EmotionContentRepo contentRepo;
@@ -66,9 +65,6 @@ public class EmotionServiceImpl {
 
     @Autowired
     PersonGroupServiceMCSImpl personGroupServiceMCS;
-
-    @Autowired
-    ConfigurationRepo configurationRepo;
 
 
     private Logger logger = LogManager.getLogger(EmotionServiceImpl.class);
@@ -96,7 +92,7 @@ public class EmotionServiceImpl {
                 emotionCamera1.merge(emotionCamera2);
             }
 
-            EmotionCustomerResponse emotionCustomerResponse = emotionAnalyzis(emotionCamera1);
+            EmotionCustomerResponse emotionCustomerResponse = emotionAnalyze(emotionCamera1);
 
             //add customer code
             emotionCustomerResponse.setCustomerCode(customerEmotionSession.getCustomerCode());
@@ -118,44 +114,9 @@ public class EmotionServiceImpl {
         }
     }
 
-    private void updateHistoryIntoResponse(EmotionCustomerResponse emotionCustomerResponse, String customerCode) {
 
-        // emotionCustomer
-        CustomerServiceEntity customerServiceEntity = customerServiceRepo.findByCustomerCode(customerCode);
 
-        //set Customer
-        CustomerEntity customerEntity = customerServiceEntity.getCustomerInformation();
-        if (customerEntity != null) {
-
-            emotionCustomerResponse.setCustomerInformation(new CustomerModel(customerEntity));
-
-            //get All customer service
-            List<CustomerServiceEntity> customerServiceEntityList = customerServiceRepo.findByCustomer(customerEntity.getId());
-
-            if (ValidateUtil.isNotEmpty(customerServiceEntityList)) {
-
-                //convert list customer service to list suggestion
-                List<String> suggestHistories = new ArrayList<>();
-                customerServiceEntityList.stream().filter(customerService -> ValidateUtil.isNotEmpty(customerEntity.getName()) && ValidateUtil.isNotEmpty(customerService.getContentTransaction())).forEach(customerService -> {
-                    String suggestHistory = suggestionService.convertHistory(customerEntity.getName(), customerEntity.getGender(), customerService.getContentTransaction());
-                    suggestHistory = UtilApps.formatSentence(suggestHistory);
-                    suggestHistories.add(suggestHistory);
-                });
-
-                emotionCustomerResponse.setCustomerHistory(suggestHistories);
-            }
-
-            /*** update suggestion*/
-            /** replace*/
-            if (ValidateUtil.isNotEmpty(customerEntity.getName()) && customerEntity.getGender() != null) {
-                List<EmotionContentModel> suggestion = suggestionService.getSuggestion(emotionCustomerResponse.getAnalyzes().getEmotionMost(), customerEntity.getName(), customerEntity.getGender());
-                emotionCustomerResponse.getMessages().setSugguest(suggestion);
-            }
-        }
-
-    }
-
-    private EmotionCustomerResponse emotionAnalyzis(EmotionCustomerEntity emotionCustomerEntity) {
+    private EmotionCustomerResponse emotionAnalyze(EmotionCustomerEntity emotionCustomerEntity) {
 
         //prepare
 
@@ -221,7 +182,7 @@ public class EmotionServiceImpl {
      * author TrungNN
      * Web employee: end transaction
      */
-    public Long changeStatusTransaction(String customerCode, ETransaction stauts) throws IOException, URISyntaxException {
+    private Long changeStatusTransaction(String customerCode, ETransaction stauts) throws IOException, URISyntaxException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             logger.info(String.format("customerCode = '%s', Status = ''", customerCode, stauts));
@@ -254,7 +215,6 @@ public class EmotionServiceImpl {
             logger.info(IContanst.END_METHOD_SERVICE);
         }
     }
-
 
     /**
      * upload image to transaction
@@ -307,108 +267,6 @@ public class EmotionServiceImpl {
 
     }
 
-    public void historyCustomer(CustomerServiceEntity customerResultEntity, String faceId, byte[] bytesImage) throws IOException, URISyntaxException {
-
-        // identify customer Emotion
-        CustomerEntity customerEntity = customerResultEntity.getCustomerInformation();
-        if (customerEntity == null) {
-
-
-            //identify
-            String personID = identifyCustomer(faceId);
-            if (personID != null) {
-
-                customerEntity = customerRepo.findByCode(personID);
-                //if exist -> asign to customer emotion. store db
-                if (customerEntity == null) {
-                    // save image new customer
-                    customerEntity = new CustomerEntity();
-                    customerEntity.setCode(personID);
-                    customerEntity = customerRepo.save(customerEntity);
-                }
-                //if not exist -> create customer emotion -> add to db, create customer db. add to face to image, size image
-
-                //connect with customerService
-                customerResultEntity.setCustomerInformation(customerEntity);
-                customerServiceRepo.save(customerResultEntity);
-
-            } else {
-                //if null -> create customer emotion. add faceto, add to fb
-                //create new MCS
-                BaseResponse response = personServiceMCS.createPerson(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER, ".", ".");
-                if (response.isSuccess()) {
-                    Map<String, String> map = (Map<String, String>) response.getData();
-                    personID = map.get("personId");
-                    logger.info("personCode: " + personID);
-
-                    //create in db
-                    customerEntity = new CustomerEntity();
-                    customerEntity.setCode(personID);
-                    customerEntity = customerRepo.save(customerEntity);
-
-                    //connect with customerService
-                    customerResultEntity.setCustomerInformation(customerEntity);
-                    customerResultEntity = customerServiceRepo.save(customerResultEntity);
-                }
-
-
-            }
-        }
-
-        if (customerEntity.getImageSize() < IContanst.SIZE_IMAGE_CUSTOMER_TRAINING) {
-            BaseResponse responseFace = personServiceMCS.addFaceImg(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER, customerEntity.getCode(), bytesImage);
-            if (responseFace.isSuccess() == true) {
-                Map<String, String> mapResult = (Map<String, String>) responseFace.getData();
-                if (mapResult != null && mapResult.size() > 0) {
-                    String persistedFaceID = mapResult.get("persistedFaceId");
-                    // find one
-                    customerEntity.setImageSize(customerEntity.getImageSize() + 1);
-                    customerRepo.save(customerEntity);
-                }
-
-            }
-        }
-        //find in data customer
-
-
-        //if size < 5 - add , if size > 5 if confidance > 0.8 mới add
-        // update image in db and MCS
-
-    }
-
-    private String identifyCustomer(String faceId) throws IOException, URISyntaxException {
-
-        Double confidenceValue = 0.5d;
-        ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.EMOTION_ADVANCE_CONFIDENCE_KEY);
-        if (configurationEntity != null) {
-            /** Update History*/
-            confidenceValue = Double.valueOf(configurationEntity.getValue());
-        }
-
-        BaseResponse response = faceServiceMCS.identify(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER, faceId);
-        if (response.isSuccess()) {
-
-            List<FaceIdentifyConfidenceRespone> confidenceResponeList = (List<FaceIdentifyConfidenceRespone>) response.getData();
-
-            if (ValidateUtil.isNotEmpty(confidenceResponeList)) {
-                List<FaceIdentityCandidate> candidates = confidenceResponeList.get(0).getCandidates();
-
-                double confidence = 0d;
-                String personId = null;
-                for (FaceIdentityCandidate candidate : candidates) {
-                    if (candidate.getConfidence() > confidence) {
-                        confidence = candidate.getConfidence();
-                        personId = candidate.getPersonId();
-                    }
-                }
-
-                if (confidence >= confidenceValue) {
-                    return personId;
-                }
-            }
-        }
-        return null;
-    }
 
 
     /**
@@ -503,7 +361,7 @@ public class EmotionServiceImpl {
             List<AccountEntity> accountEntities = accountRepo.findEmployeeByDepartmentNoActive(managerEntity.getDepartment().getId());
             List<AccountReportCustomerService> accountReports = accountEntities.stream().map(AccountReportCustomerService::new).collect(Collectors.toList());
 
-            Pair<Date, Date> datePair = null;
+            Pair<Date, Date> datePair;
             if (day > 0) {
                 datePair = TimeUtil.createDayBetween(new DateTime(year, month, day, 0, 0).toDate());
             } else {
@@ -608,7 +466,7 @@ public class EmotionServiceImpl {
         }
     }
 
-    public Pair<Boolean, Object> updateCustomer(CustomerTransactionModel customerTransactionModel) {
+    public Pair<Boolean, Object> updateCustomerInformation(CustomerTransactionModel customerTransactionModel) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
 
@@ -646,5 +504,145 @@ public class EmotionServiceImpl {
         }
     }
 
+    private void updateHistoryIntoResponse(EmotionCustomerResponse emotionCustomerResponse, String customerCode) {
+
+        // emotionCustomer
+        CustomerServiceEntity customerServiceEntity = customerServiceRepo.findByCustomerCode(customerCode);
+
+        //set Customer
+        CustomerEntity customerEntity = customerServiceEntity.getCustomerInformation();
+        if (customerEntity != null) {
+
+            emotionCustomerResponse.setCustomerInformation(new CustomerModel(customerEntity));
+
+            //get All customer service
+            List<CustomerServiceEntity> customerServiceEntityList = customerServiceRepo.findByCustomer(customerEntity.getId());
+
+            if (ValidateUtil.isNotEmpty(customerServiceEntityList)) {
+
+                //convert list customer service to list suggestion
+                List<String> suggestHistories = new ArrayList<>();
+                customerServiceEntityList.stream().filter(customerService -> ValidateUtil.isNotEmpty(customerEntity.getName()) && ValidateUtil.isNotEmpty(customerService.getContentTransaction())).forEach(customerService -> {
+                    String suggestHistory = suggestionService.convertHistory(customerEntity.getName(), customerEntity.getGender(), customerService.getContentTransaction());
+                    suggestHistory = UtilApps.formatSentence(suggestHistory);
+                    suggestHistories.add(suggestHistory);
+                });
+
+                emotionCustomerResponse.setCustomerHistory(suggestHistories);
+            }
+
+            /*** update suggestion*/
+            /** replace*/
+            if (ValidateUtil.isNotEmpty(customerEntity.getName()) && customerEntity.getGender() != null) {
+                List<EmotionContentModel> suggestion = suggestionService.getSuggestion(emotionCustomerResponse.getAnalyzes().getEmotionMost(), customerEntity.getName(), customerEntity.getGender());
+                emotionCustomerResponse.getMessages().setSugguest(suggestion);
+            }
+        }
+
+    }
+
+
+    private void historyCustomer(CustomerServiceEntity customerResultEntity, String faceId, byte[] bytesImage) throws IOException, URISyntaxException {
+
+        // identify customer Emotion
+        CustomerEntity customerEntity = customerResultEntity.getCustomerInformation();
+        if (customerEntity == null) {
+
+
+            //identify
+            String personID = identifyCustomer(faceId);
+            if (personID != null) {
+
+                customerEntity = customerRepo.findByCode(personID);
+                //if exist -> asign to customer emotion. store db
+                if (customerEntity == null) {
+                    // save image new customer
+                    customerEntity = new CustomerEntity();
+                    customerEntity.setCode(personID);
+                    customerEntity = customerRepo.save(customerEntity);
+                }
+                //if not exist -> create customer emotion -> add to db, create customer db. add to face to image, size image
+
+                //connect with customerService
+                customerResultEntity.setCustomerInformation(customerEntity);
+                customerServiceRepo.save(customerResultEntity);
+
+            } else {
+                //if null -> create customer emotion. add faceto, add to fb
+                //create new MCS
+                BaseResponse response = personServiceMCS.createPerson(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER, ".", ".");
+                if (response.isSuccess()) {
+                    Map<String, String> map = (Map<String, String>) response.getData();
+                    personID = map.get("personId");
+                    logger.info("personCode: " + personID);
+
+                    //create in db
+                    customerEntity = new CustomerEntity();
+                    customerEntity.setCode(personID);
+                    customerEntity = customerRepo.save(customerEntity);
+
+                    //connect with customerService
+                    customerResultEntity.setCustomerInformation(customerEntity);
+                    customerResultEntity = customerServiceRepo.save(customerResultEntity);
+                }
+
+
+            }
+        }
+
+        if (customerEntity.getImageSize() < IContanst.SIZE_IMAGE_CUSTOMER_TRAINING) {
+            BaseResponse responseFace = personServiceMCS.addFaceImg(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER, customerEntity.getCode(), bytesImage);
+            if (responseFace.isSuccess() == true) {
+                Map<String, String> mapResult = (Map<String, String>) responseFace.getData();
+                if (mapResult != null && mapResult.size() > 0) {
+                    String persistedFaceID = mapResult.get("persistedFaceId");
+                    // find one
+                    customerEntity.setImageSize(customerEntity.getImageSize() + 1);
+                    customerRepo.save(customerEntity);
+                }
+
+            }
+        }
+        //find in data customer
+
+
+        //if size < 5 - add , if size > 5 if confidance > 0.8 mới add
+        // update image in db and MCS
+
+    }
+
+    private String identifyCustomer(String faceId) throws IOException, URISyntaxException {
+
+        Double confidenceValue = 0.5d;
+        ConfigurationEntity configurationEntity = configurationRepo.findByKey(IContanst.EMOTION_ADVANCE_CONFIDENCE_KEY);
+        if (configurationEntity != null) {
+            /** Update History*/
+            confidenceValue = Double.valueOf(configurationEntity.getValue());
+        }
+
+        BaseResponse response = faceServiceMCS.identify(IContanst.DEPARTMENT_MICROSOFT_CUSTOMER, faceId);
+        if (response.isSuccess()) {
+
+            List<FaceIdentifyConfidenceRespone> confidenceResponeList = (List<FaceIdentifyConfidenceRespone>) response.getData();
+
+            if (ValidateUtil.isNotEmpty(confidenceResponeList)) {
+                List<FaceIdentityCandidate> candidates = confidenceResponeList.get(0).getCandidates();
+
+                double confidence = 0d;
+                String personId = null;
+                for (FaceIdentityCandidate candidate : candidates) {
+                    if (candidate.getConfidence() > confidence) {
+                        confidence = candidate.getConfidence();
+                        personId = candidate.getPersonId();
+                    }
+                }
+
+                if (confidence >= confidenceValue) {
+                    return personId;
+                }
+            }
+        }
+        return null;
+    }
 
 }
