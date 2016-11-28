@@ -34,6 +34,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -275,6 +277,7 @@ public class HandlerServiceImpl {
                 if (Double.valueOf(emotionAccept) > 0 && Double.valueOf(checkinConfident) > 0) {
                     for (Map.Entry<String, String> entries : map.entrySet()) {
                         ConfigurationEntity configurationEntity = configurationRepo.findByKey(entries.getKey());
+                        configurationEntity.setTimeModify(new Timestamp(new Date().getTime()));
                         configurationEntity.setValue(entries.getValue());
                         configurationRepo.save(configurationEntity);
                     }
