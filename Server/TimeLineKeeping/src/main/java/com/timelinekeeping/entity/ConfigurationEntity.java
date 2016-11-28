@@ -1,6 +1,7 @@
 package com.timelinekeeping.entity;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 /**
  * Created by HienTQSE60896 on 11/14/2016.
@@ -19,9 +20,12 @@ public class ConfigurationEntity {
     @Column(name = "key_query", nullable = false)
     private String key;
 
-    @Column( name = "value", nullable = false)
+    @Column(name = "value", nullable = false)
     private String value;
 
+    @Basic
+    @Column(name = "time_modify", nullable = false)
+    private Timestamp timeModify;
 
 
     public Long getId() {
@@ -54,5 +58,13 @@ public class ConfigurationEntity {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public Timestamp getTimeModify() {
+        return timeModify;
+    }
+
+    public void setTimeModify(Timestamp timeModify) {
+        this.timeModify = timeModify;
     }
 }
