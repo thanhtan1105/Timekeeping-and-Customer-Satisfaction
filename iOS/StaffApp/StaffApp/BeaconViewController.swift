@@ -139,17 +139,16 @@ class BeaconViewController: BaseViewController, UIScrollViewDelegate {
   }
   
   func reloadDataIfHaveNotification(newRoom room: String, time: String, title: String) {
-    if title == notification.title {
-      destinationPoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
-        return point.name == room
-      }).first
-      
-      print("Destination Point:", destinationPoint)
-      removeDestinationPoint()
-      currentFloor = -1
-      showSourcePoint(sourcePoint)
-      onDirectTapped(UIBarButtonItem())
-    }
+    destinationPoint = realm.objects(Point.self).filter({ (point: Point) -> Bool in
+      return point.name == room
+    }).first
+    
+    print("Destination Point:", destinationPoint)
+    removeDestinationPoint()
+    currentFloor = -1
+    showSourcePoint(sourcePoint)
+    onDirectTapped(UIBarButtonItem())
+
   }
 }
 

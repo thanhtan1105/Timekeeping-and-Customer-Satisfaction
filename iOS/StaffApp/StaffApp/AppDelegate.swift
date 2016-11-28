@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
   
     OneSignal.initWithLaunchOptions(launchOptions, appId: "dbd7cdd6-9555-416b-bc08-21aa24164299") { (result: OSNotificationOpenedResult!) in
+      print("Go inside")
       // This block gets called when the user reacts to a notification received
       let payload = result.notification.payload
       // download notification
