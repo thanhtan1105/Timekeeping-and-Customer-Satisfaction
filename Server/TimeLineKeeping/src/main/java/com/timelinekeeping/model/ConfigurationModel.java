@@ -16,7 +16,7 @@ public class ConfigurationModel {
 
     private Double emotionAccept;
 
-    private String emailCompay;
+    private String emailCompany;
 
     private Double checkinConfident;
 
@@ -28,7 +28,11 @@ public class ConfigurationModel {
 
     private Boolean emotionAdvance;
 
-    private Double emotionAdvanceConfidencce;
+    private Double emotionAdvanceConfidence;
+
+    private Double emotionAgeA;
+
+    private Double emotionAgeB;
 
     public ConfigurationModel() {
     }
@@ -37,17 +41,17 @@ public class ConfigurationModel {
         if (ValidateUtil.isNotEmpty(entity.get(IContanst.SEND_SMS_KEY))) {
             this.sendSMS = Integer.valueOf(entity.get(IContanst.SEND_SMS_KEY)) == EConfiguration.ALLOW.getIndex();
         }
-        if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_ACEPTION_VALUE_KEY))) {
-            this.emotionAccept = Double.valueOf(entity.get(IContanst.EMOTION_ACEPTION_VALUE_KEY));
+        if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_ACCEPTANCE_VALUE_KEY))) {
+            this.emotionAccept = Double.valueOf(entity.get(IContanst.EMOTION_ACCEPTANCE_VALUE_KEY));
         }
-        this.emailCompay = entity.get(IContanst.COMPANY_EMAIL_KEY);
+        this.emailCompany = entity.get(IContanst.COMPANY_EMAIL_KEY);
 
-        if (ValidateUtil.isNotEmpty(entity.get(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY))) {
-            this.checkinConfident = Double.valueOf(entity.get(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY));
+        if (ValidateUtil.isNotEmpty(entity.get(IContanst.CHECKIN_CONFIDENT_CORRECT_KEY))) {
+            this.checkinConfident = Double.valueOf(entity.get(IContanst.CHECKIN_CONFIDENT_CORRECT_KEY));
         }
 
-        if (ValidateUtil.isNotEmpty(entity.get(IContanst.CHECKIN_CONFIDINCE_TRAIN_KEY))) {
-            this.trainConfident = Double.valueOf(entity.get(IContanst.CHECKIN_CONFIDINCE_TRAIN_KEY));
+        if (ValidateUtil.isNotEmpty(entity.get(IContanst.CHECKIN_CONFIDENT_TRAIN_KEY))) {
+            this.trainConfident = Double.valueOf(entity.get(IContanst.CHECKIN_CONFIDENT_TRAIN_KEY));
         }
         this.timeCheckinBegin = entity.get(IContanst.TIME_CHECK_IN_SYSTEM_START_KEY);
         this.timeCheckinEnd = entity.get(IContanst.TIME_CHECK_IN_SYSTEM_END_KEY);
@@ -57,7 +61,15 @@ public class ConfigurationModel {
         }
 
         if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_ADVANCE_CONFIDENCE_KEY))) {
-            this.emotionAdvanceConfidencce = Double.valueOf(entity.get(IContanst.EMOTION_ADVANCE_CONFIDENCE_KEY));
+            this.emotionAdvanceConfidence = Double.valueOf(entity.get(IContanst.EMOTION_ADVANCE_CONFIDENCE_KEY));
+        }
+
+        if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_AGE_A_KEY))) {
+            this.emotionAgeA = Double.valueOf(entity.get(IContanst.EMOTION_AGE_A_KEY));
+        }
+
+        if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_AGE_B_KEY))) {
+            this.emotionAgeB = Double.valueOf(entity.get(IContanst.EMOTION_AGE_B_KEY));
         }
     }
 
@@ -66,21 +78,27 @@ public class ConfigurationModel {
         if (sendSMS != null)
             map.put(IContanst.SEND_SMS_KEY, String.valueOf(sendSMS ? EConfiguration.ALLOW.getIndex() : EConfiguration.DO_NOT.getIndex()));
         if (emotionAccept != null && emotionAccept > 0)
-            map.put(IContanst.EMOTION_ACEPTION_VALUE_KEY, String.valueOf(emotionAccept));
-        if (emailCompay != null)
-            map.put(IContanst.COMPANY_EMAIL_KEY, String.valueOf(emailCompay));
+            map.put(IContanst.EMOTION_ACCEPTANCE_VALUE_KEY, String.valueOf(emotionAccept));
+        if (emailCompany != null)
+            map.put(IContanst.COMPANY_EMAIL_KEY, String.valueOf(emailCompany));
         if (checkinConfident != null & checkinConfident > 0)
-            map.put(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY, String.valueOf(checkinConfident));
+            map.put(IContanst.CHECKIN_CONFIDENT_CORRECT_KEY, String.valueOf(checkinConfident));
         if (trainConfident != null & trainConfident > 0)
-            map.put(IContanst.CHECKIN_CONFIDINCE_TRAIN_KEY, String.valueOf(trainConfident));
+            map.put(IContanst.CHECKIN_CONFIDENT_TRAIN_KEY, String.valueOf(trainConfident));
         if (timeCheckinBegin != null)
             map.put(IContanst.TIME_CHECK_IN_SYSTEM_START_KEY, String.valueOf(timeCheckinBegin));
         if (timeCheckinEnd != null)
             map.put(IContanst.TIME_CHECK_IN_SYSTEM_END_KEY, String.valueOf(timeCheckinEnd));
         if (emotionAdvance != null)
             map.put(IContanst.EMOTION_ADVANCE_KEY, String.valueOf(emotionAdvance ? EConfiguration.ALLOW.getIndex() : EConfiguration.DO_NOT.getIndex()));
-        if (emotionAdvanceConfidencce != null)
-            map.put(IContanst.EMOTION_ADVANCE_CONFIDENCE_KEY, String.valueOf(emotionAdvanceConfidencce));
+        if (emotionAdvanceConfidence != null)
+            map.put(IContanst.EMOTION_ADVANCE_CONFIDENCE_KEY, String.valueOf(emotionAdvanceConfidence));
+
+        // age
+        if (emotionAgeA != null)
+            map.put(IContanst.EMOTION_AGE_A_KEY, String.valueOf(emotionAgeA));
+        if (emotionAgeB != null)
+            map.put(IContanst.EMOTION_AGE_B_KEY, String.valueOf(emotionAgeB));
         return map;
     }
 
@@ -88,71 +106,87 @@ public class ConfigurationModel {
         return sendSMS;
     }
 
-    public void setSendSMS(Boolean sendSMS) {
-        this.sendSMS = sendSMS;
-    }
-
     public Double getEmotionAccept() {
         return emotionAccept;
     }
 
-    public void setEmotionAccept(Double emotionAccept) {
-        this.emotionAccept = emotionAccept;
-    }
-
-    public String getEmailCompay() {
-        return emailCompay;
-    }
-
-    public void setEmailCompay(String emailCompay) {
-        this.emailCompay = emailCompay;
+    public String getEmailCompany() {
+        return emailCompany;
     }
 
     public Double getCheckinConfident() {
         return checkinConfident;
     }
 
-    public void setCheckinConfident(Double checkinConfident) {
-        this.checkinConfident = checkinConfident;
+    public Double getTrainConfident() {
+        return trainConfident;
     }
 
     public String getTimeCheckinBegin() {
         return timeCheckinBegin;
     }
 
-    public void setTimeCheckinBegin(String timeCheckinBegin) {
-        this.timeCheckinBegin = timeCheckinBegin;
-    }
-
     public String getTimeCheckinEnd() {
         return timeCheckinEnd;
-    }
-
-    public void setTimeCheckinEnd(String timeCheckinEnd) {
-        this.timeCheckinEnd = timeCheckinEnd;
-    }
-
-    public Double getTrainConfident() {
-        return trainConfident;
-    }
-
-    public void setTrainConfident(Double trainConfident) {
-        this.trainConfident = trainConfident;
     }
 
     public Boolean getEmotionAdvance() {
         return emotionAdvance;
     }
 
+    public Double getEmotionAdvanceConfidence() {
+        return emotionAdvanceConfidence;
+    }
+
+    public Double getEmotionAgeA() {
+        return emotionAgeA;
+    }
+
+    public Double getEmotionAgeB() {
+        return emotionAgeB;
+    }
+
+    public void setSendSMS(Boolean sendSMS) {
+        this.sendSMS = sendSMS;
+    }
+
+    public void setEmotionAccept(Double emotionAccept) {
+        this.emotionAccept = emotionAccept;
+    }
+
+    public void setEmailCompany(String emailCompany) {
+        this.emailCompany = emailCompany;
+    }
+
+    public void setCheckinConfident(Double checkinConfident) {
+        this.checkinConfident = checkinConfident;
+    }
+
+    public void setTrainConfident(Double trainConfident) {
+        this.trainConfident = trainConfident;
+    }
+
+    public void setTimeCheckinBegin(String timeCheckinBegin) {
+        this.timeCheckinBegin = timeCheckinBegin;
+    }
+
+    public void setTimeCheckinEnd(String timeCheckinEnd) {
+        this.timeCheckinEnd = timeCheckinEnd;
+    }
+
     public void setEmotionAdvance(Boolean emotionAdvance) {
         this.emotionAdvance = emotionAdvance;
     }
 
-    public Double getEmotionAdvanceConfidencce() {
-        return emotionAdvanceConfidencce;
+    public void setEmotionAdvanceConfidence(Double emotionAdvanceConfidence) {
+        this.emotionAdvanceConfidence = emotionAdvanceConfidence;
     }
 
-    public void setEmotionAdvanceConfidencce(Double emotionAdvanceConfidencce) {
-        this.emotionAdvanceConfidencce = emotionAdvanceConfidencce;
+    public void setEmotionAgeA(Double emotionAgeA) {
+        this.emotionAgeA = emotionAgeA;
+    }
+
+    public void setEmotionAgeB(Double emotionAgeB) {
+        this.emotionAgeB = emotionAgeB;
     }
 }

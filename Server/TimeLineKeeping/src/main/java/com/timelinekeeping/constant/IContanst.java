@@ -53,12 +53,15 @@ public interface IContanst {
     String SEND_SMS_KEY = "send.sms";
     String EMOTION_ADVANCE_KEY = "emotion.advance";
     String EMOTION_ADVANCE_CONFIDENCE_KEY = "emotion.advance.confidence";
-    String EMOTION_ACEPTION_VALUE_KEY = "emotion.acceptance";
+    String EMOTION_ACCEPTANCE_VALUE_KEY = "emotion.acceptance";
+
+    String EMOTION_AGE_A_KEY = "emotion.age.a";
+    String EMOTION_AGE_B_KEY = "emotion.age.b";
 
     String COMPANY_EMAIL_KEY = "email.company";
     String PASSWORD_DEFAULT_KEY = "password.default";
-    String CHECKIN_CONFIDINCE_CORRECT_KEY = "checkin.accept.confident";
-    String CHECKIN_CONFIDINCE_TRAIN_KEY = "checkin.training.confident";
+    String CHECKIN_CONFIDENT_CORRECT_KEY = "checkin.accept.confident";
+    String CHECKIN_CONFIDENT_TRAIN_KEY = "checkin.training.confident";
     String TIME_CHECK_IN_SYSTEM_START_KEY = "time.checkin.begin";
     String TIME_CHECK_IN_SYSTEM_END_KEY = "time.checkin.end";
     /////-----

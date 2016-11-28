@@ -11,6 +11,7 @@ import com.timelinekeeping.entity.*;
 import com.timelinekeeping.model.*;
 import com.timelinekeeping.modelMCS.*;
 import com.timelinekeeping.repository.*;
+import com.timelinekeeping.service.blackService.ServiceResponseUtil;
 import com.timelinekeeping.service.blackService.SuggestionService;
 import com.timelinekeeping.util.*;
 import org.apache.log4j.LogManager;
@@ -45,13 +46,16 @@ public class EmotionServiceImpl {
     private EmotionRepo emotionRepo;
 
     @Autowired
-    ConfigurationRepo configurationRepo;
+    private ConfigurationRepo configurationRepo;
 
     @Autowired
     private SuggestionService suggestionService;
 
     @Autowired
     private EmotionContentRepo contentRepo;
+
+    @Autowired
+    private ServiceResponseUtil serviceResponseUtil;
 
     @Autowired
     FaceServiceMCSImpl faceServiceMCS;
@@ -149,8 +153,13 @@ public class EmotionServiceImpl {
         List<EmotionContentModel> suggestion = suggestionService.getSuggestion(emotionCustomerEntity.getEmotionMost(), emotionCustomerEntity.getAge(), emotionCustomerEntity.getGender());
 
 
+        //predict
+        String predict = serviceResponseUtil.convertAgePredict(emotionCustomerEntity.getAge());
+
         //create message
         MessageModel messageModel = new MessageModel(emotionCustomerEntity);
+        //add age Of Face predict
+        messageModel.setPredict(predict);
         messageModel.setMessage(Collections.singletonList(UtilApps.formatSentence(messageEmotion)));
         messageModel.setSugguest(suggestion);
         EmotionCustomerResponse emotionCustomerResponse = new EmotionCustomerResponse(analysisModel, messageModel);

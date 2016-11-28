@@ -14,8 +14,8 @@ INSERT INTO mydb.configuration(key_query,name,value) VALUES('time.checkin.begin'
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('time.checkin.end', 'TIME_CHECKIN_END', '8:30');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.advance', 'EMOTION_ADVANCE', '0');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.advance.confidence', 'EMOTION_ADVANCE_CONFIDENCE', '0.5');
-INSERT INTO `mydb`.`configuration` (`id`, `key_query`, `name`, `value`) VALUES ('11', 'emotion.age.a', 'EMOTION_AGE_A', '0.0251');
-INSERT INTO `mydb`.`configuration` (`id`, `key_query`, `name`, `value`) VALUES ('12', 'emotion.age.b', 'EMOTION_AGE_B', '-14.096');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.age.a', 'EMOTION_AGE_A', '0.0251');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.age.b', 'EMOTION_AGE_B', '-14.096');
 
 
 --- QUANTITY EMOTION

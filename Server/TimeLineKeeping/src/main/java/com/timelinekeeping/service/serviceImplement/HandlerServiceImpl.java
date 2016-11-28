@@ -21,7 +21,6 @@ import com.timelinekeeping.util.FileUtils;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.ValidateUtil;
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -271,8 +270,8 @@ public class HandlerServiceImpl {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             Map<String, String> map = model.map();
             if (map != null && map.size() > 0) {
-                String emotionAccept = map.get(IContanst.EMOTION_ACEPTION_VALUE_KEY);
-                String checkinConfident = map.get(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY);
+                String emotionAccept = map.get(IContanst.EMOTION_ACCEPTANCE_VALUE_KEY);
+                String checkinConfident = map.get(IContanst.CHECKIN_CONFIDENT_CORRECT_KEY);
 
                 if (Double.valueOf(emotionAccept) > 0 && Double.valueOf(checkinConfident) > 0) {
                     for (Map.Entry<String, String> entries : map.entrySet()) {

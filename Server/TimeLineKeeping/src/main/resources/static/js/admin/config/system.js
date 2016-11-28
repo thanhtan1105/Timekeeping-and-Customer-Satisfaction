@@ -30,7 +30,9 @@ function update_system_config() {
         emailCompany = $form_config_system.find('[name="emailCompany"]').val(),
         timeCheckinBegin = $form_config_system.find('[name="timeCheckinBegin"]').val(),
         timeCheckinEnd = $form_config_system.find('[name="timeCheckinEnd"]').val(),
-        emotionAdvanceConfidencce = $form_config_system.find('[name="emotionAdvanceConfidencce"]').val(),
+        emotionAdvanceConfidence = $form_config_system.find('[name="emotionAdvanceConfidence"]').val(),
+        emotionAgeA = $form_config_system.find('[name="emotionAgeA"]').val(),
+        emotionAgeB = $form_config_system.find('[name="emotionAgeB"]').val(),
         sendSMS = get_radio_selected_value($form_config_system, 'sendSMS'),
         emotionAdvance = get_radio_selected_value($form_config_system, 'emotionAdvance');
 
@@ -38,13 +40,15 @@ function update_system_config() {
     var configurationModel = {
         'sendSMS': sendSMS,
         'emotionAccept': emotionAccept,
-        'emailCompay': emailCompany,
+        'emailCompany': emailCompany,
         'checkinConfident': checkinConfident,
         'trainConfident': trainConfident,
         'timeCheckinBegin': timeCheckinBegin,
         'timeCheckinEnd': timeCheckinEnd,
-        'emotionAdvanceConfidencce': emotionAdvanceConfidencce,
-        'emotionAdvance': emotionAdvance
+        'emotionAdvanceConfidence': emotionAdvanceConfidence,
+        'emotionAdvance': emotionAdvance,
+        'emotionAgeA': emotionAgeA,
+        'emotionAgeB': emotionAgeB
     };
 
     //hide button update
@@ -121,13 +125,15 @@ function set_content_list_config(data) {
     //response data
     var sendSMS = data.sendSMS,
         emotionAccept = data.emotionAccept,
-        emailCompay = data.emailCompay,
+        emailCompany = data.emailCompany,
         checkinConfident = data.checkinConfident,
         trainConfident = data.trainConfident,
         timeCheckinBegin = data.timeCheckinBegin,
         timeCheckinEnd = data.timeCheckinEnd,
         emotionAdvance = data.emotionAdvance,
-        emotionAdvanceConfidencce = data.emotionAdvanceConfidencce;
+        emotionAdvanceConfidence = data.emotionAdvanceConfidence,
+        emotionAgeA = data.emotionAgeA,
+        emotionAgeB = data.emotionAgeB;
 
     //form
     var $form_config_system = $('#form-config-system'),
@@ -137,7 +143,9 @@ function set_content_list_config(data) {
         $emailCompany = $form_config_system.find('[name="emailCompany"]'),
         $timeCheckinBegin = $form_config_system.find('[name="timeCheckinBegin"]'),
         $timeCheckinEnd = $form_config_system.find('[name="timeCheckinEnd"]'),
-        $emotionAdvanceConfidencce = $form_config_system.find('[name="emotionAdvanceConfidencce"]'),
+        $emotionAdvanceConfidence = $form_config_system.find('[name="emotionAdvanceConfidence"]'),
+        $emotionAgeA = $form_config_system.find('[name="emotionAgeA"]'),
+        $emotionAgeB = $form_config_system.find('[name="emotionAgeB"]'),
         selected_radio_sendSMS = 0,
         selected_radio_emotionAdvance = 0;
 
@@ -158,10 +166,12 @@ function set_content_list_config(data) {
     $emotionAccept.val(emotionAccept);
     $checkinConfident.val(checkinConfident);
     $trainConfident.val(trainConfident);
-    $emailCompany.val(emailCompay);
+    $emailCompany.val(emailCompany);
     $timeCheckinBegin.val(timeCheckinBegin);
     $timeCheckinEnd.val(timeCheckinEnd);
-    $emotionAdvanceConfidencce.val(emotionAdvanceConfidencce);
+    $emotionAdvanceConfidence.val(emotionAdvanceConfidence);
+    $emotionAgeA.val(emotionAgeA);
+    $emotionAgeB.val(emotionAgeB);
 }
 
 /**
