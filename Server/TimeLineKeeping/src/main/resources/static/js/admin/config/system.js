@@ -44,17 +44,7 @@ function update_system_config() {
         sendSMS = get_radio_selected_value($form_config_system, 'sendSMS'),
         emotionAdvance = get_radio_selected_value($form_config_system, 'emotionAdvance');
 
-    //model
-    var boundScorce = {
-        'anger': anger,
-        'contempt': contempt,
-        'disgust': disgust,
-        'fear': fear,
-        'happiness': happiness,
-        'neutral': neutral,
-        'sadness': sadness,
-        'surprise': surprise
-    };
+
     var configurationModel = {
         'sendSMS': sendSMS,
         'emotionAccept': emotionAccept,
@@ -67,7 +57,14 @@ function update_system_config() {
         'emotionAdvance': emotionAdvance,
         'emotionAgeA': emotionAgeA,
         'emotionAgeB': emotionAgeB,
-        'boundScorce': boundScorce
+        'boundScorce.anger': anger,
+        'boundScorce.contempt': contempt,
+        'boundScorce.disgust': disgust,
+        'boundScorce.fear': fear,
+        'boundScorce.happiness': happiness,
+        'boundScorce.neutral': neutral,
+        'boundScorce.sadness': sadness,
+        'boundScorce.surprise': surprise
     };
 
     //hide button update

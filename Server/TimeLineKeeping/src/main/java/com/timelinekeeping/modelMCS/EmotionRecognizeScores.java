@@ -100,6 +100,8 @@ public class EmotionRecognizeScores {
         this.surprise = surprise;
     }
 
+
+
     public void clearData(double except) {
         if (anger < except) anger = 0d;
         if (contempt < except) contempt = 0d;
