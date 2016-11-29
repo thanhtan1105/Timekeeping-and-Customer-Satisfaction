@@ -78,20 +78,23 @@ public class EmotionServiceImpl {
             EmotionCustomerEntity emotionCamera1 = customerEmotionSession.getEmotionCamera1() != null ? emotionRepo.findOne(customerEmotionSession.getEmotionCamera1()) : null;
             EmotionCustomerEntity emotionCamera2 = customerEmotionSession.getEmotionCamera2() != null ? emotionRepo.findOne(customerEmotionSession.getEmotionCamera2()) : null;
 
+            // if camera1 no exist, camera2 auto assign to camera1, reset camera2
             if (emotionCamera1 == null) {
                 emotionCamera1 = emotionCamera2;
                 emotionCamera2 = null;
             }
 
-            //choose db
+            //if camera1 == null (bolt 2 camera null) -> exit
             if (emotionCamera1 == null) {
                 return null;
             }
 
+            // if exist content in 2 camera -> merge camera_2 to camera_1. cameraa_1 laddy
             if (emotionCamera2 != null) {
                 emotionCamera1.merge(emotionCamera2);
             }
 
+            // function emotion Analyze in camera
             EmotionCustomerResponse emotionCustomerResponse = emotionAnalyze(emotionCamera1);
 
             //add customer code
@@ -116,6 +119,12 @@ public class EmotionServiceImpl {
 
 
 
+    /**
+     *
+     * input:
+     * output:
+     * author: hientq
+     * date: 11-25-2016*/
     private EmotionCustomerResponse emotionAnalyze(EmotionCustomerEntity emotionCustomerEntity) {
 
         //prepare

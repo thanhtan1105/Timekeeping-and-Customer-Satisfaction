@@ -5,6 +5,8 @@ import com.timelinekeeping.model.CustomerTransactionModel;
 import com.timelinekeeping.util.ValidateUtil;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by HienTQSE60896 on 11/14/2016.
@@ -40,6 +42,10 @@ public class CustomerEntity {
     @Basic
     @Column(name = "description")
     private String description;
+
+    @Basic
+    @Column(name = "time_create", nullable = false)
+    private Timestamp timeCreate = new Timestamp(new Date().getTime());
 
 
     public void update(CustomerTransactionModel customerTransactionModel) {
@@ -103,5 +109,13 @@ public class CustomerEntity {
 
     public void setImageSize(Integer imageSize) {
         this.imageSize = imageSize;
+    }
+
+    public Timestamp getTimeCreate() {
+        return timeCreate;
+    }
+
+    public void setTimeCreate(Timestamp timeCreate) {
+        this.timeCreate = timeCreate;
     }
 }
