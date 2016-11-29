@@ -123,7 +123,7 @@ public class BeaconAlgorithm {
                     beginStairs = coordinateRepo.findStairsPointDown(beginPoint.getFloor());
                     //find stairs beginVertex
                     endStairs = coordinateRepo.findStairsPointUp(endPoint.getFloor());
-                }else{
+                } else {
                     //find stairs beginVertex
                     beginStairs = coordinateRepo.findStairsPointUp(beginPoint.getFloor());
                     //find stairs beginVertex
@@ -287,10 +287,5 @@ public class BeaconAlgorithm {
     public Double distance(CoordinateModel point1, CoordinateModel point2) {
         return Math.sqrt(Math.pow(point1.getLatitude() - point2.getLatitude(), 2) + Math.pow(point1.getLongitude() - point2.getLongitude(), 2));
     }
-
-//    public static void main(String[] args) {
-//
-//        System.out.println(new BeaconAlgorithm().distance(new CoordinateModel(2d, 2d), new CoordinateModel(3d, 3d)));
-//    }
 
 }

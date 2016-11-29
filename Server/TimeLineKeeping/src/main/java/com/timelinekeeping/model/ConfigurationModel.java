@@ -2,6 +2,7 @@ package com.timelinekeeping.model;
 
 import com.timelinekeeping.constant.EConfiguration;
 import com.timelinekeeping.constant.IContanst;
+import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
 import com.timelinekeeping.util.ValidateUtil;
 
 import java.util.HashMap;
@@ -33,6 +34,8 @@ public class ConfigurationModel {
     private Double emotionAgeA;
 
     private Double emotionAgeB;
+
+    private EmotionRecognizeScores boundScorce;
 
     public ConfigurationModel() {
     }
@@ -71,6 +74,8 @@ public class ConfigurationModel {
         if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_AGE_B_KEY))) {
             this.emotionAgeB = Double.valueOf(entity.get(IContanst.EMOTION_AGE_B_KEY));
         }
+
+        // emotion Scrope
     }
 
     public Map<String, String> map() {
@@ -81,9 +86,9 @@ public class ConfigurationModel {
             map.put(IContanst.EMOTION_ACCEPTANCE_VALUE_KEY, String.valueOf(emotionAccept));
         if (emailCompany != null)
             map.put(IContanst.COMPANY_EMAIL_KEY, String.valueOf(emailCompany));
-        if (checkinConfident != null & checkinConfident > 0)
+        if (checkinConfident != null && checkinConfident > 0)
             map.put(IContanst.CHECKIN_CONFIDENT_CORRECT_KEY, String.valueOf(checkinConfident));
-        if (trainConfident != null & trainConfident > 0)
+        if (trainConfident != null && trainConfident > 0)
             map.put(IContanst.CHECKIN_CONFIDENT_TRAIN_KEY, String.valueOf(trainConfident));
         if (timeCheckinBegin != null)
             map.put(IContanst.TIME_CHECK_IN_SYSTEM_START_KEY, String.valueOf(timeCheckinBegin));
@@ -99,6 +104,11 @@ public class ConfigurationModel {
             map.put(IContanst.EMOTION_AGE_A_KEY, String.valueOf(emotionAgeA));
         if (emotionAgeB != null)
             map.put(IContanst.EMOTION_AGE_B_KEY, String.valueOf(emotionAgeB));
+
+        // scores
+
+
+        //return
         return map;
     }
 
@@ -189,4 +199,14 @@ public class ConfigurationModel {
     public void setEmotionAgeB(Double emotionAgeB) {
         this.emotionAgeB = emotionAgeB;
     }
+
+    public EmotionRecognizeScores getBoundScorce() {
+        return boundScorce;
+    }
+
+    public void setBoundScorce(EmotionRecognizeScores boundScorce) {
+        this.boundScorce = boundScorce;
+    }
+
+
 }

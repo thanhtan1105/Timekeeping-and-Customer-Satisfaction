@@ -67,7 +67,7 @@ public class HandlerServiceImpl {
     @Autowired
     ConfigurationRepo configurationRepo;
 
-    public Boolean synchonize() throws IOException, URISyntaxException {
+    public Boolean synchronize() throws IOException, URISyntaxException {
 
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -112,7 +112,7 @@ public class HandlerServiceImpl {
                             try {
                                 logger.info(String.format("Create face: id = [%s], path = [%s] ", faceModel.getId(), faceModel.getStorePath()));
 
-                                if (ValidateUtil.isEmpty(faceModel.getStorePath())){
+                                if (ValidateUtil.isEmpty(faceModel.getStorePath())) {
                                     continue;
                                 }
 
@@ -165,7 +165,7 @@ public class HandlerServiceImpl {
 
                                     logger.info(String.format("Create face: id = [%s], path = [%s] ", faceModel.getId(), faceModel.getStorePath()));
 
-                                    if (ValidateUtil.isEmpty(faceModel.getStorePath())){
+                                    if (ValidateUtil.isEmpty(faceModel.getStorePath())) {
                                         continue;
                                     }
                                     // change addImage to Face
@@ -250,7 +250,7 @@ public class HandlerServiceImpl {
         }
     }
 
-    public ConfigurationModel listConfiguration() {
+    public ConfigurationModel getConfiguration() {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             List<ConfigurationEntity> entities = configurationRepo.findAll();
@@ -275,10 +275,13 @@ public class HandlerServiceImpl {
 
                 if (Double.valueOf(emotionAccept) > 0 && Double.valueOf(checkinConfident) > 0) {
                     for (Map.Entry<String, String> entries : map.entrySet()) {
+
                         ConfigurationEntity configurationEntity = configurationRepo.findByKey(entries.getKey());
-                        configurationEntity.setTimeModify(new Timestamp(new Date().getTime()));
-                        configurationEntity.setValue(entries.getValue());
-                        configurationRepo.save(configurationEntity);
+                        if (ValidateUtil.isNotEmpty(entries.getValue()) && !entries.getValue().equals(configurationEntity.getValue())) {
+                            configurationEntity.setTimeModify(new Timestamp(new Date().getTime()));
+                            configurationEntity.setValue(entries.getValue());
+                            configurationRepo.save(configurationEntity);
+                        }
                     }
                     configurationRepo.flush();
                 }

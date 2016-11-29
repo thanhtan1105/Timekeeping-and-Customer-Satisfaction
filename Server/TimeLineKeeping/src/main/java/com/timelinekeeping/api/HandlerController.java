@@ -34,7 +34,7 @@ public class HandlerController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
 
-            Boolean result = handlerService.synchonize();
+            Boolean result = handlerService.synchronize();
             if (result == null) {
                 return new BaseResponse(false);
             } else {
@@ -73,7 +73,7 @@ public class HandlerController {
         try {
             logger.info(IContanst.BEGIN_METHOD_CONTROLLER + Thread.currentThread().getStackTrace()[1].getMethodName());
 
-            ConfigurationModel result = handlerService.listConfiguration();
+            ConfigurationModel result = handlerService.getConfiguration();
             logger.info("Result : " + JsonUtil.toJson(result));
             if (result == null) {
                 return new BaseResponse(false);

@@ -1,10 +1,10 @@
 package com.timelinekeeping.service.blackService;
 
 import com.timelinekeeping._config.AppConfigKeys;
+import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.constant.Gender;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.model.AccountModel;
-import com.timelinekeeping.common.BaseResponse;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.ServiceUtils;
 import org.apache.http.HttpResponse;
@@ -33,8 +33,9 @@ public class SMSNotification {
 
     private SMSNotification() {
     }
-    public static SMSNotification getInstance(){
-        if (sms == null){
+
+    public static SMSNotification getInstance() {
+        if (sms == null) {
             sms = new SMSNotification();
         }
         return sms;
@@ -42,11 +43,11 @@ public class SMSNotification {
 
     /**
      * send sms to account with phone and message
-     * @param phone receive messgae
+     *
+     * @param phone   receive messgae
      * @param message to send
      * @return com.timelinekeeping.common.BaseResponse
-     *
-     * */
+     */
     public BaseResponse sendSms(String phone, String message) throws URISyntaxException, IOException {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getName());
