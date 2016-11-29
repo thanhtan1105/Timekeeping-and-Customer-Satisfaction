@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class LeThanhTanLoading: UIView {
+class LeThanhTanLoading: UIView, CAAnimationDelegate {
 	
 	static var sharedInstance: LeThanhTanLoading {
 		return LeThanhTanLoading()
@@ -135,7 +135,7 @@ class LeThanhTanLoading: UIView {
 	}
   
 	
-	override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+  func animationDidStop(anim: CAAnimation, finished flag: Bool) {
 		for view in self.subviews {
 			if view.tag == 0 {
 				for imageView in view.subviews {

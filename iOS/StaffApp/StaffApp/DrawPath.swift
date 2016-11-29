@@ -16,14 +16,13 @@ class DrawPath: UIView {
   override func drawRect(rect: CGRect) {
     // Drawing code
     let context = UIGraphicsGetCurrentContext()
-    CGContextSetLineWidth(context, 5.0)
-    CGContextSetStrokeColorWithColor(context, UIColor.blueColor().CGColor)
-    CGContextMoveToPoint(context, CGFloat(Double(dataSource[0].x) * scale) , CGFloat(Double(dataSource[0].y) * scale))
+    CGContextSetLineWidth(context!, 5.0)
+    CGContextSetStrokeColorWithColor(context!, UIColor.blueColor().CGColor)
+    CGContextMoveToPoint(context!, CGFloat(Double(dataSource[0].x) * scale) , CGFloat(Double(dataSource[0].y) * scale))
     for i in 1..<dataSource.count {
-      CGContextAddLineToPoint(context, CGFloat(Double(dataSource[i].x) * scale) , CGFloat(Double(dataSource[i].y) * scale))
+      CGContextAddLineToPoint(context!, CGFloat(Double(dataSource[i].x) * scale) , CGFloat(Double(dataSource[i].y) * scale))
     }
-    
-    CGContextStrokePath(context)
+    CGContextStrokePath(context!)
   }
   
 }

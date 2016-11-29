@@ -1,16 +1,16 @@
 PODS:
   - Alamofire (3.5.1)
-  - EstimoteSDK (4.11.0)
-  - OneSignal (2.1.16)
-  - Realm (2.0.2):
-    - Realm/Headers (= 2.0.2)
-  - Realm/Headers (2.0.2)
-  - RealmSwift (2.0.2):
-    - Realm (= 2.0.2)
+  - EstimoteSDK (4.11.2)
+  - OneSignal (2.2.3)
+  - Realm (2.1.0):
+    - Realm/Headers (= 2.1.0)
+  - Realm/Headers (2.1.0)
+  - RealmSwift (2.1.0):
+    - Realm (= 2.1.0)
   - TanLT1Extensions (0.1.0)
 
 DEPENDENCIES:
-  - Alamofire (~> 3.4)
+  - Alamofire (~> 3.5)
   - EstimoteSDK
   - OneSignal
   - RealmSwift
@@ -18,12 +18,12 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: 0dfba1184a543e2aa160f4e39cac4e8aba48d223
-  EstimoteSDK: b75d26004d401a335f43851d6369a69a8ce1c2ff
-  OneSignal: 7a4272f857d3005949f83a373868c5c98d02f203
-  Realm: 0f5a194af0b7e6158b83db41b4ee1a00be7ddf1a
-  RealmSwift: 0eb5070d851cba7c66e841ca756d83609dc78bc8
+  EstimoteSDK: 79e289736d75b56bbd8ecb4cf518c3a007c6fb49
+  OneSignal: 5fb2b0bce3be5a7cbb5f2d357e26f03a96c4859a
+  Realm: bc829ad0ef3d4eea70c34cfcc3b1704d18d50df1
+  RealmSwift: a4d4abbf0088c337cab5b738054395842e4b3052
   TanLT1Extensions: 8a53ac053164e7c4b35efe204dc0b711d6b1c60c
 
-PODFILE CHECKSUM: c1548bd1c120795c432220e1b034a122b1ddd0d7
+PODFILE CHECKSUM: e7e2cab4d4bdc9bddffaaf6834a4cf53eb67d1d5
 
 COCOAPODS: 1.1.0.beta.1

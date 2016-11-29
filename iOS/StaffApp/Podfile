@@ -6,7 +6,7 @@ target 'StaffApp' do
   use_frameworks!
 
   # Pods for StaffApp
-  pod 'Alamofire', '~> 3.4'
+  pod 'Alamofire', '~> 3.5'
   pod 'TanLT1Extensions'
   pod 'OneSignal'
   pod 'EstimoteSDK'

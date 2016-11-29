@@ -115,7 +115,7 @@ class CameraViewController: UIViewController {
           self.cameraStill.image = image
           self.status = .Preview
           
-          self.callApiCheckIn(self.cameraStill.image!, completion: { (account, reminder, error) in
+          self.callApiCheckIn(self.cameraStill.image!, completion: { (isSuccess, error) in
 //            if let account = account {
 //              self.showInfoScren(account, reminder: reminder!)
 //            } else {
@@ -222,13 +222,13 @@ extension CameraViewController {
     })
   }
   
-  private func callApiCheckIn(faceImage: UIImage, completion onCompletionHandler: ((account: Account?, reminder: [Reminder]?, error: NSError?) -> Void)?) {
+  private func callApiCheckIn(faceImage: UIImage, completion onCompletionHandler: ((isSuccess: Bool, error: NSError?) -> Void)?) {
     APIRequest.shareInstance.identifyImage(faceImage) { (response: ResponsePackage?, error: ErrorWebservice?) in
       print(response?.response)
       
       guard error == nil else {
         print("Fail")
-        onCompletionHandler!(account: nil, reminder: nil, error: NSError(domain: "", code: (error?.code)!, userInfo: ["info" : (error?.error_description)!]))
+        onCompletionHandler!(isSuccess: false, error: nil)
         return
       }
       
@@ -236,20 +236,14 @@ extension CameraViewController {
       let success = dict["success"] as? Int
       if success == 1 {
         print("Call api success")
-//        let content = dict["data"] as! [String : AnyObject]
-//        let accountContent = content["account"] as! [String : AnyObject]
-//        let account = Account(accountContent)
-//        
-//        let reminderContent = content["messageReminder"] as! [[String : AnyObject]]
-//        let reminder = Reminder.reminders(reminderContent)
-        onCompletionHandler!(account: nil, reminder: nil, error: nil)
+        onCompletionHandler!(isSuccess: true, error: nil)
       } else {
         print("Fail")
-//        let message = dict["message"] as? String
-        onCompletionHandler!(account: nil, reminder: nil, error: nil)
+        onCompletionHandler!(isSuccess: false, error: nil)
       }
-
+      
     }
   }
+
 }
 

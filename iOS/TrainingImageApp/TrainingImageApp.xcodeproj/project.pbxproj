@@ -385,6 +385,7 @@
 				TargetAttributes = {
 					A67278FE1D8AB01D00922754 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = W5KA45T8VV;
 					};
 					A67279121D8AB01D00922754 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -753,11 +754,13 @@
 			baseConfigurationReference = 366778814A21FD801D7E95CF /* Pods-TrainingImageApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = W5KA45T8VV;
 				INFOPLIST_FILE = TrainingImageApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lethanhtan.TrainingImageApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -766,11 +769,13 @@
 			baseConfigurationReference = 8BA11F29A199593829E044E9 /* Pods-TrainingImageApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = W5KA45T8VV;
 				INFOPLIST_FILE = TrainingImageApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lethanhtan.TrainingImageApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};

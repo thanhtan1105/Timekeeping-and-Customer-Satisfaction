@@ -74,7 +74,7 @@ typedef NS_ENUM(NSInteger, ESTMonitoringManagerError)
 /**
  *  Tells the delegate that the user entered proximity of monitored device.
  *
- *  @param manager    The monitoring mnager reporting the event
+ *  @param manager    The monitoring manager reporting the event
  *  @param identifier Device identifier broadcasted in the Estimote Location packet that triggered the enter event.
  */
 @optional
@@ -83,7 +83,7 @@ typedef NS_ENUM(NSInteger, ESTMonitoringManagerError)
 /**
  *  Tells the delegate that the user entered proximity of monitored device.
  *
- *  @param manager    The monitoring mnager reporting the event
+ *  @param manager    The monitoring manager reporting the event
  *  @param identifier Device identifier broadcasted in the Estimote Location packet that triggered the exit event.
  */
 @optional
@@ -92,7 +92,7 @@ typedef NS_ENUM(NSInteger, ESTMonitoringManagerError)
 /**
  *  Tells the delegate that the manager started Bluetooth monitoring.
  *
- *  @param manager The monitoring mnager reporting the event
+ *  @param manager The monitoring manager reporting the event
  */
 @optional
 - (void)monitoringManagerDidStart:(ESTMonitoringManager *)manager;
@@ -102,7 +102,7 @@ typedef NS_ENUM(NSInteger, ESTMonitoringManagerError)
  *  The error object's <code>code</code> is a case of <code>ESTMonitoringManagerError</code> enum.
  *  The error object's <code>domain</code> is <code>ESTMonitoringManagerErrorDomain</code>.
  *
- *  @param manager The monitoring mnager reporting the event
+ *  @param manager The monitoring manager reporting the event
  *  @param error   Error describing what went wrong.
  */
 @optional
@@ -117,8 +117,16 @@ typedef NS_ENUM(NSInteger, ESTMonitoringManagerError)
  *  In order to monitor multiple devices a separate instance of Monitoring Manager should be created
  *  for each monitored device.
  *
- *  The monitoring uses Core Bluetooth framework underneath. To make it work when the app is in background,
- *  include <code>bluetooth-central</code> background mode in <code>Info.plist</code> file.
+ *  Estimote Monitoring uses Core Bluetooth and Core Location frameworks underneath. 
+ *  To make it work when the app is in background, make sure following entries 
+ *  are present in <code>Info.plist</code> file:
+ 
+ *  - <code>bluetooth-central</code>
+ 
+ *  - <code>NSBluetoothPeripheralUsageDescription</code>
+ 
+ *  - <code>NSLocationAlwaysUsageDescription</code>
+ *
  */
 @interface ESTMonitoringManager : NSObject
 
@@ -130,9 +138,11 @@ typedef NS_ENUM(NSInteger, ESTMonitoringManagerError)
 /**
  *  Starts reporting monitoring events for device broadcasting Estimote Location packet with given identifier.
  *  Fetches monitoring parameters from Estimote Cloud, uses them to provide best monitoring experience,
- *  and calls code>monitoringManagerdidStart</code>.
+ *  calls <code>monitoringManagerdidStart</code> and starts reporting monitoring events.
  *
  *  If the fetch failed, starts reporting monitoring events using default parameters.
+ *  
+ *  Requests Core Location's Always Usage authorization.
  *
  *  Forgets previously monitored identifier if called multiple times on the same Monitoring Manager object.
  *
@@ -157,11 +167,7 @@ typedef NS_ENUM(NSInteger, ESTMonitoringManagerError)
 - (void)stopMonitoring;
 
 /**
- *  Increase monitoring responsiveness in background. Causes increase in battery usage.
- *
- *  Requests "Always" authorization for location services, just as standard Core Location beacon monitoring.
- *  The app's <code>Info.plist</code> file should contain a <code>NSLocationAlwaysUsageDescription</code> entry.
- *  If location services are disabled, calling this method has no effect.
+ *  Increase monitoring responsiveness in background (experimental). Can cause increase in battery usage.
  */
 - (void)startTurboMode;
 
