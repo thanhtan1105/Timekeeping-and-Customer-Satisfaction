@@ -13,15 +13,14 @@ public interface IContanst {
     String BEGIN_METHOD = "---begin---";
     String END_METHOD = "----end----";
 
-    String BEGIN_METHOD_CONTROLLER  = "------------ Begin Controller : ";
-    String END_METHOD_CONTROLLER    = "++++++++++++ End Controller : ";
+    String BEGIN_METHOD_CONTROLLER = "------------ Begin Controller : ";
+    String END_METHOD_CONTROLLER = "++++++++++++ End Controller : ";
 
-    String BEGIN_METHOD_SERVICE     = "-------- Begin Service : ";
-    String END_METHOD_SERVICE       = "++++++++ End Service : ";
+    String BEGIN_METHOD_SERVICE = "-------- Begin Service : ";
+    String END_METHOD_SERVICE = "++++++++ End Service : ";
 
-    String BEGIN_METHOD_MCS         = "----- Begin MCS API : ";
-    String END_METHOD_MCS           = "+++++ End MCS API : ";
-
+    String BEGIN_METHOD_MCS = "----- Begin MCS API : ";
+    String END_METHOD_MCS = "+++++ End MCS API : ";
 
 
     String LOGGER_ERROR = "--- ERROR";
@@ -55,8 +54,6 @@ public interface IContanst {
     String EMOTION_ADVANCE_CONFIDENCE_KEY = "emotion.advance.confidence";
     String EMOTION_ACCEPTANCE_VALUE_KEY = "emotion.acceptance";
 
-    String EMOTION_AGE_A_KEY = "emotion.age.a";
-    String EMOTION_AGE_B_KEY = "emotion.age.b";
 
     String COMPANY_EMAIL_KEY = "email.company";
     String PASSWORD_DEFAULT_KEY = "password.default";
@@ -64,6 +61,20 @@ public interface IContanst {
     String CHECKIN_CONFIDENT_TRAIN_KEY = "checkin.training.confident";
     String TIME_CHECK_IN_SYSTEM_START_KEY = "time.checkin.begin";
     String TIME_CHECK_IN_SYSTEM_END_KEY = "time.checkin.end";
+
+    //Emotion mining Age
+    String EMOTION_MINING_AGE_A_KEY = "emotion.age.a";
+    String EMOTION_MINING_AGE_B_KEY = "emotion.age.b";
+
+    // Emotion mining
+    String EMOTION_MINING_BOUND_ANGER_KEY = "emotion.bound.anger";
+    String EMOTION_MINING_BOUND_CONTEMPT_KEY = "emotion.bound.contempt";
+    String EMOTION_MINING_BOUND_DISGUST_KEY = "emotion.bound.disgust";
+    String EMOTION_MINING_BOUND_FEAR_KEY = "emotion.bound.fear";
+    String EMOTION_MINING_BOUND_NEUTRAL_KEY = "emotion.bound.neutral";
+    String EMOTION_MINING_BOUND_SADNESS_KEY = "emotion.bound.sadness";
+    String EMOTION_MINING_BOUND_SURPRISE_KEY = "emotion.bound.surprise";
+    String EMOTION_MINING_BOUND_HAPPINESS_KEY = "emotion.bound.happiness";
     /////-----
 
     int PAGE_PAGE_I = 0;
@@ -74,8 +85,6 @@ public interface IContanst {
     String PAGE_PAGE = 0 + "";
     String PAGE_SIZE = 10 + "";
     String DEFAULT_INT = -1 + "";
-
-
 
 
     /**
@@ -133,7 +142,7 @@ public interface IContanst {
     String DIRECTOR_TRAIN = "Train";
     String DIRECTOR_TIMEKEEPING = "Timekeeping";
 
-    int TIME_LIVE_ONE_SIGNAL = 3 * 24 *  60 * 60;
+    int TIME_LIVE_ONE_SIGNAL = 3 * 24 * 60 * 60;
 
     String APPEND_HISTORY_SUGGESTION = "%s đã từng";
 

@@ -67,15 +67,51 @@ public class ConfigurationModel {
             this.emotionAdvanceConfidence = Double.valueOf(entity.get(IContanst.EMOTION_ADVANCE_CONFIDENCE_KEY));
         }
 
-        if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_AGE_A_KEY))) {
-            this.emotionAgeA = Double.valueOf(entity.get(IContanst.EMOTION_AGE_A_KEY));
+        if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_MINING_AGE_A_KEY))) {
+            this.emotionAgeA = Double.valueOf(entity.get(IContanst.EMOTION_MINING_AGE_A_KEY));
         }
 
-        if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_AGE_B_KEY))) {
-            this.emotionAgeB = Double.valueOf(entity.get(IContanst.EMOTION_AGE_B_KEY));
+        if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_MINING_AGE_B_KEY))) {
+            this.emotionAgeB = Double.valueOf(entity.get(IContanst.EMOTION_MINING_AGE_B_KEY));
         }
 
         // emotion Scrope
+        emotionEntries(entity);
+    }
+
+    private void emotionEntries(Map<String, String> entity) {
+        Double anger = 0d, contempt = 0d, disgust = 0d, fear = 0d, happiness = 0d, neutral = 0d, sadness = 0d, surprise = 0d;
+        if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_MINING_BOUND_ANGER_KEY))) {
+            anger = Double.valueOf(entity.get(IContanst.EMOTION_MINING_BOUND_ANGER_KEY));
+        }
+        if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_MINING_BOUND_CONTEMPT_KEY))) {
+            contempt = Double.valueOf(entity.get(IContanst.EMOTION_MINING_BOUND_CONTEMPT_KEY));
+        }
+
+        if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_MINING_BOUND_DISGUST_KEY))) {
+            disgust = Double.valueOf(entity.get(IContanst.EMOTION_MINING_BOUND_DISGUST_KEY));
+        }
+        if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_MINING_BOUND_FEAR_KEY))) {
+            fear = Double.valueOf(entity.get(IContanst.EMOTION_MINING_BOUND_FEAR_KEY));
+        }
+
+        if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_MINING_BOUND_HAPPINESS_KEY))) {
+            happiness = Double.valueOf(entity.get(IContanst.EMOTION_MINING_BOUND_HAPPINESS_KEY));
+        }
+
+        if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_MINING_BOUND_NEUTRAL_KEY))) {
+            neutral = Double.valueOf(entity.get(IContanst.EMOTION_MINING_BOUND_NEUTRAL_KEY));
+        }
+
+        if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_MINING_BOUND_SADNESS_KEY))) {
+            sadness = Double.valueOf(entity.get(IContanst.EMOTION_MINING_BOUND_SADNESS_KEY));
+        }
+
+        if (ValidateUtil.isNotEmpty(entity.get(IContanst.EMOTION_MINING_BOUND_SURPRISE_KEY))) {
+            surprise = Double.valueOf(entity.get(IContanst.EMOTION_MINING_BOUND_SURPRISE_KEY));
+        }
+
+        boundScorce = new EmotionRecognizeScores(anger, contempt, disgust, fear, happiness, neutral, sadness, surprise);
     }
 
     public Map<String, String> map() {
@@ -101,11 +137,42 @@ public class ConfigurationModel {
 
         // age
         if (emotionAgeA != null)
-            map.put(IContanst.EMOTION_AGE_A_KEY, String.valueOf(emotionAgeA));
+            map.put(IContanst.EMOTION_MINING_AGE_A_KEY, String.valueOf(emotionAgeA));
         if (emotionAgeB != null)
-            map.put(IContanst.EMOTION_AGE_B_KEY, String.valueOf(emotionAgeB));
+            map.put(IContanst.EMOTION_MINING_AGE_B_KEY, String.valueOf(emotionAgeB));
 
-        // scores
+        // Emotion mining
+
+        if (boundScorce != null && boundScorce.getAnger() != null){
+            map.put(IContanst.EMOTION_MINING_BOUND_ANGER_KEY, String.valueOf(boundScorce.getAnger()));
+        }
+
+        if (boundScorce != null && boundScorce.getContempt() != null){
+            map.put(IContanst.EMOTION_MINING_BOUND_CONTEMPT_KEY, String.valueOf(boundScorce.getContempt()));
+        }
+
+        if (boundScorce != null && boundScorce.getDisgust() != null){
+            map.put(IContanst.EMOTION_MINING_BOUND_DISGUST_KEY, String.valueOf(boundScorce.getDisgust()));
+        }
+
+        if (boundScorce != null && boundScorce.getFear() != null){
+            map.put(IContanst.EMOTION_MINING_BOUND_FEAR_KEY, String.valueOf(boundScorce.getFear()));
+        }
+
+        if (boundScorce != null && boundScorce.getHappiness() != null){
+            map.put(IContanst.EMOTION_MINING_BOUND_HAPPINESS_KEY, String.valueOf(boundScorce.getHappiness()));
+        }
+        if (boundScorce != null && boundScorce.getNeutral() != null){
+            map.put(IContanst.EMOTION_MINING_BOUND_NEUTRAL_KEY, String.valueOf(boundScorce.getNeutral()));
+        }
+
+        if (boundScorce != null && boundScorce.getSadness() != null){
+            map.put(IContanst.EMOTION_MINING_BOUND_SADNESS_KEY, String.valueOf(boundScorce.getSadness()));
+        }
+
+        if (boundScorce != null && boundScorce.getSurprise() != null){
+            map.put(IContanst.EMOTION_MINING_BOUND_SURPRISE_KEY, String.valueOf(boundScorce.getSurprise()));
+        }
 
 
         //return

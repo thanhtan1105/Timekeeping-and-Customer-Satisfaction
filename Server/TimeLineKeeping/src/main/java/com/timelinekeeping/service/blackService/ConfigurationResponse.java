@@ -3,6 +3,7 @@ package com.timelinekeeping.service.blackService;
 import com.timelinekeeping.constant.EConfiguration;
 import com.timelinekeeping.constant.IContanst;
 import com.timelinekeeping.entity.ConfigurationEntity;
+import com.timelinekeeping.modelMCS.EmotionRecognizeScores;
 import com.timelinekeeping.repository.ConfigurationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -64,12 +65,39 @@ public class ConfigurationResponse {
     }
 
     public Double getEmotionAgeA() {
-        ConfigurationEntity entity = configurationRepo.findByKey(IContanst.EMOTION_AGE_A_KEY);
+        ConfigurationEntity entity = configurationRepo.findByKey(IContanst.EMOTION_MINING_AGE_A_KEY);
         return entity != null ? Double.valueOf(entity.getValue()) : null;
     }
 
     public Double getEmotionAgeB() {
-        ConfigurationEntity entity = configurationRepo.findByKey(IContanst.EMOTION_AGE_B_KEY);
+        ConfigurationEntity entity = configurationRepo.findByKey(IContanst.EMOTION_MINING_AGE_B_KEY);
         return entity != null ? Double.valueOf(entity.getValue()) : null;
+    }
+
+    public EmotionRecognizeScores getScores() {
+        Double anger = 0d, contempt = 0d, disgust = 0d, fear = 0d,
+                happiness = 0d, neutral = 0d, sadness = 0d, surprise = 0d;
+
+        /* get emotion*/
+        ConfigurationEntity entityAger = configurationRepo.findByKey(IContanst.EMOTION_MINING_BOUND_ANGER_KEY);
+        ConfigurationEntity entityContempt = configurationRepo.findByKey(IContanst.EMOTION_MINING_BOUND_CONTEMPT_KEY);
+        ConfigurationEntity entityDisgust = configurationRepo.findByKey(IContanst.EMOTION_MINING_BOUND_DISGUST_KEY);
+        ConfigurationEntity entityFear = configurationRepo.findByKey(IContanst.EMOTION_MINING_BOUND_FEAR_KEY);
+        ConfigurationEntity entityHappiness = configurationRepo.findByKey(IContanst.EMOTION_MINING_BOUND_HAPPINESS_KEY);
+        ConfigurationEntity entityNeutral = configurationRepo.findByKey(IContanst.EMOTION_MINING_BOUND_NEUTRAL_KEY);
+        ConfigurationEntity entitySadness = configurationRepo.findByKey(IContanst.EMOTION_MINING_BOUND_SADNESS_KEY);
+        ConfigurationEntity entitySurprise = configurationRepo.findByKey(IContanst.EMOTION_MINING_BOUND_SURPRISE_KEY);
+
+
+        anger = entityAger != null ? Double.valueOf(entityAger.getValue()) : null;
+        contempt = entityContempt != null ? Double.valueOf(entityContempt.getValue()) : null;
+        disgust = entityDisgust != null ? Double.valueOf(entityDisgust.getValue()) : null;
+        fear = entityFear != null ? Double.valueOf(entityFear.getValue()) : null;
+        happiness = entityHappiness != null ? Double.valueOf(entityHappiness.getValue()) : null;
+        neutral = entityNeutral != null ? Double.valueOf(entityNeutral.getValue()) : null;
+        sadness = entitySadness != null ? Double.valueOf(entitySadness.getValue()) : null;
+        surprise = entitySurprise != null ? Double.valueOf(entitySurprise.getValue()) : null;
+        
+        return new EmotionRecognizeScores(anger, contempt, disgust, fear, happiness, neutral, sadness, surprise);
     }
 }
