@@ -33,10 +33,28 @@ function update_system_config() {
         emotionAdvanceConfidence = $form_config_system.find('[name="emotionAdvanceConfidence"]').val(),
         emotionAgeA = $form_config_system.find('[name="emotionAgeA"]').val(),
         emotionAgeB = $form_config_system.find('[name="emotionAgeB"]').val(),
+        anger = $form_config_system.find('[name="anger"]').val(),
+        contempt = $form_config_system.find('[name="contempt"]').val(),
+        disgust = $form_config_system.find('[name="disgust"]').val(),
+        fear = $form_config_system.find('[name="fear"]').val(),
+        happiness = $form_config_system.find('[name="happiness"]').val(),
+        neutral = $form_config_system.find('[name="neutral"]').val(),
+        sadness = $form_config_system.find('[name="sadness"]').val(),
+        surprise = $form_config_system.find('[name="surprise"]').val(),
         sendSMS = get_radio_selected_value($form_config_system, 'sendSMS'),
         emotionAdvance = get_radio_selected_value($form_config_system, 'emotionAdvance');
 
     //model
+    var boundScorce = {
+        'anger': anger,
+        'contempt': contempt,
+        'disgust': disgust,
+        'fear': fear,
+        'happiness': happiness,
+        'neutral': neutral,
+        'sadness': sadness,
+        'surprise': surprise
+    };
     var configurationModel = {
         'sendSMS': sendSMS,
         'emotionAccept': emotionAccept,
@@ -48,7 +66,8 @@ function update_system_config() {
         'emotionAdvanceConfidence': emotionAdvanceConfidence,
         'emotionAdvance': emotionAdvance,
         'emotionAgeA': emotionAgeA,
-        'emotionAgeB': emotionAgeB
+        'emotionAgeB': emotionAgeB,
+        'boundScorce': boundScorce
     };
 
     //hide button update
