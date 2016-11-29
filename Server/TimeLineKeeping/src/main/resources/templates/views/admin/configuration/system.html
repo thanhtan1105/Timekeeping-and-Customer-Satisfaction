@@ -121,7 +121,7 @@
                             <!-- mining age -->
                             <div class="row">
                                 <div class="col-sm-12 text-center">
-                                    <font class="text-bold">Data Mining Age</font>
+                                    <font class="text-bold">Age Prediction Formula</font>
                                 </div>
                             </div>
                             <div class="row">
@@ -129,17 +129,24 @@
                                     <div class="panel panel-primary" style="margin-bottom: 10px">
                                         <div class="panel-body" style="padding: 12px; margin-bottom: -12px">
                                             <div class="form-group">
-                                                <label class="col-sm-3 control-label">Emotion Age A</label>
+                                                <label class="col-sm-3 control-label">Prediction age =</label>
 
                                                 <div class="col-sm-3">
                                                     <input type="text" class="form-control" th:name="emotionAgeA"
-                                                           style="width: 75%"/>
+                                                           style="width: 100%"/>
                                                 </div>
-                                                <label class="col-sm-3 control-label">Emotion Age B</label>
+                                                <label class="col-sm-1 control-label">* X</label>
+                                                <label class="col-sm-2 control-label text-right">+</label>
 
                                                 <div class="col-sm-3">
                                                     <input type="text" class="form-control" th:name="emotionAgeB"
-                                                           style="width: 75%"/>
+                                                           style="width: 100%"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12 text-center">
+                                                    <label>X:</label>
+                                                    <font style="font-style: italic">Age from Microsoft Service</font>
                                                 </div>
                                             </div>
                                         </div>
@@ -148,7 +155,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 text-center">
-                                    <font class="text-bold">Score Recognize Emotions</font>
+                                    <font class="text-bold">Minimum Difference Emotion Point</font>
                                 </div>
                             </div>
                             <div class="row">
