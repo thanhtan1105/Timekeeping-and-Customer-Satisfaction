@@ -420,8 +420,15 @@ public class EmotionServiceImpl {
         Date dateFrom = new Date();
         //Call API
         // face detect
-        BaseResponse faceResponse = faceServiceMCS.detect(new ByteArrayInputStream(byteImage));
-        BaseResponse emotionResponse = emotionServiceMCS.recognize(new ByteArrayInputStream(byteImage));
+        BaseResponse faceResponse = null;
+        BaseResponse emotionResponse = null;
+        try {
+            faceResponse = faceServiceMCS.detect(new ByteArrayInputStream(byteImage));
+            emotionResponse = emotionServiceMCS.recognize(new ByteArrayInputStream(byteImage));
+        } catch (Exception e) {
+            faceResponse = new FaceServiceMCSImpl().detect(new ByteArrayInputStream(byteImage));
+            emotionResponse = new EmotionServiceMCSImpl().recognize(new ByteArrayInputStream(byteImage));
+        }
         logger.info("[Get Customer Emotion] face response success: " + faceResponse.isSuccess());
         logger.info("EEEEEEEEEEEEE : faceResponse: " + JsonUtil.toJson(faceResponse));
         Date dateto = new Date();
