@@ -8,9 +8,11 @@ import com.timelinekeeping.entity.AccountEntity;
 import com.timelinekeeping.entity.EmotionContentEntity;
 import com.timelinekeeping.entity.NotificationEntity;
 import com.timelinekeeping.model.AccountModel;
+import com.timelinekeeping.model.ConfigurationModel;
 import com.timelinekeeping.model.NotificationCheckInModel;
 import com.timelinekeeping.model.ReportCustomerEmotionQuery;
 import com.timelinekeeping.repository.*;
+import com.timelinekeeping.service.blackService.ConfigurationResponse;
 import com.timelinekeeping.service.serviceImplement.EmotionServiceImpl;
 import com.timelinekeeping.util.TimeUtil;
 import org.joda.time.DateTime;
@@ -55,6 +57,9 @@ public class TestController {
 
     @Autowired
     private EmotionContentRepo emotionContentRepo;
+
+    @Autowired
+    private ConfigurationResponse configurationResponse;
 
     @RequestMapping("/list_account")
     public List<AccountModel> list(@RequestParam(value = "id", required = false) Long idDepartment) {
@@ -186,4 +191,21 @@ public class TestController {
         return true;
     }
 
+
+    @RequestMapping("/config")
+    public ConfigurationModel confic(){
+        ConfigurationModel model = new ConfigurationModel();
+        model.setSendSMS(configurationResponse.getSendSMS());
+        model.setCheckinConfident(configurationResponse.getCheckinConfident());
+        model.setEmailCompany(configurationResponse.getEmailCompany());
+        model.setEmotionAccept(configurationResponse.getEmotionAccept());
+        model.setEmotionAdvance(configurationResponse.getEmotionAdvance());
+        model.setEmotionAdvanceConfidence(configurationResponse.getEmotionAdvanceConfidence());
+        model.setEmotionAgeA(configurationResponse.getEmotionAgeA());
+        model.setEmotionAgeB(configurationResponse.getEmotionAgeB());
+        model.setTimeCheckinBegin(configurationResponse.getTimeCheckinBegin());
+        model.setTimeCheckinEnd(configurationResponse.getTimeCheckinEnd());
+        model.setTrainConfident(configurationResponse.getTrainConfident());
+        return model;
+    }
 }

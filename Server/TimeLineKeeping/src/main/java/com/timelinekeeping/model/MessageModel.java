@@ -28,7 +28,7 @@ public class MessageModel {
         if (emotionCustomerEntity != null) {
             this.ageOfFace = emotionCustomerEntity.getAge();
             this.gender = emotionCustomerEntity.getGender();
-            this.predict = ServiceUtils.convertAgePredict(this.ageOfFace);
+
         }
     }
 

@@ -1,9 +1,10 @@
----- ROLE
+-- ROLE
 INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('admin','/admin/**;/account/**;/department/**','redirect:/admin/accounts/');
 INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('manager','/manager/**','redirect:/manager/check_in/');
 INSERT INTO `mydb`.`role` (name,allow_page,redirect ) VALUES ('employee','/employee/**','redirect:/employee/customer_emotion/');
 
----- CONFIGURATION
+-- CONFIGURATION
+-- CONFIGURATION - DEFAULT
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('send.sms', 'SEND_SMS', '0');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.acceptance', 'EMOTION_ACCEPT', '0.15');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('email.company', 'EMAIL_COMPANY', 'tkcs.vn');
@@ -12,10 +13,24 @@ INSERT INTO mydb.configuration(key_query,name,value) VALUES('checkin.accept.conf
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('checkin.training.confident', 'CHECK_IN_TRAINING_CONFIDENT', '0.85');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('time.checkin.begin', 'TIME_CHECKIN_BEGIN', '6:30');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('time.checkin.end', 'TIME_CHECKIN_END', '8:30');
+
+-- CONFIGURATION - ADVANCE
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.advance', 'EMOTION_ADVANCE', '0');
 INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.advance.confidence', 'EMOTION_ADVANCE_CONFIDENCE', '0.5');
-INSERT INTO `mydb`.`configuration` (`id`, `key_query`, `name`, `value`) VALUES ('11', 'emotion.age.a', 'EMOTION_AGE_A', '0.0251');
-INSERT INTO `mydb`.`configuration` (`id`, `key_query`, `name`, `value`) VALUES ('12', 'emotion.age.b', 'EMOTION_AGE_B', '-14.096');
+
+-- CONFIGURATION - AGE
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.age.a', 'EMOTION_AGE_A', '0.5703');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.age.b', 'EMOTION_AGE_B', '10.319');
+
+-- CONFIGURATION - EMOTION
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.bound.anger', 'EMOTION_BOUND_ANGER', '0.050440242667');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.bound.contempt', 'EMOTION_BOUND_CONTEMPT', '0.006642985222');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.bound.disgust', 'EMOTION_BOUND_DISGUST', ' 0.006355223500');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.bound.fear', 'EMOTION_BOUND_FEAR', ' -0.049538192000');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.bound.neutral', 'EMOTION_BOUND_NEUTRAL', '0.001384727216');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.bound.sadness', 'EMOTION_BOUND_SADNESS', '0.018111263197');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.bound.surprise', 'EMOTION_BOUND_SURPRISE', '-0.018469496200');
+INSERT INTO mydb.configuration(key_query,name,value) VALUES('emotion.bound.happiness', 'EMOTION_BOUND_HAPPINESS', '-0.007464739500');
 
 
 --- QUANTITY EMOTION

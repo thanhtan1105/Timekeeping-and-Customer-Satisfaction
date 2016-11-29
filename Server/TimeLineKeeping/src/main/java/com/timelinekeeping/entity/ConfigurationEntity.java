@@ -24,7 +24,7 @@ public class ConfigurationEntity {
     private String value;
 
     @Basic
-    @Column(name = "time_modify", nullable = false)
+    @Column(name = "time_modify")
     private Timestamp timeModify;
 
 

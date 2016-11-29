@@ -21,7 +21,6 @@ import com.timelinekeeping.util.FileUtils;
 import com.timelinekeeping.util.JsonUtil;
 import com.timelinekeeping.util.StoreFileUtils;
 import com.timelinekeeping.util.ValidateUtil;
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +67,7 @@ public class HandlerServiceImpl {
     @Autowired
     ConfigurationRepo configurationRepo;
 
-    public Boolean synchonize() throws IOException, URISyntaxException {
+    public Boolean synchronize() throws IOException, URISyntaxException {
 
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
@@ -113,7 +112,7 @@ public class HandlerServiceImpl {
                             try {
                                 logger.info(String.format("Create face: id = [%s], path = [%s] ", faceModel.getId(), faceModel.getStorePath()));
 
-                                if (ValidateUtil.isEmpty(faceModel.getStorePath())){
+                                if (ValidateUtil.isEmpty(faceModel.getStorePath())) {
                                     continue;
                                 }
 
@@ -166,7 +165,7 @@ public class HandlerServiceImpl {
 
                                     logger.info(String.format("Create face: id = [%s], path = [%s] ", faceModel.getId(), faceModel.getStorePath()));
 
-                                    if (ValidateUtil.isEmpty(faceModel.getStorePath())){
+                                    if (ValidateUtil.isEmpty(faceModel.getStorePath())) {
                                         continue;
                                     }
                                     // change addImage to Face
@@ -251,7 +250,7 @@ public class HandlerServiceImpl {
         }
     }
 
-    public ConfigurationModel listConfiguration() {
+    public ConfigurationModel getConfiguration() {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             List<ConfigurationEntity> entities = configurationRepo.findAll();
@@ -271,15 +270,18 @@ public class HandlerServiceImpl {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());
             Map<String, String> map = model.map();
             if (map != null && map.size() > 0) {
-                String emotionAccept = map.get(IContanst.EMOTION_ACEPTION_VALUE_KEY);
-                String checkinConfident = map.get(IContanst.CHECKIN_CONFIDINCE_CORRECT_KEY);
+                String emotionAccept = map.get(IContanst.EMOTION_ACCEPTANCE_VALUE_KEY);
+                String checkinConfident = map.get(IContanst.CHECKIN_CONFIDENT_CORRECT_KEY);
 
                 if (Double.valueOf(emotionAccept) > 0 && Double.valueOf(checkinConfident) > 0) {
                     for (Map.Entry<String, String> entries : map.entrySet()) {
+
                         ConfigurationEntity configurationEntity = configurationRepo.findByKey(entries.getKey());
-                        configurationEntity.setTimeModify(new Timestamp(new Date().getTime()));
-                        configurationEntity.setValue(entries.getValue());
-                        configurationRepo.save(configurationEntity);
+                        if (ValidateUtil.isNotEmpty(entries.getValue()) && !entries.getValue().equals(configurationEntity.getValue())) {
+                            configurationEntity.setTimeModify(new Timestamp(new Date().getTime()));
+                            configurationEntity.setValue(entries.getValue());
+                            configurationRepo.save(configurationEntity);
+                        }
                     }
                     configurationRepo.flush();
                 }

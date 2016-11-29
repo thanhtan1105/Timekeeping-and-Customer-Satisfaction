@@ -30,21 +30,41 @@ function update_system_config() {
         emailCompany = $form_config_system.find('[name="emailCompany"]').val(),
         timeCheckinBegin = $form_config_system.find('[name="timeCheckinBegin"]').val(),
         timeCheckinEnd = $form_config_system.find('[name="timeCheckinEnd"]').val(),
-        emotionAdvanceConfidencce = $form_config_system.find('[name="emotionAdvanceConfidencce"]').val(),
+        emotionAdvanceConfidence = $form_config_system.find('[name="emotionAdvanceConfidence"]').val(),
+        emotionAgeA = $form_config_system.find('[name="emotionAgeA"]').val(),
+        emotionAgeB = $form_config_system.find('[name="emotionAgeB"]').val(),
+        anger = $form_config_system.find('[name="anger"]').val(),
+        contempt = $form_config_system.find('[name="contempt"]').val(),
+        disgust = $form_config_system.find('[name="disgust"]').val(),
+        fear = $form_config_system.find('[name="fear"]').val(),
+        happiness = $form_config_system.find('[name="happiness"]').val(),
+        neutral = $form_config_system.find('[name="neutral"]').val(),
+        sadness = $form_config_system.find('[name="sadness"]').val(),
+        surprise = $form_config_system.find('[name="surprise"]').val(),
         sendSMS = get_radio_selected_value($form_config_system, 'sendSMS'),
         emotionAdvance = get_radio_selected_value($form_config_system, 'emotionAdvance');
 
-    //model
+
     var configurationModel = {
         'sendSMS': sendSMS,
         'emotionAccept': emotionAccept,
-        'emailCompay': emailCompany,
+        'emailCompany': emailCompany,
         'checkinConfident': checkinConfident,
         'trainConfident': trainConfident,
         'timeCheckinBegin': timeCheckinBegin,
         'timeCheckinEnd': timeCheckinEnd,
-        'emotionAdvanceConfidencce': emotionAdvanceConfidencce,
-        'emotionAdvance': emotionAdvance
+        'emotionAdvanceConfidence': emotionAdvanceConfidence,
+        'emotionAdvance': emotionAdvance,
+        'emotionAgeA': emotionAgeA,
+        'emotionAgeB': emotionAgeB,
+        'boundScorce.anger': anger,
+        'boundScorce.contempt': contempt,
+        'boundScorce.disgust': disgust,
+        'boundScorce.fear': fear,
+        'boundScorce.happiness': happiness,
+        'boundScorce.neutral': neutral,
+        'boundScorce.sadness': sadness,
+        'boundScorce.surprise': surprise
     };
 
     //hide button update
@@ -121,13 +141,24 @@ function set_content_list_config(data) {
     //response data
     var sendSMS = data.sendSMS,
         emotionAccept = data.emotionAccept,
-        emailCompay = data.emailCompay,
+        emailCompany = data.emailCompany,
         checkinConfident = data.checkinConfident,
         trainConfident = data.trainConfident,
         timeCheckinBegin = data.timeCheckinBegin,
         timeCheckinEnd = data.timeCheckinEnd,
         emotionAdvance = data.emotionAdvance,
-        emotionAdvanceConfidencce = data.emotionAdvanceConfidencce;
+        emotionAdvanceConfidence = data.emotionAdvanceConfidence,
+        emotionAgeA = data.emotionAgeA,
+        emotionAgeB = data.emotionAgeB,
+        boundScorce = data.boundScorce,
+        anger = boundScorce.anger,
+        contempt = boundScorce.contempt,
+        disgust = boundScorce.disgust,
+        fear = boundScorce.fear,
+        happiness = boundScorce.happiness,
+        neutral = boundScorce.neutral,
+        sadness = boundScorce.sadness,
+        surprise = boundScorce.surprise;
 
     //form
     var $form_config_system = $('#form-config-system'),
@@ -137,7 +168,17 @@ function set_content_list_config(data) {
         $emailCompany = $form_config_system.find('[name="emailCompany"]'),
         $timeCheckinBegin = $form_config_system.find('[name="timeCheckinBegin"]'),
         $timeCheckinEnd = $form_config_system.find('[name="timeCheckinEnd"]'),
-        $emotionAdvanceConfidencce = $form_config_system.find('[name="emotionAdvanceConfidencce"]'),
+        $emotionAdvanceConfidence = $form_config_system.find('[name="emotionAdvanceConfidence"]'),
+        $emotionAgeA = $form_config_system.find('[name="emotionAgeA"]'),
+        $emotionAgeB = $form_config_system.find('[name="emotionAgeB"]'),
+        $anger = $form_config_system.find('[name="anger"]'),
+        $contempt = $form_config_system.find('[name="contempt"]'),
+        $disgust = $form_config_system.find('[name="disgust"]'),
+        $fear = $form_config_system.find('[name="fear"]'),
+        $happiness = $form_config_system.find('[name="happiness"]'),
+        $neutral = $form_config_system.find('[name="neutral"]'),
+        $sadness = $form_config_system.find('[name="sadness"]'),
+        $surprise = $form_config_system.find('[name="surprise"]'),
         selected_radio_sendSMS = 0,
         selected_radio_emotionAdvance = 0;
 
@@ -158,10 +199,20 @@ function set_content_list_config(data) {
     $emotionAccept.val(emotionAccept);
     $checkinConfident.val(checkinConfident);
     $trainConfident.val(trainConfident);
-    $emailCompany.val(emailCompay);
+    $emailCompany.val(emailCompany);
     $timeCheckinBegin.val(timeCheckinBegin);
     $timeCheckinEnd.val(timeCheckinEnd);
-    $emotionAdvanceConfidencce.val(emotionAdvanceConfidencce);
+    $emotionAdvanceConfidence.val(emotionAdvanceConfidence);
+    $emotionAgeA.val(emotionAgeA);
+    $emotionAgeB.val(emotionAgeB);
+    $anger.val(anger);
+    $contempt.val(contempt);
+    $disgust.val(disgust);
+    $fear.val(fear);
+    $happiness.val(happiness);
+    $neutral.val(neutral);
+    $sadness.val(sadness);
+    $surprise.val(surprise);
 }
 
 /**

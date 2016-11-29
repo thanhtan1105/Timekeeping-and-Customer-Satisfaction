@@ -194,6 +194,7 @@ public class SuggestionService {
         String subject = getSubject(name, gender);
         return getSuggestion(emotion, subject);
     }
+
     private List<EmotionContentModel> getSuggestion(EEmotion emotion, String subject) {
         try {
             logger.info(IContanst.BEGIN_METHOD_SERVICE + Thread.currentThread().getStackTrace()[1].getMethodName());

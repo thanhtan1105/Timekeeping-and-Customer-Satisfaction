@@ -22,7 +22,7 @@ public enum EEmotion {
     FEAR(3, -1d, "sợ hãi"),
     NEUTRAL(4, 2.5, "bình thường"),
     SADNESS(5, -2.5d, "buồn"),
-    SURPRISE(6, 3d,"ngạc nhiên"),
+    SURPRISE(6, 3d, "ngạc nhiên"),
     HAPPINESS(7, 5d, "vui vẻ"),
     NONE(8, 0d, "");
 
