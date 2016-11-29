@@ -133,7 +133,16 @@ function set_content_list_config(data) {
         emotionAdvance = data.emotionAdvance,
         emotionAdvanceConfidence = data.emotionAdvanceConfidence,
         emotionAgeA = data.emotionAgeA,
-        emotionAgeB = data.emotionAgeB;
+        emotionAgeB = data.emotionAgeB,
+        boundScorce = data.boundScorce,
+        anger = boundScorce.anger,
+        contempt = boundScorce.contempt,
+        disgust = boundScorce.disgust,
+        fear = boundScorce.fear,
+        happiness = boundScorce.happiness,
+        neutral = boundScorce.neutral,
+        sadness = boundScorce.sadness,
+        surprise = boundScorce.surprise;
 
     //form
     var $form_config_system = $('#form-config-system'),
@@ -146,6 +155,14 @@ function set_content_list_config(data) {
         $emotionAdvanceConfidence = $form_config_system.find('[name="emotionAdvanceConfidence"]'),
         $emotionAgeA = $form_config_system.find('[name="emotionAgeA"]'),
         $emotionAgeB = $form_config_system.find('[name="emotionAgeB"]'),
+        $anger = $form_config_system.find('[name="anger"]'),
+        $contempt = $form_config_system.find('[name="contempt"]'),
+        $disgust = $form_config_system.find('[name="disgust"]'),
+        $fear = $form_config_system.find('[name="fear"]'),
+        $happiness = $form_config_system.find('[name="happiness"]'),
+        $neutral = $form_config_system.find('[name="neutral"]'),
+        $sadness = $form_config_system.find('[name="sadness"]'),
+        $surprise = $form_config_system.find('[name="surprise"]'),
         selected_radio_sendSMS = 0,
         selected_radio_emotionAdvance = 0;
 
@@ -172,6 +189,14 @@ function set_content_list_config(data) {
     $emotionAdvanceConfidence.val(emotionAdvanceConfidence);
     $emotionAgeA.val(emotionAgeA);
     $emotionAgeB.val(emotionAgeB);
+    $anger.val(anger);
+    $contempt.val(contempt);
+    $disgust.val(disgust);
+    $fear.val(fear);
+    $happiness.val(happiness);
+    $neutral.val(neutral);
+    $sadness.val(sadness);
+    $surprise.val(surprise);
 }
 
 /**
