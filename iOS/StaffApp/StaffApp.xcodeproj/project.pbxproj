@@ -98,6 +98,7 @@
 		8E040F2E56651908DE245E96 /* Pods-StaffAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StaffAppUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-StaffAppUITests/Pods-StaffAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		965A30CB7E415DF0F814F891 /* Pods-StaffApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StaffApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StaffApp/Pods-StaffApp.debug.xcconfig"; sourceTree = "<group>"; };
 		9C9CFA66E06D6F467E4B9D1D /* Pods-StaffAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StaffAppUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StaffAppUITests/Pods-StaffAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		A60493DC1DF1FE85006654CF /* StaffApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StaffApp.entitlements; sourceTree = "<group>"; };
 		A6061A711DB8C6220097A7BA /* Beacon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Beacon.swift; sourceTree = "<group>"; };
 		A6090B5B1DA2DA730039B892 /* StaffApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StaffApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6090B5E1DA2DA730039B892 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -235,6 +236,7 @@
 		A6090B5D1DA2DA730039B892 /* StaffApp */ = {
 			isa = PBXGroup;
 			children = (
+				A60493DC1DF1FE85006654CF /* StaffApp.entitlements */,
 				A682FC711DAB3F5C0047CDBE /* StaffApp-Bridging-Header.h */,
 				A682FC681DAB3CCF0047CDBE /* Framework */,
 				A6AC86B71DA4CFD9002B4688 /* Contant */,
@@ -942,6 +944,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = StaffApp/StaffApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -964,6 +967,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = StaffApp/StaffApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
