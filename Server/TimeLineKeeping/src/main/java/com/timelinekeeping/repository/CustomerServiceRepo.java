@@ -30,7 +30,7 @@ public interface CustomerServiceRepo extends JpaRepository<CustomerServiceEntity
                                                                   @Param("toDay") Date toDay);
 
     @Query(value = "select day(create_time) as day, count(customer_code) as totalCustomer, avg(grade) as grade " +
-            "from customer_service where create_by = :employee_id and year(create_time)=:year and month(create_time)=:month group by day(create_time)", nativeQuery = true)
+            "from customer_service where create_by = :employee_id and year(create_time)=:year and month(create_time)=:month and status = 3 group by day(create_time)", nativeQuery = true)
     public List<Object[]> reportCustomerByMonthAndEmployee(@Param("year") Integer year,
                                                            @Param("month") Integer month,
                                                            @Param("employee_id") Long employeeId);
