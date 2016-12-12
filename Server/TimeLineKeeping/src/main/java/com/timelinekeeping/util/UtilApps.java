@@ -104,6 +104,13 @@ public class UtilApps {
     }
 
 
+    public static String correctUrl(String url){
+        return url.replace("\\", "/");
+    }
+
+    public static void main(String[] args) {
+        System.out.println(correctUrl("http://192.168.1.43:8080/file\\Timekeeping\\5_khaothitest6\\8_tanlt1\\Train/20161129011840.jpg"));
+    }
 
 
 

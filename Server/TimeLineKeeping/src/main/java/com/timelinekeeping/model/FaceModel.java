@@ -1,6 +1,7 @@
 package com.timelinekeeping.model;
 
 import com.timelinekeeping.entity.FaceEntity;
+import com.timelinekeeping.util.UtilApps;
 
 /**
  * Created by lethanhtan on 9/19/16.
@@ -42,7 +43,7 @@ public class FaceModel {
     }
 
     public String getStorePath() {
-        return storePath;
+        return UtilApps.correctUrl(storePath);
     }
 
     public void setStorePath(String storePath) {
